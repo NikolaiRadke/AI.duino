@@ -1,7 +1,7 @@
 ![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back.png)
 # 🤖 AI.duino - AI Assistant for Arduino IDE
 
-AI.duino integrates Claude and ChatGPT directly into the Arduino IDE for intelligent code assistance. Right now, there is only a German version of this plugin.  
+AI.duino integrates Claude and ChatGPT directly into the Arduino IDE for intelligent code assistance. Right now, there is only a **German** version of this plugin.  
 
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
