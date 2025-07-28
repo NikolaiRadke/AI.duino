@@ -31,16 +31,21 @@ When using this feature, you copy the error message from the Arduino output wind
 
 #### Windows
 ```
-Run install_aiduino.bat as Administrator
+Run aiduino_windows.bat as Administrator
 ```
 
-#### Linux/macOS
+#### Linux
 ```bash
-chmod +x install_aiduino.sh
-./install_aiduino.sh
+chmod +x aiduino_linux.sh
+./aiduino_linux.sh
+```
+#### macOS
+```bash
+chmod +x aiduino_macos.sh
+./aiduino_macos.sh
 ```
 
-### Manual
+### Manual installation
 
 Copy the prepared `aiduino` folder to the Arduino IDE plugin directory:
 
@@ -76,7 +81,7 @@ aiduino/
 
 1. Select code in Arduino IDE
 2. Right-click → `AI.duino` → Choose function
-3. Alternative: `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac)
+3. Alternative: `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac) or press the Ai.duino button below  
 
 ### Explain Error
 1. Compile code and find error message in output window
