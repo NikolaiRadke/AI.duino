@@ -100,3 +100,15 @@ Required: An API key from either:
 - ChatGPT: https://platform.openai.com/api-keys
 
 The key is stored locally and not transmitted.
+
+## Content
+  
+```
+AI.duino/
+Root directory with some explanation files and the installation scripts.  
+|
+├── aiduinio/
+|   The plugin directory structure for manual installation.
+└── installer/
+    Pure installer files without AI.duino content.  
+```  
