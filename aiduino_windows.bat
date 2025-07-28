@@ -1,40 +1,103 @@
-#!/bin/bash
-# AI.duino v1.0 - Linux - Easy Install
+@echo off
+REM AI.duino v1.0 - Windows - Easy Install
+REM Copyright 2025 Monster Maker
+REM Licensed under Apache License 2.0
 
-echo "🤖 Installing AI.duino v1.0..."
+setlocal enabledelayedexpansion
 
-# Find Arduino IDE plugins directory
-PLUGIN_DIR=""
-for dir in "/usr/share/arduino/resources/app/plugins" \
-           "/opt/arduino-ide/resources/app/plugins" \
-           "$HOME/.local/share/arduino-ide/resources/app/plugins"; do
-    if [ -d "$dir" ]; then
-        PLUGIN_DIR="$dir"
-        break
-    fi
-done
+echo.
+echo ===============================================
+echo    AI.duino v1.0 - Windows Installer
+echo ===============================================
+echo.
 
-if [ -z "$PLUGIN_DIR" ]; then
-    echo "❌ Arduino IDE 2.x not found!"
-    echo "Please install from: https://www.arduino.cc/en/software"
-    exit 1
-fi
+REM Check for Administrator privileges
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo [ERROR] Administrator-Rechte benoetigt!
+    echo.
+    echo Bitte Rechtsklick auf die Datei und
+    echo "Als Administrator ausfuehren" waehlen.
+    echo.
+    pause
+    exit /b 1
+)
 
-echo "📁 Installing to: $PLUGIN_DIR"
+REM Find Arduino IDE installation
+echo [1/4] Suche Arduino IDE 2.x Installation...
 
-# Create plugin directory
-TARGET="$PLUGIN_DIR/arduino-claude-assistant"
-sudo rm -rf "$TARGET" 2>/dev/null
-sudo mkdir -p "$TARGET/extension/out"
+set "PLUGIN_DIR="
+set "FOUND_PATH="
 
-# Save the enhanced package.json
-sudo tee "$TARGET/extension/package.json" > /dev/null << 'PACKAGE_EOF'
+REM Check common installation paths
+for %%p in (
+    "%ProgramFiles%\Arduino IDE\resources\app\plugins"
+    "%ProgramFiles(x86)%\Arduino IDE\resources\app\plugins"
+    "%LocalAppData%\Programs\Arduino IDE\resources\app\plugins"
+    "%LocalAppData%\Arduino IDE\resources\app\plugins"
+    "C:\Program Files\Arduino IDE\resources\app\plugins"
+    "D:\Program Files\Arduino IDE\resources\app\plugins"
+) do (
+    if exist "%%~p" (
+        set "PLUGIN_DIR=%%~p"
+        set "FOUND_PATH=%%~p"
+        goto :found
+    )
+)
+
+:notfound
+echo.
+echo [ERROR] Arduino IDE 2.x nicht gefunden!
+echo.
+echo Bitte installiere Arduino IDE 2.x von:
+echo https://www.arduino.cc/en/software
+echo.
+echo Falls bereits installiert, kopiere das Plugin manuell nach:
+echo [Arduino IDE]\resources\app\plugins\aiduino
+echo.
+pause
+exit /b 1
+
+:found
+echo [OK] Arduino IDE gefunden in:
+echo      %FOUND_PATH%
+echo.
+
+REM Create plugin directory
+echo [2/4] Erstelle Plugin-Verzeichnis...
+set "TARGET=%PLUGIN_DIR%\aiduino"
+
+REM Remove old version if exists
+if exist "%TARGET%" (
+    echo      Entferne alte Version...
+    rmdir /s /q "%TARGET%" 2>nul
+)
+
+REM Create directories
+mkdir "%TARGET%" 2>nul
+mkdir "%TARGET%\extension" 2>nul
+mkdir "%TARGET%\extension\out" 2>nul
+
+if %errorLevel% neq 0 (
+    echo [ERROR] Konnte Verzeichnis nicht erstellen!
+    echo        Pruefe Schreibrechte fuer: %TARGET%
+    pause
+    exit /b 1
+)
+
+echo [OK] Plugin-Verzeichnis erstellt
+echo.
+
+REM Create package.json
+echo [3/4] Erstelle package.json...
+(
+REM ===== PACKAGE.JSON START =====
 {
-  "name": "arduino-ai-assistant",
-  "displayName": "Arduino AI Assistant",
+  "name": "aiduino",
+  "displayName": "AI.duino",
   "description": "KI-gestützte Hilfe für Arduino mit Claude und ChatGPT: Code verbessern, Fehler erklären, Debug-Hilfe",
-  "version": "2.1.0",
-  "publisher": "local",
+  "version": "1.0.0",
+  "publisher": "Monster Maker",
   "engines": {
     "vscode": "^1.60.0"
   },
@@ -49,130 +112,125 @@ sudo tee "$TARGET/extension/package.json" > /dev/null << 'PACKAGE_EOF'
   "contributes": {
     "commands": [
       {
-        "command": "arduino-ai.quickMenu",
+        "command": "aiduino.quickMenu",
         "title": "Quick-Menü öffnen",
-        "category": "Arduino AI",
+        "category": "AI.duino",
         "icon": "$(robot)"
       },
       {
-        "command": "arduino-ai.switchModel",
+        "command": "aiduino.switchModel",
         "title": "AI-Modell wechseln",
-        "category": "Arduino AI",
+        "category": "AI.duino",
         "icon": "$(sync)"
       },
       {
-        "command": "arduino-ai.setApiKey",
+        "command": "aiduino.setApiKey",
         "title": "API Key eingeben",
-        "category": "Arduino AI",
+        "category": "AI.duino",
         "icon": "$(key)"
       },
       {
-        "command": "arduino-ai.improveCode",
+        "command": "aiduino.improveCode",
         "title": "Code verbessern",
-        "category": "Arduino AI",
+        "category": "AI.duino",
         "icon": "$(symbol-method)"
       },
       {
-        "command": "arduino-ai.explainCode",
+        "command": "aiduino.explainCode",
         "title": "Code erklären",
-        "category": "Arduino AI",
+        "category": "AI.duino",
         "icon": "$(comment-discussion)"
       },
       {
-        "command": "arduino-ai.addComments",
+        "command": "aiduino.addComments",
         "title": "Kommentare hinzufügen",
-        "category": "Arduino AI",
+        "category": "AI.duino",
         "icon": "$(edit)"
       },
       {
-        "command": "arduino-ai.explainError",
+        "command": "aiduino.explainError",
         "title": "Fehler erklären",
-        "category": "Arduino AI",
+        "category": "AI.duino",
         "icon": "$(error)"
       },
       {
-        "command": "arduino-ai.debugHelp",
+        "command": "aiduino.debugHelp",
         "title": "Debug-Hilfe",
-        "category": "Arduino AI",
+        "category": "AI.duino",
         "icon": "$(bug)"
+      },
+      {
+        "command": "aiduino.about",
+        "title": "Über AI.duino...",
+        "category": "AI.duino",
+        "icon": "$(info)"
       }
     ],
     "keybindings": [
       {
-        "command": "arduino-ai.quickMenu",
+        "command": "aiduino.quickMenu",
         "key": "ctrl+shift+c",
         "mac": "cmd+shift+c",
         "when": "editorTextFocus && resourceExtname == .ino"
       },
       {
-        "command": "arduino-ai.explainError",
+        "command": "aiduino.explainCode",
         "key": "ctrl+shift+e",
         "mac": "cmd+shift+e",
         "when": "editorTextFocus && resourceExtname == .ino"
       }
     ],
     "menus": {
-      "editor/context": [
-        {
-          "submenu": "arduino-ai",
-          "group": "1_modification@1",
-          "when": "resourceExtname == .ino"
-        }
-      ],
-      "arduino-ai": [
-        {
-          "command": "arduino-ai.improveCode",
-          "when": "editorHasSelection",
-          "group": "1_code@1"
-        },
-        {
-          "command": "arduino-ai.explainCode",
-          "when": "editorHasSelection",
-          "group": "1_code@2"
-        },
-        {
-          "command": "arduino-ai.addComments",
-          "when": "editorHasSelection",
-          "group": "1_code@3"
-        },
-        {
-          "command": "arduino-ai.explainError",
-          "group": "2_debug@1"
-        },
-        {
-          "command": "arduino-ai.debugHelp",
-          "group": "2_debug@2"
-        },
-        {
-          "command": "arduino-ai.switchModel",
-          "group": "3_settings@1"
-        },
-        {
-          "command": "arduino-ai.setApiKey",
-          "group": "3_settings@2"
-        }
-      ]
+  "editor/context": [
+    {
+      "submenu": "aiduino",
+      "group": "1_modification"   
+    }
+  ],
+  "aiduino": [
+    {
+      "command": "aiduino.explainCode"
     },
-    "submenus": [
-      {
-        "id": "arduino-ai",
-        "label": "🤖 AI Assistant"
-      }
-    ],
+    {
+      "command": "aiduino.improveCode"   
+    },
+    {
+      "command": "aiduino.addComments"
+    },
+    {
+      "command": "aiduino.explainError"
+    },
+    {
+      "command": "aiduino.debugHelp"
+    },
+    {
+      "command": "aiduino.quickMenu"
+    },
+    {
+      "command": "aiduino.about"
+    }
+  ]
+},
+"submenus": [
+  {
+    "id": "aiduino",
+    "label": "🤖 AI.duino"
+  }
+],
     "configuration": {
-      "title": "Arduino AI Assistant",
+      "title": "AI.duino",
       "properties": {
-        "arduino-ai.showWelcomeOnStartup": {
+        "aiduino.showWelcomeOnStartup": {
           "type": "boolean",
           "default": true,
           "description": "Willkommensnachricht beim Start anzeigen"
         },
-        "arduino-ai.autoDetectErrors": {
+        "aiduino.autoDetectErrors": {
           "type": "boolean",
           "default": true,
           "description": "Automatisch auf Compiler-Fehler hinweisen"
         },
-        "arduino-ai.defaultModel": {
+        "aiduino.defaultModel": {
           "type": "string",
           "enum": ["claude", "chatgpt"],
           "default": "claude",
@@ -182,14 +240,37 @@ sudo tee "$TARGET/extension/package.json" > /dev/null << 'PACKAGE_EOF'
     }
   },
   "author": {
-    "name": "Arduino AI Assistant Team"
+    "name": "Monster Maker"
   },
-  "license": "MIT"
+  "license": "Apache-2.0"
 }
-PACKAGE_EOF
+REM ===== PACKAGE.JSON END =====
+) > "%TARGET%\extension\package.json"
 
-# Save the user-friendly extension.js
-sudo tee "$TARGET/extension/out/extension.js" > /dev/null << 'EXTENSION_EOF'
+echo [OK] package.json erstellt
+echo.
+
+REM Create extension.js
+echo [4/4] Erstelle extension.js...
+(
+REM ===== EXTENSION.JS START =====
+/*
+ * AI.duino v1.0
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = void 0;
@@ -197,23 +278,24 @@ const vscode = require("vscode");
 const https = require("https");
 const fs = require("fs");
 const os = require("os");
+const path = require("path");
 
 let statusBarItem;
 let apiKey = '';
 let openaiApiKey = '';
 let currentModel = 'claude'; // 'claude' oder 'chatgpt'
-const API_KEY_FILE = os.homedir() + '/.arduino-claude-api-key';
-const OPENAI_KEY_FILE = os.homedir() + '/.arduino-openai-api-key';
-const MODEL_FILE = os.homedir() + '/.arduino-ai-model';
+const API_KEY_FILE = path.join(os.homedir(), '.aiduino-claude-api-key');
+const OPENAI_KEY_FILE = path.join(os.homedir(), '.aiduino-openai-api-key');
+const MODEL_FILE = path.join(os.homedir(), '.aiduino-model');
 
 let tokenUsage = {
     claude: { input: 0, output: 0, cost: 0 },
     chatgpt: { input: 0, output: 0, cost: 0 },
     daily: new Date().toDateString()
 };
-const TOKEN_USAGE_FILE = os.homedir() + '/.arduino-ai-token-usage.json';
+const TOKEN_USAGE_FILE = path.join(os.homedir(), '.aiduino-token-usage.json');
 
-// Token-Preise (Stand 2024)
+// Token-Preise (Stand 2025)
 const TOKEN_PRICES = {
     claude: {
         input: 0.003 / 1000,   // $3 per 1M input tokens
@@ -226,31 +308,32 @@ const TOKEN_PRICES = {
 };
 
 function activate(context) {
-    console.log('🤖 Arduino AI Assistant aktiviert!');
+    console.log('🤖 AI.duino v1.0 aktiviert!');
     
     // API Keys und Model beim Start laden
     loadApiKeys();
     loadSelectedModel();
-    loadTokenUsage();      // Lade Daten
+    loadTokenUsage();
     
     // Status Bar mit Tooltip
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
     updateStatusBar();
-    statusBarItem.command = "arduino-ai.quickMenu";
+    statusBarItem.command = "aiduino.quickMenu";
     statusBarItem.show();
     
     // Commands registrieren
     context.subscriptions.push(
-        vscode.commands.registerCommand('arduino-ai.quickMenu', showQuickMenu),
-        vscode.commands.registerCommand('arduino-ai.switchModel', switchModel),
-        vscode.commands.registerCommand('arduino-ai.setApiKey', setApiKey),
-        vscode.commands.registerCommand('arduino-ai.explainCode', explainCode),
-        vscode.commands.registerCommand('arduino-ai.improveCode', improveCode),
-        vscode.commands.registerCommand('arduino-ai.addComments', addComments),
-        vscode.commands.registerCommand('arduino-ai.explainError', explainError),
-        vscode.commands.registerCommand('arduino-ai.debugHelp', debugHelp),
-        vscode.commands.registerCommand('arduino-ai.showTokenStats', showTokenStats),
-        vscode.commands.registerCommand('arduino-ai.resetTokenStats', resetTokenStats),
+        vscode.commands.registerCommand('aiduino.quickMenu', showQuickMenu),
+        vscode.commands.registerCommand('aiduino.switchModel', switchModel),
+        vscode.commands.registerCommand('aiduino.setApiKey', setApiKey),
+        vscode.commands.registerCommand('aiduino.explainCode', explainCode),
+        vscode.commands.registerCommand('aiduino.improveCode', improveCode),
+        vscode.commands.registerCommand('aiduino.addComments', addComments),
+        vscode.commands.registerCommand('aiduino.explainError', explainError),
+        vscode.commands.registerCommand('aiduino.debugHelp', debugHelp),
+        vscode.commands.registerCommand('aiduino.showTokenStats', showTokenStats),
+        vscode.commands.registerCommand('aiduino.about', showAbout),
+        vscode.commands.registerCommand('aiduino.resetTokenStats', resetTokenStats),
         statusBarItem
     );
     
@@ -372,9 +455,27 @@ function saveTokenUsage() {
 }
 
 function estimateTokens(text) {
-    // Grobe Schätzung: ~4 Zeichen = 1 Token
-    // Für genauere Zählung könnte man tiktoken verwenden
-    return Math.ceil(text.length / 4);
+    // Verbesserte Schätzung basierend auf OpenAI's Faustregel
+    // Berücksichtigt auch Code-Strukturen
+    
+    if (!text) return 0;
+    
+    // Basis: ~4 Zeichen = 1 Token für normalen Text
+    let tokens = text.length / 4;
+    
+    // Code hat oft mehr Tokens wegen Syntax
+    const codeIndicators = text.match(/[{}()\[\];,.<>]/g);
+    if (codeIndicators) {
+        tokens += codeIndicators.length * 0.3;
+    }
+    
+    // Neue Zeilen zählen auch als Tokens
+    const newlines = text.match(/\n/g);
+    if (newlines) {
+        tokens += newlines.length;
+    }
+    
+    return Math.ceil(tokens);
 }
 
 function updateTokenUsage(model, inputText, outputText) {
@@ -411,14 +512,14 @@ function updateStatusBar() {
     const costDisplay = todayCost > 0 ? ` ($${todayCost})` : '';
     
     if (hasApiKey) {
-        statusBarItem.text = `${modelIcon} ${modelName}${costDisplay}`;
-        statusBarItem.tooltip = `AI Assistant: ${modelName}\n` +
+        statusBarItem.text = `${modelIcon} AI.duino${costDisplay}`;
+        statusBarItem.tooltip = `AI.duino v1.0: ${modelName}\n` +
             `Heute: ${tokenUsage[currentModel].input + tokenUsage[currentModel].output} Tokens${costDisplay}\n` +
             `Input: ${tokenUsage[currentModel].input} | Output: ${tokenUsage[currentModel].output}\n` +
             `Klick für Menü • Strg+Shift+C • Rechtsklick zum Wechseln`;
         statusBarItem.backgroundColor = undefined;
     } else {
-        statusBarItem.text = `${modelIcon} ${modelName} $(warning)`;
+        statusBarItem.text = `${modelIcon} AI.duino $(warning)`;
         statusBarItem.tooltip = `${modelName} API Key fehlt! • Klick zum Einrichten`;
         statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
     }
@@ -465,7 +566,7 @@ async function switchModel() {
 }
 
 async function showWelcomeMessage() {
-    const message = '👋 Willkommen! Arduino AI Assistant unterstützt jetzt Claude und ChatGPT!';
+    const message = '👋 Willkommen! AI.duino v1.0 unterstützt Claude und ChatGPT!';
     const choice = await vscode.window.showInformationMessage(
         message,
         'AI-Modell wählen',
@@ -504,49 +605,49 @@ async function showQuickMenu() {
         {
             label: '$(symbol-method) Code verbessern',
             description: hasSelection ? 'Ausgewählten Code optimieren' : 'Erst Code markieren',
-            command: 'arduino-ai.improveCode',
-            enabled: hasSelection
+            command: 'aiduino.improveCode',
+            enabled: true
         },
         {
             label: '$(comment-discussion) Code erklären',
             description: hasSelection ? 'Ausgewählten Code erklären' : 'Erst Code markieren',
-            command: 'arduino-ai.explainCode',
-            enabled: hasSelection
+            command: 'aiduino.explainCode',
+            enabled: true
         },
         {
             label: '$(edit) Kommentare hinzufügen',
             description: hasSelection ? 'Code kommentieren' : 'Erst Code markieren',
-            command: 'arduino-ai.addComments',
-            enabled: hasSelection
+            command: 'aiduino.addComments',
+            enabled: true
         },
         {
             label: '$(error) Fehler erklären',
             description: hasErrors ? '🔴 Compiler-Fehler gefunden' : 'Keine Fehler',
-            command: 'arduino-ai.explainError',
-            enabled: hasErrors
+            command: 'aiduino.explainError',
+            enabled: true
         },
         {
             label: '$(bug) Debug-Hilfe',
             description: 'Hilfe bei der Fehlersuche',
-            command: 'arduino-ai.debugHelp',
+            command: 'aiduino.debugHelp',
             enabled: true
         },
         {
             label: '$(sync) AI-Modell wechseln',
             description: `Aktuell: ${currentModel === 'claude' ? 'Claude' : 'ChatGPT'}`,
-            command: 'arduino-ai.switchModel',
+            command: 'aiduino.switchModel',
             enabled: true
         },
         {
             label: '$(key) API Key ändern',
             description: `${currentModel === 'claude' ? 'Claude' : 'ChatGPT'} Key`,
-            command: 'arduino-ai.setApiKey',
+            command: 'aiduino.setApiKey',
             enabled: true
         },
         {
             label: '$(graph) Token-Statistik',
             description: `Heute: $${tokenUsage.claude.cost.toFixed(3)} (Claude) | $${tokenUsage.chatgpt.cost.toFixed(3)} (GPT)`,
-            command: 'arduino-ai.showTokenStats',
+            command: 'aiduino.showTokenStats',
             enabled: true
         }
     ].filter(item => item.enabled);
@@ -560,7 +661,7 @@ async function showQuickMenu() {
     
     const selected = await vscode.window.showQuickPick(items, {
         placeHolder: 'Was möchtest du tun?',
-        title: `🤖 Arduino AI Assistant (${currentModel === 'claude' ? 'Claude' : 'ChatGPT'})`
+        title: `🤖 AI.duino v1.0 (${currentModel === 'claude' ? 'Claude' : 'ChatGPT'})`
     });
     
     if (selected) {
@@ -662,7 +763,7 @@ function callClaudeAPI(prompt) {
                     if (res.statusCode === 200) {
                         const response = parsedData.content[0].text;
                         
-                        // Token-Tracking hinzufügen - NEUE ZEILEN!
+                        // Token-Tracking hinzufügen
                         updateTokenUsage('claude', prompt, response);
                         console.log('Claude tokens tracked:', estimateTokens(prompt), 'in,', estimateTokens(response), 'out');
                         
@@ -739,7 +840,7 @@ function callChatGPTAPI(prompt) {
                     if (res.statusCode === 200) {
                         const response = parsedData.choices[0].message.content;
                         
-                        // Token-Tracking hinzufügen - NEUE ZEILEN!
+                        // Token-Tracking hinzufügen
                         updateTokenUsage('chatgpt', prompt, response);
                         console.log('ChatGPT tokens tracked:', estimateTokens(prompt), 'in,', estimateTokens(response), 'out');
                         
@@ -756,7 +857,6 @@ function callChatGPTAPI(prompt) {
                 }
             });
         });
-
         req.on('error', (e) => {
             reject(new Error('Netzwerkfehler: ' + e.message));
         });
@@ -764,30 +864,6 @@ function callChatGPTAPI(prompt) {
         req.write(data);
         req.end();
     });
-}
-
-function estimateTokens(text) {
-    // Verbesserte Schätzung basierend auf OpenAI's Faustregel
-    // Berücksichtigt auch Code-Strukturen
-    
-    if (!text) return 0;
-    
-    // Basis: ~4 Zeichen = 1 Token für normalen Text
-    let tokens = text.length / 4;
-    
-    // Code hat oft mehr Tokens wegen Syntax
-    const codeIndicators = text.match(/[{}()\[\];,.<>]/g);
-    if (codeIndicators) {
-        tokens += codeIndicators.length * 0.3;
-    }
-    
-    // Neue Zeilen zählen auch als Tokens
-    const newlines = text.match(/\n/g);
-    if (newlines) {
-        tokens += newlines.length;
-    }
-    
-    return Math.ceil(tokens);
 }
 
 // Alle anderen Funktionen verwenden jetzt callAI statt callClaudeAPI
@@ -798,33 +874,17 @@ async function explainError() {
         return;
     }
     
-    const diagnostics = vscode.languages.getDiagnostics(editor.document.uri);
-    const errors = diagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
+    // Bei Arduino-Dateien direkt nach Fehler fragen
+    const errorInput = await vscode.window.showInputBox({
+        prompt: 'Kopiere den Fehler aus dem Arduino-Ausgabefenster (rote Zeile mit "error:")',
+        placeHolder: "error: 'xc' was not declared in this scope",
+        ignoreFocusOut: true
+    });
     
-    if (errors.length === 0) {
-        vscode.window.showInformationMessage('🎉 Keine Fehler gefunden!');
-        return;
-    }
+    if (!errorInput) return;
     
-    let selectedError;
-    if (errors.length === 1) {
-        selectedError = errors[0];
-    } else {
-        const items = errors.map(err => ({
-            label: `Zeile ${err.range.start.line + 1}`,
-            description: err.message.substring(0, 60) + '...',
-            error: err
-        }));
-        
-        const selected = await vscode.window.showQuickPick(items, {
-            placeHolder: `${errors.length} Fehler gefunden - welchen erklären?`
-        });
-        
-        if (!selected) return;
-        selectedError = selected.error;
-    }
-    
-    const line = selectedError.range.start.line;
+    // Hole Code-Kontext um die aktuelle Cursor-Position
+    const line = editor.selection.active.line;
     const startLine = Math.max(0, line - 5);
     const endLine = Math.min(editor.document.lineCount - 1, line + 5);
     const codeContext = editor.document.getText(
@@ -833,9 +893,9 @@ async function explainError() {
     
     const prompt = `Arduino Compiler-Fehler erklären und lösen:
 
-Fehler in Zeile ${line + 1}: ${selectedError.message}
+Fehler: ${errorInput}
 
-Code-Kontext:
+Code-Kontext (um Zeile ${line + 1}):
 \`\`\`cpp
 ${codeContext}
 \`\`\`
@@ -864,7 +924,7 @@ Erkläre einfach und verständlich auf Deutsch.`;
             );
             
             panel.webview.html = createErrorExplanationHtml(
-                selectedError.message,
+                errorInput,
                 line + 1,
                 response,
                 currentModel
@@ -1379,7 +1439,7 @@ async function checkForErrors(silent = true) {
     
     if (errors.length > 0 && !silent) {
         const modelIcon = currentModel === 'claude' ? '🤖' : '🧠';
-        statusBarItem.text = `${modelIcon} ${currentModel === 'claude' ? 'Claude' : 'GPT-4'} $(error)`;
+        statusBarItem.text = `${modelIcon} AI.duino $(error)`;
         statusBarItem.tooltip = `${errors.length} Fehler gefunden • Klick für Hilfe`;
         statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
         
@@ -1392,7 +1452,7 @@ async function checkForErrors(silent = true) {
 function showTutorial() {
     const panel = vscode.window.createWebviewPanel(
         'aiTutorial',
-        '📚 AI Assistant Tutorial',
+        '📚 AI.duino Tutorial',
         vscode.ViewColumn.One,
         {}
     );
@@ -1448,16 +1508,16 @@ function showTutorial() {
             </style>
         </head>
         <body>
-            <h1>🤖 Arduino AI Assistant</h1>
+            <h1>🤖 AI.duino v1.0</h1>
             
             <div class="tip">
                 <strong>Schnellzugriff:</strong> <span class="shortcut">Strg+Shift+C</span> 
-                oder klicke auf AI-Modell in der Statusleiste
+                oder klicke auf AI.duino in der Statusleiste
             </div>
             
-            <h2>🆕 Neu: Zwei AI-Modelle!</h2>
+            <h2>🆕 Zwei AI-Modelle zur Auswahl!</h2>
             <p>
-                Du kannst jetzt zwischen zwei KI-Assistenten wählen:
+                Du kannst zwischen zwei KI-Assistenten wählen:
                 <span class="model-badge claude">Claude</span> und 
                 <span class="model-badge chatgpt">ChatGPT</span>
             </p>
@@ -1650,9 +1710,125 @@ function showTokenStats() {
                 Die tatsächlichen Kosten können leicht abweichen.
             </div>
             
-            <button class="reset-btn" onclick="if(confirm('Statistik wirklich zurücksetzen?')) { window.location.href = 'command:arduino-ai.resetTokenStats'; }">
+            <button class="reset-btn" onclick="if(confirm('Statistik wirklich zurücksetzen?')) { window.location.href = 'command:aiduino.resetTokenStats'; }">
                 Statistik zurücksetzen
             </button>
+        </body>
+        </html>
+    `;
+}
+
+function showAbout() {
+    const panel = vscode.window.createWebviewPanel(
+        'aiduinoAbout',
+        'Über AI.duino',
+        vscode.ViewColumn.One,
+        { enableScripts: true }
+    );
+    
+    panel.webview.html = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body {
+                    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+                    padding: 40px;
+                    line-height: 1.6;
+                    max-width: 600px;
+                    margin: 0 auto;
+                    text-align: center;
+                }
+                .logo {
+                    font-size: 72px;
+                    margin: 20px 0;
+                }
+                h1 {
+                    color: #2196F3;
+                    margin-bottom: 10px;
+                }
+                .version {
+                    font-size: 24px;
+                    color: #666;
+                    margin-bottom: 30px;
+                }
+                .info-box {
+                    background: #f5f5f5;
+                    border-radius: 8px;
+                    padding: 20px;
+                    margin: 20px 0;
+                    text-align: left;
+                }
+                .feature {
+                    margin: 10px 0;
+                    padding-left: 25px;
+                    position: relative;
+                }
+                .feature:before {
+                    content: "✓";
+                    position: absolute;
+                    left: 0;
+                    color: #4CAF50;
+                    font-weight: bold;
+                }
+                .credits {
+                    margin-top: 30px;
+                    padding-top: 20px;
+                    border-top: 1px solid #e0e0e0;
+                }
+                a {
+                    color: #2196F3;
+                    text-decoration: none;
+                }
+                a:hover {
+                    text-decoration: underline;
+                }
+                .license {
+                    background: #e3f2fd;
+                    padding: 15px;
+                    border-radius: 4px;
+                    margin: 20px 0;
+                    font-family: monospace;
+                    font-size: 14px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="logo">🤖</div>
+            <h1>AI.duino</h1>
+            <div class="version">Version 1.0.0</div>
+            
+            <p><strong>KI-gestützte Arduino-Entwicklung</strong></p>
+            
+            <div class="info-box">
+                <h3>Features:</h3>
+                <div class="feature">Claude 3.5 Sonnet Integration</div>
+                <div class="feature">ChatGPT-4 Integration</div>
+                <div class="feature">Code-Verbesserung und Optimierung</div>
+                <div class="feature">Fehler-Erklärung auf Deutsch</div>
+                <div class="feature">Automatische Code-Kommentierung</div>
+                <div class="feature">Debug-Hilfe und Hardware-Diagnose</div>
+                <div class="feature">Token-Verbrauch Tracking</div>
+            </div>
+            
+            <div class="license">
+                <strong>Lizenz:</strong> Apache License 2.0<br>
+                Copyright © 2025 Monster Maker
+            </div>
+            
+            <div class="info-box">
+                <h3>Tastenkürzel:</h3>
+                <p><kbd>Strg+Shift+C</kbd> - Quick-Menü öffnen</p>
+                <p><kbd>Strg+Shift+E</kbd> - Fehler erklären</p>
+            </div>
+            
+            <div class="credits">
+                <p><strong>Publisher:</strong> Monster Maker</p>
+                <p><strong>Repository:</strong> <a href="https://github.com/NikolaiRadke/AI.duino">GitHub</a></p>
+                <p><strong>Fehler melden:</strong> <a href="https://github.com/NikolaiRadke/AI.duino/issues">Issue Tracker</a></p>
+                <br>
+                <p><em>Entwickelt mit 💙 für die Arduino-Community</em></p>
+            </div>
         </body>
         </html>
     `;
@@ -1680,9 +1856,9 @@ function handleApiError(error) {
             'Modell wechseln'
         ).then(selection => {
             if (selection === 'API Key eingeben') {
-                vscode.commands.executeCommand('arduino-ai.setApiKey');
+                vscode.commands.executeCommand('aiduino.setApiKey');
             } else if (selection === 'Modell wechseln') {
-                vscode.commands.executeCommand('arduino-ai.switchModel');
+                vscode.commands.executeCommand('aiduino.switchModel');
             }
         });
     } else {
@@ -1694,37 +1870,95 @@ function deactivate() {
     if (statusBarItem) {
         statusBarItem.dispose();
     }
-    console.log('Arduino AI Assistant deaktiviert');
+    console.log('AI.duino v1.0 deaktiviert');
 }
 exports.deactivate = deactivate;
-EXTENSION_EOF
+REM ===== EXTENSION.JS END =====
+) > "%TARGET%\extension\out\extension.js"
 
-# Create manifest
-sudo tee "$TARGET/extension.vsixmanifest" > /dev/null << 'EOF'
-<?xml version="1.0" encoding="utf-8"?>
-<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
-  <Metadata>
-    <Identity Language="en-US" Id="arduino-claude-assistant" Version="2.0.0" Publisher="local"/>
-    <DisplayName>Arduino Claude Assistant</DisplayName>
-    <Description xml:space="preserve">KI-Hilfe für Arduino mit Fehler-Erklärung und Debug-Support</Description>
-  </Metadata>
-  <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Code"/>
-  </Installation>
-  <Assets>
-    <Asset Type="Microsoft.VisualStudio.Code.Manifest" Path="extension/package.json" Addressable="true"/>
-  </Assets>
-</PackageManifest>
-EOF
+echo [OK] extension.js erstellt
+echo.
 
-# Set permissions
-sudo chmod -R 755 "$TARGET"
+REM Create manifest
+(
+echo ^<?xml version="1.0" encoding="utf-8"?^>
+echo ^<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011"^>
+echo   ^<Metadata^>
+echo     ^<Identity Language="en-US" Id="aiduino" Version="1.0.0" Publisher="Monster Maker"/^>
+echo     ^<DisplayName^>AI.duino^</DisplayName^>
+echo     ^<Description xml:space="preserve"^>KI-Hilfe fuer Arduino mit Fehler-Erklaerung und Debug-Support^</Description^>
+echo   ^</Metadata^>
+echo   ^<Installation^>
+echo     ^<InstallationTarget Id="Microsoft.VisualStudio.Code"/^>
+echo   ^</Installation^>
+echo   ^<Assets^>
+echo     ^<Asset Type="Microsoft.VisualStudio.Code.Manifest" Path="extension/package.json" Addressable="true"/^>
+echo   ^</Assets^>
+echo ^</PackageManifest^>
+) > "%TARGET%\extension.vsixmanifest"
 
-echo "✅ Installation complete!"
-echo ""
-echo "📖 Next steps:"
-echo "1. Restart Arduino IDE"
-echo "2. Press Ctrl+Shift+C or click 'Claude' in status bar"
-echo "3. Enter your Claude API Key"
-echo ""
-echo "🎯 Quick start: Mark some code and press Ctrl+Shift+C!"
+REM Create LICENSE
+(
+echo                                  Apache License
+echo                            Version 2.0, January 2004
+echo                         http://www.apache.org/licenses/
+echo.
+echo    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+echo.
+echo    1. Definitions.
+echo.
+echo       "License" shall mean the terms and conditions for use, reproduction,
+echo       and distribution as defined by Sections 1 through 9 of this document.
+echo.
+echo       "Licensor" shall mean the copyright owner or entity authorized by
+echo       the copyright owner that is granting the License.
+echo.
+echo       "Legal Entity" shall mean the union of the acting entity and all
+echo       other entities that control, are controlled by, or are under common
+echo       control with that entity. For the purposes of this definition,
+echo       "control" means ^(i^) the power, direct or indirect, to cause the
+echo       direction or management of such entity, whether by contract or
+echo       otherwise, or ^(ii^) ownership of fifty percent ^(50%%^) or more of the
+echo       outstanding shares, or ^(iii^) beneficial ownership of such entity.
+echo.
+echo       "You" ^(or "Your"^) shall mean an individual or Legal Entity
+echo       exercising permissions granted by this License.
+echo.
+echo    [... Rest der Apache 2.0 Lizenz ...]
+echo.
+echo    Copyright 2025 Monster Maker
+echo.
+echo    Licensed under the Apache License, Version 2.0 ^(the "License"^);
+echo    you may not use this file except in compliance with the License.
+echo    You may obtain a copy of the License at
+echo.
+echo        http://www.apache.org/licenses/LICENSE-2.0
+echo.
+echo    Unless required by applicable law or agreed to in writing, software
+echo    distributed under the License is distributed on an "AS IS" BASIS,
+echo    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+echo    See the License for the specific language governing permissions and
+echo    limitations under the License.
+) > "%TARGET%\LICENSE"
+
+echo.
+echo ===============================================
+echo    Installation erfolgreich!
+echo ===============================================
+echo.
+echo AI.duino v1.0 wurde installiert!
+echo.
+echo Naechste Schritte:
+echo 1. Arduino IDE neu starten
+echo 2. Druecke Strg+Shift+C oder Rechtsklick -^> AI.duino
+echo 3. Gib deinen Claude oder ChatGPT API Key ein
+echo.
+echo Schnellstart: Markiere Code und druecke Strg+Shift+C!
+echo.
+echo API Keys:
+echo    Claude: https://console.anthropic.com/api-keys
+echo    ChatGPT: https://platform.openai.com/api-keys
+echo.
+echo Lizenz: Apache 2.0 - siehe %TARGET%\LICENSE
+echo.
+pause

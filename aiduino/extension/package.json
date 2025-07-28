@@ -1,0 +1,152 @@
+{
+  "name": "aiduino",
+  "displayName": "AI.duino",
+  "description": "KI-gestützte Hilfe für Arduino mit Claude und ChatGPT: Code verbessern, Fehler erklären, Debug-Hilfe",
+  "version": "1.0.0",
+  "publisher": "Monster Maker",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": ["Other", "Debuggers", "Education"],
+  "keywords": ["arduino", "ai", "claude", "chatgpt", "debug", "fehler", "hilfe"],
+  "activationEvents": [
+    "onLanguage:cpp",
+    "onLanguage:c",
+    "onLanguage:ino"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "aiduino.quickMenu",
+        "title": "Quick-Menü öffnen",
+        "category": "AI.duino",
+        "icon": "$(robot)"
+      },
+      {
+        "command": "aiduino.switchModel",
+        "title": "AI-Modell wechseln",
+        "category": "AI.duino",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "aiduino.setApiKey",
+        "title": "API Key eingeben",
+        "category": "AI.duino",
+        "icon": "$(key)"
+      },
+      {
+        "command": "aiduino.improveCode",
+        "title": "Code verbessern",
+        "category": "AI.duino",
+        "icon": "$(symbol-method)"
+      },
+      {
+        "command": "aiduino.explainCode",
+        "title": "Code erklären",
+        "category": "AI.duino",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "aiduino.addComments",
+        "title": "Kommentare hinzufügen",
+        "category": "AI.duino",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "aiduino.explainError",
+        "title": "Fehler erklären",
+        "category": "AI.duino",
+        "icon": "$(error)"
+      },
+      {
+        "command": "aiduino.debugHelp",
+        "title": "Debug-Hilfe",
+        "category": "AI.duino",
+        "icon": "$(bug)"
+      },
+      {
+        "command": "aiduino.about",
+        "title": "Über AI.duino...",
+        "category": "AI.duino",
+        "icon": "$(info)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "aiduino.quickMenu",
+        "key": "ctrl+shift+c",
+        "mac": "cmd+shift+c",
+        "when": "editorTextFocus && resourceExtname == .ino"
+      },
+      {
+        "command": "aiduino.explainCode",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e",
+        "when": "editorTextFocus && resourceExtname == .ino"
+      }
+    ],
+    "menus": {
+  "editor/context": [
+    {
+      "submenu": "aiduino",
+      "group": "1_modification"   
+    }
+  ],
+  "aiduino": [
+    {
+      "command": "aiduino.explainCode"
+    },
+    {
+      "command": "aiduino.improveCode"   
+    },
+    {
+      "command": "aiduino.addComments"
+    },
+    {
+      "command": "aiduino.explainError"
+    },
+    {
+      "command": "aiduino.debugHelp"
+    },
+    {
+      "command": "aiduino.quickMenu"
+    },
+    {
+      "command": "aiduino.about"
+    }
+  ]
+},
+"submenus": [
+  {
+    "id": "aiduino",
+    "label": "🤖 AI.duino"
+  }
+],
+    "configuration": {
+      "title": "AI.duino",
+      "properties": {
+        "aiduino.showWelcomeOnStartup": {
+          "type": "boolean",
+          "default": true,
+          "description": "Willkommensnachricht beim Start anzeigen"
+        },
+        "aiduino.autoDetectErrors": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatisch auf Compiler-Fehler hinweisen"
+        },
+        "aiduino.defaultModel": {
+          "type": "string",
+          "enum": ["claude", "chatgpt"],
+          "default": "claude",
+          "description": "Standard AI-Modell beim Start"
+        }
+      }
+    }
+  },
+  "author": {
+    "name": "Monster Maker"
+  },
+  "license": "Apache-2.0"
+}
