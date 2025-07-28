@@ -83,7 +83,7 @@ aiduino/
 
 1. Select code in Arduino IDE
 2. Right-click → `AI.duino` → Choose function
-3. Alternative: `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac) or press the Ai.duino button below  
+3. Alternative: `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac) or press the `Ai.duino` button below  
 
 ### Explain Error
 1. Compile code and find error message in output window
