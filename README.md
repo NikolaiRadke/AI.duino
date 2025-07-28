@@ -3,7 +3,7 @@
 
 AI.duino integrates Claude and ChatGPT directly into the Arduino IDE for intelligent code assistance.
 
-* **25.07.2025** Initial commit with Linux installer. Stay tuned. Already working fine. Try it!
+* **28.07.2025** Pushed all needed files. Ready to test!  
   
 ## Features
 
