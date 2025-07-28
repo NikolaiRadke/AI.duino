@@ -1,7 +1,7 @@
 ![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back.png)
 # 🤖 AI.duino - AI Assistant for Arduino IDE
 
-AI.duino integrates Claude and ChatGPT directly into the Arduino IDE for intelligent code assistance.
+AI.duino integrates Claude and ChatGPT directly into the Arduino IDE for intelligent code assistance. Right now, there is only a German version of this plugin.  
 
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
@@ -90,7 +90,7 @@ aiduino/
 ### Explain Error
 1. Compile code and find error message in output window
 2. Place cursor near the error
-3. Run "Explain Error"
+3. Run "Fehler erklären"
 4. Copy error message (red line with "error:") into input field
 
 ## API Keys
