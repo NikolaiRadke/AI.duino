@@ -1,5 +1,5 @@
 /*
- * AI.duino v1.0
+ * AI.duino v1.1
  * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,35 +24,71 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 
-let statusBarItem;
-let apiKey = '';
-let openaiApiKey = '';
-let currentModel = 'claude'; // 'claude' oder 'chatgpt'
-const API_KEY_FILE = path.join(os.homedir(), '.aiduino-claude-api-key');
-const OPENAI_KEY_FILE = path.join(os.homedir(), '.aiduino-openai-api-key');
-const MODEL_FILE = path.join(os.homedir(), '.aiduino-model');
+// ========================================
+// MODULARE AI-MODELL KONFIGURATION
+// ========================================
 
-let tokenUsage = {
-    claude: { input: 0, output: 0, cost: 0 },
-    chatgpt: { input: 0, output: 0, cost: 0 },
-    daily: new Date().toDateString()
-};
-const TOKEN_USAGE_FILE = path.join(os.homedir(), '.aiduino-token-usage.json');
-
-// Token-Preise (Stand 2025)
-const TOKEN_PRICES = {
+const AI_MODELS = {
     claude: {
-        input: 0.003 / 1000,   // $3 per 1M input tokens
-        output: 0.015 / 1000   // $15 per 1M output tokens
+        name: 'Claude',
+        fullName: 'Claude-3.5-Sonnet',
+        icon: '🤖',
+        keyFile: '.aiduino-claude-api-key',
+        keyPrefix: 'sk-ant-',
+        keyMinLength: 50,
+        prices: {
+            input: 0.003 / 1000,   // $3 per 1M tokens
+            output: 0.015 / 1000   // $15 per 1M tokens
+        },
+        color: '#6B46C1'
     },
     chatgpt: {
-        input: 0.03 / 1000,    // $30 per 1M input tokens (GPT-4)
-        output: 0.06 / 1000    // $60 per 1M output tokens (GPT-4)
+        name: 'ChatGPT',
+        fullName: 'GPT-4',
+        icon: '🧠',
+        keyFile: '.aiduino-openai-api-key',
+        keyPrefix: 'sk-',
+        keyMinLength: 40,
+        prices: {
+            input: 0.03 / 1000,    // $30 per 1M tokens
+            output: 0.06 / 1000    // $60 per 1M tokens
+        },
+        color: '#10A37F'
+    },
+    gemini: {
+        name: 'Gemini',
+        fullName: 'Gemini Pro',
+        icon: '💎',
+        keyFile: '.aiduino-gemini-api-key',
+        keyPrefix: 'AIza',
+        keyMinLength: 39,
+        prices: {
+            input: 0.00025 / 1000,  // $0.25 per 1M tokens
+            output: 0.0005 / 1000   // $0.50 per 1M tokens
+        },
+        color: '#4285F4'
     }
 };
 
+// Globale Variablen
+let statusBarItem;
+let currentModel = 'claude';
+const apiKeys = {};
+const MODEL_FILE = path.join(os.homedir(), '.aiduino-model');
+
+// Token-Tracking
+let tokenUsage = {};
+const TOKEN_USAGE_FILE = path.join(os.homedir(), '.aiduino-token-usage.json');
+
+// ========================================
+// AKTIVIERUNG & INITIALISIERUNG
+// ========================================
+
 function activate(context) {
-    console.log('🤖 AI.duino v1.0 aktiviert!');
+    console.log('🤖 AI.duino v1.1 aktiviert!');
+    
+    // Initialisiere Token-Usage für alle Modelle
+    initializeTokenUsage();
     
     // API Keys und Model beim Start laden
     loadApiKeys();
@@ -66,23 +102,10 @@ function activate(context) {
     statusBarItem.show();
     
     // Commands registrieren
-    context.subscriptions.push(
-        vscode.commands.registerCommand('aiduino.quickMenu', showQuickMenu),
-        vscode.commands.registerCommand('aiduino.switchModel', switchModel),
-        vscode.commands.registerCommand('aiduino.setApiKey', setApiKey),
-        vscode.commands.registerCommand('aiduino.explainCode', explainCode),
-        vscode.commands.registerCommand('aiduino.improveCode', improveCode),
-        vscode.commands.registerCommand('aiduino.addComments', addComments),
-        vscode.commands.registerCommand('aiduino.explainError', explainError),
-        vscode.commands.registerCommand('aiduino.debugHelp', debugHelp),
-        vscode.commands.registerCommand('aiduino.showTokenStats', showTokenStats),
-        vscode.commands.registerCommand('aiduino.about', showAbout),
-        vscode.commands.registerCommand('aiduino.resetTokenStats', resetTokenStats),
-        statusBarItem
-    );
+    registerCommands(context);
     
     // Willkommensnachricht
-    if (!apiKey && !openaiApiKey) {
+    if (shouldShowWelcome()) {
         setTimeout(() => {
             showWelcomeMessage();
         }, 1000);
@@ -97,31 +120,90 @@ function activate(context) {
 }
 exports.activate = activate;
 
+function registerCommands(context) {
+    const commands = [
+        { name: 'aiduino.quickMenu', handler: showQuickMenu },
+        { name: 'aiduino.switchModel', handler: switchModel },
+        { name: 'aiduino.setApiKey', handler: setApiKey },
+        { name: 'aiduino.explainCode', handler: explainCode },
+        { name: 'aiduino.improveCode', handler: improveCode },
+        { name: 'aiduino.addComments', handler: addComments },
+        { name: 'aiduino.explainError', handler: explainError },
+        { name: 'aiduino.debugHelp', handler: debugHelp },
+        { name: 'aiduino.showTokenStats', handler: showTokenStats },
+        { name: 'aiduino.about', handler: showAbout },
+        { name: 'aiduino.resetTokenStats', handler: resetTokenStats }
+    ];
+    
+    commands.forEach(cmd => {
+        context.subscriptions.push(
+            vscode.commands.registerCommand(cmd.name, cmd.handler)
+        );
+    });
+    
+    context.subscriptions.push(statusBarItem);
+}
+
+function initializeTokenUsage() {
+    tokenUsage = {
+        daily: new Date().toDateString()
+    };
+    
+    // Initialisiere für jedes Modell
+    Object.keys(AI_MODELS).forEach(modelId => {
+        tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
+    });
+}
+
+function shouldShowWelcome() {
+    return Object.keys(AI_MODELS).every(modelId => !apiKeys[modelId]);
+}
+
+// ========================================
+// KONFIGURATIONS-MANAGEMENT
+// ========================================
+
 function loadApiKeys() {
-    try {
-        if (fs.existsSync(API_KEY_FILE)) {
-            apiKey = fs.readFileSync(API_KEY_FILE, 'utf8').trim();
-            console.log('✅ Claude API Key geladen');
+    Object.keys(AI_MODELS).forEach(modelId => {
+        const model = AI_MODELS[modelId];
+        const keyFile = path.join(os.homedir(), model.keyFile);
+        
+        try {
+            if (fs.existsSync(keyFile)) {
+                apiKeys[modelId] = fs.readFileSync(keyFile, 'utf8').trim();
+                console.log(`✅ ${model.name} API Key geladen`);
+            }
+        } catch (error) {
+            console.log(`❌ Fehler beim Laden des ${model.name} API Keys:`, error);
         }
-        if (fs.existsSync(OPENAI_KEY_FILE)) {
-            openaiApiKey = fs.readFileSync(OPENAI_KEY_FILE, 'utf8').trim();
-            console.log('✅ OpenAI API Key geladen');
-        }
-    } catch (error) {
-        console.log('❌ Fehler beim Laden der API Keys:', error);
-    }
+    });
 }
 
 function loadSelectedModel() {
     try {
         if (fs.existsSync(MODEL_FILE)) {
-            currentModel = fs.readFileSync(MODEL_FILE, 'utf8').trim();
-            console.log('✅ Ausgewähltes Model:', currentModel);
+            const savedModel = fs.readFileSync(MODEL_FILE, 'utf8').trim();
+            if (AI_MODELS[savedModel]) {
+                currentModel = savedModel;
+                console.log('✅ Ausgewähltes Model:', currentModel);
+            }
         }
     } catch (error) {
         console.log('❌ Fehler beim Laden des Models:', error);
     }
 }
+
+function saveSelectedModel() {
+    try {
+        fs.writeFileSync(MODEL_FILE, currentModel, { mode: 0o600 });
+    } catch (error) {
+        console.log('❌ Fehler beim Speichern des Models:', error);
+    }
+}
+
+// ========================================
+// TOKEN-MANAGEMENT
+// ========================================
 
 function loadTokenUsage() {
     try {
@@ -145,30 +227,24 @@ function loadTokenUsage() {
                 // Gleicher Tag - Daten übernehmen
                 tokenUsage = data;
                 console.log('✅ Token-Statistik vom gleichen Tag geladen');
-                console.log('Geladene Werte:', {
-                    claude: data.claude,
-                    chatgpt: data.chatgpt
+                
+                // Stelle sicher, dass alle Modelle existieren
+                Object.keys(AI_MODELS).forEach(modelId => {
+                    if (!tokenUsage[modelId]) {
+                        tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
+                    }
                 });
             } else {
                 // Anderer Tag - Reset
                 console.log('🔄 Neuer Tag erkannt - Reset der Statistik');
                 console.log('Alt:', data.daily, 'Neu:', today);
-                
-                tokenUsage = {
-                    claude: { input: 0, output: 0, cost: 0 },
-                    chatgpt: { input: 0, output: 0, cost: 0 },
-                    daily: today
-                };
+                initializeTokenUsage();
                 saveTokenUsage();
             }
         } else {
             // Keine Datei vorhanden
             console.log('📄 Keine Token-Datei gefunden - erstelle neue');
-            tokenUsage = {
-                claude: { input: 0, output: 0, cost: 0 },
-                chatgpt: { input: 0, output: 0, cost: 0 },
-                daily: today
-            };
+            initializeTokenUsage();
             saveTokenUsage();
         }
         
@@ -181,11 +257,7 @@ function loadTokenUsage() {
         console.error('❌ Fehler beim Laden der Token-Statistik:', error);
         
         // Bei Fehler mit leeren Werten starten
-        tokenUsage = {
-            claude: { input: 0, output: 0, cost: 0 },
-            chatgpt: { input: 0, output: 0, cost: 0 },
-            daily: new Date().toDateString()
-        };
+        initializeTokenUsage();
         saveTokenUsage();
     }
 }
@@ -199,9 +271,6 @@ function saveTokenUsage() {
 }
 
 function estimateTokens(text) {
-    // Verbesserte Schätzung basierend auf OpenAI's Faustregel
-    // Berücksichtigt auch Code-Strukturen
-    
     if (!text) return 0;
     
     // Basis: ~4 Zeichen = 1 Token für normalen Text
@@ -222,95 +291,55 @@ function estimateTokens(text) {
     return Math.ceil(tokens);
 }
 
-function updateTokenUsage(model, inputText, outputText) {
+function updateTokenUsage(modelId, inputText, outputText) {
     const inputTokens = estimateTokens(inputText);
     const outputTokens = estimateTokens(outputText);
     
-    tokenUsage[model].input += inputTokens;
-    tokenUsage[model].output += outputTokens;
+    tokenUsage[modelId].input += inputTokens;
+    tokenUsage[modelId].output += outputTokens;
     
     // Kosten berechnen
-    const inputCost = inputTokens * TOKEN_PRICES[model].input;
-    const outputCost = outputTokens * TOKEN_PRICES[model].output;
-    tokenUsage[model].cost += (inputCost + outputCost);
+    const model = AI_MODELS[modelId];
+    const inputCost = inputTokens * model.prices.input;
+    const outputCost = outputTokens * model.prices.output;
+    tokenUsage[modelId].cost += (inputCost + outputCost);
     
     saveTokenUsage();
     updateStatusBar();
 }
 
-function saveSelectedModel() {
-    try {
-        fs.writeFileSync(MODEL_FILE, currentModel, { mode: 0o600 });
-    } catch (error) {
-        console.log('❌ Fehler beim Speichern des Models:', error);
-    }
-}
+// ========================================
+// UI-FUNKTIONEN
+// ========================================
 
 function updateStatusBar() {
-    const hasApiKey = (currentModel === 'claude' && apiKey) || (currentModel === 'chatgpt' && openaiApiKey);
-    const modelIcon = currentModel === 'claude' ? '🤖' : '🧠';
-    const modelName = currentModel === 'claude' ? 'Claude' : 'GPT-4';
+    const model = AI_MODELS[currentModel];
+    const hasApiKey = apiKeys[currentModel];
     
     // Kosten für heute
     const todayCost = tokenUsage[currentModel].cost.toFixed(3);
     const costDisplay = todayCost > 0 ? ` ($${todayCost})` : '';
     
     if (hasApiKey) {
-        statusBarItem.text = `${modelIcon} AI.duino${costDisplay}`;
-        statusBarItem.tooltip = `AI.duino v1.0: ${modelName}\n` +
+        statusBarItem.text = `${model.icon} AI.duino${costDisplay}`;
+        statusBarItem.tooltip = `AI.duino v1.1: ${model.name}\n` +
             `Heute: ${tokenUsage[currentModel].input + tokenUsage[currentModel].output} Tokens${costDisplay}\n` +
             `Input: ${tokenUsage[currentModel].input} | Output: ${tokenUsage[currentModel].output}\n` +
             `Klick für Menü • Strg+Shift+C • Rechtsklick zum Wechseln`;
         statusBarItem.backgroundColor = undefined;
     } else {
-        statusBarItem.text = `${modelIcon} AI.duino $(warning)`;
-        statusBarItem.tooltip = `${modelName} API Key fehlt! • Klick zum Einrichten`;
+        statusBarItem.text = `${model.icon} AI.duino $(warning)`;
+        statusBarItem.tooltip = `${model.name} API Key fehlt! • Klick zum Einrichten`;
         statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
     }
 }
-
-async function switchModel() {
-    const items = [
-        {
-            label: '🤖 Claude (Anthropic)',
-            description: currentModel === 'claude' ? '✓ Aktiv' : 'Claude-3.5-Sonnet',
-            value: 'claude'
-        },
-        {
-            label: '🧠 ChatGPT (OpenAI)',
-            description: currentModel === 'chatgpt' ? '✓ Aktiv' : 'GPT-4',
-            value: 'chatgpt'
-        }
-    ];
-    
-    const selected = await vscode.window.showQuickPick(items, {
-        placeHolder: 'Wähle das AI-Modell'
-    });
-    
-    if (selected) {
-        currentModel = selected.value;
-        saveSelectedModel();
-        updateStatusBar();
-        
-        // Prüfe ob API Key vorhanden
-        const hasKey = (currentModel === 'claude' && apiKey) || (currentModel === 'chatgpt' && openaiApiKey);
-        if (!hasKey) {
-            const choice = await vscode.window.showWarningMessage(
-                `${selected.label} benötigt einen API Key`,
-                'Jetzt eingeben',
-                'Später'
-            );
-            if (choice === 'Jetzt eingeben') {
-                await setApiKey();
-            }
-        } else {
-            vscode.window.showInformationMessage(`✅ Gewechselt zu ${selected.label}`);
-        }
-    }
-}
+// ========================================
+// MENÜ-FUNKTIONEN
+// ========================================
 
 async function showWelcomeMessage() {
-    const message = '👋 Willkommen! AI.duino v1.0 unterstützt Claude und ChatGPT!';
+    const modelList = Object.values(AI_MODELS).map(m => m.name).join(', ');
+    const message = `👋 Willkommen! AI.duino v1.1 unterstützt ${modelList}!`;
     const choice = await vscode.window.showInformationMessage(
         message,
         'AI-Modell wählen',
@@ -323,12 +352,12 @@ async function showWelcomeMessage() {
 }
 
 async function showQuickMenu() {
-    const hasApiKey = (currentModel === 'claude' && apiKey) || (currentModel === 'chatgpt' && openaiApiKey);
+    const model = AI_MODELS[currentModel];
+    const hasApiKey = apiKeys[currentModel];
     
     if (!hasApiKey) {
-        const modelName = currentModel === 'claude' ? 'Claude' : 'ChatGPT';
         const choice = await vscode.window.showWarningMessage(
-            `🔑 Zuerst brauchst du einen ${modelName} API Key`,
+            `🔑 Zuerst brauchst du einen ${model.name} API Key`,
             'Jetzt einrichten',
             'Modell wechseln',
             'Abbrechen'
@@ -378,19 +407,19 @@ async function showQuickMenu() {
         },
         {
             label: '$(sync) AI-Modell wechseln',
-            description: `Aktuell: ${currentModel === 'claude' ? 'Claude' : 'ChatGPT'}`,
+            description: `Aktuell: ${model.name}`,
             command: 'aiduino.switchModel',
             enabled: true
         },
         {
             label: '$(key) API Key ändern',
-            description: `${currentModel === 'claude' ? 'Claude' : 'ChatGPT'} Key`,
+            description: `${model.name} Key`,
             command: 'aiduino.setApiKey',
             enabled: true
         },
         {
             label: '$(graph) Token-Statistik',
-            description: `Heute: $${tokenUsage.claude.cost.toFixed(3)} (Claude) | $${tokenUsage.chatgpt.cost.toFixed(3)} (GPT)`,
+            description: generateTokenStatsDescription(),
             command: 'aiduino.showTokenStats',
             enabled: true
         }
@@ -405,7 +434,7 @@ async function showQuickMenu() {
     
     const selected = await vscode.window.showQuickPick(items, {
         placeHolder: 'Was möchtest du tun?',
-        title: `🤖 AI.duino v1.0 (${currentModel === 'claude' ? 'Claude' : 'ChatGPT'})`
+        title: `🤖 AI.duino v1.1 (${model.name})`
     });
     
     if (selected) {
@@ -413,36 +442,82 @@ async function showQuickMenu() {
     }
 }
 
+function generateTokenStatsDescription() {
+    const parts = [];
+    Object.keys(AI_MODELS).forEach(modelId => {
+        const model = AI_MODELS[modelId];
+        const cost = tokenUsage[modelId].cost.toFixed(3);
+        parts.push(`$${cost} (${model.name})`);
+    });
+    return `Heute: ${parts.join(' | ')}`;
+}
+
+// ========================================
+// MODEL-MANAGEMENT
+// ========================================
+
+async function switchModel() {
+    const items = Object.keys(AI_MODELS).map(modelId => {
+        const model = AI_MODELS[modelId];
+        return {
+            label: `${model.icon} ${model.name} (${model.fullName.includes('Anthropic') ? 'Anthropic' : model.fullName.includes('OpenAI') ? 'OpenAI' : 'Google'})`,
+            description: currentModel === modelId ? '✓ Aktiv' : model.fullName,
+            value: modelId
+        };
+    });
+    
+    const selected = await vscode.window.showQuickPick(items, {
+        placeHolder: 'Wähle das AI-Modell'
+    });
+    
+    if (selected) {
+        currentModel = selected.value;
+        saveSelectedModel();
+        updateStatusBar();
+        
+        // Prüfe ob API Key vorhanden
+        if (!apiKeys[currentModel]) {
+            const model = AI_MODELS[currentModel];
+            const choice = await vscode.window.showWarningMessage(
+                `${model.icon} ${model.name} benötigt einen API Key`,
+                'Jetzt eingeben',
+                'Später'
+            );
+            if (choice === 'Jetzt eingeben') {
+                await setApiKey();
+            }
+        } else {
+            const model = AI_MODELS[currentModel];
+            vscode.window.showInformationMessage(`✅ Gewechselt zu ${model.icon} ${model.name}`);
+        }
+    }
+}
+
 async function setApiKey() {
-    const modelName = currentModel === 'claude' ? 'Claude' : 'OpenAI';
-    const prefix = currentModel === 'claude' ? 'sk-ant-' : 'sk-';
-    const minLength = currentModel === 'claude' ? 50 : 40;
+    const model = AI_MODELS[currentModel];
+    const providerName = getProviderName(currentModel);
     
     const input = await vscode.window.showInputBox({
-        prompt: `${modelName} API Key eingeben`,
-        placeHolder: currentModel === 'claude' ? 'sk-ant-api-...' : 'sk-...',
+        prompt: `${providerName} API Key eingeben`,
+        placeHolder: model.keyPrefix + '...',
         password: true,
         ignoreFocusOut: true,
         validateInput: (value) => {
             if (!value) return 'API Key erforderlich';
-            if (!value.startsWith(prefix)) return `Muss mit "${prefix}" beginnen`;
-            if (value.length < minLength) return 'Key scheint zu kurz';
+            if (!value.startsWith(model.keyPrefix)) return `Muss mit "${model.keyPrefix}" beginnen`;
+            if (value.length < model.keyMinLength) return 'Key scheint zu kurz';
             return null;
         }
     });
     
     if (input) {
         try {
-            if (currentModel === 'claude') {
-                apiKey = input;
-                fs.writeFileSync(API_KEY_FILE, apiKey, { mode: 0o600 });
-            } else {
-                openaiApiKey = input;
-                fs.writeFileSync(OPENAI_KEY_FILE, openaiApiKey, { mode: 0o600 });
-            }
+            const keyFile = path.join(os.homedir(), model.keyFile);
+            apiKeys[currentModel] = input;
+            fs.writeFileSync(keyFile, input, { mode: 0o600 });
             updateStatusBar();
             vscode.window.showInformationMessage(
-                `✅ ${modelName} API Key gespeichert!`
+                `✅ ${providerName} API Key gespeichert!`
             );
             return true;
         } catch (error) {
@@ -455,21 +530,177 @@ async function setApiKey() {
     return false;
 }
 
-// Erweiterte API-Aufruf-Funktion für beide Modelle
-function callAI(prompt) {
-    if (currentModel === 'claude') {
-        return callClaudeAPI(prompt);
+function getProviderName(modelId) {
+    const providers = {
+        claude: 'Claude',
+        chatgpt: 'OpenAI',
+        gemini: 'Google'
+    };
+    return providers[modelId] || AI_MODELS[modelId].name;
+}
+
+// ========================================
+// ERROR HANDLING
+// ========================================
+
+function handleApiError(error) {
+    const model = AI_MODELS[currentModel];
+    
+    // Spezifische Fehlerbehandlung
+    if (error.message.includes('ENOTFOUND') || error.message.includes('ETIMEDOUT') || 
+        error.message.includes('ECONNREFUSED') || error.message.includes('Netzwerkfehler')) {
+        
+        vscode.window.showErrorMessage(
+            `🌐 Keine Internetverbindung`,
+            'Nochmal versuchen',
+            'Offline-Hilfe'
+        ).then(selection => {
+            if (selection === 'Nochmal versuchen') {
+                vscode.window.showInformationMessage('Versuche es in ein paar Sekunden nochmal...');
+            } else if (selection === 'Offline-Hilfe') {
+                showOfflineHelp();
+            }
+        });
+        
+    } else if (error.message.includes('API Key')) {
+        vscode.window.showErrorMessage(
+            `🔑 ${error.message}`,
+            'API Key eingeben',
+            'Modell wechseln'
+        ).then(selection => {
+            if (selection === 'API Key eingeben') {
+                vscode.commands.executeCommand('aiduino.setApiKey');
+            } else if (selection === 'Modell wechseln') {
+                vscode.commands.executeCommand('aiduino.switchModel');
+            }
+        });
+        
+    } else if (error.message.includes('Rate Limit')) {
+        vscode.window.showErrorMessage(
+            `⏱️ ${model.name} Rate Limit erreicht`,
+            'Modell wechseln',
+            'Später nochmal'
+        ).then(selection => {
+            if (selection === 'Modell wechseln') {
+                vscode.commands.executeCommand('aiduino.switchModel');
+            }
+        });
+        
     } else {
-        return callChatGPTAPI(prompt);
+        vscode.window.showErrorMessage(`❌ ${model.name} Fehler: ${error.message}`);
     }
 }
 
+async function withRetryableProgress(title, task) {
+    let retryCount = 0;
+    const maxRetries = 3;
+    
+    while (retryCount < maxRetries) {
+        try {
+            return await vscode.window.withProgress({
+                location: vscode.ProgressLocation.Notification,
+                title: retryCount > 0 ? `${title} (Versuch ${retryCount + 1}/${maxRetries})` : title,
+                cancellable: true
+            }, async (progress, token) => {
+                token.onCancellationRequested(() => {
+                    console.log("User cancelled the operation");
+                });
+                
+                if (token.isCancellationRequested) {
+                    throw new Error('Vorgang abgebrochen');
+                }
+                
+                return await task();
+            });
+        } catch (error) {
+            retryCount++;
+            
+            if (error.message.includes('Netzwerkfehler') || 
+                error.message.includes('Zeitüberschreitung') ||
+                error.message.includes('nicht erreichbar')) {
+                
+                if (retryCount < maxRetries) {
+                    const retry = await vscode.window.showWarningMessage(
+                        `Verbindungsfehler. Nochmal versuchen?`,
+                        'Ja',
+                        'Nein'
+                    );
+                    
+                    if (retry !== 'Ja') {
+                        throw error;
+                    }
+                    
+                    // Warte kurz vor dem nächsten Versuch
+                    await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
+                } else {
+                    throw error;
+                }
+            } else {
+                throw error;
+            }
+        }
+    }
+}
+
+// ========================================
+// FEHLER-DIAGNOSE
+// ========================================
+
+async function checkForErrors(silent = true) {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor || !editor.document.fileName.endsWith('.ino')) {
+        return false;
+    }
+    
+    const diagnostics = vscode.languages.getDiagnostics(editor.document.uri);
+    const errors = diagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
+    
+    if (errors.length > 0 && !silent) {
+        const model = AI_MODELS[currentModel];
+        statusBarItem.text = `${model.icon} AI.duino $(error)`;
+        statusBarItem.tooltip = `${errors.length} Fehler gefunden • Klick für Hilfe`;
+        statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
+        
+        setTimeout(() => updateStatusBar(), 5000);
+    }
+    
+    return errors.length > 0;
+}
+// ========================================
+// ZENTRALE API-AUFRUF FUNKTION
+// ========================================
+
+function callAI(prompt) {
+    const apiHandlers = {
+        claude: callClaudeAPI,
+        chatgpt: callChatGPTAPI,
+        gemini: callGeminiAPI
+    };
+    
+    const handler = apiHandlers[currentModel];
+    if (!handler) {
+        return Promise.reject(new Error(`Unbekanntes Modell: ${currentModel}`));
+    }
+    
+    return handler(prompt);
+}
+
+// ========================================
+// CLAUDE API
+// ========================================
+
 function callClaudeAPI(prompt) {
     return new Promise((resolve, reject) => {
-        if (!apiKey) {
+        if (!apiKeys.claude) {
             reject(new Error('Kein Claude API Key gesetzt'));
             return;
         }
+
+        // Timeout für Anfragen
+        const timeout = setTimeout(() => {
+            req.destroy();
+            reject(new Error('Zeitüberschreitung - Bitte Internetverbindung prüfen'));
+        }, 30000); // 30 Sekunden Timeout
 
         const data = JSON.stringify({
             model: "claude-3-5-sonnet-20241022",
@@ -488,12 +719,13 @@ function callClaudeAPI(prompt) {
             headers: {
                 'Content-Type': 'application/json',
                 'Content-Length': Buffer.byteLength(data),
-                'x-api-key': apiKey,
+                'x-api-key': apiKeys.claude,
                 'anthropic-version': '2023-06-01'
             }
         };
 
         const req = https.request(options, (res) => {
+            clearTimeout(timeout);
             let responseData = '';
 
             res.on('data', (chunk) => {
@@ -506,17 +738,25 @@ function callClaudeAPI(prompt) {
                     
                     if (res.statusCode === 200) {
                         const response = parsedData.content[0].text;
-                        
-                        // Token-Tracking hinzufügen
                         updateTokenUsage('claude', prompt, response);
                         console.log('Claude tokens tracked:', estimateTokens(prompt), 'in,', estimateTokens(response), 'out');
-                        
                         resolve(response);
                     } else {
-                        if (res.statusCode === 401) {
-                            reject(new Error('Claude API Key ungültig'));
-                        } else {
-                            reject(new Error(`Claude API Error (${res.statusCode}): ${parsedData.error?.message || 'Unbekannter Fehler'}`));
+                        // Spezifische Fehlermeldungen
+                        switch(res.statusCode) {
+                            case 401:
+                                reject(new Error('Claude API Key ungültig'));
+                                break;
+                            case 429:
+                                reject(new Error('Claude Rate Limit erreicht - bitte warte einen Moment'));
+                                break;
+                            case 500:
+                            case 502:
+                            case 503:
+                                reject(new Error('Claude Server momentan nicht erreichbar'));
+                                break;
+                            default:
+                                reject(new Error(`Claude API Error (${res.statusCode}): ${parsedData.error?.message || 'Unbekannter Fehler'}`));
                         }
                     }
                 } catch (e) {
@@ -526,7 +766,8 @@ function callClaudeAPI(prompt) {
         });
 
         req.on('error', (e) => {
-            reject(new Error('Netzwerkfehler: ' + e.message));
+            clearTimeout(timeout);
+            reject(handleNetworkError(e));
         });
 
         req.write(data);
@@ -534,13 +775,21 @@ function callClaudeAPI(prompt) {
     });
 }
 
+// ========================================
+// CHATGPT API
+// ========================================
 
 function callChatGPTAPI(prompt) {
     return new Promise((resolve, reject) => {
-        if (!openaiApiKey) {
+        if (!apiKeys.chatgpt) {
             reject(new Error('Kein OpenAI API Key gesetzt'));
             return;
         }
+
+        const timeout = setTimeout(() => {
+            req.destroy();
+            reject(new Error('Zeitüberschreitung - Bitte Internetverbindung prüfen'));
+        }, 30000);
 
         const data = JSON.stringify({
             model: "gpt-4",
@@ -566,11 +815,12 @@ function callChatGPTAPI(prompt) {
             headers: {
                 'Content-Type': 'application/json',
                 'Content-Length': Buffer.byteLength(data),
-                'Authorization': `Bearer ${openaiApiKey}`
+                'Authorization': `Bearer ${apiKeys.chatgpt}`
             }
         };
 
         const req = https.request(options, (res) => {
+            clearTimeout(timeout);
             let responseData = '';
 
             res.on('data', (chunk) => {
@@ -583,17 +833,24 @@ function callChatGPTAPI(prompt) {
                     
                     if (res.statusCode === 200) {
                         const response = parsedData.choices[0].message.content;
-                        
-                        // Token-Tracking hinzufügen
                         updateTokenUsage('chatgpt', prompt, response);
                         console.log('ChatGPT tokens tracked:', estimateTokens(prompt), 'in,', estimateTokens(response), 'out');
-                        
                         resolve(response);
                     } else {
-                        if (res.statusCode === 401) {
-                            reject(new Error('OpenAI API Key ungültig'));
-                        } else {
-                            reject(new Error(`OpenAI API Error (${res.statusCode}): ${parsedData.error?.message || 'Unbekannter Fehler'}`));
+                        switch(res.statusCode) {
+                            case 401:
+                                reject(new Error('OpenAI API Key ungültig'));
+                                break;
+                            case 429:
+                                reject(new Error('ChatGPT Rate Limit erreicht - bitte warte einen Moment'));
+                                break;
+                            case 500:
+                            case 502:
+                            case 503:
+                                reject(new Error('OpenAI Server momentan nicht erreichbar'));
+                                break;
+                            default:
+                                reject(new Error(`OpenAI API Error (${res.statusCode}): ${parsedData.error?.message || 'Unbekannter Fehler'}`));
                         }
                     }
                 } catch (e) {
@@ -601,8 +858,10 @@ function callChatGPTAPI(prompt) {
                 }
             });
         });
+
         req.on('error', (e) => {
-            reject(new Error('Netzwerkfehler: ' + e.message));
+            clearTimeout(timeout);
+            reject(handleNetworkError(e));
         });
 
         req.write(data);
@@ -610,7 +869,325 @@ function callChatGPTAPI(prompt) {
     });
 }
 
-// Alle anderen Funktionen verwenden jetzt callAI statt callClaudeAPI
+// ========================================
+// GEMINI API
+// ========================================
+
+function callGeminiAPI(prompt) {
+    return new Promise((resolve, reject) => {
+        if (!apiKeys.gemini) {
+            reject(new Error('Kein Gemini API Key gesetzt'));
+            return;
+        }
+
+        const timeout = setTimeout(() => {
+            req.destroy();
+            reject(new Error('Zeitüberschreitung - Bitte Internetverbindung prüfen'));
+        }, 30000);
+
+        const data = JSON.stringify({
+            contents: [{
+                parts: [{
+                    text: prompt
+                }]
+            }],
+            generationConfig: {
+                temperature: 0.7,
+                topK: 1,
+                topP: 1,
+                maxOutputTokens: 2048,
+            },
+            safetySettings: [
+                {
+                    category: "HARM_CATEGORY_HARASSMENT",
+                    threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                },
+                {
+                    category: "HARM_CATEGORY_HATE_SPEECH",
+                    threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                },
+                {
+                    category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                    threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                },
+                {
+                    category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+                    threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                }
+            ]
+        });
+
+        const options = {
+            hostname: 'generativelanguage.googleapis.com',
+            port: 443,
+            path: `/v1beta/models/gemini-pro:generateContent?key=${apiKeys.gemini}`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(data)
+            }
+        };
+
+        const req = https.request(options, (res) => {
+            clearTimeout(timeout);
+            let responseData = '';
+
+            res.on('data', (chunk) => {
+                responseData += chunk;
+            });
+
+            res.on('end', () => {
+                try {
+                    const parsedData = JSON.parse(responseData);
+                    
+                    if (res.statusCode === 200) {
+                        if (parsedData.candidates && parsedData.candidates[0] && 
+                            parsedData.candidates[0].content && 
+                            parsedData.candidates[0].content.parts && 
+                            parsedData.candidates[0].content.parts[0]) {
+                            
+                            const response = parsedData.candidates[0].content.parts[0].text;
+                            updateTokenUsage('gemini', prompt, response);
+                            console.log('Gemini tokens tracked:', estimateTokens(prompt), 'in,', estimateTokens(response), 'out');
+                            resolve(response);
+                        } else {
+                            reject(new Error('Unerwartete Gemini API Antwort-Struktur'));
+                        }
+                    } else {
+                        switch(res.statusCode) {
+                            case 401:
+                            case 403:
+                                reject(new Error('Gemini API Key ungültig'));
+                                break;
+                            case 429:
+                                reject(new Error('Gemini Rate Limit erreicht - bitte warte einen Moment'));
+                                break;
+                            case 500:
+                            case 502:
+                            case 503:
+                                reject(new Error('Google Server momentan nicht erreichbar'));
+                                break;
+                            default:
+                                reject(new Error(`Gemini API Error (${res.statusCode}): ${parsedData.error?.message || 'Unbekannter Fehler'}`));
+                        }
+                    }
+                } catch (e) {
+                    reject(new Error('Fehler beim Parsen der Gemini-Antwort: ' + e.message));
+                }
+            });
+        });
+
+        req.on('error', (e) => {
+            clearTimeout(timeout);
+            reject(handleNetworkError(e));
+        });
+
+        req.write(data);
+        req.end();
+    });
+}
+
+// ========================================
+// NETWORK ERROR HANDLING
+// ========================================
+
+function handleNetworkError(error) {
+    const errorMessages = {
+        'ENOTFOUND': 'Keine Internetverbindung - DNS-Auflösung fehlgeschlagen',
+        'ETIMEDOUT': 'Zeitüberschreitung - Internetverbindung zu langsam',
+        'ECONNREFUSED': 'Verbindung verweigert - Firewall oder Proxy-Problem?',
+        'ECONNRESET': 'Verbindung unterbrochen - instabile Internetverbindung',
+        'EHOSTUNREACH': 'Server nicht erreichbar - Netzwerkproblem',
+        'ENETUNREACH': 'Netzwerk nicht erreichbar - Router-Problem?',
+        'ECONNABORTED': 'Verbindung abgebrochen - Timeout oder Netzwerkfehler'
+    };
+    
+    const message = errorMessages[error.code] || `Netzwerkfehler: ${error.message}`;
+    return new Error(message);
+}
+// ========================================
+// CODE-ANALYSE FUNKTIONEN
+// ========================================
+
+async function explainCode() {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showWarningMessage('Kein Code-Editor aktiv');
+        return;
+    }
+    
+    const selection = editor.selection;
+    const selectedText = editor.document.getText(selection);
+    
+    if (!selectedText.trim()) {
+        vscode.window.showWarningMessage('Bitte markiere den Code, den du erklärt haben möchtest');
+        return;
+    }
+    
+    const prompt = `Erkläre diesen Arduino-Code auf Deutsch in einfacher, verständlicher Sprache:
+
+\`\`\`cpp
+${selectedText}
+\`\`\`
+
+Erkläre:
+- Was der Code macht
+- Wie er funktioniert
+- Welche Hardware er ansteuert
+- Wichtige Konzepte für Anfänger
+
+Sei freundlich und ausführlich.`;
+    
+    try {
+        const model = AI_MODELS[currentModel];
+        await withRetryableProgress(
+            `${model.name} erklärt den Code...`,
+            async () => {
+                const response = await callAI(prompt);
+                
+                const outputChannel = vscode.window.createOutputChannel(`${model.name} Erklärung`);
+                outputChannel.clear();
+                outputChannel.appendLine(`🤖 CODE-ERKLÄRUNG VON ${model.name.toUpperCase()}`);
+                outputChannel.appendLine('='.repeat(50));
+                outputChannel.appendLine('');
+                outputChannel.appendLine(response);
+                outputChannel.show();
+            }
+        );
+    } catch (error) {
+        handleApiError(error);
+    }
+}
+
+async function improveCode() {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showWarningMessage('Kein Code-Editor aktiv');
+        return;
+    }
+    
+    const selection = editor.selection;
+    const selectedText = editor.document.getText(selection);
+    
+    if (!selectedText.trim()) {
+        vscode.window.showWarningMessage('Bitte markiere den Code, den du verbessern möchtest');
+        return;
+    }
+    
+    const prompt = `Verbessere diesen Arduino-Code:
+
+\`\`\`cpp
+${selectedText}
+\`\`\`
+
+Optimiere für:
+- Non-blocking Code (millis statt delay)
+- Speicher-Effizienz
+- Bessere Lesbarkeit
+- Arduino Best Practices
+- Robustheit
+
+Gib nur den verbesserten Code zurück mit kurzen deutschen Kommentaren bei Änderungen.`;
+    
+    try {
+        const model = AI_MODELS[currentModel];
+        await withRetryableProgress(
+            `${model.name} optimiert den Code...`,
+            async () => {
+                const response = await callAI(prompt);
+                
+                const doc = await vscode.workspace.openTextDocument({
+                    content: response,
+                    language: 'cpp'
+                });
+                
+                await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+                
+                const choice = await vscode.window.showInformationMessage(
+                    '✅ Code verbessert! Was möchtest du tun?',
+                    'Original ersetzen',
+                    'Beide behalten'
+                );
+                
+                if (choice === 'Original ersetzen') {
+                    await editor.edit(editBuilder => {
+                        editBuilder.replace(selection, response);
+                    });
+                    vscode.window.showInformationMessage('✅ Code wurde ersetzt!');
+                }
+            }
+        );
+    } catch (error) {
+        handleApiError(error);
+    }
+}
+
+async function addComments() {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) return;
+    
+    const selection = editor.selection;
+    const selectedText = editor.document.getText(selection);
+    
+    if (!selectedText.trim()) {
+        vscode.window.showWarningMessage(
+            '💡 Markiere den Code, den du kommentieren möchtest'
+        );
+        return;
+    }
+    
+    const prompt = `Füge hilfreiche deutsche Kommentare zu diesem Arduino-Code hinzu:
+
+\`\`\`cpp
+${selectedText}
+\`\`\`
+
+Regeln:
+- Erkläre was jede wichtige Zeile macht
+- Kommentiere Funktionen und ihre Parameter
+- Erkläre Hardware-Interaktionen
+- Nutze // für einzeilige und /* */ für mehrzeilige Kommentare
+- Kommentare sollen Anfängern helfen
+
+Gib NUR den kommentierten Code zurück, keine Erklärungen drumherum.`;
+    
+    try {
+        const model = AI_MODELS[currentModel];
+        await withRetryableProgress(
+            `${model.name} fügt Kommentare hinzu...`,
+            async () => {
+                const response = await callAI(prompt);
+                
+                const preview = await vscode.workspace.openTextDocument({
+                    content: response,
+                    language: 'cpp'
+                });
+                
+                await vscode.window.showTextDocument(preview, vscode.ViewColumn.Beside);
+                
+                const choice = await vscode.window.showInformationMessage(
+                    'Kommentare hinzugefügt! Was möchtest du tun?',
+                    'Code ersetzen',
+                    'So lassen'
+                );
+                
+                if (choice === 'Code ersetzen') {
+                    await editor.edit(editBuilder => {
+                        editBuilder.replace(selection, response);
+                    });
+                    vscode.window.showInformationMessage('✅ Code wurde aktualisiert!');
+                }
+            }
+        );
+    } catch (error) {
+        handleApiError(error);
+    }
+}
+
+// ========================================
+// FEHLER-ANALYSE
+// ========================================
+
 async function explainError() {
     const editor = vscode.window.activeTextEditor;
     if (!editor || !editor.document.fileName.endsWith('.ino')) {
@@ -653,206 +1230,35 @@ Bitte erkläre:
 Erkläre einfach und verständlich auf Deutsch.`;
     
     try {
-        await vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-            title: `${currentModel === 'claude' ? 'Claude' : 'ChatGPT'} analysiert den Fehler...`,
-            cancellable: false
-        }, async () => {
-            const response = await callAI(prompt);
-            
-            const panel = vscode.window.createWebviewPanel(
-                'aiError',
-                '🔧 Fehler-Erklärung',
-                vscode.ViewColumn.Beside,
-                { enableScripts: true }
-            );
-            
-            panel.webview.html = createErrorExplanationHtml(
-                errorInput,
-                line + 1,
-                response,
-                currentModel
-            );
-        });
-    } catch (error) {
-        handleApiError(error);
-    }
-}
-
-async function explainCode() {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-        vscode.window.showWarningMessage('Kein Code-Editor aktiv');
-        return;
-    }
-    
-    const selection = editor.selection;
-    const selectedText = editor.document.getText(selection);
-    
-    if (!selectedText.trim()) {
-        vscode.window.showWarningMessage('Bitte markiere den Code, den du erklärt haben möchtest');
-        return;
-    }
-    
-    const prompt = `Erkläre diesen Arduino-Code auf Deutsch in einfacher, verständlicher Sprache:
-
-\`\`\`cpp
-${selectedText}
-\`\`\`
-
-Erkläre:
-- Was der Code macht
-- Wie er funktioniert
-- Welche Hardware er ansteuert
-- Wichtige Konzepte für Anfänger
-
-Sei freundlich und ausführlich.`;
-    
-    try {
-        await vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-            title: `${currentModel === 'claude' ? 'Claude' : 'ChatGPT'} erklärt den Code...`,
-            cancellable: false
-        }, async () => {
-            const response = await callAI(prompt);
-            
-            const outputChannel = vscode.window.createOutputChannel(`${currentModel === 'claude' ? 'Claude' : 'ChatGPT'} Erklärung`);
-            outputChannel.clear();
-            outputChannel.appendLine(`🤖 CODE-ERKLÄRUNG VON ${currentModel === 'claude' ? 'CLAUDE' : 'CHATGPT'}`);
-            outputChannel.appendLine('='.repeat(50));
-            outputChannel.appendLine('');
-            outputChannel.appendLine(response);
-            outputChannel.show();
-        });
-    } catch (error) {
-        handleApiError(error);
-    }
-}
-
-async function improveCode() {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-        vscode.window.showWarningMessage('Kein Code-Editor aktiv');
-        return;
-    }
-    
-    const selection = editor.selection;
-    const selectedText = editor.document.getText(selection);
-    
-    if (!selectedText.trim()) {
-        vscode.window.showWarningMessage('Bitte markiere den Code, den du verbessern möchtest');
-        return;
-    }
-    
-    const prompt = `Verbessere diesen Arduino-Code:
-
-\`\`\`cpp
-${selectedText}
-\`\`\`
-
-Optimiere für:
-- Non-blocking Code (millis statt delay)
-- Speicher-Effizienz
-- Bessere Lesbarkeit
-- Arduino Best Practices
-- Robustheit
-
-Gib nur den verbesserten Code zurück mit kurzen deutschen Kommentaren bei Änderungen.`;
-    
-    try {
-        await vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-            title: `${currentModel === 'claude' ? 'Claude' : 'ChatGPT'} optimiert den Code...`,
-            cancellable: false
-        }, async () => {
-            const response = await callAI(prompt);
-            
-            const doc = await vscode.workspace.openTextDocument({
-                content: response,
-                language: 'cpp'
-            });
-            
-            await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
-            
-            const choice = await vscode.window.showInformationMessage(
-                '✅ Code verbessert! Was möchtest du tun?',
-                'Original ersetzen',
-                'Beide behalten'
-            );
-            
-            if (choice === 'Original ersetzen') {
-                await editor.edit(editBuilder => {
-                    editBuilder.replace(selection, response);
-                });
-                vscode.window.showInformationMessage('✅ Code wurde ersetzt!');
+        const model = AI_MODELS[currentModel];
+        await withRetryableProgress(
+            `${model.name} analysiert den Fehler...`,
+            async () => {
+                const response = await callAI(prompt);
+                
+                const panel = vscode.window.createWebviewPanel(
+                    'aiError',
+                    '🔧 Fehler-Erklärung',
+                    vscode.ViewColumn.Beside,
+                    { enableScripts: true }
+                );
+                
+                panel.webview.html = createErrorExplanationHtml(
+                    errorInput,
+                    line + 1,
+                    response,
+                    currentModel
+                );
             }
-        });
-    } catch (error) {
-        handleApiError(error);
-    }
-}
-
-async function addComments() {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) return;
-    
-    const selection = editor.selection;
-    const selectedText = editor.document.getText(selection);
-    
-    if (!selectedText.trim()) {
-        vscode.window.showWarningMessage(
-            '💡 Markiere den Code, den du kommentieren möchtest'
         );
-        return;
-    }
-    
-    const prompt = `Füge hilfreiche deutsche Kommentare zu diesem Arduino-Code hinzu:
-
-\`\`\`cpp
-${selectedText}
-\`\`\`
-
-Regeln:
-- Erkläre was jede wichtige Zeile macht
-- Kommentiere Funktionen und ihre Parameter
-- Erkläre Hardware-Interaktionen
-- Nutze // für einzeilige und /* */ für mehrzeilige Kommentare
-- Kommentare sollen Anfängern helfen
-
-Gib NUR den kommentierten Code zurück, keine Erklärungen drumherum.`;
-    
-    try {
-        await vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-            title: `${currentModel === 'claude' ? 'Claude' : 'ChatGPT'} fügt Kommentare hinzu...`,
-            cancellable: false
-        }, async () => {
-            const response = await callAI(prompt);
-            
-            const preview = await vscode.workspace.openTextDocument({
-                content: response,
-                language: 'cpp'
-            });
-            
-            await vscode.window.showTextDocument(preview, vscode.ViewColumn.Beside);
-            
-            const choice = await vscode.window.showInformationMessage(
-                'Kommentare hinzugefügt! Was möchtest du tun?',
-                'Code ersetzen',
-                'So lassen'
-            );
-            
-            if (choice === 'Code ersetzen') {
-                await editor.edit(editBuilder => {
-                    editBuilder.replace(selection, response);
-                });
-                vscode.window.showInformationMessage('✅ Code wurde aktualisiert!');
-            }
-        });
     } catch (error) {
         handleApiError(error);
     }
 }
+
+// ========================================
+// DEBUG-HILFE
+// ========================================
 
 async function debugHelp() {
     const editor = vscode.window.activeTextEditor;
@@ -970,31 +1376,33 @@ Zeige verbesserten non-blocking Code.`;
     }
     
     try {
-        await vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-            title: `${currentModel === 'claude' ? 'Claude' : 'ChatGPT'} analysiert das Problem...`,
-            cancellable: false
-        }, async () => {
-            const response = await callAI(prompt);
-            
-            const panel = vscode.window.createWebviewPanel(
-                'aiDebug',
-                '🔍 Debug-Hilfe',
-                vscode.ViewColumn.Beside,
-                { enableScripts: true }
-            );
-            
-            panel.webview.html = createDebugHelpHtml(selected.label, response, currentModel);
-        });
+        const model = AI_MODELS[currentModel];
+        await withRetryableProgress(
+            `${model.name} analysiert das Problem...`,
+            async () => {
+                const response = await callAI(prompt);
+                
+                const panel = vscode.window.createWebviewPanel(
+                    'aiDebug',
+                    '🔍 Debug-Hilfe',
+                    vscode.ViewColumn.Beside,
+                    { enableScripts: true }
+                );
+                
+                panel.webview.html = createDebugHelpHtml(selected.label, response, currentModel);
+            }
+        );
     } catch (error) {
         handleApiError(error);
     }
 }
+// ========================================
+// HTML-GENERIERUNG
+// ========================================
 
-function createErrorExplanationHtml(error, line, explanation, model) {
-    const modelBadge = model === 'claude' ? 
-        '<span style="background: #6B46C1; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">Claude</span>' :
-        '<span style="background: #10A37F; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">ChatGPT</span>';
+function createErrorExplanationHtml(error, line, explanation, modelId) {
+    const model = AI_MODELS[modelId];
+    const modelBadge = `<span style="background: ${model.color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${model.name}</span>`;
     
     return `
         <!DOCTYPE html>
@@ -1089,10 +1497,9 @@ function createErrorExplanationHtml(error, line, explanation, model) {
     `;
 }
 
-function createDebugHelpHtml(title, content, model) {
-    const modelBadge = model === 'claude' ? 
-        '<span style="background: #6B46C1; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">Claude</span>' :
-        '<span style="background: #10A37F; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">ChatGPT</span>';
+function createDebugHelpHtml(title, content, modelId) {
+    const model = AI_MODELS[modelId];
+    const modelBadge = `<span style="background: ${model.color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${model.name}</span>`;
     
     return `
         <!DOCTYPE html>
@@ -1157,7 +1564,6 @@ function createDebugHelpHtml(title, content, model) {
             <div class="content">${content.replace(/\n/g, '<br>')}</div>
             
             <button onclick="copyToClipboard()">📋 Kopieren</button>
-            <button onclick="window.close()">✓ Schließen</button>
             
             <script>
                 function copyToClipboard() {
@@ -1172,31 +1578,14 @@ function createDebugHelpHtml(title, content, model) {
     `;
 }
 
-async function checkForErrors(silent = true) {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor || !editor.document.fileName.endsWith('.ino')) {
-        return false;
-    }
-    
-    const diagnostics = vscode.languages.getDiagnostics(editor.document.uri);
-    const errors = diagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
-    
-    if (errors.length > 0 && !silent) {
-        const modelIcon = currentModel === 'claude' ? '🤖' : '🧠';
-        statusBarItem.text = `${modelIcon} AI.duino $(error)`;
-        statusBarItem.tooltip = `${errors.length} Fehler gefunden • Klick für Hilfe`;
-        statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
-        
-        setTimeout(() => updateStatusBar(), 5000);
-    }
-    
-    return errors.length > 0;
-}
+// ========================================
+// OFFLINE-HILFE
+// ========================================
 
-function showTutorial() {
+function showOfflineHelp() {
     const panel = vscode.window.createWebviewPanel(
-        'aiTutorial',
-        '📚 AI.duino Tutorial',
+        'aiOfflineHelp',
+        '📡 Offline-Hilfe',
         vscode.ViewColumn.One,
         {}
     );
@@ -1207,136 +1596,119 @@ function showTutorial() {
         <head>
             <style>
                 body {
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
                     padding: 20px;
                     line-height: 1.6;
                     max-width: 800px;
                     margin: 0 auto;
                 }
                 h1 { color: #2196F3; }
-                .shortcut {
-                    background: #f0f0f0;
-                    padding: 3px 6px;
-                    border-radius: 3px;
-                    font-family: monospace;
-                }
-                .feature {
-                    margin: 20px 0;
-                    padding: 15px;
-                    background: #f8f9fa;
-                    border-radius: 8px;
-                    border-left: 4px solid #2196F3;
-                }
                 .tip {
                     background: #e3f2fd;
-                    padding: 10px;
-                    border-radius: 4px;
-                    margin: 10px 0;
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin: 20px 0;
                 }
-                .model-badge {
-                    display: inline-block;
-                    padding: 4px 12px;
-                    border-radius: 4px;
-                    font-size: 14px;
-                    font-weight: bold;
-                    margin: 0 5px;
+                .warning {
+                    background: #fff3cd;
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin: 20px 0;
+                    border-left: 4px solid #ffc107;
                 }
-                .claude {
-                    background: #6B46C1;
-                    color: white;
+                code {
+                    background: #f5f5f5;
+                    padding: 2px 5px;
+                    border-radius: 3px;
                 }
-                .chatgpt {
-                    background: #10A37F;
-                    color: white;
+                pre {
+                    background: #f5f5f5;
+                    padding: 15px;
+                    border-radius: 8px;
+                    overflow-x: auto;
                 }
             </style>
         </head>
         <body>
-            <h1>🤖 AI.duino v1.0</h1>
+            <h1>📡 Keine Internetverbindung</h1>
+            
+            <div class="warning">
+                <strong>AI.duino benötigt eine Internetverbindung</strong> um mit Claude, ChatGPT oder Gemini zu kommunizieren.
+            </div>
+            
+            <h2>🔧 Lösungsvorschläge:</h2>
             
             <div class="tip">
-                <strong>Schnellzugriff:</strong> <span class="shortcut">Strg+Shift+C</span> 
-                oder klicke auf AI.duino in der Statusleiste
-            </div>
-            
-            <h2>🆕 Zwei AI-Modelle zur Auswahl!</h2>
-            <p>
-                Du kannst zwischen zwei KI-Assistenten wählen:
-                <span class="model-badge claude">Claude</span> und 
-                <span class="model-badge chatgpt">ChatGPT</span>
-            </p>
-            <ul>
-                <li><strong>Claude:</strong> Anthropics fortschrittliches Modell - besonders gut für komplexe Code-Analysen</li>
-                <li><strong>ChatGPT:</strong> OpenAIs GPT-4 - vielseitig und kreativ</li>
-            </ul>
-            
-            <div class="feature">
-                <h3>🔄 Modell wechseln</h3>
-                <p>Rechtsklick auf die Statusleiste oder wähle "AI-Modell wechseln" im Menü</p>
-            </div>
-            
-            <h2>Die wichtigsten Features:</h2>
-            
-            <div class="feature">
-                <h3>🔧 Code verbessern</h3>
-                <p>Markiere deinen Arduino-Code und lass die AI ihn optimieren:</p>
+                <h3>1. Internetverbindung prüfen</h3>
                 <ul>
-                    <li>Non-blocking Code statt delay()</li>
-                    <li>Speicher-Optimierungen</li>
-                    <li>Best Practices für Arduino</li>
+                    <li>WLAN/Ethernet-Verbindung überprüfen</li>
+                    <li>Router neu starten</li>
+                    <li>Andere Webseiten testen</li>
                 </ul>
             </div>
-            
-            <div class="feature">
-                <h3>📝 Automatische Kommentare</h3>
-                <p>AI fügt hilfreiche deutsche Kommentare hinzu:</p>
-                <ul>
-                    <li>Erklärt was jede Zeile macht</li>
-                    <li>Dokumentiert Funktionen</li>
-                    <li>Perfekt für Anfänger</li>
-                </ul>
-            </div>
-            
-            <div class="feature">
-                <h3>❌ Fehler verstehen</h3>
-                <p>Compiler-Fehler? Kein Problem!</p>
-                <ul>
-                    <li>AI erklärt was der Fehler bedeutet</li>
-                    <li>Zeigt die Lösung</li>
-                    <li>Verhindert häufige Fehler</li>
-                </ul>
-            </div>
-            
-            <div class="feature">
-                <h3>🐛 Debug-Hilfe</h3>
-                <p>Probleme mit deinem Projekt?</p>
-                <ul>
-                    <li>Serial Monitor Ausgaben verstehen</li>
-                    <li>Hardware-Probleme diagnostizieren</li>
-                    <li>Timing-Bugs finden</li>
-                </ul>
-            </div>
-            
-            <h2>💡 Tipps:</h2>
-            <ul>
-                <li>Markiere immer den relevanten Code-Teil</li>
-                <li>Je spezifischer die Auswahl, desto besser die Hilfe</li>
-                <li>Beide AIs kennen alle Arduino-Bibliotheken</li>
-                <li>Frage ruhig auf Deutsch!</li>
-                <li>Probiere beide Modelle aus - manchmal liefern sie unterschiedliche Perspektiven</li>
-            </ul>
             
             <div class="tip">
-                <strong>Neu hier?</strong> Starte mit "Code erklären" - 
-                markiere einfach Code und die AI erklärt dir was er macht!
+                <h3>2. Firewall/Proxy-Einstellungen</h3>
+                <p>Stelle sicher, dass folgende Domains nicht blockiert sind:</p>
+                <ul>
+                    <li><code>api.anthropic.com</code> (Claude)</li>
+                    <li><code>api.openai.com</code> (ChatGPT)</li>
+                    <li><code>generativelanguage.googleapis.com</code> (Gemini)</li>
+                </ul>
+            </div>
+            
+            <div class="tip">
+                <h3>3. VPN deaktivieren</h3>
+                <p>Manche VPN-Dienste können API-Anfragen blockieren.</p>
+            </div>
+            
+            <h2>💡 Häufige Arduino-Probleme (Offline-Referenz):</h2>
+            
+            <h3>❌ "was not declared in this scope"</h3>
+            <pre>
+// Lösung: Variable deklarieren
+int sensorPin = A0;  // Fehlende Deklaration
+int sensorValue = analogRead(sensorPin);
+            </pre>
+            
+            <h3>❌ "expected ';' before..."</h3>
+            <pre>
+// Lösung: Semikolon hinzufügen
+digitalWrite(13, HIGH);  // ; nicht vergessen!
+            </pre>
+            
+            <h3>❌ Non-blocking delay</h3>
+            <pre>
+// Statt delay() verwenden:
+unsigned long previousMillis = 0;
+const long interval = 1000;
+
+void loop() {
+    unsigned long currentMillis = millis();
+    if (currentMillis - previousMillis >= interval) {
+        previousMillis = currentMillis;
+        // Code hier ausführen
+    }
+}
+            </pre>
+            
+            <div class="tip">
+                <strong>Tipp:</strong> Sobald du wieder online bist, kann AI.duino dir bei spezifischen Problemen helfen!
             </div>
         </body>
         </html>
     `;
 }
 
+// ========================================
+// TOKEN-STATISTIK
+// ========================================
+
 function showTokenStats() {
-    const totalCostToday = tokenUsage.claude.cost + tokenUsage.chatgpt.cost;
+    let totalCostToday = 0;
+    Object.keys(AI_MODELS).forEach(modelId => {
+        totalCostToday += tokenUsage[modelId].cost;
+    });
     
     const panel = vscode.window.createWebviewPanel(
         'tokenStats',
@@ -1344,6 +1716,29 @@ function showTokenStats() {
         vscode.ViewColumn.One,
         { enableScripts: true }
     );
+    
+    // Generiere Statistik-Cards für alle Modelle
+    let modelCards = '';
+    Object.keys(AI_MODELS).forEach(modelId => {
+        const model = AI_MODELS[modelId];
+        modelCards += `
+            <div class="stat-card">
+                <div class="model-name" style="color: ${model.color};">${model.icon} ${model.fullName}</div>
+                <div class="stat-row">
+                    <span>Input Tokens:</span>
+                    <span>${tokenUsage[modelId].input.toLocaleString()}</span>
+                </div>
+                <div class="stat-row">
+                    <span>Output Tokens:</span>
+                    <span>${tokenUsage[modelId].output.toLocaleString()}</span>
+                </div>
+                <div class="stat-row">
+                    <span>Kosten:</span>
+                    <span class="cost">$${tokenUsage[modelId].cost.toFixed(3)}</span>
+                </div>
+            </div>
+        `;
+    });
     
     panel.webview.html = `
         <!DOCTYPE html>
@@ -1370,8 +1765,6 @@ function showTokenStats() {
                     font-weight: bold;
                     margin-bottom: 10px;
                 }
-                .claude { color: #6B46C1; }
-                .chatgpt { color: #10A37F; }
                 .stat-row {
                     display: flex;
                     justify-content: space-between;
@@ -1417,37 +1810,7 @@ function showTokenStats() {
                 <h2>Gesamtkosten heute: <span class="cost">$${totalCostToday.toFixed(3)}</span></h2>
             </div>
             
-            <div class="stat-card">
-                <div class="model-name claude">🤖 Claude-3.5-Sonnet</div>
-                <div class="stat-row">
-                    <span>Input Tokens:</span>
-                    <span>${tokenUsage.claude.input.toLocaleString()}</span>
-                </div>
-                <div class="stat-row">
-                    <span>Output Tokens:</span>
-                    <span>${tokenUsage.claude.output.toLocaleString()}</span>
-                </div>
-                <div class="stat-row">
-                    <span>Kosten:</span>
-                    <span class="cost">$${tokenUsage.claude.cost.toFixed(3)}</span>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="model-name chatgpt">🧠 GPT-4</div>
-                <div class="stat-row">
-                    <span>Input Tokens:</span>
-                    <span>${tokenUsage.chatgpt.input.toLocaleString()}</span>
-                </div>
-                <div class="stat-row">
-                    <span>Output Tokens:</span>
-                    <span>${tokenUsage.chatgpt.output.toLocaleString()}</span>
-                </div>
-                <div class="stat-row">
-                    <span>Kosten:</span>
-                    <span class="cost">$${tokenUsage.chatgpt.cost.toFixed(3)}</span>
-                </div>
-            </div>
+            ${modelCards}
             
             <div class="tip">
                 💡 <strong>Tipp:</strong> Die Token-Zählung ist eine Schätzung. 
@@ -1462,6 +1825,16 @@ function showTokenStats() {
     `;
 }
 
+function resetTokenStats() {
+    initializeTokenUsage();
+    saveTokenUsage();
+    updateStatusBar();
+    vscode.window.showInformationMessage('✅ Token-Statistik zurückgesetzt!');
+}
+// ========================================
+// ABOUT & INFO
+// ========================================
+
 function showAbout() {
     const panel = vscode.window.createWebviewPanel(
         'aiduinoAbout',
@@ -1469,6 +1842,24 @@ function showAbout() {
         vscode.ViewColumn.One,
         { enableScripts: true }
     );
+    
+    // Generiere Model-Badges
+    let modelBadges = '';
+    Object.keys(AI_MODELS).forEach(modelId => {
+        const model = AI_MODELS[modelId];
+        modelBadges += `
+            <span class="model-badge" style="background: ${model.color}; margin: 0 5px;">
+                ${model.icon} ${model.name}
+            </span>
+        `;
+    });
+    
+    // Generiere Feature-Liste für alle Modelle
+    let modelFeatures = '';
+    Object.keys(AI_MODELS).forEach(modelId => {
+        const model = AI_MODELS[modelId];
+        modelFeatures += `<div class="feature">${model.icon} ${model.fullName} Integration</div>`;
+    });
     
     panel.webview.html = `
         <!DOCTYPE html>
@@ -1535,24 +1926,59 @@ function showAbout() {
                     font-family: monospace;
                     font-size: 14px;
                 }
+                .model-badge {
+                    display: inline-block;
+                    padding: 4px 12px;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: white;
+                }
+                .tutorial {
+                    background: #e8f5e9;
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin: 20px 0;
+                    text-align: left;
+                }
+                .shortcut {
+                    background: #f0f0f0;
+                    padding: 3px 6px;
+                    border-radius: 3px;
+                    font-family: monospace;
+                }
             </style>
         </head>
         <body>
             <div class="logo">🤖</div>
             <h1>AI.duino</h1>
-            <div class="version">Version 1.0.0</div>
+            <div class="version">Version 1.1.0</div>
             
             <p><strong>KI-gestützte Arduino-Entwicklung</strong></p>
             
+            <div>
+                ${modelBadges}
+            </div>
+            
             <div class="info-box">
                 <h3>Features:</h3>
-                <div class="feature">Claude 3.5 Sonnet Integration</div>
-                <div class="feature">ChatGPT-4 Integration</div>
+                ${modelFeatures}
                 <div class="feature">Code-Verbesserung und Optimierung</div>
                 <div class="feature">Fehler-Erklärung auf Deutsch</div>
                 <div class="feature">Automatische Code-Kommentierung</div>
                 <div class="feature">Debug-Hilfe und Hardware-Diagnose</div>
                 <div class="feature">Token-Verbrauch Tracking</div>
+                <div class="feature">Offline-Hilfe bei Verbindungsproblemen</div>
+                <div class="feature">Modulare Architektur für einfache Erweiterung</div>
+            </div>
+            
+            <div class="tutorial">
+                <h3>Schnellstart:</h3>
+                <p>1. Markiere Arduino-Code</p>
+                <p>2. Drücke <span class="shortcut">Strg+Shift+C</span> für das Quick-Menü</p>
+                <p>3. Wähle eine Aktion aus</p>
+                <br>
+                <p><strong>Tipp:</strong> Rechtsklick auf die Statusleiste zum Modell-Wechsel!</p>
             </div>
             
             <div class="license">
@@ -1561,9 +1987,10 @@ function showAbout() {
             </div>
             
             <div class="info-box">
-                <h3>Tastenkürzel:</h3>
-                <p><kbd>Strg+Shift+C</kbd> - Quick-Menü öffnen</p>
-                <p><kbd>Strg+Shift+E</kbd> - Fehler erklären</p>
+                <h3>API Keys erhalten:</h3>
+                <p>🤖 <strong>Claude:</strong> <a href="https://console.anthropic.com/api-keys">console.anthropic.com</a></p>
+                <p>🧠 <strong>ChatGPT:</strong> <a href="https://platform.openai.com/api-keys">platform.openai.com</a></p>
+                <p>💎 <strong>Gemini:</strong> <a href="https://makersuite.google.com/app/apikey">makersuite.google.com</a></p>
             </div>
             
             <div class="credits">
@@ -1572,48 +1999,33 @@ function showAbout() {
                 <p><strong>Fehler melden:</strong> <a href="https://github.com/NikolaiRadke/AI.duino/issues">Issue Tracker</a></p>
                 <br>
                 <p><em>Entwickelt mit 💙 für die Arduino-Community</em></p>
+                <br>
+                <p><strong>v1.1 Changelog:</strong></p>
+                <ul style="text-align: left;">
+                    <li>✨ Gemini Pro Integration</li>
+                    <li>🛡️ Verbessertes Error Handling</li>
+                    <li>🔄 Modulare Architektur</li>
+                    <li>📡 Offline-Hilfe</li>
+                    <li>🔧 Retry-Mechanismus</li>
+                </ul>
             </div>
         </body>
         </html>
     `;
 }
 
-// Command zum Zurücksetzen:
-function resetTokenStats() {
-    tokenUsage = {
-        claude: { input: 0, output: 0, cost: 0 },
-        chatgpt: { input: 0, output: 0, cost: 0 },
-        daily: new Date().toDateString()
-    };
-    saveTokenUsage();
-    updateStatusBar();
-    vscode.window.showInformationMessage('✅ Token-Statistik zurückgesetzt!');
-}
-
-function handleApiError(error) {
-    const modelName = currentModel === 'claude' ? 'Claude' : 'ChatGPT';
-    
-    if (error.message.includes('API Key')) {
-        vscode.window.showErrorMessage(
-            `🔑 ${error.message}`,
-            'API Key eingeben',
-            'Modell wechseln'
-        ).then(selection => {
-            if (selection === 'API Key eingeben') {
-                vscode.commands.executeCommand('aiduino.setApiKey');
-            } else if (selection === 'Modell wechseln') {
-                vscode.commands.executeCommand('aiduino.switchModel');
-            }
-        });
-    } else {
-        vscode.window.showErrorMessage(`❌ ${modelName} Fehler: ${error.message}`);
-    }
-}
+// ========================================
+// DEAKTIVIERUNG
+// ========================================
 
 function deactivate() {
     if (statusBarItem) {
         statusBarItem.dispose();
     }
-    console.log('AI.duino v1.0 deaktiviert');
+    console.log('AI.duino v1.1 deaktiviert');
 }
 exports.deactivate = deactivate;
+
+// ========================================
+// ENDE DER EXTENSION.JS
+// ========================================

@@ -1,11 +1,11 @@
 #!/bin/bash
-# AI.duino v1.0 - macOS - Easy Install
+# AI.duino v1.1 - macOS - Easy Install
 # Copyright 2025 Monster Maker
 # Licensed under Apache License 2.0
 
 echo ""
 echo "==============================================="
-echo "   AI.duino v1.0 - macOS Installer"
+echo "   AI.duino v1.1 - macOS Installer"
 echo "==============================================="
 echo ""
 
@@ -79,9 +79,9 @@ echo ""
 # Create package.json
 echo "[3/4] Erstelle package.json..."
 $SUDO tee "$TARGET/extension/package.json" > /dev/null << 'PACKAGE_EOF'
-# ===== PACKAGE.JSON START =====
-# Hier package.json einfügen
-# ===== PACKAGE.JSON END =====
+
+# ------ Hier package.json einfügen und Zeile löschen ------ 
+
 PACKAGE_EOF
 
 echo "[OK] package.json erstellt"
@@ -90,9 +90,9 @@ echo ""
 # Create extension.js
 echo "[4/4] Erstelle extension.js..."
 $SUDO tee "$TARGET/extension/out/extension.js" > /dev/null << 'EXTENSION_EOF'
-# ===== EXTENSION.JS START =====
-# Hier extension.js einfügen
-# ===== EXTENSION.JS END =====
+
+# ------ Hier extension.js einfügen und Zeile löschen ------
+
 EXTENSION_EOF
 
 echo "[OK] extension.js erstellt"
@@ -103,7 +103,7 @@ $SUDO tee "$TARGET/extension.vsixmanifest" > /dev/null << 'EOF'
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
   <Metadata>
-    <Identity Language="en-US" Id="aiduino" Version="1.0.0" Publisher="Monster Maker"/>
+    <Identity Language="en-US" Id="aiduino" Version="1.1.0" Publisher="Monster Maker"/>
     <DisplayName>AI.duino</DisplayName>
     <Description xml:space="preserve">KI-Hilfe für Arduino mit Fehler-Erklärung und Debug-Support</Description>
   </Metadata>
@@ -157,12 +157,12 @@ echo "==============================================="
 echo "   Installation erfolgreich!"
 echo "==============================================="
 echo ""
-echo "🤖 AI.duino v1.0 wurde installiert!"
+echo "🤖 AI.duino v1.1 wurde installiert!"
 echo ""
 echo "📖 Nächste Schritte:"
 echo "1. Arduino IDE neu starten"
 echo "2. Drücke Cmd+Shift+C oder Rechtsklick → AI.duino"
-echo "3. Gib deinen Claude oder ChatGPT API Key ein"
+echo "3. Gib deinen Claude, ChatGPT oder Gemini API Key ein"
 echo ""
 echo "🎯 Schnellstart: Markiere Code und drücke Cmd+Shift+C!"
 echo ""

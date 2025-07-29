@@ -2,7 +2,7 @@
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "KI-gestützte Hilfe für Arduino mit Claude und ChatGPT: Code verbessern, Fehler erklären, Debug-Hilfe",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "Monster Maker",
   "engines": {
     "vscode": "^1.60.0"
@@ -77,13 +77,13 @@
         "command": "aiduino.quickMenu",
         "key": "ctrl+shift+c",
         "mac": "cmd+shift+c",
-        "when": "editorTextFocus && resourceExtname == .ino"
+        "when": "editorTextFocus"
       },
       {
         "command": "aiduino.explainCode",
         "key": "ctrl+shift+e",
         "mac": "cmd+shift+e",
-        "when": "editorTextFocus && resourceExtname == .ino"
+        "when": "editorTextFocus"
       }
     ],
     "menus": {
