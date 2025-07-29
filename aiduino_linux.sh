@@ -157,13 +157,13 @@ $SUDO tee "$TARGET/extension/package.json" > /dev/null << 'PACKAGE_EOF'
         "command": "aiduino.quickMenu",
         "key": "ctrl+shift+c",
         "mac": "cmd+shift+c",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceExtname == .ino"
       },
       {
         "command": "aiduino.explainCode",
         "key": "ctrl+shift+e",
         "mac": "cmd+shift+e",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceExtname == .ino"
       }
     ],
     "menus": {
