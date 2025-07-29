@@ -79,7 +79,6 @@ echo ""
 # Create package.json
 echo "[3/4] Erstelle package.json..."
 $SUDO tee "$TARGET/extension/package.json" > /dev/null << 'PACKAGE_EOF'
-# ===== PACKAGE.JSON START =====
 {
   "name": "aiduino",
   "displayName": "AI.duino",
@@ -232,7 +231,6 @@ $SUDO tee "$TARGET/extension/package.json" > /dev/null << 'PACKAGE_EOF'
   },
   "license": "Apache-2.0"
 }
-# ===== PACKAGE.JSON END =====
 PACKAGE_EOF
 
 echo "[OK] package.json erstellt"
@@ -241,7 +239,6 @@ echo ""
 # Create extension.js
 echo "[4/4] Erstelle extension.js..."
 $SUDO tee "$TARGET/extension/out/extension.js" > /dev/null << 'EXTENSION_EOF'
-# ===== EXTENSION.JS START =====
 /*
  * AI.duino v1.0
  * Copyright 2025 Monster Maker
@@ -1861,7 +1858,6 @@ function deactivate() {
     console.log('AI.duino v1.0 deaktiviert');
 }
 exports.deactivate = deactivate;
-# ===== EXTENSION.JS END =====
 EXTENSION_EOF
 
 echo "[OK] extension.js erstellt"
