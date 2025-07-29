@@ -297,7 +297,7 @@ const AI_MODELS = {
     },
     gemini: {
         name: 'Gemini',
-        fullName: 'Gemini Pro',
+        fullName: 'Gemini 1.5 Flash',
         icon: '💎',
         keyFile: '.aiduino-gemini-api-key',
         keyPrefix: 'AIza',
@@ -1160,7 +1160,7 @@ function callGeminiAPI(prompt) {
         const options = {
             hostname: 'generativelanguage.googleapis.com',
             port: 443,
-            path: `/v1beta/models/gemini-pro:generateContent?key=${apiKeys.gemini}`,
+            path: `/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKeys.gemini}`,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -2242,7 +2242,7 @@ function showAbout() {
                 <br>
                 <p><strong>v1.1 Changelog:</strong></p>
                 <ul style="text-align: left;">
-                    <li>✨ Gemini Pro Integration</li>
+                    <li>✨ Gemini Integration</li>
                     <li>🛡️ Verbessertes Error Handling</li>
                     <li>🔄 Modulare Architektur</li>
                     <li>📡 Offline-Hilfe</li>
@@ -2349,7 +2349,7 @@ echo ""
 echo "📖 Nächste Schritte:"
 echo "1. Arduino IDE neu starten"
 echo "2. Drücke Strg+Shift+C oder Rechtsklick → AI.duino"
-echo "3. Gib deinen Claude oder ChatGPT API Key ein"
+echo "3. Gib deinen Claude, ChatGPT oder Gemini API Key ein"
 echo ""
 echo "🎯 Schnellstart: Markiere Code und drücke Strg+Shift+C!"
 echo ""
