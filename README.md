@@ -86,7 +86,7 @@ aiduino/
 
 1. Select code in Arduino IDE
 2. Right-click → `AI.duino` → Choose function
-3. Alternative: `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac) or press the `Ai.duino` button below  
+3. Alternative: `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac) or press the `AI.duino` button below  
 
 ### Explain Error
 1. Compile code and find error message in output window
@@ -99,6 +99,7 @@ aiduino/
 Required: An API key from either:
 - Claude: https://console.anthropic.com/api-keys
 - ChatGPT: https://platform.openai.com/api-keys
+- Gemini: https://aistudio.google.com/apikey
 
 The key is stored locally and not transmitted.
 
