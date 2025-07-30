@@ -5,7 +5,7 @@
 
 echo ""
 echo "==============================================="
-echo "   AI.duino v1.1 - macOS Installer"
+echo "   AI.duino v1.1.1 - macOS Installer"
 echo "==============================================="
 echo ""
 
@@ -83,13 +83,13 @@ $SUDO tee "$TARGET/extension/package.json" > /dev/null << 'PACKAGE_EOF'
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "KI-gestützte Hilfe für Arduino mit Claude und ChatGPT: Code verbessern, Fehler erklären, Debug-Hilfe",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "publisher": "Monster Maker",
   "engines": {
     "vscode": "^1.60.0"
   },
   "categories": ["Other", "Debuggers", "Education"],
-  "keywords": ["arduino", "ai", "claude", "chatgpt", "debug", "fehler", "hilfe"],
+  "keywords": ["arduino", "ai", "claude", "chatgpt", "gemini", "debug", "fehler", "hilfe"],
   "activationEvents": [
     "onLanguage:cpp",
     "onLanguage:c",
@@ -240,7 +240,7 @@ echo ""
 echo "[4/4] Erstelle extension.js..."
 $SUDO tee "$TARGET/extension/out/extension.js" > /dev/null << 'EXTENSION_EOF'
 /*
- * AI.duino v1.1
+ * AI.duino v1.1.1
  * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -308,6 +308,19 @@ const AI_MODELS = {
             output: 0.0005 / 1000   // $0.50 per 1M tokens
         },
         color: '#4285F4'
+    },
+    mistral: {
+        name: 'Mistral',
+        fullName: 'Mistral Large',
+        icon: '🌟',
+        keyFile: '.aiduino-mistral-api-key',
+        keyPrefix: 'sk-',  // Mistral Keys starten auch mit sk-
+        keyMinLength: 32,
+        prices: {
+            input: 0.004 / 1000,   // $4 per 1M tokens
+            output: 0.012 / 1000   // $12 per 1M tokens
+        },
+        color: '#FF7000'  // Mistral Orange
     }
 };
 
@@ -326,7 +339,7 @@ const TOKEN_USAGE_FILE = path.join(os.homedir(), '.aiduino-token-usage.json');
 // ========================================
 
 function activate(context) {
-    console.log('🤖 AI.duino v1.1 aktiviert!');
+    console.log('🤖 AI.duino v1.1.1 aktiviert!');
     
     // Initialisiere Token-Usage für alle Modelle
     initializeTokenUsage();
@@ -563,7 +576,7 @@ function updateStatusBar() {
     
     if (hasApiKey) {
         statusBarItem.text = `${model.icon} AI.duino${costDisplay}`;
-        statusBarItem.tooltip = `AI.duino v1.1: ${model.name}\n` +
+        statusBarItem.tooltip = `AI.duino v1.1.1: ${model.name}\n` +
             `Heute: ${tokenUsage[currentModel].input + tokenUsage[currentModel].output} Tokens${costDisplay}\n` +
             `Input: ${tokenUsage[currentModel].input} | Output: ${tokenUsage[currentModel].output}\n` +
             `Klick für Menü • Strg+Shift+C • Rechtsklick zum Wechseln`;
@@ -580,7 +593,7 @@ function updateStatusBar() {
 
 async function showWelcomeMessage() {
     const modelList = Object.values(AI_MODELS).map(m => m.name).join(', ');
-    const message = `👋 Willkommen! AI.duino v1.1 unterstützt ${modelList}!`;
+    const message = `👋 Willkommen! AI.duino v1.1.1 unterstützt ${modelList}!`;
     const choice = await vscode.window.showInformationMessage(
         message,
         'AI-Modell wählen',
@@ -675,7 +688,7 @@ async function showQuickMenu() {
     
     const selected = await vscode.window.showQuickPick(items, {
         placeHolder: 'Was möchtest du tun?',
-        title: `🤖 AI.duino v1.1 (${model.name})`
+        title: `🤖 AI.duino v1.1.1 (${model.name})`
     });
     
     if (selected) {
@@ -775,7 +788,8 @@ function getProviderName(modelId) {
     const providers = {
         claude: 'Claude',
         chatgpt: 'OpenAI',
-        gemini: 'Google'
+        gemini: 'Google',
+        mistral: 'Mistral'
     };
     return providers[modelId] || AI_MODELS[modelId].name;
 }
@@ -915,7 +929,8 @@ function callAI(prompt) {
     const apiHandlers = {
         claude: callClaudeAPI,
         chatgpt: callChatGPTAPI,
-        gemini: callGeminiAPI
+        gemini: callGeminiAPI,
+        mistral: callMistralAPI
     };
     
     const handler = apiHandlers[currentModel];
@@ -1214,6 +1229,101 @@ function callGeminiAPI(prompt) {
                     }
                 } catch (e) {
                     reject(new Error('Fehler beim Parsen der Gemini-Antwort: ' + e.message));
+                }
+            });
+        });
+
+        req.on('error', (e) => {
+            clearTimeout(timeout);
+            reject(handleNetworkError(e));
+        });
+
+        req.write(data);
+        req.end();
+    });
+}
+
+
+// ========================================
+// MISTRAL API
+// ========================================
+
+function callMistralAPI(prompt) {
+    return new Promise((resolve, reject) => {
+        if (!apiKeys.mistral) {
+            reject(new Error('Kein Mistral API Key gesetzt'));
+            return;
+        }
+
+        const timeout = setTimeout(() => {
+            req.destroy();
+            reject(new Error('Zeitüberschreitung - Bitte Internetverbindung prüfen'));
+        }, 30000);
+
+        const data = JSON.stringify({
+            model: "mistral-large-latest",
+            messages: [
+                {
+                    role: "system",
+                    content: "Du bist ein hilfreicher Arduino-Programmier-Assistent. Antworte immer auf Deutsch und erkläre Arduino-Code verständlich."
+                },
+                { 
+                    role: "user", 
+                    content: prompt 
+                }
+            ],
+            max_tokens: 2000,
+            temperature: 0.7
+        });
+
+        const options = {
+            hostname: 'api.mistral.ai',
+            port: 443,
+            path: '/v1/chat/completions',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(data),
+                'Authorization': `Bearer ${apiKeys.mistral}`
+            }
+        };
+
+        const req = https.request(options, (res) => {
+            clearTimeout(timeout);
+            let responseData = '';
+
+            res.on('data', (chunk) => {
+                responseData += chunk;
+            });
+
+            res.on('end', () => {
+                try {
+                    const parsedData = JSON.parse(responseData);
+                    
+                    if (res.statusCode === 200) {
+                        const response = parsedData.choices[0].message.content;
+                        updateTokenUsage('mistral', prompt, response);
+                        console.log('Mistral tokens tracked:', estimateTokens(prompt), 'in,', estimateTokens(response), 'out');
+                        resolve(response);
+                    } else {
+                        switch(res.statusCode) {
+                            case 401:
+                                reject(new Error('Mistral API Key ungültig'));
+                                break;
+                            case 429:
+                                reject(new Error('Mistral Rate Limit erreicht - bitte warte einen Moment'));
+                                break;
+                            case 500:
+                            case 502:
+                            case 503:
+                                reject(new Error('Mistral Server momentan nicht erreichbar'));
+                                break;
+                            default:
+                                reject(new Error(`Mistral API Error (${res.statusCode}): ${parsedData.error?.message || 'Unbekannter Fehler'}`));
+                        }
+                    }
+                } catch (e) {
+                    reject(new Error('Fehler beim Parsen der Mistral-Antwort'));
                 }
             });
         });
@@ -1895,6 +2005,7 @@ function showOfflineHelp() {
                     <li><code>api.anthropic.com</code> (Claude)</li>
                     <li><code>api.openai.com</code> (ChatGPT)</li>
                     <li><code>generativelanguage.googleapis.com</code> (Gemini)</li>
+                    <li><code>api.mistral.ai</code> (Mistral)</li>
                 </ul>
             </div>
             
@@ -2193,7 +2304,7 @@ function showAbout() {
         <body>
             <div class="logo">🤖</div>
             <h1>AI.duino</h1>
-            <div class="version">Version 1.1.0</div>
+            <div class="version">Version 1.1.1</div>
             
             <p><strong>KI-gestützte Arduino-Entwicklung</strong></p>
             
@@ -2232,6 +2343,7 @@ function showAbout() {
                 <p>🤖 <strong>Claude:</strong> <a href="https://console.anthropic.com/api-keys">console.anthropic.com</a></p>
                 <p>🧠 <strong>ChatGPT:</strong> <a href="https://platform.openai.com/api-keys">platform.openai.com</a></p>
                 <p>💎 <strong>Gemini:</strong> <a href="https://makersuite.google.com/app/apikey">makersuite.google.com</a></p>
+                <p>🌟 <strong>Mistral:</strong> <a href="https://console.mistral.ai/">console.mistral.ai</a></p>
             </div>
             
             <div class="credits">
@@ -2241,13 +2353,9 @@ function showAbout() {
                 <br>
                 <p><em>Entwickelt mit 💙 für die Arduino-Community</em></p>
                 <br>
-                <p><strong>v1.1 Changelog:</strong></p>
+                <p><strong>v1.1.1 Changelog:</strong></p>
                 <ul style="text-align: left;">
-                    <li>✨ Gemini Integration</li>
-                    <li>🛡️ Verbessertes Error Handling</li>
-                    <li>🔄 Modulare Architektur</li>
-                    <li>📡 Offline-Hilfe</li>
-                    <li>🔧 Retry-Mechanismus</li>
+                    <li>✨ Mistral integration/li>
                 </ul>
             </div>
         </body>
@@ -2263,7 +2371,7 @@ function deactivate() {
     if (statusBarItem) {
         statusBarItem.dispose();
     }
-    console.log('AI.duino v1.1 deaktiviert');
+    console.log('AI.duino v1.1.1 deaktiviert');
 }
 exports.deactivate = deactivate;
 
@@ -2280,7 +2388,7 @@ $SUDO tee "$TARGET/extension.vsixmanifest" > /dev/null << 'EOF'
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
   <Metadata>
-    <Identity Language="en-US" Id="aiduino" Version="1.1.0" Publisher="Monster Maker"/>
+    <Identity Language="en-US" Id="aiduino" Version="1.1.1" Publisher="Monster Maker"/>
     <DisplayName>AI.duino</DisplayName>
     <Description xml:space="preserve">KI-Hilfe für Arduino mit Fehler-Erklärung und Debug-Support</Description>
   </Metadata>
@@ -2334,18 +2442,20 @@ echo "==============================================="
 echo "   Installation erfolgreich!"
 echo "==============================================="
 echo ""
-echo "🤖 AI.duino v1.1 wurde installiert!"
+echo "🤖 AI.duino v1.1.1 wurde installiert!"
 echo ""
 echo "📖 Nächste Schritte:"
 echo "1. Arduino IDE neu starten"
 echo "2. Drücke Cmd+Shift+C oder Rechtsklick → AI.duino"
-echo "3. Gib deinen Claude, ChatGPT oder Gemini API Key ein"
+echo "3. Gib deinen Claude, ChatGPT, Gemini oder Mistral API Key ein"
 echo ""
 echo "🎯 Schnellstart: Markiere Code und drücke Cmd+Shift+C!"
 echo ""
 echo "🔑 API Keys:"
 echo "   Claude: https://console.anthropic.com/api-keys"
 echo "   ChatGPT: https://platform.openai.com/api-keys"
+echo "   Gemini: https://makersuite.google.com/app/apikey"
+echo "   Mistral: https://console.mistral.ai/"
 echo ""
 echo "📜 Lizenz: Apache 2.0 - siehe $TARGET/LICENSE"
 echo ""
