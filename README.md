@@ -100,6 +100,7 @@ Required: An API key from either:
 - Claude: https://console.anthropic.com/api-keys
 - ChatGPT: https://platform.openai.com/api-keys
 - Gemini: https://aistudio.google.com/apikey
+- Mistral: https://console.mistral.ai/
 
 The key is stored locally and not transmitted.
 
