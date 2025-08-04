@@ -1,9 +1,9 @@
 ![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back.png)
-# 🤖 AI.duino - AI Assistant for Arduino IDE 2.X
+# 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
 AI.duino integrates Claude, ChatGPT, Gemini and Mistral directly into the Arduino IDE for intelligent code assistance. More AI models will follow. 
 Right now, there is only a **German** version of this plugin.  
-
+ 
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
@@ -12,20 +12,20 @@ Right now, there is only a **German** version of this plugin.
    
 ## Features
 
-### Code Optimization
+### Code optimization
 Converts blocking code into non-blocking variants. Example: `delay()` is replaced with `millis()`-based implementations.
 
-### Code Explanation
+### Code explanation
 Explains complex Arduino commands and hardware registers in plain language.
 
-### Automatic Documentation
+### Automatic documentation
 Adds meaningful comments to existing code.
 
-### Error Analysis
+### Error analysis
 Explains compiler error messages and provides concrete solutions.
 When using this feature, you copy the error message from the Arduino output window.
 
-### Debug Support
+### Debug support
 - Analysis of Serial Monitor output
 - Hardware diagnostics for common problems
 - Timing analysis
@@ -88,13 +88,13 @@ aiduino/
 2. Right-click → `AI.duino` → Choose function
 3. Alternative: `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac) or press the `AI.duino` button below  
 
-### Explain Error
+### Explain error
 1. Compile code and find error message in output window
 2. Place cursor near the error
 3. Run "Fehler erklären"
 4. Copy error message (red line with "error:") into input field
 
-## API Keys
+## API keys
 
 Required: An API key from either:
 - Claude: https://console.anthropic.com/api-keys
