@@ -3,7 +3,7 @@
 AI.duino takes the security of your API keys and data seriously. This document 
 outlines security practices and how to report potential vulnerabilities.
 
-## Reporting a Vulnerability
+## Reporting a vulnerability
 
 If you discover a security vulnerability in AI.duino, please report it:
 
@@ -14,7 +14,7 @@ If you discover a security vulnerability in AI.duino, please report it:
    - Potential impact
    - Suggested fix (if available)
 
-## Security Considerations
+## Security considerations
 
 ### API Keys
 
@@ -23,7 +23,7 @@ If you discover a security vulnerability in AI.duino, please report it:
 - Keys are never transmitted except to their respective API endpoints
 - No analytics or telemetry is collected
 
-### Network Communication
+### Network communication
 
 AI.duino only communicates with:
 - `api.anthropic.com` (Claude)
@@ -31,12 +31,12 @@ AI.duino only communicates with:
 - `generativelanguage.googleapis.com` (Gemini)
 - `api.mistral.ai` (Mistral)
 
-### Code Execution
+### Code execution
 
 - AI.duino does not execute any code automatically
 - All code modifications require explicit user confirmation
 - The plugin runs with the same permissions as Arduino IDE
 
-## Response Time
+## Response time
 
 I do my very best.
