@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **04.08.2025++ Added SECURITY.md
 * **30.07.2025** **V1.1.1** with Mistral support.  
 * **29.07.2025** **V1.1** release with bugfixes, better error handling and Gemini support.  
 * **28.07.2025** **V1.0** release.  
