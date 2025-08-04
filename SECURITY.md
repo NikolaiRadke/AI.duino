@@ -1,4 +1,4 @@
-# Security Policy
+# Security policy
 
 AI.duino takes the security of your API keys and data seriously. This document 
 outlines security practices and how to report potential vulnerabilities.
