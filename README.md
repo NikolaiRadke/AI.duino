@@ -7,7 +7,7 @@ Right now, there is only a **German** version of this plugin.
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **04.08.2025** Added SECURITY.md
+* **05.08.2025** Release **V1.2** with better code optimization und commenting.  
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/tree/main/NEWS.md).
    
 ## Features
