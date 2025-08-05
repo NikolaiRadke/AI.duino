@@ -1,5 +1,5 @@
 @echo off
-REM AI.duino v1.1-1 - Windows - Easy Install
+REM AI.duino v1.2.0 - Windows - Easy Install
 REM Copyright 2025 Monster Maker
 REM Licensed under Apache License 2.0
 
@@ -7,7 +7,7 @@ setlocal enabledelayedexpansion
 
 echo.
 echo ===============================================
-echo    AI.duino v1.1.1 - Windows Installer
+echo    AI.duino v1.2.0 - Windows Installer
 echo ===============================================
 echo.
 
@@ -115,7 +115,7 @@ REM Create manifest
 echo ^<?xml version="1.0" encoding="utf-8"?^>
 echo ^<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011"^>
 echo   ^<Metadata^>
-echo     ^<Identity Language="en-US" Id="aiduino" Version="1.1.1" Publisher="Monster Maker"/^>
+echo     ^<Identity Language="en-US" Id="aiduino" Version="1.2.0" Publisher="Monster Maker"/^>
 echo     ^<DisplayName^>AI.duino^</DisplayName^>
 echo     ^<Description xml:space="preserve"^>KI-Hilfe fuer Arduino mit Fehler-Erklaerung und Debug-Support^</Description^>
 echo   ^</Metadata^>
@@ -177,7 +177,7 @@ echo ===============================================
 echo    Installation erfolgreich!
 echo ===============================================
 echo.
-echo AI.duino v1.1.1 wurde installiert!
+echo AI.duino v1.2.0 wurde installiert!
 echo.
 echo Naechste Schritte:
 echo 1. Arduino IDE neu starten

@@ -1,11 +1,11 @@
 #!/bin/bash
-# AI.duino v1.1.1 - macOS - Easy Install
+# AI.duino v1.2.0 - macOS - Easy Install
 # Copyright 2025 Monster Maker
 # Licensed under Apache License 2.0
 
 echo ""
 echo "==============================================="
-echo "   AI.duino v1.1.1 - macOS Installer"
+echo "   AI.duino v1.2.0 - macOS Installer"
 echo "==============================================="
 echo ""
 
@@ -103,7 +103,7 @@ $SUDO tee "$TARGET/extension.vsixmanifest" > /dev/null << 'EOF'
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
   <Metadata>
-    <Identity Language="en-US" Id="aiduino" Version="1.1.1" Publisher="Monster Maker"/>
+    <Identity Language="en-US" Id="aiduino" Version="1.2.0" Publisher="Monster Maker"/>
     <DisplayName>AI.duino</DisplayName>
     <Description xml:space="preserve">KI-Hilfe für Arduino mit Fehler-Erklärung und Debug-Support</Description>
   </Metadata>
@@ -157,7 +157,7 @@ echo "==============================================="
 echo "   Installation erfolgreich!"
 echo "==============================================="
 echo ""
-echo "🤖 AI.duino v1.1.1 wurde installiert!"
+echo "🤖 AI.duino v1.2.0 wurde installiert!"
 echo ""
 echo "📖 Nächste Schritte:"
 echo "1. Arduino IDE neu starten"

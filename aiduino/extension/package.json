@@ -2,7 +2,7 @@
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "KI-gestützte Hilfe für Arduino mit Claude und ChatGPT: Code verbessern, Fehler erklären, Debug-Hilfe",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "publisher": "Monster Maker",
   "engines": {
     "vscode": "^1.60.0"

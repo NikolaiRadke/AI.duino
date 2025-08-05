@@ -1,11 +1,11 @@
 #!/bin/bash
-# AI.duino v1.1 - macOS - Easy Install
+# AI.duino v1.2.0 - macOS - Easy Install
 # Copyright 2025 Monster Maker
 # Licensed under Apache License 2.0
 
 echo ""
 echo "==============================================="
-echo "   AI.duino v1.1.1 - macOS Installer"
+echo "   AI.duino v1.2.0 - macOS Installer"
 echo "==============================================="
 echo ""
 
@@ -83,7 +83,7 @@ $SUDO tee "$TARGET/extension/package.json" > /dev/null << 'PACKAGE_EOF'
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "KI-gestützte Hilfe für Arduino mit Claude und ChatGPT: Code verbessern, Fehler erklären, Debug-Hilfe",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "publisher": "Monster Maker",
   "engines": {
     "vscode": "^1.60.0"
@@ -240,7 +240,7 @@ echo ""
 echo "[4/4] Erstelle extension.js..."
 $SUDO tee "$TARGET/extension/out/extension.js" > /dev/null << 'EXTENSION_EOF'
 /*
- * AI.duino v1.1.1
+ * AI.duino v1.2.0
  * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -326,6 +326,7 @@ const AI_MODELS = {
 
 // Globale Variablen
 let statusBarItem;
+let globalContext; // NEU: Für persistente Speicherung
 let currentModel = 'claude';
 const apiKeys = {};
 const MODEL_FILE = path.join(os.homedir(), '.aiduino-model');
@@ -339,8 +340,11 @@ const TOKEN_USAGE_FILE = path.join(os.homedir(), '.aiduino-token-usage.json');
 // ========================================
 
 function activate(context) {
-    console.log('🤖 AI.duino v1.1.1 aktiviert!');
+    console.log('🤖 AI.duino v1.2.0 aktiviert!');
     
+    // Context global verfügbar machen
+    globalContext = context;
+
     // Initialisiere Token-Usage für alle Modelle
     initializeTokenUsage();
     
@@ -576,7 +580,7 @@ function updateStatusBar() {
     
     if (hasApiKey) {
         statusBarItem.text = `${model.icon} AI.duino${costDisplay}`;
-        statusBarItem.tooltip = `AI.duino v1.1.1: ${model.name}\n` +
+        statusBarItem.tooltip = `AI.duino v1.2.0: ${model.name}\n` +
             `Heute: ${tokenUsage[currentModel].input + tokenUsage[currentModel].output} Tokens${costDisplay}\n` +
             `Input: ${tokenUsage[currentModel].input} | Output: ${tokenUsage[currentModel].output}\n` +
             `Klick für Menü • Strg+Shift+C • Rechtsklick zum Wechseln`;
@@ -593,7 +597,7 @@ function updateStatusBar() {
 
 async function showWelcomeMessage() {
     const modelList = Object.values(AI_MODELS).map(m => m.name).join(', ');
-    const message = `👋 Willkommen! AI.duino v1.1.1 unterstützt ${modelList}!`;
+    const message = `👋 Willkommen! AI.duino v1.2.0 unterstützt ${modelList}!`;
     const choice = await vscode.window.showInformationMessage(
         message,
         'AI-Modell wählen',
@@ -688,7 +692,7 @@ async function showQuickMenu() {
     
     const selected = await vscode.window.showQuickPick(items, {
         placeHolder: 'Was möchtest du tun?',
-        title: `🤖 AI.duino v1.1.1 (${model.name})`
+        title: `🤖 AI.duino v1.2.0 (${model.name})`
     });
     
     if (selected) {
@@ -1425,7 +1429,27 @@ async function improveCode() {
         return;
     }
     
-    const prompt = `Verbessere diesen Arduino-Code:
+    // Gespeicherte Custom-Anweisungen laden
+    const savedInstructions = globalContext.globalState.get('aiduino.customInstructions', '');
+    
+    // Dialog für eigene Anweisungen
+    const customInstructions = await vscode.window.showInputBox({
+        prompt: 'Eigene Anweisungen für die Code-Verbesserung (optional)',
+        placeHolder: 'z.B. "verwende keine millis()", "optimiere für Arduino Nano", "füge Error-Handling hinzu"',
+        value: savedInstructions,
+        ignoreFocusOut: true
+    });
+    
+    // Abbruch wenn Cancel gedrückt wurde
+    if (customInstructions === undefined) {
+        return;
+    }
+    
+    // Speichere die Anweisungen für nächstes Mal
+    globalContext.globalState.update('aiduino.customInstructions', customInstructions);
+    
+    // Basis-Prompt
+    let prompt = `Verbessere diesen Arduino-Code:
 
 \`\`\`cpp
 ${selectedText}
@@ -1436,38 +1460,81 @@ Optimiere für:
 - Speicher-Effizienz
 - Bessere Lesbarkeit
 - Arduino Best Practices
-- Robustheit
+- Robustheit`;
 
-Gib nur den verbesserten Code zurück mit kurzen deutschen Kommentaren bei Änderungen.`;
+    // Füge custom Instructions hinzu, wenn vorhanden
+    if (customInstructions && customInstructions.trim()) {
+        prompt += `\n\nZusätzliche Anweisungen vom Nutzer:\n- ${customInstructions.split(',').map(s => s.trim()).join('\n- ')}`;
+    }
+
+    prompt += '\n\nGib nur den verbesserten Code zurück mit kurzen deutschen Kommentaren bei Änderungen.';
     
     try {
         const model = AI_MODELS[currentModel];
-        await withRetryableProgress(
-            `${model.name} optimiert den Code...`,
-            async () => {
-                const response = await callAI(prompt);
-                
-                const doc = await vscode.workspace.openTextDocument({
-                    content: response,
-                    language: 'cpp'
-                });
-                
-                await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
-                
-                const choice = await vscode.window.showInformationMessage(
-                    '✅ Code verbessert! Was möchtest du tun?',
-                    'Original ersetzen',
-                    'Beide behalten'
-                );
-                
-                if (choice === 'Original ersetzen') {
-                    await editor.edit(editBuilder => {
-                        editBuilder.replace(selection, response);
-                    });
-                    vscode.window.showInformationMessage('✅ Code wurde ersetzt!');
-                }
+        
+        // Response mit Progress-Anzeige abrufen
+        const response = await vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification,
+            title: `${model.name} optimiert den Code...`,
+            cancellable: false
+        }, async () => {
+            return await callAI(prompt);
+        });
+        
+        // Entferne Markdown Code-Block Markers und extrahiere Code + Kommentare separat
+        let cleanedResponse = response;
+        let extractedCode = '';
+        let aiComments = '';
+        
+        // Suche nach dem Pattern ```cpp...``` und extrahiere Code und Kommentare
+        const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```([\s\S]*)?/);
+        if (codeBlockMatch) {
+            // Code aus dem Block
+            extractedCode = codeBlockMatch[1].trim();
+            // Kommentare nach dem Block (falls vorhanden)
+            aiComments = codeBlockMatch[2] ? codeBlockMatch[2].trim() : '';
+        } else {
+            // Fallback
+            extractedCode = cleanedResponse;
+            extractedCode = extractedCode.replace(/^```(?:cpp|c\+\+|arduino)?\s*\n?/i, '');
+            const endIndex = extractedCode.indexOf('```');
+            if (endIndex !== -1) {
+                extractedCode = extractedCode.substring(0, endIndex);
             }
+            extractedCode = extractedCode.trim();
+        }
+
+        // Dokument erstellen - MIT Kommentaren für die Anzeige
+        try {
+            let displayContent = extractedCode;
+            if (aiComments) {
+                displayContent += '\n\n/* ========== AI-HINWEISE ==========\n' + aiComments + '\n================================== */';
+            }
+    
+            const doc = await vscode.workspace.openTextDocument({
+                content: displayContent,  // Code + Kommentare
+                language: 'cpp'
+            });
+            
+            await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+        } catch (docError) {
+            console.log('Document display warning (can be ignored):', docError.message);
+        }
+
+        // Choice-Dialog anzeigen
+        const choice = await vscode.window.showInformationMessage(
+            '✅ Code verbessert! Was möchtest du tun?',
+            'Original ersetzen',
+            'Beide behalten'
         );
+
+        if (choice === 'Original ersetzen') {
+            await editor.edit(editBuilder => {
+                editBuilder.replace(selection, extractedCode);  // NUR der Code, ohne AI-Kommentare
+            });
+            vscode.window.showInformationMessage('✅ Code wurde ersetzt!');
+        }
+        
     } catch (error) {
         handleApiError(error);
     }
@@ -1487,7 +1554,27 @@ async function addComments() {
         return;
     }
     
-    const prompt = `Füge hilfreiche deutsche Kommentare zu diesem Arduino-Code hinzu:
+    // Gespeicherte Custom-Anweisungen für Kommentare laden
+    const savedInstructions = globalContext.globalState.get('aiduino.commentInstructions', '');
+    
+    // Dialog für eigene Anweisungen
+    const customInstructions = await vscode.window.showInputBox({
+        prompt: 'Eigene Anweisungen für die Kommentierung (optional)',
+        placeHolder: 'z.B. "sehr ausführlich", "nur Funktionen kommentieren", "auf Englisch"',
+        value: savedInstructions,
+        ignoreFocusOut: true
+    });
+    
+    // Abbruch wenn Cancel gedrückt wurde
+    if (customInstructions === undefined) {
+        return;
+    }
+    
+    // Speichere die Anweisungen für nächstes Mal
+    globalContext.globalState.update('aiduino.commentInstructions', customInstructions);
+    
+    // Basis-Prompt
+    let prompt = `Füge hilfreiche deutsche Kommentare zu diesem Arduino-Code hinzu:
 
 \`\`\`cpp
 ${selectedText}
@@ -1498,38 +1585,72 @@ Regeln:
 - Kommentiere Funktionen und ihre Parameter
 - Erkläre Hardware-Interaktionen
 - Nutze // für einzeilige und /* */ für mehrzeilige Kommentare
-- Kommentare sollen Anfängern helfen
+- Kommentare sollen Anfängern helfen`;
 
-Gib NUR den kommentierten Code zurück, keine Erklärungen drumherum.`;
+    // Füge custom Instructions hinzu, wenn vorhanden
+    if (customInstructions && customInstructions.trim()) {
+        prompt += `\n\nZusätzliche Anweisungen vom Nutzer:\n- ${customInstructions.split(',').map(s => s.trim()).join('\n- ')}`;
+    }
+
+    prompt += '\n\nGib NUR den kommentierten Code zurück, keine Erklärungen drumherum.';
     
     try {
         const model = AI_MODELS[currentModel];
-        await withRetryableProgress(
-            `${model.name} fügt Kommentare hinzu...`,
-            async () => {
-                const response = await callAI(prompt);
-                
-                const preview = await vscode.workspace.openTextDocument({
-                    content: response,
-                    language: 'cpp'
-                });
-                
-                await vscode.window.showTextDocument(preview, vscode.ViewColumn.Beside);
-                
-                const choice = await vscode.window.showInformationMessage(
-                    'Kommentare hinzugefügt! Was möchtest du tun?',
-                    'Code ersetzen',
-                    'So lassen'
-                );
-                
-                if (choice === 'Code ersetzen') {
-                    await editor.edit(editBuilder => {
-                        editBuilder.replace(selection, response);
-                    });
-                    vscode.window.showInformationMessage('✅ Code wurde aktualisiert!');
-                }
+        
+        // Response mit Progress-Anzeige abrufen
+        const response = await vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification,
+            title: `${model.name} fügt Kommentare hinzu...`,
+            cancellable: false
+        }, async () => {
+            return await callAI(prompt);
+        });
+        
+        // Entferne Markdown Code-Block Markers
+        let cleanedResponse = response;
+        let extractedCode = '';
+        
+        // Suche nach dem Pattern ```cpp...``` und extrahiere nur den Code
+        const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```/);
+        if (codeBlockMatch) {
+            extractedCode = codeBlockMatch[1].trim();
+        } else {
+            // Fallback
+            extractedCode = cleanedResponse;
+            extractedCode = extractedCode.replace(/^```(?:cpp|c\+\+|arduino)?\s*\n?/i, '');
+            const endIndex = extractedCode.indexOf('```');
+            if (endIndex !== -1) {
+                extractedCode = extractedCode.substring(0, endIndex);
             }
+            extractedCode = extractedCode.trim();
+        }
+        
+        // Dokument erstellen und anzeigen
+        try {
+            const doc = await vscode.workspace.openTextDocument({
+                content: extractedCode,
+                language: 'cpp'
+            });
+            
+            await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+        } catch (docError) {
+            console.log('Document display warning (can be ignored):', docError.message);
+        }
+        
+        // Choice-Dialog anzeigen
+        const choice = await vscode.window.showInformationMessage(
+            'Kommentare hinzugefügt! Was möchtest du tun?',
+            'Code ersetzen',
+            'So lassen'
         );
+        
+        if (choice === 'Code ersetzen') {
+            await editor.edit(editBuilder => {
+                editBuilder.replace(selection, extractedCode);
+            });
+            vscode.window.showInformationMessage('✅ Code wurde aktualisiert!');
+        }
+        
     } catch (error) {
         handleApiError(error);
     }
@@ -2304,7 +2425,7 @@ function showAbout() {
         <body>
             <div class="logo">🤖</div>
             <h1>AI.duino</h1>
-            <div class="version">Version 1.1.1</div>
+            <div class="version">Version 1.2.0</div>
             
             <p><strong>KI-gestützte Arduino-Entwicklung</strong></p>
             
@@ -2353,9 +2474,11 @@ function showAbout() {
                 <br>
                 <p><em>Entwickelt mit 💙 für die Arduino-Community</em></p>
                 <br>
-                <p><strong>v1.1.1 Changelog:</strong></p>
+                <p><strong>v1.2.0 Changelog:</strong></p>
                 <ul style="text-align: left;">
-                    <li>✨ Mistral integration/li>
+                    <li>✨ Added input text field for more interaction</li>
+                    <li>✨ Improved code optimization integration</li>
+                    <li>✨ Improved commet code integration</li>
                 </ul>
             </div>
         </body>
@@ -2371,7 +2494,7 @@ function deactivate() {
     if (statusBarItem) {
         statusBarItem.dispose();
     }
-    console.log('AI.duino v1.1.1 deaktiviert');
+    console.log('AI.duino v1.2.0 deaktiviert');
 }
 exports.deactivate = deactivate;
 
@@ -2388,7 +2511,7 @@ $SUDO tee "$TARGET/extension.vsixmanifest" > /dev/null << 'EOF'
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
   <Metadata>
-    <Identity Language="en-US" Id="aiduino" Version="1.1.1" Publisher="Monster Maker"/>
+    <Identity Language="en-US" Id="aiduino" Version="1.2.0" Publisher="Monster Maker"/>
     <DisplayName>AI.duino</DisplayName>
     <Description xml:space="preserve">KI-Hilfe für Arduino mit Fehler-Erklärung und Debug-Support</Description>
   </Metadata>
@@ -2442,7 +2565,7 @@ echo "==============================================="
 echo "   Installation erfolgreich!"
 echo "==============================================="
 echo ""
-echo "🤖 AI.duino v1.1.1 wurde installiert!"
+echo "🤖 AI.duino v1.2.0 wurde installiert!"
 echo ""
 echo "📖 Nächste Schritte:"
 echo "1. Arduino IDE neu starten"
