@@ -2,7 +2,7 @@
 # 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
 AI.duino integrates Claude, ChatGPT, Gemini and Mistral directly into the Arduino IDE for intelligent code assistance. More AI models will follow. 
-Right now, there is only a **German** version of this plugin.  
+Right now, there is only a **German** version of this plugin. An Englisch Version will follow soon.    
  
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
@@ -36,7 +36,7 @@ When using this feature, you copy the error message from the Arduino output wind
 
 #### Windows
 ```
-Run aiduino_windows.bat as Administrator
+Run aiduino_windows.bat as administrator
 ```
 
 #### Linux
