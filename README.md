@@ -13,7 +13,7 @@ Right now, there is only a **German** version of this plugin. An Englisch Versio
 ## Features
 
 ### Code optimization
-Converts blocking code into non-blocking variants. Example: `delay()` is replaced with `millis()`-based implementations.
+Optimizes Code. Example: Converts blocking code into non-blocking variants, `delay()` is replaced with `millis()`-based implementations.
 
 ### Code explanation
 Explains complex Arduino commands and hardware registers in plain language.
