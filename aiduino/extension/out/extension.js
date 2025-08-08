@@ -1,5 +1,5 @@
 /*
- * AI.duino v1.2.0
+ * AI.duino v1.3.0 - Internationalized Version
  * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,97 @@ const os = require("os");
 const path = require("path");
 
 // ========================================
-// MODULARE AI-MODELL KONFIGURATION
+// INTERNATIONALIZATION SYSTEM
+// ========================================
+
+let i18n = {};
+let currentLocale = 'en';
+
+function loadLocale() {
+    // Get VS Code's display language
+    const vscodeLocale = vscode.env.language || 'en';
+    
+    // Map VS Code locale to our supported locales
+    const supportedLocales = ['en', 'de', 'es', 'fr', 'it', 'pt', 'zh', 'ja', 'ko', 'ru'];
+    currentLocale = supportedLocales.includes(vscodeLocale.substring(0, 2)) 
+        ? vscodeLocale.substring(0, 2) 
+        : 'en';
+    
+    try {
+        // Try to load the locale file
+        const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
+        if (fs.existsSync(localeFile)) {
+            i18n = JSON.parse(fs.readFileSync(localeFile, 'utf8'));
+            console.log(`✅ Loaded locale: ${currentLocale}`);
+        } else {
+            // Fallback to English
+            const englishFile = path.join(__dirname, '..', 'locales', 'en.json');
+            i18n = JSON.parse(fs.readFileSync(englishFile, 'utf8'));
+            currentLocale = 'en';
+            console.log('✅ Loaded default locale: en');
+        }
+    } catch (error) {
+        console.error('Failed to load locale files:', error);
+        // Use embedded fallback if files can't be loaded
+        i18n = getEmbeddedEnglishLocale();
+    }
+}
+
+// Minimal embedded English locale as ultimate fallback
+function getEmbeddedEnglishLocale() {
+    return {
+        commands: {
+            quickMenu: "Open Quick Menu",
+            switchModel: "Switch AI Model",
+            setApiKey: "Enter API Key",
+            improveCode: "Improve Code",
+            explainCode: "Explain Code",
+            addComments: "Add Comments",
+            explainError: "Explain Error",
+            debugHelp: "Debug Help",
+            about: "About AI.duino..."
+        },
+        messages: {
+            welcome: "Welcome! AI.duino v1.3.0 supports multiple AI models!",
+            noApiKey: "First you need an API key for",
+            selectAction: "What would you like to do?",
+            markCode: "Please select the code you want to",
+            noEditor: "No code editor active",
+            apiKeySet: "API Key saved!",
+            modelSwitched: "Switched to",
+            codeImproved: "Code improved! What would you like to do?",
+            replaceOriginal: "Replace original",
+            keepBoth: "Keep both"
+        }
+    };
+}
+
+// Helper function to get localized string
+function t(key, ...args) {
+    const keys = key.split('.');
+    let value = i18n;
+    
+    for (const k of keys) {
+        if (value && typeof value === 'object' && k in value) {
+            value = value[k];
+        } else {
+            console.warn(`Missing translation: ${key}`);
+            return key; // Return key as fallback
+        }
+    }
+    
+    // Replace placeholders {0}, {1}, etc. with arguments
+    if (typeof value === 'string' && args.length > 0) {
+        return value.replace(/{(\d+)}/g, (match, index) => {
+            return args[parseInt(index)] || match;
+        });
+    }
+    
+    return value;
+}
+
+// ========================================
+// MODULAR AI MODEL CONFIGURATION
 // ========================================
 
 const AI_MODELS = {
@@ -73,62 +163,65 @@ const AI_MODELS = {
         fullName: 'Mistral Large',
         icon: '🌟',
         keyFile: '.aiduino-mistral-api-key',
-        keyPrefix: 'sk-',  // Mistral Keys starten auch mit sk-
+        keyPrefix: 'sk-',
         keyMinLength: 32,
         prices: {
             input: 0.004 / 1000,   // $4 per 1M tokens
             output: 0.012 / 1000   // $12 per 1M tokens
         },
-        color: '#FF7000'  // Mistral Orange
+        color: '#FF7000'
     }
 };
 
-// Globale Variablen
+// Global variables
 let statusBarItem;
-let globalContext; // NEU: Für persistente Speicherung
+let globalContext;
 let currentModel = 'claude';
 const apiKeys = {};
 const MODEL_FILE = path.join(os.homedir(), '.aiduino-model');
 
-// Token-Tracking
+// Token tracking
 let tokenUsage = {};
 const TOKEN_USAGE_FILE = path.join(os.homedir(), '.aiduino-token-usage.json');
 
 // ========================================
-// AKTIVIERUNG & INITIALISIERUNG
+// ACTIVATION & INITIALIZATION
 // ========================================
 
 function activate(context) {
-    console.log('🤖 AI.duino v1.2.0 aktiviert!');
+    console.log('🤖 AI.duino v1.3.0 activated!');
     
-    // Context global verfügbar machen
+    // Load locale first
+    loadLocale();
+    
+    // Store context globally
     globalContext = context;
 
-    // Initialisiere Token-Usage für alle Modelle
+    // Initialize token usage for all models
     initializeTokenUsage();
     
-    // API Keys und Model beim Start laden
+    // Load API keys and model on startup
     loadApiKeys();
     loadSelectedModel();
     loadTokenUsage();
     
-    // Status Bar mit Tooltip
+    // Status bar with tooltip
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
     updateStatusBar();
     statusBarItem.command = "aiduino.quickMenu";
     statusBarItem.show();
     
-    // Commands registrieren
+    // Register commands
     registerCommands(context);
     
-    // Willkommensnachricht
+    // Welcome message
     if (shouldShowWelcome()) {
         setTimeout(() => {
             showWelcomeMessage();
         }, 1000);
     }
     
-    // Auto-Fehler-Erkennung
+    // Auto error detection
     let errorTimeout;
     vscode.languages.onDidChangeDiagnostics(e => {
         clearTimeout(errorTimeout);
@@ -139,7 +232,7 @@ exports.activate = activate;
 
 function registerCommands(context) {
     const commands = [
-        { name: 'aiduino.quickMenu', handler: showQuickMenu },
+        { name: 'aiduino.quickMenu', handler: showQuickMenu }, 
         { name: 'aiduino.switchModel', handler: switchModel },
         { name: 'aiduino.setApiKey', handler: setApiKey },
         { name: 'aiduino.explainCode', handler: explainCode },
@@ -166,7 +259,7 @@ function initializeTokenUsage() {
         daily: new Date().toDateString()
     };
     
-    // Initialisiere für jedes Modell
+    // Initialize for each model
     Object.keys(AI_MODELS).forEach(modelId => {
         tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
     });
@@ -177,7 +270,7 @@ function shouldShowWelcome() {
 }
 
 // ========================================
-// KONFIGURATIONS-MANAGEMENT
+// CONFIGURATION MANAGEMENT
 // ========================================
 
 function loadApiKeys() {
@@ -188,10 +281,10 @@ function loadApiKeys() {
         try {
             if (fs.existsSync(keyFile)) {
                 apiKeys[modelId] = fs.readFileSync(keyFile, 'utf8').trim();
-                console.log(`✅ ${model.name} API Key geladen`);
+                console.log(`✅ ${model.name} API Key loaded`);
             }
         } catch (error) {
-            console.log(`❌ Fehler beim Laden des ${model.name} API Keys:`, error);
+            console.log(`❌ Error loading ${model.name} API Key:`, error);
         }
     });
 }
@@ -202,11 +295,11 @@ function loadSelectedModel() {
             const savedModel = fs.readFileSync(MODEL_FILE, 'utf8').trim();
             if (AI_MODELS[savedModel]) {
                 currentModel = savedModel;
-                console.log('✅ Ausgewähltes Model:', currentModel);
+                console.log('✅ Selected model:', currentModel);
             }
         }
     } catch (error) {
-        console.log('❌ Fehler beim Laden des Models:', error);
+        console.log('❌ Error loading model:', error);
     }
 }
 
@@ -214,12 +307,12 @@ function saveSelectedModel() {
     try {
         fs.writeFileSync(MODEL_FILE, currentModel, { mode: 0o600 });
     } catch (error) {
-        console.log('❌ Fehler beim Speichern des Models:', error);
+        console.log('❌ Error saving model:', error);
     }
 }
 
 // ========================================
-// TOKEN-MANAGEMENT
+// TOKEN MANAGEMENT
 // ========================================
 
 function loadTokenUsage() {
@@ -227,53 +320,53 @@ function loadTokenUsage() {
         const currentDate = new Date();
         const today = currentDate.toDateString();
         
-        console.log('=== TOKEN USAGE LADEN ===');
-        console.log('Aktuelles Datum:', today);
+        console.log('=== TOKEN USAGE LOADING ===');
+        console.log('Current date:', today);
         console.log('Timestamp:', currentDate.toISOString());
         
         if (fs.existsSync(TOKEN_USAGE_FILE)) {
             const fileContent = fs.readFileSync(TOKEN_USAGE_FILE, 'utf8');
-            console.log('Datei-Inhalt:', fileContent);
+            console.log('File content:', fileContent);
             
             const data = JSON.parse(fileContent);
-            console.log('Gespeichertes Datum:', data.daily);
-            console.log('Datum-Vergleich:', data.daily === today);
+            console.log('Saved date:', data.daily);
+            console.log('Date comparison:', data.daily === today);
             
-            // Prüfe ob es der gleiche Tag ist
+            // Check if it's the same day
             if (data.daily === today) {
-                // Gleicher Tag - Daten übernehmen
+                // Same day - take over data
                 tokenUsage = data;
-                console.log('✅ Token-Statistik vom gleichen Tag geladen');
+                console.log('✅ Token statistics loaded from same day');
                 
-                // Stelle sicher, dass alle Modelle existieren
+                // Ensure all models exist
                 Object.keys(AI_MODELS).forEach(modelId => {
                     if (!tokenUsage[modelId]) {
                         tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
                     }
                 });
             } else {
-                // Anderer Tag - Reset
-                console.log('🔄 Neuer Tag erkannt - Reset der Statistik');
-                console.log('Alt:', data.daily, 'Neu:', today);
+                // Different day - reset
+                console.log('🔄 New day detected - resetting statistics');
+                console.log('Old:', data.daily, 'New:', today);
                 initializeTokenUsage();
                 saveTokenUsage();
             }
         } else {
-            // Keine Datei vorhanden
-            console.log('📄 Keine Token-Datei gefunden - erstelle neue');
+            // No file present
+            console.log('📄 No token file found - creating new');
             initializeTokenUsage();
             saveTokenUsage();
         }
         
-        // Nach dem Laden StatusBar aktualisieren
+        // Update status bar after loading
         if (statusBarItem) {
             updateStatusBar();
         }
         
     } catch (error) {
-        console.error('❌ Fehler beim Laden der Token-Statistik:', error);
+        console.error('❌ Error loading token statistics:', error);
         
-        // Bei Fehler mit leeren Werten starten
+        // Start with empty values on error
         initializeTokenUsage();
         saveTokenUsage();
     }
@@ -290,16 +383,16 @@ function saveTokenUsage() {
 function estimateTokens(text) {
     if (!text) return 0;
     
-    // Basis: ~4 Zeichen = 1 Token für normalen Text
+    // Base: ~4 characters = 1 token for normal text
     let tokens = text.length / 4;
     
-    // Code hat oft mehr Tokens wegen Syntax
+    // Code has more tokens due to syntax
     const codeIndicators = text.match(/[{}()\[\];,.<>]/g);
     if (codeIndicators) {
         tokens += codeIndicators.length * 0.3;
     }
     
-    // Neue Zeilen zählen auch als Tokens
+    // New lines also count as tokens
     const newlines = text.match(/\n/g);
     if (newlines) {
         tokens += newlines.length;
@@ -315,7 +408,7 @@ function updateTokenUsage(modelId, inputText, outputText) {
     tokenUsage[modelId].input += inputTokens;
     tokenUsage[modelId].output += outputTokens;
     
-    // Kosten berechnen
+    // Calculate costs
     const model = AI_MODELS[modelId];
     const inputCost = inputTokens * model.prices.input;
     const outputCost = outputTokens * model.prices.output;
@@ -326,44 +419,48 @@ function updateTokenUsage(modelId, inputText, outputText) {
 }
 
 // ========================================
-// UI-FUNKTIONEN
+// UI FUNCTIONS
 // ========================================
 
 function updateStatusBar() {
     const model = AI_MODELS[currentModel];
     const hasApiKey = apiKeys[currentModel];
     
-    // Kosten für heute
+    // Costs for today
     const todayCost = tokenUsage[currentModel].cost.toFixed(3);
     const costDisplay = todayCost > 0 ? ` ($${todayCost})` : '';
     
     if (hasApiKey) {
         statusBarItem.text = `${model.icon} AI.duino${costDisplay}`;
-        statusBarItem.tooltip = `AI.duino v1.2.0: ${model.name}\n` +
-            `Heute: ${tokenUsage[currentModel].input + tokenUsage[currentModel].output} Tokens${costDisplay}\n` +
-            `Input: ${tokenUsage[currentModel].input} | Output: ${tokenUsage[currentModel].output}\n` +
-            `Klick für Menü • Strg+Shift+C • Rechtsklick zum Wechseln`;
+        statusBarItem.tooltip = t('statusBar.tooltip', 
+            model.name,
+            tokenUsage[currentModel].input + tokenUsage[currentModel].output,
+            costDisplay,
+            tokenUsage[currentModel].input,
+            tokenUsage[currentModel].output
+        );
         statusBarItem.backgroundColor = undefined;
     } else {
         statusBarItem.text = `${model.icon} AI.duino $(warning)`;
-        statusBarItem.tooltip = `${model.name} API Key fehlt! • Klick zum Einrichten`;
+        statusBarItem.tooltip = t('statusBar.noApiKey', model.name);
         statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
     }
 }
+
 // ========================================
-// MENÜ-FUNKTIONEN
+// MENU FUNCTIONS
 // ========================================
 
 async function showWelcomeMessage() {
     const modelList = Object.values(AI_MODELS).map(m => m.name).join(', ');
-    const message = `👋 Willkommen! AI.duino v1.2.0 unterstützt ${modelList}!`;
+    const message = t('messages.welcome', modelList);
     const choice = await vscode.window.showInformationMessage(
         message,
-        'AI-Modell wählen',
-        'Später'
+        t('buttons.chooseModel'),
+        t('buttons.later')
     );
     
-    if (choice === 'AI-Modell wählen') {
+    if (choice === t('buttons.chooseModel')) {
         await switchModel();
     }
 }
@@ -374,14 +471,14 @@ async function showQuickMenu() {
     
     if (!hasApiKey) {
         const choice = await vscode.window.showWarningMessage(
-            `🔑 Zuerst brauchst du einen ${model.name} API Key`,
-            'Jetzt einrichten',
-            'Modell wechseln',
-            'Abbrechen'
+            t('messages.noApiKey', model.name),
+            t('buttons.setupNow'),
+            t('buttons.switchModel'),
+            t('buttons.cancel')
         );
-        if (choice === 'Jetzt einrichten') {
+        if (choice === t('buttons.setupNow')) {
             await setApiKey();
-        } else if (choice === 'Modell wechseln') {
+        } else if (choice === t('buttons.switchModel')) {
             await switchModel();
         }
         return;
@@ -389,102 +486,85 @@ async function showQuickMenu() {
     
     const editor = vscode.window.activeTextEditor;
     const hasSelection = editor && !editor.selection.isEmpty;
-    const hasErrors = await checkForErrors(false);
+    // const hasErrors = await checkForErrors(false);  // AUSKOMMENTIERT
     
     const items = [
         {
-            label: '$(symbol-method) Code verbessern',
-            description: hasSelection ? 'Ausgewählten Code optimieren' : 'Erst Code markieren',
-            command: 'aiduino.improveCode',
-            enabled: true
+            label: '$(symbol-method) ' + t('commands.improveCode'),
+            description: hasSelection ? t('descriptions.improveSelected') : t('descriptions.selectFirst'),
+            command: 'aiduino.improveCode'
         },
         {
-            label: '$(comment-discussion) Code erklären',
-            description: hasSelection ? 'Ausgewählten Code erklären' : 'Erst Code markieren',
-            command: 'aiduino.explainCode',
-            enabled: true
+            label: '$(comment-discussion) ' + t('commands.explainCode'),
+            description: hasSelection ? t('descriptions.explainSelected') : t('descriptions.selectFirst'),
+            command: 'aiduino.explainCode'
         },
         {
-            label: '$(edit) Kommentare hinzufügen',
-            description: hasSelection ? 'Code kommentieren' : 'Erst Code markieren',
-            command: 'aiduino.addComments',
-            enabled: true
+            label: '$(edit) ' + t('commands.addComments'),
+            description: hasSelection ? t('descriptions.addComments') : t('descriptions.selectFirst'),
+            command: 'aiduino.addComments'
         },
         {
-            label: '$(error) Fehler erklären',
-            description: hasErrors ? '🔴 Compiler-Fehler gefunden' : 'Keine Fehler',
-            command: 'aiduino.explainError',
-            enabled: true
+            label: '$(error) ' + t('commands.explainError'),
+            description: t('descriptions.noErrors'),  // GEÄNDERT - hasErrors entfernt
+            command: 'aiduino.explainError'
         },
         {
-            label: '$(bug) Debug-Hilfe',
-            description: 'Hilfe bei der Fehlersuche',
-            command: 'aiduino.debugHelp',
-            enabled: true
+            label: '$(bug) ' + t('commands.debugHelp'),
+            description: t('descriptions.debugHelp'),
+            command: 'aiduino.debugHelp'
         },
         {
-            label: '$(sync) AI-Modell wechseln',
-            description: `Aktuell: ${model.name}`,
-            command: 'aiduino.switchModel',
-            enabled: true
+            label: '$(sync) ' + t('commands.switchModel'),
+            description: t('descriptions.currentModel', model.name),
+            command: 'aiduino.switchModel'
         },
         {
-            label: '$(key) API Key ändern',
-            description: `${model.name} Key`,
-            command: 'aiduino.setApiKey',
-            enabled: true
+            label: '$(key) ' + t('commands.changeApiKey'),
+            description: model.name + ' Key',
+            command: 'aiduino.setApiKey'
         },
         {
-            label: '$(graph) Token-Statistik',
-            description: generateTokenStatsDescription(),
-            command: 'aiduino.showTokenStats',
-            enabled: true
+            label: '$(graph) ' + t('commands.tokenStats'),
+            description: 'Token-Statistik',  // GEÄNDERT - generateTokenStatsDescription() entfernt
+            command: 'aiduino.showTokenStats'
+        },
+        {
+            label: '$(info) ' + t('commands.about'),
+            description: 'Version 1.3.0',
+            command: 'aiduino.about'
         }
-    ].filter(item => item.enabled);
+    ];
     
-    if (items.length === 0) {
-        vscode.window.showInformationMessage(
-            '💡 Markiere Arduino-Code um AI-Funktionen zu nutzen!'
-        );
-        return;
-    }
+    // .filter() entfernt - alle Items bleiben
     
     const selected = await vscode.window.showQuickPick(items, {
-        placeHolder: 'Was möchtest du tun?',
-        title: `🤖 AI.duino v1.2.0 (${model.name})`
+        placeHolder: t('messages.selectAction'),
+        title: `🤖 AI.duino v1.3.0 (${model.name})`
     });
     
-    if (selected) {
+    if (selected && selected.command) {
         vscode.commands.executeCommand(selected.command);
     }
 }
 
-function generateTokenStatsDescription() {
-    const parts = [];
-    Object.keys(AI_MODELS).forEach(modelId => {
-        const model = AI_MODELS[modelId];
-        const cost = tokenUsage[modelId].cost.toFixed(3);
-        parts.push(`$${cost} (${model.name})`);
-    });
-    return `Heute: ${parts.join(' | ')}`;
-}
-
 // ========================================
-// MODEL-MANAGEMENT
+// MODEL MANAGEMENT
 // ========================================
 
 async function switchModel() {
     const items = Object.keys(AI_MODELS).map(modelId => {
         const model = AI_MODELS[modelId];
+        const provider = getProviderName(modelId);
         return {
-            label: `${model.icon} ${model.name} (${model.fullName.includes('Anthropic') ? 'Anthropic' : model.fullName.includes('OpenAI') ? 'OpenAI' : 'Google'})`,
-            description: currentModel === modelId ? '✓ Aktiv' : model.fullName,
+            label: `${model.icon} ${model.name} (${provider})`,
+            description: currentModel === modelId ? '✓ ' + t('labels.active') : model.fullName,
             value: modelId
         };
     });
     
     const selected = await vscode.window.showQuickPick(items, {
-        placeHolder: 'Wähle das AI-Modell'
+        placeHolder: t('messages.selectModel')
     });
     
     if (selected) {
@@ -492,20 +572,20 @@ async function switchModel() {
         saveSelectedModel();
         updateStatusBar();
         
-        // Prüfe ob API Key vorhanden
+        // Check if API key exists
         if (!apiKeys[currentModel]) {
             const model = AI_MODELS[currentModel];
             const choice = await vscode.window.showWarningMessage(
-                `${model.icon} ${model.name} benötigt einen API Key`,
-                'Jetzt eingeben',
-                'Später'
+                t('messages.apiKeyRequired', model.name),
+                t('buttons.enterNow'),
+                t('buttons.later')
             );
-            if (choice === 'Jetzt eingeben') {
+            if (choice === t('buttons.enterNow')) {
                 await setApiKey();
             }
         } else {
             const model = AI_MODELS[currentModel];
-            vscode.window.showInformationMessage(`✅ Gewechselt zu ${model.icon} ${model.name}`);
+            vscode.window.showInformationMessage(t('messages.modelSwitched', model.name));
         }
     }
 }
@@ -515,14 +595,14 @@ async function setApiKey() {
     const providerName = getProviderName(currentModel);
     
     const input = await vscode.window.showInputBox({
-        prompt: `${providerName} API Key eingeben`,
+        prompt: t('prompts.enterApiKey', providerName),
         placeHolder: model.keyPrefix + '...',
         password: true,
         ignoreFocusOut: true,
         validateInput: (value) => {
-            if (!value) return 'API Key erforderlich';
-            if (!value.startsWith(model.keyPrefix)) return `Muss mit "${model.keyPrefix}" beginnen`;
-            if (value.length < model.keyMinLength) return 'Key scheint zu kurz';
+            if (!value) return t('validation.apiKeyRequired');
+            if (!value.startsWith(model.keyPrefix)) return t('validation.apiKeyPrefix', model.keyPrefix);
+            if (value.length < model.keyMinLength) return t('validation.apiKeyTooShort');
             return null;
         }
     });
@@ -534,12 +614,12 @@ async function setApiKey() {
             fs.writeFileSync(keyFile, input, { mode: 0o600 });
             updateStatusBar();
             vscode.window.showInformationMessage(
-                `✅ ${providerName} API Key gespeichert!`
+                t('messages.apiKeySaved', providerName)
             );
             return true;
         } catch (error) {
             vscode.window.showErrorMessage(
-                '❌ Fehler beim Speichern: ' + error.message
+                t('errors.saveFailed', error.message)
             );
             return false;
         }
@@ -564,18 +644,18 @@ function getProviderName(modelId) {
 function handleApiError(error) {
     const model = AI_MODELS[currentModel];
     
-    // Spezifische Fehlerbehandlung
+    // Specific error handling
     if (error.message.includes('ENOTFOUND') || error.message.includes('ETIMEDOUT') || 
-        error.message.includes('ECONNREFUSED') || error.message.includes('Netzwerkfehler')) {
+        error.message.includes('ECONNREFUSED') || error.message.includes(t('errors.networkError'))) {
         
         vscode.window.showErrorMessage(
-            `🌐 Keine Internetverbindung`,
-            'Nochmal versuchen',
-            'Offline-Hilfe'
+            t('errors.noInternet'),
+            t('buttons.retry'),
+            t('buttons.offlineHelp')
         ).then(selection => {
-            if (selection === 'Nochmal versuchen') {
-                vscode.window.showInformationMessage('Versuche es in ein paar Sekunden nochmal...');
-            } else if (selection === 'Offline-Hilfe') {
+            if (selection === t('buttons.retry')) {
+                vscode.window.showInformationMessage(t('messages.retryLater'));
+            } else if (selection === t('buttons.offlineHelp')) {
                 showOfflineHelp();
             }
         });
@@ -583,29 +663,29 @@ function handleApiError(error) {
     } else if (error.message.includes('API Key')) {
         vscode.window.showErrorMessage(
             `🔑 ${error.message}`,
-            'API Key eingeben',
-            'Modell wechseln'
+            t('buttons.enterApiKey'),
+            t('buttons.switchModel')
         ).then(selection => {
-            if (selection === 'API Key eingeben') {
+            if (selection === t('buttons.enterApiKey')) {
                 vscode.commands.executeCommand('aiduino.setApiKey');
-            } else if (selection === 'Modell wechseln') {
+            } else if (selection === t('buttons.switchModel')) {
                 vscode.commands.executeCommand('aiduino.switchModel');
             }
         });
         
     } else if (error.message.includes('Rate Limit')) {
         vscode.window.showErrorMessage(
-            `⏱️ ${model.name} Rate Limit erreicht`,
-            'Modell wechseln',
-            'Später nochmal'
+            t('errors.rateLimit', model.name),
+            t('buttons.switchModel'),
+            t('buttons.tryLater')
         ).then(selection => {
-            if (selection === 'Modell wechseln') {
+            if (selection === t('buttons.switchModel')) {
                 vscode.commands.executeCommand('aiduino.switchModel');
             }
         });
         
     } else {
-        vscode.window.showErrorMessage(`❌ ${model.name} Fehler: ${error.message}`);
+        vscode.window.showErrorMessage(t('errors.apiError', model.name, error.message));
     }
 }
 
@@ -617,7 +697,7 @@ async function withRetryableProgress(title, task) {
         try {
             return await vscode.window.withProgress({
                 location: vscode.ProgressLocation.Notification,
-                title: retryCount > 0 ? `${title} (Versuch ${retryCount + 1}/${maxRetries})` : title,
+                title: retryCount > 0 ? t('progress.retrying', title, retryCount + 1, maxRetries) : title,
                 cancellable: true
             }, async (progress, token) => {
                 token.onCancellationRequested(() => {
@@ -625,7 +705,7 @@ async function withRetryableProgress(title, task) {
                 });
                 
                 if (token.isCancellationRequested) {
-                    throw new Error('Vorgang abgebrochen');
+                    throw new Error(t('errors.operationCancelled'));
                 }
                 
                 return await task();
@@ -633,22 +713,22 @@ async function withRetryableProgress(title, task) {
         } catch (error) {
             retryCount++;
             
-            if (error.message.includes('Netzwerkfehler') || 
-                error.message.includes('Zeitüberschreitung') ||
-                error.message.includes('nicht erreichbar')) {
+            if (error.message.includes(t('errors.networkError')) || 
+                error.message.includes(t('errors.timeout')) ||
+                error.message.includes(t('errors.unreachable'))) {
                 
                 if (retryCount < maxRetries) {
                     const retry = await vscode.window.showWarningMessage(
-                        `Verbindungsfehler. Nochmal versuchen?`,
-                        'Ja',
-                        'Nein'
+                        t('messages.connectionError'),
+                        t('buttons.yes'),
+                        t('buttons.no')
                     );
                     
-                    if (retry !== 'Ja') {
+                    if (retry !== t('buttons.yes')) {
                         throw error;
                     }
                     
-                    // Warte kurz vor dem nächsten Versuch
+                    // Wait before next retry
                     await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
                 } else {
                     throw error;
@@ -661,7 +741,7 @@ async function withRetryableProgress(title, task) {
 }
 
 // ========================================
-// FEHLER-DIAGNOSE
+// ERROR DIAGNOSIS
 // ========================================
 
 async function checkForErrors(silent = true) {
@@ -676,7 +756,7 @@ async function checkForErrors(silent = true) {
     if (errors.length > 0 && !silent) {
         const model = AI_MODELS[currentModel];
         statusBarItem.text = `${model.icon} AI.duino $(error)`;
-        statusBarItem.tooltip = `${errors.length} Fehler gefunden • Klick für Hilfe`;
+        statusBarItem.tooltip = t('statusBar.errorsFound', errors.length);
         statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
         
         setTimeout(() => updateStatusBar(), 5000);
@@ -684,8 +764,9 @@ async function checkForErrors(silent = true) {
     
     return errors.length > 0;
 }
+
 // ========================================
-// ZENTRALE API-AUFRUF FUNKTION
+// CENTRAL API CALL FUNCTION
 // ========================================
 
 function callAI(prompt) {
@@ -698,7 +779,7 @@ function callAI(prompt) {
     
     const handler = apiHandlers[currentModel];
     if (!handler) {
-        return Promise.reject(new Error(`Unbekanntes Modell: ${currentModel}`));
+        return Promise.reject(new Error(t('errors.unknownModel', currentModel)));
     }
     
     return handler(prompt);
@@ -711,15 +792,15 @@ function callAI(prompt) {
 function callClaudeAPI(prompt) {
     return new Promise((resolve, reject) => {
         if (!apiKeys.claude) {
-            reject(new Error('Kein Claude API Key gesetzt'));
+            reject(new Error(t('errors.noApiKey', 'Claude')));
             return;
         }
 
-        // Timeout für Anfragen
+        // Timeout for requests
         const timeout = setTimeout(() => {
             req.destroy();
-            reject(new Error('Zeitüberschreitung - Bitte Internetverbindung prüfen'));
-        }, 30000); // 30 Sekunden Timeout
+            reject(new Error(t('errors.timeout')));
+        }, 30000); // 30 seconds timeout
 
         const data = JSON.stringify({
             model: "claude-3-5-sonnet-20241022",
@@ -761,25 +842,25 @@ function callClaudeAPI(prompt) {
                         console.log('Claude tokens tracked:', estimateTokens(prompt), 'in,', estimateTokens(response), 'out');
                         resolve(response);
                     } else {
-                        // Spezifische Fehlermeldungen
+                        // Specific error messages
                         switch(res.statusCode) {
                             case 401:
-                                reject(new Error('Claude API Key ungültig'));
+                                reject(new Error(t('errors.invalidApiKey', 'Claude')));
                                 break;
                             case 429:
-                                reject(new Error('Claude Rate Limit erreicht - bitte warte einen Moment'));
+                                reject(new Error(t('errors.rateLimit', 'Claude')));
                                 break;
                             case 500:
                             case 502:
                             case 503:
-                                reject(new Error('Claude Server momentan nicht erreichbar'));
+                                reject(new Error(t('errors.serverUnavailable', 'Claude')));
                                 break;
                             default:
-                                reject(new Error(`Claude API Error (${res.statusCode}): ${parsedData.error?.message || 'Unbekannter Fehler'}`));
+                                reject(new Error(t('errors.apiErrorWithCode', 'Claude', res.statusCode, parsedData.error?.message || t('errors.unknownError'))));
                         }
                     }
                 } catch (e) {
-                    reject(new Error('Fehler beim Parsen der Claude-Antwort'));
+                    reject(new Error(t('errors.parseError', 'Claude')));
                 }
             });
         });
@@ -801,21 +882,23 @@ function callClaudeAPI(prompt) {
 function callChatGPTAPI(prompt) {
     return new Promise((resolve, reject) => {
         if (!apiKeys.chatgpt) {
-            reject(new Error('Kein OpenAI API Key gesetzt'));
+            reject(new Error(t('errors.noApiKey', 'OpenAI')));
             return;
         }
 
         const timeout = setTimeout(() => {
             req.destroy();
-            reject(new Error('Zeitüberschreitung - Bitte Internetverbindung prüfen'));
+            reject(new Error(t('errors.timeout')));
         }, 30000);
 
+        const systemPrompt = t('prompts.systemPrompt');
+        
         const data = JSON.stringify({
             model: "gpt-4",
             messages: [
                 {
                     role: "system",
-                    content: "Du bist ein hilfreicher Arduino-Programmier-Assistent. Antworte immer auf Deutsch und erkläre Arduino-Code verständlich."
+                    content: systemPrompt
                 },
                 { 
                     role: "user", 
@@ -858,22 +941,22 @@ function callChatGPTAPI(prompt) {
                     } else {
                         switch(res.statusCode) {
                             case 401:
-                                reject(new Error('OpenAI API Key ungültig'));
+                                reject(new Error(t('errors.invalidApiKey', 'OpenAI')));
                                 break;
                             case 429:
-                                reject(new Error('ChatGPT Rate Limit erreicht - bitte warte einen Moment'));
+                                reject(new Error(t('errors.rateLimit', 'ChatGPT')));
                                 break;
                             case 500:
                             case 502:
                             case 503:
-                                reject(new Error('OpenAI Server momentan nicht erreichbar'));
+                                reject(new Error(t('errors.serverUnavailable', 'OpenAI')));
                                 break;
                             default:
-                                reject(new Error(`OpenAI API Error (${res.statusCode}): ${parsedData.error?.message || 'Unbekannter Fehler'}`));
+                                reject(new Error(t('errors.apiErrorWithCode', 'OpenAI', res.statusCode, parsedData.error?.message || t('errors.unknownError'))));
                         }
                     }
                 } catch (e) {
-                    reject(new Error('Fehler beim Parsen der ChatGPT-Antwort'));
+                    reject(new Error(t('errors.parseError', 'ChatGPT')));
                 }
             });
         });
@@ -895,13 +978,13 @@ function callChatGPTAPI(prompt) {
 function callGeminiAPI(prompt) {
     return new Promise((resolve, reject) => {
         if (!apiKeys.gemini) {
-            reject(new Error('Kein Gemini API Key gesetzt'));
+            reject(new Error(t('errors.noApiKey', 'Gemini')));
             return;
         }
 
         const timeout = setTimeout(() => {
             req.destroy();
-            reject(new Error('Zeitüberschreitung - Bitte Internetverbindung prüfen'));
+            reject(new Error(t('errors.timeout')));
         }, 30000);
 
         const data = JSON.stringify({
@@ -970,28 +1053,28 @@ function callGeminiAPI(prompt) {
                             console.log('Gemini tokens tracked:', estimateTokens(prompt), 'in,', estimateTokens(response), 'out');
                             resolve(response);
                         } else {
-                            reject(new Error('Unerwartete Gemini API Antwort-Struktur'));
+                            reject(new Error(t('errors.unexpectedResponse', 'Gemini')));
                         }
                     } else {
                         switch(res.statusCode) {
                             case 401:
                             case 403:
-                                reject(new Error('Gemini API Key ungültig'));
+                                reject(new Error(t('errors.invalidApiKey', 'Gemini')));
                                 break;
                             case 429:
-                                reject(new Error('Gemini Rate Limit erreicht - bitte warte einen Moment'));
+                                reject(new Error(t('errors.rateLimit', 'Gemini')));
                                 break;
                             case 500:
                             case 502:
                             case 503:
-                                reject(new Error('Google Server momentan nicht erreichbar'));
+                                reject(new Error(t('errors.serverUnavailable', 'Google')));
                                 break;
                             default:
-                                reject(new Error(`Gemini API Error (${res.statusCode}): ${parsedData.error?.message || 'Unbekannter Fehler'}`));
+                                reject(new Error(t('errors.apiErrorWithCode', 'Gemini', res.statusCode, parsedData.error?.message || t('errors.unknownError'))));
                         }
                     }
                 } catch (e) {
-                    reject(new Error('Fehler beim Parsen der Gemini-Antwort: ' + e.message));
+                    reject(new Error(t('errors.parseError', 'Gemini') + ': ' + e.message));
                 }
             });
         });
@@ -1006,7 +1089,6 @@ function callGeminiAPI(prompt) {
     });
 }
 
-
 // ========================================
 // MISTRAL API
 // ========================================
@@ -1014,21 +1096,23 @@ function callGeminiAPI(prompt) {
 function callMistralAPI(prompt) {
     return new Promise((resolve, reject) => {
         if (!apiKeys.mistral) {
-            reject(new Error('Kein Mistral API Key gesetzt'));
+            reject(new Error(t('errors.noApiKey', 'Mistral')));
             return;
         }
 
         const timeout = setTimeout(() => {
             req.destroy();
-            reject(new Error('Zeitüberschreitung - Bitte Internetverbindung prüfen'));
+            reject(new Error(t('errors.timeout')));
         }, 30000);
 
+        const systemPrompt = t('prompts.systemPrompt');
+        
         const data = JSON.stringify({
             model: "mistral-large-latest",
             messages: [
                 {
                     role: "system",
-                    content: "Du bist ein hilfreicher Arduino-Programmier-Assistent. Antworte immer auf Deutsch und erkläre Arduino-Code verständlich."
+                    content: systemPrompt
                 },
                 { 
                     role: "user", 
@@ -1071,22 +1155,22 @@ function callMistralAPI(prompt) {
                     } else {
                         switch(res.statusCode) {
                             case 401:
-                                reject(new Error('Mistral API Key ungültig'));
+                                reject(new Error(t('errors.invalidApiKey', 'Mistral')));
                                 break;
                             case 429:
-                                reject(new Error('Mistral Rate Limit erreicht - bitte warte einen Moment'));
+                                reject(new Error(t('errors.rateLimit', 'Mistral')));
                                 break;
                             case 500:
                             case 502:
                             case 503:
-                                reject(new Error('Mistral Server momentan nicht erreichbar'));
+                                reject(new Error(t('errors.serverUnavailable', 'Mistral')));
                                 break;
                             default:
-                                reject(new Error(`Mistral API Error (${res.statusCode}): ${parsedData.error?.message || 'Unbekannter Fehler'}`));
+                                reject(new Error(t('errors.apiErrorWithCode', 'Mistral', res.statusCode, parsedData.error?.message || t('errors.unknownError'))));
                         }
                     }
                 } catch (e) {
-                    reject(new Error('Fehler beim Parsen der Mistral-Antwort'));
+                    reject(new Error(t('errors.parseError', 'Mistral')));
                 }
             });
         });
@@ -1107,26 +1191,27 @@ function callMistralAPI(prompt) {
 
 function handleNetworkError(error) {
     const errorMessages = {
-        'ENOTFOUND': 'Keine Internetverbindung - DNS-Auflösung fehlgeschlagen',
-        'ETIMEDOUT': 'Zeitüberschreitung - Internetverbindung zu langsam',
-        'ECONNREFUSED': 'Verbindung verweigert - Firewall oder Proxy-Problem?',
-        'ECONNRESET': 'Verbindung unterbrochen - instabile Internetverbindung',
-        'EHOSTUNREACH': 'Server nicht erreichbar - Netzwerkproblem',
-        'ENETUNREACH': 'Netzwerk nicht erreichbar - Router-Problem?',
-        'ECONNABORTED': 'Verbindung abgebrochen - Timeout oder Netzwerkfehler'
+        'ENOTFOUND': t('errors.network.dns'),
+        'ETIMEDOUT': t('errors.network.timeout'),
+        'ECONNREFUSED': t('errors.network.refused'),
+        'ECONNRESET': t('errors.network.reset'),
+        'EHOSTUNREACH': t('errors.network.hostUnreachable'),
+        'ENETUNREACH': t('errors.network.netUnreachable'),
+        'ECONNABORTED': t('errors.network.aborted')
     };
     
-    const message = errorMessages[error.code] || `Netzwerkfehler: ${error.message}`;
+    const message = errorMessages[error.code] || t('errors.network.general', error.message);
     return new Error(message);
 }
+
 // ========================================
-// CODE-ANALYSE FUNKTIONEN
+// CODE ANALYSIS FUNCTIONS
 // ========================================
 
 async function explainCode() {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
-        vscode.window.showWarningMessage('Kein Code-Editor aktiv');
+        vscode.window.showWarningMessage(t('messages.noEditor'));
         return;
     }
     
@@ -1134,34 +1219,22 @@ async function explainCode() {
     const selectedText = editor.document.getText(selection);
     
     if (!selectedText.trim()) {
-        vscode.window.showWarningMessage('Bitte markiere den Code, den du erklärt haben möchtest');
+        vscode.window.showWarningMessage(t('messages.selectCodeToExplain'));
         return;
     }
     
-    const prompt = `Erkläre diesen Arduino-Code auf Deutsch in einfacher, verständlicher Sprache:
-
-\`\`\`cpp
-${selectedText}
-\`\`\`
-
-Erkläre:
-- Was der Code macht
-- Wie er funktioniert
-- Welche Hardware er ansteuert
-- Wichtige Konzepte für Anfänger
-
-Sei freundlich und ausführlich.`;
+    const prompt = t('prompts.explainCode', selectedText);
     
     try {
         const model = AI_MODELS[currentModel];
         await withRetryableProgress(
-            `${model.name} erklärt den Code...`,
+            t('progress.explaining', model.name),
             async () => {
                 const response = await callAI(prompt);
                 
-                const outputChannel = vscode.window.createOutputChannel(`${model.name} Erklärung`);
+                const outputChannel = vscode.window.createOutputChannel(t('output.codeExplanation', model.name));
                 outputChannel.clear();
-                outputChannel.appendLine(`🤖 CODE-ERKLÄRUNG VON ${model.name.toUpperCase()}`);
+                outputChannel.appendLine(`🤖 ${t('output.explanationFrom', model.name.toUpperCase())}`);
                 outputChannel.appendLine('='.repeat(50));
                 outputChannel.appendLine('');
                 outputChannel.appendLine(response);
@@ -1176,7 +1249,7 @@ Sei freundlich und ausführlich.`;
 async function improveCode() {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
-        vscode.window.showWarningMessage('Kein Code-Editor aktiv');
+        vscode.window.showWarningMessage(t('messages.noEditor'));
         return;
     }
     
@@ -1184,73 +1257,63 @@ async function improveCode() {
     const selectedText = editor.document.getText(selection);
     
     if (!selectedText.trim()) {
-        vscode.window.showWarningMessage('Bitte markiere den Code, den du verbessern möchtest');
+        vscode.window.showWarningMessage(t('messages.selectCodeToImprove'));
         return;
     }
     
-    // Gespeicherte Custom-Anweisungen laden
+    // Load saved custom instructions
     const savedInstructions = globalContext.globalState.get('aiduino.customInstructions', '');
     
-    // Dialog für eigene Anweisungen
+    // Dialog for custom instructions
     const customInstructions = await vscode.window.showInputBox({
-        prompt: 'Eigene Anweisungen für die Code-Verbesserung (optional)',
-        placeHolder: 'z.B. "verwende keine millis()", "optimiere für Arduino Nano", "füge Error-Handling hinzu"',
+        prompt: t('prompts.customInstructions'),
+        placeHolder: t('placeholders.customInstructions'),
         value: savedInstructions,
         ignoreFocusOut: true
     });
     
-    // Abbruch wenn Cancel gedrückt wurde
+    // Cancel if user pressed Cancel
     if (customInstructions === undefined) {
         return;
     }
     
-    // Speichere die Anweisungen für nächstes Mal
+    // Save instructions for next time
     globalContext.globalState.update('aiduino.customInstructions', customInstructions);
     
-    // Basis-Prompt
-    let prompt = `Verbessere diesen Arduino-Code:
+    // Build prompt
+    let prompt = t('prompts.improveCode', selectedText);
 
-\`\`\`cpp
-${selectedText}
-\`\`\`
-
-Optimiere für:
-- Non-blocking Code (millis statt delay)
-- Speicher-Effizienz
-- Bessere Lesbarkeit
-- Arduino Best Practices
-- Robustheit`;
-
-    // Füge custom Instructions hinzu, wenn vorhanden
+    // Add custom instructions if provided
     if (customInstructions && customInstructions.trim()) {
-        prompt += `\n\nZusätzliche Anweisungen vom Nutzer:\n- ${customInstructions.split(',').map(s => s.trim()).join('\n- ')}`;
+        const instructions = customInstructions.split(',').map(s => s.trim()).join('\n- ');
+        prompt += '\n\n' + t('prompts.additionalInstructions', instructions);
     }
 
-    prompt += '\n\nGib nur den verbesserten Code zurück mit kurzen deutschen Kommentaren bei Änderungen.';
+    prompt += '\n\n' + t('prompts.improveCodeSuffix');
     
     try {
         const model = AI_MODELS[currentModel];
         
-        // Response mit Progress-Anzeige abrufen
+        // Get response with progress indicator
         const response = await vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
-            title: `${model.name} optimiert den Code...`,
+            title: t('progress.optimizing', model.name),
             cancellable: false
         }, async () => {
             return await callAI(prompt);
         });
         
-        // Entferne Markdown Code-Block Markers und extrahiere Code + Kommentare separat
+        // Remove markdown code block markers and extract code + comments separately
         let cleanedResponse = response;
         let extractedCode = '';
         let aiComments = '';
         
-        // Suche nach dem Pattern ```cpp...``` und extrahiere Code und Kommentare
+        // Search for pattern ```cpp...``` and extract code and comments
         const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```([\s\S]*)?/);
         if (codeBlockMatch) {
-            // Code aus dem Block
+            // Code from block
             extractedCode = codeBlockMatch[1].trim();
-            // Kommentare nach dem Block (falls vorhanden)
+            // Comments after block (if present)
             aiComments = codeBlockMatch[2] ? codeBlockMatch[2].trim() : '';
         } else {
             // Fallback
@@ -1263,15 +1326,15 @@ Optimiere für:
             extractedCode = extractedCode.trim();
         }
 
-        // Dokument erstellen - MIT Kommentaren für die Anzeige
+        // Create document - WITH comments for display
         try {
             let displayContent = extractedCode;
             if (aiComments) {
-                displayContent += '\n\n/* ========== AI-HINWEISE ==========\n' + aiComments + '\n================================== */';
+                displayContent += '\n\n/* ========== ' + t('labels.aiHints') + ' ==========\n' + aiComments + '\n================================== */';
             }
     
             const doc = await vscode.workspace.openTextDocument({
-                content: displayContent,  // Code + Kommentare
+                content: displayContent,  // Code + comments
                 language: 'cpp'
             });
             
@@ -1280,18 +1343,18 @@ Optimiere für:
             console.log('Document display warning (can be ignored):', docError.message);
         }
 
-        // Choice-Dialog anzeigen
+        // Choice dialog
         const choice = await vscode.window.showInformationMessage(
-            '✅ Code verbessert! Was möchtest du tun?',
-            'Original ersetzen',
-            'Beide behalten'
+            t('messages.codeImproved'),
+            t('buttons.replaceOriginal'),
+            t('buttons.keepBoth')
         );
 
-        if (choice === 'Original ersetzen') {
+        if (choice === t('buttons.replaceOriginal')) {
             await editor.edit(editBuilder => {
-                editBuilder.replace(selection, extractedCode);  // NUR der Code, ohne AI-Kommentare
+                editBuilder.replace(selection, extractedCode);  // ONLY the code, without AI comments
             });
-            vscode.window.showInformationMessage('✅ Code wurde ersetzt!');
+            vscode.window.showInformationMessage(t('messages.codeReplaced'));
         }
         
     } catch (error) {
@@ -1308,68 +1371,58 @@ async function addComments() {
     
     if (!selectedText.trim()) {
         vscode.window.showWarningMessage(
-            '💡 Markiere den Code, den du kommentieren möchtest'
+            t('messages.selectCodeToComment')
         );
         return;
     }
     
-    // Gespeicherte Custom-Anweisungen für Kommentare laden
+    // Load saved custom instructions for comments
     const savedInstructions = globalContext.globalState.get('aiduino.commentInstructions', '');
     
-    // Dialog für eigene Anweisungen
+    // Dialog for custom instructions
     const customInstructions = await vscode.window.showInputBox({
-        prompt: 'Eigene Anweisungen für die Kommentierung (optional)',
-        placeHolder: 'z.B. "sehr ausführlich", "nur Funktionen kommentieren", "auf Englisch"',
+        prompt: t('prompts.commentInstructions'),
+        placeHolder: t('placeholders.commentInstructions'),
         value: savedInstructions,
         ignoreFocusOut: true
     });
     
-    // Abbruch wenn Cancel gedrückt wurde
+    // Cancel if user pressed Cancel
     if (customInstructions === undefined) {
         return;
     }
     
-    // Speichere die Anweisungen für nächstes Mal
+    // Save instructions for next time
     globalContext.globalState.update('aiduino.commentInstructions', customInstructions);
     
-    // Basis-Prompt
-    let prompt = `Füge hilfreiche deutsche Kommentare zu diesem Arduino-Code hinzu:
+    // Build prompt
+    let prompt = t('prompts.addComments', selectedText);
 
-\`\`\`cpp
-${selectedText}
-\`\`\`
-
-Regeln:
-- Erkläre was jede wichtige Zeile macht
-- Kommentiere Funktionen und ihre Parameter
-- Erkläre Hardware-Interaktionen
-- Nutze // für einzeilige und /* */ für mehrzeilige Kommentare
-- Kommentare sollen Anfängern helfen`;
-
-    // Füge custom Instructions hinzu, wenn vorhanden
+    // Add custom instructions if provided
     if (customInstructions && customInstructions.trim()) {
-        prompt += `\n\nZusätzliche Anweisungen vom Nutzer:\n- ${customInstructions.split(',').map(s => s.trim()).join('\n- ')}`;
+        const instructions = customInstructions.split(',').map(s => s.trim()).join('\n- ');
+        prompt += '\n\n' + t('prompts.additionalInstructions', instructions);
     }
 
-    prompt += '\n\nGib NUR den kommentierten Code zurück, keine Erklärungen drumherum.';
+    prompt += '\n\n' + t('prompts.addCommentsSuffix');
     
     try {
         const model = AI_MODELS[currentModel];
         
-        // Response mit Progress-Anzeige abrufen
+        // Get response with progress indicator
         const response = await vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
-            title: `${model.name} fügt Kommentare hinzu...`,
+            title: t('progress.addingComments', model.name),
             cancellable: false
         }, async () => {
             return await callAI(prompt);
         });
         
-        // Entferne Markdown Code-Block Markers
+        // Remove markdown code block markers
         let cleanedResponse = response;
         let extractedCode = '';
         
-        // Suche nach dem Pattern ```cpp...``` und extrahiere nur den Code
+        // Search for pattern ```cpp...``` and extract only the code
         const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```/);
         if (codeBlockMatch) {
             extractedCode = codeBlockMatch[1].trim();
@@ -1384,7 +1437,7 @@ Regeln:
             extractedCode = extractedCode.trim();
         }
         
-        // Dokument erstellen und anzeigen
+        // Create and show document
         try {
             const doc = await vscode.workspace.openTextDocument({
                 content: extractedCode,
@@ -1396,18 +1449,18 @@ Regeln:
             console.log('Document display warning (can be ignored):', docError.message);
         }
         
-        // Choice-Dialog anzeigen
+        // Choice dialog
         const choice = await vscode.window.showInformationMessage(
-            'Kommentare hinzugefügt! Was möchtest du tun?',
-            'Code ersetzen',
-            'So lassen'
+            t('messages.commentsAdded'),
+            t('buttons.replaceCode'),
+            t('buttons.keepAsIs')
         );
         
-        if (choice === 'Code ersetzen') {
+        if (choice === t('buttons.replaceCode')) {
             await editor.edit(editBuilder => {
                 editBuilder.replace(selection, extractedCode);
             });
-            vscode.window.showInformationMessage('✅ Code wurde aktualisiert!');
+            vscode.window.showInformationMessage(t('messages.codeUpdated'));
         }
         
     } catch (error) {
@@ -1416,26 +1469,26 @@ Regeln:
 }
 
 // ========================================
-// FEHLER-ANALYSE
+// ERROR ANALYSIS
 // ========================================
 
 async function explainError() {
     const editor = vscode.window.activeTextEditor;
     if (!editor || !editor.document.fileName.endsWith('.ino')) {
-        vscode.window.showWarningMessage('Öffne eine .ino Datei');
+        vscode.window.showWarningMessage(t('messages.openInoFile'));
         return;
     }
     
-    // Bei Arduino-Dateien direkt nach Fehler fragen
+    // For Arduino files, directly ask for error
     const errorInput = await vscode.window.showInputBox({
-        prompt: 'Kopiere den Fehler aus dem Arduino-Ausgabefenster (rote Zeile mit "error:")',
-        placeHolder: "error: 'xc' was not declared in this scope",
+        prompt: t('prompts.pasteError'),
+        placeHolder: t('placeholders.errorExample'),
         ignoreFocusOut: true
     });
     
     if (!errorInput) return;
     
-    // Hole Code-Kontext um die aktuelle Cursor-Position
+    // Get code context around current cursor position
     const line = editor.selection.active.line;
     const startLine = Math.max(0, line - 5);
     const endLine = Math.min(editor.document.lineCount - 1, line + 5);
@@ -1443,33 +1496,18 @@ async function explainError() {
         new vscode.Range(startLine, 0, endLine, Number.MAX_VALUE)
     );
     
-    const prompt = `Arduino Compiler-Fehler erklären und lösen:
-
-Fehler: ${errorInput}
-
-Code-Kontext (um Zeile ${line + 1}):
-\`\`\`cpp
-${codeContext}
-\`\`\`
-
-Bitte erkläre:
-1. Was bedeutet dieser Fehler?
-2. Warum tritt er auf?
-3. Wie behebe ich ihn?
-4. Zeige den korrigierten Code
-
-Erkläre einfach und verständlich auf Deutsch.`;
+    const prompt = t('prompts.explainError', errorInput, line + 1, codeContext);
     
     try {
         const model = AI_MODELS[currentModel];
         await withRetryableProgress(
-            `${model.name} analysiert den Fehler...`,
+            t('progress.analyzingError', model.name),
             async () => {
                 const response = await callAI(prompt);
                 
                 const panel = vscode.window.createWebviewPanel(
                     'aiError',
-                    '🔧 Fehler-Erklärung',
+                    t('panels.errorExplanation'),
                     vscode.ViewColumn.Beside,
                     { enableScripts: true }
                 );
@@ -1488,7 +1526,7 @@ Erkläre einfach und verständlich auf Deutsch.`;
 }
 
 // ========================================
-// DEBUG-HILFE
+// DEBUG HELP
 // ========================================
 
 async function debugHelp() {
@@ -1497,29 +1535,29 @@ async function debugHelp() {
     
     const options = [
         {
-            label: '$(search) Serial Monitor Ausgabe analysieren',
-            description: 'Hilfe bei der Interpretation von Debug-Ausgaben',
+            label: '$(search) ' + t('debug.analyzeSerial'),
+            description: t('debug.analyzeSerialDesc'),
             value: 'serial'
         },
         {
-            label: '$(circuit-board) Hardware-Problem diagnostizieren',
-            description: 'Mögliche Hardware-Ursachen für Probleme',
+            label: '$(circuit-board) ' + t('debug.hardwareProblem'),
+            description: t('debug.hardwareProblemDesc'),
             value: 'hardware'
         },
         {
-            label: '$(watch) Debug-Code hinzufügen',
-            description: 'Serial.print() Statements strategisch platzieren',
+            label: '$(watch) ' + t('debug.addDebugCode'),
+            description: t('debug.addDebugCodeDesc'),
             value: 'debug'
         },
         {
-            label: '$(pulse) Timing-Probleme finden',
-            description: 'Hilfe bei delay(), millis() und Timing-Bugs',
+            label: '$(pulse) ' + t('debug.timingProblems'),
+            description: t('debug.timingProblemsDesc'),
             value: 'timing'
         }
     ];
     
     const selected = await vscode.window.showQuickPick(options, {
-        placeHolder: 'Wobei brauchst du Hilfe?'
+        placeHolder: t('debug.selectHelp')
     });
     
     if (!selected) return;
@@ -1530,78 +1568,36 @@ async function debugHelp() {
     switch (selected.value) {
         case 'serial':
             const serialOutput = await vscode.window.showInputBox({
-                prompt: 'Füge deine Serial Monitor Ausgabe ein',
-                placeHolder: 'z.B. "Sensor value: -1"',
+                prompt: t('prompts.pasteSerial'),
+                placeHolder: t('placeholders.serialExample'),
                 ignoreFocusOut: true
             });
             if (!serialOutput) return;
             
-            prompt = `Analysiere diese Arduino Serial Monitor Ausgabe und erkläre was sie bedeutet:
-
-Serial Output:
-${serialOutput}
-
-${editor.selection.isEmpty ? '' : `Relevanter Code:
-\`\`\`cpp
-${editor.document.getText(editor.selection)}
-\`\`\``}
-
-Erkläre:
-- Was die Ausgabe bedeutet
-- Mögliche Probleme
-- Lösungsvorschläge`;
+            const codeForSerial = editor.selection.isEmpty ? '' : editor.document.getText(editor.selection);
+            prompt = t('prompts.analyzeSerial', serialOutput, codeForSerial);
             needsCode = false;
             break;
             
         case 'hardware':
-            prompt = `Hilf bei der Hardware-Fehlersuche für diesen Arduino-Code:
-
-\`\`\`cpp
-${editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection)}
-\`\`\`
-
-Bitte prüfe:
-- Typische Verdrahtungsfehler
-- Pin-Konflikte
-- Stromversorgungsprobleme
-- Pull-up/Pull-down Widerstände
-- Kompatibilitätsprobleme`;
+            const hardwareCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
+            prompt = t('prompts.hardwareDebug', hardwareCode);
             break;
             
         case 'debug':
-            prompt = `Füge strategische Debug-Ausgaben zu diesem Arduino-Code hinzu:
-
-\`\`\`cpp
-${editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection)}
-\`\`\`
-
-Füge Serial.print() Statements hinzu um:
-- Variablenwerte zu überwachen
-- Programmfluss zu verfolgen
-- Timing zu messen
-- Fehler zu finden`;
+            const debugCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
+            prompt = t('prompts.addDebugStatements', debugCode);
             break;
             
         case 'timing':
-            prompt = `Analysiere Timing-Probleme in diesem Arduino-Code:
-
-\`\`\`cpp
-${editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection)}
-\`\`\`
-
-Prüfe auf:
-- Blocking delays
-- millis() overflow
-- Race conditions
-- Interrupt-Konflikte
-
-Zeige verbesserten non-blocking Code.`;
+            const timingCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
+            prompt = t('prompts.analyzeTiming', timingCode);
             break;
     }
     
     if (needsCode && editor.selection.isEmpty) {
         vscode.window.showWarningMessage(
-            '💡 Markiere relevanten Code für bessere Debug-Hilfe'
+            t('messages.selectRelevantCode')
         );
         return;
     }
@@ -1609,13 +1605,13 @@ Zeige verbesserten non-blocking Code.`;
     try {
         const model = AI_MODELS[currentModel];
         await withRetryableProgress(
-            `${model.name} analysiert das Problem...`,
+            t('progress.analyzingProblem', model.name),
             async () => {
                 const response = await callAI(prompt);
                 
                 const panel = vscode.window.createWebviewPanel(
                     'aiDebug',
-                    '🔍 Debug-Hilfe',
+                    t('panels.debugHelp'),
                     vscode.ViewColumn.Beside,
                     { enableScripts: true }
                 );
@@ -1627,13 +1623,17 @@ Zeige verbesserten non-blocking Code.`;
         handleApiError(error);
     }
 }
+
 // ========================================
-// HTML-GENERIERUNG
+// HTML GENERATION
 // ========================================
 
 function createErrorExplanationHtml(error, line, explanation, modelId) {
     const model = AI_MODELS[modelId];
     const modelBadge = `<span style="background: ${model.color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${model.name}</span>`;
+    
+    // Replace newlines with <br> for HTML display
+    const htmlExplanation = explanation.replace(/\n/g, '<br>');
     
     return `
         <!DOCTYPE html>
@@ -1699,27 +1699,27 @@ function createErrorExplanationHtml(error, line, explanation, modelId) {
         </head>
         <body>
             <div class="header">
-                <h1>🔧 Fehler-Erklärung</h1>
+                <h1>🔧 ${t('html.errorExplanation')}</h1>
                 ${modelBadge}
             </div>
             
             <div class="error-box">
-                <div class="error-title">Fehler in Zeile ${line}:</div>
+                <div class="error-title">${t('html.errorInLine', line)}:</div>
                 <code>${error}</code>
             </div>
             
             <div class="explanation">
-                ${explanation.replace(/\n/g, '<br>')}
+                ${htmlExplanation}
             </div>
             
             <br>
-            <button onclick="copyToClipboard()">📋 Lösung kopieren</button>
+            <button onclick="copyToClipboard()">📋 ${t('buttons.copySolution')}</button>
             
             <script>
                 function copyToClipboard() {
                     const text = document.querySelector('.explanation').innerText;
                     navigator.clipboard.writeText(text).then(() => {
-                        alert('In Zwischenablage kopiert!');
+                        alert('${t('messages.copiedToClipboard')}');
                     });
                 }
             </script>
@@ -1731,6 +1731,8 @@ function createErrorExplanationHtml(error, line, explanation, modelId) {
 function createDebugHelpHtml(title, content, modelId) {
     const model = AI_MODELS[modelId];
     const modelBadge = `<span style="background: ${model.color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${model.name}</span>`;
+    
+    const htmlContent = content.replace(/\n/g, '<br>');
     
     return `
         <!DOCTYPE html>
@@ -1792,15 +1794,15 @@ function createDebugHelpHtml(title, content, modelId) {
                 <h1>${title}</h1>
                 ${modelBadge}
             </div>
-            <div class="content">${content.replace(/\n/g, '<br>')}</div>
+            <div class="content">${htmlContent}</div>
             
-            <button onclick="copyToClipboard()">📋 Kopieren</button>
+            <button onclick="copyToClipboard()">📋 ${t('buttons.copy')}</button>
             
             <script>
                 function copyToClipboard() {
                     const text = document.querySelector('.content').innerText;
                     navigator.clipboard.writeText(text).then(() => {
-                        alert('In Zwischenablage kopiert!');
+                        alert('${t('messages.copiedToClipboard')}');
                     });
                 }
             </script>
@@ -1810,13 +1812,13 @@ function createDebugHelpHtml(title, content, modelId) {
 }
 
 // ========================================
-// OFFLINE-HILFE
+// OFFLINE HELP
 // ========================================
 
 function showOfflineHelp() {
     const panel = vscode.window.createWebviewPanel(
         'aiOfflineHelp',
-        '📡 Offline-Hilfe',
+        t('panels.offlineHelp'),
         vscode.ViewColumn.One,
         {}
     );
@@ -1861,26 +1863,26 @@ function showOfflineHelp() {
             </style>
         </head>
         <body>
-            <h1>📡 Keine Internetverbindung</h1>
+            <h1>📡 ${t('offline.title')}</h1>
             
             <div class="warning">
-                <strong>AI.duino benötigt eine Internetverbindung</strong> um mit Claude, ChatGPT oder Gemini zu kommunizieren.
+                <strong>${t('offline.requiresInternet')}</strong>
             </div>
             
-            <h2>🔧 Lösungsvorschläge:</h2>
+            <h2>🔧 ${t('offline.solutions')}:</h2>
             
             <div class="tip">
-                <h3>1. Internetverbindung prüfen</h3>
+                <h3>1. ${t('offline.checkInternet')}</h3>
                 <ul>
-                    <li>WLAN/Ethernet-Verbindung überprüfen</li>
-                    <li>Router neu starten</li>
-                    <li>Andere Webseiten testen</li>
+                    <li>${t('offline.checkWifi')}</li>
+                    <li>${t('offline.restartRouter')}</li>
+                    <li>${t('offline.testOtherSites')}</li>
                 </ul>
             </div>
             
             <div class="tip">
-                <h3>2. Firewall/Proxy-Einstellungen</h3>
-                <p>Stelle sicher, dass folgende Domains nicht blockiert sind:</p>
+                <h3>2. ${t('offline.firewallSettings')}</h3>
+                <p>${t('offline.ensureNotBlocked')}:</p>
                 <ul>
                     <li><code>api.anthropic.com</code> (Claude)</li>
                     <li><code>api.openai.com</code> (ChatGPT)</li>
@@ -1890,28 +1892,28 @@ function showOfflineHelp() {
             </div>
             
             <div class="tip">
-                <h3>3. VPN deaktivieren</h3>
-                <p>Manche VPN-Dienste können API-Anfragen blockieren.</p>
+                <h3>3. ${t('offline.disableVpn')}</h3>
+                <p>${t('offline.vpnMayBlock')}</p>
             </div>
             
-            <h2>💡 Häufige Arduino-Probleme (Offline-Referenz):</h2>
+            <h2>💡 ${t('offline.commonProblems')}:</h2>
             
             <h3>❌ "was not declared in this scope"</h3>
             <pre>
-// Lösung: Variable deklarieren
-int sensorPin = A0;  // Fehlende Deklaration
+// ${t('offline.solution')}: ${t('offline.declareVariable')}
+int sensorPin = A0;  // ${t('offline.missingDeclaration')}
 int sensorValue = analogRead(sensorPin);
             </pre>
             
             <h3>❌ "expected ';' before..."</h3>
             <pre>
-// Lösung: Semikolon hinzufügen
-digitalWrite(13, HIGH);  // ; nicht vergessen!
+// ${t('offline.solution')}: ${t('offline.addSemicolon')}
+digitalWrite(13, HIGH);  // ${t('offline.dontForgetSemicolon')}
             </pre>
             
             <h3>❌ Non-blocking delay</h3>
             <pre>
-// Statt delay() verwenden:
+// ${t('offline.insteadOfDelay')}:
 unsigned long previousMillis = 0;
 const long interval = 1000;
 
@@ -1919,13 +1921,13 @@ void loop() {
     unsigned long currentMillis = millis();
     if (currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis;
-        // Code hier ausführen
+        // ${t('offline.executeCodeHere')}
     }
 }
             </pre>
             
             <div class="tip">
-                <strong>Tipp:</strong> Sobald du wieder online bist, kann AI.duino dir bei spezifischen Problemen helfen!
+                <strong>${t('offline.tip')}:</strong> ${t('offline.onlineAgain')}
             </div>
         </body>
         </html>
@@ -1933,7 +1935,7 @@ void loop() {
 }
 
 // ========================================
-// TOKEN-STATISTIK
+// TOKEN STATISTICS
 // ========================================
 
 function showTokenStats() {
@@ -1944,12 +1946,12 @@ function showTokenStats() {
     
     const panel = vscode.window.createWebviewPanel(
         'tokenStats',
-        '📊 Token-Statistik',
+        t('panels.tokenStats'),
         vscode.ViewColumn.One,
         { enableScripts: true }
     );
     
-    // Generiere Statistik-Cards für alle Modelle
+    // Generate statistics cards for all models
     let modelCards = '';
     Object.keys(AI_MODELS).forEach(modelId => {
         const model = AI_MODELS[modelId];
@@ -1957,20 +1959,22 @@ function showTokenStats() {
             <div class="stat-card">
                 <div class="model-name" style="color: ${model.color};">${model.icon} ${model.fullName}</div>
                 <div class="stat-row">
-                    <span>Input Tokens:</span>
+                    <span>${t('stats.inputTokens')}:</span>
                     <span>${tokenUsage[modelId].input.toLocaleString()}</span>
                 </div>
                 <div class="stat-row">
-                    <span>Output Tokens:</span>
+                    <span>${t('stats.outputTokens')}:</span>
                     <span>${tokenUsage[modelId].output.toLocaleString()}</span>
                 </div>
                 <div class="stat-row">
-                    <span>Kosten:</span>
+                    <span>${t('stats.cost')}:</span>
                     <span class="cost">$${tokenUsage[modelId].cost.toFixed(3)}</span>
                 </div>
             </div>
         `;
     });
+    
+    const currentDate = new Date().toLocaleDateString(currentLocale === 'de' ? 'de-DE' : 'en-US');
     
     panel.webview.html = `
         <!DOCTYPE html>
@@ -2036,21 +2040,20 @@ function showTokenStats() {
             </style>
         </head>
         <body>
-            <h1>📊 Token-Verbrauch für ${new Date().toLocaleDateString('de-DE')}</h1>
+            <h1>📊 ${t('stats.tokenUsageFor', currentDate)}</h1>
             
             <div class="total">
-                <h2>Gesamtkosten heute: <span class="cost">$${totalCostToday.toFixed(3)}</span></h2>
+                <h2>${t('stats.totalCostToday')}: <span class="cost">$${totalCostToday.toFixed(3)}</span></h2>
             </div>
             
             ${modelCards}
             
             <div class="tip">
-                💡 <strong>Tipp:</strong> Die Token-Zählung ist eine Schätzung. 
-                Die tatsächlichen Kosten können leicht abweichen.
+                💡 <strong>${t('stats.tip')}:</strong> ${t('stats.tipDescription')}
             </div>
             
-            <button class="reset-btn" onclick="if(confirm('Statistik wirklich zurücksetzen?')) { window.location.href = 'command:aiduino.resetTokenStats'; }">
-                Statistik zurücksetzen
+            <button class="reset-btn" onclick="if(confirm('${t('stats.confirmReset')}')) { window.location.href = 'command:aiduino.resetTokenStats'; }">
+                ${t('buttons.resetStats')}
             </button>
         </body>
         </html>
@@ -2061,8 +2064,9 @@ function resetTokenStats() {
     initializeTokenUsage();
     saveTokenUsage();
     updateStatusBar();
-    vscode.window.showInformationMessage('✅ Token-Statistik zurückgesetzt!');
+    vscode.window.showInformationMessage(t('messages.statsReset'));
 }
+
 // ========================================
 // ABOUT & INFO
 // ========================================
@@ -2070,12 +2074,12 @@ function resetTokenStats() {
 function showAbout() {
     const panel = vscode.window.createWebviewPanel(
         'aiduinoAbout',
-        'Über AI.duino',
+        t('panels.about'),
         vscode.ViewColumn.One,
         { enableScripts: true }
     );
     
-    // Generiere Model-Badges
+    // Generate model badges
     let modelBadges = '';
     Object.keys(AI_MODELS).forEach(modelId => {
         const model = AI_MODELS[modelId];
@@ -2086,11 +2090,11 @@ function showAbout() {
         `;
     });
     
-    // Generiere Feature-Liste für alle Modelle
+    // Generate feature list for all models
     let modelFeatures = '';
     Object.keys(AI_MODELS).forEach(modelId => {
         const model = AI_MODELS[modelId];
-        modelFeatures += `<div class="feature">${model.icon} ${model.fullName} Integration</div>`;
+        modelFeatures += `<div class="feature">${model.icon} ${model.fullName} ${t('about.integration')}</div>`;
     });
     
     panel.webview.html = `
@@ -2184,42 +2188,43 @@ function showAbout() {
         <body>
             <div class="logo">🤖</div>
             <h1>AI.duino</h1>
-            <div class="version">Version 1.2.0</div>
+            <div class="version">Version 1.3.0</div>
             
-            <p><strong>KI-gestützte Arduino-Entwicklung</strong></p>
+            <p><strong>${t('about.tagline')}</strong></p>
             
             <div>
                 ${modelBadges}
             </div>
             
             <div class="info-box">
-                <h3>Features:</h3>
+                <h3>${t('about.features')}:</h3>
                 ${modelFeatures}
-                <div class="feature">Code-Verbesserung und Optimierung</div>
-                <div class="feature">Fehler-Erklärung auf Deutsch</div>
-                <div class="feature">Automatische Code-Kommentierung</div>
-                <div class="feature">Debug-Hilfe und Hardware-Diagnose</div>
-                <div class="feature">Token-Verbrauch Tracking</div>
-                <div class="feature">Offline-Hilfe bei Verbindungsproblemen</div>
-                <div class="feature">Modulare Architektur für einfache Erweiterung</div>
+                <div class="feature">${t('about.feature1')}</div>
+                <div class="feature">${t('about.feature2')}</div>
+                <div class="feature">${t('about.feature3')}</div>
+                <div class="feature">${t('about.feature4')}</div>
+                <div class="feature">${t('about.feature5')}</div>
+                <div class="feature">${t('about.feature6')}</div>
+                <div class="feature">${t('about.feature7')}</div>
+                <div class="feature">${t('about.feature8')}</div>
             </div>
             
             <div class="tutorial">
-                <h3>Schnellstart:</h3>
-                <p>1. Markiere Arduino-Code</p>
-                <p>2. Drücke <span class="shortcut">Strg+Shift+C</span> für das Quick-Menü</p>
-                <p>3. Wähle eine Aktion aus</p>
+                <h3>${t('about.quickstart')}:</h3>
+                <p>1. ${t('about.step1')}</p>
+                <p>2. ${t('about.step2')} <span class="shortcut">Ctrl+Shift+C</span></p>
+                <p>3. ${t('about.step3')}</p>
                 <br>
-                <p><strong>Tipp:</strong> Rechtsklick auf die Statusleiste zum Modell-Wechsel!</p>
+                <p><strong>${t('about.tip')}:</strong> ${t('about.tipText')}</p>
             </div>
             
             <div class="license">
-                <strong>Lizenz:</strong> Apache License 2.0<br>
+                <strong>${t('about.license')}:</strong> Apache License 2.0<br>
                 Copyright © 2025 Monster Maker
             </div>
             
             <div class="info-box">
-                <h3>API Keys erhalten:</h3>
+                <h3>${t('about.getApiKeys')}:</h3>
                 <p>🤖 <strong>Claude:</strong> <a href="https://console.anthropic.com/api-keys">console.anthropic.com</a></p>
                 <p>🧠 <strong>ChatGPT:</strong> <a href="https://platform.openai.com/api-keys">platform.openai.com</a></p>
                 <p>💎 <strong>Gemini:</strong> <a href="https://makersuite.google.com/app/apikey">makersuite.google.com</a></p>
@@ -2227,17 +2232,17 @@ function showAbout() {
             </div>
             
             <div class="credits">
-                <p><strong>Publisher:</strong> Monster Maker</p>
-                <p><strong>Repository:</strong> <a href="https://github.com/NikolaiRadke/AI.duino">GitHub</a></p>
-                <p><strong>Fehler melden:</strong> <a href="https://github.com/NikolaiRadke/AI.duino/issues">Issue Tracker</a></p>
+                <p><strong>${t('about.publisher')}:</strong> Monster Maker</p>
+                <p><strong>${t('about.repository')}:</strong> <a href="https://github.com/NikolaiRadke/AI.duino">GitHub</a></p>
+                <p><strong>${t('about.reportBugs')}:</strong> <a href="https://github.com/NikolaiRadke/AI.duino/issues">Issue Tracker</a></p>
                 <br>
-                <p><em>Entwickelt mit 💙 für die Arduino-Community</em></p>
+                <p><em>${t('about.madeWith')}</em></p>
                 <br>
-                <p><strong>v1.2.0 Changelog:</strong></p>
+                <p><strong>${t('about.changelog')}:</strong></p>
                 <ul style="text-align: left;">
-                    <li>✨ Added input text field for more interaction</li>
-                    <li>✨ Improved code optimization integration</li>
-                    <li>✨ Improved commet code integration</li>
+                    <li>✨ ${t('about.change1')}</li>
+                    <li>✨ ${t('about.change2')}</li>
+                    <li>✨ ${t('about.change3')}</li>
                 </ul>
             </div>
         </body>
@@ -2246,17 +2251,17 @@ function showAbout() {
 }
 
 // ========================================
-// DEAKTIVIERUNG
+// DEACTIVATION
 // ========================================
 
 function deactivate() {
     if (statusBarItem) {
         statusBarItem.dispose();
     }
-    console.log('AI.duino v1.2.0 deaktiviert');
+    console.log('AI.duino v1.3.0 deactivated');
 }
 exports.deactivate = deactivate;
 
 // ========================================
-// ENDE DER EXTENSION.JS
+// END OF EXTENSION.JS
 // ========================================

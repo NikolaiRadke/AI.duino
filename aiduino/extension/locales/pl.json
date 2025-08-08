@@ -1,0 +1,251 @@
+{
+  "commands": {
+    "quickMenu": "Otwórz szybkie menu",
+    "switchModel": "Zmień model AI",
+    "setApiKey": "Wprowadź klucz API",
+    "improveCode": "Ulepsz kod",
+    "explainCode": "Wyjaśnij kod",
+    "addComments": "Dodaj komentarze",
+    "explainError": "Wyjaśnij błąd",
+    "debugHelp": "Pomoc w debugowaniu",
+    "about": "O AI.duino...",
+    "changeApiKey": "Zmień klucz API",
+    "tokenStats": "Statystyki tokenów"
+  },
+  
+  "messages": {
+    "welcome": "👋 Witaj! AI.duino v1.3.0 obsługuje {0}!",
+    "noApiKey": "🔑 Najpierw potrzebujesz klucza API dla {0}",
+    "selectAction": "Co chciałbyś zrobić?",
+    "selectArduinoCode": "💡 Zaznacz kod Arduino, aby użyć funkcji AI!",
+    "noEditor": "Brak aktywnego edytora kodu",
+    "selectCodeToExplain": "Zaznacz kod, który chcesz wyjaśnić",
+    "selectCodeToImprove": "Zaznacz kod, który chcesz ulepszyć",
+    "selectCodeToComment": "💡 Zaznacz kod, który chcesz skomentować",
+    "selectRelevantCode": "💡 Zaznacz odpowiedni kod dla lepszej pomocy w debugowaniu",
+    "openInoFile": "Otwórz plik .ino",
+    "apiKeySaved": "✅ Klucz API {0} zapisany!",
+    "modelSwitched": "✅ Przełączono na {0}",
+    "codeImproved": "✅ Kod ulepszony! Co chciałbyś zrobić?",
+    "codeReplaced": "✅ Kod został zastąpiony!",
+    "codeUpdated": "✅ Kod został zaktualizowany!",
+    "commentsAdded": "Komentarze dodane! Co chciałbyś zrobić?",
+    "connectionError": "Błąd połączenia. Spróbować ponownie?",
+    "retryLater": "Spróbuj ponownie za kilka sekund...",
+    "copiedToClipboard": "Skopiowano do schowka!",
+    "statsReset": "✅ Statystyki tokenów zresetowane!",
+    "selectModel": "Wybierz model AI",
+    "apiKeyRequired": "{0} wymaga klucza API"
+  },
+  
+  "buttons": {
+    "chooseModel": "Wybierz model AI",
+    "later": "Później",
+    "setupNow": "Skonfiguruj teraz",
+    "switchModel": "Zmień model",
+    "cancel": "Anuluj",
+    "enterNow": "Wprowadź teraz",
+    "enterApiKey": "Wprowadź klucz API",
+    "retry": "Spróbuj ponownie",
+    "offlineHelp": "Pomoc offline",
+    "tryLater": "Spróbuj później",
+    "yes": "Tak",
+    "no": "Nie",
+    "replaceOriginal": "Zastąp oryginał",
+    "keepBoth": "Zachowaj oba",
+    "replaceCode": "Zastąp kod",
+    "keepAsIs": "Zachowaj bez zmian",
+    "copySolution": "Kopiuj rozwiązanie",
+    "copy": "Kopiuj",
+    "resetStats": "Resetuj statystyki"
+  },
+  
+  "descriptions": {
+    "improveSelected": "Optymalizuj zaznaczony kod",
+    "explainSelected": "Wyjaśnij zaznaczony kod",
+    "addComments": "Skomentuj kod",
+    "selectFirst": "Najpierw zaznacz kod",
+    "errorsFound": "🔴 Znaleziono błędy kompilacji",
+    "noErrors": "Brak błędów",
+    "debugHelp": "Pomoc w debugowaniu",
+    "currentModel": "Aktualny: {0}",
+    "todayUsage": "Dzisiaj: {0}"
+  },
+  
+  "labels": {
+    "active": "Aktywny",
+    "aiHints": "WSKAZÓWKI AI"
+  },
+  
+  "prompts": {
+    "enterApiKey": "Wprowadź klucz API {0}",
+    "customInstructions": "Własne instrukcje do ulepszenia kodu (opcjonalne)",
+    "commentInstructions": "Własne instrukcje do komentowania (opcjonalne)",
+    "pasteError": "Wklej błąd z okna wyjściowego Arduino (czerwona linia z \"error:\")",
+    "pasteSerial": "Wklej wyjście z Monitora szeregowego",
+    "systemPrompt": "Jesteś pomocnym asystentem programowania Arduino. Zawsze odpowiadaj jasno i wyjaśniaj kod Arduino w zrozumiały sposób.",
+    "explainCode": "Wyjaśnij ten kod Arduino prostym, zrozumiałym językiem:\n\n```cpp\n{0}\n```\n\nWyjaśnij:\n- Co robi kod\n- Jak działa\n- Jaki sprzęt kontroluje\n- Ważne koncepcje dla początkujących\n\nBądź przyjazny i dokładny.",
+    "improveCode": "Ulepsz ten kod Arduino:\n\n```cpp\n{0}\n```\n\nOptymalizuj pod kątem:\n- Kodu nieblokującego (millis zamiast delay)\n- Efektywności pamięci\n- Lepszej czytelności\n- Najlepszych praktyk Arduino\n- Niezawodności",
+    "improveCodeSuffix": "Zwróć tylko ulepszony kod z krótkimi komentarzami o zmianach.",
+    "addComments": "Dodaj pomocne komentarze do tego kodu Arduino:\n\n```cpp\n{0}\n```\n\nZasady:\n- Wyjaśnij co robi każda ważna linia\n- Komentuj funkcje i ich parametry\n- Wyjaśnij interakcje ze sprzętem\n- Używaj // dla jednoliniowych i /* */ dla wieloliniowych komentarzy\n- Komentarze powinny pomagać początkującym",
+    "addCommentsSuffix": "Zwróć TYLKO skomentowany kod, bez dodatkowych wyjaśnień.",
+    "additionalInstructions": "Dodatkowe instrukcje użytkownika:\n- {0}",
+    "explainError": "Wyjaśnij i rozwiąż błąd kompilatora Arduino:\n\nBłąd: {0}\n\nKontekst kodu (około linii {1}):\n```cpp\n{2}\n```\n\nProszę wyjaśnij:\n1. Co oznacza ten błąd?\n2. Dlaczego występuje?\n3. Jak go naprawić?\n4. Pokaż poprawiony kod\n\nWyjaśnij prosto i zrozumiale.",
+    "analyzeSerial": "Przeanalizuj to wyjście Monitora szeregowego Arduino i wyjaśnij co oznacza:\n\nWyjście szeregowe:\n{0}\n\n{1}\n\nWyjaśnij:\n- Co oznacza wyjście\n- Możliwe problemy\n- Sugestie rozwiązań",
+    "hardwareDebug": "Pomóż w rozwiązywaniu problemów sprzętowych dla tego kodu Arduino:\n\n```cpp\n{0}\n```\n\nSprawdź:\n- Typowe błędy połączeń\n- Konflikty pinów\n- Problemy z zasilaniem\n- Rezystory pull-up/pull-down\n- Problemy z kompatybilnością",
+    "addDebugStatements": "Dodaj strategiczne wyjścia debugowania do tego kodu Arduino:\n\n```cpp\n{0}\n```\n\nDodaj instrukcje Serial.print() do:\n- Monitorowania wartości zmiennych\n- Śledzenia przebiegu programu\n- Mierzenia czasu\n- Znajdowania błędów",
+    "analyzeTiming": "Przeanalizuj problemy z czasem w tym kodzie Arduino:\n\n```cpp\n{0}\n```\n\nSprawdź:\n- Blokujące opóźnienia\n- Przepełnienie millis()\n- Warunki wyścigu\n- Konflikty przerwań\n\nPokaż ulepszony kod nieblokujący."
+  },
+  
+  "placeholders": {
+    "customInstructions": "np. \"nie używaj millis()\", \"optymalizuj dla Arduino Nano\", \"dodaj obsługę błędów\"",
+    "commentInstructions": "np. \"bardzo szczegółowo\", \"tylko komentuj funkcje\", \"po polsku\"",
+    "errorExample": "error: 'xc' was not declared in this scope",
+    "serialExample": "np. \"Wartość czujnika: -1\""
+  },
+  
+  "validation": {
+    "apiKeyRequired": "Klucz API wymagany",
+    "apiKeyPrefix": "Musi zaczynać się od \"{0}\"",
+    "apiKeyTooShort": "Klucz wydaje się za krótki"
+  },
+  
+  "progress": {
+    "retrying": "{0} (Próba {1}/{2})",
+    "explaining": "{0} wyjaśnia kod...",
+    "optimizing": "{0} optymalizuje kod...",
+    "addingComments": "{0} dodaje komentarze...",
+    "analyzingError": "{0} analizuje błąd...",
+    "analyzingProblem": "{0} analizuje problem..."
+  },
+  
+  "errors": {
+    "networkError": "Błąd sieci",
+    "timeout": "Przekroczono czas - Sprawdź połączenie internetowe",
+    "unreachable": "nieosiągalny",
+    "operationCancelled": "Operacja anulowana",
+    "unknownModel": "Nieznany model: {0}",
+    "noApiKey": "Brak klucza API {0}",
+    "invalidApiKey": "Nieprawidłowy klucz API {0}",
+    "rateLimit": "Osiągnięto limit {0} - proszę chwilę poczekać",
+    "serverUnavailable": "Serwer {0} obecnie niedostępny",
+    "apiError": "❌ Błąd {0}: {1}",
+    "apiErrorWithCode": "Błąd API {0} ({1}): {2}",
+    "parseError": "Błąd parsowania odpowiedzi {0}",
+    "unexpectedResponse": "Nieoczekiwana struktura odpowiedzi API {0}",
+    "unknownError": "Nieznany błąd",
+    "saveFailed": "❌ Zapis nieudany: {0}",
+    "noInternet": "🌐 Brak połączenia z internetem",
+    "network": {
+      "dns": "Brak połączenia z internetem - błąd rozwiązywania DNS",
+      "timeout": "Przekroczono czas - połączenie internetowe zbyt wolne",
+      "refused": "Połączenie odrzucone - problem z firewallem lub proxy?",
+      "reset": "Połączenie przerwane - niestabilne połączenie internetowe",
+      "hostUnreachable": "Serwer nieosiągalny - problem z siecią",
+      "netUnreachable": "Sieć nieosiągalna - problem z routerem?",
+      "aborted": "Połączenie przerwane - przekroczenie czasu lub błąd sieci",
+      "general": "Błąd sieci: {0}"
+    }
+  },
+  
+  "statusBar": {
+    "tooltip": "AI.duino v1.3.0: {0}\nDzisiaj: {1} tokenów{2}\nWejście: {3} | Wyjście: {4}\nKliknij dla menu • Ctrl+Shift+C • Prawy klik aby zmienić",
+    "noApiKey": "Brak klucza API {0}! • Kliknij aby skonfigurować",
+    "errorsFound": "Znaleziono {0} błędów • Kliknij po pomoc"
+  },
+  
+  "output": {
+    "codeExplanation": "Wyjaśnienie {0}",
+    "explanationFrom": "WYJAŚNIENIE KODU OD {0}"
+  },
+  
+  "panels": {
+    "errorExplanation": "🔧 Wyjaśnienie błędu",
+    "debugHelp": "🔍 Pomoc w debugowaniu",
+    "offlineHelp": "📡 Pomoc offline",
+    "tokenStats": "📊 Statystyki tokenów",
+    "about": "O AI.duino"
+  },
+  
+  "html": {
+    "errorExplanation": "Wyjaśnienie błędu",
+    "errorInLine": "Błąd w linii {0}"
+  },
+  
+  "debug": {
+    "analyzeSerial": "Analizuj wyjście Monitora szeregowego",
+    "analyzeSerialDesc": "Pomoc w interpretacji wyjścia debugowania",
+    "hardwareProblem": "Diagnozuj problem sprzętowy",
+    "hardwareProblemDesc": "Możliwe przyczyny sprzętowe problemów",
+    "addDebugCode": "Dodaj kod debugowania",
+    "addDebugCodeDesc": "Strategicznie umieść instrukcje Serial.print()",
+    "timingProblems": "Znajdź problemy z czasem",
+    "timingProblemsDesc": "Pomoc z delay(), millis() i błędami czasowymi",
+    "selectHelp": "W czym potrzebujesz pomocy?"
+  },
+  
+  "offline": {
+    "title": "Brak połączenia z internetem",
+    "requiresInternet": "AI.duino wymaga połączenia z internetem do komunikacji z Claude, ChatGPT, Gemini lub Mistral.",
+    "solutions": "Rozwiązania",
+    "checkInternet": "Sprawdź połączenie internetowe",
+    "checkWifi": "Sprawdź połączenie WiFi/Ethernet",
+    "restartRouter": "Zrestartuj router",
+    "testOtherSites": "Przetestuj inne strony internetowe",
+    "firewallSettings": "Ustawienia firewall/proxy",
+    "ensureNotBlocked": "Upewnij się, że następujące domeny nie są zablokowane",
+    "disableVpn": "Wyłącz VPN",
+    "vpnMayBlock": "Niektóre usługi VPN mogą blokować żądania API.",
+    "commonProblems": "Częste problemy Arduino (Odniesienie offline)",
+    "solution": "Rozwiązanie",
+    "declareVariable": "Zadeklaruj zmienną",
+    "missingDeclaration": "Brakująca deklaracja",
+    "addSemicolon": "Dodaj średnik",
+    "dontForgetSemicolon": "Nie zapomnij średnika!",
+    "insteadOfDelay": "Zamiast delay() użyj",
+    "executeCodeHere": "Wykonaj kod tutaj",
+    "tip": "Wskazówka",
+    "onlineAgain": "Gdy znów będziesz online, AI.duino może pomóc Ci z konkretnymi problemami!"
+  },
+  
+  "stats": {
+    "tokenUsageFor": "Użycie tokenów dla {0}",
+    "totalCostToday": "Całkowity koszt dzisiaj",
+    "inputTokens": "Tokeny wejściowe",
+    "outputTokens": "Tokeny wyjściowe",
+    "cost": "Koszt",
+    "tip": "Wskazówka",
+    "tipDescription": "Liczenie tokenów jest szacunkowe. Rzeczywiste koszty mogą się nieznacznie różnić.",
+    "confirmReset": "Czy na pewno zresetować statystyki?"
+  },
+  
+  "about": {
+    "tagline": "Rozwój Arduino wspierany przez AI",
+    "features": "Funkcje",
+    "integration": "Integracja",
+    "feature1": "Ulepszanie i optymalizacja kodu",
+    "feature2": "Wyjaśnianie błędów prostym językiem",
+    "feature3": "Automatyczne komentowanie kodu",
+    "feature4": "Pomoc w debugowaniu i diagnostyka sprzętu",
+    "feature5": "Śledzenie użycia tokenów",
+    "feature6": "Pomoc offline przy problemach z połączeniem",
+    "feature7": "Modularna architektura ułatwiająca rozszerzanie",
+    "feature8": "Obsługa wielu języków",
+    "quickstart": "Szybki start",
+    "step1": "Zaznacz kod Arduino",
+    "step2": "Naciśnij",
+    "step3": "Wybierz akcję",
+    "tip": "Wskazówka",
+    "tipText": "Kliknij prawym przyciskiem myszy na pasku stanu, aby zmienić model!",
+    "license": "Licencja",
+    "getApiKeys": "Uzyskaj klucze API",
+    "publisher": "Wydawca",
+    "repository": "Repozytorium",
+    "reportBugs": "Zgłoś błędy",
+    "madeWith": "Stworzone z 💙 dla społeczności Arduino",
+    "changelog": "Lista zmian v1.3.0",
+    "change1": "Pełna obsługa internacjonalizacji",
+    "change2": "Ulepszona integracja optymalizacji kodu",
+    "change3": "Ulepszone generowanie komentarzy"
+  }
+}

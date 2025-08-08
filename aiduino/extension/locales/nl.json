@@ -1,0 +1,251 @@
+{
+  "commands": {
+    "quickMenu": "Snelmenu openen",
+    "switchModel": "AI-model wisselen",
+    "setApiKey": "API-sleutel invoeren",
+    "improveCode": "Code verbeteren",
+    "explainCode": "Code uitleggen",
+    "addComments": "Commentaar toevoegen",
+    "explainError": "Fout uitleggen",
+    "debugHelp": "Debug-hulp",
+    "about": "Over AI.duino...",
+    "changeApiKey": "API-sleutel wijzigen",
+    "tokenStats": "Token-statistieken"
+  },
+  
+  "messages": {
+    "welcome": "👋 Welkom! AI.duino v1.3.0 ondersteunt {0}!",
+    "noApiKey": "🔑 Eerst heb je een API-sleutel nodig voor {0}",
+    "selectAction": "Wat wil je doen?",
+    "selectArduinoCode": "💡 Selecteer Arduino-code om AI-functies te gebruiken!",
+    "noEditor": "Geen code-editor actief",
+    "selectCodeToExplain": "Selecteer de code die je wilt laten uitleggen",
+    "selectCodeToImprove": "Selecteer de code die je wilt verbeteren",
+    "selectCodeToComment": "💡 Selecteer de code die je wilt voorzien van commentaar",
+    "selectRelevantCode": "💡 Selecteer relevante code voor betere debug-hulp",
+    "openInoFile": "Open een .ino-bestand",
+    "apiKeySaved": "✅ {0} API-sleutel opgeslagen!",
+    "modelSwitched": "✅ Overgeschakeld naar {0}",
+    "codeImproved": "✅ Code verbeterd! Wat wil je doen?",
+    "codeReplaced": "✅ Code is vervangen!",
+    "codeUpdated": "✅ Code is bijgewerkt!",
+    "commentsAdded": "Commentaar toegevoegd! Wat wil je doen?",
+    "connectionError": "Verbindingsfout. Opnieuw proberen?",
+    "retryLater": "Probeer het over een paar seconden opnieuw...",
+    "copiedToClipboard": "Gekopieerd naar klembord!",
+    "statsReset": "✅ Token-statistieken gereset!",
+    "selectModel": "Kies het AI-model",
+    "apiKeyRequired": "{0} vereist een API-sleutel"
+  },
+  
+  "buttons": {
+    "chooseModel": "AI-model kiezen",
+    "later": "Later",
+    "setupNow": "Nu instellen",
+    "switchModel": "Model wisselen",
+    "cancel": "Annuleren",
+    "enterNow": "Nu invoeren",
+    "enterApiKey": "API-sleutel invoeren",
+    "retry": "Opnieuw proberen",
+    "offlineHelp": "Offline hulp",
+    "tryLater": "Later proberen",
+    "yes": "Ja",
+    "no": "Nee",
+    "replaceOriginal": "Origineel vervangen",
+    "keepBoth": "Beide behouden",
+    "replaceCode": "Code vervangen",
+    "keepAsIs": "Ongewijzigd laten",
+    "copySolution": "Oplossing kopiëren",
+    "copy": "Kopiëren",
+    "resetStats": "Statistieken resetten"
+  },
+  
+  "descriptions": {
+    "improveSelected": "Geselecteerde code optimaliseren",
+    "explainSelected": "Geselecteerde code uitleggen",
+    "addComments": "Code van commentaar voorzien",
+    "selectFirst": "Selecteer eerst code",
+    "errorsFound": "🔴 Compilatiefouten gevonden",
+    "noErrors": "Geen fouten",
+    "debugHelp": "Hulp bij debuggen",
+    "currentModel": "Huidig: {0}",
+    "todayUsage": "Vandaag: {0}"
+  },
+  
+  "labels": {
+    "active": "Actief",
+    "aiHints": "AI-TIPS"
+  },
+  
+  "prompts": {
+    "enterApiKey": "Voer {0} API-sleutel in",
+    "customInstructions": "Aangepaste instructies voor codeverbetering (optioneel)",
+    "commentInstructions": "Aangepaste instructies voor commentaar (optioneel)",
+    "pasteError": "Plak de fout uit het Arduino-uitvoervenster (rode regel met \"error:\")",
+    "pasteSerial": "Plak je Seriële Monitor uitvoer",
+    "systemPrompt": "Je bent een behulpzame Arduino-programmeerassistent. Antwoord altijd duidelijk en leg Arduino-code begrijpelijk uit.",
+    "explainCode": "Leg deze Arduino-code uit in eenvoudige, begrijpelijke taal:\n\n```cpp\n{0}\n```\n\nLeg uit:\n- Wat de code doet\n- Hoe het werkt\n- Welke hardware het aanstuurt\n- Belangrijke concepten voor beginners\n\nWees vriendelijk en grondig.",
+    "improveCode": "Verbeter deze Arduino-code:\n\n```cpp\n{0}\n```\n\nOptimaliseer voor:\n- Niet-blokkerende code (millis in plaats van delay)\n- Geheugenefficiëntie\n- Betere leesbaarheid\n- Arduino best practices\n- Robuustheid",
+    "improveCodeSuffix": "Geef alleen de verbeterde code terug met korte opmerkingen over wijzigingen.",
+    "addComments": "Voeg nuttig commentaar toe aan deze Arduino-code:\n\n```cpp\n{0}\n```\n\nRegels:\n- Leg uit wat elke belangrijke regel doet\n- Geef commentaar bij functies en hun parameters\n- Leg hardware-interacties uit\n- Gebruik // voor enkele regels en /* */ voor meerdere regels commentaar\n- Commentaar moet beginners helpen",
+    "addCommentsSuffix": "Geef ALLEEN de becommentarieerde code terug, geen uitleg eromheen.",
+    "additionalInstructions": "Aanvullende gebruikersinstructies:\n- {0}",
+    "explainError": "Leg uit en los deze Arduino-compilatiefout op:\n\nFout: {0}\n\nCode-context (rond regel {1}):\n```cpp\n{2}\n```\n\nLeg alsjeblieft uit:\n1. Wat betekent deze fout?\n2. Waarom treedt deze op?\n3. Hoe los ik het op?\n4. Toon de gecorrigeerde code\n\nLeg eenvoudig en begrijpelijk uit.",
+    "analyzeSerial": "Analyseer deze Arduino Seriële Monitor uitvoer en leg uit wat het betekent:\n\nSeriële uitvoer:\n{0}\n\n{1}\n\nLeg uit:\n- Wat de uitvoer betekent\n- Mogelijke problemen\n- Oplossingsuggesties",
+    "hardwareDebug": "Help met hardware-troubleshooting voor deze Arduino-code:\n\n```cpp\n{0}\n```\n\nControleer:\n- Typische bedradingsfouten\n- Pin-conflicten\n- Voedingsproblemen\n- Pull-up/pull-down weerstanden\n- Compatibiliteitsproblemen",
+    "addDebugStatements": "Voeg strategische debug-uitvoer toe aan deze Arduino-code:\n\n```cpp\n{0}\n```\n\nVoeg Serial.print() statements toe om:\n- Variabele waarden te monitoren\n- Programmaverloop te volgen\n- Timing te meten\n- Fouten te vinden",
+    "analyzeTiming": "Analyseer timingproblemen in deze Arduino-code:\n\n```cpp\n{0}\n```\n\nControleer op:\n- Blokkerende delays\n- millis() overflow\n- Race conditions\n- Interrupt-conflicten\n\nToon verbeterde niet-blokkerende code."
+  },
+  
+  "placeholders": {
+    "customInstructions": "bijv. \"gebruik geen millis()\", \"optimaliseer voor Arduino Nano\", \"voeg foutafhandeling toe\"",
+    "commentInstructions": "bijv. \"zeer gedetailleerd\", \"alleen functies becommentariëren\", \"in het Nederlands\"",
+    "errorExample": "error: 'xc' was not declared in this scope",
+    "serialExample": "bijv. \"Sensorwaarde: -1\""
+  },
+  
+  "validation": {
+    "apiKeyRequired": "API-sleutel vereist",
+    "apiKeyPrefix": "Moet beginnen met \"{0}\"",
+    "apiKeyTooShort": "Sleutel lijkt te kort"
+  },
+  
+  "progress": {
+    "retrying": "{0} (Poging {1}/{2})",
+    "explaining": "{0} legt de code uit...",
+    "optimizing": "{0} optimaliseert de code...",
+    "addingComments": "{0} voegt commentaar toe...",
+    "analyzingError": "{0} analyseert de fout...",
+    "analyzingProblem": "{0} analyseert het probleem..."
+  },
+  
+  "errors": {
+    "networkError": "Netwerkfout",
+    "timeout": "Time-out - Controleer internetverbinding",
+    "unreachable": "onbereikbaar",
+    "operationCancelled": "Bewerking geannuleerd",
+    "unknownModel": "Onbekend model: {0}",
+    "noApiKey": "Geen {0} API-sleutel ingesteld",
+    "invalidApiKey": "{0} API-sleutel ongeldig",
+    "rateLimit": "{0} Limiet bereikt - wacht even",
+    "serverUnavailable": "{0} Server momenteel niet beschikbaar",
+    "apiError": "❌ {0} Fout: {1}",
+    "apiErrorWithCode": "{0} API-fout ({1}): {2}",
+    "parseError": "Fout bij verwerken {0} antwoord",
+    "unexpectedResponse": "Onverwachte {0} API-antwoordstructuur",
+    "unknownError": "Onbekende fout",
+    "saveFailed": "❌ Opslaan mislukt: {0}",
+    "noInternet": "🌐 Geen internetverbinding",
+    "network": {
+      "dns": "Geen internetverbinding - DNS-resolutie mislukt",
+      "timeout": "Time-out - Internetverbinding te traag",
+      "refused": "Verbinding geweigerd - Firewall- of proxyprobleem?",
+      "reset": "Verbinding onderbroken - instabiele internetverbinding",
+      "hostUnreachable": "Server niet bereikbaar - netwerkprobleem",
+      "netUnreachable": "Netwerk niet bereikbaar - routerprobleem?",
+      "aborted": "Verbinding afgebroken - time-out of netwerkfout",
+      "general": "Netwerkfout: {0}"
+    }
+  },
+  
+  "statusBar": {
+    "tooltip": "AI.duino v1.3.0: {0}\nVandaag: {1} Tokens{2}\nInvoer: {3} | Uitvoer: {4}\nKlik voor menu • Ctrl+Shift+C • Rechtsklik om te wisselen",
+    "noApiKey": "{0} API-sleutel ontbreekt! • Klik om in te stellen",
+    "errorsFound": "{0} fouten gevonden • Klik voor hulp"
+  },
+  
+  "output": {
+    "codeExplanation": "{0} Uitleg",
+    "explanationFrom": "CODE-UITLEG VAN {0}"
+  },
+  
+  "panels": {
+    "errorExplanation": "🔧 Foutuitleg",
+    "debugHelp": "🔍 Debug-hulp",
+    "offlineHelp": "📡 Offline hulp",
+    "tokenStats": "📊 Token-statistieken",
+    "about": "Over AI.duino"
+  },
+  
+  "html": {
+    "errorExplanation": "Foutuitleg",
+    "errorInLine": "Fout in regel {0}"
+  },
+  
+  "debug": {
+    "analyzeSerial": "Seriële Monitor uitvoer analyseren",
+    "analyzeSerialDesc": "Hulp bij het interpreteren van debug-uitvoer",
+    "hardwareProblem": "Hardware-probleem diagnosticeren",
+    "hardwareProblemDesc": "Mogelijke hardware-oorzaken voor problemen",
+    "addDebugCode": "Debug-code toevoegen",
+    "addDebugCodeDesc": "Serial.print() statements strategisch plaatsen",
+    "timingProblems": "Timingproblemen vinden",
+    "timingProblemsDesc": "Hulp met delay(), millis() en timing-bugs",
+    "selectHelp": "Waarbij heb je hulp nodig?"
+  },
+  
+  "offline": {
+    "title": "Geen internetverbinding",
+    "requiresInternet": "AI.duino vereist een internetverbinding om te communiceren met Claude, ChatGPT, Gemini of Mistral.",
+    "solutions": "Oplossingen",
+    "checkInternet": "Controleer internetverbinding",
+    "checkWifi": "Controleer WiFi/Ethernet-verbinding",
+    "restartRouter": "Herstart router",
+    "testOtherSites": "Test andere websites",
+    "firewallSettings": "Firewall/Proxy-instellingen",
+    "ensureNotBlocked": "Zorg ervoor dat de volgende domeinen niet geblokkeerd zijn",
+    "disableVpn": "VPN uitschakelen",
+    "vpnMayBlock": "Sommige VPN-diensten kunnen API-verzoeken blokkeren.",
+    "commonProblems": "Veelvoorkomende Arduino-problemen (Offline referentie)",
+    "solution": "Oplossing",
+    "declareVariable": "Declareer variabele",
+    "missingDeclaration": "Ontbrekende declaratie",
+    "addSemicolon": "Puntkomma toevoegen",
+    "dontForgetSemicolon": "Vergeet de puntkomma niet!",
+    "insteadOfDelay": "In plaats van delay() gebruik",
+    "executeCodeHere": "Voer hier code uit",
+    "tip": "Tip",
+    "onlineAgain": "Zodra je weer online bent, kan AI.duino je helpen met specifieke problemen!"
+  },
+  
+  "stats": {
+    "tokenUsageFor": "Tokengebruik voor {0}",
+    "totalCostToday": "Totale kosten vandaag",
+    "inputTokens": "Invoer-tokens",
+    "outputTokens": "Uitvoer-tokens",
+    "cost": "Kosten",
+    "tip": "Tip",
+    "tipDescription": "Token-telling is een schatting. Werkelijke kosten kunnen licht afwijken.",
+    "confirmReset": "Weet je zeker dat je de statistieken wilt resetten?"
+  },
+  
+  "about": {
+    "tagline": "AI-aangedreven Arduino-ontwikkeling",
+    "features": "Functies",
+    "integration": "Integratie",
+    "feature1": "Codeverbetering en optimalisatie",
+    "feature2": "Foutuitleg in gewone taal",
+    "feature3": "Automatisch code becommentariëren",
+    "feature4": "Debug-hulp en hardware-diagnostiek",
+    "feature5": "Token-gebruik bijhouden",
+    "feature6": "Offline hulp bij verbindingsproblemen",
+    "feature7": "Modulaire architectuur voor eenvoudige uitbreiding",
+    "feature8": "Meertalige ondersteuning",
+    "quickstart": "Snelstart",
+    "step1": "Selecteer Arduino-code",
+    "step2": "Druk op",
+    "step3": "Kies een actie",
+    "tip": "Tip",
+    "tipText": "Rechtsklik op de statusbalk om van model te wisselen!",
+    "license": "Licentie",
+    "getApiKeys": "API-sleutels verkrijgen",
+    "publisher": "Uitgever",
+    "repository": "Repository",
+    "reportBugs": "Bugs melden",
+    "madeWith": "Gemaakt met 💙 voor de Arduino-community",
+    "changelog": "v1.3.0 Wijzigingen",
+    "change1": "Volledige internationalisatie-ondersteuning",
+    "change2": "Verbeterde code-optimalisatie-integratie",
+    "change3": "Verbeterde commentaargeneratie"
+  }
+}

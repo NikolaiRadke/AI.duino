@@ -1,0 +1,251 @@
+{
+  "commands": {
+    "quickMenu": "Hızlı Menüyü Aç",
+    "switchModel": "Yapay Zeka Modelini Değiştir",
+    "setApiKey": "API Anahtarı Gir",
+    "improveCode": "Kodu İyileştir",
+    "explainCode": "Kodu Açıkla",
+    "addComments": "Yorum Ekle",
+    "explainError": "Hatayı Açıkla",
+    "debugHelp": "Hata Ayıklama Yardımı",
+    "about": "AI.duino Hakkında...",
+    "changeApiKey": "API Anahtarını Değiştir",
+    "tokenStats": "Token İstatistikleri"
+  },
+  
+  "messages": {
+    "welcome": "👋 Hoş geldiniz! AI.duino v1.3.0 {0} destekliyor!",
+    "noApiKey": "🔑 Önce {0} için bir API anahtarına ihtiyacınız var",
+    "selectAction": "Ne yapmak istersiniz?",
+    "selectArduinoCode": "💡 Yapay zeka özelliklerini kullanmak için Arduino kodu seçin!",
+    "noEditor": "Aktif kod editörü yok",
+    "selectCodeToExplain": "Lütfen açıklanmasını istediğiniz kodu seçin",
+    "selectCodeToImprove": "Lütfen iyileştirilmesini istediğiniz kodu seçin",
+    "selectCodeToComment": "💡 Yorum eklemek istediğiniz kodu seçin",
+    "selectRelevantCode": "💡 Daha iyi hata ayıklama yardımı için ilgili kodu seçin",
+    "openInoFile": "Bir .ino dosyası açın",
+    "apiKeySaved": "✅ {0} API Anahtarı kaydedildi!",
+    "modelSwitched": "✅ {0} modeline geçildi",
+    "codeImproved": "✅ Kod iyileştirildi! Ne yapmak istersiniz?",
+    "codeReplaced": "✅ Kod değiştirildi!",
+    "codeUpdated": "✅ Kod güncellendi!",
+    "commentsAdded": "Yorumlar eklendi! Ne yapmak istersiniz?",
+    "connectionError": "Bağlantı hatası. Tekrar deneyelim mi?",
+    "retryLater": "Birkaç saniye sonra tekrar deneyin...",
+    "copiedToClipboard": "Panoya kopyalandı!",
+    "statsReset": "✅ Token istatistikleri sıfırlandı!",
+    "selectModel": "Yapay zeka modelini seçin",
+    "apiKeyRequired": "{0} bir API anahtarı gerektiriyor"
+  },
+  
+  "buttons": {
+    "chooseModel": "YZ Modeli Seç",
+    "later": "Sonra",
+    "setupNow": "Şimdi kur",
+    "switchModel": "Model Değiştir",
+    "cancel": "İptal",
+    "enterNow": "Şimdi gir",
+    "enterApiKey": "API Anahtarı Gir",
+    "retry": "Tekrar dene",
+    "offlineHelp": "Çevrimdışı Yardım",
+    "tryLater": "Sonra dene",
+    "yes": "Evet",
+    "no": "Hayır",
+    "replaceOriginal": "Orijinali değiştir",
+    "keepBoth": "İkisini de tut",
+    "replaceCode": "Kodu değiştir",
+    "keepAsIs": "Olduğu gibi bırak",
+    "copySolution": "Çözümü Kopyala",
+    "copy": "Kopyala",
+    "resetStats": "İstatistikleri Sıfırla"
+  },
+  
+  "descriptions": {
+    "improveSelected": "Seçili kodu optimize et",
+    "explainSelected": "Seçili kodu açıkla",
+    "addComments": "Koda yorum ekle",
+    "selectFirst": "Önce kod seçin",
+    "errorsFound": "🔴 Derleme hataları bulundu",
+    "noErrors": "Hata yok",
+    "debugHelp": "Hata ayıklama yardımı",
+    "currentModel": "Mevcut: {0}",
+    "todayUsage": "Bugün: {0}"
+  },
+  
+  "labels": {
+    "active": "Aktif",
+    "aiHints": "YAPAY ZEKA İPUÇLARI"
+  },
+  
+  "prompts": {
+    "enterApiKey": "{0} API Anahtarını girin",
+    "customInstructions": "Kod iyileştirme için özel talimatlar (isteğe bağlı)",
+    "commentInstructions": "Yorum ekleme için özel talimatlar (isteğe bağlı)",
+    "pasteError": "Arduino çıktı penceresinden hatayı yapıştırın (\"error:\" içeren kırmızı satır)",
+    "pasteSerial": "Seri Monitör çıktınızı yapıştırın",
+    "systemPrompt": "Sen yardımsever bir Arduino programlama asistanısın. Her zaman açık bir şekilde yanıt ver ve Arduino kodunu anlaşılır bir şekilde açıkla.",
+    "explainCode": "Bu Arduino kodunu basit, anlaşılır bir dille açıkla:\n\n```cpp\n{0}\n```\n\nAçıkla:\n- Kod ne yapıyor\n- Nasıl çalışıyor\n- Hangi donanımı kontrol ediyor\n- Yeni başlayanlar için önemli kavramlar\n\nSamimi ve ayrıntılı ol.",
+    "improveCode": "Bu Arduino kodunu iyileştir:\n\n```cpp\n{0}\n```\n\nŞunlar için optimize et:\n- Bloklamayan kod (delay yerine millis)\n- Bellek verimliliği\n- Daha iyi okunabilirlik\n- Arduino en iyi uygulamaları\n- Sağlamlık",
+    "improveCodeSuffix": "Sadece iyileştirilmiş kodu, değişiklikler hakkında kısa yorumlarla birlikte döndür.",
+    "addComments": "Bu Arduino koduna faydalı yorumlar ekle:\n\n```cpp\n{0}\n```\n\nKurallar:\n- Her önemli satırın ne yaptığını açıkla\n- Fonksiyonları ve parametrelerini yorumla\n- Donanım etkileşimlerini açıkla\n- Tek satırlık için // ve çok satırlı yorumlar için /* */ kullan\n- Yorumlar yeni başlayanlara yardımcı olmalı",
+    "addCommentsSuffix": "SADECE yorumlanmış kodu döndür, etrafında açıklama olmadan.",
+    "additionalInstructions": "Ek kullanıcı talimatları:\n- {0}",
+    "explainError": "Arduino derleyici hatasını açıkla ve çöz:\n\nHata: {0}\n\nKod bağlamı (satır {1} civarı):\n```cpp\n{2}\n```\n\nLütfen açıkla:\n1. Bu hata ne anlama geliyor?\n2. Neden oluşuyor?\n3. Nasıl düzeltirim?\n4. Düzeltilmiş kodu göster\n\nBasit ve anlaşılır bir şekilde açıkla.",
+    "analyzeSerial": "Bu Arduino Seri Monitör çıktısını analiz et ve ne anlama geldiğini açıkla:\n\nSeri Çıktı:\n{0}\n\n{1}\n\nAçıkla:\n- Çıktı ne anlama geliyor\n- Olası sorunlar\n- Çözüm önerileri",
+    "hardwareDebug": "Bu Arduino kodu için donanım sorun giderme konusunda yardım et:\n\n```cpp\n{0}\n```\n\nKontrol et:\n- Tipik kablolama hataları\n- Pin çakışmaları\n- Güç kaynağı sorunları\n- Pull-up/pull-down dirençler\n- Uyumluluk sorunları",
+    "addDebugStatements": "Bu Arduino koduna stratejik hata ayıklama çıktıları ekle:\n\n```cpp\n{0}\n```\n\nSerial.print() ifadeleri ekle:\n- Değişken değerlerini izlemek için\n- Program akışını takip etmek için\n- Zamanlamayı ölçmek için\n- Hataları bulmak için",
+    "analyzeTiming": "Bu Arduino kodundaki zamanlama sorunlarını analiz et:\n\n```cpp\n{0}\n```\n\nKontrol et:\n- Bloklamalı gecikmeler\n- millis() taşması\n- Yarış durumları\n- Kesme çakışmaları\n\nİyileştirilmiş bloklamayan kodu göster."
+  },
+  
+  "placeholders": {
+    "customInstructions": "örn. \"millis() kullanma\", \"Arduino Nano için optimize et\", \"hata işleme ekle\"",
+    "commentInstructions": "örn. \"çok ayrıntılı\", \"sadece fonksiyonları yorumla\", \"Türkçe olarak\"",
+    "errorExample": "error: 'xc' was not declared in this scope",
+    "serialExample": "örn. \"Sensör değeri: -1\""
+  },
+  
+  "validation": {
+    "apiKeyRequired": "API anahtarı gerekli",
+    "apiKeyPrefix": "\"{0}\" ile başlamalı",
+    "apiKeyTooShort": "Anahtar çok kısa görünüyor"
+  },
+  
+  "progress": {
+    "retrying": "{0} (Deneme {1}/{2})",
+    "explaining": "{0} kodu açıklıyor...",
+    "optimizing": "{0} kodu optimize ediyor...",
+    "addingComments": "{0} yorum ekliyor...",
+    "analyzingError": "{0} hatayı analiz ediyor...",
+    "analyzingProblem": "{0} sorunu analiz ediyor..."
+  },
+  
+  "errors": {
+    "networkError": "Ağ hatası",
+    "timeout": "Zaman aşımı - İnternet bağlantısını kontrol edin",
+    "unreachable": "ulaşılamıyor",
+    "operationCancelled": "İşlem iptal edildi",
+    "unknownModel": "Bilinmeyen model: {0}",
+    "noApiKey": "{0} API Anahtarı ayarlanmamış",
+    "invalidApiKey": "{0} API Anahtarı geçersiz",
+    "rateLimit": "{0} Hız limiti aşıldı - lütfen biraz bekleyin",
+    "serverUnavailable": "{0} Sunucu şu anda kullanılamıyor",
+    "apiError": "❌ {0} Hatası: {1}",
+    "apiErrorWithCode": "{0} API Hatası ({1}): {2}",
+    "parseError": "{0} yanıtı ayrıştırma hatası",
+    "unexpectedResponse": "Beklenmeyen {0} API yanıt yapısı",
+    "unknownError": "Bilinmeyen hata",
+    "saveFailed": "❌ Kaydetme başarısız: {0}",
+    "noInternet": "🌐 İnternet bağlantısı yok",
+    "network": {
+      "dns": "İnternet bağlantısı yok - DNS çözümleme başarısız",
+      "timeout": "Zaman aşımı - İnternet bağlantısı çok yavaş",
+      "refused": "Bağlantı reddedildi - Güvenlik duvarı veya proxy sorunu?",
+      "reset": "Bağlantı kesildi - kararsız internet bağlantısı",
+      "hostUnreachable": "Sunucuya erişilemiyor - ağ sorunu",
+      "netUnreachable": "Ağa erişilemiyor - yönlendirici sorunu?",
+      "aborted": "Bağlantı iptal edildi - zaman aşımı veya ağ hatası",
+      "general": "Ağ hatası: {0}"
+    }
+  },
+  
+  "statusBar": {
+    "tooltip": "AI.duino v1.3.0: {0}\nBugün: {1} Token{2}\nGiriş: {3} | Çıkış: {4}\nMenü için tıkla • Ctrl+Shift+C • Değiştirmek için sağ tıkla",
+    "noApiKey": "{0} API Anahtarı eksik! • Ayarlamak için tıkla",
+    "errorsFound": "{0} hata bulundu • Yardım için tıkla"
+  },
+  
+  "output": {
+    "codeExplanation": "{0} Açıklaması",
+    "explanationFrom": "{0} TARAFINDAN KOD AÇIKLAMASI"
+  },
+  
+  "panels": {
+    "errorExplanation": "🔧 Hata Açıklaması",
+    "debugHelp": "🔍 Hata Ayıklama Yardımı",
+    "offlineHelp": "📡 Çevrimdışı Yardım",
+    "tokenStats": "📊 Token İstatistikleri",
+    "about": "AI.duino Hakkında"
+  },
+  
+  "html": {
+    "errorExplanation": "Hata Açıklaması",
+    "errorInLine": "Satır {0}'da hata"
+  },
+  
+  "debug": {
+    "analyzeSerial": "Seri Monitör çıktısını analiz et",
+    "analyzeSerialDesc": "Hata ayıklama çıktısını yorumlama yardımı",
+    "hardwareProblem": "Donanım sorununu teşhis et",
+    "hardwareProblemDesc": "Sorunlar için olası donanım nedenleri",
+    "addDebugCode": "Hata ayıklama kodu ekle",
+    "addDebugCodeDesc": "Serial.print() ifadelerini stratejik olarak yerleştir",
+    "timingProblems": "Zamanlama sorunlarını bul",
+    "timingProblemsDesc": "delay(), millis() ve zamanlama hataları için yardım",
+    "selectHelp": "Neyle ilgili yardıma ihtiyacınız var?"
+  },
+  
+  "offline": {
+    "title": "İnternet Bağlantısı Yok",
+    "requiresInternet": "AI.duino, Claude, ChatGPT, Gemini veya Mistral ile iletişim kurmak için internet bağlantısı gerektirir.",
+    "solutions": "Çözümler",
+    "checkInternet": "İnternet bağlantısını kontrol et",
+    "checkWifi": "WiFi/Ethernet bağlantısını kontrol et",
+    "restartRouter": "Yönlendiriciyi yeniden başlat",
+    "testOtherSites": "Diğer web sitelerini test et",
+    "firewallSettings": "Güvenlik duvarı/Proxy ayarları",
+    "ensureNotBlocked": "Aşağıdaki alan adlarının engellenmediğinden emin olun",
+    "disableVpn": "VPN'i devre dışı bırak",
+    "vpnMayBlock": "Bazı VPN hizmetleri API isteklerini engelleyebilir.",
+    "commonProblems": "Yaygın Arduino Sorunları (Çevrimdışı Referans)",
+    "solution": "Çözüm",
+    "declareVariable": "Değişkeni tanımla",
+    "missingDeclaration": "Eksik tanımlama",
+    "addSemicolon": "Noktalı virgül ekle",
+    "dontForgetSemicolon": "Noktalı virgülü unutma!",
+    "insteadOfDelay": "delay() yerine kullan",
+    "executeCodeHere": "Kodu burada çalıştır",
+    "tip": "İpucu",
+    "onlineAgain": "Tekrar çevrimiçi olduğunuzda, AI.duino size özel sorunlarla yardımcı olabilir!"
+  },
+  
+  "stats": {
+    "tokenUsageFor": "{0} için Token Kullanımı",
+    "totalCostToday": "Bugünkü toplam maliyet",
+    "inputTokens": "Giriş Tokenları",
+    "outputTokens": "Çıkış Tokenları",
+    "cost": "Maliyet",
+    "tip": "İpucu",
+    "tipDescription": "Token sayımı tahminidir. Gerçek maliyetler biraz farklı olabilir.",
+    "confirmReset": "İstatistikleri gerçekten sıfırlamak istiyor musunuz?"
+  },
+  
+  "about": {
+    "tagline": "Yapay Zeka destekli Arduino Geliştirme",
+    "features": "Özellikler",
+    "integration": "Entegrasyon",
+    "feature1": "Kod iyileştirme ve optimizasyon",
+    "feature2": "Hataları sade dille açıklama",
+    "feature3": "Otomatik kod yorumlama",
+    "feature4": "Hata ayıklama yardımı ve donanım teşhisi",
+    "feature5": "Token kullanımı takibi",
+    "feature6": "Bağlantı sorunları için çevrimdışı yardım",
+    "feature7": "Kolay genişletme için modüler mimari",
+    "feature8": "Çok dilli destek",
+    "quickstart": "Hızlı Başlangıç",
+    "step1": "Arduino kodu seçin",
+    "step2": "Basın",
+    "step3": "Bir eylem seçin",
+    "tip": "İpucu",
+    "tipText": "Model değiştirmek için durum çubuğuna sağ tıklayın!",
+    "license": "Lisans",
+    "getApiKeys": "API Anahtarları Edinin",
+    "publisher": "Yayıncı",
+    "repository": "Depo",
+    "reportBugs": "Hataları bildir",
+    "madeWith": "Arduino topluluğu için 💙 ile yapıldı",
+    "changelog": "v1.3.0 Değişiklik Günlüğü",
+    "change1": "Tam uluslararasılaştırma desteği",
+    "change2": "Geliştirilmiş kod optimizasyon entegrasyonu",
+    "change3": "İyileştirilmiş yorum üretimi"
+  }
+}

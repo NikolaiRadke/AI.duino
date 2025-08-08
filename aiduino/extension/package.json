@@ -1,14 +1,14 @@
 {
   "name": "aiduino",
   "displayName": "AI.duino",
-  "description": "KI-gestützte Hilfe für Arduino mit Claude und ChatGPT: Code verbessern, Fehler erklären, Debug-Hilfe",
-  "version": "1.2.0",
+  "description": "AI-powered assistance for Arduino with Claude, ChatGPT, Gemini and Mistral: improve code, explain errors, debug help",
+  "version": "1.3.0",
   "publisher": "Monster Maker",
   "engines": {
     "vscode": "^1.60.0"
   },
   "categories": ["Other", "Debuggers", "Education"],
-  "keywords": ["arduino", "ai", "claude", "chatgpt", "gemini", "debug", "fehler", "hilfe"],
+  "keywords": ["arduino", "ai", "claude", "chatgpt", "gemini", "mistral", "debug", "error", "help", "assistant"],
   "activationEvents": [
     "onLanguage:cpp",
     "onLanguage:c",
@@ -19,55 +19,67 @@
     "commands": [
       {
         "command": "aiduino.quickMenu",
-        "title": "Quick-Menü öffnen",
+        "title": "🤖 AI.duino",
         "category": "AI.duino",
         "icon": "$(robot)"
       },
       {
         "command": "aiduino.switchModel",
-        "title": "AI-Modell wechseln",
+        "title": "Switch AI Model",
         "category": "AI.duino",
         "icon": "$(sync)"
       },
       {
         "command": "aiduino.setApiKey",
-        "title": "API Key eingeben",
+        "title": "Enter API Key",
         "category": "AI.duino",
         "icon": "$(key)"
       },
       {
         "command": "aiduino.improveCode",
-        "title": "Code verbessern",
+        "title": "Improve Code",
         "category": "AI.duino",
         "icon": "$(symbol-method)"
       },
       {
         "command": "aiduino.explainCode",
-        "title": "Code erklären",
+        "title": "Explain Code",
         "category": "AI.duino",
         "icon": "$(comment-discussion)"
       },
       {
         "command": "aiduino.addComments",
-        "title": "Kommentare hinzufügen",
+        "title": "Add Comments",
         "category": "AI.duino",
         "icon": "$(edit)"
       },
       {
         "command": "aiduino.explainError",
-        "title": "Fehler erklären",
+        "title": "Explain Error",
         "category": "AI.duino",
         "icon": "$(error)"
       },
       {
         "command": "aiduino.debugHelp",
-        "title": "Debug-Hilfe",
+        "title": "Debug Help",
         "category": "AI.duino",
         "icon": "$(bug)"
       },
       {
+        "command": "aiduino.showTokenStats",
+        "title": "Show Token Statistics",
+        "category": "AI.duino",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "aiduino.resetTokenStats",
+        "title": "Reset Token Statistics",
+        "category": "AI.duino",
+        "icon": "$(trash)"
+      },
+      {
         "command": "aiduino.about",
-        "title": "Über AI.duino...",
+        "title": "About AI.duino...",
         "category": "AI.duino",
         "icon": "$(info)"
       }
@@ -87,66 +99,105 @@
       }
     ],
     "menus": {
-  "editor/context": [
-    {
-      "submenu": "aiduino",
-      "group": "1_modification"   
-    }
-  ],
-  "aiduino": [
-    {
-      "command": "aiduino.explainCode"
+      "editor/context": [
+        {
+          "command": "aiduino.quickMenu",
+          "group": "1_modification",
+          "when": "resourceExtname == .ino"
+        }
+      ]
     },
-    {
-      "command": "aiduino.improveCode"   
-    },
-    {
-      "command": "aiduino.addComments"
-    },
-    {
-      "command": "aiduino.explainError"
-    },
-    {
-      "command": "aiduino.debugHelp"
-    },
-    {
-      "command": "aiduino.quickMenu"
-    },
-    {
-      "command": "aiduino.about"
-    }
-  ]
-},
-"submenus": [
-  {
-    "id": "aiduino",
-    "label": "🤖 AI.duino"
-  }
-],
     "configuration": {
       "title": "AI.duino",
       "properties": {
         "aiduino.showWelcomeOnStartup": {
           "type": "boolean",
           "default": true,
-          "description": "Willkommensnachricht beim Start anzeigen"
+          "description": "Show welcome message on startup"
         },
         "aiduino.autoDetectErrors": {
           "type": "boolean",
           "default": true,
-          "description": "Automatisch auf Compiler-Fehler hinweisen"
+          "description": "Automatically detect compiler errors"
         },
         "aiduino.defaultModel": {
           "type": "string",
-          "enum": ["claude", "chatgpt"],
+          "enum": ["claude", "chatgpt", "gemini", "mistral"],
+          "enumDescriptions": [
+            "Claude 3.5 Sonnet (Anthropic)",
+            "GPT-4 (OpenAI)",
+            "Gemini 1.5 Flash (Google)",
+            "Mistral Large (Mistral AI)"
+          ],
           "default": "claude",
-          "description": "Standard AI-Modell beim Start"
+          "description": "Default AI model on startup"
+        },
+        "aiduino.preferredLanguage": {
+          "type": "string",
+          "enum": ["auto", "en", "de", "es", "fr", "it", "pt", "zh", "ja", "ko", "ru"],
+          "enumDescriptions": [
+            "Auto-detect from VS Code",
+            "English",
+            "Deutsch",
+            "Español",
+            "Français",
+            "Italiano",
+            "Português",
+            "中文",
+            "日本語",
+            "한국어",
+            "Русский"
+          ],
+          "default": "auto",
+          "description": "Preferred language for AI responses (auto-detects from VS Code)"
+        },
+        "aiduino.maxTokensPerRequest": {
+          "type": "number",
+          "default": 2000,
+          "minimum": 500,
+          "maximum": 4000,
+          "description": "Maximum tokens per AI request"
+        },
+        "aiduino.temperature": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0,
+          "maximum": 1,
+          "description": "AI creativity level (0 = deterministic, 1 = creative)"
+        },
+        "aiduino.customInstructionsEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable custom instructions for code improvements"
+        },
+        "aiduino.saveApiKeysSecurely": {
+          "type": "boolean",
+          "default": true,
+          "description": "Save API keys with restricted file permissions"
+        },
+        "aiduino.tokenTrackingEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Track token usage and costs"
+        },
+        "aiduino.debugMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable debug console output"
         }
       }
     }
   },
-  "author": {
+   "author": {
     "name": "Monster Maker"
   },
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NikolaiRadke/AI.duino"
+  },
+  "bugs": {
+    "url": "https://github.com/NikolaiRadke/AI.duino/issues"
+  },
+  "homepage": "https://github.com/NikolaiRadke/AI.duino#readme"
 }
