@@ -37,7 +37,7 @@ When using this feature, you copy the error message from the Arduino output wind
 
 ### Automatic (recommended)
 
-You need the ZIP aiduino aiduino-X.X.X.zip in the same folder with the installer.
+You need the ZIP *aiduino-X.X.X.zip* in the same folder with the installer.
 
 #### Windows
 ```
