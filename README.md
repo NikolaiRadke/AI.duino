@@ -32,6 +32,8 @@ When using this feature, you copy the error message from the Arduino output wind
 - Analysis of Serial Monitor output
 - Hardware diagnostics for common problems
 - Timing analysis
+  
+![Screenshot 1](http://www.nikolairadke.de/aiduino/aiduino_screenshot_1.png)
 
 ## Installation
 
