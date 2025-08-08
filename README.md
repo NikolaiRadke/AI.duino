@@ -2,7 +2,6 @@
 # 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
 AI.duino integrates Claude, ChatGPT, Gemini and Mistral directly into the Arduino IDE for intelligent code assistance. More AI models will follow. 
-Right now, there is only a **German** version of this plugin. Lots of languages will follow in V1.3 very soon!
  
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
@@ -11,6 +10,10 @@ Right now, there is only a **German** version of this plugin. Lots of languages 
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/tree/main/NEWS.md).
    
 ## Features
+
+### Supported languages
+The plugin uses the language selected in your IDE preferences. Supported are: *en, de, fr, it, es, tr, pl, po, el, nl, cs*. More
+language will follow soon.
 
 ### Code optimization
 Optimizes Code. Example: Converts blocking code into non-blocking variants, `delay()` is replaced with `millis()`-based implementations.
@@ -34,20 +37,22 @@ When using this feature, you copy the error message from the Arduino output wind
 
 ### Automatic (recommended)
 
+You need the ZIP aiduino aiduino-X.X.X.zip in the same folder with the installer.
+
 #### Windows
 ```
-Run aiduino_windows.bat as administrator
+Run install_aiduino_windows.bat as administrator
 ```
 
 #### Linux
 ```bash
 chmod +x aiduino_linux.sh
-./aiduino_linux.sh
+./install_aiduino_linux.sh
 ```
 #### macOS
 ```bash
 chmod +x aiduino_macos.sh
-./aiduino_macos.sh
+./install_aiduino_macos.sh
 ```
 
 ### Manual installation
@@ -76,16 +81,20 @@ The `aiduino` folder must have the following structure:
 aiduino/
 ├── extension/
 │   ├── package.json
+|   ├── locales/
+|   |   ├── en.json
+|   |   ├── de.json
+|   |   └── ...
 │   └── out/
 │       └── extension.js
 ├── extension.vsixmanifest
-└── LICENSE
+
 ```
 
 ## Usage
 
 1. Select code in Arduino IDE
-2. Right-click → `AI.duino` → Choose function
+2. Right-click → `AI.duino` → Choose function in the menu above
 3. Alternative: `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac) or press the `AI.duino` button below  
 
 ### Explain error
@@ -108,10 +117,10 @@ The key is stored locally and not transmitted.
   
 ```
 AI.duino/
-Root directory with some explanation files and the installation scripts.  
+Root directory with some explanation files
 |
 ├── aiduinio/
 |   The plugin directory structure for manual installation.
 └── installer/
-    Pure installer files without AI.duino content.  
+    Installer files with plugin ZIP file  
 ```  
