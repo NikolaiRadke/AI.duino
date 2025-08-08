@@ -14,7 +14,7 @@
   },
   
   "messages": {
-    "welcome": "👋 Hoş geldiniz! AI.duino v1.3.0 {0} destekliyor!",
+    "welcome": "👋 Hoş geldiniz! AI.duino  {0} destekliyor!",
     "noApiKey": "🔑 Önce {0} için bir API anahtarına ihtiyacınız var",
     "selectAction": "Ne yapmak istersiniz?",
     "selectArduinoCode": "💡 Yapay zeka özelliklerini kullanmak için Arduino kodu seçin!",
@@ -149,7 +149,7 @@
   },
   
   "statusBar": {
-    "tooltip": "AI.duino v1.3.0: {0}\nBugün: {1} Token{2}\nGiriş: {3} | Çıkış: {4}\nMenü için tıkla • Ctrl+Shift+C • Değiştirmek için sağ tıkla",
+    "tooltip": "AI.duino : {0}\nBugün: {1} Token{2}\nGiriş: {3} | Çıkış: {4}\nMenü için tıkla • Ctrl+Shift+C • Değiştirmek için sağ tıkla",
     "noApiKey": "{0} API Anahtarı eksik! • Ayarlamak için tıkla",
     "errorsFound": "{0} hata bulundu • Yardım için tıkla"
   },
@@ -243,9 +243,9 @@
     "repository": "Depo",
     "reportBugs": "Hataları bildir",
     "madeWith": "Arduino topluluğu için 💙 ile yapıldı",
-    "changelog": "v1.3.0 Değişiklik Günlüğü",
+    "changelog": " Değişiklik Günlüğü",
     "change1": "Tam uluslararasılaştırma desteği",
-    "change2": "Geliştirilmiş kod optimizasyon entegrasyonu",
-    "change3": "İyileştirilmiş yorum üretimi"
+    "change2": "",
+    "change3": ""
   }
 }

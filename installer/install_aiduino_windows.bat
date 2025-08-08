@@ -259,6 +259,10 @@ if exist "!EXTRACT_DIR!\extension\locales" (
             if "!LOCALE_NAME!"=="ja" echo     • 日本語
             if "!LOCALE_NAME!"=="zh" echo     • 中文
             if "!LOCALE_NAME!"=="ko" echo     • 한국어
+            if "!LOCALE_NAME!"=="tr" echo     • Türkçe
+            if "!LOCALE_NAME!"=="el" echo     • Ελληνικά
+            if "!LOCALE_NAME!"=="cs" echo     • Čeština
+            if "!LOCALE_NAME!"=="sv" echo     • Svenska
         )
     )
 )

@@ -14,7 +14,7 @@
   },
   
   "messages": {
-    "welcome": "👋 Vítejte! AI.duino v1.3.0 podporuje {0}!",
+    "welcome": "👋 Vítejte! AI.duino podporuje {0}!",
     "noApiKey": "🔑 Nejdřív potřebujete API klíč pro {0}",
     "selectAction": "Co byste chtěli udělat?",
     "selectArduinoCode": "💡 Vyberte Arduino kód pro použití AI funkcí!",
@@ -149,7 +149,7 @@
   },
   
   "statusBar": {
-    "tooltip": "AI.duino v1.3.0: {0}\nDnes: {1} Tokenů{2}\nVstup: {3} | Výstup: {4}\nKlikněte pro menu • Ctrl+Shift+C • Pravé tlačítko pro přepnutí",
+    "tooltip": "AI.duino : {0}\nDnes: {1} Tokenů{2}\nVstup: {3} | Výstup: {4}\nKlikněte pro menu • Ctrl+Shift+C • Pravé tlačítko pro přepnutí",
     "noApiKey": "Chybí API klíč {0}! • Klikněte pro nastavení",
     "errorsFound": "Nalezeno {0} chyb • Klikněte pro pomoc"
   },
@@ -243,9 +243,9 @@
     "repository": "Repozitář",
     "reportBugs": "Nahlásit chyby",
     "madeWith": "Vytvořeno s 💙 pro Arduino komunitu",
-    "changelog": "Seznam změn v1.3.0",
+    "changelog": "Seznam změn",
     "change1": "Plná podpora internacionalizace",
-    "change2": "Vylepšená integrace optimalizace kódu",
-    "change3": "Vylepšené generování komentářů"
+    "change2": "",
+    "change3": ""
   }
 }

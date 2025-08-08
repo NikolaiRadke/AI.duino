@@ -214,6 +214,13 @@ install_plugin() {
                     ja) echo "    • 日本語" ;;
                     zh) echo "    • 中文" ;;
                     ko) echo "    • 한국어" ;;
+                    tr) echo "    • Türkçe" ;;
+                    el) echo "    • Ελληνικά" ;;
+                    cs) echo "    • Čeština" ;;
+                    sv) echo "    • Svenska" ;;
+                    zh) echo "    • 中文" ;;
+                    zh-CN) echo "    • 简体中文" ;;
+                    zh-TW) echo "    • 繁體中文" ;;
                     *) echo "    • $locale_name" ;;
                 esac
             done

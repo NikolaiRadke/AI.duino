@@ -14,7 +14,7 @@
   },
   
   "messages": {
-    "welcome": "👋 Welcome! AI.duino v1.3.0 supports {0}!",
+    "welcome": "👋 Welcome! AI.duino  supports {0}!",
     "noApiKey": "🔑 First you need an API key for {0}",
     "selectAction": "What would you like to do?",
     "selectArduinoCode": "💡 Select Arduino code to use AI features!",
@@ -149,7 +149,7 @@
   },
   
   "statusBar": {
-    "tooltip": "AI.duino v1.3.0: {0}\nToday: {1} Tokens{2}\nInput: {3} | Output: {4}\nClick for menu • Ctrl+Shift+C • Right-click to switch",
+    "tooltip": "AI.duino : {0}\nToday: {1} Tokens{2}\nInput: {3} | Output: {4}\nClick for menu • Ctrl+Shift+C • Right-click to switch",
     "noApiKey": "{0} API Key missing! • Click to set up",
     "errorsFound": "{0} errors found • Click for help"
   },
@@ -243,9 +243,9 @@
     "repository": "Repository",
     "reportBugs": "Report bugs",
     "madeWith": "Made with 💙 for the Arduino community",
-    "changelog": "v1.3.0 Changelog",
+    "changelog": " Changelog",
     "change1": "Full internationalization support",
-    "change2": "Improved code optimization integration",
-    "change3": "Enhanced comment generation"
+    "change2": "",
+    "change3": ""
   }
 }

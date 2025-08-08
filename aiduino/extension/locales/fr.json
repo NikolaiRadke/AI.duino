@@ -14,7 +14,7 @@
   },
   
   "messages": {
-    "welcome": "👋 Bienvenue ! AI.duino v1.3.0 prend en charge {0} !",
+    "welcome": "👋 Bienvenue ! AI.duino  prend en charge {0} !",
     "noApiKey": "🔑 Vous avez d'abord besoin d'une clé API pour {0}",
     "selectAction": "Que souhaitez-vous faire ?",
     "selectArduinoCode": "💡 Sélectionnez du code Arduino pour utiliser les fonctions IA !",
@@ -149,7 +149,7 @@
   },
   
   "statusBar": {
-    "tooltip": "AI.duino v1.3.0 : {0}\nAujourd'hui : {1} Tokens{2}\nEntrée : {3} | Sortie : {4}\nClic pour menu • Ctrl+Maj+C • Clic droit pour changer",
+    "tooltip": "AI.duino  : {0}\nAujourd'hui : {1} Tokens{2}\nEntrée : {3} | Sortie : {4}\nClic pour menu • Ctrl+Maj+C • Clic droit pour changer",
     "noApiKey": "Clé API {0} manquante ! • Clic pour configurer",
     "errorsFound": "{0} erreurs trouvées • Clic pour aide"
   },
@@ -243,9 +243,9 @@
     "repository": "Dépôt",
     "reportBugs": "Signaler des bugs",
     "madeWith": "Fait avec 💙 pour la communauté Arduino",
-    "changelog": "Journal des modifications v1.3.0",
+    "changelog": "Journal des modifications ",
     "change1": "Support complet de l'internationalisation",
-    "change2": "Intégration améliorée de l'optimisation du code",
-    "change3": "Génération de commentaires améliorée"
+    "change2": "",
+    "change3": ""
   }
 }

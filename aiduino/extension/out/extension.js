@@ -36,7 +36,7 @@ function loadLocale() {
     const vscodeLocale = vscode.env.language || 'en';
     
     // Map VS Code locale to our supported locales
-    const supportedLocales = ['en', 'de', 'es', 'fr', 'it', 'pt', 'zh', 'ja', 'ko', 'ru'];
+const supportedLocales = ['en', 'de', 'es', 'fr', 'it', 'pt', 'zh', 'ja', 'ko', 'ru', 'nl', 'pl', 'tr', 'el', 'cs', 'sv'];
     currentLocale = supportedLocales.includes(vscodeLocale.substring(0, 2)) 
         ? vscodeLocale.substring(0, 2) 
         : 'en';
