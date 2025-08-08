@@ -34,6 +34,7 @@ When using this feature, you copy the error message from the Arduino output wind
 - Timing analysis
   
 ![Screenshot 1](http://www.nikolairadke.de/aiduino/aiduino_screenshot_1.png)
+![Screenshot 2](http://www.nikolairadke.de/aiduino/aiduino_screenshot_2.png)
 
 ## Installation
 
