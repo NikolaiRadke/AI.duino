@@ -14,7 +14,7 @@
   },
   
   "messages": {
-    "welcome": "👋 환영합니다! AI.duino v1.3.0은 {0}을(를) 지원합니다!",
+    "welcome": "👋 환영합니다! AI.duino {0}을(를) 지원합니다!",
     "noApiKey": "🔑 먼저 {0}용 API 키가 필요합니다",
     "selectAction": "무엇을 하시겠습니까?",
     "selectArduinoCode": "💡 AI 기능을 사용하려면 Arduino 코드를 선택하세요!",
@@ -149,7 +149,7 @@
   },
   
   "statusBar": {
-    "tooltip": "AI.duino v1.3.0: {0}\n오늘: {1} 토큰{2}\n입력: {3} | 출력: {4}\n메뉴는 클릭 • Ctrl+Shift+C • 전환은 우클릭",
+    "tooltip": "AI.duino: {0}\n오늘: {1} 토큰{2}\n입력: {3} | 출력: {4}\n메뉴는 클릭 • Ctrl+Shift+C • 전환은 우클릭",
     "noApiKey": "{0} API 키 없음! • 설정하려면 클릭",
     "errorsFound": "{0}개 오류 발견 • 도움말은 클릭"
   },
@@ -243,9 +243,9 @@
     "repository": "저장소",
     "reportBugs": "버그 신고",
     "madeWith": "Arduino 커뮤니티를 위해 💙로 제작",
-    "changelog": "v1.3.0 변경 사항",
+    "changelog": "변경 사항",
     "change1": "완전한 국제화 지원",
-    "change2": "개선된 코드 최적화 통합",
-    "change3": "향상된 주석 생성"
+    "change2": "",
+    "change3": ""
   }
 }
