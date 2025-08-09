@@ -25,72 +25,100 @@ const os = require("os");
 const path = require("path");
 const EXTENSION_VERSION = "1.3.1";
 
-// ========================================
-// INTERNATIONALIZATION SYSTEM
-// ========================================
-
 let i18n = {};
 let currentLocale = 'en';
 
-function loadLocale() {
-    vscode.window.showInformationMessage("🔍 loadLocale() called");
+const LANGUAGE_METADATA = {
+    'en': { name: 'English', flag: '🇺🇸', region: 'English' },
+    'de': { name: 'Deutsch', flag: '🇩🇪', region: 'German' },
+    'es': { name: 'Español', flag: '🇪🇸', region: 'Spanish' },
+    'fr': { name: 'Français', flag: '🇫🇷', region: 'French' },
+    'it': { name: 'Italiano', flag: '🇮🇹', region: 'Italian' },
+    'pt': { name: 'Português', flag: '🇵🇹', region: 'Portuguese' },
+    'zh': { name: '中文', flag: '🇨🇳', region: 'Chinese' },
+    'ja': { name: '日本語', flag: '🇯🇵', region: 'Japanese' },
+    'ko': { name: '한국어', flag: '🇰🇷', region: 'Korean' },
+    'ru': { name: 'Русский', flag: '🇷🇺', region: 'Russian' },
+    'nl': { name: 'Nederlands', flag: '🇳🇱', region: 'Dutch' },
+    'pl': { name: 'Polski', flag: '🇵🇱', region: 'Polish' },
+    'tr': { name: 'Türkçe', flag: '🇹🇷', region: 'Turkish' },
+    'el': { name: 'Ελληνικά', flag: '🇬🇷', region: 'Greek' },
+    'cs': { name: 'Čeština', flag: '🇨🇿', region: 'Czech' },
+    'sv': { name: 'Svenska', flag: '🇸🇪', region: 'Swedish' },
+    'da': { name: 'Dansk', flag: '🇩🇰', region: 'Danish' },
+    'no': { name: 'Norsk', flag: '🇳🇴', region: 'Norwegian' },
+    'fi': { name: 'Suomi', flag: '🇫🇮', region: 'Finnish' },
+    'ro': { name: 'Română', flag: '🇷🇴', region: 'Romanian' }
+};
+
+// Cache für verfügbare Locales
+let availableLocales = null;
+
+function getAvailableLocales() {
+    const localesDir = path.join(__dirname, '..', 'locales');
+    const availableLocales = [];
     
+    try {
+        if (fs.existsSync(localesDir)) {
+            const files = fs.readdirSync(localesDir);
+            
+            files.forEach(file => {
+                if (file.endsWith('.json')) {
+                    const locale = file.replace('.json', '');
+                    availableLocales.push(locale);
+                }
+            });
+        }
+    } catch (error) {
+        // Silent fallback to known languages
+        return ['en', 'de'];
+    }
+    return ['en', ...availableLocales.filter(l => l !== 'en').sort()];
+}
+
+function getSupportedLocales() {
+    if (!availableLocales) {
+        availableLocales = getAvailableLocales();
+    }
+    return availableLocales;
+}
+
+// Hilfsfunktion: Sprach-Info abrufen
+function getLanguageInfo(locale) {
+    return LANGUAGE_METADATA[locale] || { 
+        name: locale.toUpperCase(), 
+        flag: '🌐', 
+        region: locale.toUpperCase() 
+    };
+}
+
+function loadLocale() {
     const config = vscode.workspace.getConfiguration('aiduino');
     const userLanguageChoice = config.get('language', 'auto');
     
-    vscode.window.showInformationMessage(`🔍 User choice: ${userLanguageChoice}`);
-    
     if (userLanguageChoice !== 'auto') {
-        // User hat manuell eine Sprache gewählt
         currentLocale = userLanguageChoice;
-        vscode.window.showInformationMessage(`🔍 Manual locale: ${currentLocale}`);
     } else {
-        // Auto-Detection Logic
+        // Auto-Detection mit dynamischer Liste
         const vscodeLocale = vscode.env.language || 'en';
         const detectedLang = vscodeLocale.substring(0, 2);
+        const supportedLocales = getSupportedLocales(); // ← DYNAMISCH!
         
-        vscode.window.showInformationMessage(`🔍 VS Code locale: ${vscodeLocale} -> ${detectedLang}`);
-        
-        // Alle verfügbaren Plugin-Sprachen
-        const allSupportedLocales = [
-            'en', 'de', 'es', 'fr', 'it', 'pt', 'zh', 'ja', 
-            'ko', 'nl', 'pl', 'tr', 'el', 'cs', 'sv'
-        ];
-        
-        if (allSupportedLocales.includes(detectedLang)) {
-            currentLocale = detectedLang;
-            vscode.window.showInformationMessage(`🔍 Auto-detected: ${currentLocale}`);
-        } else {
-            currentLocale = 'en';
-            vscode.window.showInformationMessage(`🔍 Fallback to English (${detectedLang} not supported)`);
-        }
+        currentLocale = supportedLocales.includes(detectedLang) ? detectedLang : 'en';
     }
     
     // Lade Locale-Datei
     try {
         const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
-        vscode.window.showInformationMessage(`🔍 Loading: ${localeFile}`);
-        
         if (fs.existsSync(localeFile)) {
             const content = fs.readFileSync(localeFile, 'utf8');
             i18n = JSON.parse(content);
-            
-            vscode.window.showInformationMessage(`✅ Loaded locale: ${currentLocale}`);
-            
-            // Test sample translation
-            const sample = i18n.commands?.improveCode || 'MISSING';
-            vscode.window.showInformationMessage(`✅ Sample: "${sample}"`);
-            
         } else {
             throw new Error(`Locale file not found: ${currentLocale}.json`);
         }
     } catch (error) {
-        vscode.window.showErrorMessage(`❌ Locale error: ${error.message}`);
-        
-        // Ultimate fallback to embedded English
         i18n = getEmbeddedEnglishLocale();
         currentLocale = 'en';
-        vscode.window.showInformationMessage("✅ Fallback to embedded English");
     }
 }
 
@@ -296,50 +324,38 @@ function registerCommands(context) {
 }
 
 async function switchLanguage() {
+    const supportedLocales = getSupportedLocales(); // ← DYNAMISCH!
+    
+    // Erstelle Sprachliste dynamisch
     const availableLanguages = [
-        { label: '🌐 Auto (VS Code)', description: t('language.autoDetect') || 'Auto-detect from VS Code', value: 'auto' },
-        { label: '🇺🇸 English', description: 'English', value: 'en' },
-        { label: '🇩🇪 Deutsch', description: 'German', value: 'de' },
-        { label: '🇪🇸 Español', description: 'Spanish', value: 'es' },
-        { label: '🇫🇷 Français', description: 'French', value: 'fr' },
-        { label: '🇮🇹 Italiano', description: 'Italian', value: 'it' },
-        { label: '🇵🇹 Português', description: 'Portuguese', value: 'pt' },
-        { label: '🇨🇳 中文', description: 'Chinese', value: 'zh' },
-        { label: '🇯🇵 日本語', description: 'Japanese', value: 'ja' },
-        { label: '🇰🇷 한국어', description: 'Korean', value: 'ko' },
-        { label: '🇳🇱 Nederlands', description: 'Dutch', value: 'nl' },
-        { label: '🇵🇱 Polski', description: 'Polish', value: 'pl' },
-        { label: '🇹🇷 Türkçe', description: 'Turkish', value: 'tr' },
-        { label: '🇬🇷 Ελληνικά', description: 'Greek', value: 'el' },
-        { label: '🇨🇿 Čeština', description: 'Czech', value: 'cs' },
-        { label: '🇸🇪 Svenska', description: 'Swedish', value: 'sv' }
+        { 
+            label: '🌐 Auto (VS Code)', 
+            description: t('language.autoDetect') || 'Auto-detect from VS Code', 
+            value: 'auto' 
+        }
     ];
     
-    // KORRIGIERT: Verwende currentLocale für Markierung, nicht currentSetting
+    // Füge alle verfügbaren Sprachen hinzu
+    supportedLocales.forEach(locale => {
+        const info = getLanguageInfo(locale); // ← DYNAMISCH!
+        availableLanguages.push({
+            label: `${info.flag} ${info.name}`,
+            description: info.region,
+            value: locale
+        });
+    });
+    
+    // Markiere aktuelle Sprache
     const config = vscode.workspace.getConfiguration('aiduino');
     const currentSetting = config.get('language', 'auto');
     
-    // Bestimme welcher Eintrag markiert werden soll
-    let activeValue;
-    if (currentSetting === 'auto') {
-        activeValue = 'auto';
-    } else {
-        // Zeige tatsächliche Sprache, nicht Konfiguration
-        activeValue = currentLocale;
-    }
+    let activeValue = currentSetting === 'auto' ? 'auto' : currentLocale;
     
     availableLanguages.forEach(lang => {
         if (lang.value === activeValue) {
             if (activeValue === 'auto') {
-                // Für Auto: zeige welche Sprache tatsächlich verwendet wird
-                const languageNames = {
-                    'en': 'English', 'de': 'German', 'es': 'Spanish', 'fr': 'French',
-                    'it': 'Italian', 'pt': 'Portuguese', 'zh': 'Chinese', 'ja': 'Japanese',
-                    'ko': 'Korean', 'nl': 'Dutch', 'pl': 'Polish',
-                    'tr': 'Turkish', 'el': 'Greek', 'cs': 'Czech', 'sv': 'Swedish'
-                };
-                const detectedLanguage = languageNames[currentLocale] || currentLocale;
-                lang.description = `✓ Currently using ${detectedLanguage}`;
+                const info = getLanguageInfo(currentLocale);
+                lang.description = `✓ Currently using ${info.region}`;
             } else {
                 lang.description = `✓ ${lang.description}`;
             }
@@ -351,33 +367,24 @@ async function switchLanguage() {
         title: `🌐 AI.duino ${t('language.changeLanguage') || 'Change Language'}`
     });
     
-    // KORRIGIERT: Vergleiche mit activeValue statt currentSetting
     if (selected && selected.value !== activeValue) {
         try {
-            // Speichere Konfiguration für Persistenz
             await config.update('language', selected.value, vscode.ConfigurationTarget.Global);
             
-            // Direkte Sprachänderung
             if (selected.value === 'auto') {
-                // Auto-Detection Logic
                 const vscodeLocale = vscode.env.language || 'en';
                 const detectedLang = vscodeLocale.substring(0, 2);
-                const supportedLocales = ['en', 'de', 'es', 'fr', 'it', 'pt', 'zh', 'ja', 'ko', 'nl', 'pl', 'tr', 'el', 'cs', 'sv'];
-                
                 currentLocale = supportedLocales.includes(detectedLang) ? detectedLang : 'en';
             } else {
-                // Manuelle Sprachauswahl
                 currentLocale = selected.value;
             }
             
-            // Lade entsprechende Locale-Datei
+            // Lade neue Locale-Datei
             const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
-            
             if (fs.existsSync(localeFile)) {
                 const content = fs.readFileSync(localeFile, 'utf8');
                 i18n = JSON.parse(content);
             } else {
-                // Fallback zu English wenn Datei nicht gefunden
                 currentLocale = 'en';
                 const englishFile = path.join(__dirname, '..', 'locales', 'en.json');
                 if (fs.existsSync(englishFile)) {
@@ -388,23 +395,18 @@ async function switchLanguage() {
                 }
             }
             
-            // UI aktualisieren
             updateStatusBar();
             
-            // Erfolgsmeldung in neuer Sprache
+            // Erfolgsmeldung
             let successMessage;
             if (selected.value === 'auto') {
-                const languageNames = {
-                    'en': 'English', 'de': 'Deutsch', 'es': 'Español', 'fr': 'Français',
-                    'it': 'Italiano', 'pt': 'Português', 'zh': '中文', 'ja': '日本語',
-                    'ko': '한국어', 'nl': 'Nederlands', 'pl': 'Polski',
-                    'tr': 'Türkçe', 'el': 'Ελληνικά', 'cs': 'Čeština', 'sv': 'Svenska'
-                };
-                const detectedLanguage = languageNames[currentLocale] || currentLocale;
-                successMessage = t('language.changed', `Auto (${detectedLanguage})`) || `Language set to Auto (${detectedLanguage})`;
+                const info = getLanguageInfo(currentLocale);
+                successMessage = t('language.changed', `Auto (${info.name})`) || 
+                                `Language set to Auto (${info.name})`;
             } else {
-                const languageName = selected.label.split(' ')[1] || selected.label;
-                successMessage = t('language.changed', languageName) || `Language changed to ${languageName}`;
+                const info = getLanguageInfo(currentLocale);
+                successMessage = t('language.changed', info.name) || 
+                                `Language changed to ${info.name}`;
             }
             
             vscode.window.showInformationMessage(successMessage);
@@ -414,65 +416,111 @@ async function switchLanguage() {
         }
     }
 }
-function loadLocale() {
+
+async function switchLanguage() {
+    const supportedLocales = getSupportedLocales(); // ← DYNAMISCH!
+    
+    // Erstelle Sprachliste dynamisch
+    const availableLanguages = [
+        { 
+            label: '🌐 Auto (VS Code)', 
+            description: t('language.autoDetect') || 'Auto-detect from VS Code', 
+            value: 'auto' 
+        }
+    ];
+    
+    // Füge alle verfügbaren Sprachen hinzu
+    supportedLocales.forEach(locale => {
+        const info = getLanguageInfo(locale); // ← DYNAMISCH!
+        availableLanguages.push({
+            label: `${info.flag} ${info.name}`,
+            description: info.region,
+            value: locale
+        });
+    });
+    
+    // Markiere aktuelle Sprache
     const config = vscode.workspace.getConfiguration('aiduino');
-    const userLanguageChoice = config.get('language', 'auto');
+    const currentSetting = config.get('language', 'auto');
     
-    if (userLanguageChoice !== 'auto') {
-        // User hat manuell eine Sprache gewählt
-        currentLocale = userLanguageChoice;
-    } else {
-        // Auto-Detection Logic
-        const vscodeLocale = vscode.env.language || 'en';
-        const detectedLang = vscodeLocale.substring(0, 2);
-        
-        // Alle verfügbaren Plugin-Sprachen
-        const allSupportedLocales = [
-            'en', 'de', 'es', 'fr', 'it', 'pt', 'zh', 'ja', 
-            'ko', 'nl', 'pl', 'tr', 'el', 'cs', 'sv'
-        ];
-        
-        if (allSupportedLocales.includes(detectedLang)) {
-            currentLocale = detectedLang;
-        } else {
-            currentLocale = 'en';
-        }
-    }
+    let activeValue = currentSetting === 'auto' ? 'auto' : currentLocale;
     
-    // Lade Locale-Datei
-    try {
-        const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
-        if (fs.existsSync(localeFile)) {
-            const content = fs.readFileSync(localeFile, 'utf8');
-            i18n = JSON.parse(content);
-        } else {
-            throw new Error(`Locale file not found: ${currentLocale}.json`);
+    availableLanguages.forEach(lang => {
+        if (lang.value === activeValue) {
+            if (activeValue === 'auto') {
+                const info = getLanguageInfo(currentLocale);
+                lang.description = `✓ Currently using ${info.region}`;
+            } else {
+                lang.description = `✓ ${lang.description}`;
+            }
         }
-    } catch (error) {       
-        // Ultimate fallback to embedded English
-        i18n = getEmbeddedEnglishLocale();
-        currentLocale = 'en';
+    });
+    
+    const selected = await vscode.window.showQuickPick(availableLanguages, {
+        placeHolder: t('language.selectLanguage') || 'Choose language for AI.duino',
+        title: `🌐 AI.duino ${t('language.changeLanguage') || 'Change Language'}`
+    });
+    
+    if (selected && selected.value !== activeValue) {
+        try {
+            await config.update('language', selected.value, vscode.ConfigurationTarget.Global);
+            
+            if (selected.value === 'auto') {
+                const vscodeLocale = vscode.env.language || 'en';
+                const detectedLang = vscodeLocale.substring(0, 2);
+                currentLocale = supportedLocales.includes(detectedLang) ? detectedLang : 'en';
+            } else {
+                currentLocale = selected.value;
+            }
+            
+            // Lade neue Locale-Datei
+            const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
+            if (fs.existsSync(localeFile)) {
+                const content = fs.readFileSync(localeFile, 'utf8');
+                i18n = JSON.parse(content);
+            } else {
+                currentLocale = 'en';
+                const englishFile = path.join(__dirname, '..', 'locales', 'en.json');
+                if (fs.existsSync(englishFile)) {
+                    const content = fs.readFileSync(englishFile, 'utf8');
+                    i18n = JSON.parse(content);
+                } else {
+                    i18n = getEmbeddedEnglishLocale();
+                }
+            }
+            
+            updateStatusBar();
+            
+            // Erfolgsmeldung
+            let successMessage;
+            if (selected.value === 'auto') {
+                const info = getLanguageInfo(currentLocale);
+                successMessage = t('language.changed', `Auto (${info.name})`) || 
+                                `Language set to Auto (${info.name})`;
+            } else {
+                const info = getLanguageInfo(currentLocale);
+                successMessage = t('language.changed', info.name) || 
+                                `Language changed to ${info.name}`;
+            }
+            
+            vscode.window.showInformationMessage(successMessage);
+            
+        } catch (error) {
+            vscode.window.showErrorMessage(`Failed to switch language: ${error.message}`);
+        }
     }
 }
 
 function getCurrentLanguageName() {
-    const languageNames = {
-        'en': 'English', 'de': 'Deutsch', 'es': 'Español', 'fr': 'Français',
-        'it': 'Italiano', 'pt': 'Português', 'zh': '中文', 'ja': '日本語',
-        'ko': '한국어', 'nl': 'Nederlands', 'pl': 'Polski',
-        'tr': 'Türkçe', 'el': 'Ελληνικά', 'cs': 'Čeština', 'sv': 'Svenska'
-    };
-    
     const config = vscode.workspace.getConfiguration('aiduino');
     const currentSetting = config.get('language', 'auto');
+    const info = getLanguageInfo(currentLocale); // ← DYNAMISCH!
     
     if (currentSetting === 'auto') {
-        const actualLanguage = languageNames[currentLocale] || currentLocale;
-        return `Auto (${actualLanguage})`;
+        return `Auto (${info.name})`;
     }
     
-    // Verwende currentLocale (was aktuell läuft) statt currentSetting (was gespeichert ist)
-    return languageNames[currentLocale] || currentLocale;
+    return info.name;
 }
 
 
