@@ -10,7 +10,8 @@
     "debugHelp": "Hata Ayıklama Yardımı",
     "about": "AI.duino Hakkında...",
     "changeApiKey": "API Anahtarını Değiştir",
-    "tokenStats": "Token İstatistikleri"
+    "tokenStats": "Token İstatistikleri",
+    "switchLanguage": "Dili değiştir"
   },
   
   "messages": {
@@ -69,7 +70,15 @@
     "noErrors": "Hata yok",
     "debugHelp": "Hata ayıklama yardımı",
     "currentModel": "Mevcut: {0}",
-    "todayUsage": "Bugün: {0}"
+    "todayUsage": "Bugün: {0}",
+    "currentLanguage": "Mevcut: {0}"
+  },
+
+  "language": {
+    "autoDetect": "VS Code'dan otomatik algıla",
+    "selectLanguage": "AI.duino için dil seç",
+    "changeLanguage": "Dili değiştir",
+    "changed": "Dil {0} olarak değiştirildi"
   },
   
   "labels": {

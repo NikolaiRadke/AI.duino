@@ -10,7 +10,8 @@
     "debugHelp": "디버그 도움말",
     "about": "AI.duino 정보...",
     "changeApiKey": "API 키 변경",
-    "tokenStats": "토큰 통계"
+    "tokenStats": "토큰 통계",
+    "switchLanguage": "언어 변경"
   },
   
   "messages": {
@@ -69,14 +70,22 @@
     "noErrors": "오류 없음",
     "debugHelp": "디버그 도움말",
     "currentModel": "현재: {0}",
-    "todayUsage": "오늘: {0}"
+    "todayUsage": "오늘: {0}",
+    "currentLanguage": "현재: {0}"
+  },
+
+  "language": {
+    "autoDetect": "VS Code에서 자동 감지",
+    "selectLanguage": "AI.duino 언어 선택",
+    "changeLanguage": "언어 변경",
+    "changed": "언어가 {0}로 변경되었습니다"
   },
   
   "labels": {
     "active": "활성",
     "aiHints": "AI 힌트"
   },
-  
+ 
   "prompts": {
     "enterApiKey": "{0} API 키 입력",
     "customInstructions": "코드 개선을 위한 사용자 지정 지침 (선택사항)",

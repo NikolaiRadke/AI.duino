@@ -2,7 +2,7 @@
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "AI-powered assistance for Arduino with Claude, ChatGPT, Gemini and Mistral: improve code, explain errors, debug help",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "publisher": "Monster Maker",
   "engines": {
     "vscode": "^1.60.0"
@@ -100,13 +100,28 @@
     ],
     "menus": {
       "editor/context": [
-        {
-          "command": "aiduino.quickMenu",
-          "group": "1_modification",
-          "when": "resourceExtname == .ino"
-        }
-      ]
-    },
+      {
+        "command": "aiduino.quickMenu",
+        "group": "1_modification",
+        "when": "resourceExtname == .ino"
+      },
+      {
+        "command": "aiduino.quickMenu", 
+        "group": "1_modification",
+        "when": "resourceExtname == .cpp"
+      },
+      {
+        "command": "aiduino.quickMenu",
+        "group": "1_modification", 
+        "when": "resourceExtname == .h"
+      },
+      {
+        "command": "aiduino.quickMenu",
+        "group": "1_modification",
+        "when": "resourceExtname == .c"
+      }
+    ]
+  },
     "configuration": {
       "title": "AI.duino",
       "properties": {
@@ -187,6 +202,21 @@
         }
       }
     }
+  },
+  "aiduino.language": {
+    "type": "string",
+    "enum": [
+      "auto", "en", "de", "es", "fr", "it", "pt", "zh", "ja", 
+      "ko", "ru", "nl", "pl", "tr", "el", "cs", "sv"
+    ],
+    "enumDescriptions": [
+      "Auto (VS Code language, fallback to English)",
+      "English", "Deutsch", "Español", "Français", "Italiano", 
+      "Português", "中文", "日本語", "한국어", "Русский", 
+      "Nederlands", "Polski", "Türkçe", "Ελληνικά", "Čeština", "Svenska"
+    ],
+    "default": "auto",
+    "description": "Language for plugin UI and AI responses"
   },
    "author": {
     "name": "Monster Maker"

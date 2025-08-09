@@ -10,7 +10,8 @@
     "debugHelp": "Debug-hulp",
     "about": "Over AI.duino...",
     "changeApiKey": "API-sleutel wijzigen",
-    "tokenStats": "Token-statistieken"
+    "tokenStats": "Token-statistieken",
+    "switchLanguage": "Taal wijzigen"
   },
   
   "messages": {
@@ -69,9 +70,17 @@
     "noErrors": "Geen fouten",
     "debugHelp": "Hulp bij debuggen",
     "currentModel": "Huidig: {0}",
-    "todayUsage": "Vandaag: {0}"
+    "todayUsage": "Vandaag: {0}",
+    "currentLanguage": "Huidige: {0}"
   },
   
+   "language": {
+    "autoDetect": "Automatisch detecteren vanuit VS Code",
+    "selectLanguage": "Kies taal voor AI.duino",
+    "changeLanguage": "Taal wijzigen",
+    "changed": "Taal gewijzigd naar {0}"
+  },
+
   "labels": {
     "active": "Actief",
     "aiHints": "AI-TIPS"

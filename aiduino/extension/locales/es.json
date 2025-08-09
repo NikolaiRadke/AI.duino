@@ -10,7 +10,8 @@
     "debugHelp": "Ayuda de depuración",
     "about": "Acerca de AI.duino...",
     "changeApiKey": "Cambiar clave API",
-    "tokenStats": "Estadísticas de tokens"
+    "tokenStats": "Estadísticas de tokens",
+    "switchLanguage": "Cambiar idioma"
   },
   
   "messages": {
@@ -69,7 +70,15 @@
     "noErrors": "Sin errores",
     "debugHelp": "Ayuda con la depuración",
     "currentModel": "Actual: {0}",
-    "todayUsage": "Hoy: {0}"
+    "todayUsage": "Hoy: {0}",
+    "currentLanguage": "Actual: {0}"
+  },
+
+  "language": {
+    "autoDetect": "Detectar automáticamente desde VS Code",
+    "selectLanguage": "Elegir idioma para AI.duino",
+    "changeLanguage": "Cambiar idioma",
+    "changed": "Idioma cambiado a {0}"
   },
   
   "labels": {

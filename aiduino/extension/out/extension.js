@@ -1,5 +1,5 @@
 /*
- * AI.duino v1.3.0 - Internationalized Version
+ * AI.duino v1.3.1 - Internationalized Version
  * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,7 @@ const https = require("https");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const EXTENSION_VERSION = "1.3.1";
 
 // ========================================
 // INTERNATIONALIZATION SYSTEM
@@ -32,32 +33,64 @@ let i18n = {};
 let currentLocale = 'en';
 
 function loadLocale() {
-    // Get VS Code's display language
-    const vscodeLocale = vscode.env.language || 'en';
+    vscode.window.showInformationMessage("🔍 loadLocale() called");
     
-    // Map VS Code locale to our supported locales
-const supportedLocales = ['en', 'de', 'es', 'fr', 'it', 'pt', 'zh', 'ja', 'ko', 'ru', 'nl', 'pl', 'tr', 'el', 'cs', 'sv'];
-    currentLocale = supportedLocales.includes(vscodeLocale.substring(0, 2)) 
-        ? vscodeLocale.substring(0, 2) 
-        : 'en';
+    const config = vscode.workspace.getConfiguration('aiduino');
+    const userLanguageChoice = config.get('language', 'auto');
     
-    try {
-        // Try to load the locale file
-        const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
-        if (fs.existsSync(localeFile)) {
-            i18n = JSON.parse(fs.readFileSync(localeFile, 'utf8'));
-            console.log(`✅ Loaded locale: ${currentLocale}`);
+    vscode.window.showInformationMessage(`🔍 User choice: ${userLanguageChoice}`);
+    
+    if (userLanguageChoice !== 'auto') {
+        // User hat manuell eine Sprache gewählt
+        currentLocale = userLanguageChoice;
+        vscode.window.showInformationMessage(`🔍 Manual locale: ${currentLocale}`);
+    } else {
+        // Auto-Detection Logic
+        const vscodeLocale = vscode.env.language || 'en';
+        const detectedLang = vscodeLocale.substring(0, 2);
+        
+        vscode.window.showInformationMessage(`🔍 VS Code locale: ${vscodeLocale} -> ${detectedLang}`);
+        
+        // Alle verfügbaren Plugin-Sprachen
+        const allSupportedLocales = [
+            'en', 'de', 'es', 'fr', 'it', 'pt', 'zh', 'ja', 
+            'ko', 'nl', 'pl', 'tr', 'el', 'cs', 'sv'
+        ];
+        
+        if (allSupportedLocales.includes(detectedLang)) {
+            currentLocale = detectedLang;
+            vscode.window.showInformationMessage(`🔍 Auto-detected: ${currentLocale}`);
         } else {
-            // Fallback to English
-            const englishFile = path.join(__dirname, '..', 'locales', 'en.json');
-            i18n = JSON.parse(fs.readFileSync(englishFile, 'utf8'));
             currentLocale = 'en';
-            console.log('✅ Loaded default locale: en');
+            vscode.window.showInformationMessage(`🔍 Fallback to English (${detectedLang} not supported)`);
+        }
+    }
+    
+    // Lade Locale-Datei
+    try {
+        const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
+        vscode.window.showInformationMessage(`🔍 Loading: ${localeFile}`);
+        
+        if (fs.existsSync(localeFile)) {
+            const content = fs.readFileSync(localeFile, 'utf8');
+            i18n = JSON.parse(content);
+            
+            vscode.window.showInformationMessage(`✅ Loaded locale: ${currentLocale}`);
+            
+            // Test sample translation
+            const sample = i18n.commands?.improveCode || 'MISSING';
+            vscode.window.showInformationMessage(`✅ Sample: "${sample}"`);
+            
+        } else {
+            throw new Error(`Locale file not found: ${currentLocale}.json`);
         }
     } catch (error) {
-        console.error('Failed to load locale files:', error);
-        // Use embedded fallback if files can't be loaded
+        vscode.window.showErrorMessage(`❌ Locale error: ${error.message}`);
+        
+        // Ultimate fallback to embedded English
         i18n = getEmbeddedEnglishLocale();
+        currentLocale = 'en';
+        vscode.window.showInformationMessage("✅ Fallback to embedded English");
     }
 }
 
@@ -76,7 +109,7 @@ function getEmbeddedEnglishLocale() {
             about: "About AI.duino..."
         },
         messages: {
-            welcome: "Welcome! AI.duino v1.3.0 supports multiple AI models!",
+            welcome: "Welcome! AI.duino v${EXTENSION_VERSION} supports multiple AI models!",
             noApiKey: "First you need an API key for",
             selectAction: "What would you like to do?",
             markCode: "Please select the code you want to",
@@ -99,7 +132,6 @@ function t(key, ...args) {
         if (value && typeof value === 'object' && k in value) {
             value = value[k];
         } else {
-            console.warn(`Missing translation: ${key}`);
             return key; // Return key as fallback
         }
     }
@@ -188,9 +220,7 @@ const TOKEN_USAGE_FILE = path.join(os.homedir(), '.aiduino-token-usage.json');
 // ACTIVATION & INITIALIZATION
 // ========================================
 
-function activate(context) {
-    console.log('🤖 AI.duino v1.3.0 activated!');
-    
+function activate(context) {    
     // Load locale first
     loadLocale();
     
@@ -227,6 +257,16 @@ function activate(context) {
         clearTimeout(errorTimeout);
         errorTimeout = setTimeout(() => checkForErrors(), 1000);
     });
+    
+    // Höre auf Konfigurationsänderungen
+    context.subscriptions.push(
+        vscode.workspace.onDidChangeConfiguration(event => {
+            if (event.affectsConfiguration('aiduino.language')) {
+                loadLocale();
+                updateStatusBar();
+            }
+        })
+    );
 }
 exports.activate = activate;
 
@@ -235,6 +275,7 @@ function registerCommands(context) {
         { name: 'aiduino.quickMenu', handler: showQuickMenu }, 
         { name: 'aiduino.switchModel', handler: switchModel },
         { name: 'aiduino.setApiKey', handler: setApiKey },
+        { name: 'aiduino.switchLanguage', handler: switchLanguage }, // NEU!
         { name: 'aiduino.explainCode', handler: explainCode },
         { name: 'aiduino.improveCode', handler: improveCode },
         { name: 'aiduino.addComments', handler: addComments },
@@ -253,6 +294,187 @@ function registerCommands(context) {
     
     context.subscriptions.push(statusBarItem);
 }
+
+async function switchLanguage() {
+    const availableLanguages = [
+        { label: '🌐 Auto (VS Code)', description: t('language.autoDetect') || 'Auto-detect from VS Code', value: 'auto' },
+        { label: '🇺🇸 English', description: 'English', value: 'en' },
+        { label: '🇩🇪 Deutsch', description: 'German', value: 'de' },
+        { label: '🇪🇸 Español', description: 'Spanish', value: 'es' },
+        { label: '🇫🇷 Français', description: 'French', value: 'fr' },
+        { label: '🇮🇹 Italiano', description: 'Italian', value: 'it' },
+        { label: '🇵🇹 Português', description: 'Portuguese', value: 'pt' },
+        { label: '🇨🇳 中文', description: 'Chinese', value: 'zh' },
+        { label: '🇯🇵 日本語', description: 'Japanese', value: 'ja' },
+        { label: '🇰🇷 한국어', description: 'Korean', value: 'ko' },
+        { label: '🇳🇱 Nederlands', description: 'Dutch', value: 'nl' },
+        { label: '🇵🇱 Polski', description: 'Polish', value: 'pl' },
+        { label: '🇹🇷 Türkçe', description: 'Turkish', value: 'tr' },
+        { label: '🇬🇷 Ελληνικά', description: 'Greek', value: 'el' },
+        { label: '🇨🇿 Čeština', description: 'Czech', value: 'cs' },
+        { label: '🇸🇪 Svenska', description: 'Swedish', value: 'sv' }
+    ];
+    
+    // KORRIGIERT: Verwende currentLocale für Markierung, nicht currentSetting
+    const config = vscode.workspace.getConfiguration('aiduino');
+    const currentSetting = config.get('language', 'auto');
+    
+    // Bestimme welcher Eintrag markiert werden soll
+    let activeValue;
+    if (currentSetting === 'auto') {
+        activeValue = 'auto';
+    } else {
+        // Zeige tatsächliche Sprache, nicht Konfiguration
+        activeValue = currentLocale;
+    }
+    
+    availableLanguages.forEach(lang => {
+        if (lang.value === activeValue) {
+            if (activeValue === 'auto') {
+                // Für Auto: zeige welche Sprache tatsächlich verwendet wird
+                const languageNames = {
+                    'en': 'English', 'de': 'German', 'es': 'Spanish', 'fr': 'French',
+                    'it': 'Italian', 'pt': 'Portuguese', 'zh': 'Chinese', 'ja': 'Japanese',
+                    'ko': 'Korean', 'nl': 'Dutch', 'pl': 'Polish',
+                    'tr': 'Turkish', 'el': 'Greek', 'cs': 'Czech', 'sv': 'Swedish'
+                };
+                const detectedLanguage = languageNames[currentLocale] || currentLocale;
+                lang.description = `✓ Currently using ${detectedLanguage}`;
+            } else {
+                lang.description = `✓ ${lang.description}`;
+            }
+        }
+    });
+    
+    const selected = await vscode.window.showQuickPick(availableLanguages, {
+        placeHolder: t('language.selectLanguage') || 'Choose language for AI.duino',
+        title: `🌐 AI.duino ${t('language.changeLanguage') || 'Change Language'}`
+    });
+    
+    // KORRIGIERT: Vergleiche mit activeValue statt currentSetting
+    if (selected && selected.value !== activeValue) {
+        try {
+            // Speichere Konfiguration für Persistenz
+            await config.update('language', selected.value, vscode.ConfigurationTarget.Global);
+            
+            // Direkte Sprachänderung
+            if (selected.value === 'auto') {
+                // Auto-Detection Logic
+                const vscodeLocale = vscode.env.language || 'en';
+                const detectedLang = vscodeLocale.substring(0, 2);
+                const supportedLocales = ['en', 'de', 'es', 'fr', 'it', 'pt', 'zh', 'ja', 'ko', 'nl', 'pl', 'tr', 'el', 'cs', 'sv'];
+                
+                currentLocale = supportedLocales.includes(detectedLang) ? detectedLang : 'en';
+            } else {
+                // Manuelle Sprachauswahl
+                currentLocale = selected.value;
+            }
+            
+            // Lade entsprechende Locale-Datei
+            const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
+            
+            if (fs.existsSync(localeFile)) {
+                const content = fs.readFileSync(localeFile, 'utf8');
+                i18n = JSON.parse(content);
+            } else {
+                // Fallback zu English wenn Datei nicht gefunden
+                currentLocale = 'en';
+                const englishFile = path.join(__dirname, '..', 'locales', 'en.json');
+                if (fs.existsSync(englishFile)) {
+                    const content = fs.readFileSync(englishFile, 'utf8');
+                    i18n = JSON.parse(content);
+                } else {
+                    i18n = getEmbeddedEnglishLocale();
+                }
+            }
+            
+            // UI aktualisieren
+            updateStatusBar();
+            
+            // Erfolgsmeldung in neuer Sprache
+            let successMessage;
+            if (selected.value === 'auto') {
+                const languageNames = {
+                    'en': 'English', 'de': 'Deutsch', 'es': 'Español', 'fr': 'Français',
+                    'it': 'Italiano', 'pt': 'Português', 'zh': '中文', 'ja': '日本語',
+                    'ko': '한국어', 'nl': 'Nederlands', 'pl': 'Polski',
+                    'tr': 'Türkçe', 'el': 'Ελληνικά', 'cs': 'Čeština', 'sv': 'Svenska'
+                };
+                const detectedLanguage = languageNames[currentLocale] || currentLocale;
+                successMessage = t('language.changed', `Auto (${detectedLanguage})`) || `Language set to Auto (${detectedLanguage})`;
+            } else {
+                const languageName = selected.label.split(' ')[1] || selected.label;
+                successMessage = t('language.changed', languageName) || `Language changed to ${languageName}`;
+            }
+            
+            vscode.window.showInformationMessage(successMessage);
+            
+        } catch (error) {
+            vscode.window.showErrorMessage(`Failed to switch language: ${error.message}`);
+        }
+    }
+}
+function loadLocale() {
+    const config = vscode.workspace.getConfiguration('aiduino');
+    const userLanguageChoice = config.get('language', 'auto');
+    
+    if (userLanguageChoice !== 'auto') {
+        // User hat manuell eine Sprache gewählt
+        currentLocale = userLanguageChoice;
+    } else {
+        // Auto-Detection Logic
+        const vscodeLocale = vscode.env.language || 'en';
+        const detectedLang = vscodeLocale.substring(0, 2);
+        
+        // Alle verfügbaren Plugin-Sprachen
+        const allSupportedLocales = [
+            'en', 'de', 'es', 'fr', 'it', 'pt', 'zh', 'ja', 
+            'ko', 'nl', 'pl', 'tr', 'el', 'cs', 'sv'
+        ];
+        
+        if (allSupportedLocales.includes(detectedLang)) {
+            currentLocale = detectedLang;
+        } else {
+            currentLocale = 'en';
+        }
+    }
+    
+    // Lade Locale-Datei
+    try {
+        const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
+        if (fs.existsSync(localeFile)) {
+            const content = fs.readFileSync(localeFile, 'utf8');
+            i18n = JSON.parse(content);
+        } else {
+            throw new Error(`Locale file not found: ${currentLocale}.json`);
+        }
+    } catch (error) {       
+        // Ultimate fallback to embedded English
+        i18n = getEmbeddedEnglishLocale();
+        currentLocale = 'en';
+    }
+}
+
+function getCurrentLanguageName() {
+    const languageNames = {
+        'en': 'English', 'de': 'Deutsch', 'es': 'Español', 'fr': 'Français',
+        'it': 'Italiano', 'pt': 'Português', 'zh': '中文', 'ja': '日本語',
+        'ko': '한국어', 'nl': 'Nederlands', 'pl': 'Polski',
+        'tr': 'Türkçe', 'el': 'Ελληνικά', 'cs': 'Čeština', 'sv': 'Svenska'
+    };
+    
+    const config = vscode.workspace.getConfiguration('aiduino');
+    const currentSetting = config.get('language', 'auto');
+    
+    if (currentSetting === 'auto') {
+        const actualLanguage = languageNames[currentLocale] || currentLocale;
+        return `Auto (${actualLanguage})`;
+    }
+    
+    // Verwende currentLocale (was aktuell läuft) statt currentSetting (was gespeichert ist)
+    return languageNames[currentLocale] || currentLocale;
+}
+
 
 function initializeTokenUsage() {
     tokenUsage = {
@@ -281,7 +503,6 @@ function loadApiKeys() {
         try {
             if (fs.existsSync(keyFile)) {
                 apiKeys[modelId] = fs.readFileSync(keyFile, 'utf8').trim();
-                console.log(`✅ ${model.name} API Key loaded`);
             }
         } catch (error) {
             console.log(`❌ Error loading ${model.name} API Key:`, error);
@@ -295,7 +516,6 @@ function loadSelectedModel() {
             const savedModel = fs.readFileSync(MODEL_FILE, 'utf8').trim();
             if (AI_MODELS[savedModel]) {
                 currentModel = savedModel;
-                console.log('✅ Selected model:', currentModel);
             }
         }
     } catch (error) {
@@ -320,24 +540,13 @@ function loadTokenUsage() {
         const currentDate = new Date();
         const today = currentDate.toDateString();
         
-        console.log('=== TOKEN USAGE LOADING ===');
-        console.log('Current date:', today);
-        console.log('Timestamp:', currentDate.toISOString());
-        
         if (fs.existsSync(TOKEN_USAGE_FILE)) {
             const fileContent = fs.readFileSync(TOKEN_USAGE_FILE, 'utf8');
-            console.log('File content:', fileContent);
             
             const data = JSON.parse(fileContent);
-            console.log('Saved date:', data.daily);
-            console.log('Date comparison:', data.daily === today);
-            
+          
             // Check if it's the same day
             if (data.daily === today) {
-                // Same day - take over data
-                tokenUsage = data;
-                console.log('✅ Token statistics loaded from same day');
-                
                 // Ensure all models exist
                 Object.keys(AI_MODELS).forEach(modelId => {
                     if (!tokenUsage[modelId]) {
@@ -346,14 +555,11 @@ function loadTokenUsage() {
                 });
             } else {
                 // Different day - reset
-                console.log('🔄 New day detected - resetting statistics');
-                console.log('Old:', data.daily, 'New:', today);
                 initializeTokenUsage();
                 saveTokenUsage();
             }
         } else {
             // No file present
-            console.log('📄 No token file found - creating new');
             initializeTokenUsage();
             saveTokenUsage();
         }
@@ -363,9 +569,7 @@ function loadTokenUsage() {
             updateStatusBar();
         }
         
-    } catch (error) {
-        console.error('❌ Error loading token statistics:', error);
-        
+    } catch (error) {       
         // Start with empty values on error
         initializeTokenUsage();
         saveTokenUsage();
@@ -515,6 +719,11 @@ async function showQuickMenu() {
             command: 'aiduino.debugHelp'
         },
         {
+            label: '$(globe) ' + t('commands.switchLanguage'),
+            description: t('descriptions.currentLanguage', getCurrentLanguageName()),
+            command: 'aiduino.switchLanguage'
+        },
+        {
             label: '$(sync) ' + t('commands.switchModel'),
             description: t('descriptions.currentModel', model.name),
             command: 'aiduino.switchModel'
@@ -531,7 +740,7 @@ async function showQuickMenu() {
         },
         {
             label: '$(info) ' + t('commands.about'),
-            description: 'Version 1.3.0',
+            description: 'Version 1.3.1',
             command: 'aiduino.about'
         }
     ];
@@ -540,7 +749,7 @@ async function showQuickMenu() {
     
     const selected = await vscode.window.showQuickPick(items, {
         placeHolder: t('messages.selectAction'),
-        title: `🤖 AI.duino v1.3.0 (${model.name})`
+        title: `🤖 AI.duino v${EXTENSION_VERSION} (${model.name})`
     });
     
     if (selected && selected.command) {
@@ -839,7 +1048,6 @@ function callClaudeAPI(prompt) {
                     if (res.statusCode === 200) {
                         const response = parsedData.content[0].text;
                         updateTokenUsage('claude', prompt, response);
-                        console.log('Claude tokens tracked:', estimateTokens(prompt), 'in,', estimateTokens(response), 'out');
                         resolve(response);
                     } else {
                         // Specific error messages
@@ -936,7 +1144,6 @@ function callChatGPTAPI(prompt) {
                     if (res.statusCode === 200) {
                         const response = parsedData.choices[0].message.content;
                         updateTokenUsage('chatgpt', prompt, response);
-                        console.log('ChatGPT tokens tracked:', estimateTokens(prompt), 'in,', estimateTokens(response), 'out');
                         resolve(response);
                     } else {
                         switch(res.statusCode) {
@@ -1050,7 +1257,6 @@ function callGeminiAPI(prompt) {
                             
                             const response = parsedData.candidates[0].content.parts[0].text;
                             updateTokenUsage('gemini', prompt, response);
-                            console.log('Gemini tokens tracked:', estimateTokens(prompt), 'in,', estimateTokens(response), 'out');
                             resolve(response);
                         } else {
                             reject(new Error(t('errors.unexpectedResponse', 'Gemini')));
@@ -1150,7 +1356,6 @@ function callMistralAPI(prompt) {
                     if (res.statusCode === 200) {
                         const response = parsedData.choices[0].message.content;
                         updateTokenUsage('mistral', prompt, response);
-                        console.log('Mistral tokens tracked:', estimateTokens(prompt), 'in,', estimateTokens(response), 'out');
                         resolve(response);
                     } else {
                         switch(res.statusCode) {
@@ -2188,7 +2393,7 @@ function showAbout() {
         <body>
             <div class="logo">🤖</div>
             <h1>AI.duino</h1>
-            <div class="version">Version 1.3.0</div>
+            <div class="version">Version 1.3.1</div>
             
             <p><strong>${t('about.tagline')}</strong></p>
             
@@ -2258,7 +2463,6 @@ function deactivate() {
     if (statusBarItem) {
         statusBarItem.dispose();
     }
-    console.log('AI.duino v1.3.0 deactivated');
 }
 exports.deactivate = deactivate;
 

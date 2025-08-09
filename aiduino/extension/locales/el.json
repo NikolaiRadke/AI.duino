@@ -10,7 +10,8 @@
     "debugHelp": "Βοήθεια Αποσφαλμάτωσης",
     "about": "Σχετικά με το AI.duino...",
     "changeApiKey": "Αλλαγή Κλειδιού API",
-    "tokenStats": "Στατιστικά Token"
+    "tokenStats": "Στατιστικά Token",
+    "switchLanguage": "Αλλαγή γλώσσας"
   },
   
   "messages": {
@@ -69,7 +70,15 @@
     "noErrors": "Χωρίς σφάλματα",
     "debugHelp": "Βοήθεια με την αποσφαλμάτωση",
     "currentModel": "Τρέχον: {0}",
-    "todayUsage": "Σήμερα: {0}"
+    "todayUsage": "Σήμερα: {0}",
+    "currentLanguage": "Τρέχουσα: {0}"
+  },
+
+  "language": {
+    "autoDetect": "Αυτόματη ανίχνευση από VS Code",
+    "selectLanguage": "Επιλέξτε γλώσσα για AI.duino",
+    "changeLanguage": "Αλλαγή γλώσσας",
+    "changed": "Η γλώσσα άλλαξε σε {0}"
   },
   
   "labels": {

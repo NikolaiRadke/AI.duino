@@ -10,7 +10,8 @@
     "debugHelp": "Felsökningshjälp",
     "about": "Om AI.duino...",
     "changeApiKey": "Ändra API-nyckel",
-    "tokenStats": "Token-statistik"
+    "tokenStats": "Token-statistik",
+    "switchLanguage": "Byt språk"
   },
   
   "messages": {
@@ -69,7 +70,15 @@
     "noErrors": "Inga fel",
     "debugHelp": "Hjälp med felsökning",
     "currentModel": "Nuvarande: {0}",
-    "todayUsage": "Idag: {0}"
+    "todayUsage": "Idag: {0}",
+    "currentLanguage": "Nuvarande: {0}"
+  },
+
+  "language": {
+    "autoDetect": "Upptäck automatiskt från VS Code",
+    "selectLanguage": "Välj språk för AI.duino",
+    "changeLanguage": "Byt språk",
+    "changed": "Språk ändrat till {0}"
   },
   
   "labels": {

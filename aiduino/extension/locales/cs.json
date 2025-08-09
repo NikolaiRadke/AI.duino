@@ -10,7 +10,8 @@
     "debugHelp": "Pomoc s laděním",
     "about": "O AI.duino...",
     "changeApiKey": "Změnit API klíč",
-    "tokenStats": "Statistiky tokenů"
+    "tokenStats": "Statistiky tokenů",
+    "switchLanguage": "Přepnout jazyk"
   },
   
   "messages": {
@@ -69,7 +70,15 @@
     "noErrors": "Žádné chyby",
     "debugHelp": "Pomoc s laděním",
     "currentModel": "Aktuální: {0}",
-    "todayUsage": "Dnes: {0}"
+    "todayUsage": "Dnes: {0}",
+    "currentLanguage": "Aktuální: {0}"
+  },
+
+  "language": {
+    "autoDetect": "Automaticky rozpoznat z VS Code",
+    "selectLanguage": "Vybrat jazyk pro AI.duino",
+    "changeLanguage": "Změnit jazyk",
+    "changed": "Jazyk změněn na {0}"
   },
   
   "labels": {

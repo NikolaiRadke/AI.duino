@@ -10,7 +10,8 @@
     "debugHelp": "デバッグヘルプ",
     "about": "AI.duinoについて...",
     "changeApiKey": "APIキーを変更",
-    "tokenStats": "トークン統計"
+    "tokenStats": "トークン統計",
+    "switchLanguage": "言語を切り替え"
   },
   
   "messages": {
@@ -69,7 +70,15 @@
     "noErrors": "エラーなし",
     "debugHelp": "デバッグのヘルプ",
     "currentModel": "現在: {0}",
-    "todayUsage": "今日: {0}"
+    "todayUsage": "今日: {0}",
+    "currentLanguage": "現在：{0}"
+  },
+
+  "language": {
+    "autoDetect": "VS Codeから自動検出",
+    "selectLanguage": "AI.duinoの言語を選択",
+    "changeLanguage": "言語を変更",
+    "changed": "言語が{0}に変更されました"
   },
   
   "labels": {

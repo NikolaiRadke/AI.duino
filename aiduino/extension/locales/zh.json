@@ -10,7 +10,8 @@
     "debugHelp": "调试帮助",
     "about": "关于AI.duino...",
     "changeApiKey": "更改API密钥",
-    "tokenStats": "Token统计"
+    "tokenStats": "Token统计",
+    "switchLanguage": "切换语言"
   },
   
   "messages": {
@@ -69,7 +70,15 @@
     "noErrors": "没有错误",
     "debugHelp": "调试帮助",
     "currentModel": "当前：{0}",
-    "todayUsage": "今日：{0}"
+    "todayUsage": "今日：{0}",
+    "currentLanguage": "当前：{0}"
+  },
+
+  "language": {
+    "autoDetect": "从 VS Code 自动检测",
+    "selectLanguage": "为 AI.duino 选择语言",
+    "changeLanguage": "更改语言",
+    "changed": "语言已更改为 {0}"
   },
   
   "labels": {
