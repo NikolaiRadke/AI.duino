@@ -104,7 +104,7 @@ aiduino/
 ### Explain error
 1. Compile code and find error message in output window
 2. Place cursor near the error
-3. Run "Fehler erklären"
+3. Run "Explain error"
 4. Copy error message (red line with "error:") into input field
 
 ## API keys
