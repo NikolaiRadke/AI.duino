@@ -11,7 +11,9 @@
     "about": "Over AI.duino...",
     "changeApiKey": "API-sleutel wijzigen",
     "tokenStats": "Token-statistieken",
-    "switchLanguage": "Taal wijzigen"
+    "switchLanguage": "Taal wijzigen",
+    "askAI": "Vraag AI",
+    "askFollowUp": "Vervolgvraag"
   },
   
   "messages": {
@@ -38,7 +40,10 @@
     "selectModel": "Kies het AI-model",
     "apiKeyRequired": "{0} vereist een API-sleutel",
     "connectionOk": "Połączenie internetowe działa",
-    "noConnection": "Nie wykryto połączenia internetowego"
+    "noConnection": "Nie wykryto połączenia internetowego",
+    "noValidContext": "Geen recent gesprek om voort te zetten (max 30 min)",
+    "followUpContext": "Gesprek voortzetten: \"{0}\" ({1} min geleden)",
+    "contextCleared": "Gesprekcontext gewist"
   },
   
   "buttons": {
@@ -80,7 +85,10 @@
     "debugHelp": "Hulp bij debuggen",
     "currentModel": "Huidig: {0}",
     "todayUsage": "Vandaag: {0}",
-    "currentLanguage": "Huidige: {0}"
+    "currentLanguage": "Huidige: {0}",
+    "askAI": "Stel een directe vraag aan AI",
+    "askFollowUp": "Vorig gesprek voortzetten: {0}",
+    "noValidContext": "Geen vorig gesprek"
   },
   
    "language": {
@@ -112,14 +120,22 @@
     "analyzeSerial": "Analyseer deze Arduino Seriële Monitor uitvoer en leg uit wat het betekent:\n\nSeriële uitvoer:\n{0}\n\n{1}\n\nLeg uit:\n- Wat de uitvoer betekent\n- Mogelijke problemen\n- Oplossingsuggesties",
     "hardwareDebug": "Help met hardware-troubleshooting voor deze Arduino-code:\n\n```cpp\n{0}\n```\n\nControleer:\n- Typische bedradingsfouten\n- Pin-conflicten\n- Voedingsproblemen\n- Pull-up/pull-down weerstanden\n- Compatibiliteitsproblemen",
     "addDebugStatements": "Voeg strategische debug-uitvoer toe aan deze Arduino-code:\n\n```cpp\n{0}\n```\n\nVoeg Serial.print() statements toe om:\n- Variabele waarden te monitoren\n- Programmaverloop te volgen\n- Timing te meten\n- Fouten te vinden",
-    "analyzeTiming": "Analyseer timingproblemen in deze Arduino-code:\n\n```cpp\n{0}\n```\n\nControleer op:\n- Blokkerende delays\n- millis() overflow\n- Race conditions\n- Interrupt-conflicten\n\nToon verbeterde niet-blokkerende code."
+    "analyzeTiming": "Analyseer timingproblemen in deze Arduino-code:\n\n```cpp\n{0}\n```\n\nControleer op:\n- Blokkerende delays\n- millis() overflow\n- Race conditions\n- Interrupt-conflicten\n\nToon verbeterde niet-blokkerende code.",
+    "askAI": "Wat wilt u de AI vragen?",
+    "askAIGeneral": "Gebruikersvraag: {0}\n\nAntwoord duidelijk en nuttig in het Nederlands.",
+    "askAIWithContext": "Gebruikersvraag: {0}\n\nCode context:\n```cpp\n{1}\n```\n\nAntwoord in het Nederlands rekening houdend met de verstrekte Arduino code.",
+    "askFollowUp": "Vervolgvraag:",
+    "followUpContext": "Context van vorig gesprek:",
+    "followUpInstruction": "Antwoord in het Nederlands rekening houdend met het vorige gesprek."
   },
   
   "placeholders": {
     "customInstructions": "bijv. \"gebruik geen millis()\", \"optimaliseer voor Arduino Nano\", \"voeg foutafhandeling toe\"",
     "commentInstructions": "bijv. \"zeer gedetailleerd\", \"alleen functies becommentariëren\", \"in het Nederlands\"",
     "errorExample": "error: 'xc' was not declared in this scope",
-    "serialExample": "bijv. \"Sensorwaarde: -1\""
+    "serialExample": "bijv. \"Sensorwaarde: -1\"",
+    "askAI": "bijv. \"Hoe werkt PWM?\", \"Waarom werkt mijn sensor niet?\"",
+    "askFollowUp": "Gesprek voortzetten..."
   },
   
   "validation": {
@@ -135,7 +151,9 @@
     "addingComments": "{0} voegt commentaar toe...",
     "analyzingError": "{0} analyseert de fout...",
     "analyzingProblem": "{0} analyseert het probleem...",
-    "testingConnection": "Testowanie połączenia..."
+    "testingConnection": "Testowanie połączenia...",
+    "askingAI": "{0} verwerkt uw vraag...",
+    "askingFollowUp": "{0} verwerkt uw vervolgvraag..."
   },
   
   "errors": {
@@ -175,7 +193,31 @@
   
   "output": {
     "codeExplanation": "{0} Uitleg",
-    "explanationFrom": "CODE-UITLEG VAN {0}"
+    "explanationFrom": "CODE-UITLEG VAN {0}",    
+    "aiResponse": "{0} Antwoord",
+    "responseFrom": "ANTWOORD VAN {0}",
+    "yourQuestion": "Uw vraag",
+    "aiAnswer": "AI Antwoord",
+    "aiFollowUp": "{0} Vervolgantwoord",
+    "followUpTo": "Vervolg van",
+    "followUpHint": "Gesprek voortzetten"
+  },
+
+  "chat": {
+    "includeSelectedCode": "Geselecteerde code opnemen",
+    "includeSelectedCodeDesc": "Vraag versturen met momenteel geselecteerde code",
+    "questionOnly": "Alleen vraag",
+    "questionOnlyDesc": "Alleen de vraag versturen zonder code",
+    "selectContext": "Wilt u code context opnemen?",
+    "previousQuestion": "Vorige vraag",
+    "previousAnswer": "Vorig antwoord",
+    "followUpQuestion": "Vervolgvraag",
+    "relatedCode": "Gerelateerde code"
+  },
+
+  "shortcuts": {
+    "askFollowUp": "Vervolgvraag",
+    "askAI": "Nieuwe vraag"
   },
   
   "panels": {

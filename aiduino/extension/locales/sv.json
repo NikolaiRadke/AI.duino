@@ -11,7 +11,9 @@
     "about": "Om AI.duino...",
     "changeApiKey": "Ändra API-nyckel",
     "tokenStats": "Token-statistik",
-    "switchLanguage": "Byt språk"
+    "switchLanguage": "Byt språk",
+    "askAI": "Fråga AI",
+    "askFollowUp": "Följdfråga"
   },
   
   "messages": {
@@ -38,7 +40,10 @@
     "selectModel": "Välj AI-modell",
     "apiKeyRequired": "{0} kräver en API-nyckel",
     "connectionOk": "Internetanslutningen fungerar",
-    "noConnection": "Ingen internetanslutning upptäckt"
+    "noConnection": "Ingen internetanslutning upptäckt",
+    "noValidContext": "Ingen nylig konversation att fortsätta (max 30 min)",
+    "followUpContext": "Fortsätter konversation: \"{0}\" ({1} min sedan)",
+    "contextCleared": "Konversationskontext rensad"
   },
   
   "buttons": {
@@ -80,7 +85,10 @@
     "debugHelp": "Hjälp med felsökning",
     "currentModel": "Nuvarande: {0}",
     "todayUsage": "Idag: {0}",
-    "currentLanguage": "Nuvarande: {0}"
+    "currentLanguage": "Nuvarande: {0}",
+    "askAI": "Ställ en direkt fråga till AI",
+    "askFollowUp": "Fortsätt föregående konversation: {0}",
+    "noValidContext": "Ingen föregående konversation"
   },
 
   "language": {
@@ -112,14 +120,22 @@
     "analyzeSerial": "Analysera denna Arduino Seriemonitor-utdata och förklara vad den betyder:\n\nSeriell utdata:\n{0}\n\n{1}\n\nFörklara:\n- Vad utdatan betyder\n- Möjliga problem\n- Lösningsförslag",
     "hardwareDebug": "Hjälp med hårdvarufelsökning för denna Arduino-kod:\n\n```cpp\n{0}\n```\n\nKontrollera:\n- Typiska kopplingsfel\n- Pin-konflikter\n- Strömförsörjningsproblem\n- Pull-up/pull-down motstånd\n- Kompatibilitetsproblem",
     "addDebugStatements": "Lägg till strategisk felsökningsutdata till denna Arduino-kod:\n\n```cpp\n{0}\n```\n\nLägg till Serial.print()-satser för att:\n- Övervaka variabelvärden\n- Spåra programflöde\n- Mäta timing\n- Hitta fel",
-    "analyzeTiming": "Analysera timingproblem i denna Arduino-kod:\n\n```cpp\n{0}\n```\n\nKontrollera för:\n- Blockerande fördröjningar\n- millis() overflow\n- Race conditions\n- Avbrottskonflikter\n\nVisa förbättrad icke-blockerande kod."
+    "analyzeTiming": "Analysera timingproblem i denna Arduino-kod:\n\n```cpp\n{0}\n```\n\nKontrollera för:\n- Blockerande fördröjningar\n- millis() overflow\n- Race conditions\n- Avbrottskonflikter\n\nVisa förbättrad icke-blockerande kod.",
+    "askAI": "Vad skulle du vilja fråga AI?",
+    "askAIGeneral": "Användarfråga: {0}\n\nSvara tydligt och hjälpsamt på svenska.",
+    "askAIWithContext": "Användarfråga: {0}\n\nKodkontext:\n```cpp\n{1}\n```\n\nSvara på svenska med hänsyn till den tillhandahållna Arduino-koden.",
+    "askFollowUp": "Följdfråga:",
+    "followUpContext": "Kontext från föregående konversation:",
+    "followUpInstruction": "Svara på svenska med hänsyn till föregående konversation."
   },
   
   "placeholders": {
     "customInstructions": "t.ex. \"använd inte millis()\", \"optimera för Arduino Nano\", \"lägg till felhantering\"",
     "commentInstructions": "t.ex. \"mycket detaljerat\", \"kommentera bara funktioner\", \"på svenska\"",
     "errorExample": "error: 'xc' was not declared in this scope",
-    "serialExample": "t.ex. \"Sensorvärde: -1\""
+    "serialExample": "t.ex. \"Sensorvärde: -1\"",
+    "askAI": "t.ex. \"Hur fungerar PWM?\", \"Varför fungerar inte min sensor?\"",
+    "askFollowUp": "Fortsätt konversationen..."
   },
   
   "validation": {
@@ -135,7 +151,9 @@
     "addingComments": "{0} lägger till kommentarer...",
     "analyzingError": "{0} analyserar felet...",
     "analyzingProblem": "{0} analyserar problemet...",
-    "testingConnection": "Testar anslutning..."
+    "testingConnection": "Testar anslutning...",
+    "askingAI": "{0} bearbetar din fråga...",
+    "askingFollowUp": "{0} bearbetar din följdfråga..."
   },
   
   "errors": {
@@ -175,7 +193,31 @@
   
   "output": {
     "codeExplanation": "{0} Förklaring",
-    "explanationFrom": "KODFÖRKLARING FRÅN {0}"
+    "explanationFrom": "KODFÖRKLARING FRÅN {0}",
+    "aiResponse": "{0} Svar",
+    "responseFrom": "SVAR FRÅN {0}",
+    "yourQuestion": "Din fråga",
+    "aiAnswer": "AI Svar",
+    "aiFollowUp": "{0} Följdsvar",
+    "followUpTo": "Följd till",
+    "followUpHint": "Fortsätt konversationen"
+  },
+
+  "chat": {
+    "includeSelectedCode": "Inkludera vald kod",
+    "includeSelectedCodeDesc": "Skicka fråga med nuvarande vald kod",
+    "questionOnly": "Endast fråga",
+    "questionOnlyDesc": "Skicka endast frågan utan kod",
+    "selectContext": "Vill du inkludera kodkontext?",
+    "previousQuestion": "Föregående fråga",
+    "previousAnswer": "Föregående svar",
+    "followUpQuestion": "Följdfråga",
+    "relatedCode": "Relaterad kod"
+  },
+
+  "shortcuts": {
+    "askFollowUp": "Följdfråga",
+    "askAI": "Ny fråga"
   },
   
   "panels": {

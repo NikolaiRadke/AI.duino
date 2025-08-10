@@ -11,7 +11,9 @@
     "about": "关于AI.duino...",
     "changeApiKey": "更改API密钥",
     "tokenStats": "Token统计",
-    "switchLanguage": "切换语言"
+    "switchLanguage": "切换语言",
+    "askAI": "询问AI",
+    "askFollowUp": "追问"
   },
   
   "messages": {
@@ -38,7 +40,10 @@
     "selectModel": "选择AI模型",
     "apiKeyRequired": "{0}需要API密钥",
     "connectionOk": "网络连接正常",
-    "noConnection": "未检测到网络连接"
+    "noConnection": "未检测到网络连接",
+    "noValidContext": "没有可继续的近期对话（最多30分钟）",
+    "followUpContext": "继续对话: \"{0}\" ({1}分钟前)",
+    "contextCleared": "对话上下文已清除"
   },
   
   "buttons": {
@@ -80,7 +85,10 @@
     "debugHelp": "调试帮助",
     "currentModel": "当前：{0}",
     "todayUsage": "今日：{0}",
-    "currentLanguage": "当前：{0}"
+    "currentLanguage": "当前：{0}",
+    "askAI": "直接向AI提问",
+    "askFollowUp": "继续之前的对话: {0}",
+    "noValidContext": "没有之前的对话"
   },
 
   "language": {
@@ -112,14 +120,22 @@
     "analyzeSerial": "分析这个Arduino串口监视器输出并解释其含义：\n\n串口输出：\n{0}\n\n{1}\n\n解释：\n- 输出的含义\n- 可能的问题\n- 解决建议",
     "hardwareDebug": "帮助解决这个Arduino代码的硬件问题：\n\n```cpp\n{0}\n```\n\n检查：\n- 典型的接线错误\n- 引脚冲突\n- 电源问题\n- 上拉/下拉电阻\n- 兼容性问题",
     "addDebugStatements": "为这个Arduino代码添加策略性调试输出：\n\n```cpp\n{0}\n```\n\n添加Serial.print()语句：\n- 监控变量值\n- 跟踪程序流程\n- 测量时间\n- 查找错误",
-    "analyzeTiming": "分析这个Arduino代码中的时序问题：\n\n```cpp\n{0}\n```\n\n检查：\n- 阻塞延迟\n- millis()溢出\n- 竞态条件\n- 中断冲突\n\n显示改进的非阻塞代码。"
+    "analyzeTiming": "分析这个Arduino代码中的时序问题：\n\n```cpp\n{0}\n```\n\n检查：\n- 阻塞延迟\n- millis()溢出\n- 竞态条件\n- 中断冲突\n\n显示改进的非阻塞代码。",
+    "askAI": "您想问AI什么问题？",
+    "askAIGeneral": "用户问题：{0}\n\n请用中文清晰有用地回答。",
+    "askAIWithContext": "用户问题：{0}\n\n代码上下文：\n```cpp\n{1}\n```\n\n请用中文回答，并考虑提供的Arduino代码。",
+    "askFollowUp": "追问:",
+    "followUpContext": "之前对话的上下文:",
+    "followUpInstruction": "请用中文回答，并考虑之前的对话。"
   },
   
   "placeholders": {
     "customInstructions": "例如：\"不使用millis()\"、\"为Arduino Nano优化\"、\"添加错误处理\"",
     "commentInstructions": "例如：\"非常详细\"、\"只注释函数\"、\"用中文\"",
     "errorExample": "error: 'xc' was not declared in this scope",
-    "serialExample": "例如：\"传感器值：-1\""
+    "serialExample": "例如：\"传感器值：-1\"",
+    "askAI": "例如：\"PWM是如何工作的？\"，\"为什么我的传感器不工作？\"",
+    "askFollowUp": "继续对话..."
   },
   
   "validation": {
@@ -135,7 +151,9 @@
     "addingComments": "{0}正在添加注释...",
     "analyzingError": "{0}正在分析错误...",
     "analyzingProblem": "{0}正在分析问题...",
-    "testingConnection": "正在测试连接..."
+    "testingConnection": "正在测试连接...",
+    "askingAI": "{0}正在处理您的问题...",
+    "askingFollowUp": "{0}正在处理您的追问..."
   },
   
   "errors": {
@@ -175,9 +193,33 @@
   
   "output": {
     "codeExplanation": "{0}解释",
-    "explanationFrom": "来自{0}的代码解释"
+    "explanationFrom": "来自{0}的代码解释",
+    "aiResponse": "{0}回复",
+    "responseFrom": "来自{0}的回复",
+    "yourQuestion": "您的问题",
+    "aiAnswer": "AI回答",
+    "aiFollowUp": "{0} 追问回复",
+    "followUpTo": "追问",
+    "followUpHint": "继续对话"
+  },
+
+  "chat": {
+    "includeSelectedCode": "包含选中的代码",
+    "includeSelectedCodeDesc": "发送问题时包含当前选中的代码",
+    "questionOnly": "仅问题",
+    "questionOnlyDesc": "仅发送问题，不包含代码",
+    "selectContext": "您想包含代码上下文吗？",
+    "previousQuestion": "之前的问题",
+    "previousAnswer": "之前的回答",
+    "followUpQuestion": "追问",
+    "relatedCode": "相关代码"
   },
   
+  "shortcuts": {
+    "askFollowUp": "追问",
+    "askAI": "新问题"
+  },
+
   "panels": {
     "errorExplanation": "🔧 错误解释",
     "debugHelp": "🔍 调试帮助",

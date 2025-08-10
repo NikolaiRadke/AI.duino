@@ -1,5 +1,5 @@
 /*
- * AI.duino v1.3.2 - Internationalized Version
+ * AI.duino
  * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,12 +15,8 @@
  * limitations under the License.
  *
  * Changelog:
- * - Memory leak fix: Event listeners
- * - Token file race condition fix
- * - API request debouncing
- * - Unified API client
- * - Enhanced error handling 
- * - Optimized error check 
+ * Updated installers for better internationalization
+ * Added Ask AI function with follow-up questions
  */
 
 "use strict";
@@ -38,6 +34,13 @@ let currentLocale = 'en';
 let lastDiagnosticsCount = 0;
 let lastErrorCheck = 0;
 let lastCheckedUri = null;
+
+let aiConversationContext = {
+    lastQuestion: null,
+    lastAnswer: null,
+    lastCode: null,
+    timestamp: null
+};
 
 // Language Metadate
 const LANGUAGE_METADATA = {
@@ -166,55 +169,47 @@ function loadLocale() {
     if (userLanguageChoice !== 'auto') {
         currentLocale = userLanguageChoice;
     } else {
+        // Auto-Detection with dynamic list
         const vscodeLocale = vscode.env.language || 'en';
         const detectedLang = vscodeLocale.substring(0, 2);
-        const supportedLocales = getSupportedLocales(); 
+        const supportedLocales = getSupportedLocales();
         
         currentLocale = supportedLocales.includes(detectedLang) ? detectedLang : 'en';
     }
     
-    // Load locale file
-    try {
-        const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
-        if (fs.existsSync(localeFile)) {
-            const content = fs.readFileSync(localeFile, 'utf8');
-            i18n = JSON.parse(content);
-        } else {
-            throw new Error(`Locale file not found: ${currentLocale}.json`);
+    // Load locale file with fallback chain to en.json
+    const localeFiles = [
+        path.join(__dirname, '..', 'locales', `${currentLocale}.json`),
+        path.join(__dirname, '..', 'locales', 'en.json')  // Always available fallback
+    ];
+    
+    let localeLoaded = false;
+    for (const localeFile of localeFiles) {
+        try {
+            if (fs.existsSync(localeFile)) {
+                const content = fs.readFileSync(localeFile, 'utf8');
+                i18n = JSON.parse(content);
+                localeLoaded = true;
+                console.log(`AI.duino: Loaded locale from ${path.basename(localeFile)}`);
+                break;
+            }
+        } catch (error) {
+            console.log(`AI.duino: Failed to load ${path.basename(localeFile)}: ${error.message}`);
+            continue; // Try next fallback
         }
-    } catch (error) {
-        i18n = getEmbeddedEnglishLocale();
-        currentLocale = 'en';
     }
-}
-
-// Minimal embedded English locale as ultimate fallback
-function getEmbeddedEnglishLocale() {
-    return {
-        commands: {
-            quickMenu: "Open Quick Menu",
-            switchModel: "Switch AI Model",
-            setApiKey: "Enter API Key",
-            improveCode: "Improve Code",
-            explainCode: "Explain Code",
-            addComments: "Add Comments",
-            explainError: "Explain Error",
-            debugHelp: "Debug Help",
-            about: "About AI.duino..."
-        },
-        messages: {
-            welcome: "Welcome! AI.duino v${EXTENSION_VERSION} supports multiple AI models!",
-            noApiKey: "First you need an API key for",
-            selectAction: "What would you like to do?",
-            markCode: "Please select the code you want to",
-            noEditor: "No code editor active",
-            apiKeySet: "API Key saved!",
-            modelSwitched: "Switched to",
-            codeImproved: "Code improved! What would you like to do?",
-            replaceOriginal: "Replace original",
-            keepBoth: "Keep both"
-        }
-    };
+    
+    // Critical error if no locale could be loaded
+    if (!localeLoaded) {
+        console.error('AI.duino CRITICAL: No locale files found! Extension may not work properly.');
+        // Set currentLocale to 'en' and create minimal i18n object
+        currentLocale = 'en';
+        i18n = {
+            commands: { quickMenu: "Open Quick Menu" },
+            messages: { selectAction: "What would you like to do?" },
+            buttons: { cancel: "Cancel" }
+        };
+    }
 }
 
 // Global listener
@@ -440,7 +435,10 @@ function registerCommands(context) {
         { name: 'aiduino.debugHelp', handler: debugHelp },
         { name: 'aiduino.showTokenStats', handler: showTokenStats },
         { name: 'aiduino.about', handler: showAbout },
-        { name: 'aiduino.resetTokenStats', handler: resetTokenStats }
+        { name: 'aiduino.resetTokenStats', handler: resetTokenStats },
+        { name: 'aiduino.askAI', handler: () => askAI(false) },           // Regular question
+        { name: 'aiduino.askFollowUp', handler: () => askAI(true) },      // Follow-up question
+        { name: 'aiduino.clearAIContext', handler: clearAIContext }       // Clear context (optional)
     ];
     
     commands.forEach(cmd => {
@@ -906,6 +904,16 @@ async function showQuickMenu() {
             command: 'aiduino.debugHelp'
         },
         {
+            label: '$(comment-discussion) ' + t('commands.askAI'),
+            description: t('descriptions.askAI'),
+            command: 'aiduino.askAI'
+        },
+        ...(hasValidContext() ? [{
+            label: '$(arrow-right) ' + t('commands.askFollowUp'),
+            description: t('descriptions.askFollowUp', formatQuestionPreview(aiConversationContext.lastQuestion)),
+            command: 'aiduino.askFollowUp'
+        }] : []),
+        {
             label: '$(globe) ' + t('commands.switchLanguage'),
             description: t('descriptions.currentLanguage', getCurrentLanguageName()),
             command: 'aiduino.switchLanguage'
@@ -941,6 +949,43 @@ async function showQuickMenu() {
         vscode.commands.executeCommand(selected.command);
     }
 }
+
+// Check if context is available and valid
+function hasValidContext() {
+    if (!aiConversationContext.lastQuestion || !aiConversationContext.timestamp) {
+        return false;
+    }
+    
+    const contextAge = Date.now() - aiConversationContext.timestamp;
+    return contextAge < 30 * 60 * 1000; // 30 minutes
+}
+
+// Format question preview for menu
+function formatQuestionPreview(question) {
+    if (!question) return '';
+    const preview = question.length > 40 ? question.substring(0, 40) + '...' : question;
+    const contextAge = Math.round((Date.now() - aiConversationContext.timestamp) / 60000);
+    return `"${preview}" (${contextAge}min ago)`;
+}
+
+// Clear conversation context
+function clearAIContext() {
+    aiConversationContext = {
+        lastQuestion: null,
+        lastAnswer: null,
+        lastCode: null,
+        timestamp: null
+    };
+    vscode.window.showInformationMessage(t('messages.contextCleared'));
+}
+
+// Get today's usage for menu
+function getTodayUsage() {
+    const usage = tokenUsage[currentModel];
+    const totalTokens = usage.input + usage.output;
+    return totalTokens > 0 ? `${totalTokens} tokens ($${usage.cost.toFixed(3)})` : '0 tokens';
+}
+
 
 // Model management
 async function switchModel() {
@@ -1027,10 +1072,6 @@ function getProviderName(modelId) {
     };
     return providers[modelId] || AI_MODELS[modelId].name;
 }
-
-// ========================================
-// COMPLETE handleApiError() FUNCTION - FINAL VERSION
-// ========================================
 
 function handleApiError(error) {
     const model = AI_MODELS[currentModel];
@@ -1745,6 +1786,7 @@ async function explainCode() {
     }
 }   
     
+// Improve Code
 async function improveCode() {
     if (globalThis.aiduinoImproveRunning) {
         vscode.window.showInformationMessage("Code Improvement is already running! Please wait...");
@@ -2135,6 +2177,175 @@ async function debugHelp() {
     } catch (error) {
         handleApiError(error);
     }
+}
+
+// Ask AI
+async function askAI(isFollowUp = false) {
+    // Check if follow-up is possible
+    if (isFollowUp && !hasValidContext()) {
+        vscode.window.showWarningMessage(t('messages.noValidContext'));
+        return;
+    }
+
+    // Check if API key is available
+    if (!apiKeys[currentModel]) {
+        const model = AI_MODELS[currentModel];
+        const choice = await vscode.window.showWarningMessage(
+            t('messages.noApiKey', model.name),
+            t('buttons.setupNow'),
+            t('buttons.switchModel'),
+            t('buttons.cancel')
+        );
+        if (choice === t('buttons.setupNow')) {
+            await setApiKey();
+            if (!apiKeys[currentModel]) return;
+        } else if (choice === t('buttons.switchModel')) {
+            await switchModel();
+            if (!apiKeys[currentModel]) return;
+        } else {
+            return;
+        }
+    }
+
+    // Different prompts for follow-up vs new question
+    const promptText = isFollowUp ? t('prompts.askFollowUp') : t('prompts.askAI');
+    const placeholderText = isFollowUp ? t('placeholders.askFollowUp') : t('placeholders.askAI');
+
+    // Show context info for follow-ups
+    if (isFollowUp) {
+        const contextAge = Math.round((Date.now() - aiConversationContext.timestamp) / 60000);
+        vscode.window.showInformationMessage(
+            t('messages.followUpContext', aiConversationContext.lastQuestion, contextAge)
+        );
+    }
+
+    // Input dialog
+    const question = await vscode.window.showInputBox({
+        prompt: promptText,
+        placeHolder: placeholderText,
+        ignoreFocusOut: true
+    });
+
+    if (!question || !question.trim()) {
+        return;
+    }
+
+    // Build final prompt
+    let finalPrompt;
+    let currentCode = null;
+
+    if (isFollowUp) {
+        // Build context-aware follow-up prompt
+        finalPrompt = buildFollowUpPrompt(question);
+        currentCode = aiConversationContext.lastCode; // Keep original code context
+    } else {
+        // Handle new question with optional code context
+        const editor = vscode.window.activeTextEditor;
+        finalPrompt = question;
+
+        if (editor && !editor.selection.isEmpty) {
+            const includeCode = await vscode.window.showQuickPick([
+                {
+                    label: t('chat.includeSelectedCode'),
+                    description: t('chat.includeSelectedCodeDesc'),
+                    value: true
+                },
+                {
+                    label: t('chat.questionOnly'), 
+                    description: t('chat.questionOnlyDesc'),
+                    value: false
+                }
+            ], {
+                placeHolder: t('chat.selectContext'),
+                ignoreFocusOut: true
+            });
+
+            if (includeCode === undefined) return;
+
+            if (includeCode.value) {
+                currentCode = editor.document.getText(editor.selection);
+                finalPrompt = t('prompts.askAIWithContext', question, currentCode);
+            }
+        }
+    }
+
+    // Call AI and show response
+    try {
+        const model = AI_MODELS[currentModel];
+        
+        const response = await vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification,
+            title: isFollowUp ? t('progress.askingFollowUp', model.name) : t('progress.askingAI', model.name),
+            cancellable: false
+        }, async () => {
+            return await callAI(finalPrompt);
+        });
+
+        // Store context for potential follow-ups
+        aiConversationContext = {
+            lastQuestion: question,
+            lastAnswer: response,
+            lastCode: currentCode,
+            timestamp: Date.now()
+        };
+
+        // Show response with follow-up hints
+        showAIResponseWithFollowUp(model, question, response, isFollowUp);
+
+    } catch (error) {
+        handleApiError(error);
+    }
+}
+
+// follow-up prompt builder
+function buildFollowUpPrompt(followUpQuestion) {
+    let contextPrompt = t('prompts.followUpContext');
+    
+    // Add previous conversation
+    contextPrompt += `\n\n${t('chat.previousQuestion')}: ${aiConversationContext.lastQuestion}`;
+    contextPrompt += `\n\n${t('chat.previousAnswer')}: ${aiConversationContext.lastAnswer}`;
+    
+    // Add code context if available
+    if (aiConversationContext.lastCode) {
+        contextPrompt += `\n\n${t('chat.relatedCode')}:\n\`\`\`cpp\n${aiConversationContext.lastCode}\n\`\`\``;
+    }
+    
+    // Add current follow-up question
+    contextPrompt += `\n\n${t('chat.followUpQuestion')}: ${followUpQuestion}`;
+    contextPrompt += `\n\n${t('prompts.followUpInstruction')}`;
+    
+    return contextPrompt;
+}
+
+// Enhanced output with follow-up hints
+function showAIResponseWithFollowUp(model, question, response, isFollowUp) {
+    const outputChannel = vscode.window.createOutputChannel(
+        isFollowUp ? t('output.aiFollowUp', model.name) : t('output.aiResponse', model.name)
+    );
+    
+    outputChannel.clear();
+    outputChannel.appendLine(`🤖 ${t('output.responseFrom', model.name.toUpperCase())}`);
+    outputChannel.appendLine('='.repeat(50));
+    outputChannel.appendLine('');
+    
+    // Show follow-up context
+    if (isFollowUp) {
+        outputChannel.appendLine(`🔗 ${t('output.followUpTo')}: "${aiConversationContext.lastQuestion}"`);
+        outputChannel.appendLine('');
+    }
+    
+    outputChannel.appendLine(`❓ ${t('output.yourQuestion')}: ${question}`);
+    outputChannel.appendLine('');
+    outputChannel.appendLine(`💡 ${t('output.aiAnswer')}:`);
+    outputChannel.appendLine('');
+    outputChannel.appendLine(response);
+    outputChannel.appendLine('');
+    outputChannel.appendLine('='.repeat(50));
+    outputChannel.appendLine(`💬 ${t('output.followUpHint')}`);
+    outputChannel.appendLine(`   • ${t('shortcuts.askFollowUp')}: Ctrl+Shift+F`);
+    outputChannel.appendLine(`   • ${t('shortcuts.askAI')}: Ctrl+Shift+A`);
+    
+    outputChannel.show();
 }
 
 // HTML generation
@@ -2786,6 +2997,14 @@ function deactivate() {
         clearTimeout(errorTimeout);
         errorTimeout = null;
     }
+
+    // Clear AI conversation context
+    aiConversationContext = {
+        lastQuestion: null,
+        lastAnswer: null,
+        lastCode: null,
+        timestamp: null
+    };
 }
 
 exports.deactivate = deactivate;

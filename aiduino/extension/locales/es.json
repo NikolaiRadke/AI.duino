@@ -11,7 +11,9 @@
     "about": "Acerca de AI.duino...",
     "changeApiKey": "Cambiar clave API",
     "tokenStats": "Estadísticas de tokens",
-    "switchLanguage": "Cambiar idioma"
+    "switchLanguage": "Cambiar idioma",
+    "askAI": "Preguntar a la IA",
+    "askFollowUp": "Pregunta de seguimiento"
   },
   
   "messages": {
@@ -38,7 +40,10 @@
     "selectModel": "Elige el modelo de IA",
     "apiKeyRequired": "{0} requiere una clave API",
     "connectionOk": "La conexión a internet funciona",
-    "noConnection": "No se detectó conexión a internet"
+    "noConnection": "No se detectó conexión a internet",
+    "noValidContext": "Sin conversación reciente para continuar (máx 30 min)",
+    "followUpContext": "Continuando conversación: \"{0}\" (hace {1} min)",
+    "contextCleared": "Contexto de conversación borrado"
   },
   
   "buttons": {
@@ -61,7 +66,7 @@
     "copySolution": "Copiar solución",
     "copy": "Copiar",
     "resetStats": "Reiniciar estadísticas",
-"getApiKey": "Obtener clave API",
+    "getApiKey": "Obtener clave API",
     "checkConnection": "Verificar conexión",
     "checkFirewall": "Verificar firewall",
     "showTokenStats": "Mostrar estadísticas de tokens",
@@ -80,7 +85,10 @@
     "debugHelp": "Ayuda con la depuración",
     "currentModel": "Actual: {0}",
     "todayUsage": "Hoy: {0}",
-    "currentLanguage": "Actual: {0}"
+    "currentLanguage": "Actual: {0}",
+    "askAI": "Hacer una pregunta directa a la IA",
+    "askFollowUp": "Continuar conversación anterior: {0}",
+    "noValidContext": "Sin conversación anterior"
   },
 
   "language": {
@@ -112,14 +120,22 @@
     "analyzeSerial": "Analiza esta salida del Monitor Serial de Arduino y explica qué significa:\n\nSalida Serial:\n{0}\n\n{1}\n\nExplica:\n- Qué significa la salida\n- Posibles problemas\n- Sugerencias de solución",
     "hardwareDebug": "Ayuda con la solución de problemas de hardware para este código Arduino:\n\n```cpp\n{0}\n```\n\nPor favor revisa:\n- Errores típicos de cableado\n- Conflictos de pines\n- Problemas de alimentación\n- Resistencias pull-up/pull-down\n- Problemas de compatibilidad",
     "addDebugStatements": "Añade salidas de depuración estratégicas a este código Arduino:\n\n```cpp\n{0}\n```\n\nAñade declaraciones Serial.print() para:\n- Monitorear valores de variables\n- Seguir el flujo del programa\n- Medir tiempos\n- Encontrar errores",
-    "analyzeTiming": "Analiza problemas de temporización en este código Arduino:\n\n```cpp\n{0}\n```\n\nRevisa:\n- Delays bloqueantes\n- Desbordamiento de millis()\n- Condiciones de carrera\n- Conflictos de interrupciones\n\nMuestra código mejorado no bloqueante."
+    "analyzeTiming": "Analiza problemas de temporización en este código Arduino:\n\n```cpp\n{0}\n```\n\nRevisa:\n- Delays bloqueantes\n- Desbordamiento de millis()\n- Condiciones de carrera\n- Conflictos de interrupciones\n\nMuestra código mejorado no bloqueante.",
+    "askAI": "¿Qué le gustaría preguntar a la IA?",
+    "askAIGeneral": "Pregunta del usuario: {0}\n\nResponde en español de manera clara y útil.",
+    "askAIWithContext": "Pregunta del usuario: {0}\n\nContexto del código:\n```cpp\n{1}\n```\n\nResponde en español considerando el código Arduino proporcionado.",
+    "askFollowUp": "Pregunta de seguimiento:",
+    "followUpContext": "Contexto de conversación anterior:",
+    "followUpInstruction": "Responde en español considerando la conversación anterior."
   },
   
   "placeholders": {
     "customInstructions": "ej. \"no uses millis()\", \"optimiza para Arduino Nano\", \"añade manejo de errores\"",
     "commentInstructions": "ej. \"muy detallado\", \"solo comentar funciones\", \"en inglés\"",
     "errorExample": "error: 'xc' was not declared in this scope",
-    "serialExample": "ej. \"Valor del sensor: -1\""
+    "serialExample": "ej. \"Valor del sensor: -1\"",
+    "askAI": "ej. \"¿Cómo funciona PWM?\", \"¿Por qué no funciona mi sensor?\"",
+    "askFollowUp": "Continuar la conversación..."
   },
   
   "validation": {
@@ -135,7 +151,9 @@
     "addingComments": "{0} está añadiendo comentarios...",
     "analyzingError": "{0} está analizando el error...",
     "analyzingProblem": "{0} está analizando el problema...",
-    "testingConnection": "Probando conexión..."
+    "testingConnection": "Probando conexión...",
+    "askingAI": "{0} está procesando su pregunta...",
+    "askingFollowUp": "{0} está procesando su pregunta de seguimiento..."
   },
   
   "errors": {
@@ -175,7 +193,31 @@
   
   "output": {
     "codeExplanation": "Explicación de {0}",
-    "explanationFrom": "EXPLICACIÓN DEL CÓDIGO DE {0}"
+    "explanationFrom": "EXPLICACIÓN DEL CÓDIGO DE {0}",
+    "aiResponse": "Respuesta de {0}",
+    "responseFrom": "RESPUESTA DE {0}",
+    "yourQuestion": "Su pregunta",
+    "aiAnswer": "Respuesta de la IA",
+    "aiFollowUp": "{0} Respuesta de seguimiento",
+    "followUpTo": "Seguimiento de",
+    "followUpHint": "Continuar la conversación"
+  },
+
+  "chat": {
+    "includeSelectedCode": "Incluir código seleccionado",
+    "includeSelectedCodeDesc": "Enviar pregunta con el código actualmente seleccionado",
+    "questionOnly": "Solo pregunta",
+    "questionOnlyDesc": "Enviar solo la pregunta sin código",
+    "selectContext": "¿Desea incluir el contexto del código?",
+    "previousQuestion": "Pregunta anterior",
+    "previousAnswer": "Respuesta anterior",
+    "followUpQuestion": "Pregunta de seguimiento",
+    "relatedCode": "Código relacionado"
+  },
+
+  "shortcuts": {
+    "askFollowUp": "Pregunta de seguimiento",
+    "askAI": "Nueva pregunta"
   },
   
   "panels": {

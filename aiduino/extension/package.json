@@ -2,7 +2,7 @@
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "AI-powered assistance for Arduino with Claude, ChatGPT, Gemini and Mistral: improve code, explain errors, debug help",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "publisher": "Monster Maker",
   "engines": {
     "vscode": "^1.60.0"
@@ -60,6 +60,11 @@
         "icon": "$(error)"
       },
       {
+        "command": "aiduino.askAI",
+        "title": "Ask AI", 
+        "category": "AI.duino"
+      },
+      {
         "command": "aiduino.debugHelp",
         "title": "Debug Help",
         "category": "AI.duino",
@@ -96,6 +101,12 @@
         "key": "ctrl+shift+e",
         "mac": "cmd+shift+e",
         "when": "editorTextFocus && resourceExtname == .ino"
+      },
+      {
+        "command": "aiduino.askAI",
+        "key": "ctrl+shift+a",  
+        "mac": "cmd+shift+a",     
+        "when": "editorTextFocus"
       }
     ],
     "menus": {

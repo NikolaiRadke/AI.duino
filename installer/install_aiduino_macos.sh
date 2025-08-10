@@ -201,35 +201,13 @@ install_plugin() {
     fi
     
     # Count locales
-    LOCALE_COUNT=0
     if [ -d "$EXTRACT_DIR/extension/locales" ]; then
-        LOCALE_COUNT=$(ls -1 "$EXTRACT_DIR/extension/locales"/*.json 2>/dev/null | wc -l | tr -d ' ')
+        LOCALE_COUNT=$(ls -1 "$EXTRACT_DIR/extension/locales"/*.json 2>/dev/null | wc -l)
         if [ $LOCALE_COUNT -gt 0 ]; then
             echo -e "${GREEN}✓${NC} Found ${BOLD}$LOCALE_COUNT${NC} language(s):"
             for locale in "$EXTRACT_DIR/extension/locales"/*.json; do
                 locale_name=$(basename "$locale" .json)
-                case "$locale_name" in
-                    en) echo "    • English" ;;
-                    de) echo "    • Deutsch" ;;
-                    es) echo "    • Español" ;;
-                    fr) echo "    • Français" ;;
-                    it) echo "    • Italiano" ;;
-                    pt) echo "    • Português" ;;
-                    nl) echo "    • Nederlands" ;;
-                    pl) echo "    • Polski" ;;
-                    ru) echo "    • Русский" ;;
-                    ja) echo "    • 日本語" ;;
-                    zh) echo "    • 中文" ;;
-                    ko) echo "    • 한국어" ;;
-                    tr) echo "    • Türkçe" ;;
-                    el) echo "    • Ελληνικά" ;;
-                    cs) echo "    • Čeština" ;;
-                    sv) echo "    • Svenska" ;;
-                    zh) echo "    • 中文" ;;
-                    zh-CN) echo "    • 简体中文" ;;
-                    zh-TW) echo "    • 繁體中文" ;;
-                    *) echo "    • $locale_name" ;;
-                esac
+                echo "    • $locale_name"
             done
         fi
     fi

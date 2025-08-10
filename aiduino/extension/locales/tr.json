@@ -11,7 +11,9 @@
     "about": "AI.duino Hakkında...",
     "changeApiKey": "API Anahtarını Değiştir",
     "tokenStats": "Token İstatistikleri",
-    "switchLanguage": "Dili değiştir"
+    "switchLanguage": "Dili değiştir",
+    "askAI": "AI'ya Sor",
+    "askFollowUp": "Takip sorusu"
   },
   
   "messages": {
@@ -38,7 +40,10 @@
     "selectModel": "Yapay zeka modelini seçin",
     "apiKeyRequired": "{0} bir API anahtarı gerektiriyor",
     "connectionOk": "İnternet bağlantısı çalışıyor",
-    "noConnection": "İnternet bağlantısı tespit edilmedi"
+    "noConnection": "İnternet bağlantısı tespit edilmedi",
+    "noValidContext": "Devam ettirilecek yakın konuşma yok (maks 30 dk)",
+    "followUpContext": "Konuşma devam ediyor: \"{0}\" ({1} dk önce)",
+    "contextCleared": "Konuşma bağlamı temizlendi"
   },
   
   "buttons": {
@@ -80,7 +85,10 @@
     "debugHelp": "Hata ayıklama yardımı",
     "currentModel": "Mevcut: {0}",
     "todayUsage": "Bugün: {0}",
-    "currentLanguage": "Mevcut: {0}"
+    "currentLanguage": "Mevcut: {0}",
+    "askAI": "AI'ya doğrudan soru sor",
+    "askFollowUp": "Önceki konuşmayı devam ettir: {0}",
+    "noValidContext": "Önceki konuşma yok"
   },
 
   "language": {
@@ -112,14 +120,22 @@
     "analyzeSerial": "Bu Arduino Seri Monitör çıktısını analiz et ve ne anlama geldiğini açıkla:\n\nSeri Çıktı:\n{0}\n\n{1}\n\nAçıkla:\n- Çıktı ne anlama geliyor\n- Olası sorunlar\n- Çözüm önerileri",
     "hardwareDebug": "Bu Arduino kodu için donanım sorun giderme konusunda yardım et:\n\n```cpp\n{0}\n```\n\nKontrol et:\n- Tipik kablolama hataları\n- Pin çakışmaları\n- Güç kaynağı sorunları\n- Pull-up/pull-down dirençler\n- Uyumluluk sorunları",
     "addDebugStatements": "Bu Arduino koduna stratejik hata ayıklama çıktıları ekle:\n\n```cpp\n{0}\n```\n\nSerial.print() ifadeleri ekle:\n- Değişken değerlerini izlemek için\n- Program akışını takip etmek için\n- Zamanlamayı ölçmek için\n- Hataları bulmak için",
-    "analyzeTiming": "Bu Arduino kodundaki zamanlama sorunlarını analiz et:\n\n```cpp\n{0}\n```\n\nKontrol et:\n- Bloklamalı gecikmeler\n- millis() taşması\n- Yarış durumları\n- Kesme çakışmaları\n\nİyileştirilmiş bloklamayan kodu göster."
+    "analyzeTiming": "Bu Arduino kodundaki zamanlama sorunlarını analiz et:\n\n```cpp\n{0}\n```\n\nKontrol et:\n- Bloklamalı gecikmeler\n- millis() taşması\n- Yarış durumları\n- Kesme çakışmaları\n\nİyileştirilmiş bloklamayan kodu göster.",
+    "askAI": "AI'ya ne sormak istersiniz?",
+    "askAIGeneral": "Kullanıcı sorusu: {0}\n\nTürkçe olarak açık ve yararlı şekilde yanıtla.",
+    "askAIWithContext": "Kullanıcı sorusu: {0}\n\nKod bağlamı:\n```cpp\n{1}\n```\n\nSağlanan Arduino kodunu dikkate alarak Türkçe yanıtla.",
+    "askFollowUp": "Takip sorusu:",
+    "followUpContext": "Önceki konuşma bağlamı:",
+    "followUpInstruction": "Önceki konuşmayı dikkate alarak Türkçe yanıtla."
   },
   
   "placeholders": {
     "customInstructions": "örn. \"millis() kullanma\", \"Arduino Nano için optimize et\", \"hata işleme ekle\"",
     "commentInstructions": "örn. \"çok ayrıntılı\", \"sadece fonksiyonları yorumla\", \"Türkçe olarak\"",
     "errorExample": "error: 'xc' was not declared in this scope",
-    "serialExample": "örn. \"Sensör değeri: -1\""
+    "serialExample": "örn. \"Sensör değeri: -1\"",
+    "askAI": "örn. \"PWM nasıl çalışır?\", \"Sensörüm neden çalışmıyor?\"",
+    "askFollowUp": "Konuşmayı devam ettir..."
   },
   
   "validation": {
@@ -135,7 +151,9 @@
     "addingComments": "{0} yorum ekliyor...",
     "analyzingError": "{0} hatayı analiz ediyor...",
     "analyzingProblem": "{0} sorunu analiz ediyor...",
-    "testingConnection": "Bağlantı test ediliyor..."
+    "testingConnection": "Bağlantı test ediliyor...",
+    "askingAI": "{0} sorunuzu işliyor...",
+    "askingFollowUp": "{0} takip sorunuzu işliyor..."
   },
   
   "errors": {
@@ -175,7 +193,31 @@
   
   "output": {
     "codeExplanation": "{0} Açıklaması",
-    "explanationFrom": "{0} TARAFINDAN KOD AÇIKLAMASI"
+    "explanationFrom": "{0} TARAFINDAN KOD AÇIKLAMASI",
+    "aiResponse": "{0} Yanıtı",
+    "responseFrom": "{0}'DAN YANIT",
+    "yourQuestion": "Sorunuz",
+    "aiAnswer": "AI Yanıtı",
+    "aiFollowUp": "{0} Takip Yanıtı",
+    "followUpTo": "Takibi",
+    "followUpHint": "Konuşmayı devam ettir"
+  },
+
+  "chat": {
+    "includeSelectedCode": "Seçili kodu dahil et",
+    "includeSelectedCodeDesc": "Şu anda seçili olan kodla birlikte soru gönder",
+    "questionOnly": "Sadece soru",
+    "questionOnlyDesc": "Kod olmadan sadece soruyu gönder",
+    "selectContext": "Kod bağlamını dahil etmek ister misiniz?",
+    "previousQuestion": "Önceki soru",
+    "previousAnswer": "Önceki yanıt",
+    "followUpQuestion": "Takip sorusu",
+    "relatedCode": "İlgili kod"
+  },
+
+  "shortcuts": {
+    "askFollowUp": "Takip sorusu",
+    "askAI": "Yeni soru"
   },
   
   "panels": {

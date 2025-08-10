@@ -247,22 +247,7 @@ if exist "!EXTRACT_DIR!\extension\locales" (
         echo %GREEN%✓%NC% Found %BOLD%!LOCALE_COUNT!%NC% language^(s^):
         for %%f in ("!EXTRACT_DIR!\extension\locales\*.json") do (
             set "LOCALE_NAME=%%~nf"
-            if "!LOCALE_NAME!"=="en" echo     • English
-            if "!LOCALE_NAME!"=="de" echo     • Deutsch
-            if "!LOCALE_NAME!"=="es" echo     • Español
-            if "!LOCALE_NAME!"=="fr" echo     • Français
-            if "!LOCALE_NAME!"=="it" echo     • Italiano
-            if "!LOCALE_NAME!"=="pt" echo     • Português
-            if "!LOCALE_NAME!"=="nl" echo     • Nederlands
-            if "!LOCALE_NAME!"=="pl" echo     • Polski
-            if "!LOCALE_NAME!"=="ru" echo     • Русский
-            if "!LOCALE_NAME!"=="ja" echo     • 日本語
-            if "!LOCALE_NAME!"=="zh" echo     • 中文
-            if "!LOCALE_NAME!"=="ko" echo     • 한국어
-            if "!LOCALE_NAME!"=="tr" echo     • Türkçe
-            if "!LOCALE_NAME!"=="el" echo     • Ελληνικά
-            if "!LOCALE_NAME!"=="cs" echo     • Čeština
-            if "!LOCALE_NAME!"=="sv" echo     • Svenska
+            echo     • !LOCALE_NAME!
         )
     )
 )

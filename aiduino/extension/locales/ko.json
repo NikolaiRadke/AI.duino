@@ -11,7 +11,9 @@
     "about": "AI.duino 정보...",
     "changeApiKey": "API 키 변경",
     "tokenStats": "토큰 통계",
-    "switchLanguage": "언어 변경"
+    "switchLanguage": "언어 변경",
+    "askAI": "AI에게 질문",
+    "askFollowUp": "추가 질문"
   },
   
   "messages": {
@@ -38,7 +40,10 @@
     "selectModel": "AI 모델 선택",
     "apiKeyRequired": "{0}은(는) API 키가 필요합니다",
    "connectionOk": "인터넷 연결이 작동합니다",
-    "noConnection": "인터넷 연결이 감지되지 않았습니다"
+    "noConnection": "인터넷 연결이 감지되지 않았습니다",
+    "noValidContext": "계속할 최근 대화가 없습니다 (최대 30분)",
+    "followUpContext": "대화 계속: \"{0}\" ({1}분 전)",
+    "contextCleared": "대화 컨텍스트가 지워졌습니다"
   },
   
   "buttons": {
@@ -80,7 +85,10 @@
     "debugHelp": "디버그 도움말",
     "currentModel": "현재: {0}",
     "todayUsage": "오늘: {0}",
-    "currentLanguage": "현재: {0}"
+    "currentLanguage": "현재: {0}",
+    "askAI": "AI에게 직접 질문하기",
+    "askFollowUp": "이전 대화 계속하기: {0}",
+    "noValidContext": "이전 대화 없음"
   },
 
   "language": {
@@ -112,14 +120,22 @@
     "analyzeSerial": "이 Arduino 시리얼 모니터 출력을 분석하고 의미를 설명하세요:\n\n시리얼 출력:\n{0}\n\n{1}\n\n설명:\n- 출력의 의미\n- 가능한 문제\n- 해결 제안",
     "hardwareDebug": "이 Arduino 코드의 하드웨어 문제 해결을 도와주세요:\n\n```cpp\n{0}\n```\n\n확인 사항:\n- 일반적인 배선 오류\n- 핀 충돌\n- 전원 공급 문제\n- 풀업/풀다운 저항\n- 호환성 문제",
     "addDebugStatements": "이 Arduino 코드에 전략적 디버그 출력을 추가하세요:\n\n```cpp\n{0}\n```\n\nSerial.print() 문 추가:\n- 변수 값 모니터링\n- 프로그램 흐름 추적\n- 타이밍 측정\n- 오류 찾기",
-    "analyzeTiming": "이 Arduino 코드의 타이밍 문제를 분석하세요:\n\n```cpp\n{0}\n```\n\n확인 사항:\n- 블로킹 지연\n- millis() 오버플로우\n- 경쟁 조건\n- 인터럽트 충돌\n\n개선된 논블로킹 코드를 보여주세요."
+    "analyzeTiming": "이 Arduino 코드의 타이밍 문제를 분석하세요:\n\n```cpp\n{0}\n```\n\n확인 사항:\n- 블로킹 지연\n- millis() 오버플로우\n- 경쟁 조건\n- 인터럽트 충돌\n\n개선된 논블로킹 코드를 보여주세요.",
+    "askAI": "AI에게 무엇을 질문하시겠습니까?",
+    "askAIGeneral": "사용자 질문: {0}\n\n한국어로 명확하고 유용하게 답변해주세요.",
+    "askAIWithContext": "사용자 질문: {0}\n\n코드 컨텍스트:\n```cpp\n{1}\n```\n\n제공된 Arduino 코드를 고려하여 한국어로 답변해주세요.",
+    "askFollowUp": "추가 질문:",
+    "followUpContext": "이전 대화 컨텍스트:",
+    "followUpInstruction": "이전 대화를 고려하여 한국어로 답변해주세요."
   },
   
   "placeholders": {
     "customInstructions": "예: \"millis() 사용 안 함\", \"Arduino Nano용 최적화\", \"오류 처리 추가\"",
     "commentInstructions": "예: \"매우 자세히\", \"함수만 주석\", \"한국어로\"",
     "errorExample": "error: 'xc' was not declared in this scope",
-    "serialExample": "예: \"센서 값: -1\""
+    "serialExample": "예: \"센서 값: -1\"",
+    "askAI": "예: \"PWM이 어떻게 작동합니까?\", \"왜 제 센서가 작동하지 않습니까?\"",
+    "askFollowUp": "대화를 계속하세요..."
   },
   
   "validation": {
@@ -135,7 +151,9 @@
     "addingComments": "{0}이(가) 주석을 추가하는 중...",
     "analyzingError": "{0}이(가) 오류를 분석하는 중...",
     "analyzingProblem": "{0}이(가) 문제를 분석하는 중...",
-    "testingConnection": "연결 테스트 중..."
+    "testingConnection": "연결 테스트 중...",
+    "askingAI": "{0}이(가) 질문을 처리 중...",
+    "askingFollowUp": "{0}이(가) 추가 질문을 처리 중..."
   },
   
   "errors": {
@@ -175,7 +193,31 @@
   
   "output": {
     "codeExplanation": "{0} 설명",
-    "explanationFrom": "{0}의 코드 설명"
+    "explanationFrom": "{0}의 코드 설명",
+    "aiResponse": "{0} 응답",
+    "responseFrom": "{0}의 응답",
+    "yourQuestion": "귀하의 질문",
+    "aiAnswer": "AI 답변",
+    "aiFollowUp": "{0} 추가 응답",
+    "followUpTo": "의 추가 질문",
+    "followUpHint": "대화 계속하기"
+  },
+
+  "chat": {
+    "includeSelectedCode": "선택된 코드 포함",
+    "includeSelectedCodeDesc": "현재 선택된 코드와 함께 질문 보내기",
+    "questionOnly": "질문만",
+    "questionOnlyDesc": "코드 없이 질문만 보내기",
+    "selectContext": "코드 컨텍스트를 포함하시겠습니까?",
+    "previousQuestion": "이전 질문",
+    "previousAnswer": "이전 답변",
+    "followUpQuestion": "추가 질문",
+    "relatedCode": "관련 코드"
+  },
+
+  "shortcuts": {
+    "askFollowUp": "추가 질문",
+    "askAI": "새 질문"
   },
   
   "panels": {

@@ -11,7 +11,9 @@
     "about": "AI.duinoについて...",
     "changeApiKey": "APIキーを変更",
     "tokenStats": "トークン統計",
-    "switchLanguage": "言語を切り替え"
+    "switchLanguage": "言語を切り替え",
+    "askAI": "AIに質問",
+    "askFollowUp": "追加質問"
   },
   
   "messages": {
@@ -80,7 +82,10 @@
     "debugHelp": "デバッグのヘルプ",
     "currentModel": "現在: {0}",
     "todayUsage": "今日: {0}",
-    "currentLanguage": "現在：{0}"
+    "currentLanguage": "現在：{0}",
+    "askAI": "AIに直接質問する",
+    "askFollowUp": "前の会話を続ける: {0}",
+    "noValidContext": "前の会話がありません"
   },
 
   "language": {
@@ -112,14 +117,21 @@
     "analyzeSerial": "このArduinoシリアルモニタ出力を分析して、意味を説明してください：\n\nシリアル出力：\n{0}\n\n{1}\n\n説明：\n- 出力の意味\n- 考えられる問題\n- 解決策の提案",
     "hardwareDebug": "このArduinoコードのハードウェアトラブルシューティングを支援：\n\n```cpp\n{0}\n```\n\nチェック項目：\n- 典型的な配線エラー\n- ピンの競合\n- 電源の問題\n- プルアップ/プルダウン抵抗\n- 互換性の問題",
     "addDebugStatements": "このArduinoコードに戦略的なデバッグ出力を追加：\n\n```cpp\n{0}\n```\n\nSerial.print()文を追加して：\n- 変数値を監視\n- プログラムフローを追跡\n- タイミングを測定\n- エラーを見つける",
-    "analyzeTiming": "このArduinoコードのタイミング問題を分析：\n\n```cpp\n{0}\n```\n\nチェック項目：\n- ブロッキング遅延\n- millis()オーバーフロー\n- 競合状態\n- 割り込み競合\n\n改善されたノンブロッキングコードを表示。"
+    "analyzeTiming": "このArduinoコードのタイミング問題を分析：\n\n```cpp\n{0}\n```\n\nチェック項目：\n- ブロッキング遅延\n- millis()オーバーフロー\n- 競合状態\n- 割り込み競合\n\n改善されたノンブロッキングコードを表示。",
+    "askAI": "AIに何を質問しますか？",
+    "askAIGeneral": "ユーザーの質問: {0}\n\n日本語で明確かつ有用に回答してください。",
+    "askAIWithContext": "ユーザーの質問: {0}\n\nコードのコンテキスト:\n```cpp\n{1}\n```\n\n提供されたArduinoコードを考慮して日本語で回答してください。",
+    "askFollowUp": "追加質問:",
+    "followUpContext": "前の会話のコンテキスト:",
+    "followUpInstruction": "前の会話を考慮して日本語で回答してください。"
   },
   
   "placeholders": {
     "customInstructions": "例：「millis()を使わない」、「Arduino Nano用に最適化」、「エラー処理を追加」",
     "commentInstructions": "例：「非常に詳細に」、「関数のみコメント」、「日本語で」",
     "errorExample": "error: 'xc' was not declared in this scope",
-    "serialExample": "例：「センサー値: -1」"
+    "serialExample": "例：「センサー値: -1」",
+    "askAI": "例: \"PWMはどのように動作しますか？\"、\"なぜセンサーが動作しないのですか？\""
   },
   
   "validation": {
@@ -135,7 +147,9 @@
     "addingComments": "{0}がコメントを追加しています...",
     "analyzingError": "{0}がエラーを分析しています...",
     "analyzingProblem": "{0}が問題を分析しています...",
-    "testingConnection": "接続をテスト中..."
+    "testingConnection": "接続をテスト中...",
+    "askingAI": "{0}があなたの質問を処理中...",
+    "askingFollowUp": "{0}があなたの追加質問を処理中..."
   },
   
   "errors": {
@@ -175,7 +189,31 @@
   
   "output": {
     "codeExplanation": "{0}の説明",
-    "explanationFrom": "{0}によるコード説明"
+    "explanationFrom": "{0}によるコード説明",
+    "aiResponse": "{0}の回答",
+    "responseFrom": "{0}からの回答",
+    "yourQuestion": "あなたの質問",
+    "aiAnswer": "AIの回答",
+    "aiFollowUp": "{0} 追加回答",
+    "followUpTo": "の追加質問",
+    "followUpHint": "会話を続ける"
+  },
+
+  "chat": {
+    "includeSelectedCode": "選択したコードを含める",
+    "includeSelectedCodeDesc": "現在選択されているコードと一緒に質問を送信",
+    "questionOnly": "質問のみ",
+    "questionOnlyDesc": "コードなしで質問のみを送信",
+    "selectContext": "コードのコンテキストを含めますか？",
+    "previousQuestion": "前の質問",
+    "previousAnswer": "前の回答",
+    "followUpQuestion": "追加質問",
+    "relatedCode": "関連コード"
+  },
+
+  "shortcuts": {
+    "askFollowUp": "追加質問",
+    "askAI": "新しい質問"
   },
   
   "panels": {

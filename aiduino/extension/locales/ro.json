@@ -11,7 +11,9 @@
     "about": "Despre AI.duino...",
     "changeApiKey": "Schimbă cheia API",
     "tokenStats": "Statistici tokeni",
-    "switchLanguage": "Schimbă limba"
+    "switchLanguage": "Schimbă limba",
+    "askAI": "Întreabă AI",
+    "askFollowUp": "Întrebare de urmărire"
   },
   
   "messages": {
@@ -38,7 +40,10 @@
     "selectModel": "Alegeți modelul AI",
     "apiKeyRequired": "{0} necesită o cheie API",
     "connectionOk": "Conexiunea la internet funcționează",
-    "noConnection": "Nu s-a detectat conexiune la internet"
+    "noConnection": "Nu s-a detectat conexiune la internet",
+    "noValidContext": "Fără conversație recentă de continuat (max 30 min)",
+    "followUpContext": "Continuând conversația: \"{0}\" (acum {1} min)",
+    "contextCleared": "Contextul conversației a fost șters"
   },
   
   "buttons": {
@@ -80,7 +85,10 @@
     "debugHelp": "Ajutor la depanare",
     "currentModel": "Actual: {0}",
     "todayUsage": "Astăzi: {0}",
-    "currentLanguage": "Actual: {0}"
+    "currentLanguage": "Actual: {0}",
+    "askAI": "Pune o întrebare directă AI",
+    "askFollowUp": "Continuă conversația anterioară: {0}",
+    "noValidContext": "Fără conversație anterioară"
   },
   
   "labels": {
@@ -105,14 +113,22 @@
     "analyzeSerial": "Analizează această ieșire Serial Monitor Arduino și explică ce înseamnă:\n\nIeșirea Serial:\n{0}\n\n{1}\n\nExplică:\n- Ce înseamnă ieșirea\n- Probleme posibile\n- Sugestii de soluții",
     "hardwareDebug": "Ajută la depanarea hardware pentru acest cod Arduino:\n\n```cpp\n{0}\n```\n\nVă rugăm să verificați:\n- Erori tipice de conectare\n- Conflicte de pini\n- Probleme de alimentare\n- Rezistențe pull-up/pull-down\n- Probleme de compatibilitate",
     "addDebugStatements": "Adaugă declarații strategice de debug la acest cod Arduino:\n\n```cpp\n{0}\n```\n\nAdaugă declarații Serial.print() pentru a:\n- Monitoriza valorile variabilelor\n- Urmări fluxul programului\n- Măsura timpul\n- Găsi erori",
-    "analyzeTiming": "Analizează problemele de timing în acest cod Arduino:\n\n```cpp\n{0}\n```\n\nVerifică pentru:\n- Delay-uri blocking\n- Overflow millis()\n- Condiții de cursă\n- Conflicte de întreruperi\n\nArată cod non-blocking îmbunătățit."
+    "analyzeTiming": "Analizează problemele de timing în acest cod Arduino:\n\n```cpp\n{0}\n```\n\nVerifică pentru:\n- Delay-uri blocking\n- Overflow millis()\n- Condiții de cursă\n- Conflicte de întreruperi\n\nArată cod non-blocking îmbunătățit.",
+    "askAI": "Ce ai vrea să întrebi AI?",
+    "askAIGeneral": "Întrebarea utilizatorului: {0}\n\nRăspunde clar și util în română.",
+    "askAIWithContext": "Întrebarea utilizatorului: {0}\n\nContextul codului:\n```cpp\n{1}\n```\n\nRăspunde în română ținând cont de codul Arduino furnizat.",
+    "askFollowUp": "Întrebare de urmărire:",
+    "followUpContext": "Contextul conversației anterioare:",
+    "followUpInstruction": "Răspunde în română ținând cont de conversația anterioară."
   },
   
   "placeholders": {
     "customInstructions": "de ex. \"nu folosi millis()\", \"optimizează pentru Arduino Nano\", \"adaugă gestionarea erorilor\"",
     "commentInstructions": "de ex. \"foarte detaliat\", \"comentează doar funcțiile\", \"în engleză\"",
     "errorExample": "error: 'xc' was not declared in this scope",
-    "serialExample": "de ex. \"Sensor value: -1\""
+    "serialExample": "de ex. \"Sensor value: -1\"",
+    "askAI": "ex. \"Cum funcționează PWM?\", \"De ce nu funcționează senzorul meu?\"",
+    "askFollowUp": "Continuă conversația..."
   },
   
   "validation": {
@@ -128,7 +144,9 @@
     "addingComments": "{0} adaugă comentarii...",
     "analyzingError": "{0} analizează eroarea...",
     "analyzingProblem": "{0} analizează problema...",
-    "testingConnection": "Testez conexiunea..."
+    "testingConnection": "Testez conexiunea...",
+    "askingAI": "{0} procesează întrebarea ta...",
+    "askingFollowUp": "{0} procesează întrebarea ta de urmărire..."
   },
   
   "errors": {
@@ -168,9 +186,33 @@
   
   "output": {
     "codeExplanation": "Explicația {0}",
-    "explanationFrom": "EXPLICAȚIA CODULUI DE LA {0}"
+    "explanationFrom": "EXPLICAȚIA CODULUI DE LA {0}",
+    "aiResponse": "Răspuns {0}",
+    "responseFrom": "RĂSPUNS DE LA {0}",
+    "yourQuestion": "Întrebarea ta",
+    "aiAnswer": "Răspuns AI",
+    "aiFollowUp": "{0} Răspuns de urmărire",
+    "followUpTo": "Urmărirea lui",
+    "followUpHint": "Continuă conversația"
   },
   
+  "chat": {
+    "includeSelectedCode": "Include codul selectat",
+    "includeSelectedCodeDesc": "Trimite întrebarea cu codul selectat curent",
+    "questionOnly": "Doar întrebarea",
+    "questionOnlyDesc": "Trimite doar întrebarea fără cod",
+    "selectContext": "Vrei să incluzi contextul codului?",
+    "previousQuestion": "Întrebarea anterioară",
+    "previousAnswer": "Răspunsul anterior",
+    "followUpQuestion": "Întrebare de urmărire",
+    "relatedCode": "Cod relacionat"
+  },
+
+  "shortcuts": {
+    "askFollowUp": "Întrebare de urmărire",
+    "askAI": "Întrebare nouă"
+  },
+
   "panels": {
     "errorExplanation": "🔧 Explicația erorii",
     "debugHelp": "🔍 Ajutor debug",

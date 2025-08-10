@@ -11,7 +11,9 @@
     "about": "O AI.duino...",
     "changeApiKey": "Změnit API klíč",
     "tokenStats": "Statistiky tokenů",
-    "switchLanguage": "Přepnout jazyk"
+    "switchLanguage": "Přepnout jazyk",
+    "askAI": "Zeptat se AI",
+    "askFollowUp": "Navazující otázka"
   },
   
   "messages": {
@@ -38,7 +40,10 @@
     "selectModel": "Vyberte model AI",
     "apiKeyRequired": "{0} vyžaduje API klíč",
     "connectionOk": "Internetové připojení funguje",
-    "noConnection": "Nebylo detekováno internetové připojení"
+    "noConnection": "Nebylo detekováno internetové připojení",
+    "noValidContext": "Žádná nedávná konverzace k pokračování (max 30 min)",
+    "followUpContext": "Pokračování konverzace: \"{0}\" (před {1} min)",
+    "contextCleared": "Kontext konverzace vymazán"
   },
   
   "buttons": {
@@ -80,7 +85,11 @@
     "debugHelp": "Pomoc s laděním",
     "currentModel": "Aktuální: {0}",
     "todayUsage": "Dnes: {0}",
-    "currentLanguage": "Aktuální: {0}"
+    "currentLanguage": "Aktuální: {0}",
+    "askAI": "Položit přímou otázku AI",
+    "askFollowUp": "Pokračovat v předchozí konverzaci: {0}",
+    "noValidContext": "Žádná předchozí konverzace"
+
   },
 
   "language": {
@@ -112,14 +121,22 @@
     "analyzeSerial": "Analyzuj tento výstup Sériového monitoru Arduino a vysvětli, co znamená:\n\nSériový výstup:\n{0}\n\n{1}\n\nVysvětli:\n- Co výstup znamená\n- Možné problémy\n- Návrhy řešení",
     "hardwareDebug": "Pomoz s řešením hardwarových problémů pro tento Arduino kód:\n\n```cpp\n{0}\n```\n\nZkontroluj:\n- Typické chyby zapojení\n- Konflikty pinů\n- Problémy s napájením\n- Pull-up/pull-down rezistory\n- Problémy s kompatibilitou",
     "addDebugStatements": "Přidej strategické ladící výstupy do tohoto Arduino kódu:\n\n```cpp\n{0}\n```\n\nPřidej Serial.print() příkazy pro:\n- Sledování hodnot proměnných\n- Sledování průběhu programu\n- Měření časování\n- Hledání chyb",
-    "analyzeTiming": "Analyzuj problémy s časováním v tomto Arduino kódu:\n\n```cpp\n{0}\n```\n\nZkontroluj:\n- Blokující zpoždění\n- Přetečení millis()\n- Race conditions\n- Konflikty přerušení\n\nUkaž vylepšený neblokující kód."
+    "analyzeTiming": "Analyzuj problémy s časováním v tomto Arduino kódu:\n\n```cpp\n{0}\n```\n\nZkontroluj:\n- Blokující zpoždění\n- Přetečení millis()\n- Race conditions\n- Konflikty přerušení\n\nUkaž vylepšený neblokující kód.",
+    "askAI": "Co se chcete zeptat AI?",
+    "askAIGeneral": "Otázka uživatele: {0}\n\nOdpověz v češtině jasně a užitečně.",
+    "askAIWithContext": "Otázka uživatele: {0}\n\nKód pro kontext:\n```cpp\n{1}\n```\n\nOdpověz v češtině s ohledem na poskytnutý Arduino kód.",
+    "askFollowUp": "Navazující otázka:",
+    "followUpContext": "Kontext předchozí konverzace:",
+    "followUpInstruction": "Odpověz v češtině s ohledem na předchozí konverzaci."
   },
   
   "placeholders": {
     "customInstructions": "např. \"nepoužívej millis()\", \"optimalizuj pro Arduino Nano\", \"přidej ošetření chyb\"",
     "commentInstructions": "např. \"velmi podrobně\", \"jen komentuj funkce\", \"v češtině\"",
     "errorExample": "error: 'xc' was not declared in this scope",
-    "serialExample": "např. \"Hodnota senzoru: -1\""
+    "serialExample": "např. \"Hodnota senzoru: -1\"",
+    "askAI": "např. \"Jak funguje PWM?\", \"Proč můj sensor nefunguje?\"",
+    "askFollowUp": "Pokračujte v konverzaci..."
   },
   
   "validation": {
@@ -135,7 +152,9 @@
     "addingComments": "{0} přidává komentáře...",
     "analyzingError": "{0} analyzuje chybu...",
     "analyzingProblem": "{0} analyzuje problém...",
-    "testingConnection": "Testuji připojení..."
+    "testingConnection": "Testuji připojení...",
+    "askingAI": "{0} zpracovává vaši otázku...",
+    "askingFollowUp": "{0} zpracovává vaši navazující otázku..."
   },
   
   "errors": {
@@ -175,7 +194,31 @@
   
   "output": {
     "codeExplanation": "Vysvětlení {0}",
-    "explanationFrom": "VYSVĚTLENÍ KÓDU OD {0}"
+    "explanationFrom": "VYSVĚTLENÍ KÓDU OD {0}",
+    "aiResponse": "{0} Odpověď",
+    "responseFrom": "ODPOVĚĎ OD {0}",
+    "yourQuestion": "Vaše otázka",
+    "aiAnswer": "Odpověď AI",
+    "aiFollowUp": "{0} Navazující odpověď",
+    "followUpTo": "Navazuje na",
+    "followUpHint": "Pokračovat v konverzaci"
+  },
+
+  "chat": {
+    "includeSelectedCode": "Zahrnout označený kód",
+    "includeSelectedCodeDesc": "Poslat otázku s aktuálně označeným kódem",
+    "questionOnly": "Pouze otázka",
+    "questionOnlyDesc": "Poslat pouze otázku bez kódu",
+    "selectContext": "Chcete zahrnout kontext kódu?",
+    "previousQuestion": "Předchozí otázka",
+    "previousAnswer": "Předchozí odpověď",
+    "followUpQuestion": "Navazující otázka",
+    "relatedCode": "Související kód"
+  },
+
+  "shortcuts": {
+    "askFollowUp": "Navazující otázka",
+    "askAI": "Nová otázka"
   },
   
   "panels": {
