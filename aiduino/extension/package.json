@@ -10,9 +10,7 @@
   "categories": ["Other", "Debuggers", "Education"],
   "keywords": ["arduino", "ai", "claude", "chatgpt", "gemini", "mistral", "debug", "error", "help", "assistant"],
   "activationEvents": [
-    "onLanguage:cpp",
-    "onLanguage:c",
-    "onLanguage:ino"
+    "*"
   ],
   "main": "./out/extension.js",
   "contributes": {
