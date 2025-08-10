@@ -6,7 +6,7 @@ AI.duino integrates Claude, ChatGPT, Gemini and Mistral directly into the Arduin
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **10.08.2025** Release **V1.4.0** with new direct AI question function with follow up option.  
+* **10.08.2025** Release **V1.4** with new direct AI question function with follow up option.  
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/tree/main/NEWS.md).
    
 ## Features
