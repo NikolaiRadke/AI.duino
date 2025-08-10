@@ -36,7 +36,9 @@
     "copiedToClipboard": "已复制到剪贴板！",
     "statsReset": "✅ Token统计已重置！",
     "selectModel": "选择AI模型",
-    "apiKeyRequired": "{0}需要API密钥"
+    "apiKeyRequired": "{0}需要API密钥",
+    "connectionOk": "网络连接正常",
+    "noConnection": "未检测到网络连接"
   },
   
   "buttons": {
@@ -58,7 +60,14 @@
     "keepAsIs": "保持原样",
     "copySolution": "复制解决方案",
     "copy": "复制",
-    "resetStats": "重置统计"
+    "resetStats": "重置统计",
+    "getApiKey": "获取API密钥",
+    "checkConnection": "检查连接",
+    "checkFirewall": "检查防火墙",
+    "showTokenStats": "显示令牌统计",
+    "tryAgain": "重试",
+    "checkStatus": "检查状态",
+    "checkRouter": "检查路由器"
   },
   
   "descriptions": {
@@ -125,7 +134,8 @@
     "optimizing": "{0}正在优化代码...",
     "addingComments": "{0}正在添加注释...",
     "analyzingError": "{0}正在分析错误...",
-    "analyzingProblem": "{0}正在分析问题..."
+    "analyzingProblem": "{0}正在分析问题...",
+    "testingConnection": "正在测试连接..."
   },
   
   "errors": {

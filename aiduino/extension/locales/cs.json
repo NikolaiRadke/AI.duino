@@ -36,7 +36,9 @@
     "copiedToClipboard": "Zkopírováno do schránky!",
     "statsReset": "✅ Statistiky tokenů resetovány!",
     "selectModel": "Vyberte model AI",
-    "apiKeyRequired": "{0} vyžaduje API klíč"
+    "apiKeyRequired": "{0} vyžaduje API klíč",
+    "connectionOk": "Internetové připojení funguje",
+    "noConnection": "Nebylo detekováno internetové připojení"
   },
   
   "buttons": {
@@ -58,7 +60,14 @@
     "keepAsIs": "Ponechat jak je",
     "copySolution": "Kopírovat řešení",
     "copy": "Kopírovat",
-    "resetStats": "Resetovat statistiky"
+    "resetStats": "Resetovat statistiky",
+    "getApiKey": "Získat API klíč",
+    "checkConnection": "Zkontrolovat připojení",
+    "checkFirewall": "Zkontrolovat firewall",
+    "showTokenStats": "Zobrazit statistiky tokenů",
+    "tryAgain": "Zkusit znovu",
+    "checkStatus": "Zkontrolovat stav",
+    "checkRouter": "Zkontrolovat router"
   },
   
   "descriptions": {
@@ -125,7 +134,8 @@
     "optimizing": "{0} optimalizuje kód...",
     "addingComments": "{0} přidává komentáře...",
     "analyzingError": "{0} analyzuje chybu...",
-    "analyzingProblem": "{0} analyzuje problém..."
+    "analyzingProblem": "{0} analyzuje problém...",
+    "testingConnection": "Testuji připojení..."
   },
   
   "errors": {

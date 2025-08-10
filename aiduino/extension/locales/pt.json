@@ -58,7 +58,16 @@
     "keepAsIs": "Manter como está",
     "copySolution": "Copiar Solução",
     "copy": "Copiar",
-    "resetStats": "Resetar Estatísticas"
+    "resetStats": "Resetar Estatísticas",
+    "getApiKey": "Obține cheia API",
+    "checkConnection": "Verifică conexiunea",
+    "checkFirewall": "Verifică firewall-ul",
+    "showTokenStats": "Arată statisticile token-urilor",
+    "tryAgain": "Încearcă din nou",
+    "checkStatus": "Verifică starea",
+    "checkRouter": "Verifică router-ul",
+    "connectionOk": "Conexiunea la internet funcționează",
+    "noConnection": "Nu s-a detectat conexiune la internet"
   },
   
   "descriptions": {
@@ -125,7 +134,8 @@
     "optimizing": "{0} está otimizando o código...",
     "addingComments": "{0} está adicionando comentários...",
     "analyzingError": "{0} está analisando o erro...",
-    "analyzingProblem": "{0} está analisando o problema..."
+    "analyzingProblem": "{0} está analisando o problema...",
+    "testingConnection": "Testez conexiunea..."
   },
   
   "errors": {

@@ -1,5 +1,5 @@
 /*
- * AI.duino v1.3.1 - Internationalized Version
+ * AI.duino v1.3.2 - Internationalized Version
  * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +13,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Changelog:
+ * - Memory leak fix: Event listeners
+ * - Token file race condition fix
+ * - API request debouncing
+ * - Unified API client
+ * - Enhanced error handling 
+ * - Optimized error check 
  */
 
 "use strict";
@@ -23,11 +31,15 @@ const https = require("https");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const EXTENSION_VERSION = "1.3.1";
 
 let i18n = {};
 let currentLocale = 'en';
 
+let lastDiagnosticsCount = 0;
+let lastErrorCheck = 0;
+let lastCheckedUri = null;
+
+// Language Metadate
 const LANGUAGE_METADATA = {
     'en': { name: 'English', flag: '🇺🇸', region: 'English' },
     'de': { name: 'Deutsch', flag: '🇩🇪', region: 'German' },
@@ -45,14 +57,69 @@ const LANGUAGE_METADATA = {
     'el': { name: 'Ελληνικά', flag: '🇬🇷', region: 'Greek' },
     'cs': { name: 'Čeština', flag: '🇨🇿', region: 'Czech' },
     'sv': { name: 'Svenska', flag: '🇸🇪', region: 'Swedish' },
+    'ro': { name: 'Română', flag: '🇷🇴', region: 'Romanian' },
     'da': { name: 'Dansk', flag: '🇩🇰', region: 'Danish' },
     'no': { name: 'Norsk', flag: '🇳🇴', region: 'Norwegian' },
     'fi': { name: 'Suomi', flag: '🇫🇮', region: 'Finnish' },
-    'ro': { name: 'Română', flag: '🇷🇴', region: 'Romanian' }
+    'hu': { name: 'Magyar', flag: '🇭🇺', region: 'Hungarian' },
+    'bg': { name: 'Български', flag: '🇧🇬', region: 'Bulgarian' },
+    'hr': { name: 'Hrvatski', flag: '🇭🇷', region: 'Croatian' },
+    'sk': { name: 'Slovenčina', flag: '🇸🇰', region: 'Slovak' },
+    'sl': { name: 'Slovenščina', flag: '🇸🇮', region: 'Slovenian' },
+    'lt': { name: 'Lietuvių', flag: '🇱🇹', region: 'Lithuanian' },
+    'lv': { name: 'Latviešu', flag: '🇱🇻', region: 'Latvian' },
+    'et': { name: 'Eesti', flag: '🇪🇪', region: 'Estonian' },
+    'uk': { name: 'Українська', flag: '🇺🇦', region: 'Ukrainian' },
+    'be': { name: 'Беларуская', flag: '🇧🇾', region: 'Belarusian' },
+    'mk': { name: 'Македонски', flag: '🇲🇰', region: 'Macedonian' },
+    'sr': { name: 'Српски', flag: '🇷🇸', region: 'Serbian' },
+    'bs': { name: 'Bosanski', flag: '🇧🇦', region: 'Bosnian' },
+    'me': { name: 'Crnogorski', flag: '🇲🇪', region: 'Montenegrin' },
+    'mt': { name: 'Malti', flag: '🇲🇹', region: 'Maltese' },
+    'is': { name: 'Íslenska', flag: '🇮🇸', region: 'Icelandic' },
+    'hi': { name: 'हिन्दी', flag: '🇮🇳', region: 'Hindi' },
+    'bn': { name: 'বাংলা', flag: '🇧🇩', region: 'Bengali' },
+    'ta': { name: 'தமிழ்', flag: '🇱🇰', region: 'Tamil' },
+    'te': { name: 'తెలుగు', flag: '🇮🇳', region: 'Telugu' },
+    'mr': { name: 'मराठी', flag: '🇮🇳', region: 'Marathi' },
+    'gu': { name: 'ગુજરાતી', flag: '🇮🇳', region: 'Gujarati' },
+    'pa': { name: 'ਪੰਜਾਬੀ', flag: '🇮🇳', region: 'Punjabi' },
+    'ur': { name: 'اردو', flag: '🇵🇰', region: 'Urdu' },
+    'fa': { name: 'فارسی', flag: '🇮🇷', region: 'Persian' },
+    'ar': { name: 'العربية', flag: '🇸🇦', region: 'Arabic' },
+    'he': { name: 'עברית', flag: '🇮🇱', region: 'Hebrew' },
+    'th': { name: 'ไทย', flag: '🇹🇭', region: 'Thai' },
+    'vi': { name: 'Tiếng Việt', flag: '🇻🇳', region: 'Vietnamese' },
+    'id': { name: 'Bahasa Indonesia', flag: '🇮🇩', region: 'Indonesian' },
+    'ms': { name: 'Bahasa Malaysia', flag: '🇲🇾', region: 'Malay' },
+    'tl': { name: 'Filipino', flag: '🇵🇭', region: 'Filipino' },
+    'my': { name: 'မြန်မာ', flag: '🇲🇲', region: 'Burmese' },
+    'km': { name: 'ខ្មែរ', flag: '🇰🇭', region: 'Khmer' },
+    'lo': { name: 'ລາວ', flag: '🇱🇦', region: 'Lao' },
+    'sw': { name: 'Kiswahili', flag: '🇰🇪', region: 'Swahili' },
+    'af': { name: 'Afrikaans', flag: '🇿🇦', region: 'Afrikaans' },
+    'am': { name: 'አማርኛ', flag: '🇪🇹', region: 'Amharic' }
 };
 
 // Cache für verfügbare Locales
 let availableLocales = null;
+
+// NEU:
+function getVersionFromPackage() {
+    try {
+        const packagePath = path.join(__dirname, '..', 'package.json');
+        if (fs.existsSync(packagePath)) {
+            const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+            return packageJson.version || '1.0.0';
+        }
+    } catch (error) {
+        // Silent fallback - keine Console-Logs
+        return '1.0.0';
+    }
+    return '1.0.0';
+}
+
+const EXTENSION_VERSION = getVersionFromPackage();
 
 function getAvailableLocales() {
     const localesDir = path.join(__dirname, '..', 'locales');
@@ -83,7 +150,7 @@ function getSupportedLocales() {
     return availableLocales;
 }
 
-// Hilfsfunktion: Sprach-Info abrufen
+// Get language info from metadata
 function getLanguageInfo(locale) {
     return LANGUAGE_METADATA[locale] || { 
         name: locale.toUpperCase(), 
@@ -99,15 +166,14 @@ function loadLocale() {
     if (userLanguageChoice !== 'auto') {
         currentLocale = userLanguageChoice;
     } else {
-        // Auto-Detection mit dynamischer Liste
         const vscodeLocale = vscode.env.language || 'en';
         const detectedLang = vscodeLocale.substring(0, 2);
-        const supportedLocales = getSupportedLocales(); // ← DYNAMISCH!
+        const supportedLocales = getSupportedLocales(); 
         
         currentLocale = supportedLocales.includes(detectedLang) ? detectedLang : 'en';
     }
     
-    // Lade Locale-Datei
+    // Load locale file
     try {
         const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
         if (fs.existsSync(localeFile)) {
@@ -151,6 +217,84 @@ function getEmbeddedEnglishLocale() {
     };
 }
 
+// Global listener
+let configListener = null;
+let diagnosticsListener = null;
+let errorTimeout = null;
+let statusBarUpdateTimeout = null;
+
+function setupEventListeners(context) {
+    // Cleanup existing listeners
+    disposeEventListeners();
+    
+    // Configuration change listener with debouncing
+    let configDebounceTimeout = null;
+    configListener = vscode.workspace.onDidChangeConfiguration(event => {
+        if (event.affectsConfiguration('aiduino.language')) {
+            // Debounce multiple rapid config changes
+            if (configDebounceTimeout) {
+                clearTimeout(configDebounceTimeout);
+            }
+            configDebounceTimeout = setTimeout(() => {
+                loadLocale();
+                updateStatusBar();
+                configDebounceTimeout = null;
+            }, 300);
+        }
+    });
+    
+    // OPTIMIZED Diagnostics listener
+    diagnosticsListener = vscode.languages.onDidChangeDiagnostics(e => {
+        // Performance: Only process for .ino files
+        const activeEditor = vscode.window.activeTextEditor;
+        if (!activeEditor || !activeEditor.document.fileName.endsWith('.ino')) {
+            return;
+        }
+        
+        // Performance: Only process if the changed URI matches the active document
+        const changedUris = e.uris || [];
+        const activeUri = activeEditor.document.uri.toString();
+        const isRelevantChange = changedUris.some(uri => uri.toString() === activeUri);
+        
+        if (!isRelevantChange) {
+            return;
+        }
+        
+        // Debounce error checking to avoid excessive calls
+        if (errorTimeout) {
+            clearTimeout(errorTimeout);
+            errorTimeout = null;
+        }
+        errorTimeout = setTimeout(() => {
+            checkForErrors();
+            errorTimeout = null;
+        }, 1000);
+    });
+    
+    // Add to context.subscriptions for proper cleanup
+    context.subscriptions.push(configListener);
+    context.subscriptions.push(diagnosticsListener);
+}
+
+function disposeEventListeners() {
+    if (configListener) {
+        configListener.dispose();
+        configListener = null;
+    }
+    if (diagnosticsListener) {
+        diagnosticsListener.dispose();
+        diagnosticsListener = null;
+    }
+    if (errorTimeout) {
+        clearTimeout(errorTimeout);
+        errorTimeout = null;
+    }
+    if (statusBarUpdateTimeout) {
+        clearTimeout(statusBarUpdateTimeout);
+        statusBarUpdateTimeout = null;
+    }
+}
+
 // Helper function to get localized string
 function t(key, ...args) {
     const keys = key.split('.');
@@ -163,8 +307,6 @@ function t(key, ...args) {
             return key; // Return key as fallback
         }
     }
-    
-    // Replace placeholders {0}, {1}, etc. with arguments
     if (typeof value === 'string' && args.length > 0) {
         return value.replace(/{(\d+)}/g, (match, index) => {
             return args[parseInt(index)] || match;
@@ -174,10 +316,7 @@ function t(key, ...args) {
     return value;
 }
 
-// ========================================
-// MODULAR AI MODEL CONFIGURATION
-// ========================================
-
+// AI Model configuration
 const AI_MODELS = {
     claude: {
         name: 'Claude',
@@ -243,12 +382,17 @@ const MODEL_FILE = path.join(os.homedir(), '.aiduino-model');
 // Token tracking
 let tokenUsage = {};
 const TOKEN_USAGE_FILE = path.join(os.homedir(), '.aiduino-token-usage.json');
+let tokenFileLock = false;
+let tokenSaveQueue = [];
+let saveTimeout = null;
 
-// ========================================
-// ACTIVATION & INITIALIZATION
-// ========================================
-
-function activate(context) {    
+// Activation
+function activate(context) {
+    // Ensure clean state on activation
+    if (globalContext) {
+        // Extension was somehow already active - cleanup first
+        deactivate();
+    }    
     // Load locale first
     loadLocale();
     
@@ -272,29 +416,14 @@ function activate(context) {
     // Register commands
     registerCommands(context);
     
+    setupEventListeners(context);
+
     // Welcome message
     if (shouldShowWelcome()) {
         setTimeout(() => {
             showWelcomeMessage();
         }, 1000);
     }
-    
-    // Auto error detection
-    let errorTimeout;
-    vscode.languages.onDidChangeDiagnostics(e => {
-        clearTimeout(errorTimeout);
-        errorTimeout = setTimeout(() => checkForErrors(), 1000);
-    });
-    
-    // Höre auf Konfigurationsänderungen
-    context.subscriptions.push(
-        vscode.workspace.onDidChangeConfiguration(event => {
-            if (event.affectsConfiguration('aiduino.language')) {
-                loadLocale();
-                updateStatusBar();
-            }
-        })
-    );
 }
 exports.activate = activate;
 
@@ -303,7 +432,7 @@ function registerCommands(context) {
         { name: 'aiduino.quickMenu', handler: showQuickMenu }, 
         { name: 'aiduino.switchModel', handler: switchModel },
         { name: 'aiduino.setApiKey', handler: setApiKey },
-        { name: 'aiduino.switchLanguage', handler: switchLanguage }, // NEU!
+        { name: 'aiduino.switchLanguage', handler: switchLanguage },
         { name: 'aiduino.explainCode', handler: explainCode },
         { name: 'aiduino.improveCode', handler: improveCode },
         { name: 'aiduino.addComments', handler: addComments },
@@ -324,9 +453,7 @@ function registerCommands(context) {
 }
 
 async function switchLanguage() {
-    const supportedLocales = getSupportedLocales(); // ← DYNAMISCH!
-    
-    // Erstelle Sprachliste dynamisch
+    const supportedLocales = getSupportedLocales(); 
     const availableLanguages = [
         { 
             label: '🌐 Auto (VS Code)', 
@@ -334,18 +461,14 @@ async function switchLanguage() {
             value: 'auto' 
         }
     ];
-    
-    // Füge alle verfügbaren Sprachen hinzu
     supportedLocales.forEach(locale => {
-        const info = getLanguageInfo(locale); // ← DYNAMISCH!
+        const info = getLanguageInfo(locale);
         availableLanguages.push({
             label: `${info.flag} ${info.name}`,
             description: info.region,
             value: locale
         });
     });
-    
-    // Markiere aktuelle Sprache
     const config = vscode.workspace.getConfiguration('aiduino');
     const currentSetting = config.get('language', 'auto');
     
@@ -379,7 +502,7 @@ async function switchLanguage() {
                 currentLocale = selected.value;
             }
             
-            // Lade neue Locale-Datei
+            // Load new locale file
             const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
             if (fs.existsSync(localeFile)) {
                 const content = fs.readFileSync(localeFile, 'utf8');
@@ -396,102 +519,7 @@ async function switchLanguage() {
             }
             
             updateStatusBar();
-            
-            // Erfolgsmeldung
-            let successMessage;
-            if (selected.value === 'auto') {
-                const info = getLanguageInfo(currentLocale);
-                successMessage = t('language.changed', `Auto (${info.name})`) || 
-                                `Language set to Auto (${info.name})`;
-            } else {
-                const info = getLanguageInfo(currentLocale);
-                successMessage = t('language.changed', info.name) || 
-                                `Language changed to ${info.name}`;
-            }
-            
-            vscode.window.showInformationMessage(successMessage);
-            
-        } catch (error) {
-            vscode.window.showErrorMessage(`Failed to switch language: ${error.message}`);
-        }
-    }
-}
-
-async function switchLanguage() {
-    const supportedLocales = getSupportedLocales(); // ← DYNAMISCH!
-    
-    // Erstelle Sprachliste dynamisch
-    const availableLanguages = [
-        { 
-            label: '🌐 Auto (VS Code)', 
-            description: t('language.autoDetect') || 'Auto-detect from VS Code', 
-            value: 'auto' 
-        }
-    ];
-    
-    // Füge alle verfügbaren Sprachen hinzu
-    supportedLocales.forEach(locale => {
-        const info = getLanguageInfo(locale); // ← DYNAMISCH!
-        availableLanguages.push({
-            label: `${info.flag} ${info.name}`,
-            description: info.region,
-            value: locale
-        });
-    });
-    
-    // Markiere aktuelle Sprache
-    const config = vscode.workspace.getConfiguration('aiduino');
-    const currentSetting = config.get('language', 'auto');
-    
-    let activeValue = currentSetting === 'auto' ? 'auto' : currentLocale;
-    
-    availableLanguages.forEach(lang => {
-        if (lang.value === activeValue) {
-            if (activeValue === 'auto') {
-                const info = getLanguageInfo(currentLocale);
-                lang.description = `✓ Currently using ${info.region}`;
-            } else {
-                lang.description = `✓ ${lang.description}`;
-            }
-        }
-    });
-    
-    const selected = await vscode.window.showQuickPick(availableLanguages, {
-        placeHolder: t('language.selectLanguage') || 'Choose language for AI.duino',
-        title: `🌐 AI.duino ${t('language.changeLanguage') || 'Change Language'}`
-    });
-    
-    if (selected && selected.value !== activeValue) {
-        try {
-            await config.update('language', selected.value, vscode.ConfigurationTarget.Global);
-            
-            if (selected.value === 'auto') {
-                const vscodeLocale = vscode.env.language || 'en';
-                const detectedLang = vscodeLocale.substring(0, 2);
-                currentLocale = supportedLocales.includes(detectedLang) ? detectedLang : 'en';
-            } else {
-                currentLocale = selected.value;
-            }
-            
-            // Lade neue Locale-Datei
-            const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
-            if (fs.existsSync(localeFile)) {
-                const content = fs.readFileSync(localeFile, 'utf8');
-                i18n = JSON.parse(content);
-            } else {
-                currentLocale = 'en';
-                const englishFile = path.join(__dirname, '..', 'locales', 'en.json');
-                if (fs.existsSync(englishFile)) {
-                    const content = fs.readFileSync(englishFile, 'utf8');
-                    i18n = JSON.parse(content);
-                } else {
-                    i18n = getEmbeddedEnglishLocale();
-                }
-            }
-            
-            updateStatusBar();
-            
-            // Erfolgsmeldung
+ 
             let successMessage;
             if (selected.value === 'auto') {
                 const info = getLanguageInfo(currentLocale);
@@ -539,10 +567,7 @@ function shouldShowWelcome() {
     return Object.keys(AI_MODELS).every(modelId => !apiKeys[modelId]);
 }
 
-// ========================================
-// CONFIGURATION MANAGEMENT
-// ========================================
-
+// Configuration management
 function loadApiKeys() {
     Object.keys(AI_MODELS).forEach(modelId => {
         const model = AI_MODELS[modelId];
@@ -579,35 +604,60 @@ function saveSelectedModel() {
     }
 }
 
-// ========================================
-// TOKEN MANAGEMENT
-// ========================================
-
+// Token management
 function loadTokenUsage() {
     try {
         const currentDate = new Date();
         const today = currentDate.toDateString();
         
-        if (fs.existsSync(TOKEN_USAGE_FILE)) {
-            const fileContent = fs.readFileSync(TOKEN_USAGE_FILE, 'utf8');
+        // Check if file exists and is readable
+        if (!fs.existsSync(TOKEN_USAGE_FILE)) {
+            initializeTokenUsage();
+            saveTokenUsage();
+            return;
+        }
+        
+        let fileContent;
+        try {
+            fileContent = fs.readFileSync(TOKEN_USAGE_FILE, 'utf8');
+        } catch (readError) {
+            // File might be corrupted, reinitialize
+            initializeTokenUsage();
+            saveTokenUsage();
+            return;
+        }
+        
+        // Validate JSON
+        let data;
+        try {
+            data = JSON.parse(fileContent);
+        } catch (parseError) {
+            // Corrupted JSON, reinitialize
+            initializeTokenUsage();
+            saveTokenUsage();
+            return;
+        }
+        
+        // Validate data structure
+        if (!data || typeof data !== 'object' || !data.daily) {
+            initializeTokenUsage();
+            saveTokenUsage();
+            return;
+        }
+        
+        // Check if it's the same day
+        if (data.daily === today) {
+            // Same day - restore data
+            tokenUsage = data;
             
-            const data = JSON.parse(fileContent);
-          
-            // Check if it's the same day
-            if (data.daily === today) {
-                // Ensure all models exist
-                Object.keys(AI_MODELS).forEach(modelId => {
-                    if (!tokenUsage[modelId]) {
-                        tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
-                    }
-                });
-            } else {
-                // Different day - reset
-                initializeTokenUsage();
-                saveTokenUsage();
-            }
+            // Ensure all models exist in loaded data
+            Object.keys(AI_MODELS).forEach(modelId => {
+                if (!tokenUsage[modelId]) {
+                    tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
+                }
+            });
         } else {
-            // No file present
+            // Different day - reset
             initializeTokenUsage();
             saveTokenUsage();
         }
@@ -617,7 +667,7 @@ function loadTokenUsage() {
             updateStatusBar();
         }
         
-    } catch (error) {       
+    } catch (error) {
         // Start with empty values on error
         initializeTokenUsage();
         saveTokenUsage();
@@ -625,10 +675,104 @@ function loadTokenUsage() {
 }
 
 function saveTokenUsage() {
+    // Add to queue instead of immediate save
+    if (!tokenSaveQueue.includes('save')) {
+        tokenSaveQueue.push('save');
+    }
+    
+    // Debounced save - sammelt mehrere Saves in kurzer Zeit
+    if (saveTimeout) {
+        clearTimeout(saveTimeout);
+    }
+    
+    saveTimeout = setTimeout(() => {
+        processSaveQueue();
+    }, 100); // 100ms delay to batch multiple saves
+}
+
+function processSaveQueue() {
+    if (tokenFileLock || tokenSaveQueue.length === 0) {
+        return; // Already saving or nothing to save
+    }
+    
+    tokenFileLock = true;
+    tokenSaveQueue = []; // Clear queue
+    
     try {
-        fs.writeFileSync(TOKEN_USAGE_FILE, JSON.stringify(tokenUsage, null, 2));
+        const data = JSON.stringify(tokenUsage, null, 2);
+        
+        // Windows-compatible atomic write
+        if (process.platform === 'win32') {
+            // Windows: Direct overwrite (backup strategy)
+            const backupFile = TOKEN_USAGE_FILE + '.backup';
+            
+            // Create backup if original exists
+            if (fs.existsSync(TOKEN_USAGE_FILE)) {
+                try {
+                    fs.copyFileSync(TOKEN_USAGE_FILE, backupFile);
+                } catch (backupError) {
+                    // Backup failed, but continue trying
+                }
+            }
+            
+            // Write new file
+            fs.writeFileSync(TOKEN_USAGE_FILE, data, { mode: 0o600 });
+            
+            // Remove backup on success
+            try {
+                if (fs.existsSync(backupFile)) {
+                    fs.unlinkSync(backupFile);
+                }
+            } catch (cleanupError) {
+                // Backup cleanup failed - not critical
+            }
+            
+        } else {
+            // Unix/Linux: Atomic rename-Strategie
+            const tempFile = TOKEN_USAGE_FILE + '.tmp';
+            
+            // Write to temp file first
+            fs.writeFileSync(tempFile, data, { mode: 0o600 });
+            
+            // Atomic rename (this is atomic on most Unix filesystems)
+            fs.renameSync(tempFile, TOKEN_USAGE_FILE);
+        }
+        
     } catch (error) {
-        console.log('Error saving token usage:', error);
+        // Fallback: Try direct write
+        try {
+            const data = JSON.stringify(tokenUsage, null, 2);
+            fs.writeFileSync(TOKEN_USAGE_FILE, data, { mode: 0o600 });
+        } catch (fallbackError) {
+            // Last fallback: Keep in-memory, silent fail
+            // Token usage will be lost but extension continues working
+        }
+        
+        // Cleanup temp files on error
+        const possibleTempFiles = [
+            TOKEN_USAGE_FILE + '.tmp',
+            TOKEN_USAGE_FILE + '.backup'
+        ];
+        
+        possibleTempFiles.forEach(tempFile => {
+            try {
+                if (fs.existsSync(tempFile)) {
+                    fs.unlinkSync(tempFile);
+                }
+            } catch (cleanupError) {
+                // Silent cleanup error
+            }
+        });
+        
+    } finally {
+        tokenFileLock = false;
+        saveTimeout = null;
+        
+        // Process remaining queue items (in case more were added during save)
+        if (tokenSaveQueue.length > 0) {
+            // Slight delay to avoid rapid successive saves
+            setTimeout(() => processSaveQueue(), 100);
+        }
     }
 }
 
@@ -670,10 +814,8 @@ function updateTokenUsage(modelId, inputText, outputText) {
     updateStatusBar();
 }
 
-// ========================================
-// UI FUNCTIONS
-// ========================================
 
+// UI functions
 function updateStatusBar() {
     const model = AI_MODELS[currentModel];
     const hasApiKey = apiKeys[currentModel];
@@ -699,10 +841,7 @@ function updateStatusBar() {
     }
 }
 
-// ========================================
-// MENU FUNCTIONS
-// ========================================
-
+// Menu functions
 async function showWelcomeMessage() {
     const modelList = Object.values(AI_MODELS).map(m => m.name).join(', ');
     const message = t('messages.welcome', modelList);
@@ -738,7 +877,7 @@ async function showQuickMenu() {
     
     const editor = vscode.window.activeTextEditor;
     const hasSelection = editor && !editor.selection.isEmpty;
-    // const hasErrors = await checkForErrors(false);  // AUSKOMMENTIERT
+    // const hasErrors = await checkForErrors(false); 
     
     const items = [
         {
@@ -758,7 +897,7 @@ async function showQuickMenu() {
         },
         {
             label: '$(error) ' + t('commands.explainError'),
-            description: t('descriptions.noErrors'),  // GEÄNDERT - hasErrors entfernt
+            description: t('descriptions.noErrors'),  
             command: 'aiduino.explainError'
         },
         {
@@ -783,17 +922,15 @@ async function showQuickMenu() {
         },
         {
             label: '$(graph) ' + t('commands.tokenStats'),
-            description: 'Token-Statistik',  // GEÄNDERT - generateTokenStatsDescription() entfernt
+            description: 'Token-Statistik', 
             command: 'aiduino.showTokenStats'
         },
         {
             label: '$(info) ' + t('commands.about'),
-            description: 'Version 1.3.1',
+            description: `Version ${EXTENSION_VERSION}`, 
             command: 'aiduino.about'
         }
     ];
-    
-    // .filter() entfernt - alle Items bleiben
     
     const selected = await vscode.window.showQuickPick(items, {
         placeHolder: t('messages.selectAction'),
@@ -805,10 +942,7 @@ async function showQuickMenu() {
     }
 }
 
-// ========================================
-// MODEL MANAGEMENT
-// ========================================
-
+// Model management
 async function switchModel() {
     const items = Object.keys(AI_MODELS).map(modelId => {
         const model = AI_MODELS[modelId];
@@ -895,55 +1029,253 @@ function getProviderName(modelId) {
 }
 
 // ========================================
-// ERROR HANDLING
+// COMPLETE handleApiError() FUNCTION - FINAL VERSION
 // ========================================
 
 function handleApiError(error) {
     const model = AI_MODELS[currentModel];
     
-    // Specific error handling
+    // Use error types for enhanced errors (from enhanceError function)
+    if (error.type === 'API_KEY_ERROR') {
+        vscode.window.showErrorMessage(
+            error.message,  // Already translated by enhanceError()
+            t('buttons.enterApiKey'),
+            t('buttons.getApiKey'),
+            t('buttons.switchModel')
+        ).then(selection => {
+            if (selection === t('buttons.enterApiKey')) {
+                vscode.commands.executeCommand('aiduino.setApiKey');
+            } else if (selection === t('buttons.getApiKey')) {
+                openApiKeyUrl(currentModel);
+            } else if (selection === t('buttons.switchModel')) {
+                vscode.commands.executeCommand('aiduino.switchModel');
+            }
+        });
+        return;
+    }
+    
+    // Rate Limiting with token stats
+    if (error.type === 'RATE_LIMIT_ERROR') {
+        vscode.window.showErrorMessage(
+            error.message,  // Already translated
+            t('buttons.switchModel'),
+            t('buttons.tryLater'),
+            t('buttons.showTokenStats')
+        ).then(selection => {
+            if (selection === t('buttons.switchModel')) {
+                vscode.commands.executeCommand('aiduino.switchModel');
+            } else if (selection === t('buttons.showTokenStats')) {
+                vscode.commands.executeCommand('aiduino.showTokenStats');
+            }
+        });
+        return;
+    }
+    
+    // Server Errors with status page links
+    if (error.type === 'SERVER_ERROR') {
+        vscode.window.showErrorMessage(
+            error.message,  // Already translated
+            t('buttons.tryAgain'),
+            t('buttons.switchModel'),
+            t('buttons.checkStatus')
+        ).then(selection => {
+            if (selection === t('buttons.switchModel')) {
+                vscode.commands.executeCommand('aiduino.switchModel');
+            } else if (selection === t('buttons.checkStatus')) {
+                openServiceStatusUrl(currentModel);
+            }
+        });
+        return;
+    }
+    
+    // Network Errors (original messages, not enhanced)
     if (error.message.includes('ENOTFOUND') || error.message.includes('ETIMEDOUT') || 
-        error.message.includes('ECONNREFUSED') || error.message.includes(t('errors.networkError'))) {
+        error.message.includes('ECONNREFUSED') || error.message.includes('ECONNRESET') ||
+        error.message.includes('EHOSTUNREACH') || error.message.includes('ENETUNREACH') ||
+        error.message.includes('ECONNABORTED')) {
         
         vscode.window.showErrorMessage(
             t('errors.noInternet'),
             t('buttons.retry'),
-            t('buttons.offlineHelp')
+            t('buttons.offlineHelp'),
+            t('buttons.checkConnection')
         ).then(selection => {
             if (selection === t('buttons.retry')) {
                 vscode.window.showInformationMessage(t('messages.retryLater'));
             } else if (selection === t('buttons.offlineHelp')) {
                 showOfflineHelp();
+            } else if (selection === t('buttons.checkConnection')) {
+                testNetworkConnectivity();
             }
         });
+        return;
+    }
+    
+    // Fallback for original API errors that weren't enhanced
+    if (error.message.includes('Invalid API Key') || error.message.includes('401') || 
+        error.message.includes('403') || error.message.includes('Unauthorized')) {
         
-    } else if (error.message.includes('API Key')) {
         vscode.window.showErrorMessage(
-            `🔑 ${error.message}`,
+            `🔑 ${t('errors.invalidApiKey', model.name)}`,
             t('buttons.enterApiKey'),
+            t('buttons.getApiKey'),
             t('buttons.switchModel')
         ).then(selection => {
             if (selection === t('buttons.enterApiKey')) {
                 vscode.commands.executeCommand('aiduino.setApiKey');
+            } else if (selection === t('buttons.getApiKey')) {
+                openApiKeyUrl(currentModel);
             } else if (selection === t('buttons.switchModel')) {
                 vscode.commands.executeCommand('aiduino.switchModel');
             }
         });
-        
-    } else if (error.message.includes('Rate Limit')) {
+        return;
+    }
+    
+    // Fallback for original rate limit errors
+    if (error.message.includes('Rate Limit') || error.message.includes('429')) {
         vscode.window.showErrorMessage(
             t('errors.rateLimit', model.name),
             t('buttons.switchModel'),
-            t('buttons.tryLater')
+            t('buttons.tryLater'),
+            t('buttons.showTokenStats')
         ).then(selection => {
             if (selection === t('buttons.switchModel')) {
                 vscode.commands.executeCommand('aiduino.switchModel');
+            } else if (selection === t('buttons.showTokenStats')) {
+                vscode.commands.executeCommand('aiduino.showTokenStats');
             }
         });
-        
-    } else {
-        vscode.window.showErrorMessage(t('errors.apiError', model.name, error.message));
+        return;
     }
+    
+    // Fallback for original server errors
+    if (error.message.includes('500') || error.message.includes('502') || 
+        error.message.includes('503') || error.message.includes('504') ||
+        error.message.includes('Server Error') || error.message.includes('Service Unavailable')) {
+        
+        vscode.window.showErrorMessage(
+            t('errors.serverUnavailable', model.name),
+            t('buttons.tryAgain'),
+            t('buttons.switchModel'),
+            t('buttons.checkStatus')
+        ).then(selection => {
+            if (selection === t('buttons.switchModel')) {
+                vscode.commands.executeCommand('aiduino.switchModel');
+            } else if (selection === t('buttons.checkStatus')) {
+                openServiceStatusUrl(currentModel);
+            }
+        });
+        return;
+    }
+    
+    // Generic error fallback
+    vscode.window.showErrorMessage(
+        `${model.name}: ${error.message}`,
+        t('buttons.retry'),
+        t('buttons.switchModel')
+    ).then(selection => {
+        if (selection === t('buttons.switchModel')) {
+            vscode.commands.executeCommand('aiduino.switchModel');
+        }
+    });
+}
+
+function openApiKeyUrl(modelId) {
+    const urls = {
+        claude: 'https://console.anthropic.com/api-keys',
+        chatgpt: 'https://platform.openai.com/api-keys',
+        gemini: 'https://makersuite.google.com/app/apikey',
+        mistral: 'https://console.mistral.ai/'
+    };
+    
+    const url = urls[modelId];
+    if (url) {
+        vscode.env.openExternal(vscode.Uri.parse(url));
+    }
+}
+
+// Open service status page for the current model
+function openServiceStatusUrl(modelId) {
+    const urls = {
+        claude: 'https://status.anthropic.com/',
+        chatgpt: 'https://status.openai.com/',
+        gemini: 'https://status.cloud.google.com/',
+        mistral: 'https://status.mistral.ai/'
+    };
+    
+    const url = urls[modelId];
+    if (url) {
+        vscode.env.openExternal(vscode.Uri.parse(url));
+    } else {
+        vscode.window.showInformationMessage(t('messages.noStatusPage', AI_MODELS[modelId].name));
+    }
+}
+
+// Test basic network connectivity
+async function testNetworkConnectivity() {
+    const testUrls = [
+        'google.com',
+        'github.com',
+        'cloudflare.com'
+    ];
+    
+    vscode.window.withProgress({
+        location: vscode.ProgressLocation.Notification,
+        title: t('progress.testingConnection'),
+        cancellable: false
+    }, async () => {
+        let connectionWorks = false;
+        
+        for (const testUrl of testUrls) {
+            try {
+                // Simple DNS lookup test
+                const dns = require('dns');
+                await new Promise((resolve, reject) => {
+                    dns.lookup(testUrl, (err) => {
+                        if (err) reject(err);
+                        else resolve();
+                    });
+                });
+                connectionWorks = true;
+                break;
+            } catch (error) {
+                continue;
+            }
+        }
+        
+        if (connectionWorks) {
+            vscode.window.showInformationMessage(
+                t('messages.connectionOk'),
+                t('buttons.checkFirewall')
+            ).then(selection => {
+                if (selection === t('buttons.checkFirewall')) {
+                    showFirewallHelp();
+                }
+            });
+        } else {
+            vscode.window.showErrorMessage(
+                t('messages.noConnection'),
+                t('buttons.checkRouter'),
+                t('buttons.offlineHelp')
+            ).then(selection => {
+                if (selection === t('buttons.offlineHelp')) {
+                    showOfflineHelp();
+                }
+            });
+        }
+    });
+}
+
+// Get hostname for current model
+function getModelHostname(modelId) {
+    const hostnames = {
+        claude: 'api.anthropic.com',
+        chatgpt: 'api.openai.com',
+        gemini: 'generativelanguage.googleapis.com',
+        mistral: 'api.mistral.ai'
+    };
+    return hostnames[modelId] || 'unknown';
 }
 
 async function withRetryableProgress(title, task) {
@@ -997,451 +1329,358 @@ async function withRetryableProgress(title, task) {
     }
 }
 
-// ========================================
-// ERROR DIAGNOSIS
-// ========================================
-
+// Error diagnosis
 async function checkForErrors(silent = true) {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor || !editor.document.fileName.endsWith('.ino')) {
+    const now = Date.now();
+    
+    // Throttling: Max alle 500ms prüfen
+    if (now - lastErrorCheck < 500) {
         return false;
+    }
+    lastErrorCheck = now;
+    
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        return false;
+    }
+    
+    // Nur für .ino Dateien verarbeiten - große Performance-Verbesserung!
+    if (!editor.document.fileName.endsWith('.ino')) {
+        return false;
+    }
+    
+    const currentUri = editor.document.uri.toString();
+    
+    // Performance: Nur prüfen wenn sich die aktive Datei geändert hat
+    if (currentUri !== lastCheckedUri) {
+        lastCheckedUri = currentUri;
+        lastDiagnosticsCount = 0; // Reset count for new file
     }
     
     const diagnostics = vscode.languages.getDiagnostics(editor.document.uri);
     const errors = diagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
+    const errorCount = errors.length;
     
-    if (errors.length > 0 && !silent) {
-        const model = AI_MODELS[currentModel];
-        statusBarItem.text = `${model.icon} AI.duino $(error)`;
-        statusBarItem.tooltip = t('statusBar.errorsFound', errors.length);
-        statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
+    // Nur UI aktualisieren wenn sich Error-Count geändert hat
+    if (errorCount !== lastDiagnosticsCount) {
+        lastDiagnosticsCount = errorCount;
         
-        setTimeout(() => updateStatusBar(), 5000);
-    }
-    
-    return errors.length > 0;
-}
-
-// ========================================
-// CENTRAL API CALL FUNCTION
-// ========================================
-
-function callAI(prompt) {
-    const apiHandlers = {
-        claude: callClaudeAPI,
-        chatgpt: callChatGPTAPI,
-        gemini: callGeminiAPI,
-        mistral: callMistralAPI
-    };
-    
-    const handler = apiHandlers[currentModel];
-    if (!handler) {
-        return Promise.reject(new Error(t('errors.unknownModel', currentModel)));
-    }
-    
-    return handler(prompt);
-}
-
-// ========================================
-// CLAUDE API
-// ========================================
-
-function callClaudeAPI(prompt) {
-    return new Promise((resolve, reject) => {
-        if (!apiKeys.claude) {
-            reject(new Error(t('errors.noApiKey', 'Claude')));
-            return;
-        }
-
-        // Timeout for requests
-        const timeout = setTimeout(() => {
-            req.destroy();
-            reject(new Error(t('errors.timeout')));
-        }, 30000); // 30 seconds timeout
-
-        const data = JSON.stringify({
-            model: "claude-3-5-sonnet-20241022",
-            max_tokens: 2000,
-            messages: [{ 
-                role: "user", 
-                content: prompt 
-            }]
-        });
-
-        const options = {
-            hostname: 'api.anthropic.com',
-            port: 443,
-            path: '/v1/messages',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': Buffer.byteLength(data),
-                'x-api-key': apiKeys.claude,
-                'anthropic-version': '2023-06-01'
-            }
-        };
-
-        const req = https.request(options, (res) => {
-            clearTimeout(timeout);
-            let responseData = '';
-
-            res.on('data', (chunk) => {
-                responseData += chunk;
-            });
-
-            res.on('end', () => {
-                try {
-                    const parsedData = JSON.parse(responseData);
-                    
-                    if (res.statusCode === 200) {
-                        const response = parsedData.content[0].text;
-                        updateTokenUsage('claude', prompt, response);
-                        resolve(response);
-                    } else {
-                        // Specific error messages
-                        switch(res.statusCode) {
-                            case 401:
-                                reject(new Error(t('errors.invalidApiKey', 'Claude')));
-                                break;
-                            case 429:
-                                reject(new Error(t('errors.rateLimit', 'Claude')));
-                                break;
-                            case 500:
-                            case 502:
-                            case 503:
-                                reject(new Error(t('errors.serverUnavailable', 'Claude')));
-                                break;
-                            default:
-                                reject(new Error(t('errors.apiErrorWithCode', 'Claude', res.statusCode, parsedData.error?.message || t('errors.unknownError'))));
-                        }
-                    }
-                } catch (e) {
-                    reject(new Error(t('errors.parseError', 'Claude')));
+        if (errorCount > 0 && !silent) {
+            const model = AI_MODELS[currentModel];
+            statusBarItem.text = `${model.icon} AI.duino $(error)`;
+            statusBarItem.tooltip = t('statusBar.errorsFound', errorCount);
+            statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
+            
+            // Auto-reset nach 5 Sekunden - mit Cleanup
+            setTimeout(() => {
+                // Nur zurücksetzen wenn keine neuen Errors hinzugekommen sind
+                const currentDiagnostics = vscode.languages.getDiagnostics(editor.document.uri);
+                const currentErrors = currentDiagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
+                
+                if (currentErrors.length === 0) {
+                    updateStatusBar();
                 }
-            });
-        });
-
-        req.on('error', (e) => {
-            clearTimeout(timeout);
-            reject(handleNetworkError(e));
-        });
-
-        req.write(data);
-        req.end();
-    });
+            }, 5000);
+        } else if (errorCount === 0 && lastDiagnosticsCount > 0) {
+            // Errors wurden behoben - Status Bar zurücksetzen
+            updateStatusBar();
+        }
+    }
+    
+    return errorCount > 0;
 }
 
-// ========================================
-// CHATGPT API
-// ========================================
+// Unified API client
+class UnifiedAPIClient {
+    constructor() {
+        this.timeout = 30000; // 30 seconds
+        this.maxRetries = 3;
+    }
 
-function callChatGPTAPI(prompt) {
-    return new Promise((resolve, reject) => {
-        if (!apiKeys.chatgpt) {
-            reject(new Error(t('errors.noApiKey', 'OpenAI')));
-            return;
+    /**
+     * Hauptmethode für alle API-Aufrufe
+     * @param {string} modelId - ID des Modells (claude, chatgpt, gemini, mistral)
+     * @param {string} prompt - Der Prompt für die KI
+     * @returns {Promise<string>} - Antwort der KI
+     */
+    async callAPI(modelId, prompt) {
+        if (!apiKeys[modelId]) {
+            throw new Error(t('errors.noApiKey', AI_MODELS[modelId].name));
         }
 
-        const timeout = setTimeout(() => {
-            req.destroy();
-            reject(new Error(t('errors.timeout')));
-        }, 30000);
-
-        const systemPrompt = t('prompts.systemPrompt');
+        const config = this.getModelConfig(modelId, prompt);
         
-        const data = JSON.stringify({
-            model: "gpt-4",
-            messages: [
-                {
-                    role: "system",
-                    content: systemPrompt
+        for (let attempt = 1; attempt <= this.maxRetries; attempt++) {
+            try {
+                const response = await this.makeRequest(config);
+                const extractedResponse = this.extractResponse(modelId, response);
+                
+                // Token usage tracking
+                updateTokenUsage(modelId, prompt, extractedResponse);
+                
+                return extractedResponse;
+            } catch (error) {
+                if (attempt === this.maxRetries || !this.isRetryableError(error)) {
+                    throw this.enhanceError(modelId, error);
+                }
+                
+                // Exponential backoff for retries
+                await this.delay(1000 * attempt);
+            }
+        }
+    }
+
+    /**
+     * Generiert die spezifische Konfiguration für jedes Modell
+     */
+    getModelConfig(modelId, prompt) {
+        const configs = {
+            claude: {
+                hostname: 'api.anthropic.com',
+                path: '/v1/messages',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': apiKeys.claude,
+                    'anthropic-version': '2023-06-01'
                 },
-                { 
-                    role: "user", 
-                    content: prompt 
+                body: {
+                    model: "claude-3-5-sonnet-20241022",
+                    max_tokens: 2000,
+                    messages: [{ role: "user", content: prompt }]
                 }
-            ],
-            max_tokens: 2000,
-            temperature: 0.7
-        });
-
-        const options = {
-            hostname: 'api.openai.com',
-            port: 443,
-            path: '/v1/chat/completions',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': Buffer.byteLength(data),
-                'Authorization': `Bearer ${apiKeys.chatgpt}`
-            }
-        };
-
-        const req = https.request(options, (res) => {
-            clearTimeout(timeout);
-            let responseData = '';
-
-            res.on('data', (chunk) => {
-                responseData += chunk;
-            });
-
-            res.on('end', () => {
-                try {
-                    const parsedData = JSON.parse(responseData);
-                    
-                    if (res.statusCode === 200) {
-                        const response = parsedData.choices[0].message.content;
-                        updateTokenUsage('chatgpt', prompt, response);
-                        resolve(response);
-                    } else {
-                        switch(res.statusCode) {
-                            case 401:
-                                reject(new Error(t('errors.invalidApiKey', 'OpenAI')));
-                                break;
-                            case 429:
-                                reject(new Error(t('errors.rateLimit', 'ChatGPT')));
-                                break;
-                            case 500:
-                            case 502:
-                            case 503:
-                                reject(new Error(t('errors.serverUnavailable', 'OpenAI')));
-                                break;
-                            default:
-                                reject(new Error(t('errors.apiErrorWithCode', 'OpenAI', res.statusCode, parsedData.error?.message || t('errors.unknownError'))));
-                        }
-                    }
-                } catch (e) {
-                    reject(new Error(t('errors.parseError', 'ChatGPT')));
-                }
-            });
-        });
-
-        req.on('error', (e) => {
-            clearTimeout(timeout);
-            reject(handleNetworkError(e));
-        });
-
-        req.write(data);
-        req.end();
-    });
-}
-
-// ========================================
-// GEMINI API
-// ========================================
-
-function callGeminiAPI(prompt) {
-    return new Promise((resolve, reject) => {
-        if (!apiKeys.gemini) {
-            reject(new Error(t('errors.noApiKey', 'Gemini')));
-            return;
-        }
-
-        const timeout = setTimeout(() => {
-            req.destroy();
-            reject(new Error(t('errors.timeout')));
-        }, 30000);
-
-        const data = JSON.stringify({
-            contents: [{
-                parts: [{
-                    text: prompt
-                }]
-            }],
-            generationConfig: {
-                temperature: 0.7,
-                topK: 1,
-                topP: 1,
-                maxOutputTokens: 2048,
             },
-            safetySettings: [
-                {
-                    category: "HARM_CATEGORY_HARASSMENT",
-                    threshold: "BLOCK_MEDIUM_AND_ABOVE"
+            
+            chatgpt: {
+                hostname: 'api.openai.com',
+                path: '/v1/chat/completions',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKeys.chatgpt}`
                 },
-                {
-                    category: "HARM_CATEGORY_HATE_SPEECH",
-                    threshold: "BLOCK_MEDIUM_AND_ABOVE"
-                },
-                {
-                    category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                    threshold: "BLOCK_MEDIUM_AND_ABOVE"
-                },
-                {
-                    category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-                    threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                body: {
+                    model: "gpt-4",
+                    messages: [
+                        { role: "system", content: t('prompts.systemPrompt') },
+                        { role: "user", content: prompt }
+                    ],
+                    max_tokens: 2000,
+                    temperature: 0.7
                 }
-            ]
-        });
-
-        const options = {
-            hostname: 'generativelanguage.googleapis.com',
-            port: 443,
-            path: `/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKeys.gemini}`,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': Buffer.byteLength(data)
+            },
+            
+            gemini: {
+                hostname: 'generativelanguage.googleapis.com',
+                path: `/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKeys.gemini}`,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    contents: [{
+                        parts: [{ text: prompt }]
+                    }],
+                    generationConfig: {
+                        temperature: 0.7,
+                        topK: 1,
+                        topP: 1,
+                        maxOutputTokens: 2048,
+                    },
+                    safetySettings: this.getGeminiSafetySettings()
+                }
+            },
+            
+            mistral: {
+                hostname: 'api.mistral.ai',
+                path: '/v1/chat/completions',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKeys.mistral}`
+                },
+                body: {
+                    model: "mistral-large-latest",
+                    messages: [
+                        { role: "system", content: t('prompts.systemPrompt') },
+                        { role: "user", content: prompt }
+                    ],
+                    max_tokens: 2000,
+                    temperature: 0.7
+                }
             }
         };
 
-        const req = https.request(options, (res) => {
-            clearTimeout(timeout);
-            let responseData = '';
+        return configs[modelId];
+    }
 
-            res.on('data', (chunk) => {
-                responseData += chunk;
-            });
-
-            res.on('end', () => {
-                try {
-                    const parsedData = JSON.parse(responseData);
-                    
-                    if (res.statusCode === 200) {
-                        if (parsedData.candidates && parsedData.candidates[0] && 
-                            parsedData.candidates[0].content && 
-                            parsedData.candidates[0].content.parts && 
-                            parsedData.candidates[0].content.parts[0]) {
-                            
-                            const response = parsedData.candidates[0].content.parts[0].text;
-                            updateTokenUsage('gemini', prompt, response);
-                            resolve(response);
-                        } else {
-                            reject(new Error(t('errors.unexpectedResponse', 'Gemini')));
-                        }
-                    } else {
-                        switch(res.statusCode) {
-                            case 401:
-                            case 403:
-                                reject(new Error(t('errors.invalidApiKey', 'Gemini')));
-                                break;
-                            case 429:
-                                reject(new Error(t('errors.rateLimit', 'Gemini')));
-                                break;
-                            case 500:
-                            case 502:
-                            case 503:
-                                reject(new Error(t('errors.serverUnavailable', 'Google')));
-                                break;
-                            default:
-                                reject(new Error(t('errors.apiErrorWithCode', 'Gemini', res.statusCode, parsedData.error?.message || t('errors.unknownError'))));
-                        }
-                    }
-                } catch (e) {
-                    reject(new Error(t('errors.parseError', 'Gemini') + ': ' + e.message));
+    /**
+     * Führt den HTTP-Request aus
+     */
+    async makeRequest(config) {
+        return new Promise((resolve, reject) => {
+            const data = JSON.stringify(config.body);
+            
+            const options = {
+                hostname: config.hostname,
+                port: 443,
+                path: config.path,
+                method: 'POST',
+                headers: {
+                    ...config.headers,
+                    'Content-Length': Buffer.byteLength(data)
                 }
+            };
+
+            // Timeout handling
+            const timeout = setTimeout(() => {
+                req.destroy();
+                reject(new Error(t('errors.timeout')));
+            }, this.timeout);
+
+            const req = https.request(options, (res) => {
+                clearTimeout(timeout);
+                let responseData = '';
+
+                res.on('data', (chunk) => {
+                    responseData += chunk;
+                });
+
+                res.on('end', () => {
+                    try {
+                        const parsedData = JSON.parse(responseData);
+                        
+                        if (res.statusCode === 200) {
+                            resolve(parsedData);
+                        } else {
+                            reject(this.createHttpError(res.statusCode, parsedData));
+                        }
+                    } catch (e) {
+                        reject(new Error('JSON Parse Error: ' + e.message));
+                    }
+                });
             });
+
+            req.on('error', (e) => {
+                clearTimeout(timeout);
+                reject(this.handleNetworkError(e));
+            });
+
+            req.write(data);
+            req.end();
         });
+    }
 
-        req.on('error', (e) => {
-            clearTimeout(timeout);
-            reject(handleNetworkError(e));
-        });
+    /**
+     * Extrahiert die Antwort basierend auf dem Modell-Format
+     */
+    extractResponse(modelId, responseData) {
+        const extractors = {
+            claude: (data) => data.content[0].text,
+            chatgpt: (data) => data.choices[0].message.content,
+            gemini: (data) => {
+                if (data.candidates && data.candidates[0] && 
+                    data.candidates[0].content && 
+                    data.candidates[0].content.parts && 
+                    data.candidates[0].content.parts[0]) {
+                    return data.candidates[0].content.parts[0].text;
+                }
+                throw new Error('Unexpected response format from Gemini');
+            },
+            mistral: (data) => data.choices[0].message.content
+        };
 
-        req.write(data);
-        req.end();
-    });
-}
-
-// ========================================
-// MISTRAL API
-// ========================================
-
-function callMistralAPI(prompt) {
-    return new Promise((resolve, reject) => {
-        if (!apiKeys.mistral) {
-            reject(new Error(t('errors.noApiKey', 'Mistral')));
-            return;
+        const extractor = extractors[modelId];
+        if (!extractor) {
+            throw new Error(`Unknown model: ${modelId}`);
         }
 
-        const timeout = setTimeout(() => {
-            req.destroy();
-            reject(new Error(t('errors.timeout')));
-        }, 30000);
+        return extractor(responseData);
+    }
 
-        const systemPrompt = t('prompts.systemPrompt');
-        
-        const data = JSON.stringify({
-            model: "mistral-large-latest",
-            messages: [
-                {
-                    role: "system",
-                    content: systemPrompt
-                },
-                { 
-                    role: "user", 
-                    content: prompt 
-                }
-            ],
-            max_tokens: 2000,
-            temperature: 0.7
-        });
+    /**
+     * Hilfsmethoden
+     */
+    getGeminiSafetySettings() {
+        return [
+            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+            { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+            { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
+        ];
+    }
 
-        const options = {
-            hostname: 'api.mistral.ai',
-            port: 443,
-            path: '/v1/chat/completions',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': Buffer.byteLength(data),
-                'Authorization': `Bearer ${apiKeys.mistral}`
-            }
+    createHttpError(statusCode, responseData) {
+        const errorMessages = {
+            401: 'Invalid API Key',
+            403: 'Access Forbidden',
+            429: 'Rate Limit Exceeded',
+            500: 'Internal Server Error',
+            502: 'Bad Gateway',
+            503: 'Service Unavailable'
         };
 
-        const req = https.request(options, (res) => {
-            clearTimeout(timeout);
-            let responseData = '';
+        const message = errorMessages[statusCode] || 'Unknown HTTP Error';
+        const details = responseData.error?.message || responseData.message || 'No details available';
+        
+        return new Error(`${message} (${statusCode}): ${details}`);
+    }
 
-            res.on('data', (chunk) => {
-                responseData += chunk;
-            });
+    handleNetworkError(error) {
+        const errorMessages = {
+            'ENOTFOUND': t('errors.network.dns'),
+            'ETIMEDOUT': t('errors.network.timeout'),
+            'ECONNREFUSED': t('errors.network.refused'),
+            'ECONNRESET': t('errors.network.reset'),
+            'EHOSTUNREACH': t('errors.network.hostUnreachable'),
+            'ENETUNREACH': t('errors.network.netUnreachable'),
+            'ECONNABORTED': t('errors.network.aborted')
+        };
+        
+        const message = errorMessages[error.code] || t('errors.network.general', error.message);
+        return new Error(message);
+    }
 
-            res.on('end', () => {
-                try {
-                    const parsedData = JSON.parse(responseData);
-                    
-                    if (res.statusCode === 200) {
-                        const response = parsedData.choices[0].message.content;
-                        updateTokenUsage('mistral', prompt, response);
-                        resolve(response);
-                    } else {
-                        switch(res.statusCode) {
-                            case 401:
-                                reject(new Error(t('errors.invalidApiKey', 'Mistral')));
-                                break;
-                            case 429:
-                                reject(new Error(t('errors.rateLimit', 'Mistral')));
-                                break;
-                            case 500:
-                            case 502:
-                            case 503:
-                                reject(new Error(t('errors.serverUnavailable', 'Mistral')));
-                                break;
-                            default:
-                                reject(new Error(t('errors.apiErrorWithCode', 'Mistral', res.statusCode, parsedData.error?.message || t('errors.unknownError'))));
-                        }
-                    }
-                } catch (e) {
-                    reject(new Error(t('errors.parseError', 'Mistral')));
-                }
-            });
-        });
-
-        req.on('error', (e) => {
-            clearTimeout(timeout);
-            reject(handleNetworkError(e));
-        });
-
-        req.write(data);
-        req.end();
-    });
+    enhanceError(modelId, error) {
+    const modelName = AI_MODELS[modelId].name;
+    
+    // Add model context to error WITH error types
+    if (error.message.includes('Invalid API Key')) {
+        const enhancedError = new Error(t('errors.invalidApiKey', modelName));
+        enhancedError.type = 'API_KEY_ERROR';  // ← TYPE HINZUFÜGEN
+        return enhancedError;
+    } else if (error.message.includes('Rate Limit')) {
+        const enhancedError = new Error(t('errors.rateLimit', modelName));
+        enhancedError.type = 'RATE_LIMIT_ERROR';  // ← TYPE HINZUFÜGEN
+        return enhancedError;
+    } else if (error.message.includes('Server Error') || error.message.includes('Service Unavailable')) {
+        const enhancedError = new Error(t('errors.serverUnavailable', modelName));
+        enhancedError.type = 'SERVER_ERROR';  // ← TYPE HINZUFÜGEN
+        return enhancedError;
+    }
+    
+    return new Error(`${modelName}: ${error.message}`);
 }
 
-// ========================================
-// NETWORK ERROR HANDLING
-// ========================================
+    isRetryableError(error) {
+        // Retry on network errors and temporary server issues
+        return error.message.includes('timeout') ||
+               error.message.includes('ECONNRESET') ||
+               error.message.includes('ECONNREFUSED') ||
+               error.message.includes('Service Unavailable') ||
+               error.message.includes('502') ||
+               error.message.includes('503');
+    }
 
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+}
+
+// Globale Instanz des Unified Clients
+const apiClient = new UnifiedAPIClient();
+
+function callAI(prompt) {   
+    return apiClient.callAPI(currentModel, prompt);
+}
+
+// Network error handling
 function handleNetworkError(error) {
     const errorMessages = {
         'ENOTFOUND': t('errors.network.dns'),
@@ -1457,274 +1696,298 @@ function handleNetworkError(error) {
     return new Error(message);
 }
 
-// ========================================
-// CODE ANALYSIS FUNCTIONS
-// ========================================
-
+// Explain Code
 async function explainCode() {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-        vscode.window.showWarningMessage(t('messages.noEditor'));
+    if (globalThis.aiduinoExplainRunning) {
+        vscode.window.showInformationMessage("Code Explanation is already running! Please wait...");
         return;
     }
-    
-    const selection = editor.selection;
-    const selectedText = editor.document.getText(selection);
-    
-    if (!selectedText.trim()) {
-        vscode.window.showWarningMessage(t('messages.selectCodeToExplain'));
-        return;
-    }
-    
-    const prompt = t('prompts.explainCode', selectedText);
+    globalThis.aiduinoExplainRunning = true;
     
     try {
-        const model = AI_MODELS[currentModel];
-        await withRetryableProgress(
-            t('progress.explaining', model.name),
-            async () => {
-                const response = await callAI(prompt);
-                
-                const outputChannel = vscode.window.createOutputChannel(t('output.codeExplanation', model.name));
-                outputChannel.clear();
-                outputChannel.appendLine(`🤖 ${t('output.explanationFrom', model.name.toUpperCase())}`);
-                outputChannel.appendLine('='.repeat(50));
-                outputChannel.appendLine('');
-                outputChannel.appendLine(response);
-                outputChannel.show();
-            }
-        );
-    } catch (error) {
-        handleApiError(error);
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            vscode.window.showWarningMessage(t('messages.noEditor'));
+            return;
+        }
+        
+        const selection = editor.selection;
+        const selectedText = editor.document.getText(selection);
+        
+        if (!selectedText.trim()) {
+            vscode.window.showWarningMessage(t('messages.selectCodeToExplain'));
+            return;
+        }
+        
+        const prompt = t('prompts.explainCode', selectedText);
+        
+        try {
+            const model = AI_MODELS[currentModel];
+            await withRetryableProgress(
+                t('progress.explaining', model.name),
+                async () => {
+                    const response = await callAI(prompt);
+                    
+                    const outputChannel = vscode.window.createOutputChannel(t('output.codeExplanation', model.name));
+                    outputChannel.clear();
+                    outputChannel.appendLine(`🤖 ${t('output.explanationFrom', model.name.toUpperCase())}`);
+                    outputChannel.appendLine('='.repeat(50));
+                    outputChannel.appendLine('');
+                    outputChannel.appendLine(response);
+                    outputChannel.show();
+                }
+            );
+        } catch (error) {
+            handleApiError(error);
+        }
+    } finally {
+        globalThis.aiduinoExplainRunning = false;
     }
-}
-
+}   
+    
 async function improveCode() {
+    if (globalThis.aiduinoImproveRunning) {
+        vscode.window.showInformationMessage("Code Improvement is already running! Please wait...");
+        return;
+    }
+    globalThis.aiduinoImproveRunning = true;
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showWarningMessage(t('messages.noEditor'));
         return;
     }
-    
-    const selection = editor.selection;
-    const selectedText = editor.document.getText(selection);
-    
-    if (!selectedText.trim()) {
-        vscode.window.showWarningMessage(t('messages.selectCodeToImprove'));
-        return;
-    }
-    
-    // Load saved custom instructions
-    const savedInstructions = globalContext.globalState.get('aiduino.customInstructions', '');
-    
-    // Dialog for custom instructions
-    const customInstructions = await vscode.window.showInputBox({
-        prompt: t('prompts.customInstructions'),
-        placeHolder: t('placeholders.customInstructions'),
-        value: savedInstructions,
-        ignoreFocusOut: true
-    });
-    
-    // Cancel if user pressed Cancel
-    if (customInstructions === undefined) {
-        return;
-    }
-    
-    // Save instructions for next time
-    globalContext.globalState.update('aiduino.customInstructions', customInstructions);
-    
-    // Build prompt
-    let prompt = t('prompts.improveCode', selectedText);
-
-    // Add custom instructions if provided
-    if (customInstructions && customInstructions.trim()) {
-        const instructions = customInstructions.split(',').map(s => s.trim()).join('\n- ');
-        prompt += '\n\n' + t('prompts.additionalInstructions', instructions);
-    }
-
-    prompt += '\n\n' + t('prompts.improveCodeSuffix');
+    globalThis.aiduinoImproveRunning = true;
     
     try {
-        const model = AI_MODELS[currentModel];
+        const selection = editor.selection;
+        const selectedText = editor.document.getText(selection);
+    
+        if (!selectedText.trim()) {
+            vscode.window.showWarningMessage(t('messages.selectCodeToImprove'));
+            return;
+        }
         
-        // Get response with progress indicator
-        const response = await vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-            title: t('progress.optimizing', model.name),
-            cancellable: false
-        }, async () => {
-            return await callAI(prompt);
+        // Load saved custom instructions
+        const savedInstructions = globalContext.globalState.get('aiduino.customInstructions', '');
+        
+        // Dialog for custom instructions
+        const customInstructions = await vscode.window.showInputBox({
+            prompt: t('prompts.customInstructions'),
+            placeHolder: t('placeholders.customInstructions'),
+            value: savedInstructions,
+            ignoreFocusOut: true
         });
         
-        // Remove markdown code block markers and extract code + comments separately
-        let cleanedResponse = response;
-        let extractedCode = '';
-        let aiComments = '';
-        
-        // Search for pattern ```cpp...``` and extract code and comments
-        const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```([\s\S]*)?/);
-        if (codeBlockMatch) {
-            // Code from block
-            extractedCode = codeBlockMatch[1].trim();
-            // Comments after block (if present)
-            aiComments = codeBlockMatch[2] ? codeBlockMatch[2].trim() : '';
-        } else {
-            // Fallback
-            extractedCode = cleanedResponse;
-            extractedCode = extractedCode.replace(/^```(?:cpp|c\+\+|arduino)?\s*\n?/i, '');
-            const endIndex = extractedCode.indexOf('```');
-            if (endIndex !== -1) {
-                extractedCode = extractedCode.substring(0, endIndex);
-            }
-            extractedCode = extractedCode.trim();
+        // Cancel if user pressed Cancel
+        if (customInstructions === undefined) {
+            return;
         }
-
-        // Create document - WITH comments for display
-        try {
-            let displayContent = extractedCode;
-            if (aiComments) {
-                displayContent += '\n\n/* ========== ' + t('labels.aiHints') + ' ==========\n' + aiComments + '\n================================== */';
-            }
+        
+        // Save instructions for next time
+        globalContext.globalState.update('aiduino.customInstructions', customInstructions);
+        
+        // Build prompt
+        let prompt = t('prompts.improveCode', selectedText);
     
-            const doc = await vscode.workspace.openTextDocument({
-                content: displayContent,  // Code + comments
-                language: 'cpp'
+        // Add custom instructions if provided
+        if (customInstructions && customInstructions.trim()) {
+            const instructions = customInstructions.split(',').map(s => s.trim()).join('\n- ');
+            prompt += '\n\n' + t('prompts.additionalInstructions', instructions);
+        }
+    
+        prompt += '\n\n' + t('prompts.improveCodeSuffix');
+        
+        try {
+            const model = AI_MODELS[currentModel];
+            
+            // Get response with progress indicator
+            const response = await vscode.window.withProgress({
+                location: vscode.ProgressLocation.Notification,
+                title: t('progress.optimizing', model.name),
+                cancellable: false
+            }, async () => {
+                return await callAI(prompt);
             });
             
-            await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
-        } catch (docError) {
-            console.log('Document display warning (can be ignored):', docError.message);
+            // Remove markdown code block markers and extract code + comments separately
+            let cleanedResponse = response;
+            let extractedCode = '';
+            let aiComments = '';
+            
+            // Search for pattern ```cpp...``` and extract code and comments
+            const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```([\s\S]*)?/);
+            if (codeBlockMatch) {
+                // Code from block
+                extractedCode = codeBlockMatch[1].trim();
+                // Comments after block (if present)
+                aiComments = codeBlockMatch[2] ? codeBlockMatch[2].trim() : '';
+            } else {
+                // Fallback
+                extractedCode = cleanedResponse;
+                extractedCode = extractedCode.replace(/^```(?:cpp|c\+\+|arduino)?\s*\n?/i, '');
+                const endIndex = extractedCode.indexOf('```');
+                if (endIndex !== -1) {
+                    extractedCode = extractedCode.substring(0, endIndex);
+                }
+                extractedCode = extractedCode.trim();
+            }
+    
+            // Create document - WITH comments for display
+            try {
+                let displayContent = extractedCode;
+                if (aiComments) {
+                    displayContent += '\n\n/* ========== ' + t('labels.aiHints') + ' ==========\n' + aiComments + '\n=  ================================= */';
+                }
+    
+                const doc = await vscode.workspace.openTextDocument({
+                    content: displayContent,  // Code + comments
+                    language: 'cpp'
+                });
+                
+                await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+            } catch (docError) {
+                console.log('Document display warning (can be ignored):', docError.message);
+            }
+    
+            // Choice dialog
+            const choice = await vscode.window.showInformationMessage(
+                t('messages.codeImproved'),
+                t('buttons.replaceOriginal'),
+                t('buttons.keepBoth')
+            );
+    
+            if (choice === t('buttons.replaceOriginal')) {
+                await editor.edit(editBuilder => {
+                    editBuilder.replace(selection, extractedCode);  // Only the code, without AI comments
+                });
+                vscode.window.showInformationMessage(t('messages.codeReplaced'));
+            }
+            
+        } catch (error) {
+            handleApiError(error);
         }
-
-        // Choice dialog
-        const choice = await vscode.window.showInformationMessage(
-            t('messages.codeImproved'),
-            t('buttons.replaceOriginal'),
-            t('buttons.keepBoth')
-        );
-
-        if (choice === t('buttons.replaceOriginal')) {
-            await editor.edit(editBuilder => {
-                editBuilder.replace(selection, extractedCode);  // ONLY the code, without AI comments
-            });
-            vscode.window.showInformationMessage(t('messages.codeReplaced'));
-        }
-        
-    } catch (error) {
-        handleApiError(error);
+    } finally {
+        globalThis.aiduinoImproveRunning = false;
     }
-}
-
+}   
+    
 async function addComments() {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) return;
-    
-    const selection = editor.selection;
-    const selectedText = editor.document.getText(selection);
-    
-    if (!selectedText.trim()) {
-        vscode.window.showWarningMessage(
-            t('messages.selectCodeToComment')
-        );
+    if (globalThis.aiduinoCommentsRunning) {
+        vscode.window.showInformationMessage("Add Comments is already running! Please wait...");
         return;
     }
-    
-    // Load saved custom instructions for comments
-    const savedInstructions = globalContext.globalState.get('aiduino.commentInstructions', '');
-    
-    // Dialog for custom instructions
-    const customInstructions = await vscode.window.showInputBox({
-        prompt: t('prompts.commentInstructions'),
-        placeHolder: t('placeholders.commentInstructions'),
-        value: savedInstructions,
-        ignoreFocusOut: true
-    });
-    
-    // Cancel if user pressed Cancel
-    if (customInstructions === undefined) {
-        return;
-    }
-    
-    // Save instructions for next time
-    globalContext.globalState.update('aiduino.commentInstructions', customInstructions);
-    
-    // Build prompt
-    let prompt = t('prompts.addComments', selectedText);
-
-    // Add custom instructions if provided
-    if (customInstructions && customInstructions.trim()) {
-        const instructions = customInstructions.split(',').map(s => s.trim()).join('\n- ');
-        prompt += '\n\n' + t('prompts.additionalInstructions', instructions);
-    }
-
-    prompt += '\n\n' + t('prompts.addCommentsSuffix');
+    globalThis.aiduinoCommentsRunning = true;
     
     try {
-        const model = AI_MODELS[currentModel];
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) return;
         
-        // Get response with progress indicator
-        const response = await vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-            title: t('progress.addingComments', model.name),
-            cancellable: false
-        }, async () => {
-            return await callAI(prompt);
+        const selection = editor.selection;
+        const selectedText = editor.document.getText(selection);
+        
+        if (!selectedText.trim()) {
+            vscode.window.showWarningMessage(
+                t('messages.selectCodeToComment')
+            );
+            return;
+        }
+        
+        // Load saved custom instructions for comments
+        const savedInstructions = globalContext.globalState.get('aiduino.commentInstructions', '');
+        
+        // Dialog for custom instructions
+        const customInstructions = await vscode.window.showInputBox({
+            prompt: t('prompts.commentInstructions'),
+            placeHolder: t('placeholders.commentInstructions'),
+            value: savedInstructions,
+            ignoreFocusOut: true
         });
         
-        // Remove markdown code block markers
-        let cleanedResponse = response;
-        let extractedCode = '';
-        
-        // Search for pattern ```cpp...``` and extract only the code
-        const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```/);
-        if (codeBlockMatch) {
-            extractedCode = codeBlockMatch[1].trim();
-        } else {
-            // Fallback
-            extractedCode = cleanedResponse;
-            extractedCode = extractedCode.replace(/^```(?:cpp|c\+\+|arduino)?\s*\n?/i, '');
-            const endIndex = extractedCode.indexOf('```');
-            if (endIndex !== -1) {
-                extractedCode = extractedCode.substring(0, endIndex);
-            }
-            extractedCode = extractedCode.trim();
+        // Cancel if user pressed Cancel
+        if (customInstructions === undefined) {
+            return;
         }
         
-        // Create and show document
+        // Save instructions for next time
+        globalContext.globalState.update('aiduino.commentInstructions', customInstructions);
+        
+        // Build prompt
+        let prompt = t('prompts.addComments', selectedText);
+    
+        // Add custom instructions if provided
+        if (customInstructions && customInstructions.trim()) {
+            const instructions = customInstructions.split(',').map(s => s.trim()).join('\n- ');
+            prompt += '\n\n' + t('prompts.additionalInstructions', instructions);
+        }
+    
+        prompt += '\n\n' + t('prompts.addCommentsSuffix');
+        
         try {
-            const doc = await vscode.workspace.openTextDocument({
-                content: extractedCode,
-                language: 'cpp'
+            const model = AI_MODELS[currentModel];
+            
+            // Get response with progress indicator
+            const response = await vscode.window.withProgress({
+                location: vscode.ProgressLocation.Notification,
+                title: t('progress.addingComments', model.name),
+                cancellable: false
+            }, async () => {
+                return await callAI(prompt);
             });
             
-            await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
-        } catch (docError) {
-            console.log('Document display warning (can be ignored):', docError.message);
+            // Remove markdown code block markers
+            let cleanedResponse = response;
+            let extractedCode = '';
+            
+            // Search for pattern ```cpp...``` and extract only the code
+            const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```/);
+            if (codeBlockMatch) {
+                extractedCode = codeBlockMatch[1].trim();
+            } else {
+                // Fallback
+                extractedCode = cleanedResponse;
+                extractedCode = extractedCode.replace(/^```(?:cpp|c\+\+|arduino)?\s*\n?/i, '');
+                const endIndex = extractedCode.indexOf('```');
+                if (endIndex !== -1) {
+                    extractedCode = extractedCode.substring(0, endIndex);
+                }
+                extractedCode = extractedCode.trim();
+            }
+            
+            // Create and show document
+            try {
+                const doc = await vscode.workspace.openTextDocument({
+                    content: extractedCode,
+                    language: 'cpp'
+                });
+                
+                await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+            } catch (docError) {
+                console.log('Document display warning (can be ignored):', docError.message);
+            }
+            
+            // Choice dialog
+            const choice = await vscode.window.showInformationMessage(
+                t('messages.commentsAdded'),
+                t('buttons.replaceCode'),
+                t('buttons.keepAsIs')
+            );
+            
+            if (choice === t('buttons.replaceCode')) {
+                await editor.edit(editBuilder => {
+                    editBuilder.replace(selection, extractedCode);
+                });
+                vscode.window.showInformationMessage(t('messages.codeUpdated'));
+            }
+            
+        } catch (error) {
+            handleApiError(error);
         }
-        
-        // Choice dialog
-        const choice = await vscode.window.showInformationMessage(
-            t('messages.commentsAdded'),
-            t('buttons.replaceCode'),
-            t('buttons.keepAsIs')
-        );
-        
-        if (choice === t('buttons.replaceCode')) {
-            await editor.edit(editBuilder => {
-                editBuilder.replace(selection, extractedCode);
-            });
-            vscode.window.showInformationMessage(t('messages.codeUpdated'));
-        }
-        
-    } catch (error) {
-        handleApiError(error);
+    } finally {
+        globalThis.aiduinoCommentsRunning = false;
     }
 }
 
-// ========================================
-// ERROR ANALYSIS
-// ========================================
-
+// Explain error
 async function explainError() {
     const editor = vscode.window.activeTextEditor;
     if (!editor || !editor.document.fileName.endsWith('.ino')) {
@@ -1778,10 +2041,7 @@ async function explainError() {
     }
 }
 
-// ========================================
-// DEBUG HELP
-// ========================================
-
+// Debug help
 async function debugHelp() {
     const editor = vscode.window.activeTextEditor;
     if (!editor) return;
@@ -1877,10 +2137,7 @@ async function debugHelp() {
     }
 }
 
-// ========================================
-// HTML GENERATION
-// ========================================
-
+// HTML generation
 function createErrorExplanationHtml(error, line, explanation, modelId) {
     const model = AI_MODELS[modelId];
     const modelBadge = `<span style="background: ${model.color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${model.name}</span>`;
@@ -2064,10 +2321,7 @@ function createDebugHelpHtml(title, content, modelId) {
     `;
 }
 
-// ========================================
-// OFFLINE HELP
-// ========================================
-
+// Offline help
 function showOfflineHelp() {
     const panel = vscode.window.createWebviewPanel(
         'aiOfflineHelp',
@@ -2187,10 +2441,7 @@ void loop() {
     `;
 }
 
-// ========================================
-// TOKEN STATISTICS
-// ========================================
-
+// Token statistics
 function showTokenStats() {
     let totalCostToday = 0;
     Object.keys(AI_MODELS).forEach(modelId => {
@@ -2320,10 +2571,7 @@ function resetTokenStats() {
     vscode.window.showInformationMessage(t('messages.statsReset'));
 }
 
-// ========================================
-// ABOUT & INFO
-// ========================================
-
+// About Ai.duino
 function showAbout() {
     const panel = vscode.window.createWebviewPanel(
         'aiduinoAbout',
@@ -2441,7 +2689,7 @@ function showAbout() {
         <body>
             <div class="logo">🤖</div>
             <h1>AI.duino</h1>
-            <div class="version">Version 1.3.1</div>
+            <div class="version">Version ${EXTENSION_VERSION}</div>
             
             <p><strong>${t('about.tagline')}</strong></p>
             
@@ -2503,17 +2751,41 @@ function showAbout() {
     `;
 }
 
-// ========================================
-// DEACTIVATION
-// ========================================
-
+// Deactivation
 function deactivate() {
+    // Force final token save if needed (synchronous for shutdown)
+    if (saveTimeout) {
+        clearTimeout(saveTimeout);
+        saveTimeout = null;
+    }
+    
+    // Force final save if queue has pending items
+    if (tokenSaveQueue.length > 0 && !tokenFileLock) {
+        try {
+            const data = JSON.stringify(tokenUsage, null, 2);
+            fs.writeFileSync(TOKEN_USAGE_FILE, data, { mode: 0o600 });
+        } catch (error) {
+            // Silent error on shutdown - don't block deactivation
+        }
+    }
+    
+    // Cleanup all event listeners
+    disposeEventListeners();
+    
+    // Dispose status bar item
     if (statusBarItem) {
         statusBarItem.dispose();
+        statusBarItem = null;
+    }
+    
+    // Clear global references to prevent memory leaks
+    globalContext = null;
+    
+    // Clear any remaining timeouts
+    if (errorTimeout) {
+        clearTimeout(errorTimeout);
+        errorTimeout = null;
     }
 }
-exports.deactivate = deactivate;
 
-// ========================================
-// END OF EXTENSION.JS
-// ========================================
+exports.deactivate = deactivate;

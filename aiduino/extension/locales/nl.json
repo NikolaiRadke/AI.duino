@@ -36,7 +36,9 @@
     "copiedToClipboard": "Gekopieerd naar klembord!",
     "statsReset": "✅ Token-statistieken gereset!",
     "selectModel": "Kies het AI-model",
-    "apiKeyRequired": "{0} vereist een API-sleutel"
+    "apiKeyRequired": "{0} vereist een API-sleutel",
+    "connectionOk": "Połączenie internetowe działa",
+    "noConnection": "Nie wykryto połączenia internetowego"
   },
   
   "buttons": {
@@ -58,7 +60,14 @@
     "keepAsIs": "Ongewijzigd laten",
     "copySolution": "Oplossing kopiëren",
     "copy": "Kopiëren",
-    "resetStats": "Statistieken resetten"
+    "resetStats": "Statistieken resetten",
+    "getApiKey": "Pobierz klucz API",
+    "checkConnection": "Sprawdź połączenie",
+    "checkFirewall": "Sprawdź zaporę",
+    "showTokenStats": "Pokaż statystyki tokenów",
+    "tryAgain": "Spróbuj ponownie",
+    "checkStatus": "Sprawdź status",
+    "checkRouter": "Sprawdź router"
   },
   
   "descriptions": {
@@ -125,7 +134,8 @@
     "optimizing": "{0} optimaliseert de code...",
     "addingComments": "{0} voegt commentaar toe...",
     "analyzingError": "{0} analyseert de fout...",
-    "analyzingProblem": "{0} analyseert het probleem..."
+    "analyzingProblem": "{0} analyseert het probleem...",
+    "testingConnection": "Testowanie połączenia..."
   },
   
   "errors": {

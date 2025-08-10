@@ -36,7 +36,9 @@
     "copiedToClipboard": "Panoya kopyalandı!",
     "statsReset": "✅ Token istatistikleri sıfırlandı!",
     "selectModel": "Yapay zeka modelini seçin",
-    "apiKeyRequired": "{0} bir API anahtarı gerektiriyor"
+    "apiKeyRequired": "{0} bir API anahtarı gerektiriyor",
+    "connectionOk": "İnternet bağlantısı çalışıyor",
+    "noConnection": "İnternet bağlantısı tespit edilmedi"
   },
   
   "buttons": {
@@ -58,7 +60,14 @@
     "keepAsIs": "Olduğu gibi bırak",
     "copySolution": "Çözümü Kopyala",
     "copy": "Kopyala",
-    "resetStats": "İstatistikleri Sıfırla"
+    "resetStats": "İstatistikleri Sıfırla",
+    "getApiKey": "API Anahtarı Al",
+    "checkConnection": "Bağlantıyı Kontrol Et",
+    "checkFirewall": "Güvenlik Duvarını Kontrol Et",
+    "showTokenStats": "Token İstatistiklerini Göster",
+    "tryAgain": "Tekrar Dene",
+    "checkStatus": "Durumu Kontrol Et",
+    "checkRouter": "Yönlendiricini Kontrol Et"
   },
   
   "descriptions": {
@@ -125,7 +134,8 @@
     "optimizing": "{0} kodu optimize ediyor...",
     "addingComments": "{0} yorum ekliyor...",
     "analyzingError": "{0} hatayı analiz ediyor...",
-    "analyzingProblem": "{0} sorunu analiz ediyor..."
+    "analyzingProblem": "{0} sorunu analiz ediyor...",
+    "testingConnection": "Bağlantı test ediliyor..."
   },
   
   "errors": {

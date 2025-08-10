@@ -36,7 +36,9 @@
     "copiedToClipboard": "Copiat în clipboard!",
     "statsReset": "✅ Statisticile tokenilor au fost resetate!",
     "selectModel": "Alegeți modelul AI",
-    "apiKeyRequired": "{0} necesită o cheie API"
+    "apiKeyRequired": "{0} necesită o cheie API",
+    "connectionOk": "Conexiunea la internet funcționează",
+    "noConnection": "Nu s-a detectat conexiune la internet"
   },
   
   "buttons": {
@@ -58,7 +60,14 @@
     "keepAsIs": "Lasă așa cum este",
     "copySolution": "Copiază soluția",
     "copy": "Copiază",
-    "resetStats": "Resetează statisticile"
+    "resetStats": "Resetează statisticile",
+    "getApiKey": "Obține cheia API",
+    "checkConnection": "Verifică conexiunea",
+    "checkFirewall": "Verifică firewall-ul",
+    "showTokenStats": "Arată statisticile token-urilor",
+    "tryAgain": "Încearcă din nou",
+    "checkStatus": "Verifică starea",
+    "checkRouter": "Verifică router-ul"
   },
   
   "descriptions": {
@@ -118,7 +127,8 @@
     "optimizing": "{0} optimizează codul...",
     "addingComments": "{0} adaugă comentarii...",
     "analyzingError": "{0} analizează eroarea...",
-    "analyzingProblem": "{0} analizează problema..."
+    "analyzingProblem": "{0} analizează problema...",
+    "testingConnection": "Testez conexiunea..."
   },
   
   "errors": {

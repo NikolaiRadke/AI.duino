@@ -36,7 +36,9 @@
     "copiedToClipboard": "クリップボードにコピーしました！",
     "statsReset": "✅ トークン統計がリセットされました！",
     "selectModel": "AIモデルを選択",
-    "apiKeyRequired": "{0}にはAPIキーが必要です"
+    "apiKeyRequired": "{0}にはAPIキーが必要です",
+    "connectionOk": "インターネット接続は正常です",
+    "noConnection": "インターネット接続が検出されませんでした"
   },
   
   "buttons": {
@@ -58,7 +60,14 @@
     "keepAsIs": "そのまま保持",
     "copySolution": "解決策をコピー",
     "copy": "コピー",
-    "resetStats": "統計をリセット"
+    "resetStats": "統計をリセット",
+    "getApiKey": "APIキーを取得",
+    "checkConnection": "接続を確認",
+    "checkFirewall": "ファイアウォールを確認",
+    "showTokenStats": "トークン統計を表示",
+    "tryAgain": "再試行",
+    "checkStatus": "ステータスを確認",
+    "checkRouter": "ルーターを確認"
   },
   
   "descriptions": {
@@ -125,7 +134,8 @@
     "optimizing": "{0}がコードを最適化しています...",
     "addingComments": "{0}がコメントを追加しています...",
     "analyzingError": "{0}がエラーを分析しています...",
-    "analyzingProblem": "{0}が問題を分析しています..."
+    "analyzingProblem": "{0}が問題を分析しています...",
+    "testingConnection": "接続をテスト中..."
   },
   
   "errors": {

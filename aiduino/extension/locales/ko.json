@@ -36,7 +36,9 @@
     "copiedToClipboard": "클립보드에 복사되었습니다!",
     "statsReset": "✅ 토큰 통계가 재설정되었습니다!",
     "selectModel": "AI 모델 선택",
-    "apiKeyRequired": "{0}은(는) API 키가 필요합니다"
+    "apiKeyRequired": "{0}은(는) API 키가 필요합니다",
+   "connectionOk": "인터넷 연결이 작동합니다",
+    "noConnection": "인터넷 연결이 감지되지 않았습니다"
   },
   
   "buttons": {
@@ -58,7 +60,14 @@
     "keepAsIs": "그대로 유지",
     "copySolution": "솔루션 복사",
     "copy": "복사",
-    "resetStats": "통계 재설정"
+    "resetStats": "통계 재설정",
+    "getApiKey": "API 키 받기",
+    "checkConnection": "연결 확인",
+    "checkFirewall": "방화벽 확인",
+    "showTokenStats": "토큰 통계 보기",
+    "tryAgain": "다시 시도",
+    "checkStatus": "상태 확인",
+    "checkRouter": "라우터 확인"
   },
   
   "descriptions": {
@@ -125,7 +134,8 @@
     "optimizing": "{0}이(가) 코드를 최적화하는 중...",
     "addingComments": "{0}이(가) 주석을 추가하는 중...",
     "analyzingError": "{0}이(가) 오류를 분석하는 중...",
-    "analyzingProblem": "{0}이(가) 문제를 분석하는 중..."
+    "analyzingProblem": "{0}이(가) 문제를 분석하는 중...",
+    "testingConnection": "연결 테스트 중..."
   },
   
   "errors": {

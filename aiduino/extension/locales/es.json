@@ -36,7 +36,9 @@
     "copiedToClipboard": "¡Copiado al portapapeles!",
     "statsReset": "✅ ¡Estadísticas de tokens reiniciadas!",
     "selectModel": "Elige el modelo de IA",
-    "apiKeyRequired": "{0} requiere una clave API"
+    "apiKeyRequired": "{0} requiere una clave API",
+    "connectionOk": "La conexión a internet funciona",
+    "noConnection": "No se detectó conexión a internet"
   },
   
   "buttons": {
@@ -58,7 +60,14 @@
     "keepAsIs": "Dejar como está",
     "copySolution": "Copiar solución",
     "copy": "Copiar",
-    "resetStats": "Reiniciar estadísticas"
+    "resetStats": "Reiniciar estadísticas",
+"getApiKey": "Obtener clave API",
+    "checkConnection": "Verificar conexión",
+    "checkFirewall": "Verificar firewall",
+    "showTokenStats": "Mostrar estadísticas de tokens",
+    "tryAgain": "Intentar de nuevo",
+    "checkStatus": "Verificar estado",
+    "checkRouter": "Verificar router"
   },
   
   "descriptions": {
@@ -125,7 +134,8 @@
     "optimizing": "{0} está optimizando el código...",
     "addingComments": "{0} está añadiendo comentarios...",
     "analyzingError": "{0} está analizando el error...",
-    "analyzingProblem": "{0} está analizando el problema..."
+    "analyzingProblem": "{0} está analizando el problema...",
+    "testingConnection": "Probando conexión..."
   },
   
   "errors": {

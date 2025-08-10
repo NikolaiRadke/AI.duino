@@ -36,7 +36,9 @@
     "copiedToClipboard": "Αντιγράφηκε στο πρόχειρο!",
     "statsReset": "✅ Τα στατιστικά token επαναφέρθηκαν!",
     "selectModel": "Επιλέξτε το μοντέλο AI",
-    "apiKeyRequired": "Το {0} απαιτεί κλειδί API"
+    "apiKeyRequired": "Το {0} απαιτεί κλειδί API",
+    "connectionOk": "Η σύνδεση στο διαδίκτυο λειτουργεί",
+    "noConnection": "Δεν εντοπίστηκε σύνδεση στο διαδίκτυο"
   },
   
   "buttons": {
@@ -58,7 +60,14 @@
     "keepAsIs": "Διατήρηση ως έχει",
     "copySolution": "Αντιγραφή Λύσης",
     "copy": "Αντιγραφή",
-    "resetStats": "Επαναφορά Στατιστικών"
+    "resetStats": "Επαναφορά Στατιστικών",
+    "getApiKey": "Λήψη κλειδιού API",
+    "checkConnection": "Έλεγχος σύνδεσης",
+    "checkFirewall": "Έλεγχος τείχους προστασίας",
+    "showTokenStats": "Εμφάνιση στατιστικών tokens",
+    "tryAgain": "Προσπάθεια ξανά",
+    "checkStatus": "Έλεγχος κατάστασης",
+    "checkRouter": "Έλεγχος δρομολογητή"
   },
   
   "descriptions": {
@@ -125,7 +134,8 @@
     "optimizing": "Το {0} βελτιστοποιεί τον κώδικα...",
     "addingComments": "Το {0} προσθέτει σχόλια...",
     "analyzingError": "Το {0} αναλύει το σφάλμα...",
-    "analyzingProblem": "Το {0} αναλύει το πρόβλημα..."
+    "analyzingProblem": "Το {0} αναλύει το πρόβλημα...",
+    "testingConnection": "Έλεγχος σύνδεσης..."
   },
   
   "errors": {

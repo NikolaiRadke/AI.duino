@@ -36,7 +36,9 @@
     "copiedToClipboard": "Kopierat till urklipp!",
     "statsReset": "✅ Token-statistik återställd!",
     "selectModel": "Välj AI-modell",
-    "apiKeyRequired": "{0} kräver en API-nyckel"
+    "apiKeyRequired": "{0} kräver en API-nyckel",
+    "connectionOk": "Internetanslutningen fungerar",
+    "noConnection": "Ingen internetanslutning upptäckt"
   },
   
   "buttons": {
@@ -58,7 +60,14 @@
     "keepAsIs": "Behåll som den är",
     "copySolution": "Kopiera lösning",
     "copy": "Kopiera",
-    "resetStats": "Återställ statistik"
+    "resetStats": "Återställ statistik",
+    "getApiKey": "Hämta API-nyckel",
+    "checkConnection": "Kontrollera anslutning",
+    "checkFirewall": "Kontrollera brandvägg",
+    "showTokenStats": "Visa token-statistik",
+    "tryAgain": "Försök igen",
+    "checkStatus": "Kontrollera status",
+    "checkRouter": "Kontrollera router"
   },
   
   "descriptions": {
@@ -125,7 +134,8 @@
     "optimizing": "{0} optimerar koden...",
     "addingComments": "{0} lägger till kommentarer...",
     "analyzingError": "{0} analyserar felet...",
-    "analyzingProblem": "{0} analyserar problemet..."
+    "analyzingProblem": "{0} analyserar problemet...",
+    "testingConnection": "Testar anslutning..."
   },
   
   "errors": {
