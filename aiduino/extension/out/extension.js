@@ -17,6 +17,8 @@
  * Changelog:
  * Updated de.json by myself (only few changes)
  * Reworked package.json
+ * Added execution state manager
+ * Better token usage estimation
  */
 
 "use strict";
@@ -41,6 +43,37 @@ let aiConversationContext = {
     lastCode: null,
     timestamp: null
 };
+
+class ExecutionStateManager {
+    constructor() {
+        this.states = new Map();
+        this.OPERATIONS = {
+            EXPLAIN: 'explain',
+            IMPROVE: 'improve',
+            COMMENTS: 'comments',
+            DEBUG: 'debug',
+            ASK: 'ask',
+            ERROR: 'error'
+        };
+    }
+    
+    isRunning(operation) {
+        return this.states.has(operation) && this.states.get(operation) === true;
+    }
+    
+    start(operation) {
+        if (this.isRunning(operation)) {
+            return false; // Already running
+        }
+        this.states.set(operation, true);
+        return true;
+    }
+    
+    stop(operation) {
+        this.states.delete(operation);
+    }
+}
+const executionStates = new ExecutionStateManager();
 
 // Language Metadate
 const LANGUAGE_METADATA = {
@@ -107,7 +140,6 @@ const LANGUAGE_METADATA = {
 // Cache für verfügbare Locales
 let availableLocales = null;
 
-// NEU:
 function getVersionFromPackage() {
     try {
         const packagePath = path.join(__dirname, '..', 'package.json');
@@ -140,17 +172,11 @@ function getAvailableLocales() {
             });
         }
     } catch (error) {
-        // Silent fallback to known languages
+        // Silent fallback
         return ['en', 'de'];
     }
+    
     return ['en', ...availableLocales.filter(l => l !== 'en').sort()];
-}
-
-function getSupportedLocales() {
-    if (!availableLocales) {
-        availableLocales = getAvailableLocales();
-    }
-    return availableLocales;
 }
 
 // Get language info from metadata
@@ -172,7 +198,7 @@ function loadLocale() {
         // Auto-Detection with dynamic list
         const vscodeLocale = vscode.env.language || 'en';
         const detectedLang = vscodeLocale.substring(0, 2);
-        const supportedLocales = getSupportedLocales();
+        const supportedLocales = getAvailableLocales(); 
         
         currentLocale = supportedLocales.includes(detectedLang) ? detectedLang : 'en';
     }
@@ -451,7 +477,7 @@ function registerCommands(context) {
 }
 
 async function switchLanguage() {
-    const supportedLocales = getSupportedLocales(); 
+    const supportedLocales = getAvailableLocales(); 
     const availableLanguages = [
         { 
             label: '🌐 Auto (VS Code)', 
@@ -673,19 +699,19 @@ function loadTokenUsage() {
 }
 
 function saveTokenUsage() {
-    // Add to queue instead of immediate save
+    // Add to queue
     if (!tokenSaveQueue.includes('save')) {
         tokenSaveQueue.push('save');
     }
     
-    // Debounced save - sammelt mehrere Saves in kurzer Zeit
+    // Debounced save
     if (saveTimeout) {
         clearTimeout(saveTimeout);
     }
     
     saveTimeout = setTimeout(() => {
         processSaveQueue();
-    }, 100); // 100ms delay to batch multiple saves
+    }, 500); // 500ms delay - more stable
 }
 
 function processSaveQueue() {
@@ -777,20 +803,15 @@ function processSaveQueue() {
 function estimateTokens(text) {
     if (!text) return 0;
     
-    // Base: ~4 characters = 1 token for normal text
-    let tokens = text.length / 4;
+    // Better estimation for code vs text
+    const words = text.split(/\s+/).length;
+    const codeBlocks = (text.match(/```/g) || []).length / 2;
+    const specialChars = (text.match(/[{}()\[\];,.<>]/g) || []).length;
     
-    // Code has more tokens due to syntax
-    const codeIndicators = text.match(/[{}()\[\];,.<>]/g);
-    if (codeIndicators) {
-        tokens += codeIndicators.length * 0.3;
-    }
-    
-    // New lines also count as tokens
-    const newlines = text.match(/\n/g);
-    if (newlines) {
-        tokens += newlines.length;
-    }
+    // Base: ~0.75 words per token (more accurate than character count)
+    let tokens = words * 0.75;
+    tokens += codeBlocks * 10;   // Code blocks need more tokens
+    tokens += specialChars * 0.2; // Syntax characters
     
     return Math.ceil(tokens);
 }
@@ -1075,6 +1096,11 @@ function getProviderName(modelId) {
 
 function handleApiError(error) {
     const model = AI_MODELS[currentModel];
+
+    // Add model context to all errors if not present
+    if (!error.message.includes(model.name)) {
+        error.message = `${model.name}: ${error.message}`;
+    }
     
     // Use error types for enhanced errors (from enhanceError function)
     if (error.type === 'API_KEY_ERROR') {
@@ -1739,11 +1765,11 @@ function handleNetworkError(error) {
 
 // Explain Code
 async function explainCode() {
-    if (globalThis.aiduinoExplainRunning) {
+    // Check if already running
+    if (!executionStates.start(executionStates.OPERATIONS.EXPLAIN)) {
         vscode.window.showInformationMessage("Code Explanation is already running! Please wait...");
         return;
     }
-    globalThis.aiduinoExplainRunning = true;
     
     try {
         const editor = vscode.window.activeTextEditor;
@@ -1782,23 +1808,18 @@ async function explainCode() {
             handleApiError(error);
         }
     } finally {
-        globalThis.aiduinoExplainRunning = false;
+        // Always cleanup
+        executionStates.stop(executionStates.OPERATIONS.EXPLAIN);
     }
-}   
+}
     
 // Improve Code
 async function improveCode() {
-    if (globalThis.aiduinoImproveRunning) {
+     // Check if already running
+    if (!executionStates.start(executionStates.OPERATIONS.IMPROVE)) {
         vscode.window.showInformationMessage("Code Improvement is already running! Please wait...");
         return;
     }
-    globalThis.aiduinoImproveRunning = true;
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-        vscode.window.showWarningMessage(t('messages.noEditor'));
-        return;
-    }
-    globalThis.aiduinoImproveRunning = true;
     
     try {
         const selection = editor.selection;
@@ -1909,16 +1930,17 @@ async function improveCode() {
             handleApiError(error);
         }
     } finally {
-        globalThis.aiduinoImproveRunning = false;
+        // Always cleanup
+        executionStates.stop(executionStates.OPERATIONS.IMPROVE);
     }
 }   
     
 async function addComments() {
-    if (globalThis.aiduinoCommentsRunning) {
+     // Check if already running
+    if (!executionStates.start(executionStates.OPERATIONS.COMMENTS)) {
         vscode.window.showInformationMessage("Add Comments is already running! Please wait...");
         return;
     }
-    globalThis.aiduinoCommentsRunning = true;
     
     try {
         const editor = vscode.window.activeTextEditor;
@@ -2025,275 +2047,309 @@ async function addComments() {
             handleApiError(error);
         }
     } finally {
-        globalThis.aiduinoCommentsRunning = false;
+        // Always cleanup
+        executionStates.stop(executionStates.OPERATIONS.COMMENTS);
     }
 }
 
 // Explain error
 async function explainError() {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor || !editor.document.fileName.endsWith('.ino')) {
-        vscode.window.showWarningMessage(t('messages.openInoFile'));
+    // Check if already running
+    if (!executionStates.start(executionStates.OPERATIONS.ERROR)) {
+        vscode.window.showInformationMessage("Error Explanation is already running! Please wait...");
         return;
     }
     
-    // For Arduino files, directly ask for error
-    const errorInput = await vscode.window.showInputBox({
-        prompt: t('prompts.pasteError'),
-        placeHolder: t('placeholders.errorExample'),
-        ignoreFocusOut: true
-    });
-    
-    if (!errorInput) return;
-    
-    // Get code context around current cursor position
-    const line = editor.selection.active.line;
-    const startLine = Math.max(0, line - 5);
-    const endLine = Math.min(editor.document.lineCount - 1, line + 5);
-    const codeContext = editor.document.getText(
-        new vscode.Range(startLine, 0, endLine, Number.MAX_VALUE)
-    );
-    
-    const prompt = t('prompts.explainError', errorInput, line + 1, codeContext);
-    
     try {
-        const model = AI_MODELS[currentModel];
-        await withRetryableProgress(
-            t('progress.analyzingError', model.name),
-            async () => {
-                const response = await callAI(prompt);
-                
-                const panel = vscode.window.createWebviewPanel(
-                    'aiError',
-                    t('panels.errorExplanation'),
-                    vscode.ViewColumn.Beside,
-                    { enableScripts: true }
-                );
-                
-                panel.webview.html = createErrorExplanationHtml(
-                    errorInput,
-                    line + 1,
-                    response,
-                    currentModel
-                );
-            }
+        const editor = vscode.window.activeTextEditor;
+        if (!editor || !editor.document.fileName.endsWith('.ino')) {
+            vscode.window.showWarningMessage(t('messages.openInoFile'));
+            return;
+        }
+        
+        // For Arduino files, directly ask for error
+        const errorInput = await vscode.window.showInputBox({
+            prompt: t('prompts.pasteError'),
+            placeHolder: t('placeholders.errorExample'),
+            ignoreFocusOut: true
+        });
+        
+        if (!errorInput) return;
+        
+        // Get code context around current cursor position
+        const line = editor.selection.active.line;
+        const startLine = Math.max(0, line - 5);
+        const endLine = Math.min(editor.document.lineCount - 1, line + 5);
+        const codeContext = editor.document.getText(
+            new vscode.Range(startLine, 0, endLine, Number.MAX_VALUE)
         );
-    } catch (error) {
-        handleApiError(error);
+        
+        const prompt = t('prompts.explainError', errorInput, line + 1, codeContext);
+        
+        try {
+            const model = AI_MODELS[currentModel];
+            await withRetryableProgress(
+                t('progress.analyzingError', model.name),
+                async () => {
+                    const response = await callAI(prompt);
+                    
+                    const panel = vscode.window.createWebviewPanel(
+                        'aiError',
+                        t('panels.errorExplanation'),
+                        vscode.ViewColumn.Beside,
+                        { enableScripts: true }
+                    );
+                    
+                    panel.webview.html = createErrorExplanationHtml(
+                        errorInput,
+                        line + 1,
+                        response,
+                        currentModel
+                    );
+                }
+            );
+        } catch (error) {
+            handleApiError(error);
+        }
+    } finally {
+        // Always cleanup
+        executionStates.stop(executionStates.OPERATIONS.ERROR);
     }
 }
 
 // Debug help
 async function debugHelp() {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) return;
-    
-    const options = [
-        {
-            label: '$(search) ' + t('debug.analyzeSerial'),
-            description: t('debug.analyzeSerialDesc'),
-            value: 'serial'
-        },
-        {
-            label: '$(circuit-board) ' + t('debug.hardwareProblem'),
-            description: t('debug.hardwareProblemDesc'),
-            value: 'hardware'
-        },
-        {
-            label: '$(watch) ' + t('debug.addDebugCode'),
-            description: t('debug.addDebugCodeDesc'),
-            value: 'debug'
-        },
-        {
-            label: '$(pulse) ' + t('debug.timingProblems'),
-            description: t('debug.timingProblemsDesc'),
-            value: 'timing'
-        }
-    ];
-    
-    const selected = await vscode.window.showQuickPick(options, {
-        placeHolder: t('debug.selectHelp')
-    });
-    
-    if (!selected) return;
-    
-    let prompt = '';
-    let needsCode = true;
-    
-    switch (selected.value) {
-        case 'serial':
-            const serialOutput = await vscode.window.showInputBox({
-                prompt: t('prompts.pasteSerial'),
-                placeHolder: t('placeholders.serialExample'),
-                ignoreFocusOut: true
-            });
-            if (!serialOutput) return;
-            
-            const codeForSerial = editor.selection.isEmpty ? '' : editor.document.getText(editor.selection);
-            prompt = t('prompts.analyzeSerial', serialOutput, codeForSerial);
-            needsCode = false;
-            break;
-            
-        case 'hardware':
-            const hardwareCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-            prompt = t('prompts.hardwareDebug', hardwareCode);
-            break;
-            
-        case 'debug':
-            const debugCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-            prompt = t('prompts.addDebugStatements', debugCode);
-            break;
-            
-        case 'timing':
-            const timingCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-            prompt = t('prompts.analyzeTiming', timingCode);
-            break;
-    }
-    
-    if (needsCode && editor.selection.isEmpty) {
-        vscode.window.showWarningMessage(
-            t('messages.selectRelevantCode')
-        );
+    // Check if already running
+    if (!executionStates.start(executionStates.OPERATIONS.DEBUG)) {
+        vscode.window.showInformationMessage("Debug Help is already running! Please wait...");
         return;
     }
     
     try {
-        const model = AI_MODELS[currentModel];
-        await withRetryableProgress(
-            t('progress.analyzingProblem', model.name),
-            async () => {
-                const response = await callAI(prompt);
-                
-                const panel = vscode.window.createWebviewPanel(
-                    'aiDebug',
-                    t('panels.debugHelp'),
-                    vscode.ViewColumn.Beside,
-                    { enableScripts: true }
-                );
-                
-                panel.webview.html = createDebugHelpHtml(selected.label, response, currentModel);
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) return;
+        
+        const options = [
+            {
+                label: '$(search) ' + t('debug.analyzeSerial'),
+                description: t('debug.analyzeSerialDesc'),
+                value: 'serial'
+            },
+            {
+                label: '$(circuit-board) ' + t('debug.hardwareProblem'),
+                description: t('debug.hardwareProblemDesc'),
+                value: 'hardware'
+            },
+            {
+                label: '$(watch) ' + t('debug.addDebugCode'),
+                description: t('debug.addDebugCodeDesc'),
+                value: 'debug'
+            },
+            {
+                label: '$(pulse) ' + t('debug.timingProblems'),
+                description: t('debug.timingProblemsDesc'),
+                value: 'timing'
             }
-        );
-    } catch (error) {
-        handleApiError(error);
+        ];
+        
+        const selected = await vscode.window.showQuickPick(options, {
+            placeHolder: t('debug.selectHelp')
+        });
+        
+        if (!selected) return;
+        
+        let prompt = '';
+        let needsCode = true;
+        
+        switch (selected.value) {
+            case 'serial':
+                const serialOutput = await vscode.window.showInputBox({
+                    prompt: t('prompts.pasteSerial'),
+                    placeHolder: t('placeholders.serialExample'),
+                    ignoreFocusOut: true
+                });
+                if (!serialOutput) return;
+                
+                const codeForSerial = editor.selection.isEmpty ? '' : editor.document.getText(editor.selection);
+                prompt = t('prompts.analyzeSerial', serialOutput, codeForSerial);
+                needsCode = false;
+                break;
+                
+            case 'hardware':
+                const hardwareCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
+                prompt = t('prompts.hardwareDebug', hardwareCode);
+                break;
+                
+            case 'debug':
+                const debugCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
+                prompt = t('prompts.addDebugStatements', debugCode);
+                break;
+                
+            case 'timing':
+                const timingCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
+                prompt = t('prompts.analyzeTiming', timingCode);
+                break;
+        }
+        
+        if (needsCode && editor.selection.isEmpty) {
+            vscode.window.showWarningMessage(
+                t('messages.selectRelevantCode')
+            );
+            return;
+        }
+        
+        try {
+            const model = AI_MODELS[currentModel];
+            await withRetryableProgress(
+                t('progress.analyzingProblem', model.name),
+                async () => {
+                    const response = await callAI(prompt);
+                    
+                    const panel = vscode.window.createWebviewPanel(
+                        'aiDebug',
+                        t('panels.debugHelp'),
+                        vscode.ViewColumn.Beside,
+                        { enableScripts: true }
+                    );
+                    
+                    panel.webview.html = createDebugHelpHtml(selected.label, response, currentModel);
+                }
+            );
+        } catch (error) {
+            handleApiError(error);
+        }
+    } finally {
+        // Always cleanup
+        executionStates.stop(executionStates.OPERATIONS.DEBUG);
     }
 }
 
 // Ask AI
 async function askAI(isFollowUp = false) {
-    // Check if follow-up is possible
-    if (isFollowUp && !hasValidContext()) {
-        vscode.window.showWarningMessage(t('messages.noValidContext'));
+    // Check if already running
+    if (!executionStates.start(executionStates.OPERATIONS.ASK)) {
+        vscode.window.showInformationMessage("AI question is already running! Please wait...");
         return;
     }
-
-    // Check if API key is available
-    if (!apiKeys[currentModel]) {
-        const model = AI_MODELS[currentModel];
-        const choice = await vscode.window.showWarningMessage(
-            t('messages.noApiKey', model.name),
-            t('buttons.setupNow'),
-            t('buttons.switchModel'),
-            t('buttons.cancel')
-        );
-        if (choice === t('buttons.setupNow')) {
-            await setApiKey();
-            if (!apiKeys[currentModel]) return;
-        } else if (choice === t('buttons.switchModel')) {
-            await switchModel();
-            if (!apiKeys[currentModel]) return;
-        } else {
+    
+    try {
+        // Check if follow-up is possible
+        if (isFollowUp && !hasValidContext()) {
+            vscode.window.showWarningMessage(t('messages.noValidContext'));
             return;
         }
-    }
 
-    // Different prompts for follow-up vs new question
-    const promptText = isFollowUp ? t('prompts.askFollowUp') : t('prompts.askAI');
-    const placeholderText = isFollowUp ? t('placeholders.askFollowUp') : t('placeholders.askAI');
-
-    // Show context info for follow-ups
-    if (isFollowUp) {
-        const contextAge = Math.round((Date.now() - aiConversationContext.timestamp) / 60000);
-        vscode.window.showInformationMessage(
-            t('messages.followUpContext', aiConversationContext.lastQuestion, contextAge)
-        );
-    }
-
-    // Input dialog
-    const question = await vscode.window.showInputBox({
-        prompt: promptText,
-        placeHolder: placeholderText,
-        ignoreFocusOut: true
-    });
-
-    if (!question || !question.trim()) {
-        return;
-    }
-
-    // Build final prompt
-    let finalPrompt;
-    let currentCode = null;
-
-    if (isFollowUp) {
-        // Build context-aware follow-up prompt
-        finalPrompt = buildFollowUpPrompt(question);
-        currentCode = aiConversationContext.lastCode; // Keep original code context
-    } else {
-        // Handle new question with optional code context
-        const editor = vscode.window.activeTextEditor;
-        finalPrompt = question;
-
-        if (editor && !editor.selection.isEmpty) {
-            const includeCode = await vscode.window.showQuickPick([
-                {
-                    label: t('chat.includeSelectedCode'),
-                    description: t('chat.includeSelectedCodeDesc'),
-                    value: true
-                },
-                {
-                    label: t('chat.questionOnly'), 
-                    description: t('chat.questionOnlyDesc'),
-                    value: false
-                }
-            ], {
-                placeHolder: t('chat.selectContext'),
-                ignoreFocusOut: true
-            });
-
-            if (includeCode === undefined) return;
-
-            if (includeCode.value) {
-                currentCode = editor.document.getText(editor.selection);
-                finalPrompt = t('prompts.askAIWithContext', question, currentCode);
+        // Check if API key is available
+        if (!apiKeys[currentModel]) {
+            const model = AI_MODELS[currentModel];
+            const choice = await vscode.window.showWarningMessage(
+                t('messages.noApiKey', model.name),
+                t('buttons.setupNow'),
+                t('buttons.switchModel'),
+                t('buttons.cancel')
+            );
+            if (choice === t('buttons.setupNow')) {
+                await setApiKey();
+                if (!apiKeys[currentModel]) return;
+            } else if (choice === t('buttons.switchModel')) {
+                await switchModel();
+                if (!apiKeys[currentModel]) return;
+            } else {
+                return;
             }
         }
-    }
 
-    // Call AI and show response
-    try {
-        const model = AI_MODELS[currentModel];
-        
-        const response = await vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-            title: isFollowUp ? t('progress.askingFollowUp', model.name) : t('progress.askingAI', model.name),
-            cancellable: false
-        }, async () => {
-            return await callAI(finalPrompt);
+        // Different prompts for follow-up vs new question
+        const promptText = isFollowUp ? t('prompts.askFollowUp') : t('prompts.askAI');
+        const placeholderText = isFollowUp ? t('placeholders.askFollowUp') : t('placeholders.askAI');
+
+        // Show context info for follow-ups
+        if (isFollowUp) {
+            const contextAge = Math.round((Date.now() - aiConversationContext.timestamp) / 60000);
+            vscode.window.showInformationMessage(
+                t('messages.followUpContext', aiConversationContext.lastQuestion, contextAge)
+            );
+        }
+
+        // Input dialog
+        const question = await vscode.window.showInputBox({
+            prompt: promptText,
+            placeHolder: placeholderText,
+            ignoreFocusOut: true
         });
 
-        // Store context for potential follow-ups
-        aiConversationContext = {
-            lastQuestion: question,
-            lastAnswer: response,
-            lastCode: currentCode,
-            timestamp: Date.now()
-        };
+        if (!question || !question.trim()) {
+            return;
+        }
 
-        // Show response with follow-up hints
-        showAIResponseWithFollowUp(model, question, response, isFollowUp);
+        // Build final prompt
+        let finalPrompt;
+        let currentCode = null;
 
-    } catch (error) {
-        handleApiError(error);
+        if (isFollowUp) {
+            // Build context-aware follow-up prompt
+            finalPrompt = buildFollowUpPrompt(question);
+            currentCode = aiConversationContext.lastCode; // Keep original code context
+        } else {
+            // Handle new question with optional code context
+            const editor = vscode.window.activeTextEditor;
+            finalPrompt = question;
+
+            if (editor && !editor.selection.isEmpty) {
+                const includeCode = await vscode.window.showQuickPick([
+                    {
+                        label: t('chat.includeSelectedCode'),
+                        description: t('chat.includeSelectedCodeDesc'),
+                        value: true
+                    },
+                    {
+                        label: t('chat.questionOnly'), 
+                        description: t('chat.questionOnlyDesc'),
+                        value: false
+                    }
+                ], {
+                    placeHolder: t('chat.selectContext'),
+                    ignoreFocusOut: true
+                });
+
+                if (includeCode === undefined) return;
+
+                if (includeCode.value) {
+                    currentCode = editor.document.getText(editor.selection);
+                    finalPrompt = t('prompts.askAIWithContext', question, currentCode);
+                }
+            }
+        }
+
+        // Call AI and show response
+        try {
+            const model = AI_MODELS[currentModel];
+            
+            const response = await vscode.window.withProgress({
+                location: vscode.ProgressLocation.Notification,
+                title: isFollowUp ? t('progress.askingFollowUp', model.name) : t('progress.askingAI', model.name),
+                cancellable: false
+            }, async () => {
+                return await callAI(finalPrompt);
+            });
+
+            // Store context for potential follow-ups
+            aiConversationContext = {
+                lastQuestion: question,
+                lastAnswer: response,
+                lastCode: currentCode,
+                timestamp: Date.now()
+            };
+
+            // Show response with follow-up hints
+            showAIResponseWithFollowUp(model, question, response, isFollowUp);
+
+        } catch (error) {
+            handleApiError(error);
+        }
+    } finally {
+        // Always cleanup
+        executionStates.stop(executionStates.OPERATIONS.ASK);
     }
 }
 
@@ -2964,6 +3020,12 @@ function showAbout() {
 
 // Deactivation
 function deactivate() {
+    // Cleanup execution states
+    if (executionStates) {
+        // Clear all states
+        executionStates.states.clear();
+    }
+
     // Force final token save if needed (synchronous for shutdown)
     if (saveTimeout) {
         clearTimeout(saveTimeout);
