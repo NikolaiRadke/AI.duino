@@ -2,7 +2,7 @@
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "AI-powered assistance for Arduino with Claude, ChatGPT, Gemini and Mistral: improve code, explain errors, debug help",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "publisher": "Monster Maker",
   "engines": {
     "vscode": "^1.60.0"
@@ -61,7 +61,7 @@
       },
       {
         "command": "aiduino.askAI",
-        "title": "Ask AI", 
+        "title": "Ask AI",
         "category": "AI.duino"
       },
       {
@@ -69,6 +69,12 @@
         "title": "Debug Help",
         "category": "AI.duino",
         "icon": "$(bug)"
+      },
+      {
+        "command": "aiduino.switchLanguage",
+        "title": "Switch Language",
+        "category": "AI.duino",
+        "icon": "$(globe)"
       },
       {
         "command": "aiduino.showTokenStats",
@@ -104,35 +110,35 @@
       },
       {
         "command": "aiduino.askAI",
-        "key": "ctrl+shift+a",  
-        "mac": "cmd+shift+a",     
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a",
         "when": "editorTextFocus"
       }
     ],
     "menus": {
       "editor/context": [
-      {
-        "command": "aiduino.quickMenu",
-        "group": "1_modification",
-        "when": "resourceExtname == .ino"
-      },
-      {
-        "command": "aiduino.quickMenu", 
-        "group": "1_modification",
-        "when": "resourceExtname == .cpp"
-      },
-      {
-        "command": "aiduino.quickMenu",
-        "group": "1_modification", 
-        "when": "resourceExtname == .h"
-      },
-      {
-        "command": "aiduino.quickMenu",
-        "group": "1_modification",
-        "when": "resourceExtname == .c"
-      }
-    ]
-  },
+        {
+          "command": "aiduino.quickMenu",
+          "group": "1_modification",
+          "when": "resourceExtname == .ino"
+        },
+        {
+          "command": "aiduino.quickMenu",
+          "group": "1_modification",
+          "when": "resourceExtname == .cpp"
+        },
+        {
+          "command": "aiduino.quickMenu",
+          "group": "1_modification",
+          "when": "resourceExtname == .h"
+        },
+        {
+          "command": "aiduino.quickMenu",
+          "group": "1_modification",
+          "when": "resourceExtname == .c"
+        }
+      ]
+    },
     "configuration": {
       "title": "AI.duino",
       "properties": {
@@ -158,24 +164,10 @@
           "default": "claude",
           "description": "Default AI model on startup"
         },
-        "aiduino.preferredLanguage": {
+        "aiduino.language": {
           "type": "string",
-          "enum": ["auto", "en", "de", "es", "fr", "it", "pt", "zh", "ja", "ko", "ru"],
-          "enumDescriptions": [
-            "Auto-detect from VS Code",
-            "English",
-            "Deutsch",
-            "Español",
-            "Français",
-            "Italiano",
-            "Português",
-            "中文",
-            "日本語",
-            "한국어",
-            "Русский"
-          ],
           "default": "auto",
-          "description": "Preferred language for AI responses (auto-detects from VS Code)"
+          "description": "Language for plugin UI and AI responses. Use 'auto' for VS Code language detection, or specify a language code (e.g., 'en', 'de', 'fr', 'ro'). Available languages are automatically detected from the locales folder."
         },
         "aiduino.maxTokensPerRequest": {
           "type": "number",
@@ -214,22 +206,7 @@
       }
     }
   },
-  "aiduino.language": {
-    "type": "string",
-    "enum": [
-      "auto", "en", "de", "es", "fr", "it", "pt", "zh", "ja", 
-      "ko", "ru", "nl", "pl", "tr", "el", "cs", "sv"
-    ],
-    "enumDescriptions": [
-      "Auto (VS Code language, fallback to English)",
-      "English", "Deutsch", "Español", "Français", "Italiano", 
-      "Português", "中文", "日本語", "한국어", "Русский", 
-      "Nederlands", "Polski", "Türkçe", "Ελληνικά", "Čeština", "Svenska"
-    ],
-    "default": "auto",
-    "description": "Language for plugin UI and AI responses"
-  },
-   "author": {
+  "author": {
     "name": "Monster Maker"
   },
   "license": "Apache-2.0",

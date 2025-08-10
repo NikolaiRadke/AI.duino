@@ -15,8 +15,8 @@
  * limitations under the License.
  *
  * Changelog:
- * Updated installers for better internationalization
- * Added Ask AI function with follow-up questions
+ * Updated de.json by myself (only few changes)
+ * Reworked package.json
  */
 
 "use strict";
