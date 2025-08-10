@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **10.08.2025** Release **V1.3.2** release with several bug fixes and optimizations.  
 * **09.08.2025** Release **V1.3.1** release. Non-IDE languages like sv (Swedish) are now supported and selectable in the plugin menu.   
 * **08.08.2025** Release **V1.3** with l18n support: en, de, fr, it, es, tr, pl, po, el, nl, cs, sv, ja, ko, zh.  
 * **05.08.2025** Release **V1.2** with better code optimization and commenting.  
