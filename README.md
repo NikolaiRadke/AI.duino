@@ -6,7 +6,7 @@ AI.duino integrates Claude, ChatGPT, Gemini and Mistral directly into the Arduin
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **10.08.2025** Release **V1.3.2** release with several bug fixes and optimizations.  
+* **10.08.2025** Release **V1.4.0** with new direct AI question function with follow up.
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/tree/main/NEWS.md).
    
 ## Features
@@ -28,6 +28,9 @@ Adds meaningful comments to existing code.
 ### Error analysis
 Explains compiler error messages and provides concrete solutions.
 When using this feature, you copy the error message from the Arduino output window.
+
+### Direct AI question with follow up questions
+Ask something with or without marked code. You can ask further context-related.
 
 ### Debug support
 - Analysis of Serial Monitor output
