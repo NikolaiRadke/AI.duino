@@ -6,7 +6,7 @@ AI.duino integrates Claude, ChatGPT, Gemini and Mistral directly into the Arduin
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **09.08.2025** Release **V1.3.1** release. Non-IDE languages like sv (Swedish) are now supported and selectable in the plugin menu.   
+* **10.08.2025** Release **V1.3.2** release with several bug fixes and optimizations.  
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/tree/main/NEWS.md).
    
 ## Features
