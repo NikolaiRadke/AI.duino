@@ -15,12 +15,7 @@
  * limitations under the License.
  *
  * Changelog:
- * Updated de.json by myself (only few changes)
- * Reworked package.json
- * Added execution state manager
- * Better token usage estimation
- * Escape HTML (XSS) fix 
- * Board auto detection für prompts
+ * Better board name rendering
  */
 
 "use strict";
@@ -248,6 +243,16 @@ function detectBoardFromComments() {
 function getBoardContext() {
     const board = detectArduinoBoard();
     return board ? `\n\nTarget Board: ${board}` : '';
+}
+
+function getBoardDisplayName(fqbn) {
+    if (!fqbn) return '—';
+    // Split by colon and take last part
+    const parts = fqbn.split(':');
+    if (parts.length < 3) {
+        return fqbn;
+    }
+    return `${parts[0]}:${parts[2]}`;
 }
 
 // Language Metadate
@@ -1065,7 +1070,8 @@ async function showWelcomeMessage() {
 async function showQuickMenu() {
     const model = AI_MODELS[currentModel];
     const hasApiKey = apiKeys[currentModel];
-    const board = detectArduinoBoard();  // ADD THIS
+    const board = detectArduinoBoard();
+    const boardDisplay = getBoardDisplayName(board);  // Use short name
     
     if (!hasApiKey) {
         const choice = await vscode.window.showWarningMessage(
@@ -1134,7 +1140,7 @@ async function showQuickMenu() {
         },
         {
             label: '$(circuit-board) Board',
-            description: board || '-',
+            description: boardDisplay,
             command: null  // Not clickable, just info
         },
         {
@@ -1657,12 +1663,6 @@ class UnifiedAPIClient {
         this.maxRetries = 3;
     }
 
-    /**
-     * Hauptmethode für alle API-Aufrufe
-     * @param {string} modelId - ID des Modells (claude, chatgpt, gemini, mistral)
-     * @param {string} prompt - Der Prompt für die KI
-     * @returns {Promise<string>} - Antwort der KI
-     */
     async callAPI(modelId, prompt) {
         if (!apiKeys[modelId]) {
             throw new Error(t('errors.noApiKey', AI_MODELS[modelId].name));
@@ -1690,9 +1690,6 @@ class UnifiedAPIClient {
         }
     }
 
-    /**
-     * Generiert die spezifische Konfiguration für jedes Modell
-     */
     getModelConfig(modelId, prompt) {
         const configs = {
             claude: {
@@ -1770,9 +1767,6 @@ class UnifiedAPIClient {
         return configs[modelId];
     }
 
-    /**
-     * Führt den HTTP-Request aus
-     */
     async makeRequest(config) {
         return new Promise((resolve, reject) => {
             const data = JSON.stringify(config.body);
@@ -1827,9 +1821,6 @@ class UnifiedAPIClient {
         });
     }
 
-    /**
-     * Extrahiert die Antwort basierend auf dem Modell-Format
-     */
     extractResponse(modelId, responseData) {
         const extractors = {
             claude: (data) => data.content[0].text,
@@ -1854,9 +1845,6 @@ class UnifiedAPIClient {
         return extractor(responseData);
     }
 
-    /**
-     * Hilfsmethoden
-     */
     getGeminiSafetySettings() {
         return [
             { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
@@ -1903,15 +1891,15 @@ class UnifiedAPIClient {
     // Add model context to error WITH error types
     if (error.message.includes('Invalid API Key')) {
         const enhancedError = new Error(t('errors.invalidApiKey', modelName));
-        enhancedError.type = 'API_KEY_ERROR';  // ← TYPE HINZUFÜGEN
+        enhancedError.type = 'API_KEY_ERROR';  
         return enhancedError;
     } else if (error.message.includes('Rate Limit')) {
         const enhancedError = new Error(t('errors.rateLimit', modelName));
-        enhancedError.type = 'RATE_LIMIT_ERROR';  // ← TYPE HINZUFÜGEN
+        enhancedError.type = 'RATE_LIMIT_ERROR'; 
         return enhancedError;
     } else if (error.message.includes('Server Error') || error.message.includes('Service Unavailable')) {
         const enhancedError = new Error(t('errors.serverUnavailable', modelName));
-        enhancedError.type = 'SERVER_ERROR';  // ← TYPE HINZUFÜGEN
+        enhancedError.type = 'SERVER_ERROR';  // 
         return enhancedError;
     }
     
@@ -1933,7 +1921,6 @@ class UnifiedAPIClient {
     }
 }
 
-// Globale Instanz des Unified Clients
 const apiClient = new UnifiedAPIClient();
 
 function callAI(prompt) {   
