@@ -19,6 +19,8 @@
  * Reworked package.json
  * Added execution state manager
  * Better token usage estimation
+ * Escape HTML (XSS) fix 
+ * Board auto detection für prompts
  */
 
 "use strict";
@@ -74,6 +76,179 @@ class ExecutionStateManager {
     }
 }
 const executionStates = new ExecutionStateManager();
+
+// Board detection
+function detectArduinoBoard() {
+    try {
+        // 1. Try to find Arduino IDE log file
+        const logBoard = detectBoardFromLog();
+        if (logBoard) {
+            return logBoard;
+        }
+        
+        // 2. Fallback: Check for .vscode/arduino.json (old projects or Arduino IDE 1.x)
+        const arduinoJsonBoard = detectBoardFromArduinoJson();
+        if (arduinoJsonBoard) {
+            return arduinoJsonBoard;
+        }
+        
+        // 3. Fallback: Check code comments
+        const commentBoard = detectBoardFromComments();
+        if (commentBoard) {
+            return commentBoard;
+        }
+        
+        return null;
+    } catch (error) {
+        return null;
+    }
+}
+
+function detectBoardFromLog() {
+    try {
+        // Determine log directory based on OS
+        let logDir;
+        if (process.platform === 'win32') {
+            logDir = path.join(process.env.APPDATA || process.env.HOME || '', 'Arduino IDE');
+        } else if (process.platform === 'darwin') {
+            logDir = path.join(os.homedir(), 'Library', 'Application Support', 'Arduino IDE');
+        } else {
+            logDir = path.join(os.homedir(), '.config', 'Arduino IDE');
+        }
+        
+        // Check if log directory exists
+        if (!fs.existsSync(logDir)) {
+            return null;
+        }
+        
+        // Find log files (today's or most recent)
+        const files = fs.readdirSync(logDir);
+        const logFiles = files.filter(f => f.endsWith('.log'))
+                              .sort()
+                              .reverse(); // Most recent first
+        
+        if (logFiles.length === 0) {
+            return null;
+        }
+        
+        // Try today's log first, then most recent
+        const today = new Date().toISOString().split('T')[0];
+        let logFile = logFiles.find(f => f.includes(today)) || logFiles[0];
+        const logPath = path.join(logDir, logFile);
+        
+        // Read the log file (last 10KB should be enough)
+        const stats = fs.statSync(logPath);
+        const bufferSize = Math.min(10240, stats.size);
+        
+        let content;
+        if (stats.size <= bufferSize) {
+            content = fs.readFileSync(logPath, 'utf8');
+        } else {
+            const buffer = Buffer.alloc(bufferSize);
+            const fd = fs.openSync(logPath, 'r');
+            fs.readSync(fd, buffer, 0, bufferSize, stats.size - bufferSize);
+            fs.closeSync(fd);
+            content = buffer.toString('utf8');
+        }
+        
+        // Split into lines and search from bottom
+        const lines = content.split('\n');
+        
+        // Patterns to search for
+        const patterns = [
+            /Starting language server:\s+([^\s]+)/,
+            /FQBN:\s+([^\s]+)/,
+            /Failed to get debug config:\s+([^\s,]+)/
+        ];
+        
+        // Search from bottom to top (most recent first)
+        for (let i = lines.length - 1; i >= 0; i--) {
+            const line = lines[i];
+            
+            for (const pattern of patterns) {
+                const match = line.match(pattern);
+                if (match && match[1]) {
+                    // Just return what we found - no interpretation
+                    return match[1].trim().replace(/,$/, '');
+                }
+            }
+        }
+        
+        return null;
+    } catch (error) {
+        return null;
+    }
+}
+
+function detectBoardFromArduinoJson() {
+    try {
+        const workspaceFolders = vscode.workspace.workspaceFolders;
+        if (!workspaceFolders || workspaceFolders.length === 0) {
+            return null;
+        }
+        
+        const arduinoJsonPath = path.join(
+            workspaceFolders[0].uri.fsPath,
+            '.vscode',
+            'arduino.json'
+        );
+        
+        if (fs.existsSync(arduinoJsonPath)) {
+            const content = fs.readFileSync(arduinoJsonPath, 'utf8');
+            const config = JSON.parse(content);
+            
+            if (config.board) {
+                return config.board;
+            }
+        }
+        
+        return null;
+    } catch (error) {
+        return null;
+    }
+}
+
+function detectBoardFromComments() {
+    try {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            return null;
+        }
+        
+        // Only check first 50 lines
+        const document = editor.document;
+        const maxLines = Math.min(50, document.lineCount);
+        let text = '';
+        
+        for (let i = 0; i < maxLines; i++) {
+            text += document.lineAt(i).text + '\n';
+        }
+        
+        // Look for board info in comments
+        const patterns = [
+            /\/\/\s*Board:\s*([^\n]+)/i,
+            /\/\*\s*Board:\s*([^*]+)\*/i,
+            /\/\/\s*FQBN:\s*([^\n]+)/i
+        ];
+        
+        for (const pattern of patterns) {
+            const match = text.match(pattern);
+            if (match && match[1]) {
+                // Return exactly what the user wrote
+                return match[1].trim();
+            }
+        }
+        
+        return null;
+    } catch (error) {
+        return null;
+    }
+}
+
+function getBoardContext() {
+    const board = detectArduinoBoard();
+    return board ? `\n\nTarget Board: ${board}` : '';
+}
 
 // Language Metadate
 const LANGUAGE_METADATA = {
@@ -335,6 +510,18 @@ function t(key, ...args) {
     }
     
     return value;
+}
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.toString().replace(/[&<>"']/g, m => map[m]);
 }
 
 // AI Model configuration
@@ -878,6 +1065,7 @@ async function showWelcomeMessage() {
 async function showQuickMenu() {
     const model = AI_MODELS[currentModel];
     const hasApiKey = apiKeys[currentModel];
+    const board = detectArduinoBoard();  // ADD THIS
     
     if (!hasApiKey) {
         const choice = await vscode.window.showWarningMessage(
@@ -943,6 +1131,11 @@ async function showQuickMenu() {
             label: '$(sync) ' + t('commands.switchModel'),
             description: t('descriptions.currentModel', model.name),
             command: 'aiduino.switchModel'
+        },
+        {
+            label: '$(circuit-board) Board',
+            description: board || '-',
+            command: null  // Not clickable, just info
         },
         {
             label: '$(key) ' + t('commands.changeApiKey'),
@@ -1786,7 +1979,7 @@ async function explainCode() {
             return;
         }
         
-        const prompt = t('prompts.explainCode', selectedText);
+        const prompt = t('prompts.explainCode', selectedText) + getBoardContext();
         
         try {
             const model = AI_MODELS[currentModel];
@@ -1822,6 +2015,12 @@ async function improveCode() {
     }
     
     try {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            vscode.window.showWarningMessage(t('messages.noEditor'));
+            return;
+        }
+
         const selection = editor.selection;
         const selectedText = editor.document.getText(selection);
     
@@ -1850,7 +2049,7 @@ async function improveCode() {
         globalContext.globalState.update('aiduino.customInstructions', customInstructions);
         
         // Build prompt
-        let prompt = t('prompts.improveCode', selectedText);
+        let prompt = t('prompts.improveCode', selectedText) + getBoardContext();
     
         // Add custom instructions if provided
         if (customInstructions && customInstructions.trim()) {
@@ -1976,7 +2175,7 @@ async function addComments() {
         globalContext.globalState.update('aiduino.commentInstructions', customInstructions);
         
         // Build prompt
-        let prompt = t('prompts.addComments', selectedText);
+        let prompt = t('prompts.addComments', selectedText) + getBoardContext();
     
         // Add custom instructions if provided
         if (customInstructions && customInstructions.trim()) {
@@ -2084,7 +2283,7 @@ async function explainError() {
             new vscode.Range(startLine, 0, endLine, Number.MAX_VALUE)
         );
         
-        const prompt = t('prompts.explainError', errorInput, line + 1, codeContext);
+        const prompt = t('prompts.explainError', errorInput, line + 1, codeContext) + getBoardContext();
         
         try {
             const model = AI_MODELS[currentModel];
@@ -2177,17 +2376,17 @@ async function debugHelp() {
                 
             case 'hardware':
                 const hardwareCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-                prompt = t('prompts.hardwareDebug', hardwareCode);
+                prompt = t('prompts.hardwareDebug', hardwareCode) + getBoardContext();  // ← HIER HINZUFÜGEN
                 break;
                 
             case 'debug':
                 const debugCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-                prompt = t('prompts.addDebugStatements', debugCode);
+                prompt = t('prompts.addDebugStatements', debugCode);  // ← HIER NICHT
                 break;
                 
             case 'timing':
                 const timingCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-                prompt = t('prompts.analyzeTiming', timingCode);
+                prompt = t('prompts.analyzeTiming', timingCode) + getBoardContext();  // ← HIER HINZUFÜGEN
                 break;
         }
         
@@ -2409,8 +2608,8 @@ function createErrorExplanationHtml(error, line, explanation, modelId) {
     const model = AI_MODELS[modelId];
     const modelBadge = `<span style="background: ${model.color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${model.name}</span>`;
     
-    // Replace newlines with <br> for HTML display
-    const htmlExplanation = explanation.replace(/\n/g, '<br>');
+    // Escape HTML and replace newlines with <br> for HTML display
+    const htmlExplanation = escapeHtml(explanation).replace(/\n/g, '<br>');
     
     return `
         <!DOCTYPE html>
@@ -2482,7 +2681,7 @@ function createErrorExplanationHtml(error, line, explanation, modelId) {
             
             <div class="error-box">
                 <div class="error-title">${t('html.errorInLine', line)}:</div>
-                <code>${error}</code>
+                <code>${escapeHtml(error)}</code>
             </div>
             
             <div class="explanation">
@@ -2509,7 +2708,7 @@ function createDebugHelpHtml(title, content, modelId) {
     const model = AI_MODELS[modelId];
     const modelBadge = `<span style="background: ${model.color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${model.name}</span>`;
     
-    const htmlContent = content.replace(/\n/g, '<br>');
+    const htmlContent = escapeHtml(content).replace(/\n/g, '<br>');
     
     return `
         <!DOCTYPE html>
@@ -2567,8 +2766,8 @@ function createDebugHelpHtml(title, content, modelId) {
             </style>
         </head>
         <body>
-            <div class="header">
-                <h1>${title}</h1>
+            div class="header">
+                <h1>${escapeHtml(title)}</h1>
                 ${modelBadge}
             </div>
             <div class="content">${htmlContent}</div>
