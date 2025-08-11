@@ -16,6 +16,7 @@
  *
  * Changelog:
  * Better board name rendering
+ * All AI Chats now have an own Tab for better reading und saving
  */
 
 "use strict";
@@ -1968,25 +1969,39 @@ async function explainCode() {
         
         const prompt = t('prompts.explainCode', selectedText) + getBoardContext();
         
+        const model = AI_MODELS[currentModel];
+        
+        // Move the API call outside of withRetryableProgress
+        const response = await withRetryableProgress(
+            t('progress.explaining', model.name),
+            async () => {
+                return await callAI(prompt);  // Return the response
+            }
+        );
+        
+        // Now handle the document creation outside the progress callback
+        const formattedContent = [
+            `🤖 ${t('output.explanationFrom', model.name.toUpperCase())}`,
+            '='.repeat(50),
+            '',
+            response
+        ].join('\n');
+        
         try {
-            const model = AI_MODELS[currentModel];
-            await withRetryableProgress(
-                t('progress.explaining', model.name),
-                async () => {
-                    const response = await callAI(prompt);
-                    
-                    const outputChannel = vscode.window.createOutputChannel(t('output.codeExplanation', model.name));
-                    outputChannel.clear();
-                    outputChannel.appendLine(`🤖 ${t('output.explanationFrom', model.name.toUpperCase())}`);
-                    outputChannel.appendLine('='.repeat(50));
-                    outputChannel.appendLine('');
-                    outputChannel.appendLine(response);
-                    outputChannel.show();
-                }
-            );
-        } catch (error) {
-            handleApiError(error);
+            const doc = await vscode.workspace.openTextDocument({
+                content: formattedContent,
+                language: 'markdown'
+            });
+            
+            await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+        } catch (docError) {
+            // Fallback if document creation fails
+            console.error('Document creation error:', docError);
+            // Could fall back to output channel here if needed
         }
+        
+    } catch (error) {
+        handleApiError(error);
     } finally {
         // Always cleanup
         executionStates.stop(executionStates.OPERATIONS.EXPLAIN);
@@ -2507,35 +2522,77 @@ async function askAI(isFollowUp = false) {
             }
         }
 
-        // Call AI and show response
-        try {
-            const model = AI_MODELS[currentModel];
-            
-            const response = await vscode.window.withProgress({
-                location: vscode.ProgressLocation.Notification,
-                title: isFollowUp ? t('progress.askingFollowUp', model.name) : t('progress.askingAI', model.name),
-                cancellable: false
-            }, async () => {
-                return await callAI(finalPrompt);
-            });
+        // Call AI
+        const model = AI_MODELS[currentModel];
+        
+        const response = await vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification,
+            title: isFollowUp ? t('progress.askingFollowUp', model.name) : t('progress.askingAI', model.name),
+            cancellable: false
+        }, async () => {
+            return await callAI(finalPrompt);
+        });
 
-            // Store context for potential follow-ups
-            aiConversationContext = {
-                lastQuestion: question,
-                lastAnswer: response,
-                lastCode: currentCode,
-                timestamp: Date.now()
-            };
+        // Store context for potential follow-ups
+        aiConversationContext = {
+            lastQuestion: question,
+            lastAnswer: response,
+            lastCode: currentCode,
+            timestamp: Date.now()
+        };
 
-            // Show response with follow-up hints
-            showAIResponseWithFollowUp(model, question, response, isFollowUp);
+        // Show response with follow-up hints
+        await showAIResponseWithFollowUp(model, question, response, isFollowUp);
 
-        } catch (error) {
-            handleApiError(error);
-        }
+    } catch (error) {
+        handleApiError(error);
     } finally {
         // Always cleanup
         executionStates.stop(executionStates.OPERATIONS.ASK);
+    }
+}
+
+// Updated showAIResponseWithFollowUp to use document
+async function showAIResponseWithFollowUp(model, question, response, isFollowUp) {
+    // Create formatted content
+    const lines = [
+        `🤖 ${t('output.responseFrom', model.name.toUpperCase())}`,
+        '='.repeat(50),
+        ''
+    ];
+    
+    // Show follow-up context
+    if (isFollowUp) {
+        lines.push(`🔗 ${t('output.followUpTo')}: "${aiConversationContext.lastQuestion}"`);
+        lines.push('');
+    }
+    
+    lines.push(
+        `❓ ${t('output.yourQuestion')}: ${question}`,
+        '',
+        `💡 ${t('output.aiAnswer')}:`,
+        '',
+        response,
+        '',
+        '='.repeat(50),
+        `💬 ${t('output.followUpHint')}`,
+        `   • ${t('shortcuts.askFollowUp')}: Ctrl+Shift+F`,
+        `   • ${t('shortcuts.askAI')}: Ctrl+Shift+A`
+    );
+    
+    const formattedContent = lines.join('\n');
+    
+    // WICHTIG: Document erstellen und anzeigen
+    try {
+        const doc = await vscode.workspace.openTextDocument({
+            content: formattedContent,
+            language: 'markdown'
+        });
+        
+        await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+    } catch (docError) {
+        console.error('Document creation error:', docError);
+        vscode.window.showErrorMessage('Failed to create document: ' + docError.message);
     }
 }
 
@@ -2557,37 +2614,6 @@ function buildFollowUpPrompt(followUpQuestion) {
     contextPrompt += `\n\n${t('prompts.followUpInstruction')}`;
     
     return contextPrompt;
-}
-
-// Enhanced output with follow-up hints
-function showAIResponseWithFollowUp(model, question, response, isFollowUp) {
-    const outputChannel = vscode.window.createOutputChannel(
-        isFollowUp ? t('output.aiFollowUp', model.name) : t('output.aiResponse', model.name)
-    );
-    
-    outputChannel.clear();
-    outputChannel.appendLine(`🤖 ${t('output.responseFrom', model.name.toUpperCase())}`);
-    outputChannel.appendLine('='.repeat(50));
-    outputChannel.appendLine('');
-    
-    // Show follow-up context
-    if (isFollowUp) {
-        outputChannel.appendLine(`🔗 ${t('output.followUpTo')}: "${aiConversationContext.lastQuestion}"`);
-        outputChannel.appendLine('');
-    }
-    
-    outputChannel.appendLine(`❓ ${t('output.yourQuestion')}: ${question}`);
-    outputChannel.appendLine('');
-    outputChannel.appendLine(`💡 ${t('output.aiAnswer')}:`);
-    outputChannel.appendLine('');
-    outputChannel.appendLine(response);
-    outputChannel.appendLine('');
-    outputChannel.appendLine('='.repeat(50));
-    outputChannel.appendLine(`💬 ${t('output.followUpHint')}`);
-    outputChannel.appendLine(`   • ${t('shortcuts.askFollowUp')}: Ctrl+Shift+F`);
-    outputChannel.appendLine(`   • ${t('shortcuts.askAI')}: Ctrl+Shift+A`);
-    
-    outputChannel.show();
 }
 
 // HTML generation
