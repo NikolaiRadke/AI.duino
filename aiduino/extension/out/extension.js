@@ -1984,7 +1984,6 @@ async function explainCode() {
         const prompt = t('prompts.explainCode', selectedText) + getBoardContext();
         const model = AI_MODELS[currentModel];
         
-        // EXAKT WIE IN askAI
         let response;
         try {
             response = await vscode.window.withProgress({
@@ -2075,7 +2074,6 @@ async function improveCode() {
         
         const model = AI_MODELS[currentModel];
         
-        // WIE IN askAI: vscode.window.withProgress
         const response = await vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
             title: t('progress.optimizing', model.name),
@@ -2214,7 +2212,6 @@ async function addComments() {
         
         const model = AI_MODELS[currentModel];
         
-        // EXAKT WIE IN askAI - response in separater Variable
         let response;
         try {
             response = await vscode.window.withProgress({
@@ -2559,8 +2556,10 @@ async function askAI(isFollowUp = false) {
         } else {
             // Handle new question with optional code context
             const editor = vscode.window.activeTextEditor;
-            finalPrompt = question + getBoardContext(); 
-
+            
+            // GEÄNDERT: Board Context nur bei Code-bezogenen Fragen!
+            finalPrompt = question; // KEIN getBoardContext() mehr hier!
+        
             if (editor && !editor.selection.isEmpty) {
                 const includeCode = await vscode.window.showQuickPick([
                     {
@@ -2577,15 +2576,16 @@ async function askAI(isFollowUp = false) {
                     placeHolder: t('chat.selectContext'),
                     ignoreFocusOut: true
                 });
-
+        
                 if (includeCode === undefined) return;
         
                 if (includeCode.value) {
                     currentCode = editor.document.getText(editor.selection);
+                    // Add board info only when code is included
                     finalPrompt = t('prompts.askAIWithContext', question, currentCode) + getBoardContext();
                 }
             }
-        }
+        }   
 
         // Call AI
         const model = AI_MODELS[currentModel];
