@@ -2012,13 +2012,16 @@ async function explainCode() {
         ].join('\n');
         
         // Create and show document
-        const doc = await vscode.workspace.openTextDocument({
-            content: formattedContent,
-            language: 'markdown'
-        });
+        try {
+            const doc = await vscode.workspace.openTextDocument({
+                content: formattedContent,
+                language: 'markdown'
+            });
         
-        await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
-        
+        await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside); 
+        } catch (docError) {
+            vscode.window.showErrorMessage('Failed to create document: ' + docError.message);
+        }     
     } catch (error) {
         handleApiError(error);
     } finally {
@@ -2556,10 +2559,9 @@ async function askAI(isFollowUp = false) {
         } else {
             // Handle new question with optional code context
             const editor = vscode.window.activeTextEditor;
-            
-            // GEÄNDERT: Board Context nur bei Code-bezogenen Fragen!
-            finalPrompt = question; // KEIN getBoardContext() mehr hier!
-        
+           
+            finalPrompt = question; 
+
             if (editor && !editor.selection.isEmpty) {
                 const includeCode = await vscode.window.showQuickPick([
                     {
