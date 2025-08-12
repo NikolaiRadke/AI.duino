@@ -1615,57 +1615,6 @@ function getModelHostname(modelId) {
     return hostnames[modelId] || 'unknown';
 }
 
-async function withRetryableProgress(title, task) {
-    let retryCount = 0;
-    const maxRetries = 3;
-    
-    while (retryCount < maxRetries) {
-        try {
-            return await vscode.window.withProgress({
-                location: vscode.ProgressLocation.Notification,
-                title: retryCount > 0 ? t('progress.retrying', title, retryCount + 1, maxRetries) : title,
-                cancellable: true
-            }, async (progress, token) => {
-                token.onCancellationRequested(() => {
-                    console.log("User cancelled the operation");
-                });
-                
-                if (token.isCancellationRequested) {
-                    throw new Error(t('errors.operationCancelled'));
-                }
-                
-                return await task();
-            });
-        } catch (error) {
-            retryCount++;
-            
-            if (error.message.includes(t('errors.networkError')) || 
-                error.message.includes(t('errors.timeout')) ||
-                error.message.includes(t('errors.unreachable'))) {
-                
-                if (retryCount < maxRetries) {
-                    const retry = await vscode.window.showWarningMessage(
-                        t('messages.connectionError'),
-                        t('buttons.yes'),
-                        t('buttons.no')
-                    );
-                    
-                    if (retry !== t('buttons.yes')) {
-                        throw error;
-                    }
-                    
-                    // Wait before next retry
-                    await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
-                } else {
-                    throw error;
-                }
-            } else {
-                throw error;
-            }
-        }
-    }
-}
-
 // Error diagnosis
 async function checkForErrors(silent = true) {
     const now = Date.now();
@@ -2033,46 +1982,47 @@ async function explainCode() {
         }
         
         const prompt = t('prompts.explainCode', selectedText) + getBoardContext();
-        
         const model = AI_MODELS[currentModel];
         
-        // Move the API call outside of withRetryableProgress
-        const response = await withRetryableProgress(
-            t('progress.explaining', model.name),
-            async () => {
-                return await callAI(prompt);
-            }
-        );
+        // EXAKT WIE IN askAI
+        let response;
+        try {
+            response = await vscode.window.withProgress({
+                location: vscode.ProgressLocation.Notification,
+                title: t('progress.explaining', model.name),
+                cancellable: false
+            }, async () => {
+                const result = await callAI(prompt);
+                return result;
+            });
+        } catch (progressError) {
+            throw progressError;
+        }
         
-        // Wrap long lines in response (80 chars for better readability)
+        // Wrap long lines
         const wrappedResponse = response.split('\n').map(line => 
             line.length > 80 ? wrapText(line, 80) : line
         ).join('\n');
         
-        // Now handle the document creation outside the progress callback
+        // Create formatted content
         const formattedContent = [
             `🤖 ${t('output.explanationFrom', model.name.toUpperCase())}`,
             '='.repeat(50),
             '',
-            wrappedResponse  // Use wrapped version
+            wrappedResponse
         ].join('\n');
         
-        try {
-            const doc = await vscode.workspace.openTextDocument({
-                content: formattedContent,
-                language: 'markdown'
-            });
-            
-            await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
-        } catch (docError) {
-            // Fallback if document creation fails
-            vscode.window.showErrorMessage('Failed to create document: ' + docError.message);
-        }
+        // Create and show document
+        const doc = await vscode.workspace.openTextDocument({
+            content: formattedContent,
+            language: 'markdown'
+        });
+        
+        await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
         
     } catch (error) {
         handleApiError(error);
     } finally {
-        // Always cleanup
         executionStates.stop(executionStates.OPERATIONS.EXPLAIN);
     }
 }
@@ -2099,10 +2049,8 @@ async function improveCode() {
             return;
         }
         
-        // Load saved custom instructions
         const savedInstructions = globalContext.globalState.get('aiduino.customInstructions', '');
         
-        // Dialog for custom instructions
         const customInstructions = await vscode.window.showInputBox({
             prompt: t('prompts.customInstructions'),
             placeHolder: t('placeholders.customInstructions'),
@@ -2114,13 +2062,10 @@ async function improveCode() {
             return;
         }
         
-        // Save instructions for next time
         globalContext.globalState.update('aiduino.customInstructions', customInstructions);
         
-        // Build prompt
         let prompt = t('prompts.improveCode', selectedText) + getBoardContext();
         
-        // Add custom instructions if provided
         if (customInstructions && customInstructions.trim()) {
             const instructions = customInstructions.split(',').map(s => s.trim()).join('\n- ');
             prompt += '\n\n' + t('prompts.additionalInstructions', instructions);
@@ -2130,19 +2075,20 @@ async function improveCode() {
         
         const model = AI_MODELS[currentModel];
         
-        const response = await withRetryableProgress(
-            t('progress.optimizing', model.name),
-            async () => {
-                return await callAI(prompt);  // Return response
-            }
-        );
+        // WIE IN askAI: vscode.window.withProgress
+        const response = await vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification,
+            title: t('progress.optimizing', model.name),
+            cancellable: false
+        }, async () => {
+            return await callAI(prompt);
+        });
         
-        // Remove markdown code block markers and extract code + comments separately
+        // Extract code
         let cleanedResponse = response;
         let extractedCode = '';
         let aiComments = '';
         
-        // Search for pattern ```cpp...``` and extract code and comments
         const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```([\s\S]*)?/);
         if (codeBlockMatch) {
             extractedCode = codeBlockMatch[1].trim();
@@ -2157,10 +2103,7 @@ async function improveCode() {
             extractedCode = extractedCode.trim();
         }
         
-        // Create display content WITH custom instructions info
         let displayContent = extractedCode;
-        
-        // Add AI hints and custom instructions info
         let footer = [];
         
         if (customInstructions && customInstructions.trim()) {
@@ -2185,6 +2128,7 @@ async function improveCode() {
             displayContent += '\n\n' + footer.join('\n');
         }
         
+        // Create document
         try {
             const doc = await vscode.workspace.openTextDocument({
                 content: displayContent,
@@ -2196,7 +2140,6 @@ async function improveCode() {
             vscode.window.showErrorMessage('Failed to create document: ' + docError.message);
         }
         
-        // Choice dialog
         const choice = await vscode.window.showInformationMessage(
             t('messages.codeImproved'),
             t('buttons.replaceOriginal'),
@@ -2205,7 +2148,7 @@ async function improveCode() {
         
         if (choice === t('buttons.replaceOriginal')) {
             await editor.edit(editBuilder => {
-                editBuilder.replace(selection, extractedCode);  // Only the code, without comments
+                editBuilder.replace(selection, extractedCode);
             });
             vscode.window.showInformationMessage(t('messages.codeReplaced'));
         }
@@ -2216,9 +2159,9 @@ async function improveCode() {
         executionStates.stop(executionStates.OPERATIONS.IMPROVE);
     }
 }
-
 // Add comments
 async function addComments() {
+    // Check if already running
     if (!executionStates.start(executionStates.OPERATIONS.COMMENTS)) {
         vscode.window.showInformationMessage("Add Comments is already running! Please wait...");
         return;
@@ -2250,6 +2193,7 @@ async function addComments() {
             ignoreFocusOut: true
         });
         
+        // Cancel if user pressed Cancel
         if (customInstructions === undefined) {
             return;
         }
@@ -2270,12 +2214,20 @@ async function addComments() {
         
         const model = AI_MODELS[currentModel];
         
-        const response = await withRetryableProgress(
-            t('progress.addingComments', model.name),
-            async () => {
-                return await callAI(prompt);
-            }
-        );
+        // EXAKT WIE IN askAI - response in separater Variable
+        let response;
+        try {
+            response = await vscode.window.withProgress({
+                location: vscode.ProgressLocation.Notification,
+                title: t('progress.addingComments', model.name),
+                cancellable: false
+            }, async () => {
+                const result = await callAI(prompt);
+                return result;
+            });
+        } catch (progressError) {
+            throw progressError;
+        }
         
         // Remove markdown code block markers
         let cleanedResponse = response;
@@ -2286,6 +2238,7 @@ async function addComments() {
         if (codeBlockMatch) {
             extractedCode = codeBlockMatch[1].trim();
         } else {
+            // Fallback
             extractedCode = cleanedResponse;
             extractedCode = extractedCode.replace(/^```(?:cpp|c\+\+|arduino)?\s*\n?/i, '');
             const endIndex = extractedCode.indexOf('```');
@@ -2331,22 +2284,24 @@ async function addComments() {
             vscode.window.showErrorMessage('Failed to create document: ' + docError.message);
         }
         
+        // Choice dialog
         const choice = await vscode.window.showInformationMessage(
             t('messages.commentsAdded'),
-            t('buttons.replaceOriginal'),  
-            t('buttons.keepBoth')          
+            t('buttons.replaceOriginal'),
+            t('buttons.keepBoth')
         );
         
-        if (choice === t('buttons.replaceOriginal')) { 
+        if (choice === t('buttons.replaceOriginal')) {
             await editor.edit(editBuilder => {
-                editBuilder.replace(selection, extractedCode);
+                editBuilder.replace(selection, extractedCode);  // Only code without footer
             });
-            vscode.window.showInformationMessage(t('messages.codeReplaced')); 
+            vscode.window.showInformationMessage(t('messages.codeReplaced'));
         }
         
     } catch (error) {
         handleApiError(error);
     } finally {
+        // Always cleanup
         executionStates.stop(executionStates.OPERATIONS.COMMENTS);
     }
 }
@@ -2387,26 +2342,31 @@ async function explainError() {
         
         try {
             const model = AI_MODELS[currentModel];
-            await withRetryableProgress(
-                t('progress.analyzingError', model.name),
-                async () => {
-                    const response = await callAI(prompt);
-                    
-                    const panel = vscode.window.createWebviewPanel(
-                        'aiError',
-                        t('panels.errorExplanation'),
-                        vscode.ViewColumn.Beside,
-                        { enableScripts: true }
-                    );
-                    
-                    panel.webview.html = createErrorExplanationHtml(
-                        errorInput,
-                        line + 1,
-                        response,
-                        currentModel
-                    );
-                }
+            
+            // Use vscode.window.withProgress like askAI
+            const response = await vscode.window.withProgress({
+                location: vscode.ProgressLocation.Notification,
+                title: t('progress.analyzingError', model.name),
+                cancellable: false
+            }, async () => {
+                return await callAI(prompt);
+            });
+            
+            // Create WebviewPanel for error explanation
+            const panel = vscode.window.createWebviewPanel(
+                'aiError',
+                t('panels.errorExplanation'),
+                vscode.ViewColumn.Beside,
+                { enableScripts: true }
             );
+            
+            panel.webview.html = createErrorExplanationHtml(
+                errorInput,
+                line + 1,
+                response,
+                currentModel
+            );
+            
         } catch (error) {
             handleApiError(error);
         }
@@ -2498,22 +2458,29 @@ async function debugHelp() {
         }
         
         try {
-            const model = AI_MODELS[currentModel];
-            await withRetryableProgress(
-                t('progress.analyzingProblem', model.name),
-                async () => {
-                    const response = await callAI(prompt);
-                    
-                    const panel = vscode.window.createWebviewPanel(
-                        'aiDebug',
-                        t('panels.debugHelp'),
-                        vscode.ViewColumn.Beside,
-                        { enableScripts: true }
-                    );
-                    
-                    panel.webview.html = createDebugHelpHtml(selected.label, response, currentModel);
-                }
+    const model = AI_MODELS[currentModel];
+    
+    let response;
+    try {
+              response = await vscode.window.withProgress({
+                    location: vscode.ProgressLocation.Notification,
+                    title: t('progress.analyzingProblem', model.name),
+                    cancellable: false
+                }, async () => {
+                    const result = await callAI(prompt);
+                    return result;
+                });
+            } catch (progressError) {
+                throw progressError;
+            }
+    
+         const panel = vscode.window.createWebviewPanel(
+                'aiDebug',
+                t('panels.debugHelp'),
+                vscode.ViewColumn.Beside,
+                { enableScripts: true }
             );
+            panel.webview.html = createDebugHelpHtml(selected.label, response, currentModel);
         } catch (error) {
             handleApiError(error);
         }
