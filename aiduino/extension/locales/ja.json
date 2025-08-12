@@ -58,8 +58,6 @@
     "no": "いいえ",
     "replaceOriginal": "オリジナルを置換",
     "keepBoth": "両方を保持",
-    "replaceCode": "コードを置換",
-    "keepAsIs": "そのまま保持",
     "copySolution": "解決策をコピー",
     "copy": "コピー",
     "resetStats": "統計をリセット",
@@ -196,7 +194,9 @@
     "aiAnswer": "AIの回答",
     "aiFollowUp": "{0} 追加回答",
     "followUpTo": "の追加質問",
-    "followUpHint": "会話を続ける"
+    "followUpHint": "会話を続ける",
+    "codeContextYes": "コードコンテキスト: はい ({0} 行)",
+    "boardDetected": "ボード: {0}"
   },
 
   "chat": {

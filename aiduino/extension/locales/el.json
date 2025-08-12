@@ -61,8 +61,6 @@
     "no": "Όχι",
     "replaceOriginal": "Αντικατάσταση πρωτότυπου",
     "keepBoth": "Διατήρηση και των δύο",
-    "replaceCode": "Αντικατάσταση κώδικα",
-    "keepAsIs": "Διατήρηση ως έχει",
     "copySolution": "Αντιγραφή Λύσης",
     "copy": "Αντιγραφή",
     "resetStats": "Επαναφορά Στατιστικών",
@@ -200,7 +198,9 @@
     "aiAnswer": "Απάντηση AI",
     "aiFollowUp": "{0} Απάντηση συνέχειας",
     "followUpTo": "Συνέχεια του",
-    "followUpHint": "Συνέχεια συνομιλίας"
+    "followUpHint": "Συνέχεια συνομιλίας",
+    "codeContextYes": "Code-Kontext: Ja ({0} Zeilen)",
+    "boardDetected": "Board: {0}"
   },
 
   "chat": {

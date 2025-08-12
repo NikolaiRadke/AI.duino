@@ -61,8 +61,6 @@
     "no": "Ne",
     "replaceOriginal": "Nahradit originál",
     "keepBoth": "Ponechat obojí",
-    "replaceCode": "Nahradit kód",
-    "keepAsIs": "Ponechat jak je",
     "copySolution": "Kopírovat řešení",
     "copy": "Kopírovat",
     "resetStats": "Resetovat statistiky",
@@ -201,7 +199,9 @@
     "aiAnswer": "Odpověď AI",
     "aiFollowUp": "{0} Navazující odpověď",
     "followUpTo": "Navazuje na",
-    "followUpHint": "Pokračovat v konverzaci"
+    "followUpHint": "Pokračovat v konverzaci",
+    "codeContextYes": "Kontext kódu: Ano ({0} řádků)",
+    "boardDetected": "Deska: {0}"
   },
 
   "chat": {

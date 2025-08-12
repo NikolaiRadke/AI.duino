@@ -61,8 +61,6 @@
     "no": "Nu",
     "replaceOriginal": "Înlocuiește originalul",
     "keepBoth": "Păstrează ambele",
-    "replaceCode": "Înlocuiește codul",
-    "keepAsIs": "Lasă așa cum este",
     "copySolution": "Copiază soluția",
     "copy": "Copiază",
     "resetStats": "Resetează statisticile",
@@ -193,7 +191,9 @@
     "aiAnswer": "Răspuns AI",
     "aiFollowUp": "{0} Răspuns de urmărire",
     "followUpTo": "Urmărirea lui",
-    "followUpHint": "Continuă conversația"
+    "followUpHint": "Continuă conversația",
+    "codeContextYes": "Context cod: Da ({0} linii)",
+    "boardDetected": "Placă: {0}"
   },
   
   "chat": {

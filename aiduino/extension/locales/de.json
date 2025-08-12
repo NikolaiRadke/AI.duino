@@ -61,8 +61,6 @@
     "no": "Nein",
     "replaceOriginal": "Original ersetzen",
     "keepBoth": "Beide behalten",
-    "replaceCode": "Code ersetzen",
-    "keepAsIs": "So lassen",
     "copySolution": "Lösung kopieren",
     "copy": "Kopieren",
     "resetStats": "Statistik zurücksetzen",
@@ -200,7 +198,9 @@
     "aiAnswer": "KI-Antwort",
     "aiFollowUp": "{0} Rückfrage-Antwort",
     "followUpTo": "Rückfrage zu",
-    "followUpHint": "Unterhaltung fortsetzen"
+    "followUpHint": "Unterhaltung fortsetzen",
+    "codeContextYes": "Code-Kontext: Ja ({0} Zeilen)",
+    "boardDetected": "Board: {0}"
   },
 
   "chat": {

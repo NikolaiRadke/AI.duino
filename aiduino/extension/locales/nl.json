@@ -61,8 +61,6 @@
     "no": "Nee",
     "replaceOriginal": "Origineel vervangen",
     "keepBoth": "Beide behouden",
-    "replaceCode": "Code vervangen",
-    "keepAsIs": "Ongewijzigd laten",
     "copySolution": "Oplossing kopiëren",
     "copy": "Kopiëren",
     "resetStats": "Statistieken resetten",
@@ -200,7 +198,9 @@
     "aiAnswer": "AI Antwoord",
     "aiFollowUp": "{0} Vervolgantwoord",
     "followUpTo": "Vervolg van",
-    "followUpHint": "Gesprek voortzetten"
+    "followUpHint": "Gesprek voortzetten",
+    "codeContextYes": "Code context: Ja ({0} regels)",
+    "boardDetected": "Board: {0}"
   },
 
   "chat": {

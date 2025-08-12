@@ -61,8 +61,6 @@
     "no": "Nej",
     "replaceOriginal": "Ersätt original",
     "keepBoth": "Behåll båda",
-    "replaceCode": "Ersätt kod",
-    "keepAsIs": "Behåll som den är",
     "copySolution": "Kopiera lösning",
     "copy": "Kopiera",
     "resetStats": "Återställ statistik",
@@ -200,7 +198,9 @@
     "aiAnswer": "AI Svar",
     "aiFollowUp": "{0} Följdsvar",
     "followUpTo": "Följd till",
-    "followUpHint": "Fortsätt konversationen"
+    "followUpHint": "Fortsätt konversationen",
+    "codeContextYes": "Kodkontext: Ja ({0} rader)",
+    "boardDetected": "Kort: {0}"
   },
 
   "chat": {

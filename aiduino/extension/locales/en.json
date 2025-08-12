@@ -61,8 +61,6 @@
     "no": "No",
     "replaceOriginal": "Replace original",
     "keepBoth": "Keep both",
-    "replaceCode": "Replace code",
-    "keepAsIs": "Keep as is",
     "copySolution": "Copy Solution",
     "copy": "Copy",
     "resetStats": "Reset Statistics",
@@ -199,7 +197,9 @@
     "aiAnswer": "AI Answer",
     "aiFollowUp": "{0} Follow-up Response",
     "followUpTo": "Follow-up to",
-    "followUpHint": "Continue the conversation"
+    "followUpHint": "Continue the conversation",
+    "codeContextYes": "Code Context: Yes ({0} lines)",
+    "boardDetected": "Board: {0}"
   },
 
   "chat": {

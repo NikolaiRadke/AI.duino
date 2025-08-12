@@ -61,8 +61,6 @@
     "no": "아니오",
     "replaceOriginal": "원본 교체",
     "keepBoth": "둘 다 유지",
-    "replaceCode": "코드 교체",
-    "keepAsIs": "그대로 유지",
     "copySolution": "솔루션 복사",
     "copy": "복사",
     "resetStats": "통계 재설정",
@@ -200,7 +198,9 @@
     "aiAnswer": "AI 답변",
     "aiFollowUp": "{0} 추가 응답",
     "followUpTo": "의 추가 질문",
-    "followUpHint": "대화 계속하기"
+    "followUpHint": "대화 계속하기",
+    "codeContextYes": "코드 컨텍스트: 예 ({0} 줄)",
+    "boardDetected": "보드: {0}"
   },
 
   "chat": {

@@ -17,6 +17,9 @@
  * Changelog:
  * Better board name rendering
  * All AI Chats now have an own Tab for better reading und saving
+ * AskAI follow up enhanced with user input displaying 
+ * Line breaks for long lines
+ * Fixed button inconsistencies
  */
 
 "use strict";
@@ -51,7 +54,11 @@ class ExecutionStateManager {
             COMMENTS: 'comments',
             DEBUG: 'debug',
             ASK: 'ask',
-            ERROR: 'error'
+            ERROR: 'error',
+            // NEU:
+            SET_API_KEY: 'setApiKey',
+            SWITCH_MODEL: 'switchModel',
+            SWITCH_LANGUAGE: 'switchLanguage'
         };
     }
     
@@ -318,7 +325,6 @@ const LANGUAGE_METADATA = {
     'am': { name: 'አማርኛ', flag: '🇪🇹', region: 'Amharic' }
 };
 
-// Cache für verfügbare Locales
 let availableLocales = null;
 
 function getVersionFromPackage() {
@@ -445,7 +451,7 @@ function setupEventListeners(context) {
         }
     });
     
-    // OPTIMIZED Diagnostics listener
+    // Diagnostics listener
     diagnosticsListener = vscode.languages.onDidChangeDiagnostics(e => {
         // Performance: Only process for .ino files
         const activeEditor = vscode.window.activeTextEditor;
@@ -528,6 +534,37 @@ function escapeHtml(text) {
         "'": '&#039;'
     };
     return text.toString().replace(/[&<>"']/g, m => map[m]);
+}
+
+// Helper function to wrap long lines
+function wrapText(text, maxWidth = 50) {
+    if (!text || text.length <= maxWidth) return text;
+    
+    const words = text.split(' ');
+    const lines = [];
+    let currentLine = '';
+    
+    for (const word of words) {
+        // If single word is longer than maxWidth, break it
+        if (word.length > maxWidth) {
+            if (currentLine) {
+                lines.push(currentLine);
+                currentLine = '';
+            }
+            // Break long word
+            for (let i = 0; i < word.length; i += maxWidth) {
+                lines.push(word.substring(i, i + maxWidth));
+            }
+        } else if ((currentLine + ' ' + word).length > maxWidth) {
+            if (currentLine) lines.push(currentLine);
+            currentLine = word;
+        } else {
+            currentLine = currentLine ? currentLine + ' ' + word : word;
+        }
+    }
+    
+    if (currentLine) lines.push(currentLine);
+    return lines.join('\n');
 }
 
 // AI Model configuration
@@ -670,96 +707,107 @@ function registerCommands(context) {
 }
 
 async function switchLanguage() {
-    const supportedLocales = getAvailableLocales(); 
-    const availableLanguages = [
-        { 
-            label: '🌐 Auto (VS Code)', 
-            description: t('language.autoDetect') || 'Auto-detect from VS Code', 
-            value: 'auto' 
-        }
-    ];
-    supportedLocales.forEach(locale => {
-        const info = getLanguageInfo(locale);
-        availableLanguages.push({
-            label: `${info.flag} ${info.name}`,
-            description: info.region,
-            value: locale
+    // Check if already running
+    if (!executionStates.start(executionStates.OPERATIONS.SWITCH_LANGUAGE)) {
+        vscode.window.showInformationMessage("Language switch is already running! Please wait...");
+        return;
+    }
+    
+    try {
+        const supportedLocales = getAvailableLocales();
+        const availableLanguages = [
+            { 
+                label: '🌐 Auto (VS Code)', 
+                description: t('language.autoDetect') || 'Auto-detect from VS Code', 
+                value: 'auto' 
+            }
+        ];
+        
+        supportedLocales.forEach(locale => {
+            const info = getLanguageInfo(locale);
+            availableLanguages.push({
+                label: `${info.flag} ${info.name}`,
+                description: info.region,
+                value: locale
+            });
         });
-    });
-    const config = vscode.workspace.getConfiguration('aiduino');
-    const currentSetting = config.get('language', 'auto');
-    
-    let activeValue = currentSetting === 'auto' ? 'auto' : currentLocale;
-    
-    availableLanguages.forEach(lang => {
-        if (lang.value === activeValue) {
-            if (activeValue === 'auto') {
-                const info = getLanguageInfo(currentLocale);
-                lang.description = `✓ Currently using ${info.region}`;
-            } else {
-                lang.description = `✓ ${lang.description}`;
-            }
-        }
-    });
-    
-    const selected = await vscode.window.showQuickPick(availableLanguages, {
-        placeHolder: t('language.selectLanguage') || 'Choose language for AI.duino',
-        title: `🌐 AI.duino ${t('language.changeLanguage') || 'Change Language'}`
-    });
-    
-    if (selected && selected.value !== activeValue) {
-        try {
-            await config.update('language', selected.value, vscode.ConfigurationTarget.Global);
-            
-            if (selected.value === 'auto') {
-                const vscodeLocale = vscode.env.language || 'en';
-                const detectedLang = vscodeLocale.substring(0, 2);
-                currentLocale = supportedLocales.includes(detectedLang) ? detectedLang : 'en';
-            } else {
-                currentLocale = selected.value;
-            }
-            
-            // Load new locale file
-            const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
-            if (fs.existsSync(localeFile)) {
-                const content = fs.readFileSync(localeFile, 'utf8');
-                i18n = JSON.parse(content);
-            } else {
-                currentLocale = 'en';
-                const englishFile = path.join(__dirname, '..', 'locales', 'en.json');
-                if (fs.existsSync(englishFile)) {
-                    const content = fs.readFileSync(englishFile, 'utf8');
-                    i18n = JSON.parse(content);
+        
+        const config = vscode.workspace.getConfiguration('aiduino');
+        const currentSetting = config.get('language', 'auto');
+        
+        let activeValue = currentSetting === 'auto' ? 'auto' : currentLocale;
+        
+        availableLanguages.forEach(lang => {
+            if (lang.value === activeValue) {
+                if (activeValue === 'auto') {
+                    const info = getLanguageInfo(currentLocale);
+                    lang.description = `✓ Currently using ${info.region}`;
                 } else {
-                    i18n = getEmbeddedEnglishLocale();
+                    lang.description = `✓ ${lang.description}`;
                 }
             }
-            
-            updateStatusBar();
- 
-            let successMessage;
-            if (selected.value === 'auto') {
-                const info = getLanguageInfo(currentLocale);
-                successMessage = t('language.changed', `Auto (${info.name})`) || 
-                                `Language set to Auto (${info.name})`;
-            } else {
-                const info = getLanguageInfo(currentLocale);
-                successMessage = t('language.changed', info.name) || 
-                                `Language changed to ${info.name}`;
+        });
+        
+        const selected = await vscode.window.showQuickPick(availableLanguages, {
+            placeHolder: t('language.selectLanguage') || 'Choose language for AI.duino',
+            title: `🌐 AI.duino ${t('language.changeLanguage') || 'Change Language'}`
+        });
+        
+        if (selected && selected.value !== activeValue) {
+            try {
+                await config.update('language', selected.value, vscode.ConfigurationTarget.Global);
+                
+                if (selected.value === 'auto') {
+                    const vscodeLocale = vscode.env.language || 'en';
+                    const detectedLang = vscodeLocale.substring(0, 2);
+                    currentLocale = supportedLocales.includes(detectedLang) ? detectedLang : 'en';
+                } else {
+                    currentLocale = selected.value;
+                }
+                
+                // Load new locale file
+                const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
+                if (fs.existsSync(localeFile)) {
+                    const content = fs.readFileSync(localeFile, 'utf8');
+                    i18n = JSON.parse(content);
+                } else {
+                    currentLocale = 'en';
+                    const englishFile = path.join(__dirname, '..', 'locales', 'en.json');
+                    if (fs.existsSync(englishFile)) {
+                        const content = fs.readFileSync(englishFile, 'utf8');
+                        i18n = JSON.parse(content);
+                    }
+                }
+                
+                updateStatusBar();
+                
+                let successMessage;
+                if (selected.value === 'auto') {
+                    const info = getLanguageInfo(currentLocale);
+                    successMessage = t('language.changed', `Auto (${info.name})`) || 
+                                    `Language set to Auto (${info.name})`;
+                } else {
+                    const info = getLanguageInfo(currentLocale);
+                    successMessage = t('language.changed', info.name) || 
+                                    `Language changed to ${info.name}`;
+                }
+                
+                vscode.window.showInformationMessage(successMessage);
+                
+            } catch (error) {
+                vscode.window.showErrorMessage(`Failed to switch language: ${error.message}`);
             }
-            
-            vscode.window.showInformationMessage(successMessage);
-            
-        } catch (error) {
-            vscode.window.showErrorMessage(`Failed to switch language: ${error.message}`);
         }
+    } finally {
+        // Always cleanup
+        executionStates.stop('switchLanguage');
     }
 }
 
 function getCurrentLanguageName() {
     const config = vscode.workspace.getConfiguration('aiduino');
     const currentSetting = config.get('language', 'auto');
-    const info = getLanguageInfo(currentLocale); // ← DYNAMISCH!
+    const info = getLanguageInfo(currentLocale); 
     
     if (currentSetting === 'auto') {
         return `Auto (${info.name})`;
@@ -1210,78 +1258,100 @@ function getTodayUsage() {
 
 // Model management
 async function switchModel() {
-    const items = Object.keys(AI_MODELS).map(modelId => {
-        const model = AI_MODELS[modelId];
-        const provider = getProviderName(modelId);
-        return {
-            label: `${model.icon} ${model.name} (${provider})`,
-            description: currentModel === modelId ? '✓ ' + t('labels.active') : model.fullName,
-            value: modelId
-        };
-    });
+    // Check if already running
+    if (!executionStates.start('executionStates.OPERATIONS.SWITCH_MODEL')) {
+        vscode.window.showInformationMessage("Model switch is already running! Please wait...");
+        return;
+    }
     
-    const selected = await vscode.window.showQuickPick(items, {
-        placeHolder: t('messages.selectModel')
-    });
-    
-    if (selected) {
-        currentModel = selected.value;
-        saveSelectedModel();
-        updateStatusBar();
+    try {
+        const items = Object.keys(AI_MODELS).map(modelId => {
+            const model = AI_MODELS[modelId];
+            const provider = getProviderName(modelId);
+            return {
+                label: `${model.icon} ${model.name} (${provider})`,
+                description: currentModel === modelId ? '✓ ' + t('labels.active') : model.fullName,
+                value: modelId
+            };
+        });
         
-        // Check if API key exists
-        if (!apiKeys[currentModel]) {
-            const model = AI_MODELS[currentModel];
-            const choice = await vscode.window.showWarningMessage(
-                t('messages.apiKeyRequired', model.name),
-                t('buttons.enterNow'),
-                t('buttons.later')
-            );
-            if (choice === t('buttons.enterNow')) {
-                await setApiKey();
+        const selected = await vscode.window.showQuickPick(items, {
+            placeHolder: t('messages.selectModel')
+        });
+        
+        if (selected) {
+            currentModel = selected.value;
+            saveSelectedModel();
+            updateStatusBar();
+            
+            // Check if API key exists
+            if (!apiKeys[currentModel]) {
+                const model = AI_MODELS[currentModel];
+                const choice = await vscode.window.showWarningMessage(
+                    t('messages.apiKeyRequired', model.name),
+                    t('buttons.enterNow'),
+                    t('buttons.later')
+                );
+                if (choice === t('buttons.enterNow')) {
+                    await setApiKey();
+                }
+            } else {
+                const model = AI_MODELS[currentModel];
+                vscode.window.showInformationMessage(t('messages.modelSwitched', model.name));
             }
-        } else {
-            const model = AI_MODELS[currentModel];
-            vscode.window.showInformationMessage(t('messages.modelSwitched', model.name));
         }
+    } finally {
+        // Always cleanup
+        executionStates.stop('switchModel');
     }
 }
 
 async function setApiKey() {
-    const model = AI_MODELS[currentModel];
-    const providerName = getProviderName(currentModel);
-    
-    const input = await vscode.window.showInputBox({
-        prompt: t('prompts.enterApiKey', providerName),
-        placeHolder: model.keyPrefix + '...',
-        password: true,
-        ignoreFocusOut: true,
-        validateInput: (value) => {
-            if (!value) return t('validation.apiKeyRequired');
-            if (!value.startsWith(model.keyPrefix)) return t('validation.apiKeyPrefix', model.keyPrefix);
-            if (value.length < model.keyMinLength) return t('validation.apiKeyTooShort');
-            return null;
-        }
-    });
-    
-    if (input) {
-        try {
-            const keyFile = path.join(os.homedir(), model.keyFile);
-            apiKeys[currentModel] = input;
-            fs.writeFileSync(keyFile, input, { mode: 0o600 });
-            updateStatusBar();
-            vscode.window.showInformationMessage(
-                t('messages.apiKeySaved', providerName)
-            );
-            return true;
-        } catch (error) {
-            vscode.window.showErrorMessage(
-                t('errors.saveFailed', error.message)
-            );
-            return false;
-        }
+    // Check if already running
+    if (!executionStates.start('executionStates.stop(executionStates.OPERATIONS.SET_API_KEY);')) {
+        vscode.window.showInformationMessage("API Key setup is already running! Please wait...");
+        return false;
     }
-    return false;
+    
+    try {
+        const model = AI_MODELS[currentModel];
+        const providerName = getProviderName(currentModel);
+        
+        const input = await vscode.window.showInputBox({
+            prompt: t('prompts.enterApiKey', providerName),
+            placeHolder: model.keyPrefix + '...',
+            password: true,
+            ignoreFocusOut: true,
+            validateInput: (value) => {
+                if (!value) return t('validation.apiKeyRequired');
+                if (!value.startsWith(model.keyPrefix)) return t('validation.apiKeyPrefix', model.keyPrefix);
+                if (value.length < model.keyMinLength) return t('validation.apiKeyTooShort');
+                return null;
+            }
+        });
+        
+        if (input) {
+            try {
+                const keyFile = path.join(os.homedir(), model.keyFile);
+                apiKeys[currentModel] = input;
+                fs.writeFileSync(keyFile, input, { mode: 0o600 });
+                updateStatusBar();
+                vscode.window.showInformationMessage(
+                    t('messages.apiKeySaved', providerName)
+                );
+                return true;
+            } catch (error) {
+                vscode.window.showErrorMessage(
+                    t('errors.saveFailed', error.message)
+                );
+                return false;
+            }
+        }
+        return false;
+    } finally {
+        // Always cleanup
+        executionStates.stop('setApiKey');
+    }
 }
 
 function getProviderName(modelId) {
@@ -1600,7 +1670,7 @@ async function withRetryableProgress(title, task) {
 async function checkForErrors(silent = true) {
     const now = Date.now();
     
-    // Throttling: Max alle 500ms prüfen
+    // Throttling
     if (now - lastErrorCheck < 500) {
         return false;
     }
@@ -1611,14 +1681,13 @@ async function checkForErrors(silent = true) {
         return false;
     }
     
-    // Nur für .ino Dateien verarbeiten - große Performance-Verbesserung!
+    // Only.ino for better performance
     if (!editor.document.fileName.endsWith('.ino')) {
         return false;
     }
     
     const currentUri = editor.document.uri.toString();
     
-    // Performance: Nur prüfen wenn sich die aktive Datei geändert hat
     if (currentUri !== lastCheckedUri) {
         lastCheckedUri = currentUri;
         lastDiagnosticsCount = 0; // Reset count for new file
@@ -1628,7 +1697,6 @@ async function checkForErrors(silent = true) {
     const errors = diagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
     const errorCount = errors.length;
     
-    // Nur UI aktualisieren wenn sich Error-Count geändert hat
     if (errorCount !== lastDiagnosticsCount) {
         lastDiagnosticsCount = errorCount;
         
@@ -1638,9 +1706,7 @@ async function checkForErrors(silent = true) {
             statusBarItem.tooltip = t('statusBar.errorsFound', errorCount);
             statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
             
-            // Auto-reset nach 5 Sekunden - mit Cleanup
             setTimeout(() => {
-                // Nur zurücksetzen wenn keine neuen Errors hinzugekommen sind
                 const currentDiagnostics = vscode.languages.getDiagnostics(editor.document.uri);
                 const currentErrors = currentDiagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
                 
@@ -1649,7 +1715,6 @@ async function checkForErrors(silent = true) {
                 }
             }, 5000);
         } else if (errorCount === 0 && lastDiagnosticsCount > 0) {
-            // Errors wurden behoben - Status Bar zurücksetzen
             updateStatusBar();
         }
     }
@@ -1900,7 +1965,7 @@ class UnifiedAPIClient {
         return enhancedError;
     } else if (error.message.includes('Server Error') || error.message.includes('Service Unavailable')) {
         const enhancedError = new Error(t('errors.serverUnavailable', modelName));
-        enhancedError.type = 'SERVER_ERROR';  // 
+        enhancedError.type = 'SERVER_ERROR';  
         return enhancedError;
     }
     
@@ -1975,16 +2040,21 @@ async function explainCode() {
         const response = await withRetryableProgress(
             t('progress.explaining', model.name),
             async () => {
-                return await callAI(prompt);  // Return the response
+                return await callAI(prompt);
             }
         );
+        
+        // Wrap long lines in response (80 chars for better readability)
+        const wrappedResponse = response.split('\n').map(line => 
+            line.length > 80 ? wrapText(line, 80) : line
+        ).join('\n');
         
         // Now handle the document creation outside the progress callback
         const formattedContent = [
             `🤖 ${t('output.explanationFrom', model.name.toUpperCase())}`,
             '='.repeat(50),
             '',
-            response
+            wrappedResponse  // Use wrapped version
         ].join('\n');
         
         try {
@@ -1996,8 +2066,7 @@ async function explainCode() {
             await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
         } catch (docError) {
             // Fallback if document creation fails
-            console.error('Document creation error:', docError);
-            // Could fall back to output channel here if needed
+            vscode.window.showErrorMessage('Failed to create document: ' + docError.message);
         }
         
     } catch (error) {
@@ -2010,7 +2079,6 @@ async function explainCode() {
     
 // Improve Code
 async function improveCode() {
-     // Check if already running
     if (!executionStates.start(executionStates.OPERATIONS.IMPROVE)) {
         vscode.window.showInformationMessage("Code Improvement is already running! Please wait...");
         return;
@@ -2022,10 +2090,10 @@ async function improveCode() {
             vscode.window.showWarningMessage(t('messages.noEditor'));
             return;
         }
-
+        
         const selection = editor.selection;
         const selectedText = editor.document.getText(selection);
-    
+        
         if (!selectedText.trim()) {
             vscode.window.showWarningMessage(t('messages.selectCodeToImprove'));
             return;
@@ -2042,7 +2110,6 @@ async function improveCode() {
             ignoreFocusOut: true
         });
         
-        // Cancel if user pressed Cancel
         if (customInstructions === undefined) {
             return;
         }
@@ -2052,92 +2119,106 @@ async function improveCode() {
         
         // Build prompt
         let prompt = t('prompts.improveCode', selectedText) + getBoardContext();
-    
+        
         // Add custom instructions if provided
         if (customInstructions && customInstructions.trim()) {
             const instructions = customInstructions.split(',').map(s => s.trim()).join('\n- ');
             prompt += '\n\n' + t('prompts.additionalInstructions', instructions);
         }
-    
+        
         prompt += '\n\n' + t('prompts.improveCodeSuffix');
         
+        const model = AI_MODELS[currentModel];
+        
+        const response = await withRetryableProgress(
+            t('progress.optimizing', model.name),
+            async () => {
+                return await callAI(prompt);  // Return response
+            }
+        );
+        
+        // Remove markdown code block markers and extract code + comments separately
+        let cleanedResponse = response;
+        let extractedCode = '';
+        let aiComments = '';
+        
+        // Search for pattern ```cpp...``` and extract code and comments
+        const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```([\s\S]*)?/);
+        if (codeBlockMatch) {
+            extractedCode = codeBlockMatch[1].trim();
+            aiComments = codeBlockMatch[2] ? codeBlockMatch[2].trim() : '';
+        } else {
+            extractedCode = cleanedResponse;
+            extractedCode = extractedCode.replace(/^```(?:cpp|c\+\+|arduino)?\s*\n?/i, '');
+            const endIndex = extractedCode.indexOf('```');
+            if (endIndex !== -1) {
+                extractedCode = extractedCode.substring(0, endIndex);
+            }
+            extractedCode = extractedCode.trim();
+        }
+        
+        // Create display content WITH custom instructions info
+        let displayContent = extractedCode;
+        
+        // Add AI hints and custom instructions info
+        let footer = [];
+        
+        if (customInstructions && customInstructions.trim()) {
+            footer.push('/* ========== Custom Instructions ==========');
+            const wrappedInstructions = wrapText(customInstructions, 80);
+            wrappedInstructions.split('\n').forEach(line => {
+                footer.push(`   ${line}`);
+            });
+            footer.push('   ======================================== */');
+        }
+        
+        if (aiComments) {
+            footer.push('/* ========== ' + t('labels.aiHints') + ' ==========');
+            const wrappedComments = wrapText(aiComments, 80);
+            wrappedComments.split('\n').forEach(line => {
+                footer.push(`   ${line}`);
+            });
+            footer.push('   ================================= */');
+        }
+        
+        if (footer.length > 0) {
+            displayContent += '\n\n' + footer.join('\n');
+        }
+        
         try {
-            const model = AI_MODELS[currentModel];
-            
-            // Get response with progress indicator
-            const response = await vscode.window.withProgress({
-                location: vscode.ProgressLocation.Notification,
-                title: t('progress.optimizing', model.name),
-                cancellable: false
-            }, async () => {
-                return await callAI(prompt);
+            const doc = await vscode.workspace.openTextDocument({
+                content: displayContent,
+                language: 'cpp'
             });
             
-            // Remove markdown code block markers and extract code + comments separately
-            let cleanedResponse = response;
-            let extractedCode = '';
-            let aiComments = '';
-            
-            // Search for pattern ```cpp...``` and extract code and comments
-            const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```([\s\S]*)?/);
-            if (codeBlockMatch) {
-                // Code from block
-                extractedCode = codeBlockMatch[1].trim();
-                // Comments after block (if present)
-                aiComments = codeBlockMatch[2] ? codeBlockMatch[2].trim() : '';
-            } else {
-                // Fallback
-                extractedCode = cleanedResponse;
-                extractedCode = extractedCode.replace(/^```(?:cpp|c\+\+|arduino)?\s*\n?/i, '');
-                const endIndex = extractedCode.indexOf('```');
-                if (endIndex !== -1) {
-                    extractedCode = extractedCode.substring(0, endIndex);
-                }
-                extractedCode = extractedCode.trim();
-            }
-    
-            // Create document - WITH comments for display
-            try {
-                let displayContent = extractedCode;
-                if (aiComments) {
-                    displayContent += '\n\n/* ========== ' + t('labels.aiHints') + ' ==========\n' + aiComments + '\n=  ================================= */';
-                }
-    
-                const doc = await vscode.workspace.openTextDocument({
-                    content: displayContent,  // Code + comments
-                    language: 'cpp'
-                });
-                
-                await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
-            } catch (docError) {
-                console.log('Document display warning (can be ignored):', docError.message);
-            }
-    
-            // Choice dialog
-            const choice = await vscode.window.showInformationMessage(
-                t('messages.codeImproved'),
-                t('buttons.replaceOriginal'),
-                t('buttons.keepBoth')
-            );
-    
-            if (choice === t('buttons.replaceOriginal')) {
-                await editor.edit(editBuilder => {
-                    editBuilder.replace(selection, extractedCode);  // Only the code, without AI comments
-                });
-                vscode.window.showInformationMessage(t('messages.codeReplaced'));
-            }
-            
-        } catch (error) {
-            handleApiError(error);
+            await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+        } catch (docError) {
+            vscode.window.showErrorMessage('Failed to create document: ' + docError.message);
         }
+        
+        // Choice dialog
+        const choice = await vscode.window.showInformationMessage(
+            t('messages.codeImproved'),
+            t('buttons.replaceOriginal'),
+            t('buttons.keepBoth')
+        );
+        
+        if (choice === t('buttons.replaceOriginal')) {
+            await editor.edit(editBuilder => {
+                editBuilder.replace(selection, extractedCode);  // Only the code, without comments
+            });
+            vscode.window.showInformationMessage(t('messages.codeReplaced'));
+        }
+        
+    } catch (error) {
+        handleApiError(error);
     } finally {
-        // Always cleanup
         executionStates.stop(executionStates.OPERATIONS.IMPROVE);
     }
-}   
-    
+}
+
+// Add comments
 async function addComments() {
-     // Check if already running
     if (!executionStates.start(executionStates.OPERATIONS.COMMENTS)) {
         vscode.window.showInformationMessage("Add Comments is already running! Please wait...");
         return;
@@ -2145,15 +2226,16 @@ async function addComments() {
     
     try {
         const editor = vscode.window.activeTextEditor;
-        if (!editor) return;
+        if (!editor) {
+            vscode.window.showWarningMessage(t('messages.noEditor'));
+            return;
+        }
         
         const selection = editor.selection;
         const selectedText = editor.document.getText(selection);
         
         if (!selectedText.trim()) {
-            vscode.window.showWarningMessage(
-                t('messages.selectCodeToComment')
-            );
+            vscode.window.showWarningMessage(t('messages.selectCodeToComment'));
             return;
         }
         
@@ -2168,7 +2250,6 @@ async function addComments() {
             ignoreFocusOut: true
         });
         
-        // Cancel if user pressed Cancel
         if (customInstructions === undefined) {
             return;
         }
@@ -2187,68 +2268,85 @@ async function addComments() {
     
         prompt += '\n\n' + t('prompts.addCommentsSuffix');
         
-        try {
-            const model = AI_MODELS[currentModel];
-            
-            // Get response with progress indicator
-            const response = await vscode.window.withProgress({
-                location: vscode.ProgressLocation.Notification,
-                title: t('progress.addingComments', model.name),
-                cancellable: false
-            }, async () => {
+        const model = AI_MODELS[currentModel];
+        
+        const response = await withRetryableProgress(
+            t('progress.addingComments', model.name),
+            async () => {
                 return await callAI(prompt);
+            }
+        );
+        
+        // Remove markdown code block markers
+        let cleanedResponse = response;
+        let extractedCode = '';
+        
+        // Search for pattern ```cpp...``` and extract only the code
+        const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```/);
+        if (codeBlockMatch) {
+            extractedCode = codeBlockMatch[1].trim();
+        } else {
+            extractedCode = cleanedResponse;
+            extractedCode = extractedCode.replace(/^```(?:cpp|c\+\+|arduino)?\s*\n?/i, '');
+            const endIndex = extractedCode.indexOf('```');
+            if (endIndex !== -1) {
+                extractedCode = extractedCode.substring(0, endIndex);
+            }
+            extractedCode = extractedCode.trim();
+        }
+        
+        // Create display content with custom instructions info
+        let displayContent = extractedCode;
+        
+        // Add custom instructions footer if present
+        if (customInstructions && customInstructions.trim()) {
+            displayContent += '\n\n';
+            displayContent += '/* ========================================\n';
+            displayContent += '   COMMENT INSTRUCTIONS USED:\n';
+            
+            const wrappedInstructions = wrapText(customInstructions, 80);
+            wrappedInstructions.split('\n').forEach(line => {
+                displayContent += `   ${line}\n`;
             });
             
-            // Remove markdown code block markers
-            let cleanedResponse = response;
-            let extractedCode = '';
-            
-            // Search for pattern ```cpp...``` and extract only the code
-            const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```/);
-            if (codeBlockMatch) {
-                extractedCode = codeBlockMatch[1].trim();
-            } else {
-                // Fallback
-                extractedCode = cleanedResponse;
-                extractedCode = extractedCode.replace(/^```(?:cpp|c\+\+|arduino)?\s*\n?/i, '');
-                const endIndex = extractedCode.indexOf('```');
-                if (endIndex !== -1) {
-                    extractedCode = extractedCode.substring(0, endIndex);
-                }
-                extractedCode = extractedCode.trim();
-            }
-            
-            // Create and show document
-            try {
-                const doc = await vscode.workspace.openTextDocument({
-                    content: extractedCode,
-                    language: 'cpp'
-                });
-                
-                await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
-            } catch (docError) {
-                console.log('Document display warning (can be ignored):', docError.message);
-            }
-            
-            // Choice dialog
-            const choice = await vscode.window.showInformationMessage(
-                t('messages.commentsAdded'),
-                t('buttons.replaceCode'),
-                t('buttons.keepAsIs')
-            );
-            
-            if (choice === t('buttons.replaceCode')) {
-                await editor.edit(editBuilder => {
-                    editBuilder.replace(selection, extractedCode);
-                });
-                vscode.window.showInformationMessage(t('messages.codeUpdated'));
-            }
-            
-        } catch (error) {
-            handleApiError(error);
+            displayContent += '   ======================================== */';
         }
+        
+        // Add board info if detected
+        const board = detectArduinoBoard();
+        if (board) {
+            displayContent += '\n';
+            displayContent += `// Board: ${board}`;
+        }
+        
+        // Create and show document
+        try {
+            const doc = await vscode.workspace.openTextDocument({
+                content: displayContent,
+                language: 'cpp'
+            });
+            
+            await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+        } catch (docError) {
+            vscode.window.showErrorMessage('Failed to create document: ' + docError.message);
+        }
+        
+        const choice = await vscode.window.showInformationMessage(
+            t('messages.commentsAdded'),
+            t('buttons.replaceOriginal'),  
+            t('buttons.keepBoth')          
+        );
+        
+        if (choice === t('buttons.replaceOriginal')) { 
+            await editor.edit(editBuilder => {
+                editBuilder.replace(selection, extractedCode);
+            });
+            vscode.window.showInformationMessage(t('messages.codeReplaced')); 
+        }
+        
+    } catch (error) {
+        handleApiError(error);
     } finally {
-        // Always cleanup
         executionStates.stop(executionStates.OPERATIONS.COMMENTS);
     }
 }
@@ -2378,17 +2476,17 @@ async function debugHelp() {
                 
             case 'hardware':
                 const hardwareCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-                prompt = t('prompts.hardwareDebug', hardwareCode) + getBoardContext();  // ← HIER HINZUFÜGEN
+                prompt = t('prompts.hardwareDebug', hardwareCode) + getBoardContext();  
                 break;
                 
             case 'debug':
                 const debugCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-                prompt = t('prompts.addDebugStatements', debugCode);  // ← HIER NICHT
+                prompt = t('prompts.addDebugStatements', debugCode); 
                 break;
                 
             case 'timing':
                 const timingCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-                prompt = t('prompts.analyzeTiming', timingCode) + getBoardContext();  // ← HIER HINZUFÜGEN
+                prompt = t('prompts.analyzeTiming', timingCode) + getBoardContext();  
                 break;
         }
         
@@ -2490,11 +2588,11 @@ async function askAI(isFollowUp = false) {
         if (isFollowUp) {
             // Build context-aware follow-up prompt
             finalPrompt = buildFollowUpPrompt(question);
-            currentCode = aiConversationContext.lastCode; // Keep original code context
+            currentCode = aiConversationContext.lastCode;
         } else {
             // Handle new question with optional code context
             const editor = vscode.window.activeTextEditor;
-            finalPrompt = question;
+            finalPrompt = question + getBoardContext(); 
 
             if (editor && !editor.selection.isEmpty) {
                 const includeCode = await vscode.window.showQuickPick([
@@ -2514,10 +2612,10 @@ async function askAI(isFollowUp = false) {
                 });
 
                 if (includeCode === undefined) return;
-
+        
                 if (includeCode.value) {
                     currentCode = editor.document.getText(editor.selection);
-                    finalPrompt = t('prompts.askAIWithContext', question, currentCode);
+                    finalPrompt = t('prompts.askAIWithContext', question, currentCode) + getBoardContext();
                 }
             }
         }
@@ -2525,13 +2623,19 @@ async function askAI(isFollowUp = false) {
         // Call AI
         const model = AI_MODELS[currentModel];
         
-        const response = await vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-            title: isFollowUp ? t('progress.askingFollowUp', model.name) : t('progress.askingAI', model.name),
-            cancellable: false
-        }, async () => {
-            return await callAI(finalPrompt);
-        });
+        let response;
+        try {
+            response = await vscode.window.withProgress({
+                location: vscode.ProgressLocation.Notification,
+                title: isFollowUp ? t('progress.askingFollowUp', model.name) : t('progress.askingAI', model.name),
+                cancellable: false
+            }, async () => {
+                const result = await callAI(finalPrompt);
+                return result; 
+            });
+        } catch (progressError) {
+            throw progressError; 
+        }
 
         // Store context for potential follow-ups
         aiConversationContext = {
@@ -2541,8 +2645,12 @@ async function askAI(isFollowUp = false) {
             timestamp: Date.now()
         };
 
-        // Show response with follow-up hints
-        await showAIResponseWithFollowUp(model, question, response, isFollowUp);
+        // Show response
+        try {
+            await showAIResponseWithFollowUp(model, question, response, isFollowUp);
+        } catch (displayError) {
+            // Silent fail
+        }
 
     } catch (error) {
         handleApiError(error);
@@ -2554,46 +2662,69 @@ async function askAI(isFollowUp = false) {
 
 // Updated showAIResponseWithFollowUp to use document
 async function showAIResponseWithFollowUp(model, question, response, isFollowUp) {
-    // Create formatted content
+    const modelName = model.name || model;
+    
     const lines = [
-        `🤖 ${t('output.responseFrom', model.name.toUpperCase())}`,
+        `🤖 ${t('output.responseFrom', modelName.toUpperCase ? modelName.toUpperCase() : modelName)}`,
         '='.repeat(50),
         ''
     ];
     
     // Show follow-up context
-    if (isFollowUp) {
-        lines.push(`🔗 ${t('output.followUpTo')}: "${aiConversationContext.lastQuestion}"`);
+    if (isFollowUp && aiConversationContext.lastQuestion) {
+        lines.push(`🔗 ${t('output.followUpTo')}:`);
+        const wrappedPrevQuestion = wrapText(aiConversationContext.lastQuestion, 80);  // 80 Zeichen
+        wrappedPrevQuestion.split('\n').forEach(line => {
+            lines.push(`   ${line}`);
+        });
         lines.push('');
     }
     
-    lines.push(
-        `❓ ${t('output.yourQuestion')}: ${question}`,
-        '',
-        `💡 ${t('output.aiAnswer')}:`,
-        '',
-        response,
-        '',
-        '='.repeat(50),
-        `💬 ${t('output.followUpHint')}`,
-        `   • ${t('shortcuts.askFollowUp')}: Ctrl+Shift+F`,
-        `   • ${t('shortcuts.askAI')}: Ctrl+Shift+A`
-    );
+    // Show if code was included
+    if (aiConversationContext.lastCode) {
+        const lineCount = aiConversationContext.lastCode.split('\n').length;
+        lines.push(`📝 ${t('output.codeContextYes', lineCount)}`);
+        lines.push('');
+    }
+    
+    // Show board if detected
+    const board = detectArduinoBoard();
+    if (board) {
+        lines.push(`🎯 ${t('output.boardDetected', board)}`);
+        lines.push('');
+    }
+    
+    // Show question
+    lines.push(`❓ ${t('output.yourQuestion')}:`);
+    const wrappedQuestion = wrapText(question, 80);  // 80 Zeichen
+    wrappedQuestion.split('\n').forEach(line => {
+        lines.push(`   ${line}`);
+    });
+    lines.push('');
+    
+    lines.push(`💡 ${t('output.aiAnswer')}:`);
+    lines.push('');
+    
+    // Wrap response at 80 characters
+    const wrappedResponse = response.split('\n').map(line => 
+        line.length > 80 ? wrapText(line, 80) : line
+    ).join('\n');
+    
+    lines.push(wrappedResponse);
+    lines.push('');
+    lines.push('='.repeat(50));
+    lines.push(`💬 ${t('output.followUpHint')}`);
+    lines.push(`   • ${t('shortcuts.askFollowUp')}: Ctrl+Shift+F`);
+    lines.push(`   • ${t('shortcuts.askAI')}: Ctrl+Shift+A`);
     
     const formattedContent = lines.join('\n');
     
-    // WICHTIG: Document erstellen und anzeigen
-    try {
-        const doc = await vscode.workspace.openTextDocument({
-            content: formattedContent,
-            language: 'markdown'
-        });
-        
-        await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
-    } catch (docError) {
-        console.error('Document creation error:', docError);
-        vscode.window.showErrorMessage('Failed to create document: ' + docError.message);
-    }
+    const doc = await vscode.workspace.openTextDocument({
+        content: formattedContent,
+        language: 'markdown'
+    });
+    
+    await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
 }
 
 // follow-up prompt builder

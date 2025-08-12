@@ -61,8 +61,6 @@
     "no": "No",
     "replaceOriginal": "Sostituisci originale",
     "keepBoth": "Mantieni entrambi",
-    "replaceCode": "Sostituisci codice",
-    "keepAsIs": "Lascia così",
     "copySolution": "Copia soluzione",
     "copy": "Copia",
     "resetStats": "Resetta statistiche",
@@ -200,7 +198,9 @@
     "aiAnswer": "Risposta dell'IA",
     "aiFollowUp": "{0} Risposta di seguito",
     "followUpTo": "Seguito di",
-    "followUpHint": "Continua la conversazione"
+    "followUpHint": "Continua la conversazione",
+    "codeContextYes": "Contesto codice: Sì ({0} righe)",
+    "boardDetected": "Scheda: {0}"
   },
 
   "chat": {

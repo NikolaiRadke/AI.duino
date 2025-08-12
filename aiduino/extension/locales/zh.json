@@ -61,8 +61,6 @@
     "no": "否",
     "replaceOriginal": "替换原始代码",
     "keepBoth": "保留两者",
-    "replaceCode": "替换代码",
-    "keepAsIs": "保持原样",
     "copySolution": "复制解决方案",
     "copy": "复制",
     "resetStats": "重置统计",
@@ -200,7 +198,9 @@
     "aiAnswer": "AI回答",
     "aiFollowUp": "{0} 追问回复",
     "followUpTo": "追问",
-    "followUpHint": "继续对话"
+    "followUpHint": "继续对话",
+    "codeContextYes": "代码上下文：是（{0} 行）",
+    "boardDetected": "开发板：{0}"
   },
 
   "chat": {

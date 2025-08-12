@@ -61,8 +61,6 @@
     "no": "Hayır",
     "replaceOriginal": "Orijinali değiştir",
     "keepBoth": "İkisini de tut",
-    "replaceCode": "Kodu değiştir",
-    "keepAsIs": "Olduğu gibi bırak",
     "copySolution": "Çözümü Kopyala",
     "copy": "Kopyala",
     "resetStats": "İstatistikleri Sıfırla",
@@ -200,7 +198,9 @@
     "aiAnswer": "AI Yanıtı",
     "aiFollowUp": "{0} Takip Yanıtı",
     "followUpTo": "Takibi",
-    "followUpHint": "Konuşmayı devam ettir"
+    "followUpHint": "Konuşmayı devam ettir",
+    "codeContextYes": "Kod bağlamı: Evet ({0} satır)",
+    "boardDetected": "Kart: {0}"
   },
 
   "chat": {
