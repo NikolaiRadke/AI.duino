@@ -89,12 +89,12 @@ aiduino/
 ├── extension/
 │   ├── package.json
 |   ├── locales/
-|   |   ├── en.json
+|   |   ├── es.json
 |   |   ├── de.json
 |   |   └── ...
 │   └── out/
 │       └── extension.js
-├── extension.vsixmanifest
+└── extension.vsixmanifest
 
 ```
 
