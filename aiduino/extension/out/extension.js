@@ -3352,8 +3352,8 @@ function showAbout() {
                 <p><strong>${t('about.changelog')}:</strong></p>
                 <ul style="text-align: left;">
                     <li>✨ ${t('about.change1')}</li>
-                    <li>✨ ${t('about.change2')}</li>
-                    <li>✨ ${t('about.change3')}</li>
+                    <!-- <li>✨ ${t('about.change2')}</li> //-->
+                    <!-- <li>✨ ${t('about.change3')}</li> //-->
                 </ul>
             </div>
         </body>
