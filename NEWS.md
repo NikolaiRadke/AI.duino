@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **13.08.2025** Release **V1.5.0** Dynamic AI provider and model integration. Added Perplexity, Cohere and Croq.    
 * **12.08.2025** Release **V1.4.2** with bug fixes and better text rendering.  
 * **11.08.2025** Release **V1.4.1** with auto board detection for prompts and bug fixes.
 * **10.08.2025** Release **V1.4** with new direct AI question function with follow up option.
