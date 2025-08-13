@@ -6,7 +6,7 @@ AI.duino integrates Claude, ChatGPT, Gemini, Mistral, Perplexity, Cohere and Cro
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **13.08.2025** Release **V1.5.0** Dynamic AI provider and model integration. Added Perplexity, Cohere and Croq.    
+* **13.08.2025** Release **V1.5** Dynamic AI provider and model integration. Added Perplexity, Cohere and Croq.    
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/tree/main/NEWS.md).
    
 ## Features
