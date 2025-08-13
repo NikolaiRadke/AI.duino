@@ -241,6 +241,9 @@ setup_api_keys() {
     echo -e "  ${BOLD}•${NC} ChatGPT (OpenAI) - Most versatile"
     echo -e "  ${BOLD}•${NC} Gemini (Google) - Fast & affordable"
     echo -e "  ${BOLD}•${NC} Mistral - Good balance"
+    echo -e "  ${BOLD}•${NC} Groq - Ultra-fast inference"
+    echo -e "  ${BOLD}•${NC} Perplexity - Real-time web search"
+    echo -e "  ${BOLD}•${NC} Cohere - Advanced text generation"
     echo ""
     echo -n "Do you want to set up API keys now? (y/n): "
     read -r response
@@ -310,6 +313,48 @@ setup_individual_keys() {
         chmod 600 "$HOME/.aiduino-mistral-api-key"
         echo -e "${GREEN}✓${NC} Mistral API key saved"
     fi
+
+    # Groq
+    echo -n "Groq API key (gsk_...): "
+    read -rs groq_key
+    echo ""
+    if [ ! -z "$groq_key" ]; then
+        if [[ "$groq_key" == gsk_* ]]; then
+            echo "$groq_key" > "$HOME/.aiduino-groq-api-key"
+            chmod 600 "$HOME/.aiduino-groq-api-key"
+            echo -e "${GREEN}✓${NC} Groq API key saved"
+        else
+            echo -e "${YELLOW}⚠ ${NC} Invalid Groq key format (should start with gsk_)"
+        fi
+    fi
+
+    # Perplexity
+    echo -n "Perplexity API key (pplx-...): "
+    read -rs perplexity_key
+    echo ""
+    if [ ! -z "$perplexity_key" ]; then
+        if [[ "$perplexity_key" == pplx-* ]]; then
+            echo "$perplexity_key" > "$HOME/.aiduino-perplexity-api-key"
+            chmod 600 "$HOME/.aiduino-perplexity-api-key"
+            echo -e "${GREEN}✓${NC} Perplexity API key saved"
+        else
+            echo -e "${YELLOW}⚠ ${NC} Invalid Perplexity key format (should start with pplx-)"
+        fi
+    fi  
+    
+    # Cohere
+    echo -n "Cohere API key (co-...): "
+    read -rs cohere_key
+    echo ""
+    if [ ! -z "$cohere_key" ]; then
+        if [[ "$cohere_key" == co-* ]]; then
+            echo "$cohere_key" > "$HOME/.aiduino-cohere-api-key"
+            chmod 600 "$HOME/.aiduino-cohere-api-key"
+            echo -e "${GREEN}✓${NC} Cohere API key saved"
+        else
+            echo -e "${YELLOW}⚠ ${NC} Invalid Cohere key format (should start with co-)"
+        fi
+    fi
 }
 
 # Show success message
@@ -340,6 +385,9 @@ show_success() {
     echo -e "  • ChatGPT: ${BLUE}https://platform.openai.com${NC}"
     echo -e "  • Gemini:  ${BLUE}https://makersuite.google.com${NC}"
     echo -e "  • Mistral: ${BLUE}https://console.mistral.ai${NC}"
+    echo -e "  • Groq:    ${BLUE}https://console.groq.com${NC}"
+    echo -e "  • Perplexity: ${BLUE}https://www.perplexity.ai/settings/api${NC}"
+    echo -e "  • Cohere:  ${BLUE}https://dashboard.cohere.ai${NC}"
     echo ""
     echo -e "${YELLOW}Tip:${NC} Start with Gemini - it's fast and has a free tier!"
     echo ""

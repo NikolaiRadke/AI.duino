@@ -279,6 +279,9 @@ echo   • Claude ^(Anthropic^) - Best for code understanding
 echo   • ChatGPT ^(OpenAI^) - Most versatile
 echo   • Gemini ^(Google^) - Fast ^& affordable
 echo   • Mistral - Good balance
+echo   • Groq - Ultra-fast inference
+echo   • Perplexity - Real-time web search
+echo   • Cohere - Advanced text generation
 echo.
 set /p "SETUP_KEYS=Do you want to set up API keys now? (y/n): "
 if /i not "!SETUP_KEYS!"=="y" (
@@ -319,6 +322,27 @@ if not "!MISTRAL_KEY!"=="" (
     echo !MISTRAL_KEY!> "%USERPROFILE%\.aiduino-mistral-api-key"
     echo %GREEN%✓%NC% Mistral API key saved
 )
+
+REM Groq
+set /p "GROQ_KEY=Groq API key (gsk_...): "
+if not "!GROQ_KEY!"=="" (
+    echo !GROQ_KEY!> "%USERPROFILE%\.aiduino-groq-api-key"
+    echo %GREEN%✓%NC% Groq API key saved
+)
+
+REM Perplexity
+set /p "PERPLEXITY_KEY=Perplexity API key (pplx-...): "
+if not "!PERPLEXITY_KEY!"=="" (
+    echo !PERPLEXITY_KEY!> "%USERPROFILE%\.aiduino-perplexity-api-key"
+    echo %GREEN%✓%NC% Perplexity API key saved
+)
+
+REM Cohere
+set /p "COHERE_KEY=Cohere API key (co-...): "
+if not "!COHERE_KEY!"=="" (
+    echo !COHERE_KEY!> "%USERPROFILE%\.aiduino-cohere-api-key"
+    echo %GREEN%✓%NC% Cohere API key saved
+)
 goto :eof
 
 :show_success
@@ -347,6 +371,9 @@ echo   • Claude:  %BLUE%https://console.anthropic.com%NC%
 echo   • ChatGPT: %BLUE%https://platform.openai.com%NC%
 echo   • Gemini:  %BLUE%https://makersuite.google.com%NC%
 echo   • Mistral: %BLUE%https://console.mistral.ai%NC%
+echo   • Groq:    %BLUE%https://console.groq.com%NC%
+echo   • Perplexity: %BLUE%https://www.perplexity.ai/settings/api%NC%
+echo   • Cohere:  %BLUE%https://dashboard.cohere.ai%NC%
 echo.
 echo %YELLOW%Tip:%NC% Start with Gemini - it's fast and has a free tier!
 echo.
