@@ -1,12 +1,12 @@
 ![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back.png)
 # 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
-AI.duino integrates Claude, ChatGPT, Gemini and Mistral directly into the Arduino IDE for intelligent code assistance. More AI models will follow. 
+AI.duino integrates Claude, ChatGPT, Gemini, Mistral, Perplexity, Cohere and Croq directly into the Arduino IDE for intelligent code assistance. The newest model will be selected automaticaly.  
  
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **12.08.2025** Release **V1.4.2** with bug fixes and better text rendering.  
+* **13.08.2025** Release **V1.5.0** Dynamic AI provider and model integration. Added Perplexity, Cohere and Croq.    
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/tree/main/NEWS.md).
    
 ## Features
