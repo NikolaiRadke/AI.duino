@@ -113,12 +113,15 @@ aiduino/
 ## API keys
 
 Required: An API key from either:
-- Claude: https://console.anthropic.com/api-keys
-- ChatGPT: https://platform.openai.com/api-keys
-- Gemini: https://aistudio.google.com/apikey
-- Mistral: https://console.mistral.ai/
+- Claude: https://console.anthropic.com
+- ChatGPT: https://platform.openai.com/
+- Gemini: https://makersuite.google.com
+- Mistral: https://console.mistral.ai
+- Perplexity: https://www.perplexity.ai/settings/api
+- Cohere: https://dashboard.cohere.a
+- Croq: https://dashboard.cohere.ai
 
-The key is stored locally and not transmitted.
+The keys are stored locally and not transmitted.
 
 ## Content
   
