@@ -1,8 +1,8 @@
 {
   "name": "aiduino",
   "displayName": "AI.duino",
-  "description": "AI-powered assistance for Arduino with Claude, ChatGPT, Gemini and Mistral: improve code, explain errors, debug help",
-  "version": "1.4.2",
+  "description": "AI-powered assistance for Arduino with Claude, ChatGPT, and other AIs: improve code, explain errors, debug help",
+  "version": "1.5.0",
   "publisher": "Monster Maker",
   "engines": {
     "vscode": "^1.60.0"
@@ -152,13 +152,6 @@
         },
         "aiduino.defaultModel": {
           "type": "string",
-          "enum": ["claude", "chatgpt", "gemini", "mistral"],
-          "enumDescriptions": [
-            "Claude 3.5 Sonnet (Anthropic)",
-            "GPT-4 (OpenAI)",
-            "Gemini 1.5 Flash (Google)",
-            "Mistral Large (Mistral AI)"
-          ],
           "default": "claude",
           "description": "Default AI model on startup"
         },

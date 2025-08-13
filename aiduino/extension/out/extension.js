@@ -375,6 +375,296 @@ function getLanguageInfo(locale) {
     };
 }
 
+// Minimal dynamic model system for AI.duino
+// Works completely in background, only shows latest model in statusbar
+
+class MinimalModelManager {
+    constructor() {
+        this.providers = this.getProviders();
+        this.currentModels = {}; // Latest model per provider
+        this.lastCheck = {};
+        this.isUpdating = false;
+    }
+
+    getProviders() {
+        return {
+            claude: {
+                name: 'Claude',
+                icon: '🤖',
+                color: '#6B46C1',
+                keyFile: '.aiduino-claude-api-key',
+                keyPrefix: 'sk-ant-',
+                hostname: 'api.anthropic.com',
+                path: '/v1/models',
+                headers: (key) => ({ 'x-api-key': key, 'anthropic-version': '2023-06-01' }),
+                extractModels: (data) => data.data?.filter(m => m.type === 'text' && !m.id.includes('deprecated')) || [],
+                selectBest: (models) => models.find(m => m.id.includes('3-5-sonnet')) || models[0],
+                fallback: 'claude-3-5-sonnet-20241022'
+            },
+            chatgpt: {
+                name: 'ChatGPT',
+                icon: '🧠', 
+                color: '#10A37F',
+                keyFile: '.aiduino-openai-api-key',
+                keyPrefix: 'sk-',
+                hostname: 'api.openai.com',
+                path: '/v1/models',
+                headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+                extractModels: (data) => data.data?.filter(m => m.id.startsWith('gpt-') && !m.id.includes('instruct')) || [],
+                selectBest: (models) => models.find(m => m.id.includes('gpt-4-turbo')) || models.find(m => m.id.includes('gpt-4')) || models[0],
+                fallback: 'gpt-4-turbo'
+            },
+            gemini: {
+                name: 'Gemini',
+                icon: '💎',
+                color: '#4285F4', 
+                keyFile: '.aiduino-gemini-api-key',
+                keyPrefix: 'AIza',
+                hostname: 'generativelanguage.googleapis.com',
+                path: '/v1/models?key=',
+                headers: () => ({}),
+                extractModels: (data) => data.models?.filter(m => m.supportedGenerationMethods?.includes('generateContent')) || [],
+                selectBest: (models) => models.find(m => m.name.includes('1.5-pro')) || models.find(m => m.name.includes('1.5-flash')) || models[0],
+                fallback: 'gemini-1.5-flash'
+            },
+            mistral: {
+                name: 'Mistral',
+                icon: '🌟',
+                color: '#FF7000',
+                keyFile: '.aiduino-mistral-api-key', 
+                keyPrefix: 'sk-',
+                hostname: 'api.mistral.ai',
+                path: '/v1/models',
+                headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+                extractModels: (data) => data.data?.filter(m => !m.id.includes('embed')) || [],
+                selectBest: (models) => models.find(m => m.id.includes('large')) || models[0],
+                fallback: 'mistral-large-latest'
+            },
+            
+            // New
+            
+            perplexity: {
+                name: 'Perplexity',
+                icon: '🔍',
+                color: '#20B2AA',
+                keyFile: '.aiduino-perplexity-api-key',
+                keyPrefix: 'pplx-',
+                hostname: 'api.perplexity.ai',
+                path: '/chat/completions',
+                headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+                extractModels: (data) => [{ id: 'llama-3.1-sonar-large-128k-online', name: 'Llama 3.1 Sonar Large' }], // Perplexity hat feste Modelle
+                selectBest: (models) => models[0],
+                fallback: 'llama-3.1-sonar-large-128k-online'
+            },
+            
+            cohere: {
+                name: 'Cohere',
+                icon: '🔥', 
+                color: '#39C5BB',
+                keyFile: '.aiduino-cohere-api-key',
+                keyPrefix: 'co-',
+                hostname: 'api.cohere.ai',
+                path: '/v1/models',
+                headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+                extractModels: (data) => data.models?.filter(m => m.name.includes('command')) || [],
+                selectBest: (models) => models.find(m => m.name.includes('command-r-plus')) || models[0],
+                fallback: 'command-r-plus'
+            },
+            
+            groq: {
+                name: 'Groq',
+                icon: '🚀',
+                color: '#F55036',
+                keyFile: '.aiduino-groq-api-key',
+                keyPrefix: 'gsk_',
+                hostname: 'api.groq.com',
+                path: '/openai/v1/models',
+                headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+                extractModels: (data) => data.data?.filter(m => m.id.includes('llama') || m.id.includes('mixtral')) || [],
+                selectBest: (models) => models.find(m => m.id.includes('llama-3.1')) || models[0],
+                fallback: 'llama-3.1-70b-versatile'
+            }
+        };
+    }
+
+    // Main function: Silent update of all providers
+    async updateModelsQuietly() {
+        if (this.isUpdating) return;
+        this.isUpdating = true;
+
+        try {
+            for (const [providerId, provider] of Object.entries(this.providers)) {
+                const apiKey = this.getApiKey(providerId);
+                if (apiKey && this.shouldCheck(providerId)) {
+                    await this.updateProviderModel(providerId, apiKey);
+                }
+            }
+        } catch (error) {
+            // Silent handling - no user feedback
+            console.log('AI.duino: Model update completed with some fallbacks');
+        } finally {
+            this.isUpdating = false;
+        }
+    }
+
+    // Update single provider
+    async updateProviderModel(providerId, apiKey) {
+        try {
+            const models = await this.fetchModels(providerId, apiKey);
+            if (models.length > 0) {
+                const provider = this.providers[providerId];
+                const bestModel = provider.selectBest(models);
+                if (bestModel) {
+                    this.currentModels[providerId] = this.formatModel(providerId, bestModel);
+                    this.lastCheck[providerId] = Date.now();
+                    console.log(`AI.duino: Updated ${providerId} to ${this.currentModels[providerId].id}`);
+                }
+            }
+        } catch (error) {
+            // Use fallback
+            this.useFallback(providerId);
+        }
+    }
+
+    // API call for models
+    async fetchModels(providerId, apiKey) {
+        const provider = this.providers[providerId];
+        const path = providerId === 'gemini' ? provider.path + apiKey : provider.path;
+        
+        return new Promise((resolve, reject) => {
+            const options = {
+                hostname: provider.hostname,
+                port: 443,
+                path: path,
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json', ...provider.headers(apiKey) },
+                timeout: 5000
+            };
+
+            const req = https.request(options, (res) => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => {
+                    try {
+                        if (res.statusCode === 200) {
+                            const parsed = JSON.parse(data);
+                            const models = provider.extractModels(parsed);
+                            resolve(models);
+                        } else {
+                            reject(new Error(`HTTP ${res.statusCode}`));
+                        }
+                    } catch (e) {
+                        reject(e);
+                    }
+                });
+            });
+
+            req.on('error', reject);
+            req.on('timeout', () => {
+                req.destroy();
+                reject(new Error('Timeout'));
+            });
+
+            req.end();
+        });
+    }
+
+    // Format model object
+    formatModel(providerId, model) {
+        const formatters = {
+            claude: (m) => ({ id: m.id, name: m.display_name || this.cleanName(m.id) }),
+            chatgpt: (m) => ({ id: m.id, name: this.cleanName(m.id) }),
+            gemini: (m) => ({ id: m.name.replace('models/', ''), name: m.displayName || this.cleanName(m.name) }),
+            mistral: (m) => ({ id: m.id, name: this.cleanName(m.id) }),
+            groq: (m) => ({ id: m.id, name: this.cleanName(m.id) }),
+            perplexity: (m) => ({ id: m.id, name: this.cleanName(m.id) }),
+            cohere: (m) => ({ id: m.id || m.name, name: this.cleanName(m.name || m.id) })    
+        };
+    
+        const formatter = formatters[providerId];
+        if (!formatter) {
+            // Fallback für unbekannte Provider
+            return { id: model.id || 'unknown', name: this.cleanName(model.name || model.id || 'Unknown') };
+        }
+    
+        return formatter(model);
+    }
+
+    // Clean model names
+    cleanName(rawName) {
+        return rawName
+            .replace(/^models\//, '')
+            .replace(/-/g, ' ')
+            .replace(/\b\w/g, l => l.toUpperCase());
+    }
+
+    // Use fallback model
+    useFallback(providerId) {
+        const provider = this.providers[providerId];
+        this.currentModels[providerId] = {
+            id: provider.fallback,
+            name: this.cleanName(provider.fallback),
+            isFallback: true
+        };
+    }
+
+    // Check if update needed (daily)
+    shouldCheck(providerId) {
+        const lastCheck = this.lastCheck[providerId] || 0;
+        return Date.now() - lastCheck > 24 * 60 * 60 * 1000; // 24 hours
+    }
+
+    // Read API key from file
+    getApiKey(providerId) {
+        try {
+            const keyFile = path.join(os.homedir(), this.providers[providerId].keyFile);
+            return fs.existsSync(keyFile) ? fs.readFileSync(keyFile, 'utf8').trim() : null;
+        } catch {
+            return null;
+        }
+    }
+
+    // Get current model for provider
+    getCurrentModel(providerId) {
+        return this.currentModels[providerId] || {
+            id: this.providers[providerId].fallback,
+            name: this.cleanName(this.providers[providerId].fallback),
+            isFallback: true
+        };
+    }
+
+    // Provider info for statusbar
+    getProviderInfo(providerId) {
+        const provider = this.providers[providerId];
+        const model = this.getCurrentModel(providerId);
+        
+        return {
+            name: provider.name,
+            icon: provider.icon,
+            color: provider.color,
+            modelName: model.name,
+            modelId: model.id,
+            isLatest: !model.isFallback,
+            hasApiKey: !!this.getApiKey(providerId)
+        };
+    }
+
+    // Debug helper: Show current models
+    showCurrentModels() {
+        console.log('AI.duino Current Models:');
+        Object.keys(this.providers).forEach(providerId => {
+            const model = this.getCurrentModel(providerId);
+            const hasKey = !!this.getApiKey(providerId);
+            console.log(`${providerId}: ${model.id} (${model.name}) - API Key: ${hasKey ? 'Yes' : 'No'} - Fallback: ${model.isFallback ? 'Yes' : 'No'}`);
+        });
+        console.log(`Active Provider: ${currentModel}`);
+        return this.currentModels;
+    }
+}
+
+// Global instance
+const minimalModelManager = new MinimalModelManager();
+
 function loadLocale() {
     const config = vscode.workspace.getConfiguration('aiduino');
     const userLanguageChoice = config.get('language', 'auto');
@@ -567,62 +857,6 @@ function wrapText(text, maxWidth = 50) {
     return lines.join('\n');
 }
 
-// AI Model configuration
-const AI_MODELS = {
-    claude: {
-        name: 'Claude',
-        fullName: 'Claude-3.5-Sonnet',
-        icon: '🤖',
-        keyFile: '.aiduino-claude-api-key',
-        keyPrefix: 'sk-ant-',
-        keyMinLength: 50,
-        prices: {
-            input: 0.003 / 1000,   // $3 per 1M tokens
-            output: 0.015 / 1000   // $15 per 1M tokens
-        },
-        color: '#6B46C1'
-    },
-    chatgpt: {
-        name: 'ChatGPT',
-        fullName: 'GPT-4',
-        icon: '🧠',
-        keyFile: '.aiduino-openai-api-key',
-        keyPrefix: 'sk-',
-        keyMinLength: 40,
-        prices: {
-            input: 0.03 / 1000,    // $30 per 1M tokens
-            output: 0.06 / 1000    // $60 per 1M tokens
-        },
-        color: '#10A37F'
-    },
-    gemini: {
-        name: 'Gemini',
-        fullName: 'Gemini 1.5 Flash',
-        icon: '💎',
-        keyFile: '.aiduino-gemini-api-key',
-        keyPrefix: 'AIza',
-        keyMinLength: 39,
-        prices: {
-            input: 0.00025 / 1000,  // $0.25 per 1M tokens
-            output: 0.0005 / 1000   // $0.50 per 1M tokens
-        },
-        color: '#4285F4'
-    },
-    mistral: {
-        name: 'Mistral',
-        fullName: 'Mistral Large',
-        icon: '🌟',
-        keyFile: '.aiduino-mistral-api-key',
-        keyPrefix: 'sk-',
-        keyMinLength: 32,
-        prices: {
-            input: 0.004 / 1000,   // $4 per 1M tokens
-            output: 0.012 / 1000   // $12 per 1M tokens
-        },
-        color: '#FF7000'
-    }
-};
-
 // Global variables
 let statusBarItem;
 let globalContext;
@@ -658,11 +892,23 @@ function activate(context) {
     loadSelectedModel();
     loadTokenUsage();
     
-    // Status bar with tooltip
+    // Status bar
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
     updateStatusBar();
     statusBarItem.command = "aiduino.quickMenu";
     statusBarItem.show();
+
+    // NEW: Update models in background (after 3 seconds)
+    setTimeout(async () => {
+        await minimalModelManager.updateModelsQuietly();
+        updateStatusBar(); // Update statusbar with latest models
+    }, 3000);
+
+    // NEW: Daily updates
+    setInterval(async () => {
+        await minimalModelManager.updateModelsQuietly();
+        updateStatusBar();
+    }, 24 * 60 * 60 * 1000); // Every 24 hours
     
     // Register commands
     registerCommands(context);
@@ -823,19 +1069,19 @@ function initializeTokenUsage() {
     };
     
     // Initialize for each model
-    Object.keys(AI_MODELS).forEach(modelId => {
+    Object.keys(minimalModelManager.providers).forEach(modelId => {
         tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
     });
 }
 
 function shouldShowWelcome() {
-    return Object.keys(AI_MODELS).every(modelId => !apiKeys[modelId]);
+    return Object.keys(minimalModelManager.providers).every(modelId => !apiKeys[modelId]);
 }
 
 // Configuration management
 function loadApiKeys() {
-    Object.keys(AI_MODELS).forEach(modelId => {
-        const model = AI_MODELS[modelId];
+    Object.keys(minimalModelManager.providers).forEach(modelId => {
+        const model = minimalModelManager.providers[modelId];
         const keyFile = path.join(os.homedir(), model.keyFile);
         
         try {
@@ -852,12 +1098,12 @@ function loadSelectedModel() {
     try {
         if (fs.existsSync(MODEL_FILE)) {
             const savedModel = fs.readFileSync(MODEL_FILE, 'utf8').trim();
-            if (AI_MODELS[savedModel]) {
+            if (minimalModelManager.providers[savedModel]) {
                 currentModel = savedModel;
             }
         }
     } catch (error) {
-        console.log('❌ Error loading model:', error);
+        // Silent
     }
 }
 
@@ -916,7 +1162,7 @@ function loadTokenUsage() {
             tokenUsage = data;
             
             // Ensure all models exist in loaded data
-            Object.keys(AI_MODELS).forEach(modelId => {
+            Object.keys(minimalModelManager.providers).forEach(modelId => {
                 if (!tokenUsage[modelId]) {
                     tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
                 }
@@ -1065,7 +1311,8 @@ function updateTokenUsage(modelId, inputText, outputText) {
     tokenUsage[modelId].output += outputTokens;
     
     // Calculate costs
-    const model = AI_MODELS[modelId];
+    const model = minimalModelManager.providers[modelId];
+    if (!model) return;
     const inputCost = inputTokens * model.prices.input;
     const outputCost = outputTokens * model.prices.output;
     tokenUsage[modelId].cost += (inputCost + outputCost);
@@ -1077,33 +1324,37 @@ function updateTokenUsage(modelId, inputText, outputText) {
 
 // UI functions
 function updateStatusBar() {
-    const model = AI_MODELS[currentModel];
-    const hasApiKey = apiKeys[currentModel];
+    const providerInfo = minimalModelManager.getProviderInfo(currentModel);
+    const hasApiKey = providerInfo.hasApiKey;
     
-    // Costs for today
-    const todayCost = tokenUsage[currentModel].cost.toFixed(3);
-    const costDisplay = todayCost > 0 ? ` ($${todayCost})` : '';
+    // Token-Kosten (bestehende Logik)
+    const todayCost = tokenUsage[currentModel]?.cost.toFixed(3) || '0.000';
+    const costDisplay = todayCost > 0 ? ` (${todayCost})` : '';
     
     if (hasApiKey) {
-        statusBarItem.text = `${model.icon} AI.duino${costDisplay}`;
-        statusBarItem.tooltip = t('statusBar.tooltip', 
-            model.name,
-            tokenUsage[currentModel].input + tokenUsage[currentModel].output,
-            costDisplay,
-            tokenUsage[currentModel].input,
-            tokenUsage[currentModel].output
-        );
+        statusBarItem.text = `${providerInfo.icon} AI.duino${costDisplay}`;
+        
+        // Fixed: Proper model status without t() function calls
+        const modelStatus = providerInfo.isLatest ? 
+            `Latest: ${providerInfo.modelName}` :
+            `Fallback: ${providerInfo.modelName}`;
+            
+        statusBarItem.tooltip = 
+            `${providerInfo.name} - ${modelStatus}\n` +
+            `Tokens: ${(tokenUsage[currentModel]?.input || 0) + (tokenUsage[currentModel]?.output || 0)}${costDisplay}\n` +
+            `Input: ${tokenUsage[currentModel]?.input || 0} | Output: ${tokenUsage[currentModel]?.output || 0}`;
+            
         statusBarItem.backgroundColor = undefined;
     } else {
-        statusBarItem.text = `${model.icon} AI.duino $(warning)`;
-        statusBarItem.tooltip = t('statusBar.noApiKey', model.name);
+        statusBarItem.text = `${providerInfo.icon} AI.duino $(warning)`;
+        statusBarItem.tooltip = `No API key for ${providerInfo.name}`;
         statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
     }
 }
 
 // Menu functions
 async function showWelcomeMessage() {
-    const modelList = Object.values(AI_MODELS).map(m => m.name).join(', ');
+    const modelList = Object.keys(minimalModelManager.providers).map(m => m.name).join(', ');
     const message = t('messages.welcome', modelList);
     const choice = await vscode.window.showInformationMessage(
         message,
@@ -1117,7 +1368,7 @@ async function showWelcomeMessage() {
 }
 
 async function showQuickMenu() {
-    const model = AI_MODELS[currentModel];
+    const model = minimalModelManager.providers[currentModel];
     const hasApiKey = apiKeys[currentModel];
     const board = detectArduinoBoard();
     const boardDisplay = getBoardDisplayName(board);  // Use short name
@@ -1258,19 +1509,18 @@ function getTodayUsage() {
 
 // Model management
 async function switchModel() {
-    // Check if already running
-    if (!executionStates.start('executionStates.OPERATIONS.SWITCH_MODEL')) {
+    if (!executionStates.start(executionStates.OPERATIONS.SWITCH_MODEL)) {
         vscode.window.showInformationMessage("Model switch is already running! Please wait...");
         return;
     }
     
     try {
-        const items = Object.keys(AI_MODELS).map(modelId => {
-            const model = AI_MODELS[modelId];
-            const provider = getProviderName(modelId);
+        const items = Object.keys(minimalModelManager.providers).map(modelId => {
+            const provider = minimalModelManager.providers[modelId];
+            const currentModel = minimalModelManager.getCurrentModel(modelId);
             return {
-                label: `${model.icon} ${model.name} (${provider})`,
-                description: currentModel === modelId ? '✓ ' + t('labels.active') : model.fullName,
+                label: `${provider.icon} ${provider.name}`,
+                description: currentModel === modelId ? '✓ ' + t('labels.active') : currentModel.name,
                 value: modelId
             };
         });
@@ -1284,31 +1534,31 @@ async function switchModel() {
             saveSelectedModel();
             updateStatusBar();
             
-            // Check if API key exists
-            if (!apiKeys[currentModel]) {
-                const model = AI_MODELS[currentModel];
+            if (!minimalModelManager.getProviderInfo(currentModel).hasApiKey) {
+                const provider = minimalModelManager.providers[currentModel];
                 const choice = await vscode.window.showWarningMessage(
-                    t('messages.apiKeyRequired', model.name),
+                    t('messages.apiKeyRequired', provider.name),
                     t('buttons.enterNow'),
                     t('buttons.later')
                 );
                 if (choice === t('buttons.enterNow')) {
-                    await setApiKey();
+                    // Don't await setApiKey to avoid blocking the execution state
+                    setApiKey();
                 }
             } else {
-                const model = AI_MODELS[currentModel];
-                vscode.window.showInformationMessage(t('messages.modelSwitched', model.name));
+                const provider = minimalModelManager.providers[currentModel];
+                vscode.window.showInformationMessage(t('messages.modelSwitched', provider.name));
             }
         }
     } finally {
-        // Always cleanup
-        executionStates.stop('switchModel');
+        // Always cleanup execution state
+        executionStates.stop(executionStates.OPERATIONS.SWITCH_MODEL);
     }
 }
 
 async function setApiKey() {
     // Check if already running
-    if (!executionStates.start('executionStates.stop(executionStates.OPERATIONS.SET_API_KEY);')) {
+    if (!executionStates.start(executionStates.OPERATIONS.SET_API_KEY)) {
         vscode.window.showInformationMessage("API Key setup is already running! Please wait...");
         return false;
     }
@@ -1355,13 +1605,7 @@ async function setApiKey() {
 }
 
 function getProviderName(modelId) {
-    const providers = {
-        claude: 'Claude',
-        chatgpt: 'OpenAI',
-        gemini: 'Google',
-        mistral: 'Mistral'
-    };
-    return providers[modelId] || AI_MODELS[modelId].name;
+    return minimalModelManager.providers[modelId]?.name || 'Unknown';
 }
 
 function handleApiError(error) {
@@ -1523,12 +1767,17 @@ function openApiKeyUrl(modelId) {
         claude: 'https://console.anthropic.com/api-keys',
         chatgpt: 'https://platform.openai.com/api-keys',
         gemini: 'https://makersuite.google.com/app/apikey',
-        mistral: 'https://console.mistral.ai/'
+        mistral: 'https://console.mistral.ai/',
+        groq: 'https://console.groq.com/keys',
+        perplexity: 'https://www.perplexity.ai/settings/api',
+        cohere: 'https://dashboard.cohere.ai/api-keys'
     };
     
     const url = urls[modelId];
     if (url) {
         vscode.env.openExternal(vscode.Uri.parse(url));
+    } else {
+        vscode.window.showWarningMessage(`No API key URL configured for ${modelId}`);
     }
 }
 
@@ -1538,14 +1787,19 @@ function openServiceStatusUrl(modelId) {
         claude: 'https://status.anthropic.com/',
         chatgpt: 'https://status.openai.com/',
         gemini: 'https://status.cloud.google.com/',
-        mistral: 'https://status.mistral.ai/'
+        mistral: 'https://status.mistral.ai/',
+        groq: 'https://status.groq.com/',
+        perplexity: 'https://status.perplexity.ai/',
+        cohere: 'https://status.cohere.ai/'
     };
     
     const url = urls[modelId];
     if (url) {
         vscode.env.openExternal(vscode.Uri.parse(url));
     } else {
-        vscode.window.showInformationMessage(t('messages.noStatusPage', AI_MODELS[modelId].name));
+        // FIX: Verwende minimalModelManager statt AI_MODELS
+        const providerName = minimalModelManager.providers[modelId]?.name || 'Unknown Provider';
+        vscode.window.showInformationMessage(t('messages.noStatusPage', providerName));
     }
 }
 
@@ -1606,13 +1860,7 @@ async function testNetworkConnectivity() {
 
 // Get hostname for current model
 function getModelHostname(modelId) {
-    const hostnames = {
-        claude: 'api.anthropic.com',
-        chatgpt: 'api.openai.com',
-        gemini: 'generativelanguage.googleapis.com',
-        mistral: 'api.mistral.ai'
-    };
-    return hostnames[modelId] || 'unknown';
+    return minimalModelManager.providers[modelId]?.hostname || 'unknown';
 }
 
 // Error diagnosis
@@ -1679,9 +1927,11 @@ class UnifiedAPIClient {
     }
 
     async callAPI(modelId, prompt) {
-        if (!apiKeys[modelId]) {
-            throw new Error(t('errors.noApiKey', AI_MODELS[modelId].name));
-        }
+    if (!apiKeys[modelId]) {
+        // FIX: Verwende minimalModelManager statt AI_MODELS
+        const providerName = minimalModelManager.providers[modelId]?.name || 'Unknown Provider';
+        throw new Error(t('errors.noApiKey', providerName));
+    }
 
         const config = this.getModelConfig(modelId, prompt);
         
@@ -1706,6 +1956,15 @@ class UnifiedAPIClient {
     }
 
     getModelConfig(modelId, prompt) {
+        // NEW: Use latest detected model
+        const currentModel = minimalModelManager.getCurrentModel(modelId);
+        const provider = minimalModelManager.providers[modelId];
+        
+        if (!provider) {
+            throw new Error(`Unknown provider: ${modelId}`);
+        }
+
+        // Existing configurations, but with dynamic model
         const configs = {
             claude: {
                 hostname: 'api.anthropic.com',
@@ -1716,7 +1975,7 @@ class UnifiedAPIClient {
                     'anthropic-version': '2023-06-01'
                 },
                 body: {
-                    model: "claude-3-5-sonnet-20241022",
+                    model: currentModel.id, // NEW: Dynamic model
                     max_tokens: 2000,
                     messages: [{ role: "user", content: prompt }]
                 }
@@ -1730,7 +1989,7 @@ class UnifiedAPIClient {
                     'Authorization': `Bearer ${apiKeys.chatgpt}`
                 },
                 body: {
-                    model: "gpt-4",
+                    model: currentModel.id, // NEW: Dynamic model
                     messages: [
                         { role: "system", content: t('prompts.systemPrompt') },
                         { role: "user", content: prompt }
@@ -1742,7 +2001,7 @@ class UnifiedAPIClient {
             
             gemini: {
                 hostname: 'generativelanguage.googleapis.com',
-                path: `/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKeys.gemini}`,
+                path: `/v1beta/models/${currentModel.id}:generateContent?key=${apiKeys.gemini}`, // NEW: Dynamic model
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -1768,7 +2027,58 @@ class UnifiedAPIClient {
                     'Authorization': `Bearer ${apiKeys.mistral}`
                 },
                 body: {
-                    model: "mistral-large-latest",
+                    model: currentModel.id, // NEW: Dynamic model
+                    messages: [
+                        { role: "system", content: t('prompts.systemPrompt') },
+                        { role: "user", content: prompt }
+                    ],
+                    max_tokens: 2000,
+                    temperature: 0.7
+                }
+            },
+
+            perplexity: {
+                hostname: 'api.perplexity.ai',
+                path: '/chat/completions',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKeys.perplexity}`
+                },
+                body: {
+                    model: currentModel.id,
+                    messages: [
+                        { role: "system", content: t('prompts.systemPrompt') },
+                        { role: "user", content: prompt }
+                    ],
+                    max_tokens: 2000,
+                    temperature: 0.7
+                }
+            },
+
+            cohere: {
+                hostname: 'api.cohere.ai',
+                path: '/v1/chat',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKeys.cohere}`
+                },
+                body: {
+                    model: currentModel.id,
+                    message: prompt,
+                    max_tokens: 2000,
+                    temperature: 0.7
+                }
+            },
+
+            groq: {
+                hostname: 'api.groq.com',
+                path: '/openai/v1/chat/completions',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKeys.groq}`
+                },
+                body: {
+                    model: currentModel.id,
                     messages: [
                         { role: "system", content: t('prompts.systemPrompt') },
                         { role: "user", content: prompt }
@@ -1849,7 +2159,10 @@ class UnifiedAPIClient {
                 }
                 throw new Error('Unexpected response format from Gemini');
             },
-            mistral: (data) => data.choices[0].message.content
+            mistral: (data) => data.choices[0].message.content,
+            groq: (data) => data.choices[0].message.content,
+            perplexity: (data) => data.choices[0].message.content,
+            cohere: (data) => data.text || data.message || data.choices[0].message.content
         };
 
         const extractor = extractors[modelId];
@@ -1901,7 +2214,7 @@ class UnifiedAPIClient {
     }
 
     enhanceError(modelId, error) {
-    const modelName = AI_MODELS[modelId].name;
+    const modelName = minimalModelManager.providers[modelId]?.name || 'Unknown Provider';
     
     // Add model context to error WITH error types
     if (error.message.includes('Invalid API Key')) {
@@ -1982,7 +2295,7 @@ async function explainCode() {
         }
         
         const prompt = t('prompts.explainCode', selectedText) + getBoardContext();
-        const model = AI_MODELS[currentModel];
+        const model = minimalModelManager.providers[currentModel];
         
         let response;
         try {
@@ -2075,7 +2388,7 @@ async function improveCode() {
         
         prompt += '\n\n' + t('prompts.improveCodeSuffix');
         
-        const model = AI_MODELS[currentModel];
+        const model = minimalModelManager.providers[currentModel];
         
         const response = await vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
@@ -2213,7 +2526,7 @@ async function addComments() {
     
         prompt += '\n\n' + t('prompts.addCommentsSuffix');
         
-        const model = AI_MODELS[currentModel];
+        const model = minimalModelManager.providers[currentModel];
         
         let response;
         try {
@@ -2341,7 +2654,7 @@ async function explainError() {
         const prompt = t('prompts.explainError', errorInput, line + 1, codeContext) + getBoardContext();
         
         try {
-            const model = AI_MODELS[currentModel];
+            const model = minimalModelManager.providers[currentModel];
             
             // Use vscode.window.withProgress like askAI
             const response = await vscode.window.withProgress({
@@ -2458,7 +2771,7 @@ async function debugHelp() {
         }
         
         try {
-    const model = AI_MODELS[currentModel];
+    const model = minimalModelManager.providers[currentModel];
     
     let response;
     try {
@@ -2507,7 +2820,7 @@ async function askAI(isFollowUp = false) {
 
         // Check if API key is available
         if (!apiKeys[currentModel]) {
-            const model = AI_MODELS[currentModel];
+            const model = minimalModelManager.providers[currentModel];
             const choice = await vscode.window.showWarningMessage(
                 t('messages.noApiKey', model.name),
                 t('buttons.setupNow'),
@@ -2590,7 +2903,7 @@ async function askAI(isFollowUp = false) {
         }   
 
         // Call AI
-        const model = AI_MODELS[currentModel];
+        const model = minimalModelManager.providers[currentModel];
         
         let response;
         try {
@@ -2718,7 +3031,8 @@ function buildFollowUpPrompt(followUpQuestion) {
 
 // HTML generation
 function createErrorExplanationHtml(error, line, explanation, modelId) {
-    const model = AI_MODELS[modelId];
+    const model = minimalModelManager.providers[modelId];
+    if (!model) return;
     const modelBadge = `<span style="background: ${model.color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${model.name}</span>`;
     
     // Escape HTML and replace newlines with <br> for HTML display
@@ -2818,7 +3132,8 @@ function createErrorExplanationHtml(error, line, explanation, modelId) {
 }
 
 function createDebugHelpHtml(title, content, modelId) {
-    const model = AI_MODELS[modelId];
+    const model = minimalModelManager.providers[modelId];
+    if (!model) return;
     const modelBadge = `<span style="background: ${model.color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${model.name}</span>`;
     
     const htmlContent = escapeHtml(content).replace(/\n/g, '<br>');
@@ -3023,7 +3338,7 @@ void loop() {
 // Token statistics
 function showTokenStats() {
     let totalCostToday = 0;
-    Object.keys(AI_MODELS).forEach(modelId => {
+    Object.keys(minimalModelManager.providers).forEach(modelId => {
         totalCostToday += tokenUsage[modelId].cost;
     });
     
@@ -3036,8 +3351,9 @@ function showTokenStats() {
     
     // Generate statistics cards for all models
     let modelCards = '';
-    Object.keys(AI_MODELS).forEach(modelId => {
-        const model = AI_MODELS[modelId];
+    Object.keys(minimalModelManager.providers).forEach(modelId => {
+        const model = minimalModelManager.providers[modelId];
+        if (!model) return;
         modelCards += `
             <div class="stat-card">
                 <div class="model-name" style="color: ${model.color};">${model.icon} ${model.fullName}</div>
@@ -3161,8 +3477,9 @@ function showAbout() {
     
     // Generate model badges
     let modelBadges = '';
-    Object.keys(AI_MODELS).forEach(modelId => {
-        const model = AI_MODELS[modelId];
+    Object.keys(minimalModelManager.providers).forEach(modelId => {
+        const model = minimalModelManager.providers[modelId];
+        if (!model) return;
         modelBadges += `
             <span class="model-badge" style="background: ${model.color}; margin: 0 5px;">
                 ${model.icon} ${model.name}
@@ -3172,8 +3489,9 @@ function showAbout() {
     
     // Generate feature list for all models
     let modelFeatures = '';
-    Object.keys(AI_MODELS).forEach(modelId => {
-        const model = AI_MODELS[modelId];
+    Object.keys(minimalModelManager.providers).forEach(modelId => {
+        const model = minimalModelManager.providers[modelId];
+        if (!model) return;
         modelFeatures += `<div class="feature">${model.icon} ${model.fullName} ${t('about.integration')}</div>`;
     });
     
