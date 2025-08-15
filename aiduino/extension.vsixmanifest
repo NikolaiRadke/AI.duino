@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
   <Metadata>
-    <Identity Language="en-US" Id="aiduino" Version="1.5.0" Publisher="Monster Maker"/>
+    <Identity Language="en-US" Id="aiduino" Version="1.5.1" Publisher="Monster Maker"/>
     <DisplayName>AI.duino</DisplayName>
     <Description xml:space="preserve">AI-powered assistance for Arduino with multi-language support</Description>
   </Metadata>

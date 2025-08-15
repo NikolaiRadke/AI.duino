@@ -399,11 +399,32 @@ class MinimalModelManager {
                 headers: (key) => ({ 'x-api-key': key, 'anthropic-version': '2023-06-01' }),
                 extractModels: (data) => data.data?.filter(m => m.type === 'text' && !m.id.includes('deprecated')) || [],
                 selectBest: (models) => models.find(m => m.id.includes('3-5-sonnet')) || models[0],
-                fallback: 'claude-3-5-sonnet-20241022'
+                fallback: 'claude-3-5-sonnet-20241022',
+                prices: {
+                    input: 0.003 / 1000,   // $3 per 1M tokens
+                    output: 0.015 / 1000   // $15 per 1M tokens
+                },
+                // NEW: API Configuration
+                apiConfig: {
+                    apiPath: '/v1/messages',
+                    method: 'POST',
+                    headers: (key) => ({
+                        'Content-Type': 'application/json',
+                        'x-api-key': key,
+                        'anthropic-version': '2023-06-01'
+                    }),
+                    buildRequest: (modelId, prompt) => ({
+                        model: modelId,
+                        max_tokens: 2000,
+                        messages: [{ role: "user", content: prompt }]
+                    }),
+                    extractResponse: (data) => data.content[0].text
+                }
             },
+            
             chatgpt: {
                 name: 'ChatGPT',
-                icon: '🧠', 
+                icon: '🧠',
                 color: '#10A37F',
                 keyFile: '.aiduino-openai-api-key',
                 keyPrefix: 'sk-',
@@ -412,36 +433,141 @@ class MinimalModelManager {
                 headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
                 extractModels: (data) => data.data?.filter(m => m.id.startsWith('gpt-') && !m.id.includes('instruct')) || [],
                 selectBest: (models) => models.find(m => m.id.includes('gpt-4-turbo')) || models.find(m => m.id.includes('gpt-4')) || models[0],
-                fallback: 'gpt-4-turbo'
+                fallback: 'gpt-4-turbo',
+                prices: {
+                    input: 0.03 / 1000,    // $30 per 1M tokens
+                    output: 0.06 / 1000    // $60 per 1M tokens
+                },
+                // NEW: API Configuration
+                apiConfig: {
+                    apiPath: '/v1/chat/completions',
+                    method: 'POST',
+                    headers: (key) => ({
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${key}`
+                    }),
+                    buildRequest: (modelId, prompt) => ({
+                        model: modelId,
+                        messages: [
+                            { role: "system", content: t('prompts.systemPrompt') },
+                            { role: "user", content: prompt }
+                        ],
+                        max_tokens: 2000,
+                        temperature: 0.7
+                    }),
+                    extractResponse: (data) => data.choices[0].message.content
+                }
             },
+
             gemini: {
                 name: 'Gemini',
                 icon: '💎',
-                color: '#4285F4', 
+                color: '#4285F4',
                 keyFile: '.aiduino-gemini-api-key',
                 keyPrefix: 'AIza',
+                keyMinLength: 20,
                 hostname: 'generativelanguage.googleapis.com',
                 path: '/v1/models?key=',
                 headers: () => ({}),
                 extractModels: (data) => data.models?.filter(m => m.supportedGenerationMethods?.includes('generateContent')) || [],
                 selectBest: (models) => models.find(m => m.name.includes('1.5-pro')) || models.find(m => m.name.includes('1.5-flash')) || models[0],
-                fallback: 'gemini-1.5-flash'
+                fallback: 'models/gemini-1.5-flash-latest', // MIT prefix
+                prices: {
+                    input: 0.00025 / 1000,
+                    output: 0.0005 / 1000
+                },
+                apiConfig: {
+                    apiPath: (modelId, key) => {
+                        // Stelle sicher, dass das models/ prefix vorhanden ist
+                        if (!modelId.startsWith('models/')) {
+                            modelId = 'models/' + modelId;
+                        }
+                        return `/v1beta/${modelId}:generateContent?key=${key}`;
+                    },
+                    method: 'POST',
+                    headers: (key) => ({
+                        'Content-Type': 'application/json'
+                    }),
+                    buildRequest: (modelId, prompt) => ({
+                        contents: [{
+                            parts: [{ text: prompt }]
+                        }],
+                        generationConfig: {
+                            temperature: 0.7,
+                            topK: 1,
+                            topP: 1,
+                            maxOutputTokens: 2048,
+                        },
+                        safetySettings: [
+                            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                            { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                            { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
+                        ]
+                    }),         
+                    extractResponse: (data) => {
+                        // Bessere Error-Behandlung
+                        if (data.error) {
+                            throw new Error(`Gemini API Error: ${data.error.message || JSON.stringify(data.error)}`);
+                        }
+                        
+                        if (data.candidates && data.candidates[0]) {
+                            const candidate = data.candidates[0];
+                            
+                            // Check for blocked content
+                            if (candidate.finishReason === 'SAFETY') {
+                                throw new Error('Response blocked due to safety settings');
+                            }
+                            
+                            if (candidate.content && 
+                                candidate.content.parts && 
+                                candidate.content.parts[0] &&
+                                candidate.content.parts[0].text) {
+                                return candidate.content.parts[0].text;
+                            }
+                        }
+                        
+                        throw new Error('Unexpected response format from Gemini');
+                    }           
+                }
             },
+    
             mistral: {
                 name: 'Mistral',
                 icon: '🌟',
                 color: '#FF7000',
-                keyFile: '.aiduino-mistral-api-key', 
+                keyFile: '.aiduino-mistral-api-key',
                 keyPrefix: 'sk-',
                 hostname: 'api.mistral.ai',
                 path: '/v1/models',
                 headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
                 extractModels: (data) => data.data?.filter(m => !m.id.includes('embed')) || [],
                 selectBest: (models) => models.find(m => m.id.includes('large')) || models[0],
-                fallback: 'mistral-large-latest'
+                fallback: 'mistral-large-latest',
+                prices: {
+                    input: 0.004 / 1000,   // $4 per 1M tokens
+                    output: 0.012 / 1000   // $12 per 1M tokens
+                },
+                // NEW: API Configuration
+                apiConfig: {
+                    apiPath: '/v1/chat/completions',
+                    method: 'POST',
+                    headers: (key) => ({
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${key}`
+                    }),
+                    buildRequest: (modelId, prompt) => ({
+                        model: modelId,
+                        messages: [
+                            { role: "system", content: t('prompts.systemPrompt') },
+                            { role: "user", content: prompt }
+                        ],
+                        max_tokens: 2000,
+                        temperature: 0.7
+                    }),
+                    extractResponse: (data) => data.choices[0].message.content
+                }
             },
-            
-            // New
             
             perplexity: {
                 name: 'Perplexity',
@@ -452,14 +578,37 @@ class MinimalModelManager {
                 hostname: 'api.perplexity.ai',
                 path: '/chat/completions',
                 headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-                extractModels: (data) => [{ id: 'llama-3.1-sonar-large-128k-online', name: 'Llama 3.1 Sonar Large' }], // Perplexity hat feste Modelle
+                extractModels: (data) => [{ id: 'llama-3.1-sonar-large-128k-online', name: 'Llama 3.1 Sonar Large' }],
                 selectBest: (models) => models[0],
-                fallback: 'llama-3.1-sonar-large-128k-online'
+                fallback: 'llama-3.1-sonar-large-128k-online',
+                prices: {
+                    input: 0.001 / 1000,   // $1 per 1M tokens (estimate)
+                    output: 0.003 / 1000   // $3 per 1M tokens (estimate)
+                },
+                // NEW: API Configuration
+                apiConfig: {
+                    apiPath: '/chat/completions',
+                    method: 'POST',
+                    headers: (key) => ({
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${key}`
+                    }),
+                    buildRequest: (modelId, prompt) => ({
+                        model: modelId,
+                        messages: [
+                            { role: "system", content: t('prompts.systemPrompt') },
+                            { role: "user", content: prompt }
+                        ],
+                        max_tokens: 2000,
+                        temperature: 0.7
+                    }),
+                    extractResponse: (data) => data.choices[0].message.content
+                }
             },
             
             cohere: {
                 name: 'Cohere',
-                icon: '🔥', 
+                icon: '🔥',
                 color: '#39C5BB',
                 keyFile: '.aiduino-cohere-api-key',
                 keyPrefix: 'co-',
@@ -468,7 +617,27 @@ class MinimalModelManager {
                 headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
                 extractModels: (data) => data.models?.filter(m => m.name.includes('command')) || [],
                 selectBest: (models) => models.find(m => m.name.includes('command-r-plus')) || models[0],
-                fallback: 'command-r-plus'
+                fallback: 'command-r-plus',
+                prices: {
+                    input: 0.0015 / 1000,  // $1.5 per 1M tokens (estimate)
+                    output: 0.002 / 1000   // $2 per 1M tokens (estimate)
+                },
+                // NEW: API Configuration
+                apiConfig: {
+                    apiPath: '/v1/chat',
+                    method: 'POST',
+                    headers: (key) => ({
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${key}`
+                    }),
+                    buildRequest: (modelId, prompt) => ({
+                        model: modelId,
+                        message: prompt,
+                        max_tokens: 2000,
+                        temperature: 0.7
+                    }),
+                    extractResponse: (data) => data.text || data.message || data.choices[0].message.content
+                }
             },
             
             groq: {
@@ -482,7 +651,30 @@ class MinimalModelManager {
                 headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
                 extractModels: (data) => data.data?.filter(m => m.id.includes('llama') || m.id.includes('mixtral')) || [],
                 selectBest: (models) => models.find(m => m.id.includes('llama-3.1')) || models[0],
-                fallback: 'llama-3.1-70b-versatile'
+                fallback: 'llama-3.1-70b-versatile',
+                prices: {
+                    input: 0.0001 / 1000,  // $0.1 per 1M tokens (sehr günstig)
+                    output: 0.0002 / 1000  // $0.2 per 1M tokens (sehr günstig)
+                },
+                // NEW: API Configuration
+                apiConfig: {
+                    apiPath: '/openai/v1/chat/completions',
+                    method: 'POST',
+                    headers: (key) => ({
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${key}`
+                    }),
+                    buildRequest: (modelId, prompt) => ({
+                        model: modelId,
+                        messages: [
+                            { role: "system", content: t('prompts.systemPrompt') },
+                            { role: "user", content: prompt }
+                        ],
+                        max_tokens: 2000,
+                        temperature: 0.7
+                    }),
+                    extractResponse: (data) => data.choices[0].message.content
+                }
             }
         };
     }
@@ -571,25 +763,47 @@ class MinimalModelManager {
 
     // Format model object
     formatModel(providerId, model) {
-        const formatters = {
-            claude: (m) => ({ id: m.id, name: m.display_name || this.cleanName(m.id) }),
-            chatgpt: (m) => ({ id: m.id, name: this.cleanName(m.id) }),
-            gemini: (m) => ({ id: m.name.replace('models/', ''), name: m.displayName || this.cleanName(m.name) }),
-            mistral: (m) => ({ id: m.id, name: this.cleanName(m.id) }),
-            groq: (m) => ({ id: m.id, name: this.cleanName(m.id) }),
-            perplexity: (m) => ({ id: m.id, name: this.cleanName(m.id) }),
-            cohere: (m) => ({ id: m.id || m.name, name: this.cleanName(m.name || m.id) })    
+    const formatters = {
+        claude: (m) => ({ 
+            id: m.id, 
+            name: m.display_name || this.cleanName(m.id) 
+        }),
+        chatgpt: (m) => ({ 
+            id: m.id, 
+            name: this.cleanName(m.id) 
+        }),
+        gemini: (m) => ({ 
+            id: m.name || m.id,  
+            name: m.displayName || this.cleanName((m.name || m.id).replace('models/', ''))
+        }),
+        mistral: (m) => ({ 
+            id: m.id, 
+            name: this.cleanName(m.id) 
+        }),
+        groq: (m) => ({ 
+            id: m.id, 
+            name: this.cleanName(m.id) 
+        }),
+        perplexity: (m) => ({ 
+            id: m.id, 
+            name: this.cleanName(m.id) 
+        }),
+        cohere: (m) => ({ 
+            id: m.id || m.name, 
+            name: this.cleanName(m.name || m.id) 
+        })    
+    };
+
+    const formatter = formatters[providerId];
+    if (!formatter) {
+        return { 
+            id: model.id || 'unknown', 
+            name: this.cleanName(model.name || model.id || 'Unknown') 
         };
-    
-        const formatter = formatters[providerId];
-        if (!formatter) {
-            // Fallback für unbekannte Provider
-            return { id: model.id || 'unknown', name: this.cleanName(model.name || model.id || 'Unknown') };
-        }
-    
-        return formatter(model);
     }
 
+    return formatter(model);
+}
     // Clean model names
     cleanName(rawName) {
         return rawName
@@ -1564,7 +1778,7 @@ async function setApiKey() {
     }
     
     try {
-        const model = AI_MODELS[currentModel];
+        const model = minimalModelManager.providers[currentModel]; 
         const providerName = getProviderName(currentModel);
         
         const input = await vscode.window.showInputBox({
@@ -1609,7 +1823,7 @@ function getProviderName(modelId) {
 }
 
 function handleApiError(error) {
-    const model = AI_MODELS[currentModel];
+    const model = minimalModelManager.providers[currentModel];
 
     // Add model context to all errors if not present
     if (!error.message.includes(model.name)) {
@@ -1898,7 +2112,6 @@ async function checkForErrors(silent = true) {
         lastDiagnosticsCount = errorCount;
         
         if (errorCount > 0 && !silent) {
-            const model = AI_MODELS[currentModel];
             statusBarItem.text = `${model.icon} AI.duino $(error)`;
             statusBarItem.tooltip = t('statusBar.errorsFound', errorCount);
             statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
@@ -1922,16 +2135,15 @@ async function checkForErrors(silent = true) {
 // Unified API client
 class UnifiedAPIClient {
     constructor() {
-        this.timeout = 30000; // 30 seconds
+        this.timeout = 30000;
         this.maxRetries = 3;
     }
 
     async callAPI(modelId, prompt) {
-    if (!apiKeys[modelId]) {
-        // FIX: Verwende minimalModelManager statt AI_MODELS
-        const providerName = minimalModelManager.providers[modelId]?.name || 'Unknown Provider';
-        throw new Error(t('errors.noApiKey', providerName));
-    }
+        if (!apiKeys[modelId]) {
+            const providerName = minimalModelManager.providers[modelId]?.name || 'Unknown Provider';
+            throw new Error(t('errors.noApiKey', providerName));
+        }
 
         const config = this.getModelConfig(modelId, prompt);
         
@@ -1940,7 +2152,6 @@ class UnifiedAPIClient {
                 const response = await this.makeRequest(config);
                 const extractedResponse = this.extractResponse(modelId, response);
                 
-                // Token usage tracking
                 updateTokenUsage(modelId, prompt, extractedResponse);
                 
                 return extractedResponse;
@@ -1949,153 +2160,15 @@ class UnifiedAPIClient {
                     throw this.enhanceError(modelId, error);
                 }
                 
-                // Exponential backoff for retries
                 await this.delay(1000 * attempt);
             }
         }
     }
-
-    getModelConfig(modelId, prompt) {
-        // NEW: Use latest detected model
-        const currentModel = minimalModelManager.getCurrentModel(modelId);
-        const provider = minimalModelManager.providers[modelId];
-        
-        if (!provider) {
-            throw new Error(`Unknown provider: ${modelId}`);
-        }
-
-        // Existing configurations, but with dynamic model
-        const configs = {
-            claude: {
-                hostname: 'api.anthropic.com',
-                path: '/v1/messages',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': apiKeys.claude,
-                    'anthropic-version': '2023-06-01'
-                },
-                body: {
-                    model: currentModel.id, // NEW: Dynamic model
-                    max_tokens: 2000,
-                    messages: [{ role: "user", content: prompt }]
-                }
-            },
-            
-            chatgpt: {
-                hostname: 'api.openai.com',
-                path: '/v1/chat/completions',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKeys.chatgpt}`
-                },
-                body: {
-                    model: currentModel.id, // NEW: Dynamic model
-                    messages: [
-                        { role: "system", content: t('prompts.systemPrompt') },
-                        { role: "user", content: prompt }
-                    ],
-                    max_tokens: 2000,
-                    temperature: 0.7
-                }
-            },
-            
-            gemini: {
-                hostname: 'generativelanguage.googleapis.com',
-                path: `/v1beta/models/${currentModel.id}:generateContent?key=${apiKeys.gemini}`, // NEW: Dynamic model
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    contents: [{
-                        parts: [{ text: prompt }]
-                    }],
-                    generationConfig: {
-                        temperature: 0.7,
-                        topK: 1,
-                        topP: 1,
-                        maxOutputTokens: 2048,
-                    },
-                    safetySettings: this.getGeminiSafetySettings()
-                }
-            },
-            
-            mistral: {
-                hostname: 'api.mistral.ai',
-                path: '/v1/chat/completions',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKeys.mistral}`
-                },
-                body: {
-                    model: currentModel.id, // NEW: Dynamic model
-                    messages: [
-                        { role: "system", content: t('prompts.systemPrompt') },
-                        { role: "user", content: prompt }
-                    ],
-                    max_tokens: 2000,
-                    temperature: 0.7
-                }
-            },
-
-            perplexity: {
-                hostname: 'api.perplexity.ai',
-                path: '/chat/completions',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKeys.perplexity}`
-                },
-                body: {
-                    model: currentModel.id,
-                    messages: [
-                        { role: "system", content: t('prompts.systemPrompt') },
-                        { role: "user", content: prompt }
-                    ],
-                    max_tokens: 2000,
-                    temperature: 0.7
-                }
-            },
-
-            cohere: {
-                hostname: 'api.cohere.ai',
-                path: '/v1/chat',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKeys.cohere}`
-                },
-                body: {
-                    model: currentModel.id,
-                    message: prompt,
-                    max_tokens: 2000,
-                    temperature: 0.7
-                }
-            },
-
-            groq: {
-                hostname: 'api.groq.com',
-                path: '/openai/v1/chat/completions',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKeys.groq}`
-                },
-                body: {
-                    model: currentModel.id,
-                    messages: [
-                        { role: "system", content: t('prompts.systemPrompt') },
-                        { role: "user", content: prompt }
-                    ],
-                    max_tokens: 2000,
-                    temperature: 0.7
-                }
-            }
-        };
-
-        return configs[modelId];
-    }
-
+    
     async makeRequest(config) {
         return new Promise((resolve, reject) => {
             const data = JSON.stringify(config.body);
-            
+        
             const options = {
                 hostname: config.hostname,
                 port: 443,
@@ -2106,21 +2179,20 @@ class UnifiedAPIClient {
                     'Content-Length': Buffer.byteLength(data)
                 }
             };
-
-            // Timeout handling
+    
             const timeout = setTimeout(() => {
                 req.destroy();
-                reject(new Error(t('errors.timeout')));
+                reject(new Error('Request timeout'));
             }, this.timeout);
-
+    
             const req = https.request(options, (res) => {
                 clearTimeout(timeout);
                 let responseData = '';
-
+    
                 res.on('data', (chunk) => {
                     responseData += chunk;
                 });
-
+    
                 res.on('end', () => {
                     try {
                         const parsedData = JSON.parse(responseData);
@@ -2135,42 +2207,74 @@ class UnifiedAPIClient {
                     }
                 });
             });
-
+    
             req.on('error', (e) => {
                 clearTimeout(timeout);
                 reject(this.handleNetworkError(e));
             });
-
+    
             req.write(data);
             req.end();
         });
-    }
+    }   
 
-    extractResponse(modelId, responseData) {
-        const extractors = {
-            claude: (data) => data.content[0].text,
-            chatgpt: (data) => data.choices[0].message.content,
-            gemini: (data) => {
-                if (data.candidates && data.candidates[0] && 
-                    data.candidates[0].content && 
-                    data.candidates[0].content.parts && 
-                    data.candidates[0].content.parts[0]) {
-                    return data.candidates[0].content.parts[0].text;
+    getModelConfig(modelId, prompt) {
+        const provider = minimalModelManager.providers[modelId];
+        if (!provider || !provider.apiConfig) {
+            throw new Error(`Unknown provider or missing API config: ${modelId}`);
+        }
+    
+        const currentModel = minimalModelManager.getCurrentModel(modelId);
+        const apiConfig = provider.apiConfig;
+        const apiKey = apiKeys[modelId];
+    
+        // SPECIAL HANDLING FOR GEMINI
+        if (modelId === 'gemini') {
+            // Hardcode the correct model name for now
+            const geminiModel = 'gemini-1.5-flash-latest'; // oder 'gemini-1.5-pro-latest'
+            const apiPath = `/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`;
+            
+            return {
+                hostname: provider.hostname,
+                path: apiPath,
+                headers: { 'Content-Type': 'application/json' },
+                body: {
+                    contents: [{
+                        parts: [{ text: prompt }]
+                    }],
+                    generationConfig: {
+                        temperature: 0.7,
+                        topK: 1,
+                        topP: 1,
+                        maxOutputTokens: 2048,
+                    }
                 }
-                throw new Error('Unexpected response format from Gemini');
-            },
-            mistral: (data) => data.choices[0].message.content,
-            groq: (data) => data.choices[0].message.content,
-            perplexity: (data) => data.choices[0].message.content,
-            cohere: (data) => data.text || data.message || data.choices[0].message.content
-        };
-
-        const extractor = extractors[modelId];
-        if (!extractor) {
-            throw new Error(`Unknown model: ${modelId}`);
+            };
         }
 
-        return extractor(responseData);
+        // Normal path for other providers
+        let apiPath;
+        if (typeof apiConfig.apiPath === 'function') {
+            apiPath = apiConfig.apiPath(currentModel.id, apiKey);
+        } else {
+            apiPath = apiConfig.apiPath;
+        }
+    
+        return {
+            hostname: provider.hostname,
+            path: apiPath,
+            headers: apiConfig.headers(apiKey),
+            body: apiConfig.buildRequest(currentModel.id, prompt)
+        };
+    }   
+    
+    extractResponse(modelId, responseData) {
+        const provider = minimalModelManager.providers[modelId];
+        if (!provider || !provider.apiConfig) {
+            throw new Error(`Unknown provider: ${modelId}`);
+        }
+
+        return provider.apiConfig.extractResponse(responseData);
     }
 
     getGeminiSafetySettings() {
