@@ -3460,7 +3460,7 @@ function showTokenStats() {
         if (!model) return;
         modelCards += `
             <div class="stat-card">
-                <div class="model-name" style="color: ${model.color};">${model.icon} ${model.fullName}</div>
+                <div class="model-name" style="color: ${model.color};">${model.icon} ${model.name}</div>
                 <div class="stat-row">
                     <span>${t('stats.inputTokens')}:</span>
                     <span>${tokenUsage[modelId].input.toLocaleString()}</span>
@@ -3596,7 +3596,7 @@ function showAbout() {
     Object.keys(minimalModelManager.providers).forEach(modelId => {
         const model = minimalModelManager.providers[modelId];
         if (!model) return;
-        modelFeatures += `<div class="feature">${model.icon} ${model.fullName} ${t('about.integration')}</div>`;
+        modelFeatures += `<div class="feature">${model.icon} ${model.name} ${t('about.integration')}</div>`;
     });
     
     panel.webview.html = `

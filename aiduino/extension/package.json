@@ -91,6 +91,16 @@
         "title": "About AI.duino...",
         "category": "AI.duino",
         "icon": "$(info)"
+      },
+      {
+        "command": "aiduino.showModels",
+        "title": "Show Current Models (Debug)",
+        "category": "AI.duino"
+      },
+      {
+        "command": "aiduino.testGemini",
+        "title": "Test Gemini Connection (Debug)",
+        "category": "AI.duino"
       }
     ],
     "keybindings": [
