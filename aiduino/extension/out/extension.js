@@ -2230,9 +2230,15 @@ class UnifiedAPIClient {
     
         // SPECIAL HANDLING FOR GEMINI
         if (modelId === 'gemini') {
-            // Hardcode the correct model name for now
-            const geminiModel = 'gemini-1.5-flash-latest'; // oder 'gemini-1.5-pro-latest'
-            const apiPath = `/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`;
+            // Use the actual current model instead of hardcoding
+            let geminiModelId = currentModel.id;
+            
+            // Ensure proper format with "models/" prefix
+            if (!geminiModelId.startsWith('models/')) {
+                geminiModelId = 'models/' + geminiModelId;
+            }
+            
+            const apiPath = `/v1beta/${geminiModelId}:generateContent?key=${apiKey}`;
             
             return {
                 hostname: provider.hostname,
@@ -2251,7 +2257,7 @@ class UnifiedAPIClient {
                 }
             };
         }
-
+    
         // Normal path for other providers
         let apiPath;
         if (typeof apiConfig.apiPath === 'function') {
@@ -2266,7 +2272,7 @@ class UnifiedAPIClient {
             headers: apiConfig.headers(apiKey),
             body: apiConfig.buildRequest(currentModel.id, prompt)
         };
-    }   
+    } 
     
     extractResponse(modelId, responseData) {
         const provider = minimalModelManager.providers[modelId];
