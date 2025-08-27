@@ -144,14 +144,21 @@ function detectBoardFromLog() {
         const bufferSize = Math.min(10240, stats.size);
         
         let content;
-        if (stats.size <= bufferSize) {
-            content = fs.readFileSync(logPath, 'utf8');
-        } else {
-            const buffer = Buffer.alloc(bufferSize);
-            const fd = fs.openSync(logPath, 'r');
-            fs.readSync(fd, buffer, 0, bufferSize, stats.size - bufferSize);
-            fs.closeSync(fd);
-            content = buffer.toString('utf8');
+        try {
+            if (stats.size <= bufferSize) {
+                content = fs.readFileSync(logPath, 'utf8');
+            } else {
+                const buffer = Buffer.alloc(bufferSize);
+                const fd = fs.openSync(logPath, 'r');
+                try {
+                    fs.readSync(fd, buffer, 0, bufferSize, stats.size - bufferSize);
+                    content = buffer.toString('utf8');
+                } finally {
+                    fs.closeSync(fd);
+                }
+            }   
+        } catch (error) {
+            return null;
         }
         
         // Split into lines and search from bottom
@@ -774,7 +781,7 @@ class MinimalModelManager {
         }),
         gemini: (m) => ({ 
             id: m.name || m.id,  
-            name: m.displayName || this.cleanName((m.name || m.id).replace('models/', ''))
+            name: m.displayName || this.cleanName(m.name || m.id)
         }),
         mistral: (m) => ({ 
             id: m.id, 
@@ -934,6 +941,7 @@ let configListener = null;
 let diagnosticsListener = null;
 let errorTimeout = null;
 let statusBarUpdateTimeout = null;
+let configDebounceTimeout = null; 
 
 function setupEventListeners(context) {
     // Cleanup existing listeners
@@ -1421,6 +1429,7 @@ function processSaveQueue() {
     }
     
     tokenFileLock = true;
+    const itemsToSave = [...tokenSaveQueue]; // Kopie machen
     tokenSaveQueue = []; // Clear queue
     
     try {
@@ -1491,11 +1500,8 @@ function processSaveQueue() {
         
     } finally {
         tokenFileLock = false;
-        saveTimeout = null;
-        
-        // Process remaining queue items (in case more were added during save)
+        // Check für neue Einträge während des Saves
         if (tokenSaveQueue.length > 0) {
-            // Slight delay to avoid rapid successive saves
             setTimeout(() => processSaveQueue(), 100);
         }
     }
@@ -1865,6 +1871,20 @@ function handleApiError(error) {
         });
         return;
     }
+
+    // Quota Error
+    if (error.type === 'QUOTA_ERROR' || error.message.includes('quota')) {
+        vscode.window.showErrorMessage(
+            t('errors.quotaExceededDetail', model.name),
+            t('buttons.switchModel'),
+            t('buttons.tryLater')
+        ).then(selection => {
+            if (selection === t('buttons.switchModel')) {
+                vscode.commands.executeCommand('aiduino.switchModel');
+            }
+        });
+        return;
+    }   
     
     // Server Errors with status page links
     if (error.type === 'SERVER_ERROR') {
@@ -2237,9 +2257,9 @@ class UnifiedAPIClient {
             if (!geminiModelId.startsWith('models/')) {
                 geminiModelId = 'models/' + geminiModelId;
             }
-            
+    
             const apiPath = `/v1beta/${geminiModelId}:generateContent?key=${apiKey}`;
-            
+
             return {
                 hostname: provider.hostname,
                 path: apiPath,
@@ -2293,6 +2313,12 @@ class UnifiedAPIClient {
     }
 
     createHttpError(statusCode, responseData) {
+    // Spezielle Behandlung für Quota-Fehler
+        if (responseData?.error?.message?.includes('quota')) {
+            const error = new Error(t('errors.quotaExceeded'));
+            error.type = 'QUOTA_ERROR';
+            return error;
+        }
         const errorMessages = {
             401: 'Invalid API Key',
             403: 'Access Forbidden',
@@ -2443,7 +2469,7 @@ async function explainCode() {
         
         await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside); 
         } catch (docError) {
-            vscode.window.showErrorMessage('Failed to create document: ' + docError.message);
+            vscode.window.showErrorMessage('Failed to display document: ' + (docError.message || docError));
         }     
     } catch (error) {
         handleApiError(error);
@@ -2561,7 +2587,7 @@ async function improveCode() {
             
             await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
         } catch (docError) {
-            vscode.window.showErrorMessage('Failed to create document: ' + docError.message);
+            vscode.window.showErrorMessage('Failed to display document: ' + (docError.message || docError));
         }
         
         const choice = await vscode.window.showInformationMessage(
@@ -2698,14 +2724,14 @@ async function addComments() {
         // Create and show document
         try {
             const doc = await vscode.workspace.openTextDocument({
-                content: displayContent,
-                language: 'cpp'
-            });
-            
-            await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+            content: formattedContent,
+            language: 'markdown'
+        });
+    
+        await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
         } catch (docError) {
-            vscode.window.showErrorMessage('Failed to create document: ' + docError.message);
-        }
+            vscode.window.showErrorMessage('Failed to display document: ' + (docError.message || docError));
+        }   
         
         // Choice dialog
         const choice = await vscode.window.showInformationMessage(
@@ -3745,13 +3771,6 @@ function showAbout() {
                 <p><strong>${t('about.reportBugs')}:</strong> <a href="https://github.com/NikolaiRadke/AI.duino/issues">Issue Tracker</a></p>
                 <br>
                 <p><em>${t('about.madeWith')}</em></p>
-                <br>
-                <p><strong>${t('about.changelog')}:</strong></p>
-                <ul style="text-align: left;">
-                    <li>✨ ${t('about.change1')}</li>
-                    <!-- <li>✨ ${t('about.change2')}</li> //-->
-                    <!-- <li>✨ ${t('about.change3')}</li> //-->
-                </ul>
             </div>
         </body>
         </html>
@@ -3764,6 +3783,11 @@ function deactivate() {
     if (executionStates) {
         // Clear all states
         executionStates.states.clear();
+    }
+
+    if (configDebounceTimeout) {
+        clearTimeout(configDebounceTimeout);
+        configDebounceTimeout = null;
     }
 
     // Force final token save if needed (synchronous for shutdown)

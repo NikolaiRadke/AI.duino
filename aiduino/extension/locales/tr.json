@@ -155,6 +155,8 @@
   },
   
   "errors": {
+    "quotaExceeded": "Aylık kota aşıldı",
+    "quotaExceededDetail": "{0}: Aylık kota aşıldı. Lütfen gelecek aya kadar bekleyin veya modeli değiştirin.",
     "networkError": "Ağ hatası",
     "timeout": "Zaman aşımı - İnternet bağlantısını kontrol edin",
     "unreachable": "ulaşılamıyor",
@@ -303,10 +305,6 @@
     "publisher": "Yayıncı",
     "repository": "Depo",
     "reportBugs": "Hataları bildir",
-    "madeWith": "Arduino topluluğu için 💙 ile yapıldı",
-    "changelog": " Değişiklik Günlüğü",
-    "change1": "Tam uluslararasılaştırma desteği",
-    "change2": "",
-    "change3": ""
+    "madeWith": "Arduino topluluğu için 💙 ile yapıldı"
   }
 }

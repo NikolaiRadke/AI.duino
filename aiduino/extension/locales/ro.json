@@ -148,6 +148,8 @@
   },
   
   "errors": {
+    "quotaExceeded": "Cota lunară depășită",
+    "quotaExceededDetail": "{0}: Cota lunară depășită. Vă rugăm să așteptați până luna viitoare sau să schimbați modelul.",
     "networkError": "Eroare de rețea",
     "timeout": "Timeout - Vă rugăm să verificați conexiunea la internet",
     "unreachable": "inaccesibil",
@@ -303,10 +305,6 @@
     "publisher": "Editor",
     "repository": "Repository",
     "reportBugs": "Raportați bug-uri",
-    "madeWith": "Dezvoltat cu 💙 pentru comunitatea Arduino",
-    "changelog": "Changelog",
-    "change1": "Internaționalizare completă",
-    "change2": "",
-    "change3": ""
+    "madeWith": "Dezvoltat cu 💙 pentru comunitatea Arduino"
   }
 }

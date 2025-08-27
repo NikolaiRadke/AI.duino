@@ -155,6 +155,8 @@
   },
   
   "errors": {
+    "quotaExceeded": "Quota mensuel dépassé",
+    "quotaExceededDetail": "{0}: Quota mensuel dépassé. Veuillez attendre le mois prochain ou changer de modèle.",
     "networkError": "Erreur réseau",
     "timeout": "Délai dépassé - Veuillez vérifier la connexion internet",
     "unreachable": "inaccessible",
@@ -303,10 +305,6 @@
     "publisher": "Éditeur",
     "repository": "Dépôt",
     "reportBugs": "Signaler des bugs",
-    "madeWith": "Fait avec 💙 pour la communauté Arduino",
-    "changelog": "Journal des modifications ",
-    "change1": "Support complet de l'internationalisation",
-    "change2": "",
-    "change3": ""
+    "madeWith": "Fait avec 💙 pour la communauté Arduino"
   }
 }

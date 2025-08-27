@@ -155,6 +155,8 @@
   },
   
   "errors": {
+    "quotaExceeded": "월간 할당량 초과",
+    "quotaExceededDetail": "{0}: 월간 할당량이 초과되었습니다. 다음 달까지 기다리거나 모델을 변경해 주세요.",
     "networkError": "네트워크 오류",
     "timeout": "시간 초과 - 인터넷 연결을 확인하세요",
     "unreachable": "접근 불가",
@@ -303,10 +305,6 @@
     "publisher": "게시자",
     "repository": "저장소",
     "reportBugs": "버그 신고",
-    "madeWith": "Arduino 커뮤니티를 위해 💙로 제작",
-    "changelog": "변경 사항",
-    "change1": "완전한 국제화 지원",
-    "change2": "",
-    "change3": ""
+    "madeWith": "Arduino 커뮤니티를 위해 💙로 제작"
   }
 }

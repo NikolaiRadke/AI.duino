@@ -154,6 +154,8 @@
   },
   
   "errors": {
+    "quotaExceeded": "Kuukausikiintiö ylitetty",
+    "quotaExceededDetail": "{0}: Kuukausikiintiö ylitetty. Odota seuraavaa kuukautta tai vaihda mallia.",
     "networkError": "Verkkovirhe",
     "timeout": "Aikakatkaisu - Ole hyvä ja tarkista internet-yhteys",
     "unreachable": "ei tavoitettavissa",
@@ -302,10 +304,6 @@
     "publisher": "Julkaisija",
     "repository": "Repositorio",
     "reportBugs": "Raportoi bugit",
-    "madeWith": "Tehty 💙:lla Arduino-yhteisölle",
-    "changelog": " Muutosloki",
-    "change1": "Täysi kansainvälistämistuki",
-    "change2": "",
-    "change3": ""
+    "madeWith": "Tehty 💙:lla Arduino-yhteisölle"
   }
 }

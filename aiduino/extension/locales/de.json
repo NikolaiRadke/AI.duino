@@ -155,6 +155,8 @@
   },
   
   "errors": {
+    "quotaExceeded": "Monatliches Kontingent erschöpft",
+    "quotaExceededDetail": "{0}: Monatliches Kontingent erschöpft. Bitte warte bis zum Monatsanfang oder wechsle das Modell.",    
     "networkError": "Netzwerkfehler",
     "timeout": "Zeitüberschreitung – bitte Internetverbindung prüfen",
     "unreachable": "Nicht erreichbar",
@@ -303,8 +305,6 @@
     "publisher": "Publisher",
     "repository": "Repository",
     "reportBugs": "Fehler melden",
-    "madeWith": "Entwickelt mit 💙 für die Arduino-Community",
-    "changelog": "Changelog",
-    "change1": "Vollständige Internationalisierung"
+    "madeWith": "Entwickelt mit 💙 für die Arduino-Community"
   }
 }

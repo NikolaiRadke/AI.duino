@@ -154,6 +154,8 @@
   },
   
   "errors": {
+    "quotaExceeded": "Monthly quota exceeded",
+    "quotaExceededDetail": "{0}: Monthly quota exceeded. Please wait until next month or switch model.",
     "networkError": "Network error",
     "timeout": "Timeout - Please check internet connection",
     "unreachable": "unreachable",
@@ -302,10 +304,6 @@
     "publisher": "Publisher",
     "repository": "Repository",
     "reportBugs": "Report bugs",
-    "madeWith": "Made with 💙 for the Arduino community",
-    "changelog": " Changelog",
-    "change1": "Full internationalization support",
-    "change2": "",
-    "change3": ""
+    "madeWith": "Made with 💙 for the Arduino community"
   }
 }

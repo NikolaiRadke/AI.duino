@@ -155,6 +155,8 @@
   },
   
   "errors": {
+    "quotaExceeded": "Månadskvot överskriden",
+    "quotaExceededDetail": "{0}: Månadskvot överskriden. Vänta tills nästa månad eller byt modell.",
     "networkError": "Nätverksfel",
     "timeout": "Timeout - Kontrollera internetanslutningen",
     "unreachable": "onåbar",
@@ -303,10 +305,6 @@
     "publisher": "Utgivare",
     "repository": "Förråd",
     "reportBugs": "Rapportera buggar",
-    "madeWith": "Skapad med 💙 för Arduino-gemenskapen",
-    "changelog": " Ändringslogg",
-    "change1": "Fullständigt internationaliseringsstöd",
-    "change2": "",
-    "change3": ""
+    "madeWith": "Skapad med 💙 för Arduino-gemenskapen"
   }
 }

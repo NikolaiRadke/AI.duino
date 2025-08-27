@@ -156,6 +156,8 @@
   },
   
   "errors": {
+    "quotaExceeded": "Měsíční kvóta překročena",
+    "quotaExceededDetail": "{0}: Měsíční kvóta překročena. Počkejte prosím do začátku příštího měsíce nebo přepněte model.",
     "networkError": "Chyba sítě",
     "timeout": "Časový limit - Zkontrolujte připojení k internetu",
     "unreachable": "nedostupné",
@@ -304,10 +306,6 @@
     "publisher": "Vydavatel",
     "repository": "Repozitář",
     "reportBugs": "Nahlásit chyby",
-    "madeWith": "Vytvořeno s 💙 pro Arduino komunitu",
-    "changelog": "Seznam změn",
-    "change1": "Plná podpora internacionalizace",
-    "change2": "",
-    "change3": ""
+    "madeWith": "Vytvořeno s 💙 pro Arduino komunitu"
   }
 }

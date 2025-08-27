@@ -155,6 +155,8 @@
   },
   
   "errors": {
+    "quotaExceeded": "Cuota mensual excedida",
+    "quotaExceededDetail": "{0}: Cuota mensual excedida. Por favor espera hasta el próximo mes o cambia de modelo.",
     "networkError": "Error de red",
     "timeout": "Tiempo agotado - Por favor verifica la conexión a internet",
     "unreachable": "inalcanzable",
@@ -303,10 +305,6 @@
     "publisher": "Editor",
     "repository": "Repositorio",
     "reportBugs": "Reportar errores",
-    "madeWith": "Hecho con 💙 para la comunidad Arduino",
-    "changelog": "Registro de cambios ",
-    "change1": "Soporte completo de internacionalización",
-    "change2": "",
-    "change3": ""
+    "madeWith": "Hecho con 💙 para la comunidad Arduino"
   }
 }

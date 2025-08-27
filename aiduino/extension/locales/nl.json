@@ -155,6 +155,8 @@
   },
   
   "errors": {
+    "quotaExceeded": "Maandelijkse quota overschreden",
+    "quotaExceededDetail": "{0}: Maandelijkse quota overschreden. Wacht tot volgende maand of wissel van model.",
     "networkError": "Netwerkfout",
     "timeout": "Time-out - Controleer internetverbinding",
     "unreachable": "onbereikbaar",
@@ -303,10 +305,6 @@
     "publisher": "Uitgever",
     "repository": "Repository",
     "reportBugs": "Bugs melden",
-    "madeWith": "Gemaakt met 💙 voor de Arduino-community",
-    "changelog": " Wijzigingen",
-    "change1": "Volledige internationalisatie-ondersteuning",
-    "change2": "",
-    "change3": ""
+    "madeWith": "Gemaakt met 💙 voor de Arduino-community"
   }
 }

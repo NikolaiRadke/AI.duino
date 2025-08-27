@@ -154,6 +154,8 @@
   },
   
   "errors": {
+    "quotaExceeded": "Månedlig kvote overskredet",
+    "quotaExceededDetail": "{0}: Månedlig kvote overskredet. Vent venligst til næste måned eller skift model.",
     "networkError": "Netværksfejl",
     "timeout": "Timeout - Tjek venligst internet forbindelse",
     "unreachable": "utilgængelig",
@@ -302,10 +304,6 @@
     "publisher": "Udgiver",
     "repository": "Repository",
     "reportBugs": "Rapporter bugs",
-    "madeWith": "Lavet med 💙 til Arduino fællesskabet",
-    "changelog": " Ændringslog",
-    "change1": "Fuld internationalisering support",
-    "change2": "",
-    "change3": ""
+    "madeWith": "Lavet med 💙 til Arduino fællesskabet"
   }
 }
