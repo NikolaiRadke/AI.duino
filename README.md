@@ -83,7 +83,7 @@ C:\Program Files\Arduino IDE\resources\app\plugins\
 ~/.local/share/arduino-ide/resources/app/plugins/
 ```
 
-The `aiduino` folder must have the following structure:
+The `aiduino` folder must have the following structure (<= V1.5.2):
 ```
 aiduino/
 ├── extension/
