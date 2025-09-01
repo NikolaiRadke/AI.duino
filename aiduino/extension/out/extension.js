@@ -31,7 +31,10 @@ const debugHelpFeature = require('./features/debugHelp');
 const uiTools = require('./utils/ui');
 const networkUtils = require('./utils/network');
 const errorHandling = require('./utils/errorHandling');
+const validation = require('./utils/validation');
+const fileManager = require('./utils/fileManager');
 const { UnifiedAPIClient } = require('./core/apiClient');
+const { ExecutionStateManager } = require('./core/executionStateManager');
 const vscode = require("vscode");
 const https = require("https");
 const fs = require("fs");
@@ -52,39 +55,6 @@ let aiConversationContext = {
     timestamp: null
 };
 
-class ExecutionStateManager {
-    constructor() {
-        this.states = new Map();
-        this.OPERATIONS = {
-            EXPLAIN: 'explain',
-            IMPROVE: 'improve',
-            COMMENTS: 'comments',
-            DEBUG: 'debug',
-            ASK: 'ask',
-            ERROR: 'error',
-            // NEU:
-            SET_API_KEY: 'setApiKey',
-            SWITCH_MODEL: 'switchModel',
-            SWITCH_LANGUAGE: 'switchLanguage'
-        };
-    }
-    
-    isRunning(operation) {
-        return this.states.has(operation) && this.states.get(operation) === true;
-    }
-    
-    start(operation) {
-        if (this.isRunning(operation)) {
-            return false; // Already running
-        }
-        this.states.set(operation, true);
-        return true;
-    }
-    
-    stop(operation) {
-        this.states.delete(operation);
-    }
-}
 const executionStates = new ExecutionStateManager();
 
 // Language Metadate
@@ -151,21 +121,7 @@ const LANGUAGE_METADATA = {
 
 let availableLocales = null;
 
-function getVersionFromPackage() {
-    try {
-        const packagePath = path.join(__dirname, '..', 'package.json');
-        if (fs.existsSync(packagePath)) {
-            const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
-            return packageJson.version || '1.0.0';
-        }
-    } catch (error) {
-        // Silent fallback - keine Console-Logs
-        return '1.0.0';
-    }
-    return '1.0.0';
-}
-
-const EXTENSION_VERSION = getVersionFromPackage();
+const EXTENSION_VERSION = fileManager.getVersionFromPackage();
 
 function getAvailableLocales() {
     const localesDir = path.join(__dirname, '..', 'locales');
@@ -905,8 +861,11 @@ function activate(context) {
     initializeTokenUsage();
     
     // Load API keys and model on startup
-    loadApiKeys();
-    loadSelectedModel();
+    Object.assign(apiKeys, fileManager.loadAllApiKeys(minimalModelManager.providers));
+    const savedModel = fileManager.loadSelectedModel(minimalModelManager.providers);
+    if (savedModel) currentModel = savedModel;
+    
+    // Token statistics
     loadTokenUsage();
     
     // Status bar
@@ -1092,43 +1051,6 @@ function initializeTokenUsage() {
 
 function shouldShowWelcome() {
     return Object.keys(minimalModelManager.providers).every(modelId => !apiKeys[modelId]);
-}
-
-// Configuration management
-function loadApiKeys() {
-    Object.keys(minimalModelManager.providers).forEach(modelId => {
-        const model = minimalModelManager.providers[modelId];
-        const keyFile = path.join(os.homedir(), model.keyFile);
-        
-        try {
-            if (fs.existsSync(keyFile)) {
-                apiKeys[modelId] = fs.readFileSync(keyFile, 'utf8').trim();
-            }
-        } catch (error) {
-            console.log(`❌ Error loading ${model.name} API Key:`, error);
-        }
-    });
-}
-
-function loadSelectedModel() {
-    try {
-        if (fs.existsSync(MODEL_FILE)) {
-            const savedModel = fs.readFileSync(MODEL_FILE, 'utf8').trim();
-            if (minimalModelManager.providers[savedModel]) {
-                currentModel = savedModel;
-            }
-        }
-    } catch (error) {
-        // Silent
-    }
-}
-
-function saveSelectedModel() {
-    try {
-        fs.writeFileSync(MODEL_FILE, currentModel, { mode: 0o600 });
-    } catch (error) {
-        console.log('❌ Error saving model:', error);
-    }
 }
 
 // Token management
@@ -1535,7 +1457,7 @@ async function switchModel() {
         
         if (selected) {
             currentModel = selected.value;
-            saveSelectedModel();
+            fileManager.saveSelectedModel(currentModel);
             updateStatusBar();
             
             if (!minimalModelManager.getProviderInfo(currentModel).hasApiKey) {
@@ -1577,10 +1499,12 @@ async function setApiKey() {
             password: true,
             ignoreFocusOut: true,
             validateInput: (value) => {
-                if (!value) return t('validation.apiKeyRequired');
-                if (!value.startsWith(model.keyPrefix)) return t('validation.apiKeyPrefix', model.keyPrefix);
-                if (value.length < model.keyMinLength) return t('validation.apiKeyTooShort');
-                return null;
+                return validation.validateApiKey(
+                    value, 
+                    model.keyPrefix, 
+                    model.keyMinLength || 15, 
+                    t
+                );
             }
         });
         
@@ -1588,7 +1512,9 @@ async function setApiKey() {
             try {
                 const keyFile = path.join(os.homedir(), model.keyFile);
                 apiKeys[currentModel] = input;
-                fs.writeFileSync(keyFile, input, { mode: 0o600 });
+                if (fileManager.saveApiKey(currentModel, input, minimalModelManager.providers)) {
+                    apiKeys[currentModel] = input;
+                }
                 updateStatusBar();
                 vscode.window.showInformationMessage(
                     t('messages.apiKeySaved', providerName)
