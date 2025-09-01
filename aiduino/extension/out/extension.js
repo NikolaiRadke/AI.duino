@@ -28,6 +28,8 @@ const addCommentsFeature = require('./features/addComments');
 const askAIFeature = require('./features/askAI');
 const explainErrorFeature = require('./features/explainError');
 const debugHelpFeature = require('./features/debugHelp');
+const uiTools = require('./utils/ui');
+const networkUtils = require('./utils/network');
 const vscode = require("vscode");
 const https = require("https");
 const fs = require("fs");
@@ -876,6 +878,9 @@ function getDependencies() {
         apiKeys,
         updateTokenUsage,
         updateStatusBar,
+        EXTENSION_VERSION,
+        tokenUsage,
+        currentLocale,
         aiConversationContext,
         setAiConversationContext: (newContext) => { 
             Object.assign(aiConversationContext, newContext); 
@@ -947,9 +952,8 @@ function registerCommands(context) {
         { name: 'aiduino.addComments', handler: () => addCommentsFeature.addComments(getDependencies()) },
         { name: 'aiduino.explainError', handler: () => explainErrorFeature.explainError(getDependencies()) },
         { name: 'aiduino.debugHelp', handler: () => debugHelpFeature.debugHelp(getDependencies()) },
-        { name: 'aiduino.showTokenStats', handler: showTokenStats },
-        { name: 'aiduino.about', handler: showAbout },
-        { name: 'aiduino.resetTokenStats', handler: resetTokenStats },
+        { name: 'aiduino.showTokenStats', handler: () => uiTools.showTokenStats(getDependencies()) },
+        { name: 'aiduino.about', handler: () => uiTools.showAbout(getDependencies()) },
         { name: 'aiduino.askAI', handler: () => askAIFeature.askAI(getDependencies(), false) },
         { name: 'aiduino.askFollowUp', handler: () => askAIFeature.askAI(getDependencies(), true) },
         { name: 'aiduino.clearAIContext', handler: clearAIContext }       // Clear context (optional)
@@ -1627,7 +1631,7 @@ function handleApiError(error) {
             if (selection === t('buttons.enterApiKey')) {
                 vscode.commands.executeCommand('aiduino.setApiKey');
             } else if (selection === t('buttons.getApiKey')) {
-                openApiKeyUrl(currentModel);
+                networkUtils.openApiKeyUrl(currentModel);
             } else if (selection === t('buttons.switchModel')) {
                 vscode.commands.executeCommand('aiduino.switchModel');
             }
@@ -1677,7 +1681,7 @@ function handleApiError(error) {
             if (selection === t('buttons.switchModel')) {
                 vscode.commands.executeCommand('aiduino.switchModel');
             } else if (selection === t('buttons.checkStatus')) {
-                openServiceStatusUrl(currentModel);
+                networkUtils.openServiceStatusUrl(currentModel, minimalModelManager, t);
             }
         });
         return;
@@ -1698,9 +1702,9 @@ function handleApiError(error) {
             if (selection === t('buttons.retry')) {
                 vscode.window.showInformationMessage(t('messages.retryLater'));
             } else if (selection === t('buttons.offlineHelp')) {
-                showOfflineHelp();
+                () => uiTools.showOfflineHelp(getDependencies());
             } else if (selection === t('buttons.checkConnection')) {
-                testNetworkConnectivity();
+                networkUtils.testNetworkConnectivity(getDependencies());
             }
         });
         return;
@@ -1719,7 +1723,7 @@ function handleApiError(error) {
             if (selection === t('buttons.enterApiKey')) {
                 vscode.commands.executeCommand('aiduino.setApiKey');
             } else if (selection === t('buttons.getApiKey')) {
-                openApiKeyUrl(currentModel);
+                networkUtils.openApiKeyUrl(currentModel);
             } else if (selection === t('buttons.switchModel')) {
                 vscode.commands.executeCommand('aiduino.switchModel');
             }
@@ -1758,7 +1762,7 @@ function handleApiError(error) {
             if (selection === t('buttons.switchModel')) {
                 vscode.commands.executeCommand('aiduino.switchModel');
             } else if (selection === t('buttons.checkStatus')) {
-                openServiceStatusUrl(currentModel);
+                networkUtils.openServiceStatusUrl(currentModel, minimalModelManager, t);
             }
         });
         return;
@@ -1772,102 +1776,6 @@ function handleApiError(error) {
     ).then(selection => {
         if (selection === t('buttons.switchModel')) {
             vscode.commands.executeCommand('aiduino.switchModel');
-        }
-    });
-}
-
-function openApiKeyUrl(modelId) {
-    const urls = {
-        claude: 'https://console.anthropic.com/api-keys',
-        chatgpt: 'https://platform.openai.com/api-keys',
-        gemini: 'https://makersuite.google.com/app/apikey',
-        mistral: 'https://console.mistral.ai/',
-        groq: 'https://console.groq.com/keys',
-        perplexity: 'https://www.perplexity.ai/settings/api',
-        cohere: 'https://dashboard.cohere.ai/api-keys'
-    };
-    
-    const url = urls[modelId];
-    if (url) {
-        vscode.env.openExternal(vscode.Uri.parse(url));
-    } else {
-        vscode.window.showWarningMessage(`No API key URL configured for ${modelId}`);
-    }
-}
-
-// Open service status page for the current model
-function openServiceStatusUrl(modelId) {
-    const urls = {
-        claude: 'https://status.anthropic.com/',
-        chatgpt: 'https://status.openai.com/',
-        gemini: 'https://status.cloud.google.com/',
-        mistral: 'https://status.mistral.ai/',
-        groq: 'https://status.groq.com/',
-        perplexity: 'https://status.perplexity.ai/',
-        cohere: 'https://status.cohere.ai/'
-    };
-    
-    const url = urls[modelId];
-    if (url) {
-        vscode.env.openExternal(vscode.Uri.parse(url));
-    } else {
-        // FIX: Verwende minimalModelManager statt AI_MODELS
-        const providerName = minimalModelManager.providers[modelId]?.name || 'Unknown Provider';
-        vscode.window.showInformationMessage(t('messages.noStatusPage', providerName));
-    }
-}
-
-// Test basic network connectivity
-async function testNetworkConnectivity() {
-    const testUrls = [
-        'google.com',
-        'github.com',
-        'cloudflare.com'
-    ];
-    
-    vscode.window.withProgress({
-        location: vscode.ProgressLocation.Notification,
-        title: t('progress.testingConnection'),
-        cancellable: false
-    }, async () => {
-        let connectionWorks = false;
-        
-        for (const testUrl of testUrls) {
-            try {
-                // Simple DNS lookup test
-                const dns = require('dns');
-                await new Promise((resolve, reject) => {
-                    dns.lookup(testUrl, (err) => {
-                        if (err) reject(err);
-                        else resolve();
-                    });
-                });
-                connectionWorks = true;
-                break;
-            } catch (error) {
-                continue;
-            }
-        }
-        
-        if (connectionWorks) {
-            vscode.window.showInformationMessage(
-                t('messages.connectionOk'),
-                t('buttons.checkFirewall')
-            ).then(selection => {
-                if (selection === t('buttons.checkFirewall')) {
-                    showFirewallHelp();
-                }
-            });
-        } else {
-            vscode.window.showErrorMessage(
-                t('messages.noConnection'),
-                t('buttons.checkRouter'),
-                t('buttons.offlineHelp')
-            ).then(selection => {
-                if (selection === t('buttons.offlineHelp')) {
-                    showOfflineHelp();
-                }
-            });
         }
     });
 }
@@ -2169,448 +2077,6 @@ const apiClient = new UnifiedAPIClient();
 
 function callAI(prompt) {   
     return apiClient.callAPI(currentModel, prompt);
-}
-
-// Network error handling
-function handleNetworkError(error) {
-    const errorMessages = {
-        'ENOTFOUND': t('errors.network.dns'),
-        'ETIMEDOUT': t('errors.network.timeout'),
-        'ECONNREFUSED': t('errors.network.refused'),
-        'ECONNRESET': t('errors.network.reset'),
-        'EHOSTUNREACH': t('errors.network.hostUnreachable'),
-        'ENETUNREACH': t('errors.network.netUnreachable'),
-        'ECONNABORTED': t('errors.network.aborted')
-    };
-    
-    const message = errorMessages[error.code] || t('errors.network.general', error.message);
-    return new Error(message);
-}
-
-// Offline help
-function showOfflineHelp() {
-    const panel = vscode.window.createWebviewPanel(
-        'aiOfflineHelp',
-        t('panels.offlineHelp'),
-        vscode.ViewColumn.One,
-        {}
-    );
-    
-    panel.webview.html = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <style>
-                body {
-                    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-                    padding: 20px;
-                    line-height: 1.6;
-                    max-width: 800px;
-                    margin: 0 auto;
-                }
-                h1 { color: #2196F3; }
-                .tip {
-                    background: #e3f2fd;
-                    padding: 15px;
-                    border-radius: 8px;
-                    margin: 20px 0;
-                }
-                .warning {
-                    background: #fff3cd;
-                    padding: 15px;
-                    border-radius: 8px;
-                    margin: 20px 0;
-                    border-left: 4px solid #ffc107;
-                }
-                code {
-                    background: #f5f5f5;
-                    padding: 2px 5px;
-                    border-radius: 3px;
-                }
-                pre {
-                    background: #f5f5f5;
-                    padding: 15px;
-                    border-radius: 8px;
-                    overflow-x: auto;
-                }
-            </style>
-        </head>
-        <body>
-            <h1>📡 ${t('offline.title')}</h1>
-            
-            <div class="warning">
-                <strong>${t('offline.requiresInternet')}</strong>
-            </div>
-            
-            <h2>🔧 ${t('offline.solutions')}:</h2>
-            
-            <div class="tip">
-                <h3>1. ${t('offline.checkInternet')}</h3>
-                <ul>
-                    <li>${t('offline.checkWifi')}</li>
-                    <li>${t('offline.restartRouter')}</li>
-                    <li>${t('offline.testOtherSites')}</li>
-                </ul>
-            </div>
-            
-            <div class="tip">
-                <h3>2. ${t('offline.firewallSettings')}</h3>
-                <p>${t('offline.ensureNotBlocked')}:</p>
-                <ul>
-                    <li><code>api.anthropic.com</code> (Claude)</li>
-                    <li><code>api.openai.com</code> (ChatGPT)</li>
-                    <li><code>generativelanguage.googleapis.com</code> (Gemini)</li>
-                    <li><code>api.mistral.ai</code> (Mistral)</li>
-                </ul>
-            </div>
-            
-            <div class="tip">
-                <h3>3. ${t('offline.disableVpn')}</h3>
-                <p>${t('offline.vpnMayBlock')}</p>
-            </div>
-            
-            <h2>💡 ${t('offline.commonProblems')}:</h2>
-            
-            <h3>❌ "was not declared in this scope"</h3>
-            <pre>
-// ${t('offline.solution')}: ${t('offline.declareVariable')}
-int sensorPin = A0;  // ${t('offline.missingDeclaration')}
-int sensorValue = analogRead(sensorPin);
-            </pre>
-            
-            <h3>❌ "expected ';' before..."</h3>
-            <pre>
-// ${t('offline.solution')}: ${t('offline.addSemicolon')}
-digitalWrite(13, HIGH);  // ${t('offline.dontForgetSemicolon')}
-            </pre>
-            
-            <h3>❌ Non-blocking delay</h3>
-            <pre>
-// ${t('offline.insteadOfDelay')}:
-unsigned long previousMillis = 0;
-const long interval = 1000;
-
-void loop() {
-    unsigned long currentMillis = millis();
-    if (currentMillis - previousMillis >= interval) {
-        previousMillis = currentMillis;
-        // ${t('offline.executeCodeHere')}
-    }
-}
-            </pre>
-            
-            <div class="tip">
-                <strong>${t('offline.tip')}:</strong> ${t('offline.onlineAgain')}
-            </div>
-        </body>
-        </html>
-    `;
-}
-
-// Token statistics
-function showTokenStats() {
-    let totalCostToday = 0;
-    Object.keys(minimalModelManager.providers).forEach(modelId => {
-        totalCostToday += tokenUsage[modelId].cost;
-    });
-    
-    const panel = vscode.window.createWebviewPanel(
-        'tokenStats',
-        t('panels.tokenStats'),
-        vscode.ViewColumn.One,
-        { enableScripts: true }
-    );
-    
-    // Generate statistics cards for all models
-    let modelCards = '';
-    Object.keys(minimalModelManager.providers).forEach(modelId => {
-        const model = minimalModelManager.providers[modelId];
-        if (!model) return;
-        modelCards += `
-            <div class="stat-card">
-                <div class="model-name" style="color: ${model.color};">${model.icon} ${model.name}</div>
-                <div class="stat-row">
-                    <span>${t('stats.inputTokens')}:</span>
-                    <span>${tokenUsage[modelId].input.toLocaleString()}</span>
-                </div>
-                <div class="stat-row">
-                    <span>${t('stats.outputTokens')}:</span>
-                    <span>${tokenUsage[modelId].output.toLocaleString()}</span>
-                </div>
-                <div class="stat-row">
-                    <span>${t('stats.cost')}:</span>
-                    <span class="cost">$${tokenUsage[modelId].cost.toFixed(3)}</span>
-                </div>
-            </div>
-        `;
-    });
-    
-    const currentDate = new Date().toLocaleDateString(currentLocale === 'de' ? 'de-DE' : 'en-US');
-    
-    panel.webview.html = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <style>
-                body {
-                    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-                    padding: 20px;
-                    line-height: 1.6;
-                    max-width: 800px;
-                    margin: 0 auto;
-                }
-                h1 { color: #2196F3; }
-                .stat-card {
-                    background: #f5f5f5;
-                    border-radius: 8px;
-                    padding: 20px;
-                    margin: 20px 0;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                }
-                .model-name {
-                    font-size: 18px;
-                    font-weight: bold;
-                    margin-bottom: 10px;
-                }
-                .stat-row {
-                    display: flex;
-                    justify-content: space-between;
-                    padding: 8px 0;
-                    border-bottom: 1px solid #e0e0e0;
-                }
-                .stat-row:last-child {
-                    border-bottom: none;
-                    font-weight: bold;
-                }
-                .cost {
-                    color: #f44336;
-                    font-weight: bold;
-                }
-                .total {
-                    background: #e3f2fd;
-                    border-radius: 8px;
-                    padding: 20px;
-                    text-align: center;
-                    margin: 20px 0;
-                }
-                .reset-btn {
-                    background: #ff5252;
-                    color: white;
-                    border: none;
-                    padding: 10px 20px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    margin-top: 20px;
-                }
-                .tip {
-                    background: #fff3cd;
-                    padding: 15px;
-                    border-radius: 4px;
-                    margin: 20px 0;
-                }
-            </style>
-        </head>
-        <body>
-            <h1>📊 ${t('stats.tokenUsageFor', currentDate)}</h1>
-            
-            <div class="total">
-                <h2>${t('stats.totalCostToday')}: <span class="cost">$${totalCostToday.toFixed(3)}</span></h2>
-            </div>
-            
-            ${modelCards}
-            
-            <div class="tip">
-                💡 <strong>${t('stats.tip')}:</strong> ${t('stats.tipDescription')}
-            </div>
-            
-            <button class="reset-btn" onclick="if(confirm('${t('stats.confirmReset')}')) { window.location.href = 'command:aiduino.resetTokenStats'; }">
-                ${t('buttons.resetStats')}
-            </button>
-        </body>
-        </html>
-    `;
-}
-
-function resetTokenStats() {
-    initializeTokenUsage();
-    saveTokenUsage();
-    updateStatusBar();
-    vscode.window.showInformationMessage(t('messages.statsReset'));
-}
-
-// About Ai.duino
-function showAbout() {
-    const panel = vscode.window.createWebviewPanel(
-        'aiduinoAbout',
-        t('panels.about'),
-        vscode.ViewColumn.One,
-        { enableScripts: true }
-    );
-    
-    // Generate model badges
-    let modelBadges = '';
-    Object.keys(minimalModelManager.providers).forEach(modelId => {
-        const model = minimalModelManager.providers[modelId];
-        if (!model) return;
-        modelBadges += `
-            <span class="model-badge" style="background: ${model.color}; margin: 0 5px;">
-                ${model.icon} ${model.name}
-            </span>
-        `;
-    });
-    
-    // Generate feature list for all models
-    let modelFeatures = '';
-    Object.keys(minimalModelManager.providers).forEach(modelId => {
-        const model = minimalModelManager.providers[modelId];
-        if (!model) return;
-        modelFeatures += `<div class="feature">${model.icon} ${model.name} ${t('about.integration')}</div>`;
-    });
-    
-    panel.webview.html = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <style>
-                body {
-                    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-                    padding: 40px;
-                    line-height: 1.6;
-                    max-width: 600px;
-                    margin: 0 auto;
-                    text-align: center;
-                }
-                .logo {
-                    font-size: 72px;
-                    margin: 20px 0;
-                }
-                h1 {
-                    color: #2196F3;
-                    margin-bottom: 10px;
-                }
-                .version {
-                    font-size: 24px;
-                    color: #666;
-                    margin-bottom: 30px;
-                }
-                .info-box {
-                    background: #f5f5f5;
-                    border-radius: 8px;
-                    padding: 20px;
-                    margin: 20px 0;
-                    text-align: left;
-                }
-                .feature {
-                    margin: 10px 0;
-                    padding-left: 25px;
-                    position: relative;
-                }
-                .feature:before {
-                    content: "✓";
-                    position: absolute;
-                    left: 0;
-                    color: #4CAF50;
-                    font-weight: bold;
-                }
-                .credits {
-                    margin-top: 30px;
-                    padding-top: 20px;
-                    border-top: 1px solid #e0e0e0;
-                }
-                a {
-                    color: #2196F3;
-                    text-decoration: none;
-                }
-                a:hover {
-                    text-decoration: underline;
-                }
-                .license {
-                    background: #e3f2fd;
-                    padding: 15px;
-                    border-radius: 4px;
-                    margin: 20px 0;
-                    font-family: monospace;
-                    font-size: 14px;
-                }
-                .model-badge {
-                    display: inline-block;
-                    padding: 4px 12px;
-                    border-radius: 4px;
-                    font-size: 14px;
-                    font-weight: bold;
-                    color: white;
-                }
-                .tutorial {
-                    background: #e8f5e9;
-                    padding: 15px;
-                    border-radius: 8px;
-                    margin: 20px 0;
-                    text-align: left;
-                }
-                .shortcut {
-                    background: #f0f0f0;
-                    padding: 3px 6px;
-                    border-radius: 3px;
-                    font-family: monospace;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="logo">🤖</div>
-            <h1>AI.duino</h1>
-            <div class="version">Version ${EXTENSION_VERSION}</div>
-            
-            <p><strong>${t('about.tagline')}</strong></p>
-            
-            <div>
-                ${modelBadges}
-            </div>
-            
-            <div class="info-box">
-                <h3>${t('about.features')}:</h3>
-                ${modelFeatures}
-                <div class="feature">${t('about.feature1')}</div>
-                <div class="feature">${t('about.feature2')}</div>
-                <div class="feature">${t('about.feature3')}</div>
-                <div class="feature">${t('about.feature4')}</div>
-                <div class="feature">${t('about.feature5')}</div>
-                <div class="feature">${t('about.feature6')}</div>
-                <div class="feature">${t('about.feature7')}</div>
-                <div class="feature">${t('about.feature8')}</div>
-            </div>
-            
-            <div class="tutorial">
-                <h3>${t('about.quickstart')}:</h3>
-                <p>1. ${t('about.step1')}</p>
-                <p>2. ${t('about.step2')} <span class="shortcut">Ctrl+Shift+C</span></p>
-                <p>3. ${t('about.step3')}</p>
-                <br>
-                <p><strong>${t('about.tip')}:</strong> ${t('about.tipText')}</p>
-            </div>
-            
-            <div class="license">
-                <strong>${t('about.license')}:</strong> Apache License 2.0<br>
-                Copyright © 2025 Monster Maker
-            </div>
-            
-            <div class="info-box">
-                <h3>${t('about.getApiKeys')}:</h3>
-                <p>🤖 <strong>Claude:</strong> <a href="https://console.anthropic.com/api-keys">console.anthropic.com</a></p>
-                <p>🧠 <strong>ChatGPT:</strong> <a href="https://platform.openai.com/api-keys">platform.openai.com</a></p>
-                <p>💎 <strong>Gemini:</strong> <a href="https://makersuite.google.com/app/apikey">makersuite.google.com</a></p>
-                <p>🌟 <strong>Mistral:</strong> <a href="https://console.mistral.ai/">console.mistral.ai</a></p>
-            </div>
-            
-            <div class="credits">
-                <p><strong>${t('about.publisher')}:</strong> Monster Maker</p>
-                <p><strong>${t('about.repository')}:</strong> <a href="https://github.com/NikolaiRadke/AI.duino">GitHub</a></p>
-                <p><strong>${t('about.reportBugs')}:</strong> <a href="https://github.com/NikolaiRadke/AI.duino/issues">Issue Tracker</a></p>
-                <br>
-                <p><em>${t('about.madeWith')}</em></p>
-            </div>
-        </body>
-        </html>
-    `;
 }
 
 // Deactivation

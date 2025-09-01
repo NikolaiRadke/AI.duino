@@ -81,12 +81,6 @@
         "icon": "$(graph)"
       },
       {
-        "command": "aiduino.resetTokenStats",
-        "title": "Reset Token Statistics",
-        "category": "AI.duino",
-        "icon": "$(trash)"
-      },
-      {
         "command": "aiduino.about",
         "title": "About AI.duino...",
         "category": "AI.duino",
