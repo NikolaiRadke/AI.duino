@@ -148,7 +148,7 @@ async function askAI(context, isFollowUp = false) {
         }
 
     } catch (error) {
-        errorHandling.handleApiError(error, getDependencies());
+        handleApiError(error);
     } finally {
         // Always cleanup
         executionStates.stop(executionStates.OPERATIONS.ASK);

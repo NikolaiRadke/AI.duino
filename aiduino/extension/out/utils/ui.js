@@ -1,5 +1,5 @@
 /**
- * utils/ui.js - UI Display Functions
+ * tools/ui.js - UI Display Functions
  * About dialog, token statistics, and offline help panels
  */
 

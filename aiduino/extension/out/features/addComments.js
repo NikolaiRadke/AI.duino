@@ -150,7 +150,7 @@ async function addComments(context) {
         }
         
     } catch (error) {
-        errorHandling.handleApiError(error, getDependencies());
+        handleApiError(error);
     } finally {
         // Always cleanup
         executionStates.stop(executionStates.OPERATIONS.COMMENTS);

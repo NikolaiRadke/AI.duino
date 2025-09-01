@@ -30,7 +30,6 @@ const explainErrorFeature = require('./features/explainError');
 const debugHelpFeature = require('./features/debugHelp');
 const uiTools = require('./utils/ui');
 const networkUtils = require('./utils/network');
-const statusBarManager = require('./utils/statusBar');
 const errorHandling = require('./utils/errorHandling');
 const { UnifiedAPIClient } = require('./core/apiClient');
 const vscode = require("vscode");
@@ -198,11 +197,6 @@ function getLanguageInfo(locale) {
         flag: '🌐', 
         region: locale.toUpperCase() 
     };
-}
-
-// Temporär die alte Funktion wieder hinzufügen:
-function updateStatusBar() {
-    statusBarManager.updateStatusBar(getDependencies());
 }
 
 // Minimal dynamic model system for AI.duino
@@ -780,7 +774,7 @@ function setupEventListeners(context) {
             }
             configDebounceTimeout = setTimeout(() => {
                 loadLocale();
-                statusBarManager.updateStatusBar(getDependencies());
+                updateStatusBar();
                 configDebounceTimeout = null;
             }, 300);
         }
@@ -883,14 +877,11 @@ function getDependencies() {
         currentModel,
         globalContext,
         apiKeys,
-        updateTokenUsage: (modelId, inputText, outputText) => updateTokenUsage(modelId, inputText, outputText),
-        handleApiError: (error) => errorHandling.handleApiError(error, getDependencies()),
+        updateTokenUsage,
         updateStatusBar,
-        statusBarItem,
-        EXTENSION_VERSION,
-        tokenUsage,
-        currentLocale,
         aiConversationContext,
+        handleApiError: (error) => errorHandling.handleApiError(error, getDependencies()),
+        updateTokenUsage: (modelId, inputText, outputText) => updateTokenUsage(modelId, inputText, outputText),        
         setAiConversationContext: (newContext) => { 
             Object.assign(aiConversationContext, newContext); 
         }
@@ -919,19 +910,21 @@ function activate(context) {
     loadTokenUsage();
     
     // Status bar
-    statusBarItem = statusBarManager.createStatusBarItem();
-    statusBarManager.updateStatusBar(getDependencies());
+    statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+    updateStatusBar();
+    statusBarItem.command = "aiduino.quickMenu";
+    statusBarItem.show();
 
     // NEW: Update models in background (after 3 seconds)
     setTimeout(async () => {
         await minimalModelManager.updateModelsQuietly();
-        statusBarManager.updateStatusBar(getDependencies()); // Update statusbar with latest models
+        updateStatusBar(); // Update statusbar with latest models
     }, 3000);
 
     // NEW: Daily updates
     setInterval(async () => {
         await minimalModelManager.updateModelsQuietly();
-        statusBarManager.updateStatusBar(getDependencies());
+        updateStatusBar();
     }, 24 * 60 * 60 * 1000); // Every 24 hours
     
     // Register commands
@@ -1048,7 +1041,7 @@ async function switchLanguage() {
                     }
                 }
                 
-                statusBarManager.updateStatusBar(getDependencies());
+                updateStatusBar();
                 
                 let successMessage;
                 if (selected.value === 'auto') {
@@ -1198,7 +1191,7 @@ function loadTokenUsage() {
         
         // Update status bar after loading
         if (statusBarItem) {
-            statusBarManager.updateStatusBar(getDependencies());
+            updateStatusBar();
         }
         
     } catch (error) {
@@ -1339,7 +1332,38 @@ function updateTokenUsage(modelId, inputText, outputText) {
     tokenUsage[modelId].cost += (inputCost + outputCost);
     
     saveTokenUsage();
-    statusBarManager.updateStatusBar(getDependencies());
+    updateStatusBar();
+}
+
+
+// UI functions
+function updateStatusBar() {
+    const providerInfo = minimalModelManager.getProviderInfo(currentModel);
+    const hasApiKey = providerInfo.hasApiKey;
+    
+    // Token-Kosten (bestehende Logik)
+    const todayCost = tokenUsage[currentModel]?.cost.toFixed(3) || '0.000';
+    const costDisplay = todayCost > 0 ? ` (${todayCost})` : '';
+    
+    if (hasApiKey) {
+        statusBarItem.text = `${providerInfo.icon} AI.duino${costDisplay}`;
+        
+        // Fixed: Proper model status without t() function calls
+        const modelStatus = providerInfo.isLatest ? 
+            `Latest: ${providerInfo.modelName}` :
+            `Fallback: ${providerInfo.modelName}`;
+            
+        statusBarItem.tooltip = 
+            `${providerInfo.name} - ${modelStatus}\n` +
+            `Tokens: ${(tokenUsage[currentModel]?.input || 0) + (tokenUsage[currentModel]?.output || 0)}${costDisplay}\n` +
+            `Input: ${tokenUsage[currentModel]?.input || 0} | Output: ${tokenUsage[currentModel]?.output || 0}`;
+            
+        statusBarItem.backgroundColor = undefined;
+    } else {
+        statusBarItem.text = `${providerInfo.icon} AI.duino $(warning)`;
+        statusBarItem.tooltip = `No API key for ${providerInfo.name}`;
+        statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
+    }
 }
 
 // Menu functions
@@ -1512,7 +1536,7 @@ async function switchModel() {
         if (selected) {
             currentModel = selected.value;
             saveSelectedModel();
-            statusBarManager.updateStatusBar(getDependencies());
+            updateStatusBar();
             
             if (!minimalModelManager.getProviderInfo(currentModel).hasApiKey) {
                 const provider = minimalModelManager.providers[currentModel];
@@ -1565,7 +1589,7 @@ async function setApiKey() {
                 const keyFile = path.join(os.homedir(), model.keyFile);
                 apiKeys[currentModel] = input;
                 fs.writeFileSync(keyFile, input, { mode: 0o600 });
-                statusBarManager.updateStatusBar(getDependencies());
+                updateStatusBar();
                 vscode.window.showInformationMessage(
                     t('messages.apiKeySaved', providerName)
                 );
@@ -1628,9 +1652,20 @@ async function checkForErrors(silent = true) {
         lastDiagnosticsCount = errorCount;
         
         if (errorCount > 0 && !silent) {
-            statusBarManager.showErrorState(getDependencies(), errorCount);
+            statusBarItem.text = `${model.icon} AI.duino $(error)`;
+            statusBarItem.tooltip = t('statusBar.errorsFound', errorCount);
+            statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
+            
+            setTimeout(() => {
+                const currentDiagnostics = vscode.languages.getDiagnostics(editor.document.uri);
+                const currentErrors = currentDiagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
+                
+                if (currentErrors.length === 0) {
+                    updateStatusBar();
+                }
+            }, 5000);
         } else if (errorCount === 0 && lastDiagnosticsCount > 0) {
-            statusBarManager.updateStatusBar(getDependencies());
+            updateStatusBar();
         }
     }
     
