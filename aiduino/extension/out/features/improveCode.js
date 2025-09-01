@@ -140,7 +140,7 @@ async function improveCode(context) {
         }
         
     } catch (error) {
-        handleApiError(error);
+        errorHandling.handleApiError(error, getDependencies());
     } finally {
         executionStates.stop(executionStates.OPERATIONS.IMPROVE);
     }

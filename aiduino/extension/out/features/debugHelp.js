@@ -117,7 +117,7 @@ async function debugHelp(context) {
             );
             panel.webview.html = createDebugHelpHtml(selected.label, response, currentModel, t);
         } catch (error) {
-            handleApiError(error);
+            errorHandling.handleApiError(error, getDependencies());
         }
     } finally {
         // Always cleanup

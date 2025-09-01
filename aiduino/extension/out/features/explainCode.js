@@ -76,7 +76,7 @@ async function explainCode(context) {
             vscode.window.showErrorMessage('Failed to display document: ' + (docError.message || docError));
         }     
     } catch (error) {
-        handleApiError(error);
+        errorHandling.handleApiError(error, getDependencies());
     } finally {
         executionStates.stop(executionStates.OPERATIONS.EXPLAIN);
     }

@@ -69,7 +69,8 @@ async function testNetworkConnectivity(context) {
                 t('buttons.checkFirewall')
             ).then(selection => {
                 if (selection === t('buttons.checkFirewall')) {
-                    showFirewallHelp(context);
+                    const errorHandling = require('./errorHandling');
+                    errorHandling.showFirewallHelp(context);
                 }
             });
         } else {
@@ -134,24 +135,6 @@ function openServiceStatusUrl(modelId, minimalModelManager, t) {
         const providerName = minimalModelManager.providers[modelId]?.name || 'Unknown Provider';
         vscode.window.showInformationMessage(t('messages.noStatusPage', providerName));
     }
-}
-
-/**
- * Show firewall help information
- * @param {Object} context - Extension context with dependencies
- */
-function showFirewallHelp(context) {
-    const { t } = context;
-    
-    vscode.window.showInformationMessage(
-        `${t('offline.firewallSettings')}: ${t('offline.ensureNotBlocked')} api.anthropic.com, api.openai.com, generativelanguage.googleapis.com`,
-        t('buttons.offlineHelp')
-    ).then(selection => {
-        if (selection === t('buttons.offlineHelp')) {
-            const uiTools = require('./ui');
-            uiTools.showOfflineHelp(context);
-        }
-    });
 }
 
 module.exports = {

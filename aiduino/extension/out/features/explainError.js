@@ -74,7 +74,7 @@ async function explainError(context) {
             );
             
         } catch (error) {
-            handleApiError(error);
+            errorHandling.handleApiError(error, getDependencies());
         }
     } finally {
         // Always cleanup

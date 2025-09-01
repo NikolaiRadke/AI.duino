@@ -30,6 +30,9 @@ const explainErrorFeature = require('./features/explainError');
 const debugHelpFeature = require('./features/debugHelp');
 const uiTools = require('./utils/ui');
 const networkUtils = require('./utils/network');
+const statusBarManager = require('./utils/statusBar');
+const errorHandling = require('./utils/errorHandling');
+const { UnifiedAPIClient } = require('./core/apiClient');
 const vscode = require("vscode");
 const https = require("https");
 const fs = require("fs");
@@ -195,6 +198,11 @@ function getLanguageInfo(locale) {
         flag: '🌐', 
         region: locale.toUpperCase() 
     };
+}
+
+// Temporär die alte Funktion wieder hinzufügen:
+function updateStatusBar() {
+    statusBarManager.updateStatusBar(getDependencies());
 }
 
 // Minimal dynamic model system for AI.duino
@@ -772,7 +780,7 @@ function setupEventListeners(context) {
             }
             configDebounceTimeout = setTimeout(() => {
                 loadLocale();
-                updateStatusBar();
+                statusBarManager.updateStatusBar(getDependencies());
                 configDebounceTimeout = null;
             }, 300);
         }
@@ -873,11 +881,12 @@ function getDependencies() {
         executionStates,
         minimalModelManager,
         currentModel,
-        handleApiError,
         globalContext,
         apiKeys,
-        updateTokenUsage,
+        updateTokenUsage: (modelId, inputText, outputText) => updateTokenUsage(modelId, inputText, outputText),
+        handleApiError: (error) => errorHandling.handleApiError(error, getDependencies()),
         updateStatusBar,
+        statusBarItem,
         EXTENSION_VERSION,
         tokenUsage,
         currentLocale,
@@ -910,21 +919,19 @@ function activate(context) {
     loadTokenUsage();
     
     // Status bar
-    statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-    updateStatusBar();
-    statusBarItem.command = "aiduino.quickMenu";
-    statusBarItem.show();
+    statusBarItem = statusBarManager.createStatusBarItem();
+    statusBarManager.updateStatusBar(getDependencies());
 
     // NEW: Update models in background (after 3 seconds)
     setTimeout(async () => {
         await minimalModelManager.updateModelsQuietly();
-        updateStatusBar(); // Update statusbar with latest models
+        statusBarManager.updateStatusBar(getDependencies()); // Update statusbar with latest models
     }, 3000);
 
     // NEW: Daily updates
     setInterval(async () => {
         await minimalModelManager.updateModelsQuietly();
-        updateStatusBar();
+        statusBarManager.updateStatusBar(getDependencies());
     }, 24 * 60 * 60 * 1000); // Every 24 hours
     
     // Register commands
@@ -1041,7 +1048,7 @@ async function switchLanguage() {
                     }
                 }
                 
-                updateStatusBar();
+                statusBarManager.updateStatusBar(getDependencies());
                 
                 let successMessage;
                 if (selected.value === 'auto') {
@@ -1191,7 +1198,7 @@ function loadTokenUsage() {
         
         // Update status bar after loading
         if (statusBarItem) {
-            updateStatusBar();
+            statusBarManager.updateStatusBar(getDependencies());
         }
         
     } catch (error) {
@@ -1332,38 +1339,7 @@ function updateTokenUsage(modelId, inputText, outputText) {
     tokenUsage[modelId].cost += (inputCost + outputCost);
     
     saveTokenUsage();
-    updateStatusBar();
-}
-
-
-// UI functions
-function updateStatusBar() {
-    const providerInfo = minimalModelManager.getProviderInfo(currentModel);
-    const hasApiKey = providerInfo.hasApiKey;
-    
-    // Token-Kosten (bestehende Logik)
-    const todayCost = tokenUsage[currentModel]?.cost.toFixed(3) || '0.000';
-    const costDisplay = todayCost > 0 ? ` (${todayCost})` : '';
-    
-    if (hasApiKey) {
-        statusBarItem.text = `${providerInfo.icon} AI.duino${costDisplay}`;
-        
-        // Fixed: Proper model status without t() function calls
-        const modelStatus = providerInfo.isLatest ? 
-            `Latest: ${providerInfo.modelName}` :
-            `Fallback: ${providerInfo.modelName}`;
-            
-        statusBarItem.tooltip = 
-            `${providerInfo.name} - ${modelStatus}\n` +
-            `Tokens: ${(tokenUsage[currentModel]?.input || 0) + (tokenUsage[currentModel]?.output || 0)}${costDisplay}\n` +
-            `Input: ${tokenUsage[currentModel]?.input || 0} | Output: ${tokenUsage[currentModel]?.output || 0}`;
-            
-        statusBarItem.backgroundColor = undefined;
-    } else {
-        statusBarItem.text = `${providerInfo.icon} AI.duino $(warning)`;
-        statusBarItem.tooltip = `No API key for ${providerInfo.name}`;
-        statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
-    }
+    statusBarManager.updateStatusBar(getDependencies());
 }
 
 // Menu functions
@@ -1536,7 +1512,7 @@ async function switchModel() {
         if (selected) {
             currentModel = selected.value;
             saveSelectedModel();
-            updateStatusBar();
+            statusBarManager.updateStatusBar(getDependencies());
             
             if (!minimalModelManager.getProviderInfo(currentModel).hasApiKey) {
                 const provider = minimalModelManager.providers[currentModel];
@@ -1589,7 +1565,7 @@ async function setApiKey() {
                 const keyFile = path.join(os.homedir(), model.keyFile);
                 apiKeys[currentModel] = input;
                 fs.writeFileSync(keyFile, input, { mode: 0o600 });
-                updateStatusBar();
+                statusBarManager.updateStatusBar(getDependencies());
                 vscode.window.showInformationMessage(
                     t('messages.apiKeySaved', providerName)
                 );
@@ -1610,174 +1586,6 @@ async function setApiKey() {
 
 function getProviderName(modelId) {
     return minimalModelManager.providers[modelId]?.name || 'Unknown';
-}
-
-function handleApiError(error) {
-    const model = minimalModelManager.providers[currentModel];
-
-    // Add model context to all errors if not present
-    if (!error.message.includes(model.name)) {
-        error.message = `${model.name}: ${error.message}`;
-    }
-    
-    // Use error types for enhanced errors (from enhanceError function)
-    if (error.type === 'API_KEY_ERROR') {
-        vscode.window.showErrorMessage(
-            error.message,  // Already translated by enhanceError()
-            t('buttons.enterApiKey'),
-            t('buttons.getApiKey'),
-            t('buttons.switchModel')
-        ).then(selection => {
-            if (selection === t('buttons.enterApiKey')) {
-                vscode.commands.executeCommand('aiduino.setApiKey');
-            } else if (selection === t('buttons.getApiKey')) {
-                networkUtils.openApiKeyUrl(currentModel);
-            } else if (selection === t('buttons.switchModel')) {
-                vscode.commands.executeCommand('aiduino.switchModel');
-            }
-        });
-        return;
-    }
-    
-    // Rate Limiting with token stats
-    if (error.type === 'RATE_LIMIT_ERROR') {
-        vscode.window.showErrorMessage(
-            error.message,  // Already translated
-            t('buttons.switchModel'),
-            t('buttons.tryLater'),
-            t('buttons.showTokenStats')
-        ).then(selection => {
-            if (selection === t('buttons.switchModel')) {
-                vscode.commands.executeCommand('aiduino.switchModel');
-            } else if (selection === t('buttons.showTokenStats')) {
-                vscode.commands.executeCommand('aiduino.showTokenStats');
-            }
-        });
-        return;
-    }
-
-    // Quota Error
-    if (error.type === 'QUOTA_ERROR' || error.message.includes('quota')) {
-        vscode.window.showErrorMessage(
-            t('errors.quotaExceededDetail', model.name),
-            t('buttons.switchModel'),
-            t('buttons.tryLater')
-        ).then(selection => {
-            if (selection === t('buttons.switchModel')) {
-                vscode.commands.executeCommand('aiduino.switchModel');
-            }
-        });
-        return;
-    }   
-    
-    // Server Errors with status page links
-    if (error.type === 'SERVER_ERROR') {
-        vscode.window.showErrorMessage(
-            error.message,  // Already translated
-            t('buttons.tryAgain'),
-            t('buttons.switchModel'),
-            t('buttons.checkStatus')
-        ).then(selection => {
-            if (selection === t('buttons.switchModel')) {
-                vscode.commands.executeCommand('aiduino.switchModel');
-            } else if (selection === t('buttons.checkStatus')) {
-                networkUtils.openServiceStatusUrl(currentModel, minimalModelManager, t);
-            }
-        });
-        return;
-    }
-    
-    // Network Errors (original messages, not enhanced)
-    if (error.message.includes('ENOTFOUND') || error.message.includes('ETIMEDOUT') || 
-        error.message.includes('ECONNREFUSED') || error.message.includes('ECONNRESET') ||
-        error.message.includes('EHOSTUNREACH') || error.message.includes('ENETUNREACH') ||
-        error.message.includes('ECONNABORTED')) {
-        
-        vscode.window.showErrorMessage(
-            t('errors.noInternet'),
-            t('buttons.retry'),
-            t('buttons.offlineHelp'),
-            t('buttons.checkConnection')
-        ).then(selection => {
-            if (selection === t('buttons.retry')) {
-                vscode.window.showInformationMessage(t('messages.retryLater'));
-            } else if (selection === t('buttons.offlineHelp')) {
-                () => uiTools.showOfflineHelp(getDependencies());
-            } else if (selection === t('buttons.checkConnection')) {
-                networkUtils.testNetworkConnectivity(getDependencies());
-            }
-        });
-        return;
-    }
-    
-    // Fallback for original API errors that weren't enhanced
-    if (error.message.includes('Invalid API Key') || error.message.includes('401') || 
-        error.message.includes('403') || error.message.includes('Unauthorized')) {
-        
-        vscode.window.showErrorMessage(
-            `🔑 ${t('errors.invalidApiKey', model.name)}`,
-            t('buttons.enterApiKey'),
-            t('buttons.getApiKey'),
-            t('buttons.switchModel')
-        ).then(selection => {
-            if (selection === t('buttons.enterApiKey')) {
-                vscode.commands.executeCommand('aiduino.setApiKey');
-            } else if (selection === t('buttons.getApiKey')) {
-                networkUtils.openApiKeyUrl(currentModel);
-            } else if (selection === t('buttons.switchModel')) {
-                vscode.commands.executeCommand('aiduino.switchModel');
-            }
-        });
-        return;
-    }
-    
-    // Fallback for original rate limit errors
-    if (error.message.includes('Rate Limit') || error.message.includes('429')) {
-        vscode.window.showErrorMessage(
-            t('errors.rateLimit', model.name),
-            t('buttons.switchModel'),
-            t('buttons.tryLater'),
-            t('buttons.showTokenStats')
-        ).then(selection => {
-            if (selection === t('buttons.switchModel')) {
-                vscode.commands.executeCommand('aiduino.switchModel');
-            } else if (selection === t('buttons.showTokenStats')) {
-                vscode.commands.executeCommand('aiduino.showTokenStats');
-            }
-        });
-        return;
-    }
-    
-    // Fallback for original server errors
-    if (error.message.includes('500') || error.message.includes('502') || 
-        error.message.includes('503') || error.message.includes('504') ||
-        error.message.includes('Server Error') || error.message.includes('Service Unavailable')) {
-        
-        vscode.window.showErrorMessage(
-            t('errors.serverUnavailable', model.name),
-            t('buttons.tryAgain'),
-            t('buttons.switchModel'),
-            t('buttons.checkStatus')
-        ).then(selection => {
-            if (selection === t('buttons.switchModel')) {
-                vscode.commands.executeCommand('aiduino.switchModel');
-            } else if (selection === t('buttons.checkStatus')) {
-                networkUtils.openServiceStatusUrl(currentModel, minimalModelManager, t);
-            }
-        });
-        return;
-    }
-    
-    // Generic error fallback
-    vscode.window.showErrorMessage(
-        `${model.name}: ${error.message}`,
-        t('buttons.retry'),
-        t('buttons.switchModel')
-    ).then(selection => {
-        if (selection === t('buttons.switchModel')) {
-            vscode.commands.executeCommand('aiduino.switchModel');
-        }
-    });
 }
 
 // Get hostname for current model
@@ -1820,263 +1628,19 @@ async function checkForErrors(silent = true) {
         lastDiagnosticsCount = errorCount;
         
         if (errorCount > 0 && !silent) {
-            statusBarItem.text = `${model.icon} AI.duino $(error)`;
-            statusBarItem.tooltip = t('statusBar.errorsFound', errorCount);
-            statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
-            
-            setTimeout(() => {
-                const currentDiagnostics = vscode.languages.getDiagnostics(editor.document.uri);
-                const currentErrors = currentDiagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
-                
-                if (currentErrors.length === 0) {
-                    updateStatusBar();
-                }
-            }, 5000);
+            statusBarManager.showErrorState(getDependencies(), errorCount);
         } else if (errorCount === 0 && lastDiagnosticsCount > 0) {
-            updateStatusBar();
+            statusBarManager.updateStatusBar(getDependencies());
         }
     }
     
     return errorCount > 0;
 }
 
-// Unified API client
-class UnifiedAPIClient {
-    constructor() {
-        this.timeout = 30000;
-        this.maxRetries = 3;
-    }
-
-    async callAPI(modelId, prompt) {
-        if (!apiKeys[modelId]) {
-            const providerName = minimalModelManager.providers[modelId]?.name || 'Unknown Provider';
-            throw new Error(t('errors.noApiKey', providerName));
-        }
-
-        const config = this.getModelConfig(modelId, prompt);
-        
-        for (let attempt = 1; attempt <= this.maxRetries; attempt++) {
-            try {
-                const response = await this.makeRequest(config);
-                const extractedResponse = this.extractResponse(modelId, response);
-                
-                updateTokenUsage(modelId, prompt, extractedResponse);
-                
-                return extractedResponse;
-            } catch (error) {
-                if (attempt === this.maxRetries || !this.isRetryableError(error)) {
-                    throw this.enhanceError(modelId, error);
-                }
-                
-                await this.delay(1000 * attempt);
-            }
-        }
-    }
-    
-    async makeRequest(config) {
-        return new Promise((resolve, reject) => {
-            const data = JSON.stringify(config.body);
-        
-            const options = {
-                hostname: config.hostname,
-                port: 443,
-                path: config.path,
-                method: 'POST',
-                headers: {
-                    ...config.headers,
-                    'Content-Length': Buffer.byteLength(data)
-                }
-            };
-    
-            const timeout = setTimeout(() => {
-                req.destroy();
-                reject(new Error('Request timeout'));
-            }, this.timeout);
-    
-            const req = https.request(options, (res) => {
-                clearTimeout(timeout);
-                let responseData = '';
-    
-                res.on('data', (chunk) => {
-                    responseData += chunk;
-                });
-    
-                res.on('end', () => {
-                    try {
-                        const parsedData = JSON.parse(responseData);
-                        
-                        if (res.statusCode === 200) {
-                            resolve(parsedData);
-                        } else {
-                            reject(this.createHttpError(res.statusCode, parsedData));
-                        }
-                    } catch (e) {
-                        reject(new Error('JSON Parse Error: ' + e.message));
-                    }
-                });
-            });
-    
-            req.on('error', (e) => {
-                clearTimeout(timeout);
-                reject(this.handleNetworkError(e));
-            });
-    
-            req.write(data);
-            req.end();
-        });
-    }   
-
-    getModelConfig(modelId, prompt) {
-        const provider = minimalModelManager.providers[modelId];
-        if (!provider || !provider.apiConfig) {
-            throw new Error(`Unknown provider or missing API config: ${modelId}`);
-        }
-    
-        const currentModel = minimalModelManager.getCurrentModel(modelId);
-        const apiConfig = provider.apiConfig;
-        const apiKey = apiKeys[modelId];
-    
-        // SPECIAL HANDLING FOR GEMINI
-        if (modelId === 'gemini') {
-            // Use the actual current model instead of hardcoding
-            let geminiModelId = currentModel.id;
-            
-            // Ensure proper format with "models/" prefix
-            if (!geminiModelId.startsWith('models/')) {
-                geminiModelId = 'models/' + geminiModelId;
-            }
-    
-            const apiPath = `/v1beta/${geminiModelId}:generateContent?key=${apiKey}`;
-
-            return {
-                hostname: provider.hostname,
-                path: apiPath,
-                headers: { 'Content-Type': 'application/json' },
-                body: {
-                    contents: [{
-                        parts: [{ text: prompt }]
-                    }],
-                    generationConfig: {
-                        temperature: 0.7,
-                        topK: 1,
-                        topP: 1,
-                        maxOutputTokens: 2048,
-                    }
-                }
-            };
-        }
-    
-        // Normal path for other providers
-        let apiPath;
-        if (typeof apiConfig.apiPath === 'function') {
-            apiPath = apiConfig.apiPath(currentModel.id, apiKey);
-        } else {
-            apiPath = apiConfig.apiPath;
-        }
-    
-        return {
-            hostname: provider.hostname,
-            path: apiPath,
-            headers: apiConfig.headers(apiKey),
-            body: apiConfig.buildRequest(currentModel.id, prompt)
-        };
-    } 
-    
-    extractResponse(modelId, responseData) {
-        const provider = minimalModelManager.providers[modelId];
-        if (!provider || !provider.apiConfig) {
-            throw new Error(`Unknown provider: ${modelId}`);
-        }
-
-        return provider.apiConfig.extractResponse(responseData);
-    }
-
-    getGeminiSafetySettings() {
-        return [
-            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-            { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-            { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
-        ];
-    }
-
-    createHttpError(statusCode, responseData) {
-    // Spezielle Behandlung für Quota-Fehler
-        if (responseData?.error?.message?.includes('quota')) {
-            const error = new Error(t('errors.quotaExceeded'));
-            error.type = 'QUOTA_ERROR';
-            return error;
-        }
-        const errorMessages = {
-            401: 'Invalid API Key',
-            403: 'Access Forbidden',
-            429: 'Rate Limit Exceeded',
-            500: 'Internal Server Error',
-            502: 'Bad Gateway',
-            503: 'Service Unavailable'
-        };
-
-        const message = errorMessages[statusCode] || 'Unknown HTTP Error';
-        const details = responseData.error?.message || responseData.message || 'No details available';
-        
-        return new Error(`${message} (${statusCode}): ${details}`);
-    }
-
-    handleNetworkError(error) {
-        const errorMessages = {
-            'ENOTFOUND': t('errors.network.dns'),
-            'ETIMEDOUT': t('errors.network.timeout'),
-            'ECONNREFUSED': t('errors.network.refused'),
-            'ECONNRESET': t('errors.network.reset'),
-            'EHOSTUNREACH': t('errors.network.hostUnreachable'),
-            'ENETUNREACH': t('errors.network.netUnreachable'),
-            'ECONNABORTED': t('errors.network.aborted')
-        };
-        
-        const message = errorMessages[error.code] || t('errors.network.general', error.message);
-        return new Error(message);
-    }
-
-    enhanceError(modelId, error) {
-    const modelName = minimalModelManager.providers[modelId]?.name || 'Unknown Provider';
-    
-    // Add model context to error WITH error types
-    if (error.message.includes('Invalid API Key')) {
-        const enhancedError = new Error(t('errors.invalidApiKey', modelName));
-        enhancedError.type = 'API_KEY_ERROR';  
-        return enhancedError;
-    } else if (error.message.includes('Rate Limit')) {
-        const enhancedError = new Error(t('errors.rateLimit', modelName));
-        enhancedError.type = 'RATE_LIMIT_ERROR'; 
-        return enhancedError;
-    } else if (error.message.includes('Server Error') || error.message.includes('Service Unavailable')) {
-        const enhancedError = new Error(t('errors.serverUnavailable', modelName));
-        enhancedError.type = 'SERVER_ERROR';  
-        return enhancedError;
-    }
-    
-    return new Error(`${modelName}: ${error.message}`);
-}
-
-    isRetryableError(error) {
-        // Retry on network errors and temporary server issues
-        return error.message.includes('timeout') ||
-               error.message.includes('ECONNRESET') ||
-               error.message.includes('ECONNREFUSED') ||
-               error.message.includes('Service Unavailable') ||
-               error.message.includes('502') ||
-               error.message.includes('503');
-    }
-
-    delay(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-}
-
 const apiClient = new UnifiedAPIClient();
 
 function callAI(prompt) {   
-    return apiClient.callAPI(currentModel, prompt);
+    return apiClient.callAPI(currentModel, prompt, getDependencies());
 }
 
 // Deactivation
