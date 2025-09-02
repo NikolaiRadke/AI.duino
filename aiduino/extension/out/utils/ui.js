@@ -13,6 +13,15 @@ const shared = require('../shared');
 function showAbout(context) {
     const { t, minimalModelManager, EXTENSION_VERSION } = context;
     
+    // Generate dynamic API keys list directly from provider configs
+    const apiKeysList = Object.entries(minimalModelManager.providers)
+        .map(([id, provider]) => {
+            const url = provider.apiKeyUrl || '#';  // Use apiKeyUrl from config
+            const domain = url !== '#' ? url.replace('https://', '').split('/')[0] : 'N/A';
+            return `<p>${provider.icon} <strong>${provider.name}:</strong> <a href="${url}">${domain}</a></p>`;
+        })
+        .join('');
+    
     const panel = vscode.window.createWebviewPanel(
         'aiduinoAbout',
         t('panels.about'),
@@ -168,10 +177,7 @@ function showAbout(context) {
             
             <div class="info-box">
                 <h3>${t('about.getApiKeys')}:</h3>
-                <p>🤖 <strong>Claude:</strong> <a href="https://console.anthropic.com/api-keys">console.anthropic.com</a></p>
-                <p>🧠 <strong>ChatGPT:</strong> <a href="https://platform.openai.com/api-keys">platform.openai.com</a></p>
-                <p>💎 <strong>Gemini:</strong> <a href="https://makersuite.google.com/app/apikey">makersuite.google.com</a></p>
-                <p>🌟 <strong>Mistral:</strong> <a href="https://console.mistral.ai/">console.mistral.ai</a></p>
+                ${apiKeysList}
             </div>
             
             <div class="credits">
@@ -307,7 +313,14 @@ function showTokenStats(context) {
  * @param {Object} context - Extension context with dependencies
  */
 function showOfflineHelp(context) {
-    const { t } = context;
+    const { t, minimalModelManager } = context;
+    
+    // Generate dynamic hostname list from all providers  
+    const firewallList = Object.entries(minimalModelManager.providers)
+        .map(([id, provider]) => {
+            return `<li><code>${provider.hostname}</code> (${provider.name})</li>`;
+        })
+        .join('');
     
     const panel = vscode.window.createWebviewPanel(
         'aiOfflineHelp',
@@ -356,7 +369,7 @@ function showOfflineHelp(context) {
             </style>
         </head>
         <body>
-            <h1>📡 ${t('offline.title')}</h1>
+            <h1>🔡 ${t('offline.title')}</h1>
             
             <div class="warning">
                 <strong>${t('offline.requiresInternet')}</strong>
@@ -377,10 +390,7 @@ function showOfflineHelp(context) {
                 <h3>2. ${t('offline.firewallSettings')}</h3>
                 <p>${t('offline.ensureNotBlocked')}:</p>
                 <ul>
-                    <li><code>api.anthropic.com</code> (Claude)</li>
-                    <li><code>api.openai.com</code> (ChatGPT)</li>
-                    <li><code>generativelanguage.googleapis.com</code> (Gemini)</li>
-                    <li><code>api.mistral.ai</code> (Mistral)</li>
+                    ${firewallList}
                 </ul>
             </div>
             

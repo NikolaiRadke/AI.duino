@@ -35,6 +35,7 @@ const validation = require('./utils/validation');
 const fileManager = require('./utils/fileManager');
 const { UnifiedAPIClient } = require('./core/apiClient');
 const { ExecutionStateManager } = require('./core/executionStateManager');
+const { CommandRegistry } = require('./core/commandRegistry');
 const { PROVIDER_CONFIGS } = require('./config/providerConfigs');
 const vscode = require("vscode");
 const https = require("https");
@@ -44,11 +45,10 @@ const path = require("path");
 
 let i18n = {};
 let currentLocale = 'en';
-
 let lastDiagnosticsCount = 0;
 let lastErrorCheck = 0;
 let lastCheckedUri = null;
-
+let commandRegistry;
 let aiConversationContext = {
     lastQuestion: null,
     lastAnswer: null,
@@ -585,6 +585,9 @@ function getDependencies() {
         currentModel,
         globalContext,
         apiKeys,
+        tokenUsage,       
+        currentLocale,     
+        EXTENSION_VERSION, 
         updateTokenUsage,
         updateStatusBar,
         aiConversationContext,
@@ -653,30 +656,34 @@ function activate(context) {
 exports.activate = activate;
 
 function registerCommands(context) {
-    const commands = [
-        { name: 'aiduino.quickMenu', handler: showQuickMenu }, 
-        { name: 'aiduino.switchModel', handler: switchModel },
-        { name: 'aiduino.setApiKey', handler: setApiKey },
-        { name: 'aiduino.switchLanguage', handler: switchLanguage },
-        { name: 'aiduino.explainCode', handler: () => explainCodeFeature.explainCode(getDependencies()) },
-        { name: 'aiduino.improveCode', handler: () => improveCodeFeature.improveCode(getDependencies()) },
-        { name: 'aiduino.addComments', handler: () => addCommentsFeature.addComments(getDependencies()) },
-        { name: 'aiduino.explainError', handler: () => explainErrorFeature.explainError(getDependencies()) },
-        { name: 'aiduino.debugHelp', handler: () => debugHelpFeature.debugHelp(getDependencies()) },
-        { name: 'aiduino.showTokenStats', handler: () => uiTools.showTokenStats(getDependencies()) },
-        { name: 'aiduino.about', handler: () => uiTools.showAbout(getDependencies()) },
-        { name: 'aiduino.askAI', handler: () => askAIFeature.askAI(getDependencies(), false) },
-        { name: 'aiduino.askFollowUp', handler: () => askAIFeature.askAI(getDependencies(), true) },
-        { name: 'aiduino.clearAIContext', handler: clearAIContext }       // Clear context (optional)
-    ];
+    // Initialisiere Command Registry
+    commandRegistry = new CommandRegistry();
     
-    commands.forEach(cmd => {
-        context.subscriptions.push(
-            vscode.commands.registerCommand(cmd.name, cmd.handler)
-        );
-    });
+    // Prepare dependencies für command handlers
+    const commandDeps = {
+        // Handler functions
+        showQuickMenu,
+        switchModel, 
+        setApiKey,
+        switchLanguage,
+        clearAIContext,
+        
+        // Feature modules  
+        explainCodeFeature,
+        improveCodeFeature,
+        addCommentsFeature, 
+        explainErrorFeature,
+        debugHelpFeature,
+        askAIFeature,
+        uiTools,
+        
+        // System dependencies
+        minimalModelManager,
+        getDependencies
+    };
     
-    context.subscriptions.push(statusBarItem);
+    // Register all commands
+    commandRegistry.registerCommands(context, commandDeps);
 }
 
 async function switchLanguage() {
@@ -1348,6 +1355,12 @@ function callAI(prompt) {
 
 // Deactivation
 function deactivate() {
+    // Cleanup command registry
+    if (commandRegistry) {
+        commandRegistry.dispose();
+        commandRegistry = null;
+    }
+    
     // Cleanup execution states
     if (executionStates) {
         // Clear all states

@@ -26,6 +26,7 @@ your_provider: {
     keyPrefix: 'sk-',                     // API key must start with this
     keyMinLength: 15,                     // Minimum key length
     hostname: 'api.yourprovider.com',     // API hostname
+    apiKeyUrl:                            // API URL
     path: '/v1/models',                   // Path for model list
     headers: (key) => ({ 'Authorization': `Bearer ${key}` }), // HTTP headers
     extractModels: (data) => data.models || [],  // Extract models from API response
@@ -66,6 +67,7 @@ const PROVIDER_CONFIGS = {
         keyPrefix: 'sk-ant-',
         keyMinLength: 20,
         hostname: 'api.anthropic.com',
+        apiKeyUrl: 'https://console.anthropic.com/api-keys',
         path: '/v1/models',
         headers: (key) => ({ 'x-api-key': key, 'anthropic-version': '2023-06-01' }),
         extractModels: (data) => data.data?.filter(m => m.type === 'text' && !m.id.includes('deprecated')) || [],
@@ -100,6 +102,7 @@ const PROVIDER_CONFIGS = {
         keyPrefix: 'sk-',
         keyMinLength: 20,
         hostname: 'api.openai.com',
+        apiKeyUrl: 'https://platform.openai.com/api-keys',
         path: '/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => data.data?.filter(m => m.id.startsWith('gpt-') && !m.id.includes('instruct')) || [],
@@ -137,6 +140,7 @@ const PROVIDER_CONFIGS = {
         keyPrefix: 'AIza',
         keyMinLength: 20,
         hostname: 'generativelanguage.googleapis.com',
+        apiKeyUrl: 'https://makersuite.google.com/app/apikey',
         path: '/v1/models?key=',
         headers: () => ({}),
         extractModels: (data) => data.models?.filter(m => m.supportedGenerationMethods?.includes('generateContent')) || [],
@@ -207,6 +211,7 @@ const PROVIDER_CONFIGS = {
         keyPrefix: 'sk-',
         keyMinLength: 15,
         hostname: 'api.mistral.ai',
+        apiKeyUrl: 'https://console.mistral.ai/',
         path: '/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => data.data?.filter(m => !m.id.includes('embed')) || [],
@@ -244,6 +249,7 @@ const PROVIDER_CONFIGS = {
         keyPrefix: 'pplx-',
         keyMinLength: 15,
         hostname: 'api.perplexity.ai',
+        apiKeyUrl: 'https://www.perplexity.ai/settings/api',
         path: '/chat/completions',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => [{ id: 'llama-3.1-sonar-large-128k-online', name: 'Llama 3.1 Sonar Large' }],
@@ -281,6 +287,7 @@ const PROVIDER_CONFIGS = {
         keyPrefix: 'co-',
         keyMinLength: 15,
         hostname: 'api.cohere.ai',
+        apiKeyUrl: 'https://dashboard.cohere.ai/api-keys',
         path: '/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => data.models?.filter(m => m.name.includes('command')) || [],
@@ -314,6 +321,7 @@ const PROVIDER_CONFIGS = {
         keyFile: '.aiduino-groq-api-key',
         keyPrefix: 'gsk_',
         hostname: 'api.groq.com',
+        apiKeyUrl: 'https://console.groq.com/keys',
         path: '/openai/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => data.data?.filter(m => m.id.includes('llama') || m.id.includes('mixtral')) || [],
@@ -360,6 +368,7 @@ const PROVIDER_CONFIGS = {
         keyPrefix: 'ya29.',
         keyMinLength: 20,
         hostname: 'us-central1-aiplatform.googleapis.com',
+        apiKeyUrl: 'https://console.cloud.google.com/apis/credentials',
         path: '/v1/projects/YOUR_PROJECT/locations/us-central1/publishers/anthropic/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => data.models?.filter(m => m.name.includes('claude')) || [],
@@ -397,6 +406,7 @@ const PROVIDER_CONFIGS = {
         keyPrefix: 'hf_',
         keyMinLength: 15,
         hostname: 'api-inference.huggingface.co',
+        apiKeyUrl: 'https://huggingface.co/settings/tokens',
         path: '/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => [{ id: 'meta-llama/Llama-3.3-70B-Instruct', name: 'Llama 3.3 70B Instruct' }],
