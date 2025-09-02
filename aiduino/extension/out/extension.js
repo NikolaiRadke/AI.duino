@@ -34,6 +34,8 @@ const errorHandling = require('./utils/errorHandling');
 const validation = require('./utils/validation');
 const fileManager = require('./utils/fileManager');
 const { ErrorChecker } = require('./utils/errorChecker');
+const { ApiKeyManager } = require('./utils/apiKeyManager');
+const { LocaleUtils } = require('./utils/localeUtils');
 const { UnifiedAPIClient } = require('./core/apiClient');
 const { ExecutionStateManager } = require('./core/executionStateManager');
 const { CommandRegistry } = require('./core/commandRegistry');
@@ -49,6 +51,8 @@ let i18n = {};
 let currentLocale = 'en';
 let commandRegistry;
 let errorChecker;
+let apiKeyManager;
+let localeUtils;
 let availableLocales = null;
 let aiConversationContext = {
     lastQuestion: null,
@@ -59,29 +63,6 @@ let aiConversationContext = {
 
 const executionStates = new ExecutionStateManager();
 const EXTENSION_VERSION = fileManager.getVersionFromPackage();
-
-function getAvailableLocales() {
-    const localesDir = path.join(__dirname, '..', 'locales');
-    const availableLocales = [];
-    
-    try {
-        if (fs.existsSync(localesDir)) {
-            const files = fs.readdirSync(localesDir);
-            
-            files.forEach(file => {
-                if (file.endsWith('.json')) {
-                    const locale = file.replace('.json', '');
-                    availableLocales.push(locale);
-                }
-            });
-        }
-    } catch (error) {
-        // Silent fallback
-        return ['en', 'de'];
-    }
-    
-    return ['en', ...availableLocales.filter(l => l !== 'en').sort()];
-}
 
 // Minimal dynamic model system for AI.duino
 // Works completely in background, only shows latest model in statusbar
@@ -300,12 +281,9 @@ function loadLocale() {
     if (userLanguageChoice !== 'auto') {
         currentLocale = userLanguageChoice;
     } else {
-        // Auto-Detection with dynamic list
+        // Auto-Detection mit LocaleUtils
         const vscodeLocale = vscode.env.language || 'en';
-        const detectedLang = vscodeLocale.substring(0, 2);
-        const supportedLocales = getAvailableLocales(); 
-        
-        currentLocale = supportedLocales.includes(detectedLang) ? detectedLang : 'en';
+        currentLocale = localeUtils.autoDetectLocale(vscodeLocale);
     }
     
     // Load locale file with fallback chain to en.json
@@ -453,14 +431,14 @@ function getDependencies() {
         currentModel,
         globalContext,
         apiKeys,
-        tokenUsage,       
-        currentLocale,     
-        EXTENSION_VERSION, 
+        tokenUsage,
+        currentLocale, 
+        EXTENSION_VERSION,
         updateTokenUsage,
         updateStatusBar,
         aiConversationContext,
+        apiKeyManager,
         handleApiError: (error) => errorHandling.handleApiError(error, getDependencies()),
-        updateTokenUsage: (modelId, inputText, outputText) => updateTokenUsage(modelId, inputText, outputText),        
         setAiConversationContext: (newContext) => { 
             Object.assign(aiConversationContext, newContext); 
         }
@@ -474,9 +452,13 @@ function activate(context) {
         // Extension was somehow already active - cleanup first
         deactivate();
     }    
+
+    // Initialize Locale Utils
+    localeUtils = new LocaleUtils();
+    
     // Load locale first
     loadLocale();
-    
+
     // Store context globally
     globalContext = context;
 
@@ -511,6 +493,9 @@ function activate(context) {
 
     // Initialize Error Checker with minimal setup
     errorChecker = new ErrorChecker();
+
+    // Initialize API Key Manager
+    apiKeyManager = new ApiKeyManager();
     
     // Register commands
     registerCommands(context);
@@ -566,83 +551,35 @@ async function switchLanguage() {
     }
     
     try {
-        const supportedLocales = getAvailableLocales();
-        const availableLanguages = [
-            { 
-                label: '🌐 Auto (VS Code)', 
-                description: t('language.autoDetect') || 'Auto-detect from VS Code', 
-                value: 'auto' 
-            }
-        ];
-        
-        supportedLocales.forEach(locale => {
-            const info = getLanguageInfo(locale);
-            availableLanguages.push({
-                label: `${info.flag} ${info.name}`,
-                description: info.region,
-                value: locale
-            });
-        });
-        
         const config = vscode.workspace.getConfiguration('aiduino');
         const currentSetting = config.get('language', 'auto');
         
-        let activeValue = currentSetting === 'auto' ? 'auto' : currentLocale;
-        
-        availableLanguages.forEach(lang => {
-            if (lang.value === activeValue) {
-                if (activeValue === 'auto') {
-                    const info = getLanguageInfo(currentLocale);
-                    lang.description = `✓ Currently using ${info.region}`;
-                } else {
-                    lang.description = `✓ ${lang.description}`;
-                }
-            }
-        });
+        // Use LocaleUtils for building language selection
+        const availableLanguages = localeUtils.buildLanguagePickItems(currentLocale, currentSetting);
         
         const selected = await vscode.window.showQuickPick(availableLanguages, {
             placeHolder: t('language.selectLanguage') || 'Choose language for AI.duino',
             title: `🌐 AI.duino ${t('language.changeLanguage') || 'Change Language'}`
         });
         
-        if (selected && selected.value !== activeValue) {
+        if (selected && selected.value !== currentSetting) {
             try {
                 await config.update('language', selected.value, vscode.ConfigurationTarget.Global);
                 
                 if (selected.value === 'auto') {
                     const vscodeLocale = vscode.env.language || 'en';
-                    const detectedLang = vscodeLocale.substring(0, 2);
-                    currentLocale = supportedLocales.includes(detectedLang) ? detectedLang : 'en';
+                    currentLocale = localeUtils.autoDetectLocale(vscodeLocale);
                 } else {
                     currentLocale = selected.value;
                 }
                 
-                // Load new locale file
-                const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
-                if (fs.existsSync(localeFile)) {
-                    const content = fs.readFileSync(localeFile, 'utf8');
-                    i18n = JSON.parse(content);
-                } else {
-                    currentLocale = 'en';
-                    const englishFile = path.join(__dirname, '..', 'locales', 'en.json');
-                    if (fs.existsSync(englishFile)) {
-                        const content = fs.readFileSync(englishFile, 'utf8');
-                        i18n = JSON.parse(content);
-                    }
-                }
-                
+                // Load new locale file (existing loadLocale logic)
+                loadLocale();
                 updateStatusBar();
                 
-                let successMessage;
-                if (selected.value === 'auto') {
-                    const info = getLanguageInfo(currentLocale);
-                    successMessage = t('language.changed', `Auto (${info.name})`) || 
-                                    `Language set to Auto (${info.name})`;
-                } else {
-                    const info = getLanguageInfo(currentLocale);
-                    successMessage = t('language.changed', info.name) || 
-                                    `Language changed to ${info.name}`;
-                }
+                const successMessage = selected.value === 'auto' ? 
+                    `Language set to Auto (${getLanguageInfo(currentLocale).name})` :
+                    `Language changed to ${getLanguageInfo(currentLocale).name}`;
                 
                 vscode.window.showInformationMessage(successMessage);
                 
@@ -651,23 +588,9 @@ async function switchLanguage() {
             }
         }
     } finally {
-        // Always cleanup
         executionStates.stop('switchLanguage');
     }
 }
-
-function getCurrentLanguageName() {
-    const config = vscode.workspace.getConfiguration('aiduino');
-    const currentSetting = config.get('language', 'auto');
-    const info = getLanguageInfo(currentLocale); 
-    
-    if (currentSetting === 'auto') {
-        return `Auto (${info.name})`;
-    }
-    
-    return info.name;
-}
-
 
 function initializeTokenUsage() {
     tokenUsage = {
@@ -987,7 +910,7 @@ async function showQuickMenu() {
         }] : []),
         {
             label: '$(globe) ' + t('commands.switchLanguage'),
-            description: t('descriptions.currentLanguage', getCurrentLanguageName()),
+            description: t('descriptions.currentLanguage', localeUtils.getCurrentLanguageName(currentLocale, vscode.workspace.getConfiguration('aiduino').get('language', 'auto'))),
             command: 'aiduino.switchLanguage'
         },
         {
@@ -1103,65 +1026,29 @@ async function switchModel() {
     }
 }
 
+// API Key Wrapper
 async function setApiKey() {
-    // Check if already running
-    if (!executionStates.start(executionStates.OPERATIONS.SET_API_KEY)) {
-        vscode.window.showInformationMessage("API Key setup is already running! Please wait...");
+    if (!apiKeyManager) {
+        vscode.window.showErrorMessage("API Key Manager not initialized");
         return false;
     }
     
-    try {
-        const model = minimalModelManager.providers[currentModel]; 
-        const providerName = getProviderName(currentModel);
-        
-        const input = await vscode.window.showInputBox({
-            prompt: t('prompts.enterApiKey', providerName),
-            placeHolder: model.keyPrefix + '...',
-            password: true,
-            ignoreFocusOut: true,
-            validateInput: (value) => {
-                return validation.validateApiKey(
-                    value, 
-                    model.keyPrefix, 
-                    model.keyMinLength || 15, 
-                    t
-                );
-            }
-        });
-        
-        if (input) {
-            try {
-                const keyFile = path.join(os.homedir(), model.keyFile);
-                apiKeys[currentModel] = input;
-                if (fileManager.saveApiKey(currentModel, input, minimalModelManager.providers)) {
-                    apiKeys[currentModel] = input;
-                }
-                updateStatusBar();
-                vscode.window.showInformationMessage(
-                    t('messages.apiKeySaved', providerName)
-                );
-                return true;
-            } catch (error) {
-                vscode.window.showErrorMessage(
-                    t('errors.saveFailed', error.message)
-                );
-                return false;
-            }
-        }
-        return false;
-    } finally {
-        // Always cleanup
-        executionStates.stop('setApiKey');
-    }
+    // Prepare dependencies
+    const deps = {
+        t,
+        currentModel,
+        providers: minimalModelManager.providers,
+        fileManager,
+        validation,
+        apiKeys,
+        updateStatusBar
+    };
+    
+    return await apiKeyManager.setApiKey(deps);
 }
 
 function getProviderName(modelId) {
     return minimalModelManager.providers[modelId]?.name || 'Unknown';
-}
-
-// Get hostname for current model
-function getModelHostname(modelId) {
-    return minimalModelManager.providers[modelId]?.hostname || 'unknown';
 }
 
 const apiClient = new UnifiedAPIClient();
@@ -1188,6 +1075,18 @@ function deactivate() {
     if (executionStates) {
         // Clear all states
         executionStates.states.clear();
+    }
+
+    // Cleanup Locale Utils
+    if (localeUtils) {
+        localeUtils.clearCache();
+        localeUtils = null;
+    }
+
+    // Cleanup API Key Manager
+    if (apiKeyManager) {
+        apiKeyManager.dispose();
+        apiKeyManager = null;
     }
 
     if (configDebounceTimeout) {
