@@ -35,6 +35,7 @@ const validation = require('./utils/validation');
 const fileManager = require('./utils/fileManager');
 const { UnifiedAPIClient } = require('./core/apiClient');
 const { ExecutionStateManager } = require('./core/executionStateManager');
+const { PROVIDER_CONFIGS } = require('./config/providerConfigs');
 const vscode = require("vscode");
 const https = require("https");
 const fs = require("fs");
@@ -160,303 +161,10 @@ function getLanguageInfo(locale) {
 
 class MinimalModelManager {
     constructor() {
-        this.providers = this.getProviders();
+        this.providers = PROVIDER_CONFIGS;
         this.currentModels = {}; // Latest model per provider
         this.lastCheck = {};
         this.isUpdating = false;
-    }
-
-    getProviders() {
-        return {
-            claude: {
-                name: 'Claude',
-                icon: '🤖',
-                color: '#6B46C1',
-                keyFile: '.aiduino-claude-api-key',
-                keyPrefix: 'sk-ant-',
-                hostname: 'api.anthropic.com',
-                path: '/v1/models',
-                headers: (key) => ({ 'x-api-key': key, 'anthropic-version': '2023-06-01' }),
-                extractModels: (data) => data.data?.filter(m => m.type === 'text' && !m.id.includes('deprecated')) || [],
-                selectBest: (models) => models.find(m => m.id.includes('3-5-sonnet')) || models[0],
-                fallback: 'claude-3-5-sonnet-20241022',
-                prices: {
-                    input: 0.003 / 1000,   // $3 per 1M tokens
-                    output: 0.015 / 1000   // $15 per 1M tokens
-                },
-                // NEW: API Configuration
-                apiConfig: {
-                    apiPath: '/v1/messages',
-                    method: 'POST',
-                    headers: (key) => ({
-                        'Content-Type': 'application/json',
-                        'x-api-key': key,
-                        'anthropic-version': '2023-06-01'
-                    }),
-                    buildRequest: (modelId, prompt) => ({
-                        model: modelId,
-                        max_tokens: 2000,
-                        messages: [{ role: "user", content: prompt }]
-                    }),
-                    extractResponse: (data) => data.content[0].text
-                }
-            },
-            
-            chatgpt: {
-                name: 'ChatGPT',
-                icon: '🧠',
-                color: '#10A37F',
-                keyFile: '.aiduino-openai-api-key',
-                keyPrefix: 'sk-',
-                hostname: 'api.openai.com',
-                path: '/v1/models',
-                headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-                extractModels: (data) => data.data?.filter(m => m.id.startsWith('gpt-') && !m.id.includes('instruct')) || [],
-                selectBest: (models) => models.find(m => m.id.includes('gpt-4-turbo')) || models.find(m => m.id.includes('gpt-4')) || models[0],
-                fallback: 'gpt-4-turbo',
-                prices: {
-                    input: 0.03 / 1000,    // $30 per 1M tokens
-                    output: 0.06 / 1000    // $60 per 1M tokens
-                },
-                // NEW: API Configuration
-                apiConfig: {
-                    apiPath: '/v1/chat/completions',
-                    method: 'POST',
-                    headers: (key) => ({
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${key}`
-                    }),
-                    buildRequest: (modelId, prompt) => ({
-                        model: modelId,
-                        messages: [
-                            { role: "system", content: t('prompts.systemPrompt') },
-                            { role: "user", content: prompt }
-                        ],
-                        max_tokens: 2000,
-                        temperature: 0.7
-                    }),
-                    extractResponse: (data) => data.choices[0].message.content
-                }
-            },
-
-            gemini: {
-                name: 'Gemini',
-                icon: '💎',
-                color: '#4285F4',
-                keyFile: '.aiduino-gemini-api-key',
-                keyPrefix: 'AIza',
-                keyMinLength: 20,
-                hostname: 'generativelanguage.googleapis.com',
-                path: '/v1/models?key=',
-                headers: () => ({}),
-                extractModels: (data) => data.models?.filter(m => m.supportedGenerationMethods?.includes('generateContent')) || [],
-                selectBest: (models) => models.find(m => m.name.includes('1.5-pro')) || models.find(m => m.name.includes('1.5-flash')) || models[0],
-                fallback: 'models/gemini-1.5-flash-latest', // MIT prefix
-                prices: {
-                    input: 0.00025 / 1000,
-                    output: 0.0005 / 1000
-                },
-                apiConfig: {
-                    apiPath: (modelId, key) => {
-                        // Stelle sicher, dass das models/ prefix vorhanden ist
-                        if (!modelId.startsWith('models/')) {
-                            modelId = 'models/' + modelId;
-                        }
-                        return `/v1beta/${modelId}:generateContent?key=${key}`;
-                    },
-                    method: 'POST',
-                    headers: (key) => ({
-                        'Content-Type': 'application/json'
-                    }),
-                    buildRequest: (modelId, prompt) => ({
-                        contents: [{
-                            parts: [{ text: prompt }]
-                        }],
-                        generationConfig: {
-                            temperature: 0.7,
-                            topK: 1,
-                            topP: 1,
-                            maxOutputTokens: 2048,
-                        },
-                        safetySettings: [
-                            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                            { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                            { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
-                        ]
-                    }),         
-                    extractResponse: (data) => {
-                        // Bessere Error-Behandlung
-                        if (data.error) {
-                            throw new Error(`Gemini API Error: ${data.error.message || JSON.stringify(data.error)}`);
-                        }
-                        
-                        if (data.candidates && data.candidates[0]) {
-                            const candidate = data.candidates[0];
-                            
-                            // Check for blocked content
-                            if (candidate.finishReason === 'SAFETY') {
-                                throw new Error('Response blocked due to safety settings');
-                            }
-                            
-                            if (candidate.content && 
-                                candidate.content.parts && 
-                                candidate.content.parts[0] &&
-                                candidate.content.parts[0].text) {
-                                return candidate.content.parts[0].text;
-                            }
-                        }
-                        
-                        throw new Error('Unexpected response format from Gemini');
-                    }           
-                }
-            },
-    
-            mistral: {
-                name: 'Mistral',
-                icon: '🌟',
-                color: '#FF7000',
-                keyFile: '.aiduino-mistral-api-key',
-                keyPrefix: 'sk-',
-                hostname: 'api.mistral.ai',
-                path: '/v1/models',
-                headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-                extractModels: (data) => data.data?.filter(m => !m.id.includes('embed')) || [],
-                selectBest: (models) => models.find(m => m.id.includes('large')) || models[0],
-                fallback: 'mistral-large-latest',
-                prices: {
-                    input: 0.004 / 1000,   // $4 per 1M tokens
-                    output: 0.012 / 1000   // $12 per 1M tokens
-                },
-                // NEW: API Configuration
-                apiConfig: {
-                    apiPath: '/v1/chat/completions',
-                    method: 'POST',
-                    headers: (key) => ({
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${key}`
-                    }),
-                    buildRequest: (modelId, prompt) => ({
-                        model: modelId,
-                        messages: [
-                            { role: "system", content: t('prompts.systemPrompt') },
-                            { role: "user", content: prompt }
-                        ],
-                        max_tokens: 2000,
-                        temperature: 0.7
-                    }),
-                    extractResponse: (data) => data.choices[0].message.content
-                }
-            },
-            
-            perplexity: {
-                name: 'Perplexity',
-                icon: '🔍',
-                color: '#20B2AA',
-                keyFile: '.aiduino-perplexity-api-key',
-                keyPrefix: 'pplx-',
-                hostname: 'api.perplexity.ai',
-                path: '/chat/completions',
-                headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-                extractModels: (data) => [{ id: 'llama-3.1-sonar-large-128k-online', name: 'Llama 3.1 Sonar Large' }],
-                selectBest: (models) => models[0],
-                fallback: 'llama-3.1-sonar-large-128k-online',
-                prices: {
-                    input: 0.001 / 1000,   // $1 per 1M tokens (estimate)
-                    output: 0.003 / 1000   // $3 per 1M tokens (estimate)
-                },
-                // NEW: API Configuration
-                apiConfig: {
-                    apiPath: '/chat/completions',
-                    method: 'POST',
-                    headers: (key) => ({
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${key}`
-                    }),
-                    buildRequest: (modelId, prompt) => ({
-                        model: modelId,
-                        messages: [
-                            { role: "system", content: t('prompts.systemPrompt') },
-                            { role: "user", content: prompt }
-                        ],
-                        max_tokens: 2000,
-                        temperature: 0.7
-                    }),
-                    extractResponse: (data) => data.choices[0].message.content
-                }
-            },
-            
-            cohere: {
-                name: 'Cohere',
-                icon: '🔥',
-                color: '#39C5BB',
-                keyFile: '.aiduino-cohere-api-key',
-                keyPrefix: 'co-',
-                hostname: 'api.cohere.ai',
-                path: '/v1/models',
-                headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-                extractModels: (data) => data.models?.filter(m => m.name.includes('command')) || [],
-                selectBest: (models) => models.find(m => m.name.includes('command-r-plus')) || models[0],
-                fallback: 'command-r-plus',
-                prices: {
-                    input: 0.0015 / 1000,  // $1.5 per 1M tokens (estimate)
-                    output: 0.002 / 1000   // $2 per 1M tokens (estimate)
-                },
-                // NEW: API Configuration
-                apiConfig: {
-                    apiPath: '/v1/chat',
-                    method: 'POST',
-                    headers: (key) => ({
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${key}`
-                    }),
-                    buildRequest: (modelId, prompt) => ({
-                        model: modelId,
-                        message: prompt,
-                        max_tokens: 2000,
-                        temperature: 0.7
-                    }),
-                    extractResponse: (data) => data.text || data.message || data.choices[0].message.content
-                }
-            },
-            
-            groq: {
-                name: 'Groq',
-                icon: '🚀',
-                color: '#F55036',
-                keyFile: '.aiduino-groq-api-key',
-                keyPrefix: 'gsk_',
-                hostname: 'api.groq.com',
-                path: '/openai/v1/models',
-                headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-                extractModels: (data) => data.data?.filter(m => m.id.includes('llama') || m.id.includes('mixtral')) || [],
-                selectBest: (models) => models.find(m => m.id.includes('llama-3.1')) || models[0],
-                fallback: 'llama-3.1-70b-versatile',
-                prices: {
-                    input: 0.0001 / 1000,  // $0.1 per 1M tokens (sehr günstig)
-                    output: 0.0002 / 1000  // $0.2 per 1M tokens (sehr günstig)
-                },
-                // NEW: API Configuration
-                apiConfig: {
-                    apiPath: '/openai/v1/chat/completions',
-                    method: 'POST',
-                    headers: (key) => ({
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${key}`
-                    }),
-                    buildRequest: (modelId, prompt) => ({
-                        model: modelId,
-                        messages: [
-                            { role: "system", content: t('prompts.systemPrompt') },
-                            { role: "user", content: prompt }
-                        ],
-                        max_tokens: 2000,
-                        temperature: 0.7
-                    }),
-                    extractResponse: (data) => data.choices[0].message.content
-                }
-            }
-        };
     }
 
     // Main function: Silent update of all providers
@@ -713,15 +421,13 @@ function loadLocale() {
 let configListener = null;
 let diagnosticsListener = null;
 let errorTimeout = null;
-let statusBarUpdateTimeout = null;
-let configDebounceTimeout = null; 
 
 function setupEventListeners(context) {
-    // Cleanup existing listeners
+    // Cleanup existing listeners FIRST
     disposeEventListeners();
     
     // Configuration change listener with debouncing
-    let configDebounceTimeout = null;
+    let configDebounceTimeout = null; // Lokale Variable
     configListener = vscode.workspace.onDidChangeConfiguration(event => {
         if (event.affectsConfiguration('aiduino.language')) {
             // Debounce multiple rapid config changes
@@ -729,18 +435,33 @@ function setupEventListeners(context) {
                 clearTimeout(configDebounceTimeout);
             }
             configDebounceTimeout = setTimeout(() => {
-                loadLocale();
-                updateStatusBar();
-                configDebounceTimeout = null;
+                try {
+                    loadLocale();
+                    updateStatusBar();
+                } catch (error) {
+                    // Silent error - don't break extension
+                } finally {
+                    configDebounceTimeout = null;
+                }
             }, 300);
         }
     });
     
-    // Diagnostics listener
+    // Diagnostics listener mit besserer Performance
     diagnosticsListener = vscode.languages.onDidChangeDiagnostics(e => {
-        // Performance: Only process for .ino files
+        // Performance: Only process for Arduino-related files
         const activeEditor = vscode.window.activeTextEditor;
-        if (!activeEditor || !activeEditor.document.fileName.endsWith('.ino')) {
+        if (!activeEditor) {
+            return;
+        }
+        
+        const fileName = activeEditor.document.fileName;
+        const isArduinoFile = fileName.endsWith('.ino') || 
+                             fileName.endsWith('.cpp') || 
+                             fileName.endsWith('.h') || 
+                             fileName.endsWith('.c');
+        
+        if (!isArduinoFile) {
             return;
         }
         
@@ -756,36 +477,67 @@ function setupEventListeners(context) {
         // Debounce error checking to avoid excessive calls
         if (errorTimeout) {
             clearTimeout(errorTimeout);
-            errorTimeout = null;
         }
         errorTimeout = setTimeout(() => {
-            checkForErrors();
-            errorTimeout = null;
+            try {
+                checkForErrors();
+            } catch (error) {
+                // Silent error handling
+            } finally {
+                errorTimeout = null;
+            }
         }, 1000);
     });
     
-    // Add to context.subscriptions for proper cleanup
-    context.subscriptions.push(configListener);
-    context.subscriptions.push(diagnosticsListener);
+    // CRITICAL: Add cleanup timeout handler
+    const cleanupTimeouts = () => {
+        if (configDebounceTimeout) {
+            clearTimeout(configDebounceTimeout);
+            configDebounceTimeout = null;
+        }
+    };
+    
+    // Store cleanup function for disposal
+    if (context && context.subscriptions) {
+        context.subscriptions.push(configListener);
+        context.subscriptions.push(diagnosticsListener);
+        // Add custom disposable for timeout cleanup
+        context.subscriptions.push({
+            dispose: cleanupTimeouts
+        });
+    }
 }
 
 function disposeEventListeners() {
-    if (configListener) {
-        configListener.dispose();
-        configListener = null;
-    }
-    if (diagnosticsListener) {
-        diagnosticsListener.dispose();
-        diagnosticsListener = null;
-    }
-    if (errorTimeout) {
-        clearTimeout(errorTimeout);
-        errorTimeout = null;
-    }
-    if (statusBarUpdateTimeout) {
-        clearTimeout(statusBarUpdateTimeout);
-        statusBarUpdateTimeout = null;
-    }
+    // Clear all listeners with error handling
+    [
+        { listener: configListener, name: 'configListener' },
+        { listener: diagnosticsListener, name: 'diagnosticsListener' }
+    ].forEach(({ listener, name }) => {
+        if (listener) {
+            try {
+                listener.dispose();
+            } catch (error) {
+                // Silent disposal error
+            }
+        }
+    });
+    
+    // Reset references
+    configListener = null;
+    diagnosticsListener = null;
+    
+    // Clear all timeouts safely
+    [
+        { timeout: errorTimeout, name: 'errorTimeout' },
+        { timeout: saveTimeout, name: 'saveTimeout' }
+    ].forEach(({ timeout, name }) => {
+        if (timeout) {
+            clearTimeout(timeout);
+            if (name === 'errorTimeout') errorTimeout = null;
+            if (name === 'saveTimeout') saveTimeout = null;
+        }
+    });
 }
 
 // Helper function to get localized string
@@ -1145,83 +897,73 @@ function processSaveQueue() {
     }
     
     tokenFileLock = true;
-    const itemsToSave = [...tokenSaveQueue]; // Kopie machen
+    const itemsToSave = [...tokenSaveQueue]; // Create copy
     tokenSaveQueue = []; // Clear queue
     
     try {
         const data = JSON.stringify(tokenUsage, null, 2);
         
-        // Windows-compatible atomic write
-        if (process.platform === 'win32') {
-            // Windows: Direct overwrite (backup strategy)
-            const backupFile = TOKEN_USAGE_FILE + '.backup';
+        // Unified error handling for all platforms
+        const writeFileAtomically = (filePath, content) => {
+            const tempFile = filePath + '.tmp';
+            const backupFile = filePath + '.backup';
             
-            // Create backup if original exists
-            if (fs.existsSync(TOKEN_USAGE_FILE)) {
-                try {
-                    fs.copyFileSync(TOKEN_USAGE_FILE, backupFile);
-                } catch (backupError) {
-                    // Backup failed, but continue trying
-                }
-            }
-            
-            // Write new file
-            fs.writeFileSync(TOKEN_USAGE_FILE, data, { mode: 0o600 });
-            
-            // Remove backup on success
             try {
+                // Create backup if original exists
+                if (fs.existsSync(filePath)) {
+                    fs.copyFileSync(filePath, backupFile);
+                }
+                
+                // Write to temp file
+                fs.writeFileSync(tempFile, content, { mode: 0o600 });
+                
+                // Atomic rename (works on all platforms)
+                fs.renameSync(tempFile, filePath);
+                
+                // Cleanup backup on success
                 if (fs.existsSync(backupFile)) {
                     fs.unlinkSync(backupFile);
                 }
-            } catch (cleanupError) {
-                // Backup cleanup failed - not critical
+                
+                return true;
+            } catch (error) {
+                // Cleanup on error
+                [tempFile, backupFile].forEach(file => {
+                    try {
+                        if (fs.existsSync(file)) {
+                            fs.unlinkSync(file);
+                        }
+                    } catch (cleanupError) {
+                        // Silent cleanup
+                    }
+                });
+                throw error;
             }
-            
-        } else {
-            // Unix/Linux: Atomic rename-Strategie
-            const tempFile = TOKEN_USAGE_FILE + '.tmp';
-            
-            // Write to temp file first
-            fs.writeFileSync(tempFile, data, { mode: 0o600 });
-            
-            // Atomic rename (this is atomic on most Unix filesystems)
-            fs.renameSync(tempFile, TOKEN_USAGE_FILE);
+        };
+        
+        // Try atomic write first
+        if (!writeFileAtomically(TOKEN_USAGE_FILE, data)) {
+            throw new Error('Atomic write failed');
         }
         
     } catch (error) {
-        // Fallback: Try direct write
+        // Fallback: Direct write (last resort)
         try {
-            const data = JSON.stringify(tokenUsage, null, 2);
             fs.writeFileSync(TOKEN_USAGE_FILE, data, { mode: 0o600 });
         } catch (fallbackError) {
-            // Last fallback: Keep in-memory, silent fail
-            // Token usage will be lost but extension continues working
+            // Complete failure - token usage will be lost this session
+            // but extension continues working
         }
-        
-        // Cleanup temp files on error
-        const possibleTempFiles = [
-            TOKEN_USAGE_FILE + '.tmp',
-            TOKEN_USAGE_FILE + '.backup'
-        ];
-        
-        possibleTempFiles.forEach(tempFile => {
-            try {
-                if (fs.existsSync(tempFile)) {
-                    fs.unlinkSync(tempFile);
-                }
-            } catch (cleanupError) {
-                // Silent cleanup error
-            }
-        });
-        
     } finally {
         tokenFileLock = false;
-        // Check für neue Einträge während des Saves
+        
+        // Check for new entries during save
         if (tokenSaveQueue.length > 0) {
             setTimeout(() => processSaveQueue(), 100);
         }
     }
 }
+
 
 function estimateTokens(text) {
     if (!text) return 0;
