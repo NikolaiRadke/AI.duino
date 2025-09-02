@@ -33,9 +33,11 @@ const networkUtils = require('./utils/network');
 const errorHandling = require('./utils/errorHandling');
 const validation = require('./utils/validation');
 const fileManager = require('./utils/fileManager');
+const { ErrorChecker } = require('./utils/errorChecker');
 const { UnifiedAPIClient } = require('./core/apiClient');
 const { ExecutionStateManager } = require('./core/executionStateManager');
 const { CommandRegistry } = require('./core/commandRegistry');
+const { LANGUAGE_METADATA, getLanguageInfo } = require('./config/languageMetadata');
 const { PROVIDER_CONFIGS } = require('./config/providerConfigs');
 const vscode = require("vscode");
 const https = require("https");
@@ -45,10 +47,9 @@ const path = require("path");
 
 let i18n = {};
 let currentLocale = 'en';
-let lastDiagnosticsCount = 0;
-let lastErrorCheck = 0;
-let lastCheckedUri = null;
 let commandRegistry;
+let errorChecker;
+let availableLocales = null;
 let aiConversationContext = {
     lastQuestion: null,
     lastAnswer: null,
@@ -57,71 +58,6 @@ let aiConversationContext = {
 };
 
 const executionStates = new ExecutionStateManager();
-
-// Language Metadate
-const LANGUAGE_METADATA = {
-    'en': { name: 'English', flag: '🇺🇸', region: 'English' },
-    'de': { name: 'Deutsch', flag: '🇩🇪', region: 'German' },
-    'es': { name: 'Español', flag: '🇪🇸', region: 'Spanish' },
-    'fr': { name: 'Français', flag: '🇫🇷', region: 'French' },
-    'it': { name: 'Italiano', flag: '🇮🇹', region: 'Italian' },
-    'pt': { name: 'Português', flag: '🇵🇹', region: 'Portuguese' },
-    'zh': { name: '中文', flag: '🇨🇳', region: 'Chinese' },
-    'ja': { name: '日本語', flag: '🇯🇵', region: 'Japanese' },
-    'ko': { name: '한국어', flag: '🇰🇷', region: 'Korean' },
-    'ru': { name: 'Русский', flag: '🇷🇺', region: 'Russian' },
-    'nl': { name: 'Nederlands', flag: '🇳🇱', region: 'Dutch' },
-    'pl': { name: 'Polski', flag: '🇵🇱', region: 'Polish' },
-    'tr': { name: 'Türkçe', flag: '🇹🇷', region: 'Turkish' },
-    'el': { name: 'Ελληνικά', flag: '🇬🇷', region: 'Greek' },
-    'cs': { name: 'Čeština', flag: '🇨🇿', region: 'Czech' },
-    'sv': { name: 'Svenska', flag: '🇸🇪', region: 'Swedish' },
-    'ro': { name: 'Română', flag: '🇷🇴', region: 'Romanian' },
-    'da': { name: 'Dansk', flag: '🇩🇰', region: 'Danish' },
-    'no': { name: 'Norsk', flag: '🇳🇴', region: 'Norwegian' },
-    'fi': { name: 'Suomi', flag: '🇫🇮', region: 'Finnish' },
-    'hu': { name: 'Magyar', flag: '🇭🇺', region: 'Hungarian' },
-    'bg': { name: 'Български', flag: '🇧🇬', region: 'Bulgarian' },
-    'hr': { name: 'Hrvatski', flag: '🇭🇷', region: 'Croatian' },
-    'sk': { name: 'Slovenčina', flag: '🇸🇰', region: 'Slovak' },
-    'sl': { name: 'Slovenščina', flag: '🇸🇮', region: 'Slovenian' },
-    'lt': { name: 'Lietuvių', flag: '🇱🇹', region: 'Lithuanian' },
-    'lv': { name: 'Latviešu', flag: '🇱🇻', region: 'Latvian' },
-    'et': { name: 'Eesti', flag: '🇪🇪', region: 'Estonian' },
-    'uk': { name: 'Українська', flag: '🇺🇦', region: 'Ukrainian' },
-    'be': { name: 'Беларуская', flag: '🇧🇾', region: 'Belarusian' },
-    'mk': { name: 'Македонски', flag: '🇲🇰', region: 'Macedonian' },
-    'sr': { name: 'Српски', flag: '🇷🇸', region: 'Serbian' },
-    'bs': { name: 'Bosanski', flag: '🇧🇦', region: 'Bosnian' },
-    'me': { name: 'Crnogorski', flag: '🇲🇪', region: 'Montenegrin' },
-    'mt': { name: 'Malti', flag: '🇲🇹', region: 'Maltese' },
-    'is': { name: 'Íslenska', flag: '🇮🇸', region: 'Icelandic' },
-    'hi': { name: 'हिन्दी', flag: '🇮🇳', region: 'Hindi' },
-    'bn': { name: 'বাংলা', flag: '🇧🇩', region: 'Bengali' },
-    'ta': { name: 'தமிழ்', flag: '🇱🇰', region: 'Tamil' },
-    'te': { name: 'తెలుగు', flag: '🇮🇳', region: 'Telugu' },
-    'mr': { name: 'मराठी', flag: '🇮🇳', region: 'Marathi' },
-    'gu': { name: 'ગુજરાતી', flag: '🇮🇳', region: 'Gujarati' },
-    'pa': { name: 'ਪੰਜਾਬੀ', flag: '🇮🇳', region: 'Punjabi' },
-    'ur': { name: 'اردو', flag: '🇵🇰', region: 'Urdu' },
-    'fa': { name: 'فارسی', flag: '🇮🇷', region: 'Persian' },
-    'ar': { name: 'العربية', flag: '🇸🇦', region: 'Arabic' },
-    'he': { name: 'עברית', flag: '🇮🇱', region: 'Hebrew' },
-    'th': { name: 'ไทย', flag: '🇹🇭', region: 'Thai' },
-    'vi': { name: 'Tiếng Việt', flag: '🇻🇳', region: 'Vietnamese' },
-    'id': { name: 'Bahasa Indonesia', flag: '🇮🇩', region: 'Indonesian' },
-    'ms': { name: 'Bahasa Malaysia', flag: '🇲🇾', region: 'Malay' },
-    'tl': { name: 'Filipino', flag: '🇵🇭', region: 'Filipino' },
-    'my': { name: 'မြန်မာ', flag: '🇲🇲', region: 'Burmese' },
-    'km': { name: 'ខ្មែរ', flag: '🇰🇭', region: 'Khmer' },
-    'lo': { name: 'ລາວ', flag: '🇱🇦', region: 'Lao' },
-    'sw': { name: 'Kiswahili', flag: '🇰🇪', region: 'Swahili' },
-    'af': { name: 'Afrikaans', flag: '🇿🇦', region: 'Afrikaans' },
-    'am': { name: 'አማርኛ', flag: '🇪🇹', region: 'Amharic' }
-};
-
-let availableLocales = null;
-
 const EXTENSION_VERSION = fileManager.getVersionFromPackage();
 
 function getAvailableLocales() {
@@ -147,18 +83,8 @@ function getAvailableLocales() {
     return ['en', ...availableLocales.filter(l => l !== 'en').sort()];
 }
 
-// Get language info from metadata
-function getLanguageInfo(locale) {
-    return LANGUAGE_METADATA[locale] || { 
-        name: locale.toUpperCase(), 
-        flag: '🌐', 
-        region: locale.toUpperCase() 
-    };
-}
-
 // Minimal dynamic model system for AI.duino
 // Works completely in background, only shows latest model in statusbar
-
 class MinimalModelManager {
     constructor() {
         this.providers = PROVIDER_CONFIGS;
@@ -426,11 +352,10 @@ function setupEventListeners(context) {
     // Cleanup existing listeners FIRST
     disposeEventListeners();
     
-    // Configuration change listener with debouncing
-    let configDebounceTimeout = null; // Lokale Variable
+    // Configuration change listener (bleibt unverändert)
+    let configDebounceTimeout = null;
     configListener = vscode.workspace.onDidChangeConfiguration(event => {
         if (event.affectsConfiguration('aiduino.language')) {
-            // Debounce multiple rapid config changes
             if (configDebounceTimeout) {
                 clearTimeout(configDebounceTimeout);
             }
@@ -439,7 +364,7 @@ function setupEventListeners(context) {
                     loadLocale();
                     updateStatusBar();
                 } catch (error) {
-                    // Silent error - don't break extension
+                    // Silent error
                 } finally {
                     configDebounceTimeout = null;
                 }
@@ -447,64 +372,13 @@ function setupEventListeners(context) {
         }
     });
     
-    // Diagnostics listener mit besserer Performance
-    diagnosticsListener = vscode.languages.onDidChangeDiagnostics(e => {
-        // Performance: Only process for Arduino-related files
-        const activeEditor = vscode.window.activeTextEditor;
-        if (!activeEditor) {
-            return;
-        }
-        
-        const fileName = activeEditor.document.fileName;
-        const isArduinoFile = fileName.endsWith('.ino') || 
-                             fileName.endsWith('.cpp') || 
-                             fileName.endsWith('.h') || 
-                             fileName.endsWith('.c');
-        
-        if (!isArduinoFile) {
-            return;
-        }
-        
-        // Performance: Only process if the changed URI matches the active document
-        const changedUris = e.uris || [];
-        const activeUri = activeEditor.document.uri.toString();
-        const isRelevantChange = changedUris.some(uri => uri.toString() === activeUri);
-        
-        if (!isRelevantChange) {
-            return;
-        }
-        
-        // Debounce error checking to avoid excessive calls
-        if (errorTimeout) {
-            clearTimeout(errorTimeout);
-        }
-        errorTimeout = setTimeout(() => {
-            try {
-                checkForErrors();
-            } catch (error) {
-                // Silent error handling
-            } finally {
-                errorTimeout = null;
-            }
-        }, 1000);
-    });
+    // Diagnostics listener is now handled by ErrorChecker
+    diagnosticsListener = errorChecker.setupDiagnosticListener(context);
     
-    // CRITICAL: Add cleanup timeout handler
-    const cleanupTimeouts = () => {
-        if (configDebounceTimeout) {
-            clearTimeout(configDebounceTimeout);
-            configDebounceTimeout = null;
-        }
-    };
-    
-    // Store cleanup function for disposal
+    // Add to context subscriptions
     if (context && context.subscriptions) {
         context.subscriptions.push(configListener);
-        context.subscriptions.push(diagnosticsListener);
-        // Add custom disposable for timeout cleanup
-        context.subscriptions.push({
-            dispose: cleanupTimeouts
-        });
+        // diagnosticsListener already added by errorChecker.setupDiagnosticListener
     }
 }
 
@@ -527,17 +401,11 @@ function disposeEventListeners() {
     configListener = null;
     diagnosticsListener = null;
     
-    // Clear all timeouts safely
-    [
-        { timeout: errorTimeout, name: 'errorTimeout' },
-        { timeout: saveTimeout, name: 'saveTimeout' }
-    ].forEach(({ timeout, name }) => {
-        if (timeout) {
-            clearTimeout(timeout);
-            if (name === 'errorTimeout') errorTimeout = null;
-            if (name === 'saveTimeout') saveTimeout = null;
-        }
-    });
+    // ErrorChecker handles its own timeouts now
+    if (saveTimeout) {
+        clearTimeout(saveTimeout);
+        saveTimeout = null;
+    }
 }
 
 // Helper function to get localized string
@@ -640,12 +508,16 @@ function activate(context) {
         await minimalModelManager.updateModelsQuietly();
         updateStatusBar();
     }, 24 * 60 * 60 * 1000); // Every 24 hours
+
+    // Initialize Error Checker with minimal setup
+    errorChecker = new ErrorChecker();
     
     // Register commands
     registerCommands(context);
     
+    // Event Listeners
     setupEventListeners(context);
-
+        
     // Welcome message
     if (shouldShowWelcome()) {
         setTimeout(() => {
@@ -1292,61 +1164,6 @@ function getModelHostname(modelId) {
     return minimalModelManager.providers[modelId]?.hostname || 'unknown';
 }
 
-// Error diagnosis
-async function checkForErrors(silent = true) {
-    const now = Date.now();
-    
-    // Throttling
-    if (now - lastErrorCheck < 500) {
-        return false;
-    }
-    lastErrorCheck = now;
-    
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-        return false;
-    }
-    
-    // Only.ino for better performance
-    if (!editor.document.fileName.endsWith('.ino')) {
-        return false;
-    }
-    
-    const currentUri = editor.document.uri.toString();
-    
-    if (currentUri !== lastCheckedUri) {
-        lastCheckedUri = currentUri;
-        lastDiagnosticsCount = 0; // Reset count for new file
-    }
-    
-    const diagnostics = vscode.languages.getDiagnostics(editor.document.uri);
-    const errors = diagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
-    const errorCount = errors.length;
-    
-    if (errorCount !== lastDiagnosticsCount) {
-        lastDiagnosticsCount = errorCount;
-        
-        if (errorCount > 0 && !silent) {
-            statusBarItem.text = `${model.icon} AI.duino $(error)`;
-            statusBarItem.tooltip = t('statusBar.errorsFound', errorCount);
-            statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
-            
-            setTimeout(() => {
-                const currentDiagnostics = vscode.languages.getDiagnostics(editor.document.uri);
-                const currentErrors = currentDiagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
-                
-                if (currentErrors.length === 0) {
-                    updateStatusBar();
-                }
-            }, 5000);
-        } else if (errorCount === 0 && lastDiagnosticsCount > 0) {
-            updateStatusBar();
-        }
-    }
-    
-    return errorCount > 0;
-}
-
 const apiClient = new UnifiedAPIClient();
 
 function callAI(prompt) {   
@@ -1359,6 +1176,12 @@ function deactivate() {
     if (commandRegistry) {
         commandRegistry.dispose();
         commandRegistry = null;
+    }
+
+    // Cleanup error checker
+    if (errorChecker) {
+        errorChecker.dispose();
+        errorChecker = null;
     }
     
     // Cleanup execution states

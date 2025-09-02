@@ -167,7 +167,7 @@ function showAbout(context) {
                 <p>2. ${t('about.step2')} <span class="shortcut">Ctrl+Shift+C</span></p>
                 <p>3. ${t('about.step3')}</p>
                 <br>
-                <p><strong>${t('about.tip')}:</strong> ${t('about.tipText')}</p>
+                <!-- <p><strong>${t('about.tip')}:</strong> ${t('about.tipText')}</p> //-->
             </div>
             
             <div class="license">
