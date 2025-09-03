@@ -2,7 +2,8 @@
 
 ## 2025
 
-* **03.09.2025** Almost finished with refactoring. Added Vertex and Humming Face.
+* **03.09.2025** New release **V1.6.0** with better code and enhancements.
+* **02.09.2025** Allmost finished with refactoring. Added Vertex and Humming Face.
 * **31.08.2025** Started modulariszation for upcoming V1.6.0.   
 * **27.08.2025** Release **V1.5.2** with bugfixes and better error handling.  
 * **15.08.2025** Release **V1.5.1** with a fix for Gemini and three more locales (no, da and fi).
