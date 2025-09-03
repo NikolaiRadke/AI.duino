@@ -15,12 +15,27 @@
  * limitations under the License.
  *
  * Changelog:
- * Modular build
+ * Modular build - Cleaned up and restructured
  */
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = void 0;
+
+// ===== IMPORTS =====
+// Node.js modules
+const vscode = require("vscode");
+const https = require("https");
+const fs = require("fs");
+const os = require("os");
+const path = require("path");
+
+// Core modules
+const { UnifiedAPIClient } = require('./core/apiClient');
+const { ExecutionStateManager } = require('./core/executionStateManager');
+const { CommandRegistry } = require('./core/commandRegistry');
+
+// Feature modules
 const shared = require('./shared');
 const explainCodeFeature = require('./features/explainCode');
 const improveCodeFeature = require('./features/improveCode');
@@ -28,6 +43,8 @@ const addCommentsFeature = require('./features/addComments');
 const askAIFeature = require('./features/askAI');
 const explainErrorFeature = require('./features/explainError');
 const debugHelpFeature = require('./features/debugHelp');
+
+// Utility modules
 const uiTools = require('./utils/ui');
 const networkUtils = require('./utils/network');
 const errorHandling = require('./utils/errorHandling');
@@ -36,24 +53,35 @@ const fileManager = require('./utils/fileManager');
 const { ErrorChecker } = require('./utils/errorChecker');
 const { ApiKeyManager } = require('./utils/apiKeyManager');
 const { LocaleUtils } = require('./utils/localeUtils');
-const { UnifiedAPIClient } = require('./core/apiClient');
-const { ExecutionStateManager } = require('./core/executionStateManager');
-const { CommandRegistry } = require('./core/commandRegistry');
+
+// Configuration modules
 const { LANGUAGE_METADATA, getLanguageInfo } = require('./config/languageMetadata');
 const { PROVIDER_CONFIGS } = require('./config/providerConfigs');
-const vscode = require("vscode");
-const https = require("https");
-const fs = require("fs");
-const os = require("os");
-const path = require("path");
 
-let i18n = {};
+// ===== CONSTANTS =====
+const EXTENSION_VERSION = fileManager.getVersionFromPackage();
+const MODEL_FILE = path.join(os.homedir(), '.aiduino-model');
+const TOKEN_USAGE_FILE = path.join(os.homedir(), '.aiduino-token-usage.json');
+
+// ===== GLOBAL VARIABLES =====
+// Core system state
+let globalContext;
+let statusBarItem;
+let currentModel = 'claude';
 let currentLocale = 'en';
+let i18n = {};
+
+// Module instances
 let commandRegistry;
 let errorChecker;
 let apiKeyManager;
 let localeUtils;
-let availableLocales = null;
+const executionStates = new ExecutionStateManager();
+const apiClient = new UnifiedAPIClient();
+
+// Data stores
+const apiKeys = {};
+let tokenUsage = {};
 let aiConversationContext = {
     lastQuestion: null,
     lastAnswer: null,
@@ -61,11 +89,21 @@ let aiConversationContext = {
     timestamp: null
 };
 
-const executionStates = new ExecutionStateManager();
-const EXTENSION_VERSION = fileManager.getVersionFromPackage();
+// Event listeners and timeouts
+let configListener = null;
+let diagnosticsListener = null;
+let errorTimeout = null;
+let saveTimeout = null;
 
-// Minimal dynamic model system for AI.duino
-// Works completely in background, only shows latest model in statusbar
+// Token management state
+let tokenFileLock = false;
+let tokenSaveQueue = [];
+
+// ===== MINIMAL MODEL MANAGER CLASS =====
+/**
+ * Minimal dynamic model system for AI.duino
+ * Works completely in background, only shows latest model in statusbar
+ */
 class MinimalModelManager {
     constructor() {
         this.providers = PROVIDER_CONFIGS;
@@ -74,7 +112,9 @@ class MinimalModelManager {
         this.isUpdating = false;
     }
 
-    // Main function: Silent update of all providers
+    /**
+     * Main function: Silent update of all providers
+     */
     async updateModelsQuietly() {
         if (this.isUpdating) return;
         this.isUpdating = true;
@@ -94,7 +134,9 @@ class MinimalModelManager {
         }
     }
 
-    // Update single provider
+    /**
+     * Update single provider
+     */
     async updateProviderModel(providerId, apiKey) {
         try {
             const models = await this.fetchModels(providerId, apiKey);
@@ -113,7 +155,9 @@ class MinimalModelManager {
         }
     }
 
-    // API call for models
+    /**
+     * API call for models
+     */
     async fetchModels(providerId, apiKey) {
         const provider = this.providers[providerId];
         const path = providerId === 'gemini' ? provider.path + apiKey : provider.path;
@@ -156,50 +200,55 @@ class MinimalModelManager {
         });
     }
 
-    // Format model object
+    /**
+     * Format model object
+     */
     formatModel(providerId, model) {
-    const formatters = {
-        claude: (m) => ({ 
-            id: m.id, 
-            name: m.display_name || this.cleanName(m.id) 
-        }),
-        chatgpt: (m) => ({ 
-            id: m.id, 
-            name: this.cleanName(m.id) 
-        }),
-        gemini: (m) => ({ 
-            id: m.name || m.id,  
-            name: m.displayName || this.cleanName(m.name || m.id)
-        }),
-        mistral: (m) => ({ 
-            id: m.id, 
-            name: this.cleanName(m.id) 
-        }),
-        groq: (m) => ({ 
-            id: m.id, 
-            name: this.cleanName(m.id) 
-        }),
-        perplexity: (m) => ({ 
-            id: m.id, 
-            name: this.cleanName(m.id) 
-        }),
-        cohere: (m) => ({ 
-            id: m.id || m.name, 
-            name: this.cleanName(m.name || m.id) 
-        })    
-    };
-
-    const formatter = formatters[providerId];
-    if (!formatter) {
-        return { 
-            id: model.id || 'unknown', 
-            name: this.cleanName(model.name || model.id || 'Unknown') 
+        const formatters = {
+            claude: (m) => ({ 
+                id: m.id, 
+                name: m.display_name || this.cleanName(m.id) 
+            }),
+            chatgpt: (m) => ({ 
+                id: m.id, 
+                name: this.cleanName(m.id) 
+            }),
+            gemini: (m) => ({ 
+                id: m.name || m.id,  
+                name: m.displayName || this.cleanName(m.name || m.id)
+            }),
+            mistral: (m) => ({ 
+                id: m.id, 
+                name: this.cleanName(m.id) 
+            }),
+            groq: (m) => ({ 
+                id: m.id, 
+                name: this.cleanName(m.id) 
+            }),
+            perplexity: (m) => ({ 
+                id: m.id, 
+                name: this.cleanName(m.id) 
+            }),
+            cohere: (m) => ({ 
+                id: m.id || m.name, 
+                name: this.cleanName(m.name || m.id) 
+            })    
         };
+
+        const formatter = formatters[providerId];
+        if (!formatter) {
+            return { 
+                id: model.id || 'unknown', 
+                name: this.cleanName(model.name || model.id || 'Unknown') 
+            };
+        }
+
+        return formatter(model);
     }
 
-    return formatter(model);
-}
-    // Clean model names
+    /**
+     * Clean model names
+     */
     cleanName(rawName) {
         return rawName
             .replace(/^models\//, '')
@@ -207,7 +256,9 @@ class MinimalModelManager {
             .replace(/\b\w/g, l => l.toUpperCase());
     }
 
-    // Use fallback model
+    /**
+     * Use fallback model
+     */
     useFallback(providerId) {
         const provider = this.providers[providerId];
         this.currentModels[providerId] = {
@@ -217,13 +268,17 @@ class MinimalModelManager {
         };
     }
 
-    // Check if update needed (daily)
+    /**
+     * Check if update needed (daily)
+     */
     shouldCheck(providerId) {
         const lastCheck = this.lastCheck[providerId] || 0;
         return Date.now() - lastCheck > 24 * 60 * 60 * 1000; // 24 hours
     }
 
-    // Read API key from file
+    /**
+     * Read API key from file
+     */
     getApiKey(providerId) {
         try {
             const keyFile = path.join(os.homedir(), this.providers[providerId].keyFile);
@@ -233,7 +288,9 @@ class MinimalModelManager {
         }
     }
 
-    // Get current model for provider
+    /**
+     * Get current model for provider
+     */
     getCurrentModel(providerId) {
         return this.currentModels[providerId] || {
             id: this.providers[providerId].fallback,
@@ -242,7 +299,9 @@ class MinimalModelManager {
         };
     }
 
-    // Provider info for statusbar
+    /**
+     * Provider info for statusbar
+     */
     getProviderInfo(providerId) {
         const provider = this.providers[providerId];
         const model = this.getCurrentModel(providerId);
@@ -258,7 +317,9 @@ class MinimalModelManager {
         };
     }
 
-    // Debug helper: Show current models
+    /**
+     * Debug helper: Show current models
+     */
     showCurrentModels() {
         console.log('AI.duino Current Models:');
         Object.keys(this.providers).forEach(providerId => {
@@ -271,9 +332,11 @@ class MinimalModelManager {
     }
 }
 
-// Global instance
-const minimalModelManager = new MinimalModelManager();
+// ===== LOCALE MANAGEMENT =====
 
+/**
+ * Load and initialize locale based on user settings
+ */
 function loadLocale() {
     const config = vscode.workspace.getConfiguration('aiduino');
     const userLanguageChoice = config.get('language', 'auto');
@@ -281,7 +344,7 @@ function loadLocale() {
     if (userLanguageChoice !== 'auto') {
         currentLocale = userLanguageChoice;
     } else {
-        // Auto-Detection mit LocaleUtils
+        // Auto-Detection with LocaleUtils
         const vscodeLocale = vscode.env.language || 'en';
         currentLocale = localeUtils.autoDetectLocale(vscodeLocale);
     }
@@ -321,72 +384,12 @@ function loadLocale() {
     }
 }
 
-// Global listener
-let configListener = null;
-let diagnosticsListener = null;
-let errorTimeout = null;
-
-function setupEventListeners(context) {
-    // Cleanup existing listeners FIRST
-    disposeEventListeners();
-    
-    // Configuration change listener (bleibt unverändert)
-    let configDebounceTimeout = null;
-    configListener = vscode.workspace.onDidChangeConfiguration(event => {
-        if (event.affectsConfiguration('aiduino.language')) {
-            if (configDebounceTimeout) {
-                clearTimeout(configDebounceTimeout);
-            }
-            configDebounceTimeout = setTimeout(() => {
-                try {
-                    loadLocale();
-                    updateStatusBar();
-                } catch (error) {
-                    // Silent error
-                } finally {
-                    configDebounceTimeout = null;
-                }
-            }, 300);
-        }
-    });
-    
-    // Diagnostics listener is now handled by ErrorChecker
-    diagnosticsListener = errorChecker.setupDiagnosticListener(context);
-    
-    // Add to context subscriptions
-    if (context && context.subscriptions) {
-        context.subscriptions.push(configListener);
-        // diagnosticsListener already added by errorChecker.setupDiagnosticListener
-    }
-}
-
-function disposeEventListeners() {
-    // Clear all listeners with error handling
-    [
-        { listener: configListener, name: 'configListener' },
-        { listener: diagnosticsListener, name: 'diagnosticsListener' }
-    ].forEach(({ listener, name }) => {
-        if (listener) {
-            try {
-                listener.dispose();
-            } catch (error) {
-                // Silent disposal error
-            }
-        }
-    });
-    
-    // Reset references
-    configListener = null;
-    diagnosticsListener = null;
-    
-    // ErrorChecker handles its own timeouts now
-    if (saveTimeout) {
-        clearTimeout(saveTimeout);
-        saveTimeout = null;
-    }
-}
-
-// Helper function to get localized string
+/**
+ * Get localized string with parameter replacement
+ * @param {string} key - Translation key (dot notation)
+ * @param {...any} args - Arguments for string replacement
+ * @returns {string} Localized string
+ */
 function t(key, ...args) {
     const keys = key.split('.');
     let value = i18n;
@@ -398,6 +401,7 @@ function t(key, ...args) {
             return key; // Return key as fallback
         }
     }
+    
     if (typeof value === 'string' && args.length > 0) {
         return value.replace(/{(\d+)}/g, (match, index) => {
             return args[parseInt(index)] || match;
@@ -407,142 +411,9 @@ function t(key, ...args) {
     return value;
 }
 
-// Global variables
-let statusBarItem;
-let globalContext;
-let currentModel = 'claude';
-const apiKeys = {};
-const MODEL_FILE = path.join(os.homedir(), '.aiduino-model');
-
-// Token tracking
-let tokenUsage = {};
-const TOKEN_USAGE_FILE = path.join(os.homedir(), '.aiduino-token-usage.json');
-let tokenFileLock = false;
-let tokenSaveQueue = [];
-let saveTimeout = null;
-
-// Dependency factory for feature modules
-function getDependencies() {
-    return {
-        t,
-        callAI,
-        executionStates,
-        minimalModelManager,
-        currentModel,
-        globalContext,
-        apiKeys,
-        tokenUsage,
-        currentLocale, 
-        EXTENSION_VERSION,
-        updateTokenUsage,
-        updateStatusBar,
-        aiConversationContext,
-        apiKeyManager,
-        handleApiError: (error) => errorHandling.handleApiError(error, getDependencies()),
-        setAiConversationContext: (newContext) => { 
-            Object.assign(aiConversationContext, newContext); 
-        }
-    };
-}
-
-// Activation
-function activate(context) {
-    // Ensure clean state on activation
-    if (globalContext) {
-        // Extension was somehow already active - cleanup first
-        deactivate();
-    }    
-
-    // Initialize Locale Utils
-    localeUtils = new LocaleUtils();
-    
-    // Load locale first
-    loadLocale();
-
-    // Store context globally
-    globalContext = context;
-
-    // Initialize token usage for all models
-    initializeTokenUsage();
-    
-    // Load API keys and model on startup
-    Object.assign(apiKeys, fileManager.loadAllApiKeys(minimalModelManager.providers));
-    const savedModel = fileManager.loadSelectedModel(minimalModelManager.providers);
-    if (savedModel) currentModel = savedModel;
-    
-    // Token statistics
-    loadTokenUsage();
-    
-    // Status bar
-    statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-    updateStatusBar();
-    statusBarItem.command = "aiduino.quickMenu";
-    statusBarItem.show();
-
-    // NEW: Update models in background (after 3 seconds)
-    setTimeout(async () => {
-        await minimalModelManager.updateModelsQuietly();
-        updateStatusBar(); // Update statusbar with latest models
-    }, 3000);
-
-    // NEW: Daily updates
-    setInterval(async () => {
-        await minimalModelManager.updateModelsQuietly();
-        updateStatusBar();
-    }, 24 * 60 * 60 * 1000); // Every 24 hours
-
-    // Initialize Error Checker with minimal setup
-    errorChecker = new ErrorChecker();
-
-    // Initialize API Key Manager
-    apiKeyManager = new ApiKeyManager();
-    
-    // Register commands
-    registerCommands(context);
-    
-    // Event Listeners
-    setupEventListeners(context);
-        
-    // Welcome message
-    if (shouldShowWelcome()) {
-        setTimeout(() => {
-            showWelcomeMessage();
-        }, 1000);
-    }
-}
-exports.activate = activate;
-
-function registerCommands(context) {
-    // Initialisiere Command Registry
-    commandRegistry = new CommandRegistry();
-    
-    // Prepare dependencies für command handlers
-    const commandDeps = {
-        // Handler functions
-        showQuickMenu,
-        switchModel, 
-        setApiKey,
-        switchLanguage,
-        clearAIContext,
-        
-        // Feature modules  
-        explainCodeFeature,
-        improveCodeFeature,
-        addCommentsFeature, 
-        explainErrorFeature,
-        debugHelpFeature,
-        askAIFeature,
-        uiTools,
-        
-        // System dependencies
-        minimalModelManager,
-        getDependencies
-    };
-    
-    // Register all commands
-    commandRegistry.registerCommands(context, commandDeps);
-}
-
+/**
+ * Switch UI language with user selection
+ */
 async function switchLanguage() {
     // Check if already running
     if (!executionStates.start(executionStates.OPERATIONS.SWITCH_LANGUAGE)) {
@@ -573,7 +444,7 @@ async function switchLanguage() {
                     currentLocale = selected.value;
                 }
                 
-                // Load new locale file (existing loadLocale logic)
+                // Load new locale file
                 loadLocale();
                 updateStatusBar();
                 
@@ -592,6 +463,11 @@ async function switchLanguage() {
     }
 }
 
+// ===== TOKEN MANAGEMENT =====
+
+/**
+ * Initialize token usage data structure for all models
+ */
 function initializeTokenUsage() {
     tokenUsage = {
         daily: new Date().toDateString()
@@ -603,11 +479,9 @@ function initializeTokenUsage() {
     });
 }
 
-function shouldShowWelcome() {
-    return Object.keys(minimalModelManager.providers).every(modelId => !apiKeys[modelId]);
-}
-
-// Token management
+/**
+ * Load token usage from file or initialize if needed
+ */
 function loadTokenUsage() {
     try {
         const currentDate = new Date();
@@ -677,6 +551,9 @@ function loadTokenUsage() {
     }
 }
 
+/**
+ * Queue token usage save with debouncing
+ */
 function saveTokenUsage() {
     // Add to queue
     if (!tokenSaveQueue.includes('save')) {
@@ -693,6 +570,9 @@ function saveTokenUsage() {
     }, 500); // 500ms delay - more stable
 }
 
+/**
+ * Process the token save queue with atomic file operations
+ */
 function processSaveQueue() {
     if (tokenFileLock || tokenSaveQueue.length === 0) {
         return; // Already saving or nothing to save
@@ -766,7 +646,11 @@ function processSaveQueue() {
     }
 }
 
-
+/**
+ * Estimate token count for text
+ * @param {string} text - Text to analyze
+ * @returns {number} Estimated token count
+ */
 function estimateTokens(text) {
     if (!text) return 0;
     
@@ -783,6 +667,12 @@ function estimateTokens(text) {
     return Math.ceil(tokens);
 }
 
+/**
+ * Update token usage statistics and costs
+ * @param {string} modelId - Model identifier
+ * @param {string} inputText - Input text
+ * @param {string} outputText - Output text
+ */
 function updateTokenUsage(modelId, inputText, outputText) {
     const inputTokens = estimateTokens(inputText);
     const outputTokens = estimateTokens(outputText);
@@ -801,20 +691,277 @@ function updateTokenUsage(modelId, inputText, outputText) {
     updateStatusBar();
 }
 
+// ===== EVENT LISTENERS AND SETUP =====
 
-// UI functions
+/**
+ * Setup all event listeners with proper cleanup
+ * @param {vscode.ExtensionContext} context - VS Code extension context
+ */
+function setupEventListeners(context) {
+    // Cleanup existing listeners FIRST
+    disposeEventListeners();
+    
+    // Configuration change listener with debouncing
+    let configDebounceTimeout = null;
+    configListener = vscode.workspace.onDidChangeConfiguration(event => {
+        if (event.affectsConfiguration('aiduino.language')) {
+            if (configDebounceTimeout) {
+                clearTimeout(configDebounceTimeout);
+            }
+            configDebounceTimeout = setTimeout(() => {
+                try {
+                    loadLocale();
+                    updateStatusBar();
+                } catch (error) {
+                    // Silent error handling
+                } finally {
+                    configDebounceTimeout = null;
+                }
+            }, 300);
+        }
+    });
+    
+    // Diagnostics listener is now handled by ErrorChecker
+    if (errorChecker) {
+        diagnosticsListener = errorChecker.setupDiagnosticListener(context);
+    }
+    
+    // Add to context subscriptions
+    if (context && context.subscriptions) {
+        context.subscriptions.push(configListener);
+        // diagnosticsListener already added by errorChecker.setupDiagnosticListener
+    }
+}
+
+/**
+ * Dispose all event listeners with error handling
+ */
+function disposeEventListeners() {
+    // Clear all listeners with error handling
+    [
+        { listener: configListener, name: 'configListener' },
+        { listener: diagnosticsListener, name: 'diagnosticsListener' }
+    ].forEach(({ listener, name }) => {
+        if (listener) {
+            try {
+                listener.dispose();
+            } catch (error) {
+                // Silent disposal error
+            }
+        }
+    });
+    
+    // Reset references
+    configListener = null;
+    diagnosticsListener = null;
+    
+    // Clear save timeout (ErrorChecker handles its own timeouts)
+    if (saveTimeout) {
+        clearTimeout(saveTimeout);
+        saveTimeout = null;
+    }
+}
+
+/**
+ * Wrapper for error checking (delegates to ErrorChecker)
+ * @param {boolean} silent - If true, don't show status updates
+ * @returns {boolean} True if errors found
+ */
+async function checkForErrors(silent = true) {
+    if (!errorChecker) return false;
+    
+    const hasErrors = await errorChecker.checkForErrors(silent);
+    
+    // Handle status bar updates here (where they belong)
+    if (hasErrors && !silent) {
+        const errorCount = errorChecker.getErrorStatus().lastDiagnosticsCount;
+        const providerInfo = minimalModelManager.getProviderInfo(currentModel);
+        statusBarItem.text = `${providerInfo.icon} AI.duino $(error)`;
+        statusBarItem.tooltip = t('statusBar.errorsFound', errorCount) || `${errorCount} errors found`;
+        statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
+        
+        // Auto-clear after 5 seconds
+        setTimeout(() => {
+            const currentStatus = errorChecker.getErrorStatus();
+            if (currentStatus.lastDiagnosticsCount === 0) {
+                updateStatusBar();
+            }
+        }, 5000);
+    } else if (!hasErrors) {
+        updateStatusBar();
+    }
+    
+    return hasErrors;
+}
+
+// ===== CORE FUNCTIONS =====
+
+/**
+ * Main activation function - entry point for the extension
+ * @param {vscode.ExtensionContext} context - VS Code extension context
+ */
+function activate(context) {
+    // Ensure clean state on activation
+    if (globalContext) {
+        // Extension was somehow already active - cleanup first
+        deactivate();
+    }    
+
+    // Initialize Locale Utils first
+    localeUtils = new LocaleUtils();
+    
+    // Load locale configuration
+    loadLocale();
+
+    // Store context globally
+    globalContext = context;
+
+    // Initialize token usage for all models
+    initializeTokenUsage();
+    
+    // Load API keys and model configuration on startup
+    Object.assign(apiKeys, fileManager.loadAllApiKeys(minimalModelManager.providers));
+    const savedModel = fileManager.loadSelectedModel(minimalModelManager.providers);
+    if (savedModel) currentModel = savedModel;
+    
+    // Load token statistics
+    loadTokenUsage();
+    
+    // Initialize and show status bar
+    statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+    updateStatusBar();
+    statusBarItem.command = "aiduino.quickMenu";
+    statusBarItem.show();
+
+    // Update models in background (after 3 seconds)
+    setTimeout(async () => {
+        await minimalModelManager.updateModelsQuietly();
+        updateStatusBar(); // Update statusbar with latest models
+    }, 3000);
+
+    // Schedule daily model updates
+    setInterval(async () => {
+        await minimalModelManager.updateModelsQuietly();
+        updateStatusBar();
+    }, 24 * 60 * 60 * 1000); // Every 24 hours
+
+    // Initialize core managers
+    errorChecker = new ErrorChecker();
+    apiKeyManager = new ApiKeyManager();
+    
+    // Register all commands
+    registerCommands(context);
+    
+    // Setup event listeners
+    setupEventListeners(context);
+        
+    // Show welcome message if needed
+    if (shouldShowWelcome()) {
+        setTimeout(() => {
+            showWelcomeMessage();
+        }, 1000);
+    }
+}
+
+/**
+ * Register all extension commands using CommandRegistry
+ * @param {vscode.ExtensionContext} context - VS Code extension context
+ */
+function registerCommands(context) {
+    // Initialize Command Registry
+    commandRegistry = new CommandRegistry();
+    
+    // Prepare dependencies for command handlers
+    const commandDeps = {
+        // Handler functions
+        showQuickMenu,
+        switchModel, 
+        setApiKey,
+        switchLanguage,
+        clearAIContext,
+        
+        // Feature modules  
+        explainCodeFeature,
+        improveCodeFeature,
+        addCommentsFeature, 
+        explainErrorFeature,
+        debugHelpFeature,
+        askAIFeature,
+        uiTools,
+        
+        // System dependencies
+        minimalModelManager,
+        getDependencies
+    };
+    
+    // Register all commands
+    commandRegistry.registerCommands(context, commandDeps);
+}
+
+/**
+ * Dependency factory for feature modules
+ * Provides all necessary dependencies in a centralized way
+ * @returns {Object} Dependencies object
+ */
+function getDependencies() {
+    return {
+        t,
+        callAI,
+        executionStates,
+        minimalModelManager,
+        currentModel,
+        globalContext,
+        apiKeys,
+        tokenUsage,
+        currentLocale, 
+        EXTENSION_VERSION,
+        updateTokenUsage,
+        updateStatusBar,
+        aiConversationContext,
+        apiKeyManager,
+        handleApiError: (error) => errorHandling.handleApiError(error, getDependencies()),
+        setAiConversationContext: (newContext) => { 
+            Object.assign(aiConversationContext, newContext); 
+        }
+    };
+}
+
+/**
+ * Check if welcome message should be shown
+ * @returns {boolean} True if no API keys are configured
+ */
+function shouldShowWelcome() {
+    return Object.keys(minimalModelManager.providers).every(modelId => !apiKeys[modelId]);
+}
+
+/**
+ * Main API call function - delegates to UnifiedAPIClient
+ * @param {string} prompt - The prompt to send to AI
+ * @returns {Promise} AI response promise
+ */
+const minimalModelManager = new MinimalModelManager();
+
+function callAI(prompt) {   
+    return apiClient.callAPI(currentModel, prompt, getDependencies());
+}
+
+// ===== UI FUNCTIONS =====
+
+/**
+ * Update status bar with current model info and token costs
+ */
 function updateStatusBar() {
     const providerInfo = minimalModelManager.getProviderInfo(currentModel);
     const hasApiKey = providerInfo.hasApiKey;
     
-    // Token-Kosten (bestehende Logik)
+    // Token costs display
     const todayCost = tokenUsage[currentModel]?.cost.toFixed(3) || '0.000';
     const costDisplay = todayCost > 0 ? ` (${todayCost})` : '';
     
     if (hasApiKey) {
         statusBarItem.text = `${providerInfo.icon} AI.duino${costDisplay}`;
         
-        // Fixed: Proper model status without t() function calls
+        // Model status information
         const modelStatus = providerInfo.isLatest ? 
             `Latest: ${providerInfo.modelName}` :
             `Fallback: ${providerInfo.modelName}`;
@@ -832,27 +979,16 @@ function updateStatusBar() {
     }
 }
 
-// Menu functions
-async function showWelcomeMessage() {
-    const modelList = Object.keys(minimalModelManager.providers).map(m => m.name).join(', ');
-    const message = t('messages.welcome', modelList);
-    const choice = await vscode.window.showInformationMessage(
-        message,
-        t('buttons.chooseModel'),
-        t('buttons.later')
-    );
-    
-    if (choice === t('buttons.chooseModel')) {
-        await switchModel();
-    }
-}
-
+/**
+ * Show main quick menu with all available actions
+ */
 async function showQuickMenu() {
     const model = minimalModelManager.providers[currentModel];
     const hasApiKey = apiKeys[currentModel];
     const board = shared.detectArduinoBoard();
-    const boardDisplay = shared.getBoardDisplayName(board);  // Use short name
+    const boardDisplay = shared.getBoardDisplayName(board);
     
+    // Check API key first
     if (!hasApiKey) {
         const choice = await vscode.window.showWarningMessage(
             t('messages.noApiKey', model.name),
@@ -870,8 +1006,8 @@ async function showQuickMenu() {
     
     const editor = vscode.window.activeTextEditor;
     const hasSelection = editor && !editor.selection.isEmpty;
-    // const hasErrors = await checkForErrors(false); 
     
+    // Build menu items
     const items = [
         {
             label: '$(symbol-method) ' + t('commands.improveCode'),
@@ -903,6 +1039,7 @@ async function showQuickMenu() {
             description: t('descriptions.askAI'),
             command: 'aiduino.askAI'
         },
+        // Add follow-up option if context exists
         ...(shared.hasValidContext(aiConversationContext) ? [{
             label: '$(arrow-right) ' + t('commands.askFollowUp'),
             description: t('descriptions.askFollowUp', formatQuestionPreview(aiConversationContext.lastQuestion)),
@@ -950,7 +1087,28 @@ async function showQuickMenu() {
     }
 }
 
-// Format question preview for menu
+/**
+ * Show welcome message for new users
+ */
+async function showWelcomeMessage() {
+    const modelList = Object.keys(minimalModelManager.providers).map(m => m.name).join(', ');
+    const message = t('messages.welcome', modelList);
+    const choice = await vscode.window.showInformationMessage(
+        message,
+        t('buttons.chooseModel'),
+        t('buttons.later')
+    );
+    
+    if (choice === t('buttons.chooseModel')) {
+        await switchModel();
+    }
+}
+
+/**
+ * Format question preview for menu display
+ * @param {string} question - The question to format
+ * @returns {string} Formatted preview string
+ */
 function formatQuestionPreview(question) {
     if (!question) return '';
     const preview = question.length > 40 ? question.substring(0, 40) + '...' : question;
@@ -958,7 +1116,9 @@ function formatQuestionPreview(question) {
     return `"${preview}" (${contextAge}min ago)`;
 }
 
-// Clear conversation context
+/**
+ * Clear AI conversation context
+ */
 function clearAIContext() {
     aiConversationContext = {
         lastQuestion: null,
@@ -969,15 +1129,21 @@ function clearAIContext() {
     vscode.window.showInformationMessage(t('messages.contextCleared'));
 }
 
-// Get today's usage for menu
+/**
+ * Get today's token usage summary
+ * @returns {string} Usage summary string
+ */
 function getTodayUsage() {
     const usage = tokenUsage[currentModel];
     const totalTokens = usage.input + usage.output;
     return totalTokens > 0 ? `${totalTokens} tokens ($${usage.cost.toFixed(3)})` : '0 tokens';
 }
 
+// ===== MODEL/API MANAGEMENT =====
 
-// Model management
+/**
+ * Switch AI model with user selection and API key validation
+ */
 async function switchModel() {
     if (!executionStates.start(executionStates.OPERATIONS.SWITCH_MODEL)) {
         vscode.window.showInformationMessage("Model switch is already running! Please wait...");
@@ -985,12 +1151,13 @@ async function switchModel() {
     }
     
     try {
+        // Build model selection items
         const items = Object.keys(minimalModelManager.providers).map(modelId => {
             const provider = minimalModelManager.providers[modelId];
-            const currentModel = minimalModelManager.getCurrentModel(modelId);
+            const currentModelInfo = minimalModelManager.getCurrentModel(modelId);
             return {
                 label: `${provider.icon} ${provider.name}`,
-                description: currentModel === modelId ? '✓ ' + t('labels.active') : currentModel.name,
+                description: modelId === currentModel ? '✓ ' + t('labels.active') : currentModelInfo.name,
                 value: modelId
             };
         });
@@ -1004,6 +1171,7 @@ async function switchModel() {
             fileManager.saveSelectedModel(currentModel);
             updateStatusBar();
             
+            // Check if API key is needed
             if (!minimalModelManager.getProviderInfo(currentModel).hasApiKey) {
                 const provider = minimalModelManager.providers[currentModel];
                 const choice = await vscode.window.showWarningMessage(
@@ -1026,14 +1194,17 @@ async function switchModel() {
     }
 }
 
-// API Key Wrapper
+/**
+ * API Key setup wrapper - delegates to ApiKeyManager
+ * @returns {Promise<boolean>} True if API key was successfully set
+ */
 async function setApiKey() {
     if (!apiKeyManager) {
         vscode.window.showErrorMessage("API Key Manager not initialized");
         return false;
     }
     
-    // Prepare dependencies
+    // Prepare dependencies for ApiKeyManager
     const deps = {
         t,
         currentModel,
@@ -1047,17 +1218,21 @@ async function setApiKey() {
     return await apiKeyManager.setApiKey(deps);
 }
 
+/**
+ * Get provider display name for a model
+ * @param {string} modelId - Model identifier
+ * @returns {string} Provider name or 'Unknown'
+ */
 function getProviderName(modelId) {
     return minimalModelManager.providers[modelId]?.name || 'Unknown';
 }
 
-const apiClient = new UnifiedAPIClient();
+// ===== CLEANUP & DEACTIVATION =====
 
-function callAI(prompt) {   
-    return apiClient.callAPI(currentModel, prompt, getDependencies());
-}
-
-// Deactivation
+/**
+ * Extension deactivation with comprehensive cleanup
+ * Ensures all resources are properly disposed of
+ */
 function deactivate() {
     // Cleanup command registry
     if (commandRegistry) {
@@ -1077,21 +1252,16 @@ function deactivate() {
         executionStates.states.clear();
     }
 
-    // Cleanup Locale Utils
+    // Cleanup locale utils
     if (localeUtils) {
         localeUtils.clearCache();
         localeUtils = null;
     }
 
-    // Cleanup API Key Manager
+    // Cleanup API key manager
     if (apiKeyManager) {
         apiKeyManager.dispose();
         apiKeyManager = null;
-    }
-
-    if (configDebounceTimeout) {
-        clearTimeout(configDebounceTimeout);
-        configDebounceTimeout = null;
     }
 
     // Force final token save if needed (synchronous for shutdown)
@@ -1137,4 +1307,6 @@ function deactivate() {
     };
 }
 
+// ===== EXPORTS =====
+exports.activate = activate;
 exports.deactivate = deactivate;
