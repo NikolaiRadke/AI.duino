@@ -10,182 +10,35 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
         node-version: '18'
         
-    - name: Install dependencies
-      run: npm install axios cheerio
-        
-    - name: Create update script
+    - name: Update configs
       run: |
-        cat > update_configs.js << 'SCRIPT'
+        cat > update.js << 'EOF'
         const fs = require('fs');
         const path = require('path');
-
-        const PROVIDERS = {
-          claude: {
-            name: 'Claude',
-            icon: '🤖',
-            color: '#FF6B35',
-            hostname: 'api.anthropic.com',
-            keyFile: '.aiduino-claude-api-key',
-            apiKeyUrl: 'https://console.anthropic.com/api-keys',
-            fallbackModel: 'claude-3-5-sonnet-20241022'
-          },
-          chatgpt: {
-            name: 'ChatGPT',
-            icon: '🧠',
-            color: '#10A37F',
-            hostname: 'api.openai.com',
-            keyFile: '.aiduino-openai-api-key',
-            apiKeyUrl: 'https://platform.openai.com/api-keys',
-            fallbackModel: 'gpt-4'
-          },
-          gemini: {
-            name: 'Gemini',
-            icon: '✨',
-            color: '#4285F4',
-            hostname: 'generativelanguage.googleapis.com',
-            keyFile: '.aiduino-gemini-api-key',
-            apiKeyUrl: 'https://makersuite.google.com/app/apikey',
-            fallbackModel: 'gemini-1.5-pro'
-          },
-          groq: {
-            name: 'Groq',
-            icon: '⚡',
-            color: '#F55036',
-            hostname: 'api.groq.com',
-            keyFile: '.aiduino-groq-api-key',
-            apiKeyUrl: 'https://console.groq.com/keys',
-            fallbackModel: 'llama-3.3-70b-versatile'
-          },
-          mistral: {
-            name: 'Mistral',
-            icon: '🌟',
-            color: '#FF7000',
-            hostname: 'api.mistral.ai',
-            keyFile: '.aiduino-mistral-api-key',
-            apiKeyUrl: 'https://console.mistral.ai/',
-            fallbackModel: 'mistral-large-latest'
-          },
-          perplexity: {
-            name: 'Perplexity',
-            icon: '🔍',
-            color: '#20B2AA',
-            hostname: 'api.perplexity.ai',
-            keyFile: '.aiduino-perplexity-api-key',
-            apiKeyUrl: 'https://www.perplexity.ai/settings/api',
-            fallbackModel: 'llama-3.1-sonar-large-128k-online'
-          },
-          cohere: {
-            name: 'Cohere',
-            icon: '💫',
-            color: '#9333EA',
-            hostname: 'api.cohere.ai',
-            keyFile: '.aiduino-cohere-api-key',
-            apiKeyUrl: 'https://dashboard.cohere.ai/api-keys',
-            fallbackModel: 'command-r-plus'
-          }
-        };
-
-        const DEFAULT_PRICES = {
-          claude: { input: 0.003, output: 0.015 },
-          chatgpt: { input: 0.03, output: 0.06 },
-          gemini: { input: 0.00125, output: 0.005 },
-          groq: { input: 0.0005, output: 0.0008 },
-          mistral: { input: 0.001, output: 0.003 },
-          perplexity: { input: 0.001, output: 0.003 },
-          cohere: { input: 0.0015, output: 0.002 }
-        };
-
-        function getCurrentDate() {
-          const now = new Date();
-          const day = String(now.getDate()).padStart(2, '0');
-          const month = String(now.getMonth() + 1).padStart(2, '0');
-          const year = String(now.getFullYear()).slice(-2);
-          return day + month + year;
+        const now = new Date();
+        const version = String(now.getDate()).padStart(2, '0') + String(now.getMonth() + 1).padStart(2, '0') + String(now.getFullYear()).slice(-2);
+        console.log('Updating to version:', version);
+        const configPath = 'aiduino/extension/out/config/providerConfigs.js';
+        if (fs.existsSync(configPath)) {
+          const content = fs.readFileSync(configPath, 'utf8');
+          const updated = content.replace(/CONFIG_VERSION = '[0-9]{6}'/, "CONFIG_VERSION = '" + version + "'");
+          fs.writeFileSync(configPath, updated);
+          console.log('Updated CONFIG_VERSION');
         }
-
-        function generateConfig() {
-          const currentDate = getCurrentDate();
-          const timestamp = new Date().toISOString();
-          
-          const header = '/*\n * AI.duino - Provider Configurations\n * Copyright 2025 Monster Maker\n * Licensed under the Apache License, Version 2.0\n * Auto-generated on ' + timestamp + '\n */\n\n"use strict";\n\n';
-          
-          const versionSection = '// Version for auto-update system (DDMMYY format)\nconst CONFIG_VERSION = \'' + currentDate + '\';\nconst REMOTE_CONFIG_URL = \'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js\';\n\n';
-          
-          let configSection = 'const PROVIDER_CONFIGS = {\n';
-          
-          for (const [id, provider] of Object.entries(PROVIDERS)) {
-            const prices = DEFAULT_PRICES[id];
-            configSection += '  ' + id + ': {\n';
-            configSection += '    name: \'' + provider.name + '\',\n';
-            configSection += '    icon: \'' + provider.icon + '\',\n';
-            configSection += '    color: \'' + provider.color + '\',\n';
-            configSection += '    hostname: \'' + provider.hostname + '\',\n';
-            configSection += '    fallback: \'' + provider.fallbackModel + '\',\n';
-            configSection += '    keyFile: \'' + provider.keyFile + '\',\n';
-            configSection += '    apiKeyUrl: \'' + provider.apiKeyUrl + '\',\n';
-            configSection += '    prices: {\n';
-            configSection += '      input: ' + prices.input + ',\n';
-            configSection += '      output: ' + prices.output + '\n';
-            configSection += '    }\n';
-            configSection += '  },\n';
-          }
-          
-          configSection += '};\n\n';
-          
-          const exportSection = 'module.exports = {\n  PROVIDER_CONFIGS,\n  CONFIG_VERSION,\n  REMOTE_CONFIG_URL\n};\n';
-          
-          return header + versionSection + configSection + exportSection;
-        }
-
-        function main() {
-          try {
-            console.log('Generating updated provider configs...');
-            const configContent = generateConfig();
-            
-            const configPath = path.join(process.cwd(), 'aiduino', 'extension', 'out', 'config', 'providerConfigs.js');
-            
-            const dir = path.dirname(configPath);
-            if (!fs.existsSync(dir)) {
-              fs.mkdirSync(dir, { recursive: true });
-            }
-            
-            fs.writeFileSync(configPath, configContent, 'utf8');
-            console.log('Provider configs updated successfully!');
-            
-          } catch (error) {
-            console.error('Error updating configs:', error);
-            process.exit(1);
-          }
-        }
-
-        main();
-        SCRIPT
+        EOF
+        node update.js
         
-    - name: Run update script
-      run: node update_configs.js
-        
-    - name: Check for changes
-      id: check_changes
+    - name: Commit changes
       run: |
-        if git diff --quiet; then
-          echo "changed=false" >> $GITHUB_OUTPUT
-        else
-          echo "changed=true" >> $GITHUB_OUTPUT
+        git config user.name "GitHub Action"
+        git config user.email "action@github.com"
+        git add -A
+        if ! git diff --cached --quiet; then
+          git commit -m "Update config version"
+          git push
         fi
-        
-    - name: Commit and push changes
-      if: steps.check_changes.outputs.changed == 'true'
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add aiduino/extension/out/config/providerConfigs.js
-        git commit -m "Auto-update provider configs"
-        git push
