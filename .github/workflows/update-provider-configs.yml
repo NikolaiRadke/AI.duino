@@ -30,7 +30,7 @@ jobs:
         const fs = require('fs');
         const path = require('path');
 
-        // Current provider information with API endpoints
+        // Current provider information
         const PROVIDERS = {
           claude: {
             name: 'Claude',
@@ -39,7 +39,6 @@ jobs:
             hostname: 'api.anthropic.com',
             keyFile: '.aiduino-claude-api-key',
             apiKeyUrl: 'https://console.anthropic.com/api-keys',
-            priceUrl: 'https://www.anthropic.com/pricing#anthropic-api',
             fallbackModel: 'claude-3-5-sonnet-20241022'
           },
           chatgpt: {
@@ -49,7 +48,6 @@ jobs:
             hostname: 'api.openai.com',
             keyFile: '.aiduino-openai-api-key',
             apiKeyUrl: 'https://platform.openai.com/api-keys',
-            priceUrl: 'https://openai.com/api/pricing/',
             fallbackModel: 'gpt-4'
           },
           gemini: {
@@ -59,7 +57,6 @@ jobs:
             hostname: 'generativelanguage.googleapis.com',
             keyFile: '.aiduino-gemini-api-key',
             apiKeyUrl: 'https://makersuite.google.com/app/apikey',
-            priceUrl: 'https://ai.google.dev/pricing',
             fallbackModel: 'gemini-1.5-pro'
           },
           groq: {
@@ -69,20 +66,49 @@ jobs:
             hostname: 'api.groq.com',
             keyFile: '.aiduino-groq-api-key',
             apiKeyUrl: 'https://console.groq.com/keys',
-            priceUrl: 'https://groq.com/pricing/',
             fallbackModel: 'llama-3.3-70b-versatile'
+          },
+          mistral: {
+            name: 'Mistral',
+            icon: '🌟',
+            color: '#FF7000',
+            hostname: 'api.mistral.ai',
+            keyFile: '.aiduino-mistral-api-key',
+            apiKeyUrl: 'https://console.mistral.ai/',
+            fallbackModel: 'mistral-large-latest'
+          },
+          perplexity: {
+            name: 'Perplexity',
+            icon: '🔍',
+            color: '#20B2AA',
+            hostname: 'api.perplexity.ai',
+            keyFile: '.aiduino-perplexity-api-key',
+            apiKeyUrl: 'https://www.perplexity.ai/settings/api',
+            fallbackModel: 'llama-3.1-sonar-large-128k-online'
+          },
+          cohere: {
+            name: 'Cohere',
+            icon: '💫',
+            color: '#9333EA',
+            hostname: 'api.cohere.ai',
+            keyFile: '.aiduino-cohere-api-key',
+            apiKeyUrl: 'https://dashboard.cohere.ai/api-keys',
+            fallbackModel: 'command-r-plus'
           }
         };
 
-        // Default pricing (fallback values)
+        // Default pricing
         const DEFAULT_PRICES = {
           claude: { input: 0.003, output: 0.015 },
           chatgpt: { input: 0.03, output: 0.06 },
           gemini: { input: 0.00125, output: 0.005 },
-          groq: { input: 0.0005, output: 0.0008 }
+          groq: { input: 0.0005, output: 0.0008 },
+          mistral: { input: 0.001, output: 0.003 },
+          perplexity: { input: 0.001, output: 0.003 },
+          cohere: { input: 0.0015, output: 0.002 }
         };
 
-        async function getCurrentDate() {
+        function getCurrentDate() {
           const now = new Date();
           const day = String(now.getDate()).padStart(2, '0');
           const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -90,25 +116,10 @@ jobs:
           return day + month + year;
         }
 
-        async function fetchLatestModels() {
-          console.log('Fetching latest model information...');
+        function generateConfig() {
+          const currentDate = getCurrentDate();
           
-          // For now, use known good models - API endpoints would require auth
-          const models = {
-            claude: 'claude-3-5-sonnet-20241022',
-            chatgpt: 'gpt-4',
-            gemini: 'gemini-1.5-pro',
-            groq: 'llama-3.3-70b-versatile'
-          };
-
-          return models;
-        }
-
-        async function generateConfig() {
-          const currentDate = await getCurrentDate();
-          const latestModels = await fetchLatestModels();
-          
-          const config = `/*
+          let config = `/*
  * AI.duino - Provider Configurations
  * Copyright 2025 Monster Maker
  * Licensed under the Apache License, Version 2.0
@@ -125,7 +136,6 @@ const PROVIDER_CONFIGS = {`;
 
           for (const [id, provider] of Object.entries(PROVIDERS)) {
             const prices = DEFAULT_PRICES[id];
-            const model = latestModels[id] || provider.fallbackModel;
             
             config += `
   ${id}: {
@@ -133,7 +143,7 @@ const PROVIDER_CONFIGS = {`;
     icon: '${provider.icon}',
     color: '${provider.color}',
     hostname: '${provider.hostname}',
-    fallback: '${model}',
+    fallback: '${provider.fallbackModel}',
     keyFile: '${provider.keyFile}',
     apiKeyUrl: '${provider.apiKeyUrl}',
     prices: {
@@ -155,10 +165,10 @@ module.exports = {
           return config;
         }
 
-        async function main() {
+        function main() {
           try {
             console.log('Generating updated provider configs...');
-            const configContent = await generateConfig();
+            const configContent = generateConfig();
             
             const configPath = path.join(process.cwd(), 'aiduino', 'extension', 'out', 'config', 'providerConfigs.js');
             
@@ -170,9 +180,6 @@ module.exports = {
             
             fs.writeFileSync(configPath, configContent, 'utf8');
             console.log('Provider configs updated successfully!');
-            
-            // Output for GitHub Actions
-            console.log('CONFIG_UPDATED=true');
             
           } catch (error) {
             console.error('Error updating configs:', error);
@@ -200,7 +207,7 @@ module.exports = {
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add aiduino/extension/out/config/providerConfigs.js
-        git commit -m "Auto-update provider configs - $(date +'%Y-%m-%d')"
+        git commit -m "Auto-update provider configs"
         git push
 
     - name: Create release
@@ -210,11 +217,11 @@ module.exports = {
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: config-update-${{ github.run_number }}
-        release_name: Provider Config Update $(date +'%Y-%m-%d')
+        release_name: Provider Config Update
         body: |
           Automated provider configuration update
           - Updated model references
           - Updated pricing information
-          - Version: $(date +'%d%m%y')
+          - Generated automatically by GitHub Actions
         draft: false
         prerelease: false
