@@ -85,16 +85,17 @@ C:\Program Files\Arduino IDE\resources\app\plugins\
 
 The `aiduino` folder must have the following structure (>= V1.6.0):
 ```
-aiduino/"
-├── extension/"
-│   ├── out/"
-│   │   ├── extension.js"
-│   │   ├── core/"
-│   │   ├── utils/"
-│   │   ├── features/"
-│   │   └── config/"
-│   └── locales/"
-└── extension.vsixmanifest"
+aiduino/
+├── extension/
+│   ├── out/
+│   │   ├── extension.js
+│   │   ├── core/
+│   │   ├── utils/
+│   │   ├── features/
+│   │   └── config/
+│   ├── locales/
+|   └── package.json
+└── extension.vsixmanifest
 
 ```
 
