@@ -57,6 +57,10 @@ your_provider: {
 }
 */
 
+// Version
+const CONFIG_VERSION = '030925'; // 3. September 2025
+const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/main/src/config/providerConfigs.js';
+
 // All AI provider configurations
 const PROVIDER_CONFIGS = {
     claude: {
@@ -326,7 +330,7 @@ const PROVIDER_CONFIGS = {
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => data.data?.filter(m => m.id.includes('llama') || m.id.includes('mixtral')) || [],
         selectBest: (models) => models.find(m => m.id.includes('llama-3.1')) || models[0],
-        fallback: 'llama-3.1-70b-versatile',
+        fallback: 'llama-3.3-70b-versatile',  // Statt llama-3.1-70b-versatile
         prices: {
             input: 0.59 / 1000000,    // $0.59 per 1M tokens (war: 0.59 / 1000)
             output: 0.79 / 1000000    // $0.79 per 1M tokens (war: 0.79 / 1000)
@@ -436,4 +440,8 @@ const PROVIDER_CONFIGS = {
     }
 };
 
-module.exports = { PROVIDER_CONFIGS };
+module.exports = {
+    PROVIDER_CONFIGS,
+    CONFIG_VERSION,
+    REMOTE_CONFIG_URL
+};

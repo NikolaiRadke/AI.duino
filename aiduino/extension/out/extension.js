@@ -50,6 +50,7 @@ const networkUtils = require('./utils/network');
 const errorHandling = require('./utils/errorHandling');
 const validation = require('./utils/validation');
 const fileManager = require('./utils/fileManager');
+const apiManager = require('./utils/apiManager');
 const { ErrorChecker } = require('./utils/errorChecker');
 const { ApiKeyManager } = require('./utils/apiKeyManager');
 const { LocaleUtils } = require('./utils/localeUtils');
@@ -702,11 +703,15 @@ function getDependencies() {
         currentLocale, 
         localeUtils,
         switchModel,
+        apiClient, 
+        fileManager,
+        validation, 
         EXTENSION_VERSION,
         updateTokenUsage,
         updateStatusBar,
         aiConversationContext,
         apiKeyManager,
+        setCurrentModel: (newModel) => { currentModel = newModel; },  // <- Callback 
         handleApiError: (error) => errorHandling.handleApiError(error, getDependencies()),
         setAiConversationContext: (newContext) => { 
             Object.assign(aiConversationContext, newContext); 
@@ -734,8 +739,8 @@ function shouldShowWelcome() {
  */
 const minimalModelManager = new MinimalModelManager();
 
-function callAI(prompt) {   
-    return apiClient.callAPI(currentModel, prompt, getDependencies());
+function callAI(prompt) {
+    return apiManager.callAI(prompt, getDependencies());
 }
 
 // ===== UI FUNCTIONS =====
@@ -834,53 +839,7 @@ function clearAIContext() {
  * Switch AI model with user selection and API key validation
  */
 async function switchModel() {
-    if (!executionStates.start(executionStates.OPERATIONS.SWITCH_MODEL)) {
-        vscode.window.showInformationMessage("Model switch is already running! Please wait...");
-        return;
-    }
-    
-    try {
-        // Build model selection items
-        const items = Object.keys(minimalModelManager.providers).map(modelId => {
-            const provider = minimalModelManager.providers[modelId];
-            const currentModelInfo = minimalModelManager.getCurrentModel(modelId);
-            return {
-                label: `${provider.icon} ${provider.name}`,
-                description: modelId === currentModel ? '✓ ' + t('labels.active') : currentModelInfo.name,
-                value: modelId
-            };
-        });
-        
-        const selected = await vscode.window.showQuickPick(items, {
-            placeHolder: t('messages.selectModel')
-        });
-        
-        if (selected) {
-            currentModel = selected.value;
-            fileManager.saveSelectedModel(currentModel);
-            updateStatusBar();
-            
-            // Check if API key is needed
-            if (!minimalModelManager.getProviderInfo(currentModel).hasApiKey) {
-                const provider = minimalModelManager.providers[currentModel];
-                const choice = await vscode.window.showWarningMessage(
-                    t('messages.apiKeyRequired', provider.name),
-                    t('buttons.enterNow'),
-                    t('buttons.later')
-                );
-                if (choice === t('buttons.enterNow')) {
-                    // Don't await setApiKey to avoid blocking the execution state
-                    setApiKey();
-                }
-            } else {
-                const provider = minimalModelManager.providers[currentModel];
-                vscode.window.showInformationMessage(t('messages.modelSwitched', provider.name));
-            }
-        }
-    } finally {
-        // Always cleanup execution state
-        executionStates.stop(executionStates.OPERATIONS.SWITCH_MODEL);
-    }
+    return await apiManager.switchModel(getDependencies());
 }
 
 /**
@@ -888,23 +847,7 @@ async function switchModel() {
  * @returns {Promise<boolean>} True if API key was successfully set
  */
 async function setApiKey() {
-    if (!apiKeyManager) {
-        vscode.window.showErrorMessage("API Key Manager not initialized");
-        return false;
-    }
-    
-    // Prepare dependencies for ApiKeyManager
-    const deps = {
-        t,
-        currentModel,
-        providers: minimalModelManager.providers,
-        fileManager,
-        validation,
-        apiKeys,
-        updateStatusBar
-    };
-    
-    return await apiKeyManager.setApiKey(deps);
+    return await apiManager.setApiKey(getDependencies());
 }
 
 /**
@@ -913,7 +856,7 @@ async function setApiKey() {
  * @returns {string} Provider name or 'Unknown'
  */
 function getProviderName(modelId) {
-    return minimalModelManager.providers[modelId]?.name || 'Unknown';
+    return apiManager.getProviderName(modelId, minimalModelManager);
 }
 
 // ===== CLEANUP & DEACTIVATION =====
