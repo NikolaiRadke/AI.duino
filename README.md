@@ -1,12 +1,12 @@
 ![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back.png)
 # 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
-AI.duino integrates **Claude, ChatGPT, Gemini, Mistral, Perplexity, Cohere and Croq** directly into the Arduino IDE for intelligent code assistance. The newest model will be selected automaticaly.  
+AI.duino integrates **Claude, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq, Vertex and Hugging Face** directly into the Arduino IDE for intelligent code assistance. The newest model will be selected automaticaly.  
  
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **31.08.2025** Started modulariszation for upcoming V1.6.0.   
+* **03.09.2025** Almost finished with refactoring. Added Vertex and Hugging Face.
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/tree/main/NEWS.md).
    
 ## Features
@@ -120,6 +120,8 @@ Required: An API key from either:
 - Perplexity: https://www.perplexity.ai/settings/api
 - Cohere: https://dashboard.cohere.a
 - Croq: https://dashboard.cohere.ai
+- Vertex: console.cloud.google.com
+- Hugging Face: huggingface.co
 
 The keys are stored locally and not transmitted.
 
