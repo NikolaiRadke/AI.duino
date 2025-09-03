@@ -1,4 +1,4 @@
-name: Update providerConfigs
+name: Update Provider Configs
 
 on:
   schedule:
