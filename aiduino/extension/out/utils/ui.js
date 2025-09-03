@@ -1,10 +1,147 @@
 /**
  * tools/ui.js - UI Display Functions
- * About dialog, token statistics, and offline help panels
+ * About dialog, token statistics, offline help panels, and menu builders
  */
 
 const vscode = require('vscode');
 const shared = require('../shared');
+
+// ===== MENU BUILDER FUNCTIONS =====
+
+/**
+ * Build all menu items for the quick menu
+ * @param {Object} context - Extension context with dependencies
+ * @returns {Array} Menu items array
+ */
+function buildMenuItems(context) {
+    const { 
+        t, 
+        minimalModelManager, 
+        currentModel, 
+        aiConversationContext, 
+        EXTENSION_VERSION 
+    } = context;
+    
+    const editor = vscode.window.activeTextEditor;
+    const hasSelection = editor && !editor.selection.isEmpty;
+    const board = shared.detectArduinoBoard();
+    const boardDisplay = shared.getBoardDisplayName(board);
+    const model = minimalModelManager.providers[currentModel];
+    
+    // Core action items
+    const coreItems = [
+        createMenuItem('$(symbol-method)', 'improveCode', hasSelection, t),
+        createMenuItem('$(comment-discussion)', 'explainCode', hasSelection, t),
+        createMenuItem('$(edit)', 'addComments', hasSelection, t),
+        createMenuItem('$(error)', 'explainError', false, t, 'descriptions.noErrors'),
+        createMenuItem('$(bug)', 'debugHelp', false, t, 'descriptions.debugHelp'),
+        createMenuItem('$(comment-discussion)', 'askAI', false, t, 'descriptions.askAI')
+    ];
+    
+    // Conditional items
+    const conditionalItems = getConditionalItems(context, hasSelection, boardDisplay, model, EXTENSION_VERSION);
+    
+    return [...coreItems, ...conditionalItems];
+}
+
+/**
+ * Create a menu item with consistent formatting
+ * @param {string} icon - VS Code icon
+ * @param {string} command - Command suffix (without 'aiduino.')
+ * @param {boolean} hasSelection - Whether code is selected
+ * @param {function} t - Translation function
+ * @param {string} overrideDesc - Override description key
+ * @returns {Object} Menu item object
+ */
+function createMenuItem(icon, command, hasSelection, t, overrideDesc = null) {
+    const descKey = overrideDesc || (hasSelection ? 
+        `descriptions.${command}Selected` : 
+        'descriptions.selectFirst'
+    );
+    
+    return {
+        label: `${icon} ${t(`commands.${command}`)}`,
+        description: t(descKey),
+        command: `aiduino.${command}`
+    };
+}
+
+/**
+ * Get conditional menu items (follow-up, settings, info)
+ * @param {Object} context - Extension context
+ * @param {boolean} hasSelection - Whether code is selected
+ * @param {string} boardDisplay - Board display name
+ * @param {Object} model - Current model info
+ * @param {string} version - Extension version
+ * @returns {Array} Conditional menu items
+ */
+function getConditionalItems(context, hasSelection, boardDisplay, model, version) {
+    const { t, aiConversationContext, localeUtils, currentLocale } = context;
+    const items = [];
+    
+    // Follow-up option if context exists
+    if (shared.hasValidContext(aiConversationContext)) {
+        items.push({
+            label: `$(arrow-right) ${t('commands.askFollowUp')}`,
+            description: t('descriptions.askFollowUp', 
+                formatQuestionPreview(aiConversationContext.lastQuestion, aiConversationContext.timestamp)),
+            command: 'aiduino.askFollowUp'
+        });
+    }
+    
+    // Settings and info items
+    const settingsItems = [
+        {
+            label: `$(globe) ${t('commands.switchLanguage')}`,
+            description: t('descriptions.currentLanguage', 
+                localeUtils.getCurrentLanguageName(currentLocale, 
+                    vscode.workspace.getConfiguration('aiduino').get('language', 'auto'))),
+            command: 'aiduino.switchLanguage'
+        },
+        {
+            label: `$(sync) ${t('commands.switchModel')}`,
+            description: t('descriptions.currentModel', model.name),
+            command: 'aiduino.switchModel'
+        },
+        {
+            label: `$(circuit-board) Board`,
+            description: boardDisplay,
+            command: null  // Info only, not clickable
+        },
+        {
+            label: `$(key) ${t('commands.changeApiKey')}`,
+            description: `${model.name} Key`,
+            command: 'aiduino.setApiKey'
+        },
+        {
+            label: `$(graph) ${t('commands.tokenStats')}`,
+            description: 'Token-Statistik',
+            command: 'aiduino.showTokenStats'
+        },
+        {
+            label: `$(info) ${t('commands.about')}`,
+            description: `Version ${version}`,
+            command: 'aiduino.about'
+        }
+    ];
+    
+    return [...items, ...settingsItems];
+}
+
+/**
+ * Format question preview for menu display
+ * @param {string} question - The question to format
+ * @param {number} timestamp - Question timestamp
+ * @returns {string} Formatted preview string
+ */
+function formatQuestionPreview(question, timestamp) {
+    if (!question) return '';
+    const preview = question.length > 40 ? question.substring(0, 40) + '...' : question;
+    const contextAge = Math.round((Date.now() - timestamp) / 60000);
+    return `"${preview}" (${contextAge}min ago)`;
+}
+
+// ===== EXISTING UI FUNCTIONS =====
 
 /**
  * Show About dialog with extension information
@@ -369,7 +506,7 @@ function showOfflineHelp(context) {
             </style>
         </head>
         <body>
-            <h1>🔡 ${t('offline.title')}</h1>
+            <h1>📡 ${t('offline.title')}</h1>
             
             <div class="warning">
                 <strong>${t('offline.requiresInternet')}</strong>
@@ -437,8 +574,54 @@ void loop() {
     `;
 }
 
+// ===== WELCOME FUNCTIONS =====
+
+/**
+ * Check if welcome message should be shown
+ * @param {Object} context - Extension context with dependencies
+ * @returns {boolean} True if no API keys are configured
+ */
+function shouldShowWelcome(context) {
+    const { minimalModelManager, apiKeys } = context;
+    return Object.keys(minimalModelManager.providers).every(modelId => !apiKeys[modelId]);
+}
+
+/**
+ * Show welcome message for new users
+ * @param {Object} context - Extension context with dependencies
+ */
+async function showWelcomeMessage(context) {
+    const { t, minimalModelManager, switchModel } = context;
+    
+    const modelList = Object.values(minimalModelManager.providers)
+        .map(provider => provider.name)
+        .join(', ');
+    
+    const message = t('messages.welcome', modelList);
+    const choice = await vscode.window.showInformationMessage(
+        message,
+        t('buttons.chooseModel'),
+        t('buttons.later')
+    );
+    
+    if (choice === t('buttons.chooseModel')) {
+        await switchModel();
+    }
+}
+
 module.exports = {
+    // Existing functions
     showAbout,
     showTokenStats,
-    showOfflineHelp
+    showOfflineHelp,
+    
+    // Menu builder functions
+    buildMenuItems,
+    createMenuItem,
+    getConditionalItems,
+    formatQuestionPreview,
+    
+    // Welcome functions
+    shouldShowWelcome,
+    showWelcomeMessage
 };

@@ -237,6 +237,15 @@ if not exist "!EXTRACT_DIR!\extension\out\extension.js" (
     exit /b 1
 )
 
+REM Validate modular structure in out/
+for %%d in (core utils features config) do (
+    if not exist "!EXTRACT_DIR!\extension\out\%%d" (
+        echo %RED%✗ Missing required directory: extension/out/%%d%NC%
+        rmdir /s /q "%TEMP_DIR%" >nul 2>&1
+        exit /b 1
+    )
+)
+
 REM Count locales
 set "LOCALE_COUNT=0"
 if exist "!EXTRACT_DIR!\extension\locales" (
@@ -282,6 +291,8 @@ echo   • Mistral - Good balance
 echo   • Groq - Ultra-fast inference
 echo   • Perplexity - Real-time web search
 echo   • Cohere - Advanced text generation
+echo   • Vertex AI ^(Google^) - Enterprise-grade AI
+echo   • Hugging Face - Open-source models
 echo.
 set /p "SETUP_KEYS=Do you want to set up API keys now? (y/n): "
 if /i not "!SETUP_KEYS!"=="y" (
@@ -342,6 +353,20 @@ set /p "COHERE_KEY=Cohere API key (co-...): "
 if not "!COHERE_KEY!"=="" (
     echo !COHERE_KEY!> "%USERPROFILE%\.aiduino-cohere-api-key"
     echo %GREEN%✓%NC% Cohere API key saved
+)
+
+REM Vertex AI
+set /p "VERTEX_KEY=Vertex AI API key: "
+if not "!VERTEX_KEY!"=="" (
+    echo !VERTEX_KEY!> "%USERPROFILE%\.aiduino-vertex-api-key"
+    echo %GREEN%✓%NC% Vertex AI API key saved
+)
+
+REM Hugging Face
+set /p "HUGGINGFACE_KEY=Hugging Face API key (hf_...): "
+if not "!HUGGINGFACE_KEY!"=="" (
+    echo !HUGGINGFACE_KEY!> "%USERPROFILE%\.aiduino-huggingface-api-key"
+    echo %GREEN%✓%NC% Hugging Face API key saved
 )
 goto :eof
 

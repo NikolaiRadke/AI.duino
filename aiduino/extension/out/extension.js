@@ -95,159 +95,90 @@ let diagnosticsListener = null;
 let errorTimeout = null;
 let saveTimeout = null;
 
-// Token management state
-let tokenFileLock = false;
-let tokenSaveQueue = [];
-
 // ===== MINIMAL MODEL MANAGER CLASS =====
 /**
  * Minimal dynamic model system for AI.duino
  * Works completely in background, only shows latest model in statusbar
  */
+// VEREINFACHTER MODEL MANAGER - behält den Namen minimalModelManager
+
+/**
+ * Minimal Model Manager - Vereinfachte Version ohne Background-Updates
+ * Fokus auf Provider-Info und API Key Management
+ */
 class MinimalModelManager {
     constructor() {
         this.providers = PROVIDER_CONFIGS;
-        this.currentModels = {}; // Latest model per provider
-        this.lastCheck = {};
-        this.isUpdating = false;
     }
 
     /**
-     * Main function: Silent update of all providers
+     * Get provider info for status bar
+     * @param {string} providerId - Provider identifier
+     * @returns {Object} Provider information
      */
-    async updateModelsQuietly() {
-        if (this.isUpdating) return;
-        this.isUpdating = true;
-
-        try {
-            for (const [providerId, provider] of Object.entries(this.providers)) {
-                const apiKey = this.getApiKey(providerId);
-                if (apiKey && this.shouldCheck(providerId)) {
-                    await this.updateProviderModel(providerId, apiKey);
-                }
-            }
-        } catch (error) {
-            // Silent handling - no user feedback
-            console.log('AI.duino: Model update completed with some fallbacks');
-        } finally {
-            this.isUpdating = false;
-        }
-    }
-
-    /**
-     * Update single provider
-     */
-    async updateProviderModel(providerId, apiKey) {
-        try {
-            const models = await this.fetchModels(providerId, apiKey);
-            if (models.length > 0) {
-                const provider = this.providers[providerId];
-                const bestModel = provider.selectBest(models);
-                if (bestModel) {
-                    this.currentModels[providerId] = this.formatModel(providerId, bestModel);
-                    this.lastCheck[providerId] = Date.now();
-                    console.log(`AI.duino: Updated ${providerId} to ${this.currentModels[providerId].id}`);
-                }
-            }
-        } catch (error) {
-            // Use fallback
-            this.useFallback(providerId);
-        }
-    }
-
-    /**
-     * API call for models
-     */
-    async fetchModels(providerId, apiKey) {
+    getProviderInfo(providerId) {
         const provider = this.providers[providerId];
-        const path = providerId === 'gemini' ? provider.path + apiKey : provider.path;
-        
-        return new Promise((resolve, reject) => {
-            const options = {
-                hostname: provider.hostname,
-                port: 443,
-                path: path,
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json', ...provider.headers(apiKey) },
-                timeout: 5000
-            };
-
-            const req = https.request(options, (res) => {
-                let data = '';
-                res.on('data', chunk => data += chunk);
-                res.on('end', () => {
-                    try {
-                        if (res.statusCode === 200) {
-                            const parsed = JSON.parse(data);
-                            const models = provider.extractModels(parsed);
-                            resolve(models);
-                        } else {
-                            reject(new Error(`HTTP ${res.statusCode}`));
-                        }
-                    } catch (e) {
-                        reject(e);
-                    }
-                });
-            });
-
-            req.on('error', reject);
-            req.on('timeout', () => {
-                req.destroy();
-                reject(new Error('Timeout'));
-            });
-
-            req.end();
-        });
-    }
-
-    /**
-     * Format model object
-     */
-    formatModel(providerId, model) {
-        const formatters = {
-            claude: (m) => ({ 
-                id: m.id, 
-                name: m.display_name || this.cleanName(m.id) 
-            }),
-            chatgpt: (m) => ({ 
-                id: m.id, 
-                name: this.cleanName(m.id) 
-            }),
-            gemini: (m) => ({ 
-                id: m.name || m.id,  
-                name: m.displayName || this.cleanName(m.name || m.id)
-            }),
-            mistral: (m) => ({ 
-                id: m.id, 
-                name: this.cleanName(m.id) 
-            }),
-            groq: (m) => ({ 
-                id: m.id, 
-                name: this.cleanName(m.id) 
-            }),
-            perplexity: (m) => ({ 
-                id: m.id, 
-                name: this.cleanName(m.id) 
-            }),
-            cohere: (m) => ({ 
-                id: m.id || m.name, 
-                name: this.cleanName(m.name || m.id) 
-            })    
-        };
-
-        const formatter = formatters[providerId];
-        if (!formatter) {
-            return { 
-                id: model.id || 'unknown', 
-                name: this.cleanName(model.name || model.id || 'Unknown') 
+        if (!provider) {
+            return {
+                name: 'Unknown',
+                icon: '❓',
+                color: '#999999',
+                modelName: 'Unknown',
+                modelId: 'unknown',
+                hasApiKey: false
             };
         }
-
-        return formatter(model);
+        
+        return {
+            name: provider.name,
+            icon: provider.icon,
+            color: provider.color,
+            modelName: this.cleanName(provider.fallback),
+            modelId: provider.fallback,
+            hasApiKey: this.hasApiKey(providerId)
+        };
     }
 
     /**
-     * Clean model names
+     * Get current model info for provider (compatibility method)
+     * @param {string} providerId - Provider identifier
+     * @returns {Object} Model information
+     */
+    getCurrentModel(providerId) {
+        const provider = this.providers[providerId];
+        if (!provider) {
+            return {
+                id: 'unknown',
+                name: 'Unknown',
+                isFallback: true
+            };
+        }
+        
+        return {
+            id: provider.fallback,
+            name: this.cleanName(provider.fallback),
+            isFallback: true
+        };
+    }
+
+    /**
+     * Check if provider has API key configured
+     * @param {string} providerId - Provider identifier  
+     * @returns {boolean} True if API key exists
+     */
+    hasApiKey(providerId) {
+        try {
+            const keyFile = path.join(os.homedir(), this.providers[providerId].keyFile);
+            return fs.existsSync(keyFile);
+        } catch {
+            return false;
+        }
+    }
+
+    /**
+     * Clean model names for display
+     * @param {string} rawName - Raw model name
+     * @returns {string} Cleaned display name
      */
     cleanName(rawName) {
         return rawName
@@ -257,78 +188,18 @@ class MinimalModelManager {
     }
 
     /**
-     * Use fallback model
-     */
-    useFallback(providerId) {
-        const provider = this.providers[providerId];
-        this.currentModels[providerId] = {
-            id: provider.fallback,
-            name: this.cleanName(provider.fallback),
-            isFallback: true
-        };
-    }
-
-    /**
-     * Check if update needed (daily)
-     */
-    shouldCheck(providerId) {
-        const lastCheck = this.lastCheck[providerId] || 0;
-        return Date.now() - lastCheck > 24 * 60 * 60 * 1000; // 24 hours
-    }
-
-    /**
-     * Read API key from file
-     */
-    getApiKey(providerId) {
-        try {
-            const keyFile = path.join(os.homedir(), this.providers[providerId].keyFile);
-            return fs.existsSync(keyFile) ? fs.readFileSync(keyFile, 'utf8').trim() : null;
-        } catch {
-            return null;
-        }
-    }
-
-    /**
-     * Get current model for provider
-     */
-    getCurrentModel(providerId) {
-        return this.currentModels[providerId] || {
-            id: this.providers[providerId].fallback,
-            name: this.cleanName(this.providers[providerId].fallback),
-            isFallback: true
-        };
-    }
-
-    /**
-     * Provider info for statusbar
-     */
-    getProviderInfo(providerId) {
-        const provider = this.providers[providerId];
-        const model = this.getCurrentModel(providerId);
-        
-        return {
-            name: provider.name,
-            icon: provider.icon,
-            color: provider.color,
-            modelName: model.name,
-            modelId: model.id,
-            isLatest: !model.isFallback,
-            hasApiKey: !!this.getApiKey(providerId)
-        };
-    }
-
-    /**
-     * Debug helper: Show current models
+     * Debug helper: Show provider status
+     * @returns {Object} Current providers for debugging
      */
     showCurrentModels() {
-        console.log('AI.duino Current Models:');
+        console.log('AI.duino Provider Status:');
         Object.keys(this.providers).forEach(providerId => {
-            const model = this.getCurrentModel(providerId);
-            const hasKey = !!this.getApiKey(providerId);
-            console.log(`${providerId}: ${model.id} (${model.name}) - API Key: ${hasKey ? 'Yes' : 'No'} - Fallback: ${model.isFallback ? 'Yes' : 'No'}`);
+            const hasKey = this.hasApiKey(providerId);
+            const provider = this.providers[providerId];
+            console.log(`${providerId}: ${provider.fallback} - API Key: ${hasKey ? 'Yes' : 'No'}`);
         });
         console.log(`Active Provider: ${currentModel}`);
-        return this.currentModels;
+        return this.providers;
     }
 }
 
@@ -555,95 +426,22 @@ function loadTokenUsage() {
  * Queue token usage save with debouncing
  */
 function saveTokenUsage() {
-    // Add to queue
-    if (!tokenSaveQueue.includes('save')) {
-        tokenSaveQueue.push('save');
-    }
-    
-    // Debounced save
+    // Einfaches Debouncing - clear previous timeout
     if (saveTimeout) {
         clearTimeout(saveTimeout);
     }
     
+    // Save after short delay
     saveTimeout = setTimeout(() => {
-        processSaveQueue();
-    }, 500); // 500ms delay - more stable
-}
-
-/**
- * Process the token save queue with atomic file operations
- */
-function processSaveQueue() {
-    if (tokenFileLock || tokenSaveQueue.length === 0) {
-        return; // Already saving or nothing to save
-    }
-    
-    tokenFileLock = true;
-    const itemsToSave = [...tokenSaveQueue]; // Create copy
-    tokenSaveQueue = []; // Clear queue
-    
-    try {
-        const data = JSON.stringify(tokenUsage, null, 2);
-        
-        // Unified error handling for all platforms
-        const writeFileAtomically = (filePath, content) => {
-            const tempFile = filePath + '.tmp';
-            const backupFile = filePath + '.backup';
-            
-            try {
-                // Create backup if original exists
-                if (fs.existsSync(filePath)) {
-                    fs.copyFileSync(filePath, backupFile);
-                }
-                
-                // Write to temp file
-                fs.writeFileSync(tempFile, content, { mode: 0o600 });
-                
-                // Atomic rename (works on all platforms)
-                fs.renameSync(tempFile, filePath);
-                
-                // Cleanup backup on success
-                if (fs.existsSync(backupFile)) {
-                    fs.unlinkSync(backupFile);
-                }
-                
-                return true;
-            } catch (error) {
-                // Cleanup on error
-                [tempFile, backupFile].forEach(file => {
-                    try {
-                        if (fs.existsSync(file)) {
-                            fs.unlinkSync(file);
-                        }
-                    } catch (cleanupError) {
-                        // Silent cleanup
-                    }
-                });
-                throw error;
-            }
-        };
-        
-        // Try atomic write first
-        if (!writeFileAtomically(TOKEN_USAGE_FILE, data)) {
-            throw new Error('Atomic write failed');
-        }
-        
-    } catch (error) {
-        // Fallback: Direct write (last resort)
         try {
+            const data = JSON.stringify(tokenUsage, null, 2);
             fs.writeFileSync(TOKEN_USAGE_FILE, data, { mode: 0o600 });
-        } catch (fallbackError) {
-            // Complete failure - token usage will be lost this session
-            // but extension continues working
+        } catch (error) {
+            // Silent error - token tracking is not critical
+        } finally {
+            saveTimeout = null;
         }
-    } finally {
-        tokenFileLock = false;
-        
-        // Check for new entries during save
-        if (tokenSaveQueue.length > 0) {
-            setTimeout(() => processSaveQueue(), 100);
-        }
-    }
+    }, 500);
 }
 
 /**
@@ -833,18 +631,6 @@ function activate(context) {
     statusBarItem.command = "aiduino.quickMenu";
     statusBarItem.show();
 
-    // Update models in background (after 3 seconds)
-    setTimeout(async () => {
-        await minimalModelManager.updateModelsQuietly();
-        updateStatusBar(); // Update statusbar with latest models
-    }, 3000);
-
-    // Schedule daily model updates
-    setInterval(async () => {
-        await minimalModelManager.updateModelsQuietly();
-        updateStatusBar();
-    }, 24 * 60 * 60 * 1000); // Every 24 hours
-
     // Initialize core managers
     errorChecker = new ErrorChecker();
     apiKeyManager = new ApiKeyManager();
@@ -856,9 +642,9 @@ function activate(context) {
     setupEventListeners(context);
         
     // Show welcome message if needed
-    if (shouldShowWelcome()) {
-        setTimeout(() => {
-            showWelcomeMessage();
+    if (uiTools.shouldShowWelcome(getDependencies())) {
+        setTimeout(async () => {
+            await uiTools.showWelcomeMessage(getDependencies());
         }, 1000);
     }
 }
@@ -914,6 +700,8 @@ function getDependencies() {
         apiKeys,
         tokenUsage,
         currentLocale, 
+        localeUtils,
+        switchModel,
         EXTENSION_VERSION,
         updateTokenUsage,
         updateStatusBar,
@@ -930,8 +718,13 @@ function getDependencies() {
  * Check if welcome message should be shown
  * @returns {boolean} True if no API keys are configured
  */
+async function showWelcomeMessage() {
+    await uiTools.showWelcomeMessage(getDependencies());
+}
+
+// NEUE VERSION:
 function shouldShowWelcome() {
-    return Object.keys(minimalModelManager.providers).every(modelId => !apiKeys[modelId]);
+    return uiTools.shouldShowWelcome(getDependencies());
 }
 
 /**
@@ -985,9 +778,7 @@ function updateStatusBar() {
 async function showQuickMenu() {
     const model = minimalModelManager.providers[currentModel];
     const hasApiKey = apiKeys[currentModel];
-    const board = shared.detectArduinoBoard();
-    const boardDisplay = shared.getBoardDisplayName(board);
-    
+
     // Check API key first
     if (!hasApiKey) {
         const choice = await vscode.window.showWarningMessage(
@@ -1004,78 +795,8 @@ async function showQuickMenu() {
         return;
     }
     
-    const editor = vscode.window.activeTextEditor;
-    const hasSelection = editor && !editor.selection.isEmpty;
-    
-    // Build menu items
-    const items = [
-        {
-            label: '$(symbol-method) ' + t('commands.improveCode'),
-            description: hasSelection ? t('descriptions.improveSelected') : t('descriptions.selectFirst'),
-            command: 'aiduino.improveCode'
-        },
-        {
-            label: '$(comment-discussion) ' + t('commands.explainCode'),
-            description: hasSelection ? t('descriptions.explainSelected') : t('descriptions.selectFirst'),
-            command: 'aiduino.explainCode'
-        },
-        {
-            label: '$(edit) ' + t('commands.addComments'),
-            description: hasSelection ? t('descriptions.addComments') : t('descriptions.selectFirst'),
-            command: 'aiduino.addComments'
-        },
-        {
-            label: '$(error) ' + t('commands.explainError'),
-            description: t('descriptions.noErrors'),  
-            command: 'aiduino.explainError'
-        },
-        {
-            label: '$(bug) ' + t('commands.debugHelp'),
-            description: t('descriptions.debugHelp'),
-            command: 'aiduino.debugHelp'
-        },
-        {
-            label: '$(comment-discussion) ' + t('commands.askAI'),
-            description: t('descriptions.askAI'),
-            command: 'aiduino.askAI'
-        },
-        // Add follow-up option if context exists
-        ...(shared.hasValidContext(aiConversationContext) ? [{
-            label: '$(arrow-right) ' + t('commands.askFollowUp'),
-            description: t('descriptions.askFollowUp', formatQuestionPreview(aiConversationContext.lastQuestion)),
-            command: 'aiduino.askFollowUp'
-        }] : []),
-        {
-            label: '$(globe) ' + t('commands.switchLanguage'),
-            description: t('descriptions.currentLanguage', localeUtils.getCurrentLanguageName(currentLocale, vscode.workspace.getConfiguration('aiduino').get('language', 'auto'))),
-            command: 'aiduino.switchLanguage'
-        },
-        {
-            label: '$(sync) ' + t('commands.switchModel'),
-            description: t('descriptions.currentModel', model.name),
-            command: 'aiduino.switchModel'
-        },
-        {
-            label: '$(circuit-board) Board',
-            description: boardDisplay,
-            command: null  // Not clickable, just info
-        },
-        {
-            label: '$(key) ' + t('commands.changeApiKey'),
-            description: model.name + ' Key',
-            command: 'aiduino.setApiKey'
-        },
-        {
-            label: '$(graph) ' + t('commands.tokenStats'),
-            description: 'Token-Statistik', 
-            command: 'aiduino.showTokenStats'
-        },
-        {
-            label: '$(info) ' + t('commands.about'),
-            description: `Version ${EXTENSION_VERSION}`, 
-            command: 'aiduino.about'
-        }
-    ];
+    // Build and show menu
+    const items = uiTools.buildMenuItems(getDependencies());
     
     const selected = await vscode.window.showQuickPick(items, {
         placeHolder: t('messages.selectAction'),
@@ -1091,29 +812,7 @@ async function showQuickMenu() {
  * Show welcome message for new users
  */
 async function showWelcomeMessage() {
-    const modelList = Object.keys(minimalModelManager.providers).map(m => m.name).join(', ');
-    const message = t('messages.welcome', modelList);
-    const choice = await vscode.window.showInformationMessage(
-        message,
-        t('buttons.chooseModel'),
-        t('buttons.later')
-    );
-    
-    if (choice === t('buttons.chooseModel')) {
-        await switchModel();
-    }
-}
-
-/**
- * Format question preview for menu display
- * @param {string} question - The question to format
- * @returns {string} Formatted preview string
- */
-function formatQuestionPreview(question) {
-    if (!question) return '';
-    const preview = question.length > 40 ? question.substring(0, 40) + '...' : question;
-    const contextAge = Math.round((Date.now() - aiConversationContext.timestamp) / 60000);
-    return `"${preview}" (${contextAge}min ago)`;
+    await uiTools.showWelcomeMessage(getDependencies());
 }
 
 /**
@@ -1127,16 +826,6 @@ function clearAIContext() {
         timestamp: null
     };
     vscode.window.showInformationMessage(t('messages.contextCleared'));
-}
-
-/**
- * Get today's token usage summary
- * @returns {string} Usage summary string
- */
-function getTodayUsage() {
-    const usage = tokenUsage[currentModel];
-    const totalTokens = usage.input + usage.output;
-    return totalTokens > 0 ? `${totalTokens} tokens ($${usage.cost.toFixed(3)})` : '0 tokens';
 }
 
 // ===== MODEL/API MANAGEMENT =====
@@ -1271,13 +960,12 @@ function deactivate() {
     }
     
     // Force final save if queue has pending items
-    if (tokenSaveQueue.length > 0 && !tokenFileLock) {
-        try {
-            const data = JSON.stringify(tokenUsage, null, 2);
-            fs.writeFileSync(TOKEN_USAGE_FILE, data, { mode: 0o600 });
-        } catch (error) {
-            // Silent error on shutdown - don't block deactivation
-        }
+    // Emergency save without complex queue logic
+    try {
+        const data = JSON.stringify(tokenUsage, null, 2);
+        fs.writeFileSync(TOKEN_USAGE_FILE, data, { mode: 0o600 });
+    } catch (error) {
+        // Silent error on shutdown
     }
     
     // Cleanup all event listeners

@@ -164,7 +164,7 @@ install_plugin() {
             ;;
     esac
     
-    # Find the plugin directory in extracted files
+# Find the plugin directory in extracted files
     if [ -d "aiduino" ]; then
         EXTRACT_DIR="aiduino"
     elif [ -d "AI.duino" ]; then
@@ -179,6 +179,13 @@ install_plugin() {
         echo "  Expected structure:"
         echo "    aiduino/"
         echo "    ├── extension/"
+        echo "    │   ├── out/"
+        echo "    │   │   ├── extension.js"
+        echo "    │   │   ├── core/"
+        echo "    │   │   ├── utils/"
+        echo "    │   │   ├── features/"
+        echo "    │   │   └── config/"
+        echo "    │   └── locales/"
         echo "    └── extension.vsixmanifest"
         exit 1
     fi
@@ -188,11 +195,33 @@ install_plugin() {
         echo -e "${RED}✗ Missing extension/package.json${NC}"
         exit 1
     fi
-    
+
     if [ ! -f "$EXTRACT_DIR/extension/out/extension.js" ]; then
         echo -e "${RED}✗ Missing extension/out/extension.js${NC}"
         exit 1
     fi
+
+    # Check for modular structure in out/
+    REQUIRED_DIRS=("core" "utils" "features" "config")
+    for dir in "${REQUIRED_DIRS[@]}"; do
+        if [ ! -d "$EXTRACT_DIR/extension/out/$dir" ]; then
+            echo -e "${RED}✗ Missing required directory: extension/out/$dir${NC}"
+            exit 1
+        fi
+    done
+
+    # Check for critical files in out/
+    CRITICAL_FILES=(
+        "extension/out/core/apiClient.js"
+        "extension/out/utils/ui.js"
+        "extension/out/config/providerConfigs.js"
+    )
+    for file in "${CRITICAL_FILES[@]}"; do
+        if [ ! -f "$EXTRACT_DIR/$file" ]; then
+            echo -e "${RED}✗ Missing critical file: $file${NC}"
+            exit 1
+        fi
+    done
     
     # Count locales
     if [ -d "$EXTRACT_DIR/extension/locales" ]; then
@@ -243,6 +272,8 @@ setup_api_keys() {
     echo -e "  ${BOLD}•${NC} Groq - Ultra-fast inference"
     echo -e "  ${BOLD}•${NC} Perplexity - Real-time web search"
     echo -e "  ${BOLD}•${NC} Cohere - Advanced text generation"
+    echo -e "  ${BOLD}•${NC} Vertex AI (Google) - Enterprise-grade AI"
+    echo -e "  ${BOLD}•${NC} Hugging Face - Open-source models"
     echo ""
     echo -n "Do you want to set up API keys now? (y/n): "
     read -r response
@@ -354,6 +385,30 @@ setup_individual_keys() {
             echo -e "${YELLOW}⚠ ${NC} Invalid Cohere key format (should start with co-)"
         fi
     fi
+
+    # Vertex AI
+    echo -n "Vertex AI API key: "
+    read -rs vertex_key
+    echo ""
+    if [ ! -z "$vertex_key" ]; then
+        echo "$vertex_key" > "$HOME/.aiduino-vertex-api-key"
+        chmod 600 "$HOME/.aiduino-vertex-api-key"
+        echo -e "${GREEN}✓${NC} Vertex AI API key saved"
+    fi
+
+    # Hugging Face
+    echo -n "Hugging Face API key (hf_...): "
+    read -rs huggingface_key
+    echo ""
+    if [ ! -z "$huggingface_key" ]; then
+        if [[ "$huggingface_key" == hf_* ]]; then
+            echo "$huggingface_key" > "$HOME/.aiduino-huggingface-api-key"
+            chmod 600 "$HOME/.aiduino-huggingface-api-key"
+            echo -e "${GREEN}✓${NC} Hugging Face API key saved"
+        else
+            echo -e "${YELLOW}⚠ ${NC} Invalid Hugging Face key format (should start with hf_)"
+        fi
+    fi
 }
 
 # Show success message
@@ -387,6 +442,8 @@ show_success() {
     echo -e "  • Groq:    ${BLUE}https://console.groq.com${NC}"
     echo -e "  • Perplexity: ${BLUE}https://www.perplexity.ai/settings/api${NC}"
     echo -e "  • Cohere:  ${BLUE}https://dashboard.cohere.ai${NC}"
+    echo -e "  • Vertex:  ${BLUE}https://console.cloud.google.com/vertex-ai${NC}"
+    echo -e "  • HF:      ${BLUE}https://huggingface.co/settings/tokens${NC}"
     echo ""
     echo -e "${YELLOW}Tip:${NC} Start with Gemini - it's fast and has a free tier!"
     echo ""

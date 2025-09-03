@@ -74,8 +74,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.id.includes('sonnet-4')) || models.find(m => m.id.includes('3-5-sonnet')) || models[0],
         fallback: 'claude-3-5-sonnet-20241022',
         prices: {
-            input: 3.0 / 1000,     // $3.00 per 1M tokens (Sonnet 4) - Updated Sept 2025
-            output: 15.0 / 1000    // $15.00 per 1M tokens (Sonnet 4) - Updated Sept 2025
+            input: 3.0 / 1000000,     // $3.00 per 1M tokens (war: 3.0 / 1000)
+            output: 15.0 / 1000000    // $15.00 per 1M tokens (war: 15.0 / 1000)
         },
         apiConfig: {
             apiPath: '/v1/messages',
@@ -109,8 +109,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.id.includes('gpt-5')) || models.find(m => m.id.includes('gpt-4')) || models[0],
         fallback: 'gpt-5',
         prices: {
-            input: 1.25 / 1000,    // $1.25 per 1M tokens (GPT-5) - Updated Sept 2025
-            output: 10.0 / 1000    // $10.00 per 1M tokens (GPT-5) - Updated Sept 2025
+            input: 1.25 / 1000000,    // $1.25 per 1M tokens (war: 1.25 / 1000)
+            output: 10.0 / 1000000    // $10.00 per 1M tokens (war: 10.0 / 1000)
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -218,8 +218,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.id.includes('medium-3') || m.id.includes('large')) || models[0],
         fallback: 'mistral-medium-3',
         prices: {
-            input: 0.40 / 1000,    // $0.40 per 1M tokens (Medium 3) - Updated Sept 2025
-            output: 2.0 / 1000     // $2.00 per 1M tokens (Medium 3) - Updated Sept 2025
+            input: 0.40 / 1000000,    // $0.40 per 1M tokens (war: 0.40 / 1000)
+            output: 2.0 / 1000000     // $2.00 per 1M tokens (war: 2.0 / 1000)
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -256,9 +256,9 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models[0],
         fallback: 'llama-3.1-sonar-large-128k-online',
         prices: {
-            input: 1.0 / 1000,     // $1.00 per 1M tokens (estimate) - Updated Sept 2025
-            output: 3.0 / 1000     // $3.00 per 1M tokens (estimate) - Updated Sept 2025
-        },
+           input: 1.0 / 1000000,     // $1.00 per 1M tokens (war: 1.0 / 1000)
+           output: 3.0 / 1000000     // $3.00 per 1M tokens (war: 3.0 / 1000)
+        }   ,
         apiConfig: {
             apiPath: '/chat/completions',
             method: 'POST',
@@ -294,8 +294,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.name.includes('command-r-plus')) || models[0],
         fallback: 'command-r-plus',
         prices: {
-            input: 2.5 / 1000,     // $2.50 per 1M tokens (Command R+) - Updated Sept 2025
-            output: 10.0 / 1000    // $10.00 per 1M tokens (Command R+) - Updated Sept 2025
+            input: 2.5 / 1000000,     // $2.50 per 1M tokens (war: 2.5 / 1000)
+            output: 10.0 / 1000000    // $10.00 per 1M tokens (war: 10.0 / 1000)
         },
         apiConfig: {
             apiPath: '/v1/chat',
@@ -328,8 +328,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.id.includes('llama-3.1')) || models[0],
         fallback: 'llama-3.1-70b-versatile',
         prices: {
-            input: 0.0001 / 1000,  // $0.1 per 1M tokens (sehr gÃ¼nstig)
-            output: 0.0002 / 1000  // $0.2 per 1M tokens (sehr gÃ¼nstig)
+            input: 0.59 / 1000000,    // $0.59 per 1M tokens (war: 0.59 / 1000)
+            output: 0.79 / 1000000    // $0.79 per 1M tokens (war: 0.79 / 1000)
         },
         apiConfig: {
             apiPath: '/openai/v1/chat/completions',
@@ -375,8 +375,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.name.includes('claude-3')) || models[0],
         fallback: 'claude-3-sonnet@20240229',
         prices: {
-            input: 3.0 / 1000,     // $3.00 per 1M tokens (Claude via Vertex) - Updated Sept 2025
-            output: 15.0 / 1000    // $15.00 per 1M tokens (Claude via Vertex) - Updated Sept 2025
+           input: 3.0 / 1000000,     // $3.00 per 1M tokens (war: 3.0 / 1000)
+           output: 15.0 / 1000000    // $15.00 per 1M tokens (war: 15.0 / 1000)
         },
         apiConfig: {
             apiPath: '/v1/projects/YOUR_PROJECT/locations/us-central1/publishers/anthropic/models/claude-3-sonnet@20240229:predict',
@@ -413,8 +413,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models[0],
         fallback: 'meta-llama/Llama-3.3-70B-Instruct',
         prices: {
-            input: 0.0005 / 1000,  // $0.0005 per 1M tokens (very affordable) - Updated Sept 2025
-            output: 0.0015 / 1000  // $0.0015 per 1M tokens (very affordable) - Updated Sept 2025
+           input: 0.0005 / 1000000,  // $0.0005 per 1M tokens (war: 0.0005 / 1000)
+           output: 0.0015 / 1000000  // $0.0015 per 1M tokens (war: 0.0015 / 1000)
         },
         apiConfig: {
             apiPath: '/models/meta-llama/Llama-3.3-70B-Instruct',
