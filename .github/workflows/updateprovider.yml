@@ -1,11 +1,7 @@
-name: Update Provider Configs (Test)
-
-on:
-  workflow_dispatch:
-
+name: Test
+on: push
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "It works!"
-
+    - run: echo "test"
