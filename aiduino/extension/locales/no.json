@@ -305,5 +305,22 @@
     "repository": "Repository",
     "reportBugs": "Rapporter bugs",
     "madeWith": "Laget med 💙 for Arduino-samfunnet"
+  },
+
+  "config": {
+    "updateAvailable": "Provider Config oppdatering tilgjengelig: {0} → {1}",
+    "updateNow": "Oppdater nå",
+    "updateLater": "Senere",
+    "updatingConfigs": "Oppdaterer leverandørkonfigurasjoner...",
+    "updateSuccess": "Leverandørkonfigurasjoner oppdatert til versjon {0}",
+    "updateFailed": "Konfigurasjonsoppdatering mislyktes: {0}",
+    "restartRequired": "Leverandørkonfigurasjoner oppdatert! Omstart kreves for å anvende endringer.",
+    "restartExtension": "Start utvidelse på nytt",
+    "modelOutdated": "Modellen virker utdatert. Oppdater konfigurasjoner?",
+    "notNow": "Ikke nå"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "Automatisk sjekk for oppdateringer av leverandørkonfigurasjoner"
   }
 }

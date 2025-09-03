@@ -197,6 +197,16 @@
           "type": "boolean",
           "default": false,
           "description": "Enable debug console output"
+        },
+        "aiduino.autoUpdateConfigs": {
+          "type": "boolean", 
+          "default": true,
+          "description": "Automatically check for provider configuration updates"
+        },
+        "aiduino.autoUpdateConfigs": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically check for provider configuration updates"
         }
       }
     }

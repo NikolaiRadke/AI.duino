@@ -51,6 +51,7 @@ const errorHandling = require('./utils/errorHandling');
 const validation = require('./utils/validation');
 const fileManager = require('./utils/fileManager');
 const apiManager = require('./utils/apiManager');
+const configUpdater = require('./utils/configUpdater');
 const { ErrorChecker } = require('./utils/errorChecker');
 const { ApiKeyManager } = require('./utils/apiKeyManager');
 const { LocaleUtils } = require('./utils/localeUtils');
@@ -71,6 +72,16 @@ let statusBarItem;
 let currentModel = 'claude';
 let currentLocale = 'en';
 let i18n = {};
+
+// Load remote config URL once at module load
+let remoteConfigUrl = null;
+try {
+    const { REMOTE_CONFIG_URL } = require('./config/providerConfigs');
+    remoteConfigUrl = REMOTE_CONFIG_URL;
+} catch (error) {
+    // Silent error - auto-update will be disabled if URL is null
+    remoteConfigUrl = null;
+}
 
 // Module instances
 let commandRegistry;
@@ -108,8 +119,8 @@ let saveTimeout = null;
  * Fokus auf Provider-Info und API Key Management
  */
 class MinimalModelManager {
-    constructor() {
-        this.providers = PROVIDER_CONFIGS;
+    constructor(providers = null) {
+        this.providers = providers || PROVIDER_CONFIGS; // Fallback
     }
 
     /**
@@ -636,6 +647,9 @@ function activate(context) {
     errorChecker = new ErrorChecker();
     apiKeyManager = new ApiKeyManager();
     
+    // Auto-Update for providers
+    configUpdater.setupAutoUpdates(getDependencies());
+
     // Register all commands
     registerCommands(context);
     
@@ -691,6 +705,7 @@ function registerCommands(context) {
  * @returns {Object} Dependencies object
  */
 function getDependencies() {
+    const { REMOTE_CONFIG_URL } = require('./config/providerConfigs');
     return {
         t,
         callAI,
@@ -707,6 +722,7 @@ function getDependencies() {
         fileManager,
         validation, 
         EXTENSION_VERSION,
+        REMOTE_CONFIG_URL: remoteConfigUrl,
         updateTokenUsage,
         updateStatusBar,
         aiConversationContext,
@@ -737,7 +753,8 @@ function shouldShowWelcome() {
  * @param {string} prompt - The prompt to send to AI
  * @returns {Promise} AI response promise
  */
-const minimalModelManager = new MinimalModelManager();
+const configData = configUpdater.loadProviderConfigs();
+const minimalModelManager = new MinimalModelManager(configData.providers);
 
 function callAI(prompt) {
     return apiManager.callAI(prompt, getDependencies());

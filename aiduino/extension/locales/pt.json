@@ -306,5 +306,22 @@
     "repository": "Repositório",
     "reportBugs": "Reportar bugs",
     "madeWith": "Feito com 💙 para a comunidade Arduino"
+  },
+
+  "config": {
+    "updateAvailable": "Atualização de Provider Config disponível: {0} → {1}",
+    "updateNow": "Atualizar agora",
+    "updateLater": "Mais tarde",
+    "updatingConfigs": "Atualizando configurações de fornecedores...",
+    "updateSuccess": "Configurações de fornecedores atualizadas para versão {0}",
+    "updateFailed": "Falha na atualização de configuração: {0}",
+    "restartRequired": "Configurações de fornecedores atualizadas com sucesso! Reinicialização necessária para aplicar alterações.",
+    "restartExtension": "Reiniciar extensão",
+    "modelOutdated": "Modelo parece estar desatualizado. Atualizar configurações?",
+    "notNow": "Agora não"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "Verificar automaticamente atualizações de configurações de fornecedores"
   }
 }

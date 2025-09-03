@@ -1,0 +1,220 @@
+name: Update Provider Configs
+
+on:
+  schedule:
+    # Run every Sunday at 2 AM UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-configs:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: |
+        npm install axios cheerio
+        
+    - name: Update provider configs
+      run: |
+        cat > update_configs.js << 'EOF'
+        const axios = require('axios');
+        const fs = require('fs');
+        const path = require('path');
+
+        // Current provider information with API endpoints
+        const PROVIDERS = {
+          claude: {
+            name: 'Claude',
+            icon: '🤖',
+            color: '#FF6B35',
+            hostname: 'api.anthropic.com',
+            keyFile: '.aiduino-claude-api-key',
+            apiKeyUrl: 'https://console.anthropic.com/api-keys',
+            priceUrl: 'https://www.anthropic.com/pricing#anthropic-api',
+            fallbackModel: 'claude-3-5-sonnet-20241022'
+          },
+          chatgpt: {
+            name: 'ChatGPT',
+            icon: '🧠',
+            color: '#10A37F',
+            hostname: 'api.openai.com',
+            keyFile: '.aiduino-openai-api-key',
+            apiKeyUrl: 'https://platform.openai.com/api-keys',
+            priceUrl: 'https://openai.com/api/pricing/',
+            fallbackModel: 'gpt-4'
+          },
+          gemini: {
+            name: 'Gemini',
+            icon: '✨',
+            color: '#4285F4',
+            hostname: 'generativelanguage.googleapis.com',
+            keyFile: '.aiduino-gemini-api-key',
+            apiKeyUrl: 'https://makersuite.google.com/app/apikey',
+            priceUrl: 'https://ai.google.dev/pricing',
+            fallbackModel: 'gemini-1.5-pro'
+          },
+          groq: {
+            name: 'Groq',
+            icon: '⚡',
+            color: '#F55036',
+            hostname: 'api.groq.com',
+            keyFile: '.aiduino-groq-api-key',
+            apiKeyUrl: 'https://console.groq.com/keys',
+            priceUrl: 'https://groq.com/pricing/',
+            fallbackModel: 'llama-3.3-70b-versatile'
+          }
+        };
+
+        // Default pricing (fallback values)
+        const DEFAULT_PRICES = {
+          claude: { input: 0.003, output: 0.015 },
+          chatgpt: { input: 0.03, output: 0.06 },
+          gemini: { input: 0.00125, output: 0.005 },
+          groq: { input: 0.0005, output: 0.0008 }
+        };
+
+        async function getCurrentDate() {
+          const now = new Date();
+          const day = String(now.getDate()).padStart(2, '0');
+          const month = String(now.getMonth() + 1).padStart(2, '0');
+          const year = String(now.getFullYear()).slice(-2);
+          return day + month + year;
+        }
+
+        async function fetchLatestModels() {
+          console.log('Fetching latest model information...');
+          
+          // For now, use known good models - API endpoints would require auth
+          const models = {
+            claude: 'claude-3-5-sonnet-20241022',
+            chatgpt: 'gpt-4',
+            gemini: 'gemini-1.5-pro',
+            groq: 'llama-3.3-70b-versatile'
+          };
+
+          return models;
+        }
+
+        async function generateConfig() {
+          const currentDate = await getCurrentDate();
+          const latestModels = await fetchLatestModels();
+          
+          const config = `/*
+ * AI.duino - Provider Configurations
+ * Copyright 2025 Monster Maker
+ * Licensed under the Apache License, Version 2.0
+ * Auto-generated on ${new Date().toISOString()}
+ */
+
+"use strict";
+
+// Version for auto-update system (DDMMYY format)
+const CONFIG_VERSION = '${currentDate}';
+const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
+
+const PROVIDER_CONFIGS = {`;
+
+          for (const [id, provider] of Object.entries(PROVIDERS)) {
+            const prices = DEFAULT_PRICES[id];
+            const model = latestModels[id] || provider.fallbackModel;
+            
+            config += `
+  ${id}: {
+    name: '${provider.name}',
+    icon: '${provider.icon}',
+    color: '${provider.color}',
+    hostname: '${provider.hostname}',
+    fallback: '${model}',
+    keyFile: '${provider.keyFile}',
+    apiKeyUrl: '${provider.apiKeyUrl}',
+    prices: {
+      input: ${prices.input},
+      output: ${prices.output}
+    }
+  },`;
+          }
+
+          config += `
+};
+
+module.exports = {
+  PROVIDER_CONFIGS,
+  CONFIG_VERSION,
+  REMOTE_CONFIG_URL
+};`;
+
+          return config;
+        }
+
+        async function main() {
+          try {
+            console.log('Generating updated provider configs...');
+            const configContent = await generateConfig();
+            
+            const configPath = path.join(process.cwd(), 'aiduino', 'extension', 'out', 'config', 'providerConfigs.js');
+            
+            // Ensure directory exists
+            const dir = path.dirname(configPath);
+            if (!fs.existsSync(dir)) {
+              fs.mkdirSync(dir, { recursive: true });
+            }
+            
+            fs.writeFileSync(configPath, configContent, 'utf8');
+            console.log('Provider configs updated successfully!');
+            
+            // Output for GitHub Actions
+            console.log('CONFIG_UPDATED=true');
+            
+          } catch (error) {
+            console.error('Error updating configs:', error);
+            process.exit(1);
+          }
+        }
+
+        main();
+        EOF
+        
+        node update_configs.js
+        
+    - name: Check for changes
+      id: check_changes
+      run: |
+        if git diff --quiet; then
+          echo "changed=false" >> $GITHUB_OUTPUT
+        else
+          echo "changed=true" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Commit and push changes
+      if: steps.check_changes.outputs.changed == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add aiduino/extension/out/config/providerConfigs.js
+        git commit -m "Auto-update provider configs - $(date +'%Y-%m-%d')"
+        git push
+
+    - name: Create release
+      if: steps.check_changes.outputs.changed == 'true'
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: config-update-${{ github.run_number }}
+        release_name: Provider Config Update $(date +'%Y-%m-%d')
+        body: |
+          Automated provider configuration update
+          - Updated model references
+          - Updated pricing information
+          - Version: $(date +'%d%m%y')
+        draft: false
+        prerelease: false

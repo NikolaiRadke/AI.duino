@@ -302,5 +302,22 @@
     "repository": "リポジトリ",
     "reportBugs": "バグを報告",
     "madeWith": "Arduinoコミュニティのために💙で作られました"
+  },
+
+  "config": {
+    "updateAvailable": "プロバイダー設定の更新が利用可能: {0} → {1}",
+    "updateNow": "今すぐ更新",
+    "updateLater": "後で",
+    "updatingConfigs": "プロバイダー設定を更新中...",
+    "updateSuccess": "プロバイダー設定をバージョン{0}に更新しました",
+    "updateFailed": "設定の更新に失敗しました: {0}",
+    "restartRequired": "プロバイダー設定が正常に更新されました！変更を適用するには再起動が必要です。",
+    "restartExtension": "拡張機能を再起動",
+    "modelOutdated": "モデルが古くなっているようです。設定を更新しますか？",
+    "notNow": "今はしない"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "プロバイダー設定の更新を自動的にチェックする"
   }
 }

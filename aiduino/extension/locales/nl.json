@@ -306,5 +306,22 @@
     "repository": "Repository",
     "reportBugs": "Bugs melden",
     "madeWith": "Gemaakt met 💙 voor de Arduino-community"
+  },
+
+  "config": {
+    "updateAvailable": "Provider Config update beschikbaar: {0} → {1}",
+    "updateNow": "Nu bijwerken",
+    "updateLater": "Later",
+    "updatingConfigs": "Provider configuraties bijwerken...",
+    "updateSuccess": "Provider configuraties bijgewerkt naar versie {0}",
+    "updateFailed": "Configuratie update mislukt: {0}",
+    "restartRequired": "Provider configuraties succesvol bijgewerkt! Herstart vereist om wijzigingen toe te passen.",
+    "restartExtension": "Extensie herstarten",
+    "modelOutdated": "Model lijkt verouderd. Configuraties bijwerken?",
+    "notNow": "Niet nu"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "Automatisch controleren op provider configuratie updates"
   }
 }

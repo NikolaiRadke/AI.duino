@@ -306,5 +306,22 @@
     "repository": "代码库",
     "reportBugs": "报告错误",
     "madeWith": "用💙为Arduino社区制作"
+  },
+
+  "config": {
+    "updateAvailable": "提供商配置更新可用：{0} → {1}",
+    "updateNow": "立即更新",
+    "updateLater": "稍后",
+    "updatingConfigs": "正在更新提供商配置...",
+    "updateSuccess": "提供商配置已更新到版本 {0}",
+    "updateFailed": "配置更新失败：{0}",
+    "restartRequired": "提供商配置更新成功！需要重启以应用更改。",
+    "restartExtension": "重启扩展",
+    "modelOutdated": "模型似乎已过时。更新配置？",
+    "notNow": "现在不要"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "自动检查提供商配置更新"
   }
 }

@@ -307,5 +307,22 @@
     "repository": "Repozitář",
     "reportBugs": "Nahlásit chyby",
     "madeWith": "Vytvořeno s 💙 pro Arduino komunitu"
+  },
+
+  "config": {
+    "updateAvailable": "Aktualizace Provider Config k dispozici: {0} → {1}",
+    "updateNow": "Aktualizovat nyní",
+    "updateLater": "Později",
+    "updatingConfigs": "Aktualizuji konfigurace poskytovatelů...",
+    "updateSuccess": "Konfigurace poskytovatelů aktualizovány na verzi {0}",
+    "updateFailed": "Aktualizace konfigurace selhala: {0}",
+    "restartRequired": "Konfigurace poskytovatelů úspěšně aktualizovány! Pro použití změn je nutný restart.",
+    "restartExtension": "Restartovat rozšíření",
+    "modelOutdated": "Model se zdá být zastaralý. Aktualizovat konfigurace?",
+    "notNow": "Ne nyní"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "Automaticky kontrolovat aktualizace konfigurací poskytovatelů"
   }
 }

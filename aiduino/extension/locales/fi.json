@@ -305,5 +305,22 @@
     "repository": "Repositorio",
     "reportBugs": "Raportoi bugit",
     "madeWith": "Tehty 💙:lla Arduino-yhteisölle"
+  },
+
+  "config": {
+    "updateAvailable": "Provider Config -päivitys saatavilla: {0} → {1}",
+    "updateNow": "Päivitä nyt",
+    "updateLater": "Myöhemmin",
+    "updatingConfigs": "Päivitetään palveluntarjoajien asetuksia...",
+    "updateSuccess": "Palveluntarjoajien asetukset päivitetty versioon {0}",
+    "updateFailed": "Asetusten päivitys epäonnistui: {0}",
+    "restartRequired": "Palveluntarjoajien asetukset päivitetty onnistuneesti! Uudelleenkäynnistys vaaditaan muutosten soveltamiseksi.",
+    "restartExtension": "Käynnistä laajennus uudelleen",
+    "modelOutdated": "Malli vaikuttaa vanhentuneelta. Päivitä asetukset?",
+    "notNow": "Ei nyt"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "Tarkista automaattisesti palveluntarjoajien asetusten päivitykset"
   }
 }

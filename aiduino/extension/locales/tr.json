@@ -306,5 +306,22 @@
     "repository": "Depo",
     "reportBugs": "Hataları bildir",
     "madeWith": "Arduino topluluğu için 💙 ile yapıldı"
+  },
+
+  "config": {
+    "updateAvailable": "Sağlayıcı Yapılandırma güncellemesi mevcut: {0} → {1}",
+    "updateNow": "Şimdi güncelle",
+    "updateLater": "Daha sonra",
+    "updatingConfigs": "Sağlayıcı yapılandırmaları güncelleniyor...",
+    "updateSuccess": "Sağlayıcı yapılandırmaları {0} sürümüne güncellendi",
+    "updateFailed": "Yapılandırma güncellemesi başarısız: {0}",
+    "restartRequired": "Sağlayıcı yapılandırmaları başarıyla güncellendi! Değişiklikleri uygulamak için yeniden başlatma gerekli.",
+    "restartExtension": "Uzantıyı yeniden başlat",
+    "modelOutdated": "Model güncel değil gibi görünüyor. Yapılandırmaları güncelle?",
+    "notNow": "Şimdi değil"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "Sağlayıcı yapılandırma güncellemelerini otomatik kontrol et"
   }
 }

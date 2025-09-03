@@ -306,5 +306,22 @@
     "repository": "Repository",
     "reportBugs": "Raportați bug-uri",
     "madeWith": "Dezvoltat cu 💙 pentru comunitatea Arduino"
+  },
+
+  "config": {
+    "updateAvailable": "Actualizare Provider Config disponibilă: {0} → {1}",
+    "updateNow": "Actualizează acum",
+    "updateLater": "Mai târziu",
+    "updatingConfigs": "Se actualizează configurațiile furnizorilor...",
+    "updateSuccess": "Configurații furnizori actualizate la versiunea {0}",
+    "updateFailed": "Actualizarea configurației a eșuat: {0}",
+    "restartRequired": "Configurații furnizori actualizate cu succes! Este necesară repornirea pentru aplicarea modificărilor.",
+    "restartExtension": "Repornește extensia",
+    "modelOutdated": "Modelul pare a fi învechit. Actualizezi configurațiile?",
+    "notNow": "Nu acum"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "Verifică automat actualizări de configurații furnizori"
   }
 }
