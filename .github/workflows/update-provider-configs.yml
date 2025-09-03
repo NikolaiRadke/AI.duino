@@ -2,7 +2,7 @@ name: Update Provider Configs
 
 on:
   schedule:
-    - cron: '0 2 * * 0' # Sonntag 02:00 UTC
+    - cron: '0 2 * * 0' # Jeden Sonntag um 02:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -22,6 +22,7 @@ jobs:
         run: |
           node <<'EOF'
           const fs = require('fs');
+
           const PROVIDERS = {
             claude: { name: 'Claude', icon: '🤖', color: '#FF6B35', hostname: 'api.anthropic.com', keyFile: '.aiduino-claude-api-key', apiKeyUrl: 'https://console.anthropic.com/api-keys', fallback: 'claude-3-5-sonnet-20241022', prices: { input: 0.003, output: 0.015 } },
             chatgpt: { name: 'ChatGPT', icon: '🧠', color: '#10A37F', hostname: 'api.openai.com', keyFile: '.aiduino-openai-api-key', apiKeyUrl: 'https://platform.openai.com/api-keys', fallback: 'gpt-4', prices: { input: 0.03, output: 0.06 } },
@@ -31,15 +32,29 @@ jobs:
             perplexity: { name: 'Perplexity', icon: '🔍', color: '#20B2AA', hostname: 'api.perplexity.ai', keyFile: '.aiduino-perplexity-api-key', apiKeyUrl: 'https://www.perplexity.ai/settings/api', fallback: 'llama-3.1-sonar-large-128k-online', prices: { input: 0.001, output: 0.003 } },
             cohere: { name: 'Cohere', icon: '💫', color: '#9333EA', hostname: 'api.cohere.ai', keyFile: '.aiduino-cohere-api-key', apiKeyUrl: 'https://dashboard.cohere.ai/api-keys', fallback: 'command-r-plus', prices: { input: 0.0015, output: 0.002 } }
           };
+
           const now = new Date();
-          const version = String(now.getDate()).padStart(2, '0') + String(now.getMonth() + 1).padStart(2, '0') + String(now.getFullYear()).slice(-2);
-          let config = '/*\\n * AI.duino - Provider Configurations\\n * Auto-generated on ' + now.toISOString() + '\\n */\\n\\n"use strict";\\n\\nconst CONFIG_VERSION = "' + version + '";\\nconst REMOTE_CONFIG_URL = "https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js";\\n\\nconst PROVIDER_CONFIGS = {\\n';
+          const version =
+            String(now.getDate()).padStart(2, '0') +
+            String(now.getMonth() + 1).padStart(2, '0') +
+            String(now.getFullYear()).slice(-2);
+
+          let config =
+            '/*\n * AI.duino - Provider Configurations\n * Auto-generated on ' +
+            now.toISOString() +
+            '\n */\n\n"use strict";\n\n' +
+            'const CONFIG_VERSION = "' + version + '";\n' +
+            'const REMOTE_CONFIG_URL = "https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js";\n\n' +
+            'const PROVIDER_CONFIGS = {\n';
+
           for (const [id, p] of Object.entries(PROVIDERS)) {
-            config += `  ${id}: {\\n    name: "${p.name}",\\n    icon: "${p.icon}",\\n    color: "${p.color}",\\n    hostname: "${p.hostname}",\\n    fallback: "${p.fallback}",\\n    keyFile: "${p.keyFile}",\\n    apiKeyUrl: "${p.apiKeyUrl}",\\n    prices: { input: ${p.prices.input}, output: ${p.prices.output} }\\n  },\\n`;
+            config += `  ${id}: {\n    name: "${p.name}",\n    icon: "${p.icon}",\n    color: "${p.color}",\n    hostname: "${p.hostname}",\n    fallback: "${p.fallback}",\n    keyFile: "${p.keyFile}",\n    apiKeyUrl: "${p.apiKeyUrl}",\n    prices: { input: ${p.prices.input}, output: ${p.prices.output} }\n  },\n`;
           }
-          config += '};\\n\\nmodule.exports = { PROVIDER_CONFIGS, CONFIG_VERSION, REMOTE_CONFIG_URL };';
+
+          config += '};\n\nmodule.exports = { PROVIDER_CONFIGS, CONFIG_VERSION, REMOTE_CONFIG_URL };';
+
           fs.writeFileSync('aiduino/extension/out/config/providerConfigs.js', config);
-          console.log('Generated complete provider configs for version', version);
+          console.log('✅ Generated complete provider configs for version', version);
           EOF
 
       - name: Commit and push changes
