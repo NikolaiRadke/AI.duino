@@ -2,9 +2,8 @@ name: Update Provider Configs
 
 on:
   schedule:
-    # Run every Sunday at 2 AM UTC
     - cron: '0 2 * * 0'
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   update-configs:
@@ -20,17 +19,14 @@ jobs:
         node-version: '18'
         
     - name: Install dependencies
-      run: |
-        npm install axios cheerio
+      run: npm install axios cheerio
         
-    - name: Update provider configs
+    - name: Create update script
       run: |
-        cat > update_configs.js << 'EOF'
-        const axios = require('axios');
+        cat > update_configs.js << 'SCRIPT'
         const fs = require('fs');
         const path = require('path');
 
-        // Current provider information
         const PROVIDERS = {
           claude: {
             name: 'Claude',
@@ -97,7 +93,6 @@ jobs:
           }
         };
 
-        // Default pricing
         const DEFAULT_PRICES = {
           claude: { input: 0.003, output: 0.015 },
           chatgpt: { input: 0.03, output: 0.06 },
@@ -118,51 +113,36 @@ jobs:
 
         function generateConfig() {
           const currentDate = getCurrentDate();
+          const timestamp = new Date().toISOString();
           
-          let config = `/*
- * AI.duino - Provider Configurations
- * Copyright 2025 Monster Maker
- * Licensed under the Apache License, Version 2.0
- * Auto-generated on ${new Date().toISOString()}
- */
-
-"use strict";
-
-// Version for auto-update system (DDMMYY format)
-const CONFIG_VERSION = '${currentDate}';
-const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
-
-const PROVIDER_CONFIGS = {`;
-
+          const header = '/*\n * AI.duino - Provider Configurations\n * Copyright 2025 Monster Maker\n * Licensed under the Apache License, Version 2.0\n * Auto-generated on ' + timestamp + '\n */\n\n"use strict";\n\n';
+          
+          const versionSection = '// Version for auto-update system (DDMMYY format)\nconst CONFIG_VERSION = \'' + currentDate + '\';\nconst REMOTE_CONFIG_URL = \'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js\';\n\n';
+          
+          let configSection = 'const PROVIDER_CONFIGS = {\n';
+          
           for (const [id, provider] of Object.entries(PROVIDERS)) {
             const prices = DEFAULT_PRICES[id];
-            
-            config += `
-  ${id}: {
-    name: '${provider.name}',
-    icon: '${provider.icon}',
-    color: '${provider.color}',
-    hostname: '${provider.hostname}',
-    fallback: '${provider.fallbackModel}',
-    keyFile: '${provider.keyFile}',
-    apiKeyUrl: '${provider.apiKeyUrl}',
-    prices: {
-      input: ${prices.input},
-      output: ${prices.output}
-    }
-  },`;
+            configSection += '  ' + id + ': {\n';
+            configSection += '    name: \'' + provider.name + '\',\n';
+            configSection += '    icon: \'' + provider.icon + '\',\n';
+            configSection += '    color: \'' + provider.color + '\',\n';
+            configSection += '    hostname: \'' + provider.hostname + '\',\n';
+            configSection += '    fallback: \'' + provider.fallbackModel + '\',\n';
+            configSection += '    keyFile: \'' + provider.keyFile + '\',\n';
+            configSection += '    apiKeyUrl: \'' + provider.apiKeyUrl + '\',\n';
+            configSection += '    prices: {\n';
+            configSection += '      input: ' + prices.input + ',\n';
+            configSection += '      output: ' + prices.output + '\n';
+            configSection += '    }\n';
+            configSection += '  },\n';
           }
-
-          config += `
-};
-
-module.exports = {
-  PROVIDER_CONFIGS,
-  CONFIG_VERSION,
-  REMOTE_CONFIG_URL
-};`;
-
-          return config;
+          
+          configSection += '};\n\n';
+          
+          const exportSection = 'module.exports = {\n  PROVIDER_CONFIGS,\n  CONFIG_VERSION,\n  REMOTE_CONFIG_URL\n};\n';
+          
+          return header + versionSection + configSection + exportSection;
         }
 
         function main() {
@@ -172,7 +152,6 @@ module.exports = {
             
             const configPath = path.join(process.cwd(), 'aiduino', 'extension', 'out', 'config', 'providerConfigs.js');
             
-            // Ensure directory exists
             const dir = path.dirname(configPath);
             if (!fs.existsSync(dir)) {
               fs.mkdirSync(dir, { recursive: true });
@@ -188,9 +167,10 @@ module.exports = {
         }
 
         main();
-        EOF
+        SCRIPT
         
-        node update_configs.js
+    - name: Run update script
+      run: node update_configs.js
         
     - name: Check for changes
       id: check_changes
@@ -209,19 +189,3 @@ module.exports = {
         git add aiduino/extension/out/config/providerConfigs.js
         git commit -m "Auto-update provider configs"
         git push
-
-    - name: Create release
-      if: steps.check_changes.outputs.changed == 'true'
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: config-update-${{ github.run_number }}
-        release_name: Provider Config Update
-        body: |
-          Automated provider configuration update
-          - Updated model references
-          - Updated pricing information
-          - Generated automatically by GitHub Actions
-        draft: false
-        prerelease: false
