@@ -121,8 +121,8 @@ Required: An API key from either:
 - Perplexity: https://www.perplexity.ai/settings/api
 - Cohere: https://dashboard.cohere.a
 - Croq: https://dashboard.cohere.ai
-- Vertex: https://console.cloud.google.com
-- Hugging Face: https://huggingface.co
+- Vertex: https://console.cloud.google.com/vertex-ai
+- Hugging Face: https://huggingface.co/settings/tokens 
 
 The keys are stored locally and not transmitted.
 
