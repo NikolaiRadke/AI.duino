@@ -120,6 +120,8 @@ Required: An API key from either:
 - Perplexity: https://www.perplexity.ai/settings/api
 - Cohere: https://dashboard.cohere.a
 - Croq: https://dashboard.cohere.ai
+- Vertex: console.cloud.google.com
+- Hugging Face: huggingface.co
 
 The keys are stored locally and not transmitted.
 
