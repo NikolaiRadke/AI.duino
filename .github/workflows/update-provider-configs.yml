@@ -15,14 +15,43 @@ jobs:
       with:
         node-version: '18'
         
-    - name: Simple update test
+    - name: Update provider configs
       run: |
-        echo "Starting config update..."
-        ls -la aiduino/extension/out/config/ || echo "Config directory not found"
-        echo "Update complete"
+        node -e "
+        const fs = require('fs');
+        const path = require('path');
         
-    - name: Commit test
+        const now = new Date();
+        const version = String(now.getDate()).padStart(2, '0') + 
+                       String(now.getMonth() + 1).padStart(2, '0') + 
+                       String(now.getFullYear()).slice(-2);
+                       
+        console.log('Updating to version:', version);
+        
+        const configPath = 'aiduino/extension/out/config/providerConfigs.js';
+        if (fs.existsSync(configPath)) {
+          const content = fs.readFileSync(configPath, 'utf8');
+          const updated = content.replace(/CONFIG_VERSION = '[0-9]{6}'/, 'CONFIG_VERSION = \\'' + version + '\\'');
+          
+          if (content !== updated) {
+            fs.writeFileSync(configPath, updated);
+            console.log('Updated CONFIG_VERSION to', version);
+          } else {
+            console.log('No update needed');
+          }
+        } else {
+          console.log('Config file not found at', configPath);
+        }
+        "
+        
+    - name: Commit changes
       run: |
         git config user.name "GitHub Action"
         git config user.email "action@github.com"
-        echo "No changes to commit yet"
+        git add -A
+        if ! git diff --cached --quiet; then
+          git commit -m "Auto-update provider configs to $(date +'%d%m%y')"
+          git push
+        else
+          echo "No changes to commit"
+        fi
