@@ -1,7 +1,28 @@
-name: Test
-on: push
+name: Update Provider Configs
+
+on:
+  schedule:
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+
 jobs:
-  test:
+  update-configs:
     runs-on: ubuntu-latest
+    
     steps:
-    - run: echo "test"
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Simple update test
+      run: |
+        echo "Starting config update..."
+        ls -la aiduino/extension/out/config/ || echo "Config directory not found"
+        echo "Update complete"
+        
+    - name: Commit test
+      run: |
+        git config user.name "GitHub Action"
+        git config user.email "action@github.com"
+        echo "No changes to commit yet"
