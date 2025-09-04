@@ -95,9 +95,6 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        # Pull latest changes vor dem Push
-        git pull origin main
-        
         # Neue CONFIG_VERSION ermitteln
         new_version=$(grep "CONFIG_VERSION" "$CONFIG_FILE_PATH" | head -1 | cut -d"'" -f2)
         
