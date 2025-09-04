@@ -15,59 +15,26 @@ jobs:
       with:
         node-version: '18'
         
-    - name: Install dependencies
-      run: npm install axios
-        
     - name: Update configs with Claude
       env:
         ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       run: |
-        node -e "
-        const axios = require('axios');
-        const fs = require('fs');
-        
-        async function updateConfigs() {
-          try {
-            const currentConfig = fs.readFileSync('aiduino/extension/out/config/providerConfigs.js', 'utf8');
-            
-            const prompt = 'Update the attached providerConfigs.js with latest AI models and current API prices. Keep exact same JavaScript structure and exports. Update CONFIG_VERSION to today in DDMMYY format. Research current model names and pricing for all providers (Claude, ChatGPT, Gemini, Groq, Mistral, Perplexity, Cohere). Return only the complete updated JavaScript file content.';
-            
-            const response = await axios.post('https://api.anthropic.com/v1/messages', {
-              model: 'claude-3-5-sonnet-20241022',
-              max_tokens: 4000,
-              messages: [{
-                role: 'user',
-                content: prompt + '\n\nCurrent config file:\n' + currentConfig
-              }]
-            }, {
-              headers: {
-                'x-api-key': process.env.ANTHROPIC_API_KEY,
-                'anthropic-version': '2023-06-01',
-                'content-type': 'application/json'
+        curl -X POST https://api.anthropic.com/v1/messages \
+          -H "x-api-key: $ANTHROPIC_API_KEY" \
+          -H "anthropic-version: 2023-06-01" \
+          -H "content-type: application/json" \
+          -d '{
+            "model": "claude-3-5-sonnet-20241022",
+            "max_tokens": 4000,
+            "messages": [
+              {
+                "role": "user", 
+                "content": "Generate a complete providerConfigs.js file for AI.duino with latest models and prices. Include CONFIG_VERSION with today in DDMMYY format. Include all providers: Claude, ChatGPT, Gemini, Groq, Mistral, Perplexity, Cohere. Use JavaScript module.exports format."
               }
-            });
-            
-            const newConfig = response.data.content[0].text;
-            fs.writeFileSync('aiduino/extension/out/config/providerConfigs.js', newConfig);
-            console.log('Config updated successfully with Claude API');
-            
-          } catch (error) {
-            console.error('Error updating config:', error.message);
-            process.exit(1);
-          }
-        }
+            ]
+          }' > response.json
+          
+        cat response.json
         
-        updateConfigs();
-        "
-        
-    - name: Commit changes
-      run: |
-        git config user.name "Claude Bot"
-        git config user.email "claude@github.com"
-        git add aiduino/extension/out/config/providerConfigs.js
-        if ! git diff --cached --quiet; then
-          git commit -m "Auto-update provider configs via Claude API - $(date +'%d%m%y')"
-          git push
-        else
-          echo "No changes detected"
-        fi
+    - name: Test step
+      run: echo "Workflow running"
