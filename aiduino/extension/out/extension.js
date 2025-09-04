@@ -902,10 +902,7 @@ function deactivate() {
     }
 
     // Cleanup locale utils
-    if (localeUtils) {
-        localeUtils.clearCache();
-        localeUtils = null;
-    }
+    localeUtils = null;
 
     // Cleanup API key manager
     if (apiKeyManager) {

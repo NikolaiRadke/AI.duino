@@ -15,10 +15,11 @@ const { getLanguageInfo } = require('../config/languageMetadata');
  * Locale Utilities - Runtime locale detection and management
  * 
  * Handles dynamic locale discovery and current language information
+ * Cache removed for better reliability and simpler maintenance
  */
 class LocaleUtils {
     constructor() {
-        this.cachedLocales = null;
+        // No cache needed - locale operations are infrequent
     }
 
     /**
@@ -26,11 +27,6 @@ class LocaleUtils {
      * @returns {Array<string>} Array of available locale codes
      */
     getAvailableLocales() {
-        // Cache result for performance
-        if (this.cachedLocales) {
-            return this.cachedLocales;
-        }
-
         const localesDir = path.join(__dirname, '..', '..', 'locales');
         const availableLocales = [];
         
@@ -47,13 +43,11 @@ class LocaleUtils {
             }
         } catch (error) {
             // Silent fallback - return minimum supported locales
-            this.cachedLocales = ['en', 'de'];
-            return this.cachedLocales;
+            return ['en', 'de'];
         }
         
         // Ensure 'en' is first, then sort the rest
         const result = ['en', ...availableLocales.filter(l => l !== 'en').sort()];
-        this.cachedLocales = result;
         return result;
     }
 
@@ -130,13 +124,6 @@ class LocaleUtils {
     }
 
     /**
-     * Clear locale cache (useful for testing or when locale files change)
-     */
-    clearCache() {
-        this.cachedLocales = null;
-    }
-
-    /**
      * Get locale statistics (for debugging)
      * @returns {Object} Locale information
      */
@@ -145,7 +132,7 @@ class LocaleUtils {
         return {
             totalLocales: available.length,
             availableLocales: available,
-            cacheStatus: this.cachedLocales ? 'cached' : 'not cached'
+            cacheStatus: 'disabled (no cache)'
         };
     }
 }
