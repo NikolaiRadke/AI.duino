@@ -1,8 +1,7 @@
-name: Hello
-on: workflow_dispatch
+name: Test
+on: push
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hello from Actions"
-
+    - run: echo "test"
