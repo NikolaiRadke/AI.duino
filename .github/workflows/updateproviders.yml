@@ -1,12 +1,11 @@
-name: Update Provider Configs with Claude
-on: workflow_dispatch
+name: Test Claude API
+on: push
 jobs:
-  update-configs:
+  test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Update configs with Claude
+    - run: echo "test"
+    - name: Test Claude API call
       env:
         ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       run: |
@@ -14,4 +13,4 @@ jobs:
           -H "x-api-key: $ANTHROPIC_API_KEY" \
           -H "anthropic-version: 2023-06-01" \
           -H "content-type: application/json" \
-          -d '{"model": "claude-3-5-sonnet-20241022", "max_tokens": 4000, "messages": [{"role": "user", "content": "Generate a complete providerConfigs.js file with latest models and prices for Claude, ChatGPT, Gemini, Groq, Mistral, Perplexity, Cohere. Use CONFIG_VERSION with today in DDMMYY format. Return only JavaScript code."}]}'
+          -d '{"model": "claude-3-5-sonnet-20241022", "max_tokens": 50, "messages": [{"role": "user", "content": "Say hello"}]}'
