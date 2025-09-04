@@ -1,4 +1,4 @@
-name: Test Claude  
+name: Test Claude API
 on: push
 jobs:
   test:
@@ -6,4 +6,6 @@ jobs:
     steps:
     - run: echo "test"
     - name: Test env
-      run: echo "testing env variables"
+      env:
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      run: echo "API key length:" ${#ANTHROPIC_API_KEY}
