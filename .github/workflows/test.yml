@@ -1,4 +1,0 @@
-name: Update Provider Configs
-on: 
-  push:    # Trigger bei jedem Push
-  workflow_dispatch:
