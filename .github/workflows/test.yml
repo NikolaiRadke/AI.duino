@@ -1,4 +1,7 @@
-name: Update Provider Configs
-on: 
-  push:    # Trigger bei jedem Push
-  workflow_dispatch:
+name: Simple Test
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "test"
