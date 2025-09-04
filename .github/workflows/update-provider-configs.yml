@@ -4,10 +4,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - run: echo "test"  
-    - name: Test curl
+    - run: echo "test"
+    - name: Test simple curl
       env:
         ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       run: |
-        curl --version
-        echo "Testing simple curl"
+        curl -X POST https://api.anthropic.com/v1/messages \
+          -H "x-api-key: $ANTHROPIC_API_KEY" \
+          -H "content-type: application/json" \
+          -d '{"model": "claude-3-5-sonnet-20241022", "max_tokens": 10, "messages": [{"role": "user", "content": "Hi"}]}'
