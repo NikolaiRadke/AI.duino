@@ -1,8 +1,37 @@
-name: Test Claude
-on: push
+name: Update Provider Configs with Claude
+on: workflow_dispatch
 jobs:
-  test:
+  update-configs:
     runs-on: ubuntu-latest
     steps:
-    - run: echo "test"
-    - run: echo "second step"
+    - uses: actions/checkout@v3
+    
+    - name: Update configs with Claude
+      env:
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      run: |
+        # Read current config
+        CURRENT_CONFIG=$(cat aiduino/extension/out/config/providerConfigs.js)
+        
+        # Create prompt
+        PROMPT="Update this providerConfigs.js with latest AI models and current API prices. Keep exact same JavaScript structure. Update CONFIG_VERSION to today in DDMMYY format. Research current models and pricing for Claude, ChatGPT, Gemini, Groq, Mistral, Perplexity, Cohere. Return ONLY the complete updated JavaScript file content with no explanation:
+
+        $CURRENT_CONFIG"
+        
+        # Call Claude API and save response
+        curl -X POST https://api.anthropic.com/v1/messages \
+          -H "x-api-key: $ANTHROPIC_API_KEY" \
+          -H "anthropic-version: 2023-06-01" \
+          -H "content-type: application/json" \
+          -d "{\"model\": \"claude-3-5-sonnet-20241022\", \"max_tokens\": 4000, \"messages\": [{\"role\": \"user\", \"content\": $(echo "$PROMPT" | jq -R -s .)}]}" \
+          | jq -r '.content[0].text' > aiduino/extension/out/config/providerConfigs.js
+        
+    - name: Commit changes
+      run: |
+        git config user.name "Claude Bot"
+        git config user.email "claude@github.com"  
+        git add aiduino/extension/out/config/providerConfigs.js
+        if ! git diff --cached --quiet; then
+          git commit -m "Auto-update provider configs via Claude API"
+          git push
+        fi
