@@ -36,6 +36,9 @@ Ask something with or without marked code. You can ask further context-related.
 - Analysis of Serial Monitor output
 - Hardware diagnostics for common problems
 - Timing analysis
+
+### Auto update
+The provider settings will be updated when availabe. They will be generated automatically every week.  
   
 ![Screenshot 1](http://www.nikolairadke.de/aiduino/aiduino_screenshot_1_2.png)
 ![Screenshot 2](http://www.nikolairadke.de/aiduino/aiduino_screenshot_2_2.png)
