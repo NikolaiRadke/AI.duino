@@ -1,8 +1,9 @@
-name: Test Claude
+name: Test Claude  
 on: push
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
     - run: echo "test"
-    - run: echo "second step"
+    - name: Test env
+      run: echo "testing env variables"
