@@ -1,72 +1,21 @@
-name: Update Provider Configs with Claude
+name: Test Claude API
 
-on:
-  schedule:
-    - cron: '0 2 * * 0'
-  workflow_dispatch:
+on: workflow_dispatch
 
 jobs:
-  update-configs:
+  test:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        
-    - name: Install dependencies
-      run: npm install axios
-        
-    - name: Update configs with Claude
+    - run: echo "Testing Claude API connection"
+    
+    - name: Test API call
       env:
         ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       run: |
-        cat << 'SCRIPT' > update.js
-        const axios = require('axios');
-        const fs = require('fs');
-        
-        async function updateConfigs() {
-          try {
-            const currentConfig = fs.readFileSync('aiduino/extension/out/config/providerConfigs.js', 'utf8');
-            
-            const prompt = `Update this providerConfigs.js with latest models and prices. Keep exact structure. Update CONFIG_VERSION to today (DDMMYY). Research current models and pricing for all providers. Return only the complete JavaScript file:
-
-        ${currentConfig}`;
-            
-            const response = await axios.post('https://api.anthropic.com/v1/messages', {
-              model: 'claude-3-5-sonnet-20241022',
-              max_tokens: 4000,
-              messages: [{ role: 'user', content: prompt }]
-            }, {
-              headers: {
-                'x-api-key': process.env.ANTHROPIC_API_KEY,
-                'anthropic-version': '2023-06-01',
-                'content-type': 'application/json'
-              }
-            });
-            
-            const newConfig = response.data.content[0].text;
-            fs.writeFileSync('aiduino/extension/out/config/providerConfigs.js', newConfig);
-            console.log('Config updated successfully');
-            
-          } catch (error) {
-            console.error('Error:', error.message);
-            process.exit(1);
-          }
-        }
-        
-        updateConfigs();
-        SCRIPT
-        
-        node update.js
-        
-    - name: Commit changes
-      run: |
-        git config user.name "Claude Bot"
-        git config user.email "claude@github.com"
-        git add aiduino/extension/out/config/providerConfigs.js
-        if ! git diff --cached --quiet; then
-          git commit -m "Auto-update provider configs via Claude"
-          git push
-        fi
+        curl -X POST https://api.anthropic.com/v1/messages \
+          -H "x-api-key: $ANTHROPIC_API_KEY" \
+          -H "anthropic-version: 2023-06-01" \
+          -H "content-type: application/json" \
+          -d '{"model": "claude-3-5-sonnet-20241022", "max_tokens": 100, "messages": [{"role": "user", "content": "Say hello"}]}' \
+          | head -20
