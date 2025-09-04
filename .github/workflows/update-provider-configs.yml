@@ -1,9 +1,12 @@
-name: Auto Update Provider Configs
+name: Update Provider Configs
 
 on:
   schedule:
     - cron: '0 6 * * 1'  # Jeden Montag um 6:00 UTC
   workflow_dispatch:     # Manueller Trigger über GitHub UI
+  push:                  # Temporär für Aktivierung - kann später entfernt werden
+    paths:
+      - '.github/workflows/update-provider-configs.yml'
 
 env:
   CONFIG_FILE_PATH: 'aiduino/extension/out/config/providerConfigs.js'
