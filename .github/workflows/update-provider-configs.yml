@@ -1,4 +1,4 @@
-name: Update Provider Configs with Claude
+name: Update Provider Configs
 on: workflow_dispatch
 jobs:
   update-configs:
