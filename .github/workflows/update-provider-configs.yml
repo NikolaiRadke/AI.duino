@@ -1,4 +1,4 @@
-name: Update Provider Configs with Claude
+name: Update Provider Configs
 
 on:
   schedule:
