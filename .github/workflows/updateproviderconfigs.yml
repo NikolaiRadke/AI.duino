@@ -2,7 +2,7 @@ name: Update Provider Configs (Claude-generated)
 
 on:
   schedule:
-    - cron: '0 2 * * 0'
+    - cron: '0 2 * * 0' # jeden Sonntag 02:00 UTC
   workflow_dispatch:
 
 permissions:
@@ -11,13 +11,17 @@ permissions:
 jobs:
   update-configs:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
+
       - name: Install dependencies
         run: npm install @anthropic-ai/sdk
+
       - name: Generate providerConfigs.js with Claude
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -29,14 +33,18 @@ jobs:
           const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
           const prompt = `
-          Erstelle ein gültiges JavaScript-Modul providerConfigs.js
+          Erstelle ein gültiges JavaScript-Modul \`providerConfigs.js\`
           für ein Arduino-IDE Plugin.
+
+          Die Struktur muss so aussehen:
           module.exports = { PROVIDER_CONFIGS, CONFIG_VERSION, REMOTE_CONFIG_URL };
-          PROVIDER_CONFIGS enthält Objekte für Claude, ChatGPT, Gemini, Groq, Mistral, Perplexity, Cohere.
-          Für jeden Provider: aktuelles Modell (Fallback), API-URL, Preise (input/output), keyFile, apiKeyUrl, Icon, Farbe.
-          CONFIG_VERSION = aktuelles Datum im Format DDMMYY.
-          REMOTE_CONFIG_URL zeigt auf das GitHub-Repo (raw URL).
-          Ausgabe nur gültigen JS-Code (keine Erklärungen).
+
+          Anforderungen:
+          - PROVIDER_CONFIGS enthält Objekte für Claude, ChatGPT, Gemini, Groq, Mistral, Perplexity, Cohere.
+          - Für jeden Provider: aktuelles Modell (Fallback), API-URL, Preise (input/output), keyFile, apiKeyUrl, Icon, Farbe.
+          - CONFIG_VERSION = aktuelles Datum im Format DDMMYY.
+          - REMOTE_CONFIG_URL zeigt auf das GitHub-Repo (raw URL).
+          - Ausgabe nur reinen gültigen JS-Code (keine Erklärungen).
           `;
 
           const run = async () => {
@@ -45,6 +53,7 @@ jobs:
               max_tokens: 1500,
               messages: [{ role: "user", content: prompt }]
             });
+
             const content = resp.content[0].text;
             fs.writeFileSync("aiduino/extension/out/config/providerConfigs.js", content);
             console.log("✅ providerConfigs.js von Claude generiert");
