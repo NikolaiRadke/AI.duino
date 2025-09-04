@@ -1,11 +1,31 @@
-name: Update Provider Configs with Claude
+name: Update Provider Configs
 on: workflow_dispatch
 jobs:
-  update-configs:
+  update:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Test Claude call
+    - name: Update configs
       env:
         ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-      run: 'curl -X POST https://api.anthropic.com/v1/messages -H "x-api-key: $ANTHROPIC_API_KEY" -H "anthropic-version: 2023-06-01" -H "content-type: application/json" -d "{\"model\": \"claude-3-5-sonnet-20241022\", \"max_tokens\": 100, \"messages\": [{\"role\": \"user\", \"content\": \"Hello\"}]}"'
+      run: |
+        PROMPT=$(cat .github/prompts/update-providers.txt)
+        CONFIG=$(cat aiduino/extension/out/config/providerConfigs.js)
+        
+        # Send files to Claude and save response directly
+        curl -s -X POST https://api.anthropic.com/v1/messages \
+          -H "x-api-key: $ANTHROPIC_API_KEY" \
+          -H "anthropic-version: 2023-06-01" \
+          -H "content-type: application/json" \
+          -d @- << EOF | jq -r '.content[0].text' > aiduino/extension/out/config/providerConfigs.js
+        {
+          "model": "claude-3-5-sonnet-20241022",
+          "max_tokens": 4000,
+          "messages": [
+            {
+              "role": "user", 
+              "content": "$PROMPT\n\nCurrent file:\n$CONFIG"
+            }
+          ]
+        }
+        EOF

@@ -1,0 +1,10 @@
+Update the attached providerConfigs.js file with the latest AI models and current API pricing information.
+
+Requirements:
+- Keep the exact same JavaScript structure and module.exports format
+- Update CONFIG_VERSION to today's date in DDMMYY format
+- Research and update to the newest available models for each provider
+- Update pricing information to current rates
+- Include all providers: Claude, ChatGPT, Gemini, Groq, Mistral, Perplexity, Cohere
+
+Return ONLY the complete updated JavaScript file content with no additional explanation.
