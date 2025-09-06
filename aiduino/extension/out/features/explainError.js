@@ -5,6 +5,7 @@
 
 const vscode = require('vscode');
 const shared = require('../shared');
+const { showProgressWithCancel } = require('../utils/ui');
 
 /**
  * Main explainError function with dependency injection
@@ -49,14 +50,11 @@ async function explainError(context) {
             const model = minimalModelManager.providers[currentModel];
             
             // Use vscode.window.withProgress like askAI
-            const response = await vscode.window.withProgress({
-                location: vscode.ProgressLocation.Notification,
-                title: t('progress.analyzingError', model.name),
-                cancellable: false
-            }, async () => {
-                return await callAI(prompt);
-            });
-            
+            response = await showProgressWithCancel(
+                    t('progress.analyzingError', model.name),
+                    callAI(prompt),
+                    t
+            );
             // Create WebviewPanel for error explanation
             const panel = vscode.window.createWebviewPanel(
                 'aiError',

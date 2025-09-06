@@ -5,6 +5,7 @@
 
 const vscode = require('vscode');
 const shared = require('../shared');
+const { showProgressWithCancel } = require('../utils/ui');
 
 /**
  * Main debugHelp function with dependency injection
@@ -97,14 +98,11 @@ async function debugHelp(context) {
             
             let response;
             try {
-                response = await vscode.window.withProgress({
-                    location: vscode.ProgressLocation.Notification,
-                    title: t('progress.analyzingProblem', model.name),
-                    cancellable: false
-                }, async () => {
-                    const result = await callAI(prompt);
-                    return result;
-                });
+                response = await showProgressWithCancel(
+                    t('progress.analyzingProblem', model.name),
+                    callAI(prompt),
+                    t
+                );
             } catch (progressError) {
                 throw progressError;
             }

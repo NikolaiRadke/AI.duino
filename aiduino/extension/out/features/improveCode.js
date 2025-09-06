@@ -3,8 +3,9 @@
  * Improves and optimizes selected Arduino code using AI
  */
 
-const vscode = require('vscode');
+const vscode = require('vscode');  
 const shared = require('../shared');
+const { showProgressWithCancel } = require('../utils/ui');
 
 /**
  * Main improveCode function with dependency injection
@@ -60,13 +61,12 @@ async function improveCode(context) {
         
         const model = minimalModelManager.providers[currentModel];
         
-        const response = await vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-            title: t('progress.optimizing', model.name),
-            cancellable: false
-        }, async () => {
-            return await callAI(prompt);
-        });
+        // ORIGINAL VERSION - NO STREAMING OR CANCEL
+        response = await showProgressWithCancel(
+            t('progress.optimizing', model.name),
+            callAI(prompt),
+            t
+        );
         
         // Extract code
         let cleanedResponse = response;
@@ -122,10 +122,9 @@ async function improveCode(context) {
             await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
         } catch (docError) {
             vscode.window.showErrorMessage('Failed to display document: ' + (docError.message || docError));
-            // Continue to show choice dialog even if document creation fails
         }
         
-        // Show choice dialog outside try-catch so it always appears
+        // Show choice dialog
         const choice = await vscode.window.showInformationMessage(
             t('messages.codeImproved'),
             t('buttons.replaceOriginal'),

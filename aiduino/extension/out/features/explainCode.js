@@ -5,6 +5,7 @@
 
 const vscode = require('vscode');
 const shared = require('../shared');
+const { showProgressWithCancel } = require('../utils/ui');
 
 /**
  * Main explainCode function with dependency injection
@@ -39,14 +40,11 @@ async function explainCode(context) {
         
         let response;
         try {
-            response = await vscode.window.withProgress({
-                location: vscode.ProgressLocation.Notification,
-                title: t('progress.explaining', model.name),
-                cancellable: false
-            }, async () => {
-                const result = await callAI(prompt);
-                return result;
-            });
+            response = await showProgressWithCancel(
+                t('progress.explaining', model.name),
+                callAI(prompt),
+                t
+            );
         } catch (progressError) {
             throw progressError;
         }

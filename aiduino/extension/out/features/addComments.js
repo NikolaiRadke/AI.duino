@@ -5,6 +5,7 @@
 
 const vscode = require('vscode');
 const shared = require('../shared');
+const { showProgressWithCancel } = require('../utils/ui');
 
 /**
  * Main addComments function with dependency injection
@@ -68,14 +69,11 @@ async function addComments(context) {
         
         let response;
         try {
-            response = await vscode.window.withProgress({
-                location: vscode.ProgressLocation.Notification,
-                title: t('progress.addingComments', model.name),
-                cancellable: false
-            }, async () => {
-                const result = await callAI(prompt);
-                return result;
-            });
+            response = await showProgressWithCancel(
+                t('progress.addingComments', model.name),
+                callAI(prompt),
+                t
+            );
         } catch (progressError) {
             throw progressError;
         }

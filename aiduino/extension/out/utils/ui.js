@@ -609,11 +609,36 @@ async function showWelcomeMessage(context) {
     }
 }
 
+/**
+ * Show progress with localized cancel button
+ * @param {string} message - Progress message
+ * @param {Promise} operation - The async operation to perform
+ * @param {Function} t - Translation function
+ * @returns {Promise} Operation result
+ */
+async function showProgressWithCancel(message, operation, t) {
+    return vscode.window.withProgress({
+        location: vscode.ProgressLocation.Notification,
+        title: message,
+        cancellable: true
+    }, async (progress, token) => {
+        // Überwache Cancellation
+        const cancellationPromise = new Promise((_, reject) => {
+            token.onCancellationRequested(() => {
+                reject(new Error(t('errors.operationCancelled')));
+            });
+        });
+        
+        return Promise.race([operation, cancellationPromise]);
+    });
+}
+
 module.exports = {
     // Existing functions
     showAbout,
     showTokenStats,
     showOfflineHelp,
+    showProgressWithCancel,
     
     // Menu builder functions
     buildMenuItems,

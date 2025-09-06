@@ -5,6 +5,7 @@
 
 const vscode = require('vscode');
 const shared = require('../shared');
+const { showProgressWithCancel } = require('../utils/ui');
 
 /**
  * Main askAI function with follow-up support
@@ -119,14 +120,11 @@ async function askAI(context, isFollowUp = false) {
         
         let response;
         try {
-            response = await vscode.window.withProgress({
-                location: vscode.ProgressLocation.Notification,
-                title: isFollowUp ? t('progress.askingFollowUp', model.name) : t('progress.askingAI', model.name),
-                cancellable: false
-            }, async () => {
-                const result = await callAI(finalPrompt);
-                return result; 
-            });
+            response = await showProgressWithCancel(
+                t('progress.askingAI', model.name),
+                callAI(finalPrompt),
+                t
+            );
         } catch (progressError) {
             throw progressError; 
         }
