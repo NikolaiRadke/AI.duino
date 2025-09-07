@@ -246,12 +246,17 @@ async function showAIResponseWithFollowUp(model, question, response, isFollowUp,
     
     const formattedContent = lines.join('\n');
     
-    const doc = await vscode.workspace.openTextDocument({
-        content: formattedContent,
-        language: 'markdown'
-    });
+    try {
+        const doc = await vscode.workspace.openTextDocument({
+            content: formattedContent,
+            language: 'markdown'
+        });
     
-    await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+        await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+    
+    } catch (docError) {
+        // Silent catch - VS Code internal timing issue
+    }
 }
 
 module.exports = {

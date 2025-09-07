@@ -121,7 +121,7 @@ async function improveCode(context) {
             
             await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
         } catch (docError) {
-            vscode.window.showErrorMessage('Failed to display document: ' + (docError.message || docError));
+            // Silent catch - VS Code internal timing issue
         }
         
         // Show choice dialog

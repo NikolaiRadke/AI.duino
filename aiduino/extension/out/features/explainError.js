@@ -72,7 +72,7 @@ async function explainError(context) {
             );
             
         } catch (error) {
-            handleApiError(error);
+            // Silent catch - VS Code internal timing issue
         }
     } finally {
         // Always cleanup

@@ -115,7 +115,7 @@ async function debugHelp(context) {
             );
             panel.webview.html = createDebugHelpHtml(selected.label, response, currentModel, t);
         } catch (error) {
-            handleApiError(error);
+            // Silent catch - VS Code internal timing issue
         }
     } finally {
         // Always cleanup

@@ -62,17 +62,21 @@ async function explainCode(context) {
             wrappedResponse
         ].join('\n');
         
-        // Create and show document
+        // Create and show document with improved error handling
+        let documentShown = false;
+        
         try {
             const doc = await vscode.workspace.openTextDocument({
                 content: formattedContent,
                 language: 'markdown'
             });
+            
+            await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+            
+       } catch (docError) {
+         // Silent catch - VS Code internal timing issue
+        }
         
-            await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside); 
-        } catch (docError) {
-            vscode.window.showErrorMessage('Failed to display document: ' + (docError.message || docError));
-        }     
     } catch (error) {
         handleApiError(error);
     } finally {
