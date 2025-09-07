@@ -2,7 +2,7 @@
 
 ## 2025
   
-* **07.09.2025** **V1.6.1** with small bugfixes and new locales.
+* **07.09.2025** **V1.6.1** with small bugfixes and new locales bg, hu, sl, sk.
 * **04.09.2025** **V1.6.0** is checking every startup for new *providerConfigs.js*, which will be generated weekly.
 * **03.09.2025** New release **V1.6.0** with better code and enhancements.
 * **02.09.2025** Allmost finished with refactoring. Added Vertex and Humming Face.
