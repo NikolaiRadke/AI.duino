@@ -119,12 +119,12 @@ aiduino/
 
 Required: An API key from either:
 - Claude: https://console.anthropic.com
-- ChatGPT: https://platform.openai.com/
+- ChatGPT: https://platform.openai.com
 - Gemini: https://makersuite.google.com
 - Mistral: https://console.mistral.ai
 - Perplexity: https://www.perplexity.ai/settings/api
-- Cohere: https://dashboard.cohere.a
-- Croq: https://dashboard.cohere.ai
+- Cohere: https://dashboard.cohere.ai
+- Croq: https://console.groq.com
 - Vertex: https://console.cloud.google.com/vertex-ai
 - Hugging Face: https://huggingface.co/settings/tokens 
 
