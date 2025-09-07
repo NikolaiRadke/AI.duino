@@ -655,7 +655,7 @@ function activate(context) {
     
     // Setup event listeners
     setupEventListeners(context);
-        
+    
     // Show welcome message if needed
     if (uiTools.shouldShowWelcome(getDependencies())) {
         setTimeout(async () => {
