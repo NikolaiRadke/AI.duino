@@ -1,0 +1,327 @@
+{
+  "commands": {
+    "quickMenu": "Meniu rapid",
+    "switchModel": "Schimbă modelul AI",
+    "setApiKey": "Introduceți cheia API",
+    "improveCode": "Îmbunătățește codul",
+    "explainCode": "Explică codul",
+    "addComments": "Adaugă comentarii",
+    "explainError": "Explică eroarea",
+    "debugHelp": "Ajutor debugging",
+    "about": "Despre AI.duino...",
+    "changeApiKey": "Schimbă cheia API",
+    "tokenStats": "Statistici tokeni",
+    "switchLanguage": "Schimbă limba",
+    "askAI": "Întreabă AI",
+    "askFollowUp": "Întrebare de urmărire"
+  },
+  
+  "messages": {
+    "welcome": "👋 Bun venit! AI.duino suportă {0}!",
+    "noApiKey": "🔑 Mai întâi aveți nevoie de o cheie API pentru {0}",
+    "selectAction": "Ce doriți să faceți?",
+    "selectArduinoCode": "💡 Selectați codul Arduino pentru a utiliza funcțiile AI!",
+    "noEditor": "Nu este activ niciun editor de cod",
+    "selectCodeToExplain": "Vă rugăm să selectați codul pe care doriți să-l explicați",
+    "selectCodeToImprove": "Vă rugăm să selectați codul pe care doriți să-l îmbunătățiți",
+    "selectCodeToComment": "💡 Selectați codul pe care doriți să-l comentați",
+    "selectRelevantCode": "💡 Selectați codul relevant pentru ajutor mai bun la debugging",
+    "openInoFile": "Deschideți un fișier .ino",
+    "apiKeySaved": "✅ Cheia API {0} salvată!",
+    "modelSwitched": "✅ Comutat la {0}",
+    "codeImproved": "✅ Cod îmbunătățit! Ce doriți să faceți?",
+    "codeReplaced": "✅ Codul a fost înlocuit!",
+    "codeUpdated": "✅ Codul a fost actualizat!",
+    "commentsAdded": "Comentarii adăugate! Ce doriți să faceți?",
+    "connectionError": "Eroare de conexiune. Încercați din nou?",
+    "retryLater": "Încercați din nou în câteva secunde...",
+    "copiedToClipboard": "Copiat în clipboard!",
+    "statsReset": "✅ Statisticile tokenilor au fost resetate!",
+    "selectModel": "Alegeți modelul AI",
+    "apiKeyRequired": "{0} necesită o cheie API",
+    "connectionOk": "Conexiunea la internet funcționează",
+    "noConnection": "Nu s-a detectat conexiune la internet",
+    "noValidContext": "Fără conversație recentă de continuat (max 30 min)",
+    "followUpContext": "Continuând conversația: \"{0}\" (acum {1} min)",
+    "contextCleared": "Contextul conversației a fost șters"
+  },
+  
+  "buttons": {
+    "chooseModel": "Alegeți modelul AI",
+    "later": "Mai târziu",
+    "setupNow": "Configurați acum",
+    "switchModel": "Schimbați modelul",
+    "cancel": "Anulare",
+    "enterNow": "Introduceți acum",
+    "enterApiKey": "Introduceți cheia API",
+    "retry": "Încercați din nou",
+    "offlineHelp": "Ajutor offline",
+    "tryLater": "Încercați mai târziu",
+    "yes": "Da",
+    "no": "Nu",
+    "replaceOriginal": "Înlocuiește originalul",
+    "keepBoth": "Păstrează ambele",
+    "copySolution": "Copiază soluția",
+    "copy": "Copiază",
+    "resetStats": "Resetează statisticile",
+    "getApiKey": "Obține cheia API",
+    "checkConnection": "Verifică conexiunea",
+    "checkFirewall": "Verifică firewall-ul",
+    "showTokenStats": "Arată statisticile token-urilor",
+    "tryAgain": "Încearcă din nou",
+    "checkStatus": "Verifică starea",
+    "checkRouter": "Verifică router-ul"
+  },
+  
+  "descriptions": {
+    "improveSelected": "Optimizează codul selectat",
+    "explainSelected": "Explică codul selectat",
+    "addComments": "Comentează codul",
+    "selectFirst": "Selectează mai întâi codul",
+    "errorsFound": "🔴 Erori de compilare găsite",
+    "noErrors": "Fără erori",
+    "debugHelp": "Ajutor la depanare",
+    "currentModel": "Actual: {0}",
+    "todayUsage": "Astăzi: {0}",
+    "currentLanguage": "Actual: {0}",
+    "askAI": "Pune o întrebare directă AI",
+    "askFollowUp": "Continuă conversația anterioară: {0}",
+    "noValidContext": "Fără conversație anterioară"
+  },
+  
+  "labels": {
+    "active": "Activ",
+    "aiHints": "SFATURI AI"
+  },
+  
+  "prompts": {
+    "enterApiKey": "Introduceți cheia API {0}",
+    "customInstructions": "Instrucțiuni personalizate pentru îmbunătățirea codului (opțional)",
+    "commentInstructions": "Instrucțiuni personalizate pentru comentarii (opțional)",
+    "pasteError": "Copiați eroarea din fereastra de ieșire Arduino (linia roșie cu \"error:\")",
+    "pasteSerial": "Introduceți ieșirea Serial Monitor",
+    "systemPrompt": "Ești un asistent util pentru programarea Arduino. Răspunde întotdeauna în română și explică codul Arduino într-o manieră simplă și înțeleasă.",
+    "explainCode": "Explică acest cod Arduino în română într-un limbaj simplu și înțeles:\n\n```cpp\n{0}\n```\n\nExplică:\n- Ce face codul\n- Cum funcționează\n- Ce hardware controlează\n- Concepte importante pentru începători\n\nFii prietenos și detaliat.",
+    "improveCode": "Îmbunătățește acest cod Arduino:\n\n```cpp\n{0}\n```\n\nOptimizează pentru:\n- Cod non-blocking (millis în loc de delay)\n- Eficiență de memorie\n- Lizibilitate mai bună\n- Cele mai bune practici Arduino\n- Robustețe",
+    "improveCodeSuffix": "Returnează doar codul îmbunătățit cu comentarii scurte în română la modificări.",
+    "addComments": "Adaugă comentarii utile în română la acest cod Arduino:\n\n```cpp\n{0}\n```\n\nReguli:\n- Explică ce face fiecare linie importantă\n- Comentează funcțiile și parametrii lor\n- Explică interacțiunile hardware\n- Folosește // pentru comentarii pe o linie și /* */ pentru comentarii pe mai multe linii\n- Comentariile să ajute începătorii",
+    "addCommentsSuffix": "Returnează DOAR codul comentat, fără explicații în jurul acestuia.",
+    "additionalInstructions": "Instrucțiuni suplimentare de la utilizator:\n- {0}",
+    "explainError": "Explică și rezolvă această eroare de compilare Arduino:\n\nEroare: {0}\n\nContextul codului (în jurul liniei {1}):\n```cpp\n{2}\n```\n\nVă rugăm să explicați:\n1. Ce înseamnă această eroare?\n2. De ce apare?\n3. Cum o repar?\n4. Arătați codul corectat\n\nExplicați simplu și înțeles în română.",
+    "analyzeSerial": "Analizează această ieșire Serial Monitor Arduino și explică ce înseamnă:\n\nIeșirea Serial:\n{0}\n\n{1}\n\nExplică:\n- Ce înseamnă ieșirea\n- Probleme posibile\n- Sugestii de soluții",
+    "hardwareDebug": "Ajută la depanarea hardware pentru acest cod Arduino:\n\n```cpp\n{0}\n```\n\nVă rugăm să verificați:\n- Erori tipice de conectare\n- Conflicte de pini\n- Probleme de alimentare\n- Rezistențe pull-up/pull-down\n- Probleme de compatibilitate",
+    "addDebugStatements": "Adaugă declarații strategice de debug la acest cod Arduino:\n\n```cpp\n{0}\n```\n\nAdaugă declarații Serial.print() pentru a:\n- Monitoriza valorile variabilelor\n- Urmări fluxul programului\n- Măsura timpul\n- Găsi erori",
+    "analyzeTiming": "Analizează problemele de timing în acest cod Arduino:\n\n```cpp\n{0}\n```\n\nVerifică pentru:\n- Delay-uri blocking\n- Overflow millis()\n- Condiții de cursă\n- Conflicte de întreruperi\n\nArată cod non-blocking îmbunătățit.",
+    "askAI": "Ce ai vrea să întrebi AI?",
+    "askAIGeneral": "Întrebarea utilizatorului: {0}\n\nRăspunde clar și util în română.",
+    "askAIWithContext": "Întrebarea utilizatorului: {0}\n\nContextul codului:\n```cpp\n{1}\n```\n\nRăspunde în română ținând cont de codul Arduino furnizat.",
+    "askFollowUp": "Întrebare de urmărire:",
+    "followUpContext": "Contextul conversației anterioare:",
+    "followUpInstruction": "Răspunde în română ținând cont de conversația anterioară."
+  },
+  
+  "placeholders": {
+    "customInstructions": "de ex. \"nu folosi millis()\", \"optimizează pentru Arduino Nano\", \"adaugă gestionarea erorilor\"",
+    "commentInstructions": "de ex. \"foarte detaliat\", \"comentează doar funcțiile\", \"în engleză\"",
+    "errorExample": "error: 'xc' was not declared in this scope",
+    "serialExample": "de ex. \"Sensor value: -1\"",
+    "askAI": "ex. \"Cum funcționează PWM?\", \"De ce nu funcționează senzorul meu?\"",
+    "askFollowUp": "Continuă conversația..."
+  },
+  
+  "validation": {
+    "apiKeyRequired": "Cheia API este necesară",
+    "apiKeyPrefix": "Trebuie să înceapă cu \"{0}\"",
+    "apiKeyTooShort": "Cheia pare prea scurtă"
+  },
+  
+  "progress": {
+    "retrying": "{0} (Încercarea {1}/{2})",
+    "explaining": "{0} explică codul...",
+    "optimizing": "{0} optimizează codul...",
+    "addingComments": "{0} adaugă comentarii...",
+    "analyzingError": "{0} analizează eroarea...",
+    "analyzingProblem": "{0} analizează problema...",
+    "testingConnection": "Testez conexiunea...",
+    "askingAI": "{0} procesează întrebarea ta...",
+    "askingFollowUp": "{0} procesează întrebarea ta de urmărire..."
+  },
+  
+  "errors": {
+    "quotaExceeded": "Cota lunară depășită",
+    "quotaExceededDetail": "{0}: Cota lunară depășită. Vă rugăm să așteptați până luna viitoare sau să schimbați modelul.",
+    "networkError": "Eroare de rețea",
+    "timeout": "Timeout - Vă rugăm să verificați conexiunea la internet",
+    "unreachable": "inaccesibil",
+    "operationCancelled": "Operația anulată",
+    "unknownModel": "Model necunoscut: {0}",
+    "noApiKey": "Nu este setată cheia API {0}",
+    "invalidApiKey": "Cheia API {0} nevalidă",
+    "rateLimit": "Limita de rată {0} atinsă - vă rugăm să așteptați un moment",
+    "serverUnavailable": "Serverul {0} indisponibil momentan",
+    "apiError": "❌ Eroare {0}: {1}",
+    "apiErrorWithCode": "Eroare API {0} ({1}): {2}",
+    "parseError": "Eroare la analizarea răspunsului {0}",
+    "unexpectedResponse": "Structură neașteptată de răspuns API {0}",
+    "unknownError": "Eroare necunoscută",
+    "saveFailed": "❌ Eroare la salvare: {0}",
+    "noInternet": "🌐 Nu există conexiune la internet",
+    "network": {
+      "dns": "Nu există conexiune la internet - eșecul rezoluției DNS",
+      "timeout": "Timeout - conexiunea la internet prea lentă",
+      "refused": "Conexiune refuzată - problemă firewall sau proxy?",
+      "reset": "Conexiune întreruptă - conexiune instabilă la internet",
+      "hostUnreachable": "Server inaccesibil - problemă de rețea",
+      "netUnreachable": "Rețea inaccesibilă - problemă router?",
+      "aborted": "Conexiune abandonată - timeout sau eroare de rețea",
+      "general": "Eroare de rețea: {0}"
+    }
+  },
+  
+  "statusBar": {
+    "tooltip": "AI.duino : {0}\nAstăzi: {1} Tokeni{2}\nInput: {3} | Output: {4}\nClick pentru meniu • Ctrl+Shift+C • Click dreapta pentru a comuta",
+    "noApiKey": "Lipsește cheia API {0}! • Click pentru configurare",
+    "errorsFound": "{0} erori găsite • Click pentru ajutor"
+  },
+  
+  "output": {
+    "codeExplanation": "Explicația {0}",
+    "explanationFrom": "EXPLICAȚIA CODULUI DE LA {0}",
+    "aiResponse": "Răspuns {0}",
+    "responseFrom": "RĂSPUNS DE LA {0}",
+    "yourQuestion": "Întrebarea ta",
+    "aiAnswer": "Răspuns AI",
+    "aiFollowUp": "{0} Răspuns de urmărire",
+    "followUpTo": "Urmărirea lui",
+    "followUpHint": "Continuă conversația",
+    "codeContextYes": "Context cod: Da ({0} linii)",
+    "boardDetected": "Placă: {0}"
+  },
+  
+  "chat": {
+    "includeSelectedCode": "Include codul selectat",
+    "includeSelectedCodeDesc": "Trimite întrebarea cu codul selectat curent",
+    "questionOnly": "Doar întrebarea",
+    "questionOnlyDesc": "Trimite doar întrebarea fără cod",
+    "selectContext": "Vrei să incluzi contextul codului?",
+    "previousQuestion": "Întrebarea anterioară",
+    "previousAnswer": "Răspunsul anterior",
+    "followUpQuestion": "Întrebare de urmărire",
+    "relatedCode": "Cod relacionat"
+  },
+
+  "shortcuts": {
+    "askFollowUp": "Întrebare de urmărire",
+    "askAI": "Întrebare nouă"
+  },
+
+  "panels": {
+    "errorExplanation": "🔧 Explicația erorii",
+    "debugHelp": "🔍 Ajutor debug",
+    "offlineHelp": "📡 Ajutor offline",
+    "tokenStats": "📊 Statistici tokeni",
+    "about": "Despre AI.duino"
+  },
+  
+  "html": {
+    "errorExplanation": "Explicația erorii",
+    "errorInLine": "Eroare în linia {0}"
+  },
+  
+  "debug": {
+    "analyzeSerial": "Analizează ieșirea Serial Monitor",
+    "analyzeSerialDesc": "Ajutor la interpretarea ieșirilor de debug",
+    "hardwareProblem": "Diagnostichează problema hardware",
+    "hardwareProblemDesc": "Cauze hardware posibile pentru probleme",
+    "addDebugCode": "Adaugă cod debug",
+    "addDebugCodeDesc": "Plasează strategic declarații Serial.print()",
+    "timingProblems": "Găsește probleme de timing",
+    "timingProblemsDesc": "Ajutor cu delay(), millis() și bug-uri de timing",
+    "selectHelp": "Cu ce aveți nevoie de ajutor?"
+  },
+  
+  "offline": {
+    "title": "Nu există conexiune la internet",
+    "requiresInternet": "AI.duino necesită o conexiune la internet pentru a comunica cu Claude, ChatGPT, Gemini sau Mistral.",
+    "solutions": "Sugestii de soluții",
+    "checkInternet": "Verificați conexiunea la internet",
+    "checkWifi": "Verificați conexiunea WLAN/Ethernet",
+    "restartRouter": "Reporniți routerul",
+    "testOtherSites": "Testați alte site-uri web",
+    "firewallSettings": "Setări firewall/proxy",
+    "ensureNotBlocked": "Asigurați-vă că următoarele domenii nu sunt blocate",
+    "disableVpn": "Dezactivați VPN",
+    "vpnMayBlock": "Unele servicii VPN pot bloca cererile API.",
+    "commonProblems": "Probleme Arduino frecvente (referință offline)",
+    "solution": "Soluție",
+    "declareVariable": "Declarați variabila",
+    "missingDeclaration": "Declarație lipsă",
+    "addSemicolon": "Adăugați punct și virgulă",
+    "dontForgetSemicolon": "; nu uitați!",
+    "insteadOfDelay": "În loc de delay() folosiți",
+    "executeCodeHere": "Executați codul aici",
+    "tip": "Sfat",
+    "onlineAgain": "Odată ce sunteți din nou online, AI.duino vă poate ajuta cu probleme specifice!"
+  },
+  
+  "stats": {
+    "tokenUsageFor": "Utilizarea tokenilor pentru {0}",
+    "totalCostToday": "Costul total astăzi",
+    "inputTokens": "Tokeni input",
+    "outputTokens": "Tokeni output",
+    "cost": "Cost",
+    "tip": "Sfat",
+    "tipDescription": "Numărarea tokenilor este o estimare. Costurile reale pot diferi ușor.",
+    "confirmReset": "Resetați cu adevărat statisticile?"
+  },
+  
+  "language": {
+    "autoDetect": "Detectare automată din VS Code",
+    "selectLanguage": "Alegeți limba pentru AI.duino",
+    "changeLanguage": "Schimbă limba",
+    "changed": "Limba schimbată în {0}"
+  },
+  
+  "about": {
+    "tagline": "Dezvoltare Arduino asistată de AI",
+    "features": "Caracteristici",
+    "integration": "Integrare",
+    "feature1": "Îmbunătățirea și optimizarea codului",
+    "feature2": "Explicarea erorilor în română",
+    "feature3": "Comentarea automată a codului",
+    "feature4": "Ajutor debug și diagnosticare hardware",
+    "feature5": "Urmărirea utilizării tokenilor",
+    "feature6": "Ajutor offline la problemele de conexiune",
+    "feature7": "Arhitectură modulară pentru extensie ușoară",
+    "feature8": "Suport multilingv",
+    "quickstart": "Început rapid",
+    "step1": "Selectați codul Arduino",
+    "step2": "Apăsați",
+    "step3": "Alegeți o acțiune",
+    "tip": "Sfat",
+    "tipText": "Click dreapta pe bara de stare pentru a comuta modelul!",
+    "license": "Licență",
+    "getApiKeys": "Obțineți chei API",
+    "publisher": "Editor",
+    "repository": "Repository",
+    "reportBugs": "Raportați bug-uri",
+    "madeWith": "Dezvoltat cu 💙 pentru comunitatea Arduino"
+  },
+
+  "config": {
+    "updateAvailable": "Actualizare Provider Config disponibilă: {0} → {1}",
+    "updateNow": "Actualizează acum",
+    "updateLater": "Mai târziu",
+    "updatingConfigs": "Se actualizează configurațiile furnizorilor...",
+    "updateSuccess": "Configurații furnizori actualizate la versiunea {0}",
+    "updateFailed": "Actualizarea configurației a eșuat: {0}",
+    "restartRequired": "Configurații furnizori actualizate cu succes! Este necesară repornirea pentru aplicarea modificărilor.",
+    "restartExtension": "Repornește extensia",
+    "modelOutdated": "Modelul pare a fi învechit. Actualizezi configurațiile?",
+    "notNow": "Nu acum"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "Verifică automat actualizări de configurații furnizori"
+  }
+}

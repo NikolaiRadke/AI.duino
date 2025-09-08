@@ -1,0 +1,328 @@
+{
+  "commands": {
+    "quickMenu": "Otevřít rychlé menu",
+    "switchModel": "Přepnout model AI",
+    "setApiKey": "Zadat API klíč",
+    "improveCode": "Vylepšit kód",
+    "explainCode": "Vysvětlit kód",
+    "addComments": "Přidat komentáře",
+    "explainError": "Vysvětlit chybu",
+    "debugHelp": "Pomoc s laděním",
+    "about": "O AI.duino...",
+    "changeApiKey": "Změnit API klíč",
+    "tokenStats": "Statistiky tokenů",
+    "switchLanguage": "Přepnout jazyk",
+    "askAI": "Zeptat se AI",
+    "askFollowUp": "Navazující otázka"
+  },
+  
+  "messages": {
+    "welcome": "👋 Vítejte! AI.duino podporuje {0}!",
+    "noApiKey": "🔑 Nejdřív potřebujete API klíč pro {0}",
+    "selectAction": "Co byste chtěli udělat?",
+    "selectArduinoCode": "💡 Vyberte Arduino kód pro použití AI funkcí!",
+    "noEditor": "Žádný aktivní editor kódu",
+    "selectCodeToExplain": "Prosím vyberte kód, který chcete vysvětlit",
+    "selectCodeToImprove": "Prosím vyberte kód, který chcete vylepšit",
+    "selectCodeToComment": "💡 Vyberte kód, který chcete okomentovat",
+    "selectRelevantCode": "💡 Vyberte relevantní kód pro lepší pomoc s laděním",
+    "openInoFile": "Otevřete soubor .ino",
+    "apiKeySaved": "✅ API klíč {0} uložen!",
+    "modelSwitched": "✅ Přepnuto na {0}",
+    "codeImproved": "✅ Kód vylepšen! Co byste chtěli udělat?",
+    "codeReplaced": "✅ Kód byl nahrazen!",
+    "codeUpdated": "✅ Kód byl aktualizován!",
+    "commentsAdded": "Komentáře přidány! Co byste chtěli udělat?",
+    "connectionError": "Chyba připojení. Zkusit znovu?",
+    "retryLater": "Zkuste to znovu za pár sekund...",
+    "copiedToClipboard": "Zkopírováno do schránky!",
+    "statsReset": "✅ Statistiky tokenů resetovány!",
+    "selectModel": "Vyberte model AI",
+    "apiKeyRequired": "{0} vyžaduje API klíč",
+    "connectionOk": "Internetové připojení funguje",
+    "noConnection": "Nebylo detekováno internetové připojení",
+    "noValidContext": "Žádná nedávná konverzace k pokračování (max 30 min)",
+    "followUpContext": "Pokračování konverzace: \"{0}\" (před {1} min)",
+    "contextCleared": "Kontext konverzace vymazán"
+  },
+  
+  "buttons": {
+    "chooseModel": "Vybrat model AI",
+    "later": "Později",
+    "setupNow": "Nastavit nyní",
+    "switchModel": "Přepnout model",
+    "cancel": "Zrušit",
+    "enterNow": "Zadat nyní",
+    "enterApiKey": "Zadat API klíč",
+    "retry": "Zkusit znovu",
+    "offlineHelp": "Offline pomoc",
+    "tryLater": "Zkusit později",
+    "yes": "Ano",
+    "no": "Ne",
+    "replaceOriginal": "Nahradit originál",
+    "keepBoth": "Ponechat obojí",
+    "copySolution": "Kopírovat řešení",
+    "copy": "Kopírovat",
+    "resetStats": "Resetovat statistiky",
+    "getApiKey": "Získat API klíč",
+    "checkConnection": "Zkontrolovat připojení",
+    "checkFirewall": "Zkontrolovat firewall",
+    "showTokenStats": "Zobrazit statistiky tokenů",
+    "tryAgain": "Zkusit znovu",
+    "checkStatus": "Zkontrolovat stav",
+    "checkRouter": "Zkontrolovat router"
+  },
+  
+  "descriptions": {
+    "improveSelected": "Optimalizovat vybraný kód",
+    "explainSelected": "Vysvětlit vybraný kód",
+    "addComments": "Okomentovat kód",
+    "selectFirst": "Nejdřív vyberte kód",
+    "errorsFound": "🔴 Nalezeny chyby kompilace",
+    "noErrors": "Žádné chyby",
+    "debugHelp": "Pomoc s laděním",
+    "currentModel": "Aktuální: {0}",
+    "todayUsage": "Dnes: {0}",
+    "currentLanguage": "Aktuální: {0}",
+    "askAI": "Položit přímou otázku AI",
+    "askFollowUp": "Pokračovat v předchozí konverzaci: {0}",
+    "noValidContext": "Žádná předchozí konverzace"
+
+  },
+
+  "language": {
+    "autoDetect": "Automaticky rozpoznat z VS Code",
+    "selectLanguage": "Vybrat jazyk pro AI.duino",
+    "changeLanguage": "Změnit jazyk",
+    "changed": "Jazyk změněn na {0}"
+  },
+  
+  "labels": {
+    "active": "Aktivní",
+    "aiHints": "AI TIPY"
+  },
+  
+  "prompts": {
+    "enterApiKey": "Zadejte API klíč {0}",
+    "customInstructions": "Vlastní instrukce pro vylepšení kódu (volitelné)",
+    "commentInstructions": "Vlastní instrukce pro komentování (volitelné)",
+    "pasteError": "Vložte chybu z výstupního okna Arduino (červený řádek s \"error:\")",
+    "pasteSerial": "Vložte výstup vašeho Sériového monitoru",
+    "systemPrompt": "Jsi užitečný asistent pro programování Arduino. Vždy odpovídej jasně a vysvětluj Arduino kód srozumitelně.",
+    "explainCode": "Vysvětli tento Arduino kód jednoduchým, srozumitelným jazykem:\n\n```cpp\n{0}\n```\n\nVysvětli:\n- Co kód dělá\n- Jak funguje\n- Jaký hardware ovládá\n- Důležité koncepty pro začátečníky\n\nBuď přátelský a důkladný.",
+    "improveCode": "Vylepši tento Arduino kód:\n\n```cpp\n{0}\n```\n\nOptimalizuj pro:\n- Neblokující kód (millis místo delay)\n- Efektivitu paměti\n- Lepší čitelnost\n- Arduino best practices\n- Robustnost",
+    "improveCodeSuffix": "Vrať pouze vylepšený kód s krátkými komentáři o změnách.",
+    "addComments": "Přidej užitečné komentáře k tomuto Arduino kódu:\n\n```cpp\n{0}\n```\n\nPravidla:\n- Vysvětli, co každý důležitý řádek dělá\n- Okomentuj funkce a jejich parametry\n- Vysvětli interakce s hardwarem\n- Použij // pro jednořádkové a /* */ pro víceřádkové komentáře\n- Komentáře by měly pomáhat začátečníkům",
+    "addCommentsSuffix": "Vrať POUZE okomentovaný kód, žádné vysvětlení kolem něj.",
+    "additionalInstructions": "Dodatečné instrukce uživatele:\n- {0}",
+    "explainError": "Vysvětli a vyřeš chybu kompilátoru Arduino:\n\nChyba: {0}\n\nKontext kódu (kolem řádku {1}):\n```cpp\n{2}\n```\n\nProsím vysvětli:\n1. Co tato chyba znamená?\n2. Proč vzniká?\n3. Jak ji opravím?\n4. Ukaž opravený kód\n\nVysvětli jednoduše a srozumitelně.",
+    "analyzeSerial": "Analyzuj tento výstup Sériového monitoru Arduino a vysvětli, co znamená:\n\nSériový výstup:\n{0}\n\n{1}\n\nVysvětli:\n- Co výstup znamená\n- Možné problémy\n- Návrhy řešení",
+    "hardwareDebug": "Pomoz s řešením hardwarových problémů pro tento Arduino kód:\n\n```cpp\n{0}\n```\n\nZkontroluj:\n- Typické chyby zapojení\n- Konflikty pinů\n- Problémy s napájením\n- Pull-up/pull-down rezistory\n- Problémy s kompatibilitou",
+    "addDebugStatements": "Přidej strategické ladící výstupy do tohoto Arduino kódu:\n\n```cpp\n{0}\n```\n\nPřidej Serial.print() příkazy pro:\n- Sledování hodnot proměnných\n- Sledování průběhu programu\n- Měření časování\n- Hledání chyb",
+    "analyzeTiming": "Analyzuj problémy s časováním v tomto Arduino kódu:\n\n```cpp\n{0}\n```\n\nZkontroluj:\n- Blokující zpoždění\n- Přetečení millis()\n- Race conditions\n- Konflikty přerušení\n\nUkaž vylepšený neblokující kód.",
+    "askAI": "Co se chcete zeptat AI?",
+    "askAIGeneral": "Otázka uživatele: {0}\n\nOdpověz v češtině jasně a užitečně.",
+    "askAIWithContext": "Otázka uživatele: {0}\n\nKód pro kontext:\n```cpp\n{1}\n```\n\nOdpověz v češtině s ohledem na poskytnutý Arduino kód.",
+    "askFollowUp": "Navazující otázka:",
+    "followUpContext": "Kontext předchozí konverzace:",
+    "followUpInstruction": "Odpověz v češtině s ohledem na předchozí konverzaci."
+  },
+  
+  "placeholders": {
+    "customInstructions": "např. \"nepoužívej millis()\", \"optimalizuj pro Arduino Nano\", \"přidej ošetření chyb\"",
+    "commentInstructions": "např. \"velmi podrobně\", \"jen komentuj funkce\", \"v češtině\"",
+    "errorExample": "error: 'xc' was not declared in this scope",
+    "serialExample": "např. \"Hodnota senzoru: -1\"",
+    "askAI": "např. \"Jak funguje PWM?\", \"Proč můj sensor nefunguje?\"",
+    "askFollowUp": "Pokračujte v konverzaci..."
+  },
+  
+  "validation": {
+    "apiKeyRequired": "API klíč je vyžadován",
+    "apiKeyPrefix": "Musí začínat \"{0}\"",
+    "apiKeyTooShort": "Klíč se zdá příliš krátký"
+  },
+  
+  "progress": {
+    "retrying": "{0} (Pokus {1}/{2})",
+    "explaining": "{0} vysvětluje kód...",
+    "optimizing": "{0} optimalizuje kód...",
+    "addingComments": "{0} přidává komentáře...",
+    "analyzingError": "{0} analyzuje chybu...",
+    "analyzingProblem": "{0} analyzuje problém...",
+    "testingConnection": "Testuji připojení...",
+    "askingAI": "{0} zpracovává vaši otázku...",
+    "askingFollowUp": "{0} zpracovává vaši navazující otázku..."
+  },
+  
+  "errors": {
+    "quotaExceeded": "Měsíční kvóta překročena",
+    "quotaExceededDetail": "{0}: Měsíční kvóta překročena. Počkejte prosím do začátku příštího měsíce nebo přepněte model.",
+    "networkError": "Chyba sítě",
+    "timeout": "Časový limit - Zkontrolujte připojení k internetu",
+    "unreachable": "nedostupné",
+    "operationCancelled": "Operace zrušena",
+    "unknownModel": "Neznámý model: {0}",
+    "noApiKey": "Není nastaven API klíč {0}",
+    "invalidApiKey": "Neplatný API klíč {0}",
+    "rateLimit": "Dosažen limit {0} - prosím chvíli počkejte",
+    "serverUnavailable": "Server {0} momentálně není dostupný",
+    "apiError": "❌ Chyba {0}: {1}",
+    "apiErrorWithCode": "Chyba API {0} ({1}): {2}",
+    "parseError": "Chyba při zpracování odpovědi {0}",
+    "unexpectedResponse": "Neočekávaná struktura odpovědi API {0}",
+    "unknownError": "Neznámá chyba",
+    "saveFailed": "❌ Uložení selhalo: {0}",
+    "noInternet": "🌐 Žádné připojení k internetu",
+    "network": {
+      "dns": "Žádné připojení k internetu - selhalo rozlišení DNS",
+      "timeout": "Časový limit - připojení k internetu je příliš pomalé",
+      "refused": "Připojení odmítnuto - problém s firewallem nebo proxy?",
+      "reset": "Připojení přerušeno - nestabilní připojení k internetu",
+      "hostUnreachable": "Server není dostupný - problém se sítí",
+      "netUnreachable": "Síť není dostupná - problém s routerem?",
+      "aborted": "Připojení přerušeno - časový limit nebo chyba sítě",
+      "general": "Chyba sítě: {0}"
+    }
+  },
+  
+  "statusBar": {
+    "tooltip": "AI.duino : {0}\nDnes: {1} Tokenů{2}\nVstup: {3} | Výstup: {4}\nKlikněte pro menu • Ctrl+Shift+C • Pravé tlačítko pro přepnutí",
+    "noApiKey": "Chybí API klíč {0}! • Klikněte pro nastavení",
+    "errorsFound": "Nalezeno {0} chyb • Klikněte pro pomoc"
+  },
+  
+  "output": {
+    "codeExplanation": "Vysvětlení {0}",
+    "explanationFrom": "VYSVĚTLENÍ KÓDU OD {0}",
+    "aiResponse": "{0} Odpověď",
+    "responseFrom": "ODPOVĚĎ OD {0}",
+    "yourQuestion": "Vaše otázka",
+    "aiAnswer": "Odpověď AI",
+    "aiFollowUp": "{0} Navazující odpověď",
+    "followUpTo": "Navazuje na",
+    "followUpHint": "Pokračovat v konverzaci",
+    "codeContextYes": "Kontext kódu: Ano ({0} řádků)",
+    "boardDetected": "Deska: {0}"
+  },
+
+  "chat": {
+    "includeSelectedCode": "Zahrnout označený kód",
+    "includeSelectedCodeDesc": "Poslat otázku s aktuálně označeným kódem",
+    "questionOnly": "Pouze otázka",
+    "questionOnlyDesc": "Poslat pouze otázku bez kódu",
+    "selectContext": "Chcete zahrnout kontext kódu?",
+    "previousQuestion": "Předchozí otázka",
+    "previousAnswer": "Předchozí odpověď",
+    "followUpQuestion": "Navazující otázka",
+    "relatedCode": "Související kód"
+  },
+
+  "shortcuts": {
+    "askFollowUp": "Navazující otázka",
+    "askAI": "Nová otázka"
+  },
+  
+  "panels": {
+    "errorExplanation": "🔧 Vysvětlení chyby",
+    "debugHelp": "🔍 Pomoc s laděním",
+    "offlineHelp": "📡 Offline pomoc",
+    "tokenStats": "📊 Statistiky tokenů",
+    "about": "O AI.duino"
+  },
+  
+  "html": {
+    "errorExplanation": "Vysvětlení chyby",
+    "errorInLine": "Chyba na řádku {0}"
+  },
+  
+  "debug": {
+    "analyzeSerial": "Analyzovat výstup Sériového monitoru",
+    "analyzeSerialDesc": "Pomoc s interpretací ladícího výstupu",
+    "hardwareProblem": "Diagnostikovat hardwarový problém",
+    "hardwareProblemDesc": "Možné hardwarové příčiny problémů",
+    "addDebugCode": "Přidat ladící kód",
+    "addDebugCodeDesc": "Strategicky umístit Serial.print() příkazy",
+    "timingProblems": "Najít problémy s časováním",
+    "timingProblemsDesc": "Pomoc s delay(), millis() a časovými chybami",
+    "selectHelp": "S čím potřebujete pomoc?"
+  },
+  
+  "offline": {
+    "title": "Žádné připojení k internetu",
+    "requiresInternet": "AI.duino vyžaduje připojení k internetu pro komunikaci s Claude, ChatGPT, Gemini nebo Mistral.",
+    "solutions": "Řešení",
+    "checkInternet": "Zkontrolovat připojení k internetu",
+    "checkWifi": "Zkontrolovat WiFi/Ethernet připojení",
+    "restartRouter": "Restartovat router",
+    "testOtherSites": "Otestovat jiné webové stránky",
+    "firewallSettings": "Nastavení firewallu/proxy",
+    "ensureNotBlocked": "Ujistěte se, že následující domény nejsou blokované",
+    "disableVpn": "Vypnout VPN",
+    "vpnMayBlock": "Některé VPN služby mohou blokovat API požadavky.",
+    "commonProblems": "Běžné Arduino problémy (Offline reference)",
+    "solution": "Řešení",
+    "declareVariable": "Deklarovat proměnnou",
+    "missingDeclaration": "Chybějící deklarace",
+    "addSemicolon": "Přidat středník",
+    "dontForgetSemicolon": "Nezapomeňte středník!",
+    "insteadOfDelay": "Místo delay() použijte",
+    "executeCodeHere": "Zde proveďte kód",
+    "tip": "Tip",
+    "onlineAgain": "Jakmile budete znovu online, AI.duino vám může pomoci se specifickými problémy!"
+  },
+  
+  "stats": {
+    "tokenUsageFor": "Využití tokenů pro {0}",
+    "totalCostToday": "Celkové náklady dnes",
+    "inputTokens": "Vstupní tokeny",
+    "outputTokens": "Výstupní tokeny",
+    "cost": "Náklady",
+    "tip": "Tip",
+    "tipDescription": "Počítání tokenů je odhad. Skutečné náklady se mohou mírně lišit.",
+    "confirmReset": "Opravdu chcete resetovat statistiky?"
+  },
+  
+  "about": {
+    "tagline": "Vývoj Arduino s podporou AI",
+    "features": "Funkce",
+    "integration": "Integrace",
+    "feature1": "Vylepšení a optimalizace kódu",
+    "feature2": "Vysvětlení chyb srozumitelným jazykem",
+    "feature3": "Automatické komentování kódu",
+    "feature4": "Pomoc s laděním a diagnostika hardwaru",
+    "feature5": "Sledování využití tokenů",
+    "feature6": "Offline pomoc při problémech s připojením",
+    "feature7": "Modulární architektura pro snadné rozšíření",
+    "feature8": "Podpora více jazyků",
+    "quickstart": "Rychlý start",
+    "step1": "Vyberte Arduino kód",
+    "step2": "Stiskněte",
+    "step3": "Vyberte akci",
+    "tip": "Tip",
+    "tipText": "Pravým tlačítkem na stavový řádek přepnete modely!",
+    "license": "Licence",
+    "getApiKeys": "Získat API klíče",
+    "publisher": "Vydavatel",
+    "repository": "Repozitář",
+    "reportBugs": "Nahlásit chyby",
+    "madeWith": "Vytvořeno s 💙 pro Arduino komunitu"
+  },
+
+  "config": {
+    "updateAvailable": "Aktualizace Provider Config k dispozici: {0} → {1}",
+    "updateNow": "Aktualizovat nyní",
+    "updateLater": "Později",
+    "updatingConfigs": "Aktualizuji konfigurace poskytovatelů...",
+    "updateSuccess": "Konfigurace poskytovatelů aktualizovány na verzi {0}",
+    "updateFailed": "Aktualizace konfigurace selhala: {0}",
+    "restartRequired": "Konfigurace poskytovatelů úspěšně aktualizovány! Pro použití změn je nutný restart.",
+    "restartExtension": "Restartovat rozšíření",
+    "modelOutdated": "Model se zdá být zastaralý. Aktualizovat konfigurace?",
+    "notNow": "Ne nyní"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "Automaticky kontrolovat aktualizace konfigurací poskytovatelů"
+  }
+}

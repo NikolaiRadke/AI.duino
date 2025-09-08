@@ -1,0 +1,327 @@
+{
+  "commands": {
+    "quickMenu": "Otvorenie rýchleho menu",
+    "switchModel": "Prepnutie AI modelu",
+    "setApiKey": "Zadanie API kľúča",
+    "improveCode": "Zlepšenie kódu",
+    "explainCode": "Vysvetlenie kódu",
+    "addComments": "Pridanie komentárov",
+    "explainError": "Vysvetlenie chyby",
+    "debugHelp": "Debug pomoc",
+    "about": "O AI.duino...",
+    "changeApiKey": "Zmena API kľúča",
+    "tokenStats": "Token štatistiky",
+    "switchLanguage": "Prepnutie jazyka",
+    "askAI": "Otázka pre AI",
+    "askFollowUp": "Následná otázka"
+  },
+
+  "messages": {
+    "welcome": "Vitajte! AI.duino podporuje {0}!",
+    "noApiKey": "Najprv potrebujete API kľúč pre {0}",
+    "selectAction": "Čo chcete urobiť?",
+    "selectArduinoCode": "Označte Arduino kód na používanie AI funkcií!",
+    "noEditor": "Žiadny aktívny editor kódu",
+    "selectCodeToExplain": "Prosím označte kód, ktorý chcete vysvetliť",
+    "selectCodeToImprove": "Prosím označte kód, ktorý chcete zlepšiť",
+    "selectCodeToComment": "Označte kód, ktorý chcete komentovať",
+    "selectRelevantCode": "Označte relevantný kód pre lepšiu debug pomoc",
+    "openInoFile": "Otvorte .ino súbor",
+    "apiKeySaved": "✅ {0} API kľúč uložený!",
+    "modelSwitched": "✅ Prepnuté na {0}",
+    "codeImproved": "✅ Kód zlepšený! Čo chcete urobiť?",
+    "codeReplaced": "✅ Kód bol nahradený!",
+    "codeUpdated": "✅ Kód bol aktualizovaný!",
+    "commentsAdded": "Komentáre pridané! Čo chcete urobiť?",
+    "connectionError": "Chyba pripojenia. Skúsiť znovu?",
+    "retryLater": "Skúste to za pár sekúnd znovu...",
+    "copiedToClipboard": "Skopírované do schránky!",
+    "statsReset": "✅ Token štatistiky vynulované!",
+    "selectModel": "Vyberte AI model",
+    "apiKeyRequired": "{0} vyžaduje API kľúč",
+    "connectionOk": "Internetové pripojenie funguje",
+    "noConnection": "Žiadne internetové pripojenie",
+    "noValidContext": "Žiadny aktuálny rozhovor na pokračovanie (max. 30 min.)",
+    "followUpContext": "Pokračovanie rozhovoru: \"{0}\" (pred {1} min.)",
+    "contextCleared": "Kontext rozhovoru vymazaný"
+  },
+  
+  "buttons": {
+    "chooseModel": "Výber AI modelu",
+    "later": "Neskôr",
+    "setupNow": "Nastaviť teraz",
+    "switchModel": "Prepnúť model",
+    "cancel": "Zrušiť",
+    "enterNow": "Zadať teraz",
+    "enterApiKey": "Zadať API kľúč",
+    "retry": "Skúsiť znovu",
+    "offlineHelp": "Offline pomoc",
+    "tryLater": "Skúsiť neskôr",
+    "yes": "Áno",
+    "no": "Nie",
+    "replaceOriginal": "Nahradiť originál",
+    "keepBoth": "Ponechať oba",
+    "copySolution": "Kopírovať riešenie",
+    "copy": "Kopírovať",
+    "resetStats": "Vynulovať štatistiky",
+    "getApiKey": "Získať API kľúč",
+    "checkConnection": "Skontrolovať pripojenie",
+    "checkFirewall": "Skontrolovať firewall",
+    "showTokenStats": "Zobraziť token štatistiky",
+    "tryAgain": "Skúsiť znovu",
+    "checkStatus": "Skontrolovať stav",
+    "checkRouter": "Skontrolovať router"
+  },
+  
+  "descriptions": {
+    "improveSelected": "Optimalizácia označeného kódu",
+    "explainSelected": "Vysvetlenie označeného kódu",
+    "addComments": "Komentovanie kódu",
+    "selectFirst": "Najprv označte kód",
+    "errorsFound": "🔴 Nájdené chyby kompilátora",
+    "noErrors": "Žiadne chyby",
+    "debugHelp": "Pomoc pri hľadaní chýb",
+    "currentModel": "Aktuálne: {0}",
+    "todayUsage": "Dnes: {0}",
+    "currentLanguage": "Aktuálne: {0}",
+    "askAI": "Priama otázka pre AI",
+    "askFollowUp": "Pokračovanie predchádzajúceho rozhovoru: {0}",
+    "noValidContext": "Žiadny predchádzajúci rozhovor"
+  },
+  
+  "language": {
+    "autoDetect": "Automatické rozpoznanie z VS Code",
+    "selectLanguage": "Výber jazyka pre AI.duino",
+    "changeLanguage": "Zmena jazyka",
+    "changed": "Jazyk zmenený na {0}"
+  },
+  
+  "labels": {
+    "active": "Aktívny",
+    "aiHints": "AI tipy"
+  },
+  
+  "prompts": {
+    "enterApiKey": "Zadanie {0} API kľúča",
+    "customInstructions": "Vlastné inštrukcie pre zlepšenie kódu (voliteľné)",
+    "commentInstructions": "Vlastné inštrukcie pre komentovanie (voliteľné)",
+    "pasteError": "Skopírujte chybu z Arduino výstupného okna (červený riadok s \"error:\")",
+    "pasteSerial": "Vložte váš Serial Monitor výstup",
+    "systemPrompt": "Ste užitočný Arduino programovací asistent. Vždy odpovedajte po slovensky a vysvetľujte Arduino kód zrozumiteľne.",
+    "explainCode": "Vysvetlite tento Arduino kód po slovensky jednoduchým, zrozumiteľným jazykom:\n\n```cpp\n{0}\n```\n\nVysvetlite:\n- Čo kód robí\n- Ako funguje\n- Aký hardvér ovláda\n- Dôležité pojmy pre začiatočníkov\n\nBuďte priateľskí a podrobní.",
+    "improveCode": "Zlepšite tento Arduino kód:\n\n```cpp\n{0}\n```\n\nOptimalizujte pre:\n- Neblokujúci kód (millis namiesto delay)\n- Efektívnosť pamäte\n- Lepšiu čitateľnosť\n- Arduino najlepšie praktiky\n- Robustnosť",
+    "improveCodeSuffix": "Vráťte len zlepšený kód s krátkymi slovenskými komentármi k zmenám.",
+    "addComments": "Pridajte užitočné slovenské komentáre k tomuto Arduino kódu:\n\n```cpp\n{0}\n```\n\nPravidlá:\n- Vysvetlite, čo robí každý dôležitý riadok\n- Komentujte funkcie a ich parametre\n- Vysvetlite interakcie s hardvérom\n- Používajte // pre jednoriadkové a /* */ pre viacriadkové komentáre\n- Komentáre majú pomôcť začiatočníkom",
+    "addCommentsSuffix": "Vráťte LEN komentovaný kód, žiadne vysvetlenia okolo.",
+    "additionalInstructions": "Dodatočné inštrukcie od používateľa:\n- {0}",
+    "explainError": "Vysvetlenie a riešenie Arduino kompiláčnej chyby:\n\nChyba: {0}\n\nKód kontext (okolo riadku {1}):\n```cpp\n{2}\n```\n\nProsím vysvetlite:\n1. Čo táto chyba znamená?\n2. Prečo sa vyskytuje?\n3. Ako ju opraviť?\n4. Ukážte opravený kód\n\nVysvetlite jednoducho a zrozumiteľne po slovensky.",
+    "analyzeSerial": "Analyzujte tento Arduino Serial Monitor výstup a vysvetlite, čo znamená:\n\nSerial výstup:\n{0}\n\n{1}\n\nVysvetlite:\n- Čo výstup znamená\n- Možné problémy\n- Návrhy riešení",
+    "hardwareDebug": "Pomôžte pri hľadaní hardvérových chýb pre tento Arduino kód:\n\n```cpp\n{0}\n```\n\nProsím skontrolujte:\n- Typické chyby zapojenia\n- Konflikty pinov\n- Problémy s napájaním\n- Pull-up/Pull-down rezistory\n- Problémy s kompatibilitou",
+    "addDebugStatements": "Pridajte strategické debug výstupy k tomuto Arduino kódu:\n\n```cpp\n{0}\n```\n\nPridajte Serial.print() príkazy pre:\n- Monitorovanie hodnôt premenných\n- Sledovanie priebehu programu\n- Meranie času\n- Hľadanie chýb",
+    "analyzeTiming": "Analyzujte problémy s časovaním v tomto Arduino kóde:\n\n```cpp\n{0}\n```\n\nSkontrolujte:\n- Blokujúce delay-e\n- millis() overflow\n- Race Conditions\n- Interrupt konflikty\n\nUkážte zlepšený neblokujúci kód.",
+    "askAI": "Čo chcete opýtať AI?",
+    "askAIGeneral": "Otázka používateľa: {0}\n\nOdpovedzte po slovensky jasne a užitočne.",
+    "askAIWithContext": "Otázka používateľa: {0}\n\nKód kontext:\n```cpp\n{1}\n```\n\nOdpovedzte po slovensky s ohľadom na poskytnutý Arduino kód.",
+    "askFollowUp": "Následná otázka:",
+    "followUpContext": "Kontext z predchádzajúceho rozhovoru:",
+    "followUpInstruction": "Odpovedzte po slovensky s ohľadom na predchádzajúci rozhovor."
+  },
+  
+  "placeholders": {
+    "customInstructions": "napr. \"nepoužívaj millis()\", \"optimalizuj pre Arduino Nano\", \"pridaj spracovanie chýb\"",
+    "commentInstructions": "napr. \"veľmi podrobne\", \"komentuj len funkcie\", \"v angličtine\"",
+    "errorExample": "error: 'xc' was not declared in this scope",
+    "serialExample": "napr. \"Sensor value: -1\"",
+    "askAI": "napr. \"Ako funguje PWM?\", \"Prečo mi nefunguje senzor?\"",
+    "askFollowUp": "Pokračovanie rozhovoru..."
+  },
+  
+  "validation": {
+    "apiKeyRequired": "API kľúč je potrebný",
+    "apiKeyPrefix": "Musí začínať s \"{0}\"",
+    "apiKeyTooShort": "Kľúč sa zdá príliš krátky"
+  },
+  
+  "progress": {
+    "retrying": "{0} (Pokus {1}/{2})",
+    "explaining": "{0} vysvetľuje kód...",
+    "optimizing": "{0} optimalizuje kód...",
+    "addingComments": "{0} pridáva komentáre...",
+    "analyzingError": "{0} analyzuje chybu...",
+    "analyzingProblem": "{0} analyzuje problém...",
+    "testingConnection": "Testovanie pripojenia...",
+    "askingAI": "{0} spracováva vašu otázku...",
+    "askingFollowUp": "{0} spracováva vašu následnú otázku..."
+  },
+  
+  "errors": {
+    "quotaExceeded": "Mesačná kvóta vyčerpaná",
+    "quotaExceededDetail": "{0}: Mesačná kvóta vyčerpaná. Prosím počkajte do začiatku mesiaca alebo prepnite model.",
+    "networkError": "Sieťová chyba",
+    "timeout": "Vypršanie času - prosím skontrolujte internetové pripojenie",
+    "unreachable": "Nedostupné",
+    "operationCancelled": "Operácia zrušená",
+    "unknownModel": "Neznámy model: {0}",
+    "noApiKey": "Nie je nastavený {0} API kľúč",
+    "invalidApiKey": "{0} API kľúč je neplatný",
+    "rateLimit": "{0} limit rýchlosti dosiahnutý - prosím počkajte chvíľu",
+    "serverUnavailable": "{0} server momentálne nedostupný",
+    "apiError": "⚠ {0} chyba: {1}",
+    "apiErrorWithCode": "{0} API chyba ({1}): {2}",
+    "parseError": "Chyba pri parsovaní {0} odpovede",
+    "unexpectedResponse": "Neočakávaná {0} API štruktúra odpovede",
+    "unknownError": "Neznáma chyba",
+    "saveFailed": "⚠ Chyba pri ukladaní: {0}",
+    "noInternet": "🌐 Žiadne internetové pripojenie",
+    "network": {
+      "dns": "Žiadne internetové pripojenie - DNS rozlíšenie zlyhalo",
+      "timeout": "Vypršanie času - internetové pripojenie príliš pomalé",
+      "refused": "Pripojenie odmietnuté - problém s firewall alebo proxy?",
+      "reset": "Pripojenie prerušené - nestabilné internetové pripojenie",
+      "hostUnreachable": "Server nedostupný - problém so sieťou",
+      "netUnreachable": "Sieť nedostupná - problém s routerom?",
+      "aborted": "Pripojenie prerušené - timeout alebo sieťová chyba",
+      "general": "Sieťová chyba: {0}"
+    }
+  },
+  
+  "statusBar": {
+    "tooltip": "AI.duino : {0}\nDnes: {1} Tokens{2}\nVstup: {3} | Výstup: {4}\nKlik pre menu • Ctrl+Shift+C • Pravý klik na prepnutie",
+    "noApiKey": "{0} API kľúč chýba! • Klik na nastavenie",
+    "errorsFound": "{0} chýb nájdených • Klik pre pomoc"
+  },
+  
+  "output": {
+    "codeExplanation": "{0} Vysvetlenie",
+    "explanationFrom": "VYSVETLENIE KÓDU OD {0}",
+    "aiResponse": "{0} Odpoveď",
+    "responseFrom": "ODPOVEĎ OD {0}",
+    "yourQuestion": "Vaša otázka",
+    "aiAnswer": "AI odpoveď",
+    "aiFollowUp": "{0} Odpoveď na následnú otázku",
+    "followUpTo": "Následná otázka k",
+    "followUpHint": "Pokračovanie rozhovoru",
+    "codeContextYes": "Kód kontext: Áno ({0} riadkov)",
+    "boardDetected": "Doska: {0}"
+  },
+
+  "chat": {
+    "includeSelectedCode": "Zahrnúť označený kód",
+    "includeSelectedCodeDesc": "Poslať otázku s aktuálne označeným kódom",
+    "questionOnly": "Len otázka",
+    "questionOnlyDesc": "Poslať len otázku bez kódu",
+    "selectContext": "Chcete zahrnúť kód kontext?",
+    "previousQuestion": "Predchádzajúca otázka",
+    "previousAnswer": "Predchádzajúca odpoveď",
+    "followUpQuestion": "Následná otázka",
+    "relatedCode": "Súvisiaci kód"
+  },
+
+  "shortcuts": {
+    "askFollowUp": "Následná otázka",
+    "askAI": "Nová otázka"
+  },
+
+  "panels": {
+    "errorExplanation": "🔧 Vysvetlenie chyby",
+    "debugHelp": "🔍 Debug pomoc",
+    "offlineHelp": "📡 Offline pomoc",
+    "tokenStats": "📊 Token štatistiky",
+    "about": "O AI.duino"
+  },
+  
+  "html": {
+    "errorExplanation": "Vysvetlenie chyby",
+    "errorInLine": "Chyba v riadku {0}"
+  },
+  
+  "debug": {
+    "analyzeSerial": "Analýza Serial Monitor výstupu",
+    "analyzeSerialDesc": "Pomoc pri interpretácii debug výstupov",
+    "hardwareProblem": "Diagnostika hardvérového problému",
+    "hardwareProblemDesc": "Možné hardvérové príčiny problémov",
+    "addDebugCode": "Pridanie debug kódu",
+    "addDebugCodeDesc": "Strategické umiestnenie Serial.print() príkazov",
+    "timingProblems": "Hľadanie problémov s časovaním",
+    "timingProblemsDesc": "Pomoc s delay(), millis() a timing chybami",
+    "selectHelp": "V čom môžem pomôcť?"
+  },
+  
+  "offline": {
+    "title": "Žiadne internetové pripojenie",
+    "requiresInternet": "AI.duino potrebuje internetové pripojenie na komunikáciu s Claude, ChatGPT, Gemini alebo Mistral.",
+    "solutions": "Návrhy riešení",
+    "checkInternet": "Kontrola internetového pripojenia",
+    "checkWifi": "Kontrola WiFi/Ethernet pripojenia",
+    "restartRouter": "Reštart routera",
+    "testOtherSites": "Testovanie iných webstránok",
+    "firewallSettings": "Nastavenia Firewall/Proxy",
+    "ensureNotBlocked": "Uistite sa, že tieto domény nie sú blokované",
+    "disableVpn": "Vypnutie VPN",
+    "vpnMayBlock": "Niektoré VPN služby môžu blokovať API požiadavky.",
+    "commonProblems": "Časté Arduino problémy (Offline referencia)",
+    "solution": "Riešenie",
+    "declareVariable": "Deklarácia premennej",
+    "missingDeclaration": "Chýbajúca deklarácia",
+    "addSemicolon": "Pridanie bodkočiarky",
+    "dontForgetSemicolon": "nezabudnite na ; !",
+    "insteadOfDelay": "Namiesto delay() použite",
+    "executeCodeHere": "vykonajte kód tu",
+    "tip": "Tip",
+    "onlineAgain": "Hneď ako budete opäť online, AI.duino môže pomôcť so špecifickými problémami!"
+  },
+  
+  "stats": {
+    "tokenUsageFor": "Používanie tokenov pre {0}",
+    "totalCostToday": "Celkové náklady dnes",
+    "inputTokens": "Vstupné tokeny",
+    "outputTokens": "Výstupné tokeny",
+    "cost": "Náklady",
+    "tip": "Tip",
+    "tipDescription": "Počítanie tokenov je odhad. Skutočné náklady sa môžu mierne líšiť.",
+    "confirmReset": "Skutočne chcete vynulovať štatistiky?"
+  },
+  
+  "about": {
+    "tagline": "AI-podporovaný Arduino vývoj",
+    "features": "Funkcie",
+    "integration": "Integrácia",
+    "feature1": "Zlepšovanie a optimalizácia kódu",
+    "feature2": "Vysvetlenie chýb po slovensky",
+    "feature3": "Automatické komentovanie kódu",
+    "feature4": "Debug pomoc a hardvérová diagnostika",
+    "feature5": "Sledovanie spotreby tokenov",
+    "feature6": "Offline pomoc pri problémoch s pripojením",
+    "feature7": "Modulárna architektúra pre jednoduché rozšírenie",
+    "feature8": "Viacjazyčná podpora",
+    "quickstart": "Rýchly štart",
+    "step1": "Označte Arduino kód",
+    "step2": "Stlačte",
+    "step3": "Vyberte akciu",
+    "tip": "Tip",
+    "tipText": "Pravý klik na stavový riadok na prepnutie modelu!",
+    "license": "Licencia",
+    "getApiKeys": "Získanie API kľúčov",
+    "publisher": "Vydavateľ",
+    "repository": "Repository",
+    "reportBugs": "Hlásenie chýb",
+    "madeWith": "Vytvorené s ❤️ pre Arduino komunitu"
+  },
+
+  "config": {
+    "updateAvailable": "Dostupná aktualizácia provider config: {0} → {1}",
+    "updateNow": "Aktualizovať teraz",
+    "updateLater": "Neskôr",
+    "updatingConfigs": "Aktualizácia provider konfigurácií...",
+    "updateSuccess": "Provider config-y aktualizované na verziu {0}",
+    "updateFailed": "Aktualizácia config-u zlyhala: {0}",
+    "restartRequired": "Provider config-y úspešne aktualizované! Reštart potrebný pre zmeny.",
+    "restartExtension": "Reštart rozšírenia",
+    "modelOutdated": "Model sa zdá zastaraný. Aktualizovať konfigurácie?",
+    "notNow": "Nie teraz"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "Automatické hľadanie aktualizácií provider config-ov"
+  }
+}
