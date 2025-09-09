@@ -125,49 +125,19 @@ class UnifiedAPIClient {
         const currentModel = minimalModelManager.getCurrentModel(modelId);
         const apiConfig = provider.apiConfig;
         const apiKey = apiKeys[modelId];
-    
-        // SPECIAL HANDLING FOR GEMINI
-        if (modelId === 'gemini') {
-            let geminiModelId = currentModel.id;
-            
-            // Ensure proper format with "models/" prefix
-            if (!geminiModelId.startsWith('models/')) {
-                geminiModelId = 'models/' + geminiModelId;
-            }
-    
-            const apiPath = `/v1beta/${geminiModelId}:generateContent?key=${apiKey}`;
-
-            return {
-                hostname: provider.hostname,
-                path: apiPath,
-                headers: { 'Content-Type': 'application/json' },
-                body: {
-                    contents: [{
-                        parts: [{ text: prompt }]
-                    }],
-                    generationConfig: {
-                        temperature: 0.7,
-                        topK: 1,
-                        topP: 1,
-                        maxOutputTokens: 2048,
-                    }
-                }
-            };
-        }
-    
-        // Normal path for other providers
+        const systemPrompt = "You are a helpful assistant specialized in Arduino programming and electronics.";
         let apiPath;
         if (typeof apiConfig.apiPath === 'function') {
             apiPath = apiConfig.apiPath(currentModel.id, apiKey);
         } else {
             apiPath = apiConfig.apiPath;
         }
-    
+
         return {
             hostname: provider.hostname,
             path: apiPath,
             headers: apiConfig.headers(apiKey),
-            body: apiConfig.buildRequest(currentModel.id, prompt, t)
+            body: apiConfig.buildRequest(currentModel.id, prompt, systemPrompt)
         };
     } 
     

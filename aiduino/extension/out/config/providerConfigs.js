@@ -58,7 +58,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '090925'; 
+const CONFIG_VERSION = '100925'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -110,11 +110,11 @@ const PROVIDER_CONFIGS = {
         path: '/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => data.data?.filter(m => m.id.startsWith('gpt-') && !m.id.includes('instruct')) || [],
-        selectBest: (models) => models.find(m => m.id.includes('gpt-5')) || models.find(m => m.id.includes('gpt-4')) || models[0],
-        fallback: 'gpt-5',
+        selectBest: (models) => models.find(m => m.id.includes('gpt-4o')) || models.find(m => m.id.includes('gpt-4')) || models[0],
+        fallback: 'gpt-4o',
         prices: {
-            input: 1.25 / 1000000,    // $1.25 per 1M tokens (war: 1.25 / 1000)
-            output: 10.0 / 1000000    // $10.00 per 1M tokens (war: 10.0 / 1000)
+            input: 1.25 / 1000000,    // $1.25 per 1M tokens
+            output: 10.0 / 1000000    // $10.00 per 1M tokens
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -126,16 +126,16 @@ const PROVIDER_CONFIGS = {
             buildRequest: (modelId, prompt, systemPrompt) => ({
                 model: modelId,
                 messages: [
-                    { role: "system", content: systemPrompt },
+                    { role: "system", content: systemPrompt || "You are a helpful assistant." },
                     { role: "user", content: prompt }
                 ],
-                max_tokens: 2000,
+                max_completion_tokens: 2000,
                 temperature: 0.7
             }),
             extractResponse: (data) => data.choices[0].message.content
         }
-    },
-
+    },  
+    
     gemini: {
         name: 'Gemini',
         icon: '💎',
@@ -295,11 +295,11 @@ const PROVIDER_CONFIGS = {
         path: '/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => data.models?.filter(m => m.name.includes('command')) || [],
-        selectBest: (models) => models.find(m => m.name.includes('command-r-plus')) || models[0],
-        fallback: 'command-r-plus',
+        selectBest: (models) => models.find(m => m.name.includes('command-a')) || models.find(m => m.name.includes('command-r-plus')) || models[0],
+        fallback: 'command-a-03-2025',
         prices: {
-            input: 2.5 / 1000000,     // $2.50 per 1M tokens (war: 2.5 / 1000)
-            output: 10.0 / 1000000    // $10.00 per 1M tokens (war: 10.0 / 1000)
+            input: 2.5 / 1000000,     // $2.50 per 1M tokens
+            output: 10.0 / 1000000    // $10.00 per 1M tokens
         },
         apiConfig: {
             apiPath: '/v1/chat',
@@ -311,10 +311,16 @@ const PROVIDER_CONFIGS = {
             buildRequest: (modelId, prompt, systemPrompt) => ({
                 model: modelId,
                 message: prompt,
+                preamble: systemPrompt || "You are a helpful assistant specialized in Arduino programming and electronics.",
                 max_tokens: 2000,
                 temperature: 0.7
             }),
-            extractResponse: (data) => data.text || data.message || data.choices[0].message.content
+            extractResponse: (data) => {
+                if (data.text) {
+                    return data.text;
+                }
+                throw new Error('Unexpected Cohere response format');
+            }
         }
     },
     
@@ -365,6 +371,17 @@ const PROVIDER_CONFIGS = {
     },
      
     vertex: {
+        // NOTE: Vertex AI requires Google Cloud Platform setup
+        // Before using this provider, you must:
+        // 1. Create a Google Cloud Project at https://console.cloud.google.com
+        // 2. Enable the Vertex AI API for your project
+        // 3. Create a Service Account with Vertex AI permissions
+        // 4. Generate an OAuth 2.0 access token (starts with 'ya29.')
+        // 5. Replace 'YOUR_PROJECT_ID' in the apiPath with your actual GCP project ID
+        // 
+        // This provider is designed for enterprise users. For simple AI integration,
+        // consider using the direct Gemini provider instead.
+        
         name: 'Vertex AI',
         icon: '☁️',
         color: '#4285F4',
@@ -373,17 +390,20 @@ const PROVIDER_CONFIGS = {
         keyMinLength: 20,
         hostname: 'us-central1-aiplatform.googleapis.com',
         apiKeyUrl: 'https://console.cloud.google.com/apis/credentials',
-        path: '/v1/projects/YOUR_PROJECT/locations/us-central1/publishers/anthropic/models',
+        path: '/v1/projects/PROJECT_ID/locations/us-central1/publishers/google/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => data.models?.filter(m => m.name.includes('claude')) || [],
-        selectBest: (models) => models.find(m => m.name.includes('claude-3')) || models[0],
-        fallback: 'claude-3-sonnet@20240229',
+        extractModels: (data) => data.models?.filter(m => m.name.includes('gemini')) || [],
+        selectBest: (models) => models.find(m => m.name.includes('gemini-1.5-pro')) || models[0],
+        fallback: 'gemini-1.5-pro',
         prices: {
-           input: 3.0 / 1000000,     // $3.00 per 1M tokens (war: 3.0 / 1000)
-           output: 15.0 / 1000000    // $15.00 per 1M tokens (war: 15.0 / 1000)
+            input: 1.25 / 1000000,
+            output: 5.0 / 1000000
         },
         apiConfig: {
-            apiPath: '/v1/projects/YOUR_PROJECT/locations/us-central1/publishers/anthropic/models/claude-3-sonnet@20240229:predict',
+            apiPath: (modelId, key, projectId) => {
+                const project = projectId || 'YOUR_PROJECT_ID'; // Replace with your GCP project ID
+                return `/v1/projects/${project}/locations/us-central1/publishers/google/models/${modelId}:predict`;
+            },
             method: 'POST',
             headers: (key) => ({
                 'Content-Type': 'application/json',
@@ -391,17 +411,24 @@ const PROVIDER_CONFIGS = {
             }),
             buildRequest: (modelId, prompt, systemPrompt) => ({
                 instances: [{
-                    messages: [
-                        { role: "human", content: prompt }
-                    ],
-                    max_tokens: 2000,
-                    temperature: 0.7
-                }]
+                    content: prompt
+                }],
+                parameters: {
+                    temperature: 0.7,
+                    maxOutputTokens: 2000,
+                    topP: 0.8,
+                    topK: 40
+                }
             }),
-            extractResponse: (data) => data.predictions[0].content[0].text
+            extractResponse: (data) => {
+                if (data.predictions && data.predictions[0]) {
+                    return data.predictions[0].content || data.predictions[0].candidates?.[0]?.content;
+                }
+                throw new Error('Unexpected Vertex AI response format');
+            }
         }
-    },
-    
+    },  
+        
     huggingface: {
         name: 'Hugging Face',
         icon: '🤗',
@@ -417,25 +444,34 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models[0],
         fallback: 'meta-llama/Llama-3.3-70B-Instruct',
         prices: {
-           input: 0.0005 / 1000000,  // $0.0005 per 1M tokens (war: 0.0005 / 1000)
-           output: 0.0015 / 1000000  // $0.0015 per 1M tokens (war: 0.0015 / 1000)
+            input: 0.0005 / 1000000,  // $0.0005 per 1M tokens
+            output: 0.0015 / 1000000  // $0.0015 per 1M tokens
         },
         apiConfig: {
-            apiPath: '/models/meta-llama/Llama-3.3-70B-Instruct',
+            apiPath: (modelId) => `/models/${modelId}`,
             method: 'POST',
             headers: (key) => ({
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${key}`
             }),
             buildRequest: (modelId, prompt, systemPrompt) => ({
-                inputs: prompt,
+                inputs: systemPrompt ? `${systemPrompt}\n\n${prompt}` : prompt,
                 parameters: {
                     max_new_tokens: 2000,
                     temperature: 0.7,
-                    return_full_text: false
+                    return_full_text: false,
+                    do_sample: true
                 }
             }),
-            extractResponse: (data) => data[0].generated_text
+            extractResponse: (data) => {
+                if (Array.isArray(data) && data[0] && data[0].generated_text) {
+                    return data[0].generated_text;
+                }
+                if (data.generated_text) {
+                    return data.generated_text;
+                }
+                throw new Error('Unexpected Hugging Face response format');
+            }
         }
     }
 };
