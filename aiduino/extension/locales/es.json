@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "Estado",
-    "usingCustom": "Usando indicaciones personalizadas",
-    "usingDefaults": "Usando indicaciones predeterminadas",
+    "standard": "Estándar",
+    "custom": "Personalizado",
     "modified": "Modificado",
     "saving": "Guardando",
     "saved": "Guardado",
-    "confirmReset": "¿Realmente restablecer la indicación al valor predeterminado?",
-    "resetSuccess": "Indicación restablecida",
-    "placeholder": "Ingrese indicación..."
+    "resetSuccess": "Restablecido"
   }
 }

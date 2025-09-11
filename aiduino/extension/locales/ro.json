@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "Status",
-    "usingCustom": "Folosind prompturi personalizate",
-    "usingDefaults": "Folosind prompturi implicite",
+    "standard": "Standard",
+    "custom": "Personalizat",
     "modified": "Modificat",
-    "saving": "Salvez",
+    "saving": "Salvează",
     "saved": "Salvat",
-    "confirmReset": "Chiar vrei să resetezi promptul la implicit?",
-    "resetSuccess": "Prompt resetat",
-    "placeholder": "Introdu promptul..."
+    "resetSuccess": "Resetat"
   }
 }

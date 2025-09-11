@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "Statut",
-    "usingCustom": "Utilisation d'invites personnalisées",
-    "usingDefaults": "Utilisation d'invites par défaut",
+    "standard": "Standard",
+    "custom": "Personnalisé",
     "modified": "Modifié",
     "saving": "Enregistrement",
     "saved": "Enregistré",
-    "confirmReset": "Vraiment réinitialiser l'invite par défaut ?",
-    "resetSuccess": "Invite réinitialisée",
-    "placeholder": "Saisir l'invite..."
+    "resetSuccess": "Réinitialisé"
   }
 }

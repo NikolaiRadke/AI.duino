@@ -75,6 +75,7 @@ let statusBarItem;
 let currentModel = 'claude';
 let currentLocale = 'en';
 let i18n = {};
+let isPromptEditorOpen = false;
 
 // Load remote config URL once at module load
 let remoteConfigUrl = null;
@@ -301,6 +302,9 @@ function t(key, ...args) {
 /**
  * Switch UI language with user selection
  */
+/**
+ * Switch UI language with user selection
+ */
 async function switchLanguage() {
     // Check if already running
     if (!executionStates.start(executionStates.OPERATIONS.SWITCH_LANGUAGE)) {
@@ -331,9 +335,15 @@ async function switchLanguage() {
                     currentLocale = selected.value;
                 }
                 
-                // Load new locale file
                 loadLocale();
+                promptManager.initialize(i18n, currentLocale); 
                 updateStatusBar();
+
+                if (isPromptEditorOpen) {
+                    setTimeout(() => {
+                        vscode.commands.executeCommand('aiduino.editPrompts');
+                    }, 300);
+                }
                 
                 const successMessage = selected.value === 'auto' ? 
                     `Language set to Auto (${getLanguageInfo(currentLocale).name})` :
@@ -702,6 +712,7 @@ function registerCommands(context) {
         debugHelpFeature,
         askAIFeature,
         promptEditorFeature,
+        setPromptEditorOpen: (isOpen) => { isPromptEditorOpen = isOpen; },
         uiTools,
         
         // System dependencies

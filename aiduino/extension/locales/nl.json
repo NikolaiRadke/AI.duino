@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "Status",
-    "usingCustom": "Aangepaste prompts gebruiken",
-    "usingDefaults": "Standaard prompts gebruiken",
+    "standard": "Standaard",
+    "custom": "Aangepast",
     "modified": "Gewijzigd",
     "saving": "Opslaan",
     "saved": "Opgeslagen",
-    "confirmReset": "Prompt echt herstellen naar standaard?",
-    "resetSuccess": "Prompt hersteld",
-    "placeholder": "Voer prompt in..."
+    "resetSuccess": "Hersteld"
   }
 }

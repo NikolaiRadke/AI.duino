@@ -337,14 +337,11 @@
   },
 
   "promptEditor": {
-    "status": "Status",
-    "usingCustom": "Using custom prompts",
-    "usingDefaults": "Using default prompts",
+    "standard": "Standard",
+    "custom": "Custom",
     "modified": "Modified",
     "saving": "Saving",
     "saved": "Saved",
-    "confirmReset": "Really reset prompt to default?",
-    "resetSuccess": "Prompt reset",
-    "placeholder": "Enter prompt..."
+    "resetSuccess": "Reset"
   }
 }

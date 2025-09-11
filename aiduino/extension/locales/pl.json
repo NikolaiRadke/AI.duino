@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "Status",
-    "usingCustom": "Używanie niestandardowych poleceń",
-    "usingDefaults": "Używanie domyślnych poleceń",
-    "modified": "Zmodyfikowane",
+    "standard": "Standardowy",
+    "custom": "Niestandardowy",
+    "modified": "Zmodyfikowany",
     "saving": "Zapisywanie",
-    "saved": "Zapisane",
-    "confirmReset": "Naprawdę zresetować polecenie do domyślnego?",
-    "resetSuccess": "Polecenie zresetowane",
-    "placeholder": "Wprowadź polecenie..."
+    "saved": "Zapisany",
+    "resetSuccess": "Przywrócony"
   }
 }

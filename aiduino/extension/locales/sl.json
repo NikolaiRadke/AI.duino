@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "Stanje",
-    "usingCustom": "Uporaba prilagojenih pozivov",
-    "usingDefaults": "Uporaba privzetih pozivov",
+    "standard": "Standardni",
+    "custom": "Po meri",
     "modified": "Spremenjeno",
     "saving": "Shranjevanje",
     "saved": "Shranjeno",
-    "confirmReset": "Res ponastaviti poziv na privzeto?",
-    "resetSuccess": "Poziv ponastavljen",
-    "placeholder": "Vnesite poziv..."
+    "resetSuccess": "Ponastavljeno"
   }
 }

@@ -124,11 +124,27 @@ class CommandRegistry {
             },
             
             // Prompt Management
-{
-            name: 'aiduino.editPrompts',
-            handler: () => promptEditorFeature.showPromptEditor(deps.getDependencies()),
-            description: 'Edit AI Prompts'
-        },
+            {
+                name: 'aiduino.editPrompts',
+                handler: () => {
+                    if (deps.setPromptEditorOpen) {
+                        deps.setPromptEditorOpen(true);
+                    }
+        
+                    const extendedDeps = {
+                        ...deps.getDependencies(),
+                        onPromptEditorClosed: () => {
+                            if (deps.setPromptEditorOpen) {
+                                deps.setPromptEditorOpen(false);
+                            }
+                        }
+                    };
+        
+                    return promptEditorFeature.showPromptEditor(extendedDeps);
+                },
+                description: 'Edit AI Prompts'
+            },
+
             // Debug Commands (normally hidden)
             { 
                 name: 'aiduino.showModels', 

@@ -334,14 +334,11 @@
   },
 
   "promptEditor": {
-    "status": "ステータス",
-    "usingCustom": "カスタムプロンプトを使用",
-    "usingDefaults": "デフォルトプロンプトを使用",
+    "standard": "標準",
+    "custom": "カスタム",
     "modified": "変更済み",
     "saving": "保存中",
-    "saved": "保存完了",
-    "confirmReset": "本当にプロンプトをデフォルトにリセットしますか？",
-    "resetSuccess": "プロンプトをリセットしました",
-    "placeholder": "プロンプトを入力..."
+    "saved": "保存済み",
+    "resetSuccess": "リセット完了"
   }
 }

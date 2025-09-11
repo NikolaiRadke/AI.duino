@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "Állapot",
-    "usingCustom": "Egyéni promptok használata",
-    "usingDefaults": "Alapértelmezett promptok használata",
+    "standard": "Szabványos",
+    "custom": "Egyéni",
     "modified": "Módosított",
     "saving": "Mentés",
     "saved": "Mentve",
-    "confirmReset": "Valóban visszaállítja a promptot az alapértelmezettre?",
-    "resetSuccess": "Prompt visszaállítva",
-    "placeholder": "Adja meg a promptot..."
+    "resetSuccess": "Visszaállítva"
   }
 }

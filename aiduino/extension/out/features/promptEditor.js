@@ -1,5 +1,5 @@
 /**
- * features/promptEditor.js - Clean Final Version
+ * features/promptEditor.js - Finale Version mit Lokalisierung
  */
 
 const vscode = require('vscode');
@@ -18,7 +18,7 @@ async function showPromptEditor(context) {
             { enableScripts: true }
         );
 
-        // Generate prompt cards with modern styling
+        // HTML-Generierung mit Status-Badges und Button-Zuständen
         let promptsHtml = '';
         allowedPrompts.forEach(key => {
             if (promptData.prompts[key]) {
@@ -27,32 +27,37 @@ async function showPromptEditor(context) {
                 const content = escapeHtml(promptData.prompts[key] || '');
                 const isModified = promptData.isCustom && 
                     promptData.prompts[key] !== (promptData.defaults[key] || '');
-                
-                promptsHtml += `
-    <div class="prompt-card ${isModified ? 'modified' : ''}">
-        <div class="prompt-header">
-            <h3>${title}</h3>
-            <div class="prompt-actions">
-                ${isModified ? `<span class="modified-badge">${t('prompts.modified') || 'Modified'}</span>` : ''}
-                <button class="btn-secondary" data-action="reset" data-key="${key}">
-                    ${t('buttons.reset') || 'Reset'}
-                </button>
 
-            </div>
-        </div>
-        <textarea 
-            id="prompt-` + key + `" 
-            class="prompt-textarea"
-            rows="8"
-        >${content}</textarea>
-        <div class="prompt-footer">
-            <button class="btn-primary" data-action="save" data-key="${key}">
-                ${t('buttons.save') || 'Save'}
-            </button>
-            <span id="status-` + key + `" class="save-status"></span>
-        </div>
-    </div>
-`;
+                // Lokalisierte Strings
+                const statusText = isModified ? 
+                    (t('promptEditor.custom') || 'Custom') : 
+                    (t('promptEditor.standard') || 'Standard');
+                const modifiedText = t('promptEditor.modified') || 'Modified';
+                const resetText = t('buttons.reset') || 'Reset';
+                const saveText = t('buttons.save') || 'Save';
+
+                // CSS-Klassen basierend auf Zustand
+                const cardClass = isModified ? 'prompt-card modified' : 'prompt-card';
+                const statusBadgeClass = isModified ? 'status-badge custom' : 'status-badge default';
+                const saveButtonClass = isModified ? 'btn-save active' : 'btn-save inactive';
+                const resetButtonClass = isModified ? 'btn-reset active' : 'btn-reset inactive';
+                const modifiedBadgeHtml = isModified ? '<span class="modified-badge">' + modifiedText + '</span>' : '';
+
+                promptsHtml += '<div class="' + cardClass + '">';
+                promptsHtml += '<div class="prompt-header">';
+                promptsHtml += '<h3>' + title + '</h3>';
+                promptsHtml += '<div class="prompt-actions">';
+                promptsHtml += '<span class="' + statusBadgeClass + '">' + statusText + '</span>';
+                promptsHtml += modifiedBadgeHtml;
+                promptsHtml += '<button class="' + resetButtonClass + '" onclick="doReset(\'' + key + '\')">' + resetText + '</button>';
+                promptsHtml += '</div>';
+                promptsHtml += '</div>';
+                promptsHtml += '<textarea id="prompt-' + key + '" class="prompt-textarea" rows="8">' + content + '</textarea>';
+                promptsHtml += '<div class="prompt-footer">';
+                promptsHtml += '<button class="' + saveButtonClass + '" onclick="doSave(\'' + key + '\')">' + saveText + '</button>';
+                promptsHtml += '<span id="status-' + key + '" class="save-status"></span>';
+                promptsHtml += '</div>';
+                promptsHtml += '</div>';
             }
         });
 
@@ -61,7 +66,6 @@ async function showPromptEditor(context) {
             <html>
             <head>
                 <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>${t('commands.editPrompts') || 'Edit Prompts'}</title>
                 <style>
                     * {
@@ -90,14 +94,6 @@ async function showPromptEditor(context) {
                         font-size: 28px;
                     }
                     
-                    .header-info {
-                        background: var(--vscode-textBlockQuote-background);
-                        padding: 15px;
-                        border-radius: 8px;
-                        margin-top: 15px;
-                        border-left: 4px solid var(--vscode-textLink-foreground);
-                    }
-                    
                     .prompt-card {
                         background: var(--vscode-editor-background);
                         border: 1px solid var(--vscode-panel-border);
@@ -122,18 +118,41 @@ async function showPromptEditor(context) {
                         justify-content: space-between;
                         align-items: center;
                         margin-bottom: 15px;
+                        flex-wrap: wrap;
+                        gap: 10px;
                     }
                     
                     .prompt-header h3 {
                         color: var(--vscode-textLink-foreground);
                         font-size: 18px;
                         font-weight: 600;
+                        flex: 1;
+                        min-width: 200px;
                     }
                     
                     .prompt-actions {
                         display: flex;
-                        gap: 10px;
+                        gap: 8px;
                         align-items: center;
+                        flex-wrap: wrap;
+                    }
+                    
+                    .status-badge {
+                        padding: 4px 8px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                    }
+                    
+                    .status-badge.default {
+                        background: var(--vscode-badge-background);
+                        color: var(--vscode-badge-foreground);
+                    }
+                    
+                    .status-badge.custom {
+                        background: var(--vscode-textLink-foreground);
+                        color: var(--vscode-editor-background);
                     }
                     
                     .modified-badge {
@@ -171,9 +190,11 @@ async function showPromptEditor(context) {
                         justify-content: space-between;
                         align-items: center;
                         margin-top: 15px;
+                        flex-wrap: wrap;
+                        gap: 10px;
                     }
                     
-                    .btn-primary, .btn-secondary {
+                    .btn-save, .btn-reset {
                         padding: 8px 16px;
                         border: none;
                         border-radius: 4px;
@@ -181,50 +202,95 @@ async function showPromptEditor(context) {
                         font-size: 13px;
                         font-weight: 500;
                         transition: all 0.2s;
+                        white-space: nowrap;
                     }
                     
-                    .btn-primary {
+                    /* Save Button States */
+                    .btn-save.active {
                         background: var(--vscode-button-background);
                         color: var(--vscode-button-foreground);
                     }
                     
-                    .btn-primary:hover {
+                    .btn-save.active:hover {
                         background: var(--vscode-button-hoverBackground);
                         transform: translateY(-1px);
                     }
                     
-                    .btn-secondary {
+                    .btn-save.inactive {
                         background: var(--vscode-button-secondaryBackground);
                         color: var(--vscode-button-secondaryForeground);
                         border: 1px solid var(--vscode-panel-border);
+                        opacity: 0.7;
                     }
                     
-                    .btn-secondary:hover {
+                    .btn-save.inactive:hover {
                         background: var(--vscode-button-secondaryHoverBackground);
+                        opacity: 1;
+                    }
+                    
+                    /* Reset Button States */
+                    .btn-reset.active {
+                        background: var(--vscode-button-background);
+                        color: var(--vscode-button-foreground);
+                    }
+                    
+                    .btn-reset.active:hover {
+                        background: var(--vscode-button-hoverBackground);
                         transform: translateY(-1px);
+                    }
+                    
+                    .btn-reset.inactive {
+                        background: var(--vscode-button-secondaryBackground);
+                        color: var(--vscode-button-secondaryForeground);
+                        border: 1px solid var(--vscode-panel-border);
+                        opacity: 0.7;
+                        cursor: not-allowed;
+                    }
+                    
+                    .btn-reset.inactive:hover {
+                        background: var(--vscode-button-secondaryBackground);
+                        transform: none;
+                        opacity: 0.7;
                     }
                     
                     .save-status {
                         font-size: 12px;
                         color: var(--vscode-descriptionForeground);
                         font-style: italic;
+                        flex: 1;
+                        text-align: right;
                     }
                     
                     .save-status.success {
                         color: var(--vscode-gitDecoration-addedResourceForeground);
                     }
                     
+                    .save-status.error {
+                        color: var(--vscode-errorForeground);
+                    }
+                    
                     @media (max-width: 768px) {
                         .prompt-header {
                             flex-direction: column;
                             align-items: flex-start;
-                            gap: 10px;
+                        }
+                        
+                        .prompt-header h3 {
+                            min-width: unset;
+                        }
+                        
+                        .prompt-actions {
+                            justify-content: flex-start;
+                            width: 100%;
                         }
                         
                         .prompt-footer {
                             flex-direction: column;
-                            gap: 10px;
                             align-items: flex-start;
+                        }
+                        
+                        .save-status {
+                            text-align: left;
                         }
                     }
                 </style>
@@ -232,13 +298,6 @@ async function showPromptEditor(context) {
             <body>
                 <div class="header">
                     <h1>${t('commands.editPrompts') || 'Edit Prompts'}</h1>
-                    <div class="header-info">
-                        <strong>${t('promptEditor.status') || 'Status'}:</strong> 
-                        ${promptData.isCustom ? 
-                            (t('promptEditor.usingCustom') || 'Using Custom Prompts') : 
-                            (t('promptEditor.usingDefaults') || 'Using Default Prompts')
-                        }
-                    </div>
                 </div>
                 
                 <div class="prompts-container">
@@ -248,7 +307,14 @@ async function showPromptEditor(context) {
                 <script>
                     const vscode = acquireVsCodeApi();
                     
-                    function savePrompt(key) {
+                    // Store original values for real-time change detection
+                    const originalValues = {};
+                    document.querySelectorAll('.prompt-textarea').forEach(textarea => {
+                        const key = textarea.id.replace('prompt-', '');
+                        originalValues[key] = textarea.value;
+                    });
+    
+                    function doSave(key) {
                         const textarea = document.getElementById('prompt-' + key);
                         const status = document.getElementById('status-' + key);
                         
@@ -261,47 +327,121 @@ async function showPromptEditor(context) {
                             value: textarea.value
                         });
                     }
+    
+                    function doReset(key) {
+                        const resetButton = document.querySelector('.btn-reset[onclick*="' + key + '"]');
+                        if (resetButton && resetButton.classList.contains('inactive')) {
+                            return; // Don't reset if already at default
+                        }
+                        
+                        const status = document.getElementById('status-' + key);
+                        status.textContent = 'Resetting...';
+                        status.className = 'save-status';
+                        
+                        vscode.postMessage({
+                            command: 'resetPrompt',
+                            key: key
+                        });
+                    }
                     
-                    function resetPrompt(key) {
-        if (confirm('${t('promptEditor.confirmReset') || 'Reset prompt to default?'}')) {
-            vscode.postMessage({
-                command: 'resetPrompt',
-                key: key
-            });
-        }
-    }
+                    function updateCardStatus(key, isModified) {
+                        const textarea = document.getElementById('prompt-' + key);
+                        if (!textarea) return;
+                        
+                        const card = textarea.closest('.prompt-card');
+                        const statusBadge = card.querySelector('.status-badge');
+                        const saveButton = card.querySelector('.btn-save');
+                        const resetButton = card.querySelector('.btn-reset');
+                        let modifiedBadge = card.querySelector('.modified-badge');
+                        
+                        if (isModified) {
+                            // Modified state
+                            card.classList.add('modified');
+                            statusBadge.textContent = 'Custom';
+                            statusBadge.className = 'status-badge custom';
+                            
+                            if (saveButton) {
+                                saveButton.className = 'btn-save active';
+                            }
+                            if (resetButton) {
+                                resetButton.className = 'btn-reset active';
+                            }
+                            
+                            if (!modifiedBadge) {
+                                modifiedBadge = document.createElement('span');
+                                modifiedBadge.className = 'modified-badge';
+                                modifiedBadge.textContent = '${t('promptEditor.modified') || 'Modified'}';
+                                statusBadge.parentNode.insertBefore(modifiedBadge, statusBadge.nextSibling);
+                            }
+                        } else {
+                            // Default state
+                            card.classList.remove('modified');
+                            statusBadge.textContent = 'Standard';
+                            statusBadge.className = 'status-badge default';
+                            
+                            if (saveButton) {
+                                saveButton.className = 'btn-save inactive';
+                            }
+                            if (resetButton) {
+                                resetButton.className = 'btn-reset inactive';
+                            }
+                            
+                            if (modifiedBadge) {
+                                modifiedBadge.remove();
+                            }
+                        }
+                    }
                     
-                    // Handle messages from extension
+                    // Real-time change detection
+                    document.querySelectorAll('.prompt-textarea').forEach(textarea => {
+                        textarea.addEventListener('input', function() {
+                            const key = this.id.replace('prompt-', '');
+                            const isModified = this.value !== originalValues[key];
+                            updateCardStatus(key, isModified);
+                        });
+                    });
+                    
+                    // Handle backend messages
                     window.addEventListener('message', event => {
                         const message = event.data;
                         
-                        switch (message.command) {
-                            case 'saveConfirmed':
-                                const status = document.getElementById('status-' + message.key);
+                        if (message.command === 'saveConfirmed') {
+                            const status = document.getElementById('status-' + message.key);
+                            const textarea = document.getElementById('prompt-' + message.key);
+                            
+                            if (status) {
                                 status.textContent = '${t('promptEditor.saved') || 'Saved'}';
                                 status.className = 'save-status success';
                                 setTimeout(() => {
                                     status.textContent = '';
                                 }, 3000);
-                                break;
-
-                            case 'promptReset':
-                                const textarea = document.getElementById('prompt-' + message.key);
-                                if (textarea) {
-                                    textarea.value = message.value;
-                                }
-                                break;
+                            }
+                            
+                            // Update button states after save
+                            if (textarea) {
+                                const key = message.key;
+                                const isModified = textarea.value !== originalValues[key];
+                                updateCardStatus(key, isModified);
+                            }
                         }
-                    });
-                    document.addEventListener('click', function(event) {
-                        const action = event.target.dataset.action;
-                        const key = event.target.dataset.key;
-    
-                        if (action === 'reset' && key) {
-                            vscode.postMessage({
-                                command: 'resetPrompt',
-                                key: key
-                            });
+                        
+                        if (message.command === 'promptReset') {
+                            const textarea = document.getElementById('prompt-' + message.key);
+                            const status = document.getElementById('status-' + message.key);
+                            
+                            if (textarea && message.value !== undefined) {
+                                textarea.value = message.value;
+                                originalValues[message.key] = message.value;
+                                updateCardStatus(message.key, false);
+                            }
+                            
+                            if (status) {
+                                status.textContent = '${t('promptEditor.resetSuccess') || 'Reset successful'}';
+                                status.className = 'save-status success';
+                                setTimeout(() => {
+                                    status.textContent = '';
+                                }, 3000);
+                            }
                         }
                     });
                 </script>
@@ -309,33 +449,44 @@ async function showPromptEditor(context) {
             </html>
         `;
 
-        // Enhanced message handler
+        // Backend message handler
         panel.webview.onDidReceiveMessage(async (message) => {
-            switch (message.command) {
-                case 'savePrompt':
-                    promptManager.updatePrompt(message.key, message.value);
-                    panel.webview.postMessage({
-                        command: 'saveConfirmed',
-                        key: message.key
-                    });
-                    break;
-            
-                case 'resetPrompt':
-                    const defaultValue = promptManager.defaultPrompts?.[message.key] || '';
-                    if (defaultValue) {
-                        promptManager.updatePrompt(message.key, defaultValue);
+            try {
+                switch (message.command) {
+                    case 'savePrompt':
+                        promptManager.updatePrompt(message.key, message.value);
                         panel.webview.postMessage({
-                            command: 'promptReset',
-                            key: message.key,
-                            value: defaultValue
+                            command: 'saveConfirmed',
+                            key: message.key
                         });
-                    }
-                    break;
+                        break;
+                
+                    case 'resetPrompt':
+                        const defaultValue = promptManager.defaultPrompts?.[message.key] || '';
+                        if (defaultValue) {
+                            if (promptManager.customPrompts && promptManager.customPrompts[message.key]) {
+                                delete promptManager.customPrompts[message.key];
+                                promptManager.saveCustomPrompts();
+                            }
+                            
+                            panel.webview.postMessage({
+                                command: 'promptReset',
+                                key: message.key,
+                                value: defaultValue
+                            });
+                        }
+                        break;
+                }
+            } catch (error) {
+                panel.webview.postMessage({
+                    command: 'error',
+                    key: message.key || 'unknown',
+                    text: error.message
+                });
             }
         });
     } catch (error) {
-        const vscode = require('vscode');
-        vscode.window.showErrorMessage('Error: ' + error.message);
+        vscode.window.showErrorMessage(`${t('errors.saveFailed', error.message) || 'Error'}: ${error.message}`);
     }
 }
 

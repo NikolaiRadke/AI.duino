@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "Status",
-    "usingCustom": "Verwende benutzerdefinierte Prompts",
-    "usingDefaults": "Verwende Standard-Prompts",
+    "standard": "Standard",
+    "custom": "Angepasst", 
     "modified": "Geändert",
     "saving": "Speichere",
     "saved": "Gespeichert",
-    "confirmReset": "Prompt wirklich auf Standard zurücksetzen?",
-    "resetSuccess": "Prompt zurückgesetzt",
-    "placeholder": "Prompt eingeben..."
+    "resetSuccess": "Zurückgesetzt"
   }
 }

@@ -337,14 +337,11 @@
   },
 
   "promptEditor": {
-    "status": "Tila",
-    "usingCustom": "Käyttää mukautettuja kehotteita",
-    "usingDefaults": "Käyttää oletuskehotteita",
+    "standard": "Vakio",
+    "custom": "Mukautettu",
     "modified": "Muokattu",
     "saving": "Tallentaa",
     "saved": "Tallennettu",
-    "confirmReset": "Haluatko varmasti palauttaa kehotteen oletukseen?",
-    "resetSuccess": "Kehote palautettu",
-    "placeholder": "Syötä kehote..."
+    "resetSuccess": "Palautettu"
   }
 }

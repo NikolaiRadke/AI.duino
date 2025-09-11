@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "Status",
-    "usingCustom": "Använder anpassade prompter",
-    "usingDefaults": "Använder standardprompter",
+    "standard": "Standard",
+    "custom": "Anpassad",
     "modified": "Ändrad",
     "saving": "Sparar",
     "saved": "Sparad",
-    "confirmReset": "Verkligen återställa prompt till standard?",
-    "resetSuccess": "Prompt återställd",
-    "placeholder": "Ange prompt..."
+    "resetSuccess": "Återställd"
   }
 }

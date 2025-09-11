@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "Durum",
-    "usingCustom": "Özel istemler kullanılıyor",
-    "usingDefaults": "Varsayılan istemler kullanılıyor",
+    "standard": "Standart",
+    "custom": "Özel",
     "modified": "Değiştirildi",
-    "saving": "Kaydediliyor",
+    "saving": "Kaydediyor",
     "saved": "Kaydedildi",
-    "confirmReset": "İstemi gerçekten varsayılana sıfırlamak istiyor musunuz?",
-    "resetSuccess": "İstem sıfırlandı",
-    "placeholder": "İstem girin..."
+    "resetSuccess": "Sıfırlandı"
   }
 }

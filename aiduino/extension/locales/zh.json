@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "状态",
-    "usingCustom": "使用自定义提示词",
-    "usingDefaults": "使用默认提示词",
+    "standard": "标准",
+    "custom": "自定义",
     "modified": "已修改",
     "saving": "保存中",
     "saved": "已保存",
-    "confirmReset": "确实要将提示词重置为默认值吗？",
-    "resetSuccess": "提示词已重置",
-    "placeholder": "输入提示词..."
+    "resetSuccess": "已重置"
   }
 }

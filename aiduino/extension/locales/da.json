@@ -337,14 +337,11 @@
   },
 
   "promptEditor": {
-    "status": "Status",
-    "usingCustom": "Bruger brugerdefinerede prompts",
-    "usingDefaults": "Bruger standard prompts",
+    "standard": "Standard",
+    "custom": "Tilpasset",
     "modified": "Ændret",
     "saving": "Gemmer",
     "saved": "Gemt",
-    "confirmReset": "Vil du virkelig nulstille prompt til standard?",
-    "resetSuccess": "Prompt nulstillet",
-    "placeholder": "Indtast prompt..."
+    "resetSuccess": "Nulstillet"
   }
 }

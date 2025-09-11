@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "Stav",
-    "usingCustom": "Používání vlastních výzev",
-    "usingDefaults": "Používání výchozích výzev",
-    "modified": "Upraveno",
-    "saving": "Ukládání",
-    "saved": "Uloženo",
-    "confirmReset": "Opravdu obnovit výzvu na výchozí?",
-    "resetSuccess": "Výzva obnovena",
-    "placeholder": "Zadejte výzvu..."
+    "standard": "Standardní",
+    "custom": "Vlastní",
+    "modified": "Změněn",
+    "saving": "Ukládá",
+    "saved": "Uložen",
+    "resetSuccess": "Obnoven"
   }
 }

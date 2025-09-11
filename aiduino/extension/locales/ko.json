@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "상태",
-    "usingCustom": "사용자 정의 프롬프트 사용",
-    "usingDefaults": "기본 프롬프트 사용",
+    "standard": "표준",
+    "custom": "사용자 정의",
     "modified": "수정됨",
     "saving": "저장 중",
     "saved": "저장됨",
-    "confirmReset": "정말로 프롬프트를 기본값으로 재설정하시겠습니까?",
-    "resetSuccess": "프롬프트 재설정됨",
-    "placeholder": "프롬프트 입력..."
+    "resetSuccess": "재설정됨"
   }
 }

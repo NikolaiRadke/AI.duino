@@ -338,14 +338,11 @@
   },
 
   "promptEditor": {
-    "status": "Status",
-    "usingCustom": "Usando prompts personalizados",
-    "usingDefaults": "Usando prompts padrão",
+    "standard": "Padrão",
+    "custom": "Personalizado",
     "modified": "Modificado",
     "saving": "Salvando",
     "saved": "Salvo",
-    "confirmReset": "Realmente redefinir o prompt para o padrão?",
-    "resetSuccess": "Prompt redefinido",
-    "placeholder": "Digite o prompt..."
+    "resetSuccess": "Redefinido"
   }
 }

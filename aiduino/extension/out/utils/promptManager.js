@@ -11,17 +11,20 @@ const vscode = require('vscode');
 
 class PromptManager {
     constructor() {
-        this.customPromptsFile = path.join(os.homedir(), '.aiduino-custom-prompts.json');
-        this.backupFile = path.join(os.homedir(), '.aiduino-custom-prompts.backup.json');
-        this.customPrompts = null;
-        this.defaultPrompts = null;
+        this.currentLocale = 'en'; // Default
+        this.customPromptsFile = null;
+        this.backupFile = null;
+        this.updateFilePaths();
     }
 
-    /**
-     * Initialize the prompt manager
-     * @param {Object} i18n - Current locale object containing default prompts
-     */
-    initialize(i18n) {
+    updateFilePaths() {
+        this.customPromptsFile = path.join(os.homedir(), `.aiduino-custom-prompts-${this.currentLocale}.json`);
+        this.backupFile = path.join(os.homedir(), `.aiduino-custom-prompts-${this.currentLocale}.backup.json`);
+    }
+
+    initialize(i18n, locale = 'en') {
+        this.currentLocale = locale;
+        this.updateFilePaths();
         this.defaultPrompts = i18n.prompts || {};
         this.loadCustomPrompts();
     }
