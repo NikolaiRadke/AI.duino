@@ -59,30 +59,30 @@ async function debugHelp(context) {
         switch (selected.value) {
             case 'serial':
                 const serialOutput = await vscode.window.showInputBox({
-                    prompt: t('prompts.pasteSerial'),
+                    prompt: context.promptManager.getPrompt('pasteSerial'),
                     placeHolder: t('placeholders.serialExample'),
                     ignoreFocusOut: true
                 });
                 if (!serialOutput) return;
                 
                 const codeForSerial = editor.selection.isEmpty ? '' : editor.document.getText(editor.selection);
-                prompt = t('prompts.analyzeSerial', serialOutput, codeForSerial);
+                prompt = context.promptManager.getPrompt('analyzeSerial', serialOutput, codeForSerial);
                 needsCode = false;
                 break;
                 
             case 'hardware':
                 const hardwareCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-                prompt = t('prompts.hardwareDebug', hardwareCode) + shared.getBoardContext();  
+                prompt = context.promptManager.getPrompt('hardwareDebug', hardwareCode) + shared.getBoardContext();  
                 break;
                 
             case 'debug':
                 const debugCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-                prompt = t('prompts.addDebugStatements', debugCode); 
+                prompt = context.promptManager.getPrompt('addDebugStatements', debugCode); 
                 break;
                 
             case 'timing':
                 const timingCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-                prompt = t('prompts.analyzeTiming', timingCode) + shared.getBoardContext();  
+                prompt = context.promptManager.getPrompt('analyzeTiming', timingCode) + shared.getBoardContext();  
                 break;
         }
         

@@ -35,7 +35,7 @@ async function explainCode(context) {
             return;
         }
         
-        const prompt = t('prompts.explainCode', selectedText) + shared.getBoardContext();
+        const prompt = context.promptManager.getPrompt('explainCode', selectedText) + shared.getBoardContext();
         const model = minimalModelManager.providers[currentModel];
         
         let response;

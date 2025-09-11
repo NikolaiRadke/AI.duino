@@ -38,7 +38,7 @@ async function improveCode(context) {
         const savedInstructions = globalContext.globalState.get('aiduino.customInstructions', '');
         
         const customInstructions = await vscode.window.showInputBox({
-            prompt: t('prompts.customInstructions'),
+            prompt: context.promptManager.getPrompt('customInstructions'),
             placeHolder: t('placeholders.customInstructions'),
             value: savedInstructions,
             ignoreFocusOut: true
@@ -50,14 +50,14 @@ async function improveCode(context) {
         
         globalContext.globalState.update('aiduino.customInstructions', customInstructions);
         
-        let prompt = t('prompts.improveCode', selectedText) + shared.getBoardContext();
+        let prompt = context.promptManager.getPrompt('improveCode', selectedText) + shared.getBoardContext();
         
         if (customInstructions && customInstructions.trim()) {
             const instructions = customInstructions.split(',').map(s => s.trim()).join('\n- ');
-            prompt += '\n\n' + t('prompts.additionalInstructions', instructions);
+            prompt += '\n\n' + context.promptManager.getPrompt('additionalInstructions', instructions);
         }
         
-        prompt += '\n\n' + t('prompts.improveCodeSuffix');
+        prompt += '\n\n' + context.promptManager.getPrompt('improveCodeSuffix');
         
         const model = minimalModelManager.providers[currentModel];
         

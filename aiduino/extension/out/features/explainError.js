@@ -29,7 +29,7 @@ async function explainError(context) {
         
         // For Arduino files, directly ask for error
         const errorInput = await vscode.window.showInputBox({
-            prompt: t('prompts.pasteError'),
+            prompt: context.promptManager.getPrompt('pasteError'),
             placeHolder: t('placeholders.errorExample'),
             ignoreFocusOut: true
         });
@@ -44,7 +44,7 @@ async function explainError(context) {
             new vscode.Range(startLine, 0, endLine, Number.MAX_VALUE)
         );
         
-        const prompt = t('prompts.explainError', errorInput, line + 1, codeContext) + shared.getBoardContext();
+        const prompt = context.promptManager.getPrompt('explainError', errorInput, line + 1, codeContext) + shared.getBoardContext();
         
         try {
             const model = minimalModelManager.providers[currentModel];

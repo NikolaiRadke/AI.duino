@@ -52,7 +52,7 @@ async function askAI(context, isFollowUp = false) {
         }
 
         // Different prompts for follow-up vs new question
-        const promptText = isFollowUp ? t('prompts.askFollowUp') : t('prompts.askAI');
+        const promptText = isFollowUp ? context.promptManager.getPrompt('askFollowUp') : context.promptManager.getPrompt('askAI');
         const placeholderText = isFollowUp ? t('placeholders.askFollowUp') : t('placeholders.askAI');
 
         // Show context info for follow-ups
@@ -110,7 +110,7 @@ async function askAI(context, isFollowUp = false) {
                 if (includeCode.value) {
                     currentCode = editor.document.getText(editor.selection);
                     // Add board info only when code is included
-                    finalPrompt = t('prompts.askAIWithContext', question, currentCode) + shared.getBoardContext();
+                    finalPrompt = context.promptManager.getPrompt('askAIWithContext', question, currentCode) + shared.getBoardContext();
                 }
             }
         }   
@@ -160,8 +160,8 @@ async function askAI(context, isFollowUp = false) {
  * @param {Function} t - Translation function
  * @returns {string} Complete follow-up prompt
  */
-function buildFollowUpPrompt(followUpQuestion, aiConversationContext, t) {
-    let contextPrompt = t('prompts.followUpContext');
+function buildFollowUpPrompt(followUpQuestion, aiConversationContext, t, promptManager) {
+    let contextPrompt = promptManager.getPrompt('followUpContext');
     
     // Add previous conversation
     contextPrompt += `\n\n${t('chat.previousQuestion')}: ${aiConversationContext.lastQuestion}`;
@@ -174,7 +174,7 @@ function buildFollowUpPrompt(followUpQuestion, aiConversationContext, t) {
     
     // Add current follow-up question
     contextPrompt += `\n\n${t('chat.followUpQuestion')}: ${followUpQuestion}`;
-    contextPrompt += `\n\n${t('prompts.followUpInstruction')}`;
+    contextPrompt += `\n\n${promptManager.getPrompt('followUpInstruction')}`;
     
     return contextPrompt;
 }
