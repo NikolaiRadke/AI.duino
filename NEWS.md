@@ -1,8 +1,9 @@
 # Newsblog
 
 ## 2025
-  
-* **09.09.2025** Bugfix: The first trhee menu entries are now translated correcty.   
+
+* **11.09.2025** Release **V1.7.0** with update detection and a prompt editor.  
+* **09.09.2025** Bugfix: The first three menu entries are now translated correcty.   
 * **09.09.2025** **V1.6.2** with important ChatGPT bugfix!    
 * **07.09.2025** **V1.6.1** with small bugfixes and new locales bg, hu, sl, sk.
 * **04.09.2025** **V1.6.0** is checking every startup for new *providerConfigs.js*, which will be generated weekly.
