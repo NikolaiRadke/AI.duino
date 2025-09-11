@@ -14,7 +14,8 @@
     "tokenStats": "Token-statistik",
     "switchLanguage": "Byt språk",
     "askAI": "Fråga AI",
-    "askFollowUp": "Följdfråga"
+    "askFollowUp": "Följdfråga",
+    "editPrompts": "Redigera prompter"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Visa token-statistik",
     "tryAgain": "Försök igen",
     "checkStatus": "Kontrollera status",
-    "checkRouter": "Kontrollera router"
+    "checkRouter": "Kontrollera router",
+    "save": "Spara",
+    "reset": "Återställ"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Nuvarande: {0}",
     "askAI": "Ställ en direkt fråga till AI",
     "askFollowUp": "Fortsätt föregående konversation: {0}",
-    "noValidContext": "Ingen föregående konversation"
+    "noValidContext": "Ingen föregående konversation",
+    "editPrompts": "Anpassa och hantera AI-prompter"
   },
 
   "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Kontrollera automatiskt för leverantörskonfigurationsuppdateringar"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension uppdatering tillgänglig: {0} → {1}",
+    "download": "Ladda ned"
+  },
+
+  "promptEditor": {
+    "status": "Status",
+    "usingCustom": "Använder anpassade prompter",
+    "usingDefaults": "Använder standardprompter",
+    "modified": "Ändrad",
+    "saving": "Sparar",
+    "saved": "Sparad",
+    "confirmReset": "Verkligen återställa prompt till standard?",
+    "resetSuccess": "Prompt återställd",
+    "placeholder": "Ange prompt..."
   }
 }

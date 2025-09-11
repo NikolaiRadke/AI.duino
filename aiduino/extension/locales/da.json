@@ -14,7 +14,8 @@
     "tokenStats": "Token Statistikker",
     "switchLanguage": "Skift Sprog",
     "askAI": "Spørg AI",
-    "askFollowUp": "Stil Opfølgende Spørgsmål"
+    "askFollowUp": "Stil Opfølgende Spørgsmål",
+    "editPrompts": "Rediger prompts"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Vis Token Stats",
     "tryAgain": "Prøv Igen",
     "checkStatus": "Tjek Status",
-    "checkRouter": "Tjek Router"
+    "checkRouter": "Tjek Router",
+    "save": "Gem",
+    "reset": "Nulstil"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Nuværende: {0}",
     "askAI": "Stil AI et direkte spørgsmål",
     "askFollowUp": "Fortsæt forrige samtale: {0}",
-    "noValidContext": "Ingen forrige samtale"
+    "noValidContext": "Ingen forrige samtale",
+    "editPrompts": "Tilpas og administrer AI prompts"
   },
 
   "language": {
@@ -325,5 +329,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Kontroller automatisk for opdateringer af udbyderkonfigurationer"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension opdatering tilgængelig: {0} → {1}",
+    "download": "Download"
+  },
+
+  "promptEditor": {
+    "status": "Status",
+    "usingCustom": "Bruger brugerdefinerede prompts",
+    "usingDefaults": "Bruger standard prompts",
+    "modified": "Ændret",
+    "saving": "Gemmer",
+    "saved": "Gemt",
+    "confirmReset": "Vil du virkelig nulstille prompt til standard?",
+    "resetSuccess": "Prompt nulstillet",
+    "placeholder": "Indtast prompt..."
   }
 }

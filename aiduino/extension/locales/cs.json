@@ -14,7 +14,8 @@
     "tokenStats": "Statistiky tokenů",
     "switchLanguage": "Přepnout jazyk",
     "askAI": "Zeptat se AI",
-    "askFollowUp": "Navazující otázka"
+    "askFollowUp": "Navazující otázka",
+    "editPrompts": "Upravit výzvy"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Zobrazit statistiky tokenů",
     "tryAgain": "Zkusit znovu",
     "checkStatus": "Zkontrolovat stav",
-    "checkRouter": "Zkontrolovat router"
+    "checkRouter": "Zkontrolovat router",
+    "save": "Uložit",
+    "reset": "Obnovit"
   },
   
   "descriptions": {
@@ -88,8 +91,8 @@
     "currentLanguage": "Aktuální: {0}",
     "askAI": "Položit přímou otázku AI",
     "askFollowUp": "Pokračovat v předchozí konverzaci: {0}",
-    "noValidContext": "Žádná předchozí konverzace"
-
+    "noValidContext": "Žádná předchozí konverzace",
+    "editPrompts": "Přizpůsobit a spravovat AI výzvy"
   },
 
   "language": {
@@ -327,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Automaticky kontrolovat aktualizace konfigurací poskytovatelů"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension opdatering tilgængelig: {0} → {1}",
+    "download": "Download"
+  },
+
+  "promptEditor": {
+    "status": "Stav",
+    "usingCustom": "Používání vlastních výzev",
+    "usingDefaults": "Používání výchozích výzev",
+    "modified": "Upraveno",
+    "saving": "Ukládání",
+    "saved": "Uloženo",
+    "confirmReset": "Opravdu obnovit výzvu na výchozí?",
+    "resetSuccess": "Výzva obnovena",
+    "placeholder": "Zadejte výzvu..."
   }
 }

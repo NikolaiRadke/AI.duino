@@ -14,7 +14,8 @@
     "tokenStats": "Statistiche token",
     "switchLanguage": "Cambia lingua",
     "askAI": "Chiedi all'IA",
-    "askFollowUp": "Domanda di seguito"
+    "askFollowUp": "Domanda di seguito",
+    "editPrompts": "Modifica prompt"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Mostra statistiche token",
     "tryAgain": "Riprova",
     "checkStatus": "Controlla stato",
-    "checkRouter": "Controlla router"
+    "checkRouter": "Controlla router",
+    "save": "Salva",
+    "reset": "Ripristina"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Attuale: {0}",
     "askAI": "Fai una domanda diretta all'IA",
     "askFollowUp": "Continua conversazione precedente: {0}",
-    "noValidContext": "Nessuna conversazione precedente"
+    "noValidContext": "Nessuna conversazione precedente",
+    "editPrompts": "Personalizza e gestisci i prompt AI"
   },
 
   "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Controlla automaticamente gli aggiornamenti delle configurazioni dei fornitori"
+  },
+
+  "extensionUpdate": {
+    "available": "Aggiornamento AI.duino Extension disponibile: {0} → {1}",
+    "download": "Scarica"
+  },
+
+  "promptEditor": {
+    "status": "Stato",
+    "usingCustom": "Utilizzo di prompt personalizzati",
+    "usingDefaults": "Utilizzo di prompt predefiniti",
+    "modified": "Modificato",
+    "saving": "Salvataggio",
+    "saved": "Salvato",
+    "confirmReset": "Ripristinare davvero il prompt al valore predefinito?",
+    "resetSuccess": "Prompt ripristinato",
+    "placeholder": "Inserisci prompt..."
   }
 }

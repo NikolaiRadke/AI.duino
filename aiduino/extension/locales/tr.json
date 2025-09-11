@@ -14,7 +14,8 @@
     "tokenStats": "Token İstatistikleri",
     "switchLanguage": "Dili değiştir",
     "askAI": "AI'ya Sor",
-    "askFollowUp": "Takip sorusu"
+    "askFollowUp": "Takip sorusu",
+    "editPrompts": "İstemleri düzenle"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Token İstatistiklerini Göster",
     "tryAgain": "Tekrar Dene",
     "checkStatus": "Durumu Kontrol Et",
-    "checkRouter": "Yönlendiricini Kontrol Et"
+    "checkRouter": "Yönlendiricini Kontrol Et",
+    "save": "Kaydet",
+    "reset": "Sıfırla"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Mevcut: {0}",
     "askAI": "AI'ya doğrudan soru sor",
     "askFollowUp": "Önceki konuşmayı devam ettir: {0}",
-    "noValidContext": "Önceki konuşma yok"
+    "noValidContext": "Önceki konuşma yok",
+    "editPrompts": "AI istemlerini özelleştir ve yönet"
   },
 
   "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Sağlayıcı yapılandırma güncellemelerini otomatik kontrol et"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension güncellemesi mevcut: {0} → {1}",
+    "download": "İndir"
+  },
+
+  "promptEditor": {
+    "status": "Durum",
+    "usingCustom": "Özel istemler kullanılıyor",
+    "usingDefaults": "Varsayılan istemler kullanılıyor",
+    "modified": "Değiştirildi",
+    "saving": "Kaydediliyor",
+    "saved": "Kaydedildi",
+    "confirmReset": "İstemi gerçekten varsayılana sıfırlamak istiyor musunuz?",
+    "resetSuccess": "İstem sıfırlandı",
+    "placeholder": "İstem girin..."
   }
 }

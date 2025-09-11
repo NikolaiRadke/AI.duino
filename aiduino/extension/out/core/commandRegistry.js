@@ -38,6 +38,7 @@ class CommandRegistry {
             explainErrorFeature,
             debugHelpFeature,
             askAIFeature,
+            promptEditorFeature,
             uiTools
         } = deps;
 
@@ -121,7 +122,13 @@ class CommandRegistry {
                 handler: () => uiTools.showAbout(deps.getDependencies()),
                 description: 'About AI.duino'
             },
-
+            
+            // Prompt Management
+{
+            name: 'aiduino.editPrompts',
+            handler: () => promptEditorFeature.showPromptEditor(deps.getDependencies()),
+            description: 'Edit AI Prompts'
+        },
             // Debug Commands (normally hidden)
             { 
                 name: 'aiduino.showModels', 

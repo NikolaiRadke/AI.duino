@@ -14,7 +14,8 @@
     "tokenStats": "Token-statistikk",
     "switchLanguage": "Bytt språk",
     "askAI": "Spør AI",
-    "askFollowUp": "Still oppfølgingsspørsmål"
+    "askFollowUp": "Still oppfølgingsspørsmål",
+    "editPrompts": "Rediger prompter"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Vis token-statistikk",
     "tryAgain": "Prøv igjen",
     "checkStatus": "Sjekk status",
-    "checkRouter": "Sjekk ruter"
+    "checkRouter": "Sjekk ruter",
+    "save": "Lagre",
+    "reset": "Tilbakestill"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Nåværende: {0}",
     "askAI": "Still AI et direkte spørsmål",
     "askFollowUp": "Fortsett forrige samtale: {0}",
-    "noValidContext": "Ingen forrige samtale"
+    "noValidContext": "Ingen forrige samtale",
+    "editPrompts": "Tilpass og administrer AI-prompter"
   },
 
   "language": {
@@ -325,5 +329,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Automatisk sjekk for oppdateringer av leverandørkonfigurasjoner"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension oppdatering tilgjengelig: {0} → {1}",
+    "download": "Last ned"
+  },
+
+  "promptEditor": {
+    "status": "Status",
+    "usingCustom": "Bruker tilpassede prompter",
+    "usingDefaults": "Bruker standard prompter",
+    "modified": "Endret",
+    "saving": "Lagrer",
+    "saved": "Lagret",
+    "confirmReset": "Vil du virkelig tilbakestille prompt til standard?",
+    "resetSuccess": "Prompt tilbakestilt",
+    "placeholder": "Skriv inn prompt..."
   }
 }

@@ -14,7 +14,8 @@
     "tokenStats": "Token统计",
     "switchLanguage": "切换语言",
     "askAI": "询问AI",
-    "askFollowUp": "追问"
+    "askFollowUp": "追问",
+    "editPrompts": "编辑提示词"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "显示令牌统计",
     "tryAgain": "重试",
     "checkStatus": "检查状态",
-    "checkRouter": "检查路由器"
+    "checkRouter": "检查路由器",
+    "save": "保存",
+    "reset": "重置"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "当前：{0}",
     "askAI": "直接向AI提问",
     "askFollowUp": "继续之前的对话: {0}",
-    "noValidContext": "没有之前的对话"
+    "noValidContext": "没有之前的对话",
+    "editPrompts": "自定义和管理AI提示词"
   },
 
   "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "自动检查提供商配置更新"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension 更新可用: {0} → {1}",
+    "download": "下载"
+  },
+
+  "promptEditor": {
+    "status": "状态",
+    "usingCustom": "使用自定义提示词",
+    "usingDefaults": "使用默认提示词",
+    "modified": "已修改",
+    "saving": "保存中",
+    "saved": "已保存",
+    "confirmReset": "确实要将提示词重置为默认值吗？",
+    "resetSuccess": "提示词已重置",
+    "placeholder": "输入提示词..."
   }
 }

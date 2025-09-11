@@ -14,7 +14,8 @@
     "tokenStats": "Token statisztikák",
     "switchLanguage": "Nyelv váltása",
     "askAI": "AI kérdezése",
-    "askFollowUp": "Követő kérdés feltevése"
+    "askFollowUp": "Követő kérdés feltevése",
+    "editPrompts": "Promptok szerkesztése"
   },
 
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Token statisztikák megjelenítése",
     "tryAgain": "Újra próbálkozás",
     "checkStatus": "Státusz ellenőrzése",
-    "checkRouter": "Router ellenőrzése"
+    "checkRouter": "Router ellenőrzése",
+    "save": "Mentés",
+    "reset": "Visszaállítás"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Aktuális: {0}",
     "askAI": "Közvetlen kérdés az AI-nak",
     "askFollowUp": "Előző beszélgetés folytatása: {0}",
-    "noValidContext": "Nincs előző beszélgetés"
+    "noValidContext": "Nincs előző beszélgetés",
+    "editPrompts": "AI promptok testreszabása és kezelése"
   },
   
   "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Automatikus keresés provider config frissítésekhez"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension frissítés elérhető: {0} → {1}",
+    "download": "Letöltés"
+  },
+
+  "promptEditor": {
+    "status": "Állapot",
+    "usingCustom": "Egyéni promptok használata",
+    "usingDefaults": "Alapértelmezett promptok használata",
+    "modified": "Módosított",
+    "saving": "Mentés",
+    "saved": "Mentve",
+    "confirmReset": "Valóban visszaállítja a promptot az alapértelmezettre?",
+    "resetSuccess": "Prompt visszaállítva",
+    "placeholder": "Adja meg a promptot..."
   }
 }

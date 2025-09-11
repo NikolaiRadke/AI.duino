@@ -14,7 +14,8 @@
     "tokenStats": "Token-statistieken",
     "switchLanguage": "Taal wijzigen",
     "askAI": "Vraag AI",
-    "askFollowUp": "Vervolgvraag"
+    "askFollowUp": "Vervolgvraag",
+    "editPrompts": "Prompts bewerken"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Pokaż statystyki tokenów",
     "tryAgain": "Spróbuj ponownie",
     "checkStatus": "Sprawdź status",
-    "checkRouter": "Sprawdź router"
+    "checkRouter": "Sprawdź router",
+    "save": "Opslaan",
+    "reset": "Herstellen"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Huidige: {0}",
     "askAI": "Stel een directe vraag aan AI",
     "askFollowUp": "Vorig gesprek voortzetten: {0}",
-    "noValidContext": "Geen vorig gesprek"
+    "noValidContext": "Geen vorig gesprek",
+    "editPrompts": "AI-prompts aanpassen en beheren"
   },
   
    "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Automatisch controleren op provider configuratie updates"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension update beschikbaar: {0} → {1}",
+    "download": "Downloaden"
+  },
+
+  "promptEditor": {
+    "status": "Status",
+    "usingCustom": "Aangepaste prompts gebruiken",
+    "usingDefaults": "Standaard prompts gebruiken",
+    "modified": "Gewijzigd",
+    "saving": "Opslaan",
+    "saved": "Opgeslagen",
+    "confirmReset": "Prompt echt herstellen naar standaard?",
+    "resetSuccess": "Prompt hersteld",
+    "placeholder": "Voer prompt in..."
   }
 }

@@ -14,7 +14,8 @@
     "tokenStats": "Token статистики",
     "switchLanguage": "Смяна на език",
     "askAI": "Питане на AI",
-    "askFollowUp": "Задаване на последващ въпрос"
+    "askFollowUp": "Задаване на последващ въпрос",
+    "editPrompts": "Редактиране на подкани"
   },
 
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Показване на token статистики",
     "tryAgain": "Нов опит",
     "checkStatus": "Проверка на статуса",
-    "checkRouter": "Проверка на рутера"
+    "checkRouter": "Проверка на рутера",
+    "save": "Запазване",
+    "reset": "Нулиране"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Текущ: {0}",
     "askAI": "Директен въпрос към AI",
     "askFollowUp": "Продължение на предишен разговор: {0}",
-    "noValidContext": "Няма предишен разговор"
+    "noValidContext": "Няма предишен разговор",
+    "editPrompts": "Персонализиране и управление на AI подкани"
   },
   
   "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Автоматично търсене на provider config актуализации"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension актуализация налична: {0} → {1}",
+    "download": "Изтегляне"
+  },
+
+  "promptEditor": {
+    "status": "Статус",
+    "usingCustom": "Използване на персонализирани подкани",
+    "usingDefaults": "Използване на стандартни подкани",
+    "modified": "Променен",
+    "saving": "Запазване",
+    "saved": "Запазено",
+    "confirmReset": "Наистина ли искате да нулирате подканата до стандартната?",
+    "resetSuccess": "Подканата е нулирана",
+    "placeholder": "Въведете подкана..."
   }
 }

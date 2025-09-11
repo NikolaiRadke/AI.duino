@@ -14,7 +14,8 @@
     "tokenStats": "Token-Statistik",
     "switchLanguage": "Sprache wechseln",
     "askAI": "KI fragen",
-    "askFollowUp": "Rückfrage stellen"
+    "askFollowUp": "Rückfrage stellen",
+    "editPrompts": "Prompts bearbeiten"
   },
 
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Token-Statistik anzeigen",
     "tryAgain": "Erneut versuchen",
     "checkStatus": "Status prüfen",
-    "checkRouter": "Router prüfen"
+    "checkRouter": "Router prüfen",
+    "save": "Speichern",
+    "reset": "Zurücksetzen"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Aktuell: {0}",
     "askAI": "Direkte Frage an die KI stellen",
     "askFollowUp": "Vorherige Unterhaltung fortsetzen: {0}",
-    "noValidContext": "Keine vorherige Unterhaltung"
+    "noValidContext": "Keine vorherige Unterhaltung",
+    "editPrompts": "AI-Prompts anpassen"
   },
   
   "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Automatisch nach Provider-Config-Updates suchen"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension Update verfügbar: {0} → {1}",
+    "download": "Herunterladen"
+  },
+
+  "promptEditor": {
+    "status": "Status",
+    "usingCustom": "Verwende benutzerdefinierte Prompts",
+    "usingDefaults": "Verwende Standard-Prompts",
+    "modified": "Geändert",
+    "saving": "Speichere",
+    "saved": "Gespeichert",
+    "confirmReset": "Prompt wirklich auf Standard zurücksetzen?",
+    "resetSuccess": "Prompt zurückgesetzt",
+    "placeholder": "Prompt eingeben..."
   }
 }

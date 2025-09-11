@@ -14,7 +14,8 @@
     "tokenStats": "Estadísticas de tokens",
     "switchLanguage": "Cambiar idioma",
     "askAI": "Preguntar a la IA",
-    "askFollowUp": "Pregunta de seguimiento"
+    "askFollowUp": "Pregunta de seguimiento",
+    "editPrompts": "Editar indicaciones"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Mostrar estadísticas de tokens",
     "tryAgain": "Intentar de nuevo",
     "checkStatus": "Verificar estado",
-    "checkRouter": "Verificar router"
+    "checkRouter": "Verificar router",
+    "save": "Guardar",
+    "reset": "Restablecer"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Actual: {0}",
     "askAI": "Hacer una pregunta directa a la IA",
     "askFollowUp": "Continuar conversación anterior: {0}",
-    "noValidContext": "Sin conversación anterior"
+    "noValidContext": "Sin conversación anterior",
+    "editPrompts": "Personalizar y gestionar indicaciones de IA"
   },
 
   "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Verificar automáticamente actualizaciones de configuraciones de proveedores"
+  },
+
+  "extensionUpdate": {
+    "available": "Actualización de AI.duino Extension disponible: {0} → {1}",
+    "download": "Descargar"
+  },
+
+  "promptEditor": {
+    "status": "Estado",
+    "usingCustom": "Usando indicaciones personalizadas",
+    "usingDefaults": "Usando indicaciones predeterminadas",
+    "modified": "Modificado",
+    "saving": "Guardando",
+    "saved": "Guardado",
+    "confirmReset": "¿Realmente restablecer la indicación al valor predeterminado?",
+    "resetSuccess": "Indicación restablecida",
+    "placeholder": "Ingrese indicación..."
   }
 }

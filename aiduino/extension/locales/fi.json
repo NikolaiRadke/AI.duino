@@ -14,7 +14,8 @@
     "tokenStats": "Token-tilastot",
     "switchLanguage": "Vaihda Kieli",
     "askAI": "Kysy AI:lta",
-    "askFollowUp": "Esitä Jatkokysymys"
+    "askFollowUp": "Esitä Jatkokysymys",
+    "editPrompts": "Muokkaa kehotteita"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Näytä Token-tilastot",
     "tryAgain": "Yritä Uudelleen",
     "checkStatus": "Tarkista Tila",
-    "checkRouter": "Tarkista Reititin"
+    "checkRouter": "Tarkista Reititin",
+    "save": "Tallenna",
+    "reset": "Palauta"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Nykyinen: {0}",
     "askAI": "Esitä AI:lle suora kysymys",
     "askFollowUp": "Jatka edellistä keskustelua: {0}",
-    "noValidContext": "Ei edellistä keskustelua"
+    "noValidContext": "Ei edellistä keskustelua",
+    "editPrompts": "Mukauta ja hallitse AI-kehotteita"
   },
 
   "language": {
@@ -325,5 +329,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Tarkista automaattisesti palveluntarjoajien asetusten päivitykset"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension päivitys saatavilla: {0} → {1}",
+    "download": "Lataa"
+  },
+
+  "promptEditor": {
+    "status": "Tila",
+    "usingCustom": "Käyttää mukautettuja kehotteita",
+    "usingDefaults": "Käyttää oletuskehotteita",
+    "modified": "Muokattu",
+    "saving": "Tallentaa",
+    "saved": "Tallennettu",
+    "confirmReset": "Haluatko varmasti palauttaa kehotteen oletukseen?",
+    "resetSuccess": "Kehote palautettu",
+    "placeholder": "Syötä kehote..."
   }
 }

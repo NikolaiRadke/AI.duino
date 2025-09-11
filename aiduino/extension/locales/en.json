@@ -14,7 +14,8 @@
     "tokenStats": "Token Statistics",
     "switchLanguage": "Switch Language",
     "askAI": "Ask AI",
-    "askFollowUp": "Ask Follow-up"
+    "askFollowUp": "Ask Follow-up",
+    "editPrompts": "Edit Prompts"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Show Token Stats",
     "tryAgain": "Try Again",
     "checkStatus": "Check Status",
-    "checkRouter": "Check Router"
+    "checkRouter": "Check Router",
+    "save": "Save",
+    "reset": "Reset"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Current: {0}",
     "askAI": "Ask AI a direct question",
     "askFollowUp": "Continue previous conversation: {0}",
-    "noValidContext": "No previous conversation"
+    "noValidContext": "No previous conversation",
+    "editPrompts": "Customize and manage AI prompts"
   },
 
   "language": {
@@ -325,5 +329,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Automatically check for provider configuration updates"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension update available: {0} → {1}",
+    "download": "Download"
+  },
+
+  "promptEditor": {
+    "status": "Status",
+    "usingCustom": "Using custom prompts",
+    "usingDefaults": "Using default prompts",
+    "modified": "Modified",
+    "saving": "Saving",
+    "saved": "Saved",
+    "confirmReset": "Really reset prompt to default?",
+    "resetSuccess": "Prompt reset",
+    "placeholder": "Enter prompt..."
   }
 }

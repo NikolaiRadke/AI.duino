@@ -14,7 +14,8 @@
     "tokenStats": "Token statistike",
     "switchLanguage": "Preklopi jezik",
     "askAI": "Vprašaj AI",
-    "askFollowUp": "Zastavi dodatno vprašanje"
+    "askFollowUp": "Zastavi dodatno vprašanje",
+    "editPrompts": "Uredi pozive"
   },
 
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Prikaži token statistike",
     "tryAgain": "Poskusi znova",
     "checkStatus": "Preveri stanje",
-    "checkRouter": "Preveri usmerjevalnik"
+    "checkRouter": "Preveri usmerjevalnik",
+    "save": "Shrani",
+    "reset": "Ponastavi"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Trenutno: {0}",
     "askAI": "Neposredno vprašanje za AI",
     "askFollowUp": "Nadaljevanje prejšnjega pogovora: {0}",
-    "noValidContext": "Ni prejšnjega pogovora"
+    "noValidContext": "Ni prejšnjega pogovora",
+    "editPrompts": "Prilagodi in upravljaj AI pozive"
   },
   
   "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Samodejno iskanje posodobitev provider config-ov"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension posodobitev na voljo: {0} → {1}",
+    "download": "Prenesi"
+  },
+
+  "promptEditor": {
+    "status": "Stanje",
+    "usingCustom": "Uporaba prilagojenih pozivov",
+    "usingDefaults": "Uporaba privzetih pozivov",
+    "modified": "Spremenjeno",
+    "saving": "Shranjevanje",
+    "saved": "Shranjeno",
+    "confirmReset": "Res ponastaviti poziv na privzeto?",
+    "resetSuccess": "Poziv ponastavljen",
+    "placeholder": "Vnesite poziv..."
   }
 }

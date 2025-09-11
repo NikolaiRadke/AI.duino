@@ -14,7 +14,8 @@
     "tokenStats": "Statistiques des tokens",
     "switchLanguage": "Changer de langue",
     "askAI": "Demander à l'IA",
-    "askFollowUp": "Question de suivi"
+    "askFollowUp": "Question de suivi",
+    "editPrompts": "Modifier les invites"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Afficher les statistiques de tokens",
     "tryAgain": "Réessayer",
     "checkStatus": "Vérifier le statut",
-    "checkRouter": "Vérifier le routeur"
+    "checkRouter": "Vérifier le routeur",
+    "save": "Enregistrer",
+    "reset": "Réinitialiser"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Actuel : {0}",
     "askAI": "Poser une question directe à l'IA",
     "askFollowUp": "Continuer la conversation précédente : {0}",
-    "noValidContext": "Aucune conversation précédente"
+    "noValidContext": "Aucune conversation précédente",
+    "editPrompts": "Personnaliser et gérer les invites IA"
   },
 
   "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Vérifier automatiquement les mises à jour des configurations des fournisseurs"
+  },
+
+  "extensionUpdate": {
+    "available": "Mise à jour AI.duino Extension disponible: {0} → {1}",
+    "download": "Télécharger"
+  },
+
+  "promptEditor": {
+    "status": "Statut",
+    "usingCustom": "Utilisation d'invites personnalisées",
+    "usingDefaults": "Utilisation d'invites par défaut",
+    "modified": "Modifié",
+    "saving": "Enregistrement",
+    "saved": "Enregistré",
+    "confirmReset": "Vraiment réinitialiser l'invite par défaut ?",
+    "resetSuccess": "Invite réinitialisée",
+    "placeholder": "Saisir l'invite..."
   }
 }

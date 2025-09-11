@@ -14,7 +14,8 @@
     "tokenStats": "Στατιστικά Token",
     "switchLanguage": "Αλλαγή γλώσσας",
     "askAI": "Ρώτησε το AI",
-    "askFollowUp": "Συνέχεια ερώτησης"
+    "askFollowUp": "Συνέχεια ερώτησης",
+    "editPrompts": "Editar indicaciones"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Εμφάνιση στατιστικών tokens",
     "tryAgain": "Προσπάθεια ξανά",
     "checkStatus": "Έλεγχος κατάστασης",
-    "checkRouter": "Έλεγχος δρομολογητή"
+    "checkRouter": "Έλεγχος δρομολογητή",
+    "save": "Guardar",
+    "reset": "Restablecer"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Τρέχουσα: {0}",
     "askAI": "Κάνε άμεση ερώτηση στο AI",
     "askFollowUp": "Συνέχεια προηγούμενης συνομιλίας: {0}",
-    "noValidContext": "Καμία προηγούμενη συνομιλία"
+    "noValidContext": "Καμία προηγούμενη συνομιλία",
+    "editPrompts": "Personalizar y gestionar indicaciones de IA"
   },
 
   "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Αυτόματος έλεγχος για ενημερώσεις διαμορφώσεων παρόχων"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension ενημέρωση διαθέσιμη: {0} → {1}",
+    "download": "Λήψη"
+  },
+
+  "promptEditor": {
+    "status": "Estado",
+    "usingCustom": "Usando indicaciones personalizadas",
+    "usingDefaults": "Usando indicaciones predeterminadas",
+    "modified": "Modificado",
+    "saving": "Guardando",
+    "saved": "Guardado",
+    "confirmReset": "¿Realmente restablecer la indicación al valor predeterminado?",
+    "resetSuccess": "Indicación restablecida",
+    "placeholder": "Ingrese indicación..."
   }
 }

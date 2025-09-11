@@ -14,7 +14,8 @@
     "tokenStats": "Statistici tokeni",
     "switchLanguage": "Schimbă limba",
     "askAI": "Întreabă AI",
-    "askFollowUp": "Întrebare de urmărire"
+    "askFollowUp": "Întrebare de urmărire",
+    "editPrompts": "Editare prompturi"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Arată statisticile token-urilor",
     "tryAgain": "Încearcă din nou",
     "checkStatus": "Verifică starea",
-    "checkRouter": "Verifică router-ul"
+    "checkRouter": "Verifică router-ul",
+    "save": "Salvează",
+    "reset": "Resetează"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Actual: {0}",
     "askAI": "Pune o întrebare directă AI",
     "askFollowUp": "Continuă conversația anterioară: {0}",
-    "noValidContext": "Fără conversație anterioară"
+    "noValidContext": "Fără conversație anterioară",
+    "editPrompts": "Personalizează și gestionează prompturile AI"
   },
   
   "labels": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Verifică automat actualizări de configurații furnizori"
+  },
+
+  "extensionUpdate": {
+    "available": "Actualizare AI.duino Extension disponibilă: {0} → {1}",
+    "download": "Descărcare"
+  },
+
+  "promptEditor": {
+    "status": "Status",
+    "usingCustom": "Folosind prompturi personalizate",
+    "usingDefaults": "Folosind prompturi implicite",
+    "modified": "Modificat",
+    "saving": "Salvez",
+    "saved": "Salvat",
+    "confirmReset": "Chiar vrei să resetezi promptul la implicit?",
+    "resetSuccess": "Prompt resetat",
+    "placeholder": "Introdu promptul..."
   }
 }

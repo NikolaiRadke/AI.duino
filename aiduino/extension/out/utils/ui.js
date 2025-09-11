@@ -119,6 +119,11 @@ function getConditionalItems(context, hasSelection, boardDisplay, model, version
             command: 'aiduino.showTokenStats'
         },
         {
+            label: `$(edit) ${t('commands.editPrompts')}`,
+            description: t('descriptions.editPrompts'),
+            command: 'aiduino.editPrompts'
+        },
+        {
             label: `$(info) ${t('commands.about')}`,
             description: `Version ${version}`,
             command: 'aiduino.about'

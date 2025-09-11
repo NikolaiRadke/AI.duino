@@ -14,7 +14,8 @@
     "tokenStats": "Estatísticas de Tokens",
     "switchLanguage": "Mudar idioma",
     "askAI": "Perguntar à IA",
-    "askFollowUp": "Pergunta de acompanhamento"
+    "askFollowUp": "Pergunta de acompanhamento",
+    "editPrompts": "Editar prompts"
   },
   
   "messages": {
@@ -40,6 +41,8 @@
     "statsReset": "✅ Estatísticas de tokens resetadas!",
     "selectModel": "Escolha o modelo de IA",
     "apiKeyRequired": "{0} requer uma chave API",
+    "connectionOk": "Conexiunea la internet funcționează",
+    "noConnection": "Nu s-a detectat conexiune la internet"
     "noValidContext": "Sem conversa recente para continuar (máx 30 min)",
     "followUpContext": "Continuando conversa: \"{0}\" ({1} min atrás)",
     "contextCleared": "Contexto de conversa apagado"
@@ -70,8 +73,8 @@
     "tryAgain": "Încearcă din nou",
     "checkStatus": "Verifică starea",
     "checkRouter": "Verifică router-ul",
-    "connectionOk": "Conexiunea la internet funcționează",
-    "noConnection": "Nu s-a detectat conexiune la internet"
+    "save": "Salvar",
+    "reset": "Redefinir"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "currentLanguage": "Atual: {0}",
     "askAI": "Fazer uma pergunta direta à IA",
     "askFollowUp": "Continuar conversa anterior: {0}",
-    "noValidContext": "Sem conversa anterior"
+    "noValidContext": "Sem conversa anterior",
+    "editPrompts": "Personalizar e gerenciar prompts de IA"
   },
 
   "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Verificar automaticamente atualizações de configurações de fornecedores"
+  },
+
+  "extensionUpdate": {
+    "available": "Atualização AI.duino Extension disponível: {0} → {1}",
+    "download": "Baixar"
+  },
+
+  "promptEditor": {
+    "status": "Status",
+    "usingCustom": "Usando prompts personalizados",
+    "usingDefaults": "Usando prompts padrão",
+    "modified": "Modificado",
+    "saving": "Salvando",
+    "saved": "Salvo",
+    "confirmReset": "Realmente redefinir o prompt para o padrão?",
+    "resetSuccess": "Prompt redefinido",
+    "placeholder": "Digite o prompt..."
   }
 }

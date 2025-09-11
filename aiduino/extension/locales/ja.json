@@ -14,7 +14,8 @@
     "tokenStats": "トークン統計",
     "switchLanguage": "言語を切り替え",
     "askAI": "AIに質問",
-    "askFollowUp": "追加質問"
+    "askFollowUp": "追加質問",
+    "editPrompts": "プロンプトを編集"
   },
   
   "messages": {
@@ -68,7 +69,9 @@
     "showTokenStats": "トークン統計を表示",
     "tryAgain": "再試行",
     "checkStatus": "ステータスを確認",
-    "checkRouter": "ルーターを確認"
+    "checkRouter": "ルーターを確認",
+    "save": "保存",
+    "reset": "リセット"
   },
   
   "descriptions": {
@@ -85,7 +88,8 @@
     "currentLanguage": "現在：{0}",
     "askAI": "AIに直接質問する",
     "askFollowUp": "前の会話を続ける: {0}",
-    "noValidContext": "前の会話がありません"
+    "noValidContext": "前の会話がありません",
+    "editPrompts": "AIプロンプトのカスタマイズと管理"
   },
 
   "language": {
@@ -322,5 +326,22 @@
 
   "settings": {
     "autoUpdateConfigs": "プロバイダー設定の更新を自動的にチェックする"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension アップデート利用可能: {0} → {1}",
+    "download": "ダウンロード"
+  },
+
+  "promptEditor": {
+    "status": "ステータス",
+    "usingCustom": "カスタムプロンプトを使用",
+    "usingDefaults": "デフォルトプロンプトを使用",
+    "modified": "変更済み",
+    "saving": "保存中",
+    "saved": "保存完了",
+    "confirmReset": "本当にプロンプトをデフォルトにリセットしますか？",
+    "resetSuccess": "プロンプトをリセットしました",
+    "placeholder": "プロンプトを入力..."
   }
 }

@@ -43,6 +43,7 @@ const addCommentsFeature = require('./features/addComments');
 const askAIFeature = require('./features/askAI');
 const explainErrorFeature = require('./features/explainError');
 const debugHelpFeature = require('./features/debugHelp');
+const promptEditorFeature = require('./features/promptEditor'); 
 
 // Utility modules
 const uiTools = require('./utils/ui');
@@ -55,6 +56,8 @@ const configUpdater = require('./utils/configUpdater');
 const { ErrorChecker } = require('./utils/errorChecker');
 const { ApiKeyManager } = require('./utils/apiKeyManager');
 const { LocaleUtils } = require('./utils/localeUtils');
+const { PromptManager } = require('./utils/promptManager');
+const { checkExtensionUpdate } = require('./utils/updateChecker');
 
 // Configuration modules
 const { LANGUAGE_METADATA, getLanguageInfo } = require('./config/languageMetadata');
@@ -88,6 +91,7 @@ let commandRegistry;
 let errorChecker;
 let apiKeyManager;
 let localeUtils;
+let promptManager;
 const executionStates = new ExecutionStateManager();
 const apiClient = new UnifiedAPIClient();
 
@@ -623,6 +627,10 @@ function activate(context) {
     // Load locale configuration
     loadLocale();
 
+    // Prompt manager
+    promptManager = new PromptManager();
+    promptManager.initialize(i18n);
+
     // Store context globally
     globalContext = context;
 
@@ -649,6 +657,11 @@ function activate(context) {
     
     // Auto-Update for providers
     configUpdater.setupAutoUpdates(getDependencies());
+
+    // Check for extension updates
+    setTimeout(() => {
+        checkExtensionUpdate(EXTENSION_VERSION, t);
+    }, 5000);
 
     // Register all commands
     registerCommands(context);
@@ -688,6 +701,7 @@ function registerCommands(context) {
         explainErrorFeature,
         debugHelpFeature,
         askAIFeature,
+        promptEditorFeature,
         uiTools,
         
         // System dependencies
@@ -717,6 +731,7 @@ function getDependencies() {
         tokenUsage,
         currentLocale, 
         localeUtils,
+        promptManager,
         switchModel,
         apiClient, 
         fileManager,
@@ -941,6 +956,11 @@ function deactivate() {
     if (errorTimeout) {
         clearTimeout(errorTimeout);
         errorTimeout = null;
+    }
+
+    // Cleanup prompt manager
+    if (promptManager) {
+        promptManager = null;
     }
 
     // Clear AI conversation context

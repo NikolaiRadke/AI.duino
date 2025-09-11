@@ -14,7 +14,8 @@
     "tokenStats": "Statystyki tokenów",
     "switchLanguage": "Zmień język",
     "askAI": "Zapytaj AI",
-    "askFollowUp": "Pytanie uzupełniające"
+    "askFollowUp": "Pytanie uzupełniające",
+    "editPrompts": "Edytuj polecenia"
   },
   
   "messages": {
@@ -71,7 +72,9 @@
     "showTokenStats": "Pokaż statystyki tokenów",
     "tryAgain": "Spróbuj ponownie",
     "checkStatus": "Sprawdź status",
-    "checkRouter": "Sprawdź router"
+    "checkRouter": "Sprawdź router",
+    "save": "Zapisz",
+    "reset": "Resetuj"
   },
   
   "descriptions": {
@@ -88,7 +91,8 @@
     "switchLanguage": "Zmień język",
     "askAI": "Zadaj bezpośrednie pytanie AI",
     "askFollowUp": "Kontynuuj poprzednią rozmowę: {0}",
-    "noValidContext": "Brak poprzedniej rozmowy"
+    "noValidContext": "Brak poprzedniej rozmowy",
+    "editPrompts": "Dostosuj i zarządzaj poleceniami AI"
   },
 
   "language": {
@@ -326,5 +330,22 @@
 
   "settings": {
     "autoUpdateConfigs": "Automatycznie sprawdzaj aktualizacje konfiguracji dostawców"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension aktualizacja dostępna: {0} → {1}",
+    "download": "Pobierz"
+  },
+
+  "promptEditor": {
+    "status": "Status",
+    "usingCustom": "Używanie niestandardowych poleceń",
+    "usingDefaults": "Używanie domyślnych poleceń",
+    "modified": "Zmodyfikowane",
+    "saving": "Zapisywanie",
+    "saved": "Zapisane",
+    "confirmReset": "Naprawdę zresetować polecenie do domyślnego?",
+    "resetSuccess": "Polecenie zresetowane",
+    "placeholder": "Wprowadź polecenie..."
   }
 }

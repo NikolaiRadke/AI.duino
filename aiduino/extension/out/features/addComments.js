@@ -55,15 +55,15 @@ async function addComments(context) {
         globalContext.globalState.update('aiduino.commentInstructions', customInstructions);
         
         // Build prompt
-        let prompt = t('prompts.addComments', selectedText) + shared.getBoardContext();
+        let prompt = context.promptManager.getPrompt('addComments', selectedText) + shared.getBoardContext();
     
         // Add custom instructions if provided
         if (customInstructions && customInstructions.trim()) {
             const instructions = customInstructions.split(',').map(s => s.trim()).join('\n- ');
-            prompt += '\n\n' + t('prompts.additionalInstructions', instructions);
+            prompt += '\n\n' + context.promptManager.getPrompt('additionalInstructions', instructions);
         }
     
-        prompt += '\n\n' + t('prompts.addCommentsSuffix');
+        prompt += '\n\n' + context.promptManager.getPrompt('addCommentsSuffix');
         
         const model = minimalModelManager.providers[currentModel];
         
