@@ -5,6 +5,7 @@
 
 const vscode = require('vscode');
 const shared = require('../shared');
+const validation = require('../utils/validation');
 const { showProgressWithCancel } = require('../utils/ui');
 
 /**
@@ -22,7 +23,7 @@ async function explainError(context) {
     
     try {
         const editor = vscode.window.activeTextEditor;
-        if (!editor || !editor.document.fileName.endsWith('.ino')) {
+        if (!editor || !validation.validateArduinoFile(editor.document.fileName)) {
             vscode.window.showWarningMessage(t('messages.openInoFile'));
             return;
         }
@@ -58,7 +59,7 @@ async function explainError(context) {
             // Create WebviewPanel for error explanation
             const panel = vscode.window.createWebviewPanel(
                 'aiError',
-                t('panels.errorExplanation'),
+                t('commands.explainError'),
                 vscode.ViewColumn.Beside,
                 { enableScripts: true }
             );

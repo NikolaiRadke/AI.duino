@@ -125,7 +125,8 @@ async function addComments(context) {
         try {
             const doc = await vscode.workspace.openTextDocument({
                 content: displayContent,
-                language: 'cpp'
+                language: 'cpp',
+                uri: vscode.Uri.parse(`untitled:${t('commands.addComments')}.cpp`)
             });
             
             await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);

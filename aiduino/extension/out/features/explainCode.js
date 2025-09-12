@@ -68,7 +68,8 @@ async function explainCode(context) {
         try {
             const doc = await vscode.workspace.openTextDocument({
                 content: formattedContent,
-                language: 'markdown'
+                language: 'markdown',
+                uri: vscode.Uri.parse(`untitled:${t('commands.explainCode')}.md`)
             });
             
             await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);

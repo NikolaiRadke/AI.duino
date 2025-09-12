@@ -13,9 +13,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Changelog:
- * Modular build - Cleaned up and restructured
  */
 
 "use strict";
@@ -507,9 +504,7 @@ async function checkForErrors(silent = true) {
     if (hasErrors && !silent) {
         const errorCount = errorChecker.getErrorStatus().lastDiagnosticsCount;
         const providerInfo = minimalModelManager.getProviderInfo(currentModel);
-        statusBarManager.text = `${providerInfo.icon} AI.duino $(error)`;
-        statusBarManager.tooltip = t('statusBar.errorsFound', errorCount) || `${errorCount} errors found`;
-        statusBarManager.backgroundColor = new vscode.ThemeColor('statusBarManager.errorBackground');
+        statusBarManager.showErrorState(errorCount, t, providerInfo);
         
         // Auto-clear after 5 seconds
         setTimeout(() => {
@@ -682,10 +677,6 @@ function getDependencies() {
  * Check if welcome message should be shown
  * @returns {boolean} True if no API keys are configured
  */
-async function showWelcomeMessage() {
-    await uiTools.showWelcomeMessage(getDependencies());
-}
-
 function shouldShowWelcome() {
     return uiTools.shouldShowWelcome(getDependencies());
 }
@@ -755,15 +746,10 @@ async function showQuickMenu() {
 }
 
 /**
- * Clear AI conversation context
+ * Clear AI conversation context wrapper
  */
 function clearAIContext() {
-    aiConversationContext = {
-        lastQuestion: null,
-        lastAnswer: null,
-        lastCode: null,
-        timestamp: null
-    };
+    Object.assign(aiConversationContext, fileManager.clearAIContext());
     vscode.window.showInformationMessage(t('messages.contextCleared'));
 }
 
@@ -801,37 +787,23 @@ function getProviderName(modelId) {
  */
 function deactivate() {
     // Cleanup command registry
-    if (commandRegistry) {
-        commandRegistry.dispose();
-        commandRegistry = null;
-    }
+
+    commandRegistry.dispose();
+    commandRegistry = null;
 
     // Cleanup error checker
-    if (errorChecker) {
-        errorChecker.dispose();
-        errorChecker = null;
-    }
+    errorChecker.dispose();
+    errorChecker = null;
     
     // Cleanup execution states
-    if (executionStates) {
-        // Clear all states
-        executionStates.states.clear();
-    }
+    executionStates.states.clear();
 
     // Cleanup locale utils
     localeUtils = null;
 
     // Cleanup API key manager
-    if (apiKeyManager) {
-        apiKeyManager.dispose();
-        apiKeyManager = null;
-    }
-
-    // Force final token save if needed (synchronous for shutdown)
-    if (saveTimeout) {
-        clearTimeout(saveTimeout);
-        saveTimeout = null;
-    }
+    apiKeyManager.dispose();
+    apiKeyManager = null;
     
     // Force final save if queue has pending items
     // Emergency save without complex queue logic
@@ -843,25 +815,15 @@ function deactivate() {
     }
 
     // Cleanup event manager
-    if (eventManager) {
-        eventManager.dispose();
-        eventManager = null;
-    }
+    eventManager.dispose();
+    eventManager = null;
     
     // Cleanup status bar manager
-    if (statusBarManager) {
-       statusBarManager.dispose();
-       statusBarManager = null;
-    }
+    statusBarManager.dispose();
+    statusBarManager = null;
     
     // Clear global references to prevent memory leaks
     globalContext = null;
-    
-    // Clear any remaining timeouts
-    if (errorTimeout) {
-        clearTimeout(errorTimeout);
-        errorTimeout = null;
-    }
 
     // Cleanup prompt manager
     if (promptManager) {

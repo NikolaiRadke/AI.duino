@@ -1,16 +1,33 @@
-/**
- * shared.js - Compact event-driven board detection for Arduino IDE 2.x
+/*
+ * AI.duino - Shared Utilities Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
+"use strict";
 
 const vscode = require('vscode');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-// ============================================================================
-// ARDUINO BOARD CONTEXT
-// ============================================================================
+// ===== ARDUINO BOARD CONTEXT =====
 
+/**
+ * Arduino Board Context Manager
+ * Handles board detection, monitoring, and state management for Arduino IDE 2.x
+ */
 class ArduinoBoardContext {
     constructor() {
         const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
@@ -26,12 +43,18 @@ class ArduinoBoardContext {
         this.logDir = this.getLogDirectory();
     }
     
+    /**
+     * Initialize board context with cache loading and monitoring
+     */
     async initialize() {
         this.loadFromCache();
         this.startLogMonitoring();
         await this.performInitialDetection();
     }
     
+    /**
+     * Start monitoring Arduino IDE log files for board changes
+     */
     startLogMonitoring() {
         if (!this.logDir || !fs.existsSync(this.logDir)) {
             return this.startPolling();
@@ -48,15 +71,24 @@ class ArduinoBoardContext {
         }
     }
     
+    /**
+     * Fallback polling method when file watching is unavailable
+     */
     startPolling() {
         this.pollingInterval = setInterval(() => this.handleLogChange(), 3000);
     }
     
+    /**
+     * Handle log file changes with debouncing
+     */
     handleLogChange() {
         clearTimeout(this.changeTimeout);
         this.changeTimeout = setTimeout(() => this.checkForBoardChanges(), 750);
     }
     
+    /**
+     * Check for board changes in log files
+     */
     async checkForBoardChanges() {
         try {
             const logPath = this.findNewestLogFile();
@@ -73,10 +105,14 @@ class ArduinoBoardContext {
                 await this.updateBoardState(boardInfo);
             }
         } catch (error) {
-            // Silent error
+            // Silent error - board detection is not critical
         }
     }
     
+    /**
+     * Find the newest log file in the Arduino IDE logs directory
+     * @returns {string|null} Path to newest log file
+     */
     findNewestLogFile() {
         try {
             const files = fs.readdirSync(this.logDir)
@@ -90,6 +126,12 @@ class ArduinoBoardContext {
         }
     }
     
+    /**
+     * Read the tail of a log file efficiently
+     * @param {string} logPath - Path to log file
+     * @param {number} maxBytes - Maximum bytes to read from end
+     * @returns {string} Log content
+     */
     readLogTail(logPath, maxBytes = 2048) {
         try {
             const stats = fs.statSync(logPath);
@@ -112,6 +154,11 @@ class ArduinoBoardContext {
         }
     }
     
+    /**
+     * Extract board FQBN from log content using known patterns
+     * @param {string} content - Log file content
+     * @returns {Object|null} Board information with FQBN and timestamp
+     */
     extractBoardFromLog(content) {
         const patterns = [
             /Starting language server:\s*([^\s\n]+)/i,
@@ -133,6 +180,10 @@ class ArduinoBoardContext {
         return null;
     }
     
+    /**
+     * Update board state and notify listeners
+     * @param {Object} newBoardInfo - New board information
+     */
     async updateBoardState(newBoardInfo) {
         const previousBoard = this.currentBoard;
         this.currentBoard = newBoardInfo.fqbn;
@@ -149,6 +200,9 @@ class ArduinoBoardContext {
         }
     }
     
+    /**
+     * Perform initial board detection from various sources
+     */
     async performInitialDetection() {
         await this.checkForBoardChanges();
         
@@ -160,6 +214,10 @@ class ArduinoBoardContext {
         }
     }
     
+    /**
+     * Detect board from code comments in active editor
+     * @returns {string|null} Board FQBN from comments
+     */
     detectBoardFromCodeComments() {
         try {
             const editor = vscode.window.activeTextEditor;
@@ -180,6 +238,10 @@ class ArduinoBoardContext {
         }
     }
     
+    /**
+     * Get platform-specific Arduino IDE log directory
+     * @returns {string} Path to log directory
+     */
     getLogDirectory() {
         const dirs = {
             win32: path.join(os.homedir(), 'AppData', 'Roaming', 'Arduino IDE'),
@@ -189,12 +251,19 @@ class ArduinoBoardContext {
         return dirs[process.platform] || dirs.default;
     }
     
+    /**
+     * Save board context to cache file
+     */
     saveToCache() {
         try {
-            const data = { currentBoard: this.currentBoard, boardDetails: this.boardDetails, savedAt: Date.now() };
+            const data = { 
+                currentBoard: this.currentBoard, 
+                boardDetails: this.boardDetails, 
+                savedAt: Date.now() 
+            };
             const content = JSON.stringify(data, null, 2);
             
-            // Simple atomic write
+            // Atomic write with temp file
             const tempFile = this.cacheFile + '.tmp';
             fs.writeFileSync(tempFile, content, { mode: 0o600 });
             fs.renameSync(tempFile, this.cacheFile);
@@ -203,11 +272,14 @@ class ArduinoBoardContext {
             try {
                 fs.writeFileSync(this.cacheFile, JSON.stringify(data), { mode: 0o600 });
             } catch (fallbackError) {
-                // Silent error
+                // Silent error - caching is not critical
             }
         }
     }
     
+    /**
+     * Load board context from cache file
+     */
     loadFromCache() {
         try {
             if (!fs.existsSync(this.cacheFile)) return;
@@ -215,19 +287,40 @@ class ArduinoBoardContext {
             const data = JSON.parse(fs.readFileSync(this.cacheFile, 'utf8'));
             const cacheAge = Date.now() - data.savedAt;
             
-            if (cacheAge < 48 * 60 * 60 * 1000 && data.currentBoard) { // 48 hours
+            // Use cache if less than 48 hours old
+            if (cacheAge < 48 * 60 * 60 * 1000 && data.currentBoard) {
                 this.currentBoard = data.currentBoard;
                 this.boardDetails = data.boardDetails;
             }
         } catch (error) {
-            // Silent error
+            // Silent error - cache loading failure is not critical
         }
     }
     
-    get onDidChangeBoard() { return this._onDidChangeBoardEmitter.event; }
-    get fqbn() { return this.currentBoard; }
-    get board() { return this.boardDetails; }
+    /**
+     * Get board change event emitter
+     */
+    get onDidChangeBoard() { 
+        return this._onDidChangeBoardEmitter.event; 
+    }
     
+    /**
+     * Get current board FQBN
+     */
+    get fqbn() { 
+        return this.currentBoard; 
+    }
+    
+    /**
+     * Get current board details
+     */
+    get board() { 
+        return this.boardDetails; 
+    }
+    
+    /**
+     * Dispose all resources and cleanup
+     */
     dispose() {
         this.logWatcher?.close();
         clearInterval(this.pollingInterval);
@@ -236,12 +329,14 @@ class ArduinoBoardContext {
     }
 }
 
-// ============================================================================
-// GLOBAL INSTANCE AND API
-// ============================================================================
+// ===== GLOBAL INSTANCE MANAGEMENT =====
 
 let globalBoardContext = null;
 
+/**
+ * Get singleton instance of board context
+ * @returns {ArduinoBoardContext} Global board context instance
+ */
 function getBoardContextInstance() {
     if (!globalBoardContext) {
         globalBoardContext = new ArduinoBoardContext();
@@ -250,8 +345,67 @@ function getBoardContextInstance() {
     return globalBoardContext;
 }
 
+// ===== PUBLIC API FUNCTIONS =====
+
+/**
+ * Detect currently active Arduino board
+ * @returns {string|null} Board FQBN or null if not detected
+ */
+function detectArduinoBoard() {
+    return getBoardContextInstance().fqbn;
+}
+
+/**
+ * Get board context string for AI prompts
+ * @returns {string} Formatted board context string
+ */
+function getBoardContext() {
+    const fqbn = detectArduinoBoard();
+    if (!fqbn) return '';
+    return `\n\nTarget Board: ${getBoardDisplayName(fqbn)} (${fqbn})`;
+}
+
+/**
+ * Register callback for board change events
+ * @param {Function} callback - Callback function for board changes
+ * @returns {vscode.Disposable} Event listener disposable
+ */
+function onBoardChange(callback) {
+    return getBoardContextInstance().onDidChangeBoard(callback);
+}
+
+/**
+ * Get detailed board information
+ * @returns {Object|null} Board details object or null
+ */
+function getBoardDetails() {
+    return getBoardContextInstance().board;
+}
+
+/**
+ * Clear board cache and force re-detection
+ * @returns {boolean} True if cache cleared successfully
+ */
+function clearBoardCache() {
+    try {
+        const cacheFile = path.join(os.homedir(), '.aiduino', '.aiduino-board-context.json');
+        if (fs.existsSync(cacheFile)) {
+            fs.unlinkSync(cacheFile);
+        }
+        if (globalBoardContext) {
+            globalBoardContext.currentBoard = null;
+            globalBoardContext.boardDetails = null;
+        }
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
 /**
  * Get display-friendly board name from FQBN
+ * @param {string} fqbn - Fully Qualified Board Name
+ * @returns {string} Human-readable board name
  */
 function getBoardDisplayName(fqbn) {
     if (!fqbn) return 'Unknown Board';
@@ -278,54 +432,31 @@ function getBoardDisplayName(fqbn) {
     return fqbn;
 }
 
-// ============================================================================
-// PUBLIC API
-// ============================================================================
+// ===== TEXT UTILITIES =====
 
-function detectArduinoBoard() {
-    return getBoardContextInstance().fqbn;
-}
-
-function getBoardContext() {
-    const fqbn = detectArduinoBoard();
-    if (!fqbn) return '';
-    return `\n\nTarget Board: ${getBoardDisplayName(fqbn)} (${fqbn})`;
-}
-
-function onBoardChange(callback) {
-    return getBoardContextInstance().onDidChangeBoard(callback);
-}
-
-function getBoardDetails() {
-    return getBoardContextInstance().board;
-}
-
-function clearBoardCache() {
-    try {
-        const cacheFile = path.join(AIDUINO_DIR, '.aiduino-board-context.json');
-        if (fs.existsSync(cacheFile)) {
-            fs.unlinkSync(cacheFile);
-        }
-        if (globalBoardContext) {
-            globalBoardContext.currentBoard = null;
-            globalBoardContext.boardDetails = null;
-        }
-        return true;
-    } catch (error) {
-        return false;
-    }
-}
-
-// ============================================================================
-// TEXT UTILITIES
-// ============================================================================
-
+/**
+ * Escape HTML special characters for safe display
+ * @param {string} text - Text to escape
+ * @returns {string} HTML-escaped text
+ */
 function escapeHtml(text) {
     if (!text) return '';
-    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    const map = { 
+        '&': '&amp;', 
+        '<': '&lt;', 
+        '>': '&gt;', 
+        '"': '&quot;', 
+        "'": '&#039;' 
+    };
     return text.toString().replace(/[&<>"']/g, m => map[m]);
 }
 
+/**
+ * Wrap text to specified width with word boundaries
+ * @param {string} text - Text to wrap
+ * @param {number} maxWidth - Maximum line width (default: 50)
+ * @returns {string} Word-wrapped text
+ */
 function wrapText(text, maxWidth = 50) {
     if (!text || text.length <= maxWidth) return text;
     
@@ -354,17 +485,21 @@ function wrapText(text, maxWidth = 50) {
     return lines.join('\n');
 }
 
+/**
+ * Check if AI conversation context is valid and recent
+ * @param {Object} aiConversationContext - Context object with timestamp
+ * @returns {boolean} True if context is valid and within 30 minutes
+ */
 function hasValidContext(aiConversationContext) {
-    return aiConversationContext?.lastQuestion && aiConversationContext?.timestamp && 
+    return aiConversationContext?.lastQuestion && 
+           aiConversationContext?.timestamp && 
            (Date.now() - aiConversationContext.timestamp) < 30 * 60 * 1000;
 }
 
-// ============================================================================
-// EXPORTS
-// ============================================================================
+// ===== MODULE EXPORTS =====
 
 module.exports = {
-    // Primary API
+    // Board detection API
     detectArduinoBoard,
     getBoardContext,
     getBoardDisplayName,

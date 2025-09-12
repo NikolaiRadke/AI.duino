@@ -117,19 +117,6 @@ async function setApiKey(context) {
 }
 
 /**
- * Handle API response and update metrics
- * @param {string} modelId - Model identifier
- * @param {string} inputText - Input text sent to API
- * @param {string} outputText - Output text received from API
- * @param {Object} context - Extension context with dependencies
- */
-function handleApiResponse(modelId, inputText, outputText, context) {
-    const { updateTokenUsage, updateStatusBar } = context;
-    updateTokenUsage(modelId, inputText, outputText);
-    updateStatusBar();
-}
-
-/**
  * Get provider display name for a model
  * @param {string} modelId - Model identifier
  * @param {Object} minimalModelManager - Model manager instance
@@ -162,7 +149,6 @@ module.exports = {
     callAI,
     switchModel,
     setApiKey,
-    handleApiResponse,
     getProviderName,
     validateApiConnection
 };

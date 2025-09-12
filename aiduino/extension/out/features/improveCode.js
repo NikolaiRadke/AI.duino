@@ -116,7 +116,8 @@ async function improveCode(context) {
         try {
             const doc = await vscode.workspace.openTextDocument({
                 content: displayContent,
-                language: 'cpp'
+                language: 'cpp',
+                uri: vscode.Uri.parse(`untitled:${t('commands.improveCode')}.cpp`)
             });
             
             await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);

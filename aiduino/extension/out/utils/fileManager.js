@@ -138,37 +138,6 @@ function isFileReadable(filePath) {
 }
 
 /**
- * Check if directory exists and is writable
- * @param {string} dirPath - Directory path to check
- * @returns {boolean} True if directory exists and is writable
- */
-function isDirectoryWritable(dirPath) {
-    try {
-        fs.accessSync(dirPath, fs.constants.W_OK);
-        return true;
-    } catch {
-        return false;
-    }
-}
-
-/**
- * Create directory if it doesn't exist
- * @param {string} dirPath - Directory path to create
- * @returns {boolean} True if successful or already exists
- */
-function ensureDirectory(dirPath) {
-    try {
-        if (!fs.existsSync(dirPath)) {
-            fs.mkdirSync(dirPath, { recursive: true });
-        }
-        return true;
-    } catch (error) {
-        console.log('Error creating directory:', error);
-        return false;
-    }
-}
-
-/**
  * Safe file write with backup strategy for Windows compatibility
  * @param {string} filePath - File to write
  * @param {string} content - Content to write
@@ -274,6 +243,19 @@ function migrateOldFiles(aiduinoDir) {
     }
 }
 
+/**
+ * Clear AI conversation context helper
+ * @returns {Object} Reset context object
+ */
+function clearAIContext() {
+    return {
+        lastQuestion: null,
+        lastAnswer: null,
+        lastCode: null,
+        timestamp: null
+    };
+}
+
 module.exports = {
     saveApiKey,
     loadApiKey,
@@ -281,9 +263,8 @@ module.exports = {
     saveSelectedModel,
     loadSelectedModel,
     isFileReadable,
-    isDirectoryWritable,
-    ensureDirectory,
     safeWriteFile,
     getVersionFromPackage,
-    migrateOldFiles
+    migrateOldFiles,
+    clearAIContext
 };

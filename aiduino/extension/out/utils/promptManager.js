@@ -162,59 +162,6 @@ class PromptManager {
             defaults: this.defaultPrompts || {}
         };
     }
-
-    /**
-     * Check if custom prompts file exists
-     * @returns {boolean}
-     */
-    hasCustomPrompts() {
-        return this.customPrompts !== null;
-    }
-
-    /**
-     * Export prompts to a file for sharing
-     * @param {string} exportPath - Path to export file
-     */
-    exportPrompts(exportPath) {
-        try {
-            const data = {
-                _metadata: {
-                    version: '1.0',
-                    exported: new Date().toISOString(),
-                    source: 'AI.duino Custom Prompts'
-                },
-                ...(this.customPrompts || this.defaultPrompts)
-            };
-            
-            return fileManager.safeWriteFile(exportPath, JSON.stringify(data, null, 2));
-        } catch (error) {
-            return false;
-        }
-    }
-
-    /**
-     * Import prompts from a file  
-     * @param {string} importPath - Path to import file
-     */
-    importPrompts(importPath) {
-        try {
-            if (!fileManager.isFileReadable(importPath)) {
-                return false;
-            }
-            
-            const content = fs.readFileSync(importPath, 'utf8');
-            const data = JSON.parse(content);
-            
-            // Remove metadata before importing
-            const { _metadata, ...prompts } = data;
-            
-            this.customPrompts = prompts;
-            this.validateAndUpdateStructure();
-            return true;
-        } catch (error) {
-            return false;
-        }
-    }
 }
 
 module.exports = {

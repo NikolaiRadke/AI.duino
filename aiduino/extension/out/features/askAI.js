@@ -80,7 +80,7 @@ async function askAI(context, isFollowUp = false) {
 
         if (isFollowUp) {
             // Build context-aware follow-up prompt
-            finalPrompt = buildFollowUpPrompt(question, aiConversationContext, t);
+            finalPrompt = buildFollowUpPrompt(question, aiConversationContext, t, context.promptManager);
             currentCode = aiConversationContext.lastCode;
         } else {
             // Handle new question with optional code context
@@ -249,7 +249,8 @@ async function showAIResponseWithFollowUp(model, question, response, isFollowUp,
     try {
         const doc = await vscode.workspace.openTextDocument({
             content: formattedContent,
-            language: 'markdown'
+            language: 'markdown',
+            uri: vscode.Uri.parse(`untitled:${t('commands.askAI')}.md`)
         });
     
         await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);

@@ -8,6 +8,7 @@
 "use strict";
 
 const vscode = require("vscode");
+const validation = require('./validation');
 
 /**
  * Error Checker - Handles Arduino compiler error detection and status management
@@ -21,18 +22,6 @@ class ErrorChecker {
         this.lastErrorCheck = 0;
         this.lastCheckedUri = null;
         this.errorTimeout = null;
-    }
-
-    /**
-     * Check if the current file is an Arduino-related file
-     * @param {string} fileName - File path to check
-     * @returns {boolean} True if Arduino file
-     */
-    isArduinoFile(fileName) {
-        if (!fileName) return false;
-        
-        const arduinoExtensions = ['.ino', '.cpp', '.h', '.c'];
-        return arduinoExtensions.some(ext => fileName.endsWith(ext));
     }
 
     /**
@@ -55,7 +44,7 @@ class ErrorChecker {
         }
         
         // Only check Arduino-related files
-        if (!this.isArduinoFile(editor.document.fileName)) {
+        if (!validation.validateArduinoFile(editor.document.fileName)) {
             return false;
         }
         
@@ -87,52 +76,6 @@ class ErrorChecker {
     }
 
     /**
-     * Show error status in status bar
-     * @param {number} errorCount - Number of errors found
-     */
-    showErrorStatus(errorCount) {
-        // Direct status bar update instead of callback
-        // This requires access to statusBarItem and related functions
-        // Will be handled by a simpler approach
-    }
-
-    /**
-     * Clear error status from status bar
-     */
-    clearErrorStatus() {
-        // Direct status bar update instead of callback
-        // Will be handled by a simpler approach  
-    }
-
-    /**
-     * Schedule automatic error status clearing
-     * @param {vscode.TextEditor} editor - Current editor
-     */
-    scheduleErrorStatusClear(editor) {
-        // Clear any existing timeout
-        if (this.errorTimeout) {
-            clearTimeout(this.errorTimeout);
-        }
-        
-        this.errorTimeout = setTimeout(() => {
-            try {
-                // Re-check errors after timeout
-                const currentDiagnostics = vscode.languages.getDiagnostics(editor.document.uri);
-                const currentErrors = currentDiagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
-                
-                if (currentErrors.length === 0) {
-                    this.clearErrorStatus();
-                }
-            } catch (error) {
-                // Silent error - just clear status
-                this.clearErrorStatus();
-            } finally {
-                this.errorTimeout = null;
-            }
-        }, 5000);
-    }
-
-    /**
      * Setup diagnostic change listener
      * @param {vscode.ExtensionContext} context - VS Code extension context
      * @returns {vscode.Disposable} Disposable listener
@@ -145,7 +88,7 @@ class ErrorChecker {
                 return;
             }
             
-            if (!this.isArduinoFile(activeEditor.document.fileName)) {
+            if (!validation.validateArduinoFile(editor.document.fileName)) {
                 return;
             }
             
