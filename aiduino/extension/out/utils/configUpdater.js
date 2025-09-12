@@ -10,8 +10,9 @@ const path = require('path');
 const os = require('os');
 
 // Configuration
+const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
 const UPDATE_CHECK_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours
-const USER_CONFIG_FILE = path.join(os.homedir(), '.aiduino-provider-configs.js');
+const USER_CONFIG_FILE = path.join(AIDUINO_DIR, '.aiduino-provider-configs.js');
 const BACKUP_SUFFIX = '.backup';
 
 /**

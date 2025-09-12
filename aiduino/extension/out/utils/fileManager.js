@@ -20,6 +20,7 @@
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
 
 /**
  * Save API key to secure file
@@ -33,7 +34,7 @@ function saveApiKey(modelId, apiKey, providers) {
         const model = providers[modelId];
         if (!model) return false;
         
-        const keyFile = path.join(os.homedir(), model.keyFile);
+        const keyFile = path.join(AIDUINO_DIR, model.keyFile);
         fs.writeFileSync(keyFile, apiKey, { mode: 0o600 });
         return true;
     } catch (error) {
@@ -53,7 +54,7 @@ function loadApiKey(modelId, providers) {
         const model = providers[modelId];
         if (!model) return null;
         
-        const keyFile = path.join(os.homedir(), model.keyFile);
+        const keyFile = path.join(AIDUINO_DIR, model.keyFile);
         
         if (fs.existsSync(keyFile)) {
             return fs.readFileSync(keyFile, 'utf8').trim();
@@ -90,7 +91,7 @@ function loadAllApiKeys(providers) {
  */
 function saveSelectedModel(modelId) {
     try {
-        const modelFile = path.join(os.homedir(), '.aiduino-model');
+        const modelFile = path.join(AIDUINO_DIR, '.aiduino-model');
         fs.writeFileSync(modelFile, modelId, { mode: 0o600 });
         return true;
     } catch (error) {
@@ -243,6 +244,36 @@ function getVersionFromPackage() {
     return '1.0.0';
 }
 
+/**
+ * Migrate old AI.duino files from home directory to .aiduino subdirectory
+ * Moves all files starting with '.aiduino-' to organized subdirectory
+ * @param {string} aiduinoDir - Target .aiduino directory path
+ */
+function migrateOldFiles(aiduinoDir) {
+    try {
+        const homeDir = os.homedir();
+        const files = fs.readdirSync(homeDir);
+        
+        files.forEach(filename => {
+            if (filename.startsWith('.aiduino-')) {
+                const oldPath = path.join(homeDir, filename);
+                const newPath = path.join(aiduinoDir, filename); // Behält ursprünglichen Namen
+                
+                if (fs.existsSync(oldPath) && !fs.existsSync(newPath)) {
+                    try {
+                        fs.copyFileSync(oldPath, newPath);
+                        fs.unlinkSync(oldPath);
+                    } catch (error) {
+                        // Silent error für einzelne Dateien
+                    }
+                }
+            }
+        });
+    } catch (error) {
+        // Silent error falls Home-Directory nicht lesbar
+    }
+}
+
 module.exports = {
     saveApiKey,
     loadApiKey,
@@ -253,5 +284,6 @@ module.exports = {
     isDirectoryWritable,
     ensureDirectory,
     safeWriteFile,
-    getVersionFromPackage
+    getVersionFromPackage,
+    migrateOldFiles
 };

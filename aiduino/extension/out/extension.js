@@ -64,9 +64,10 @@ const { LANGUAGE_METADATA, getLanguageInfo } = require('./config/languageMetadat
 const { PROVIDER_CONFIGS } = require('./config/providerConfigs');
 
 // ===== CONSTANTS =====
+const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
 const EXTENSION_VERSION = fileManager.getVersionFromPackage();
-const MODEL_FILE = path.join(os.homedir(), '.aiduino-model');
-const TOKEN_USAGE_FILE = path.join(os.homedir(), '.aiduino-token-usage.json');
+const MODEL_FILE = path.join(AIDUINO_DIR, '.aiduino-model');
+const TOKEN_USAGE_FILE = path.join(AIDUINO_DIR, '.aiduino-token-usage.json');
 
 // ===== GLOBAL VARIABLES =====
 // Core system state
@@ -185,7 +186,7 @@ class MinimalModelManager {
      */
     hasApiKey(providerId) {
         try {
-            const keyFile = path.join(os.homedir(), this.providers[providerId].keyFile);
+            const keyFile = path.join(AIDUINO_DIR, this.providers[providerId].keyFile); // ← Verwende AIDUINO_DIR statt os.homedir()
             return fs.existsSync(keyFile);
         } catch {
             return false;
@@ -633,6 +634,12 @@ function activate(context) {
 
     // Initialize Locale Utils first
     localeUtils = new LocaleUtils();
+
+    // Generate AI.duino folder an migrate files (V1.7.1)     
+    if (!fs.existsSync(AIDUINO_DIR)) {
+        fs.mkdirSync(AIDUINO_DIR, { mode: 0o700 });
+        fileManager.migrateOldFiles(AIDUINO_DIR);
+    }
     
     // Load locale configuration
     loadLocale();

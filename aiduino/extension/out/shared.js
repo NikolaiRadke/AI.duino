@@ -13,6 +13,7 @@ const path = require('path');
 
 class ArduinoBoardContext {
     constructor() {
+        const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
         this.currentBoard = null;
         this.boardDetails = null;
         this._onDidChangeBoardEmitter = new vscode.EventEmitter();
@@ -21,7 +22,7 @@ class ArduinoBoardContext {
         this.lastLogSize = 0;
         this.changeTimeout = null;
         
-        this.cacheFile = path.join(os.homedir(), '.aiduino-board-context.json');
+        this.cacheFile = path.join(AIDUINO_DIR, '.aiduino-board-context.json');
         this.logDir = this.getLogDirectory();
     }
     
@@ -301,7 +302,7 @@ function getBoardDetails() {
 
 function clearBoardCache() {
     try {
-        const cacheFile = path.join(os.homedir(), '.aiduino-board-context.json');
+        const cacheFile = path.join(AIDUINO_DIR, '.aiduino-board-context.json');
         if (fs.existsSync(cacheFile)) {
             fs.unlinkSync(cacheFile);
         }
