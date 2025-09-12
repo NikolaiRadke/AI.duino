@@ -110,15 +110,10 @@ let aiConversationContext = {
 };
 
 // ===== MINIMAL MODEL MANAGER CLASS =====
+
 /**
  * Minimal dynamic model system for AI.duino
  * Works completely in background, only shows latest model in statusbar
- */
-// VEREINFACHTER MODEL MANAGER - behält den Namen minimalModelManager
-
-/**
- * Minimal Model Manager - Vereinfachte Version ohne Background-Updates
- * Fokus auf Provider-Info und API Key Management
  */
 class MinimalModelManager {
     constructor(providers = null) {
@@ -182,7 +177,7 @@ class MinimalModelManager {
      */
     hasApiKey(providerId) {
         try {
-            const keyFile = path.join(AIDUINO_DIR, this.providers[providerId].keyFile); // ← Verwende AIDUINO_DIR statt os.homedir()
+            const keyFile = path.join(AIDUINO_DIR, this.providers[providerId].keyFile);
             return fs.existsSync(keyFile);
         } catch {
             return false;
@@ -296,9 +291,6 @@ function t(key, ...args) {
     return value;
 }
 
-/**
- * Switch UI language with user selection
- */
 /**
  * Switch UI language with user selection
  */
@@ -694,7 +686,6 @@ async function showWelcomeMessage() {
     await uiTools.showWelcomeMessage(getDependencies());
 }
 
-// NEUE VERSION:
 function shouldShowWelcome() {
     return uiTools.shouldShowWelcome(getDependencies());
 }
@@ -779,13 +770,6 @@ async function showQuickMenu() {
     if (selected && selected.command) {
         vscode.commands.executeCommand(selected.command);
     }
-}
-
-/**
- * Show welcome message for new users
- */
-async function showWelcomeMessage() {
-    await uiTools.showWelcomeMessage(getDependencies());
 }
 
 /**
