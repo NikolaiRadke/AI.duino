@@ -33,6 +33,7 @@ const path = require("path");
 // Core modules
 const { UnifiedAPIClient } = require('./core/apiClient');
 const { ExecutionStateManager } = require('./core/executionStateManager');
+const { EventManager } = require('./core/eventManager');
 const { CommandRegistry } = require('./core/commandRegistry');
 
 // Feature modules
@@ -94,7 +95,8 @@ let errorChecker;
 let apiKeyManager;
 let localeUtils;
 let promptManager;
-const executionStates = new ExecutionStateManager();
+let executionStates;
+let eventManager;
 const apiClient = new UnifiedAPIClient();
 
 // Data stores
@@ -106,12 +108,6 @@ let aiConversationContext = {
     lastCode: null,
     timestamp: null
 };
-
-// Event listeners and timeouts
-let configListener = null;
-let diagnosticsListener = null;
-let errorTimeout = null;
-let saveTimeout = null;
 
 // ===== MINIMAL MODEL MANAGER CLASS =====
 /**
@@ -453,22 +449,10 @@ function loadTokenUsage() {
  * Queue token usage save with debouncing
  */
 function saveTokenUsage() {
-    // Einfaches Debouncing - clear previous timeout
-    if (saveTimeout) {
-        clearTimeout(saveTimeout);
-    }
-    
-    // Save after short delay
-    saveTimeout = setTimeout(() => {
-        try {
-            const data = JSON.stringify(tokenUsage, null, 2);
-            fs.writeFileSync(TOKEN_USAGE_FILE, data, { mode: 0o600 });
-        } catch (error) {
-            // Silent error - token tracking is not critical
-        } finally {
-            saveTimeout = null;
-        }
-    }, 500);
+    eventManager.debouncedSave(() => {
+        const data = JSON.stringify(tokenUsage, null, 2);
+        fs.writeFileSync(TOKEN_USAGE_FILE, data, { mode: 0o600 });
+    });
 }
 
 /**
@@ -514,77 +498,6 @@ function updateTokenUsage(modelId, inputText, outputText) {
     
     saveTokenUsage();
     updateStatusBar();
-}
-
-// ===== EVENT LISTENERS AND SETUP =====
-
-/**
- * Setup all event listeners with proper cleanup
- * @param {vscode.ExtensionContext} context - VS Code extension context
- */
-function setupEventListeners(context) {
-    // Cleanup existing listeners FIRST
-    disposeEventListeners();
-    
-    // Configuration change listener with debouncing
-    let configDebounceTimeout = null;
-    configListener = vscode.workspace.onDidChangeConfiguration(event => {
-        if (event.affectsConfiguration('aiduino.language')) {
-            if (configDebounceTimeout) {
-                clearTimeout(configDebounceTimeout);
-            }
-            configDebounceTimeout = setTimeout(() => {
-                try {
-                    loadLocale();
-                    updateStatusBar();
-                } catch (error) {
-                    // Silent error handling
-                } finally {
-                    configDebounceTimeout = null;
-                }
-            }, 300);
-        }
-    });
-    
-    // Diagnostics listener is now handled by ErrorChecker
-    if (errorChecker) {
-        diagnosticsListener = errorChecker.setupDiagnosticListener(context);
-    }
-    
-    // Add to context subscriptions
-    if (context && context.subscriptions) {
-        context.subscriptions.push(configListener);
-        // diagnosticsListener already added by errorChecker.setupDiagnosticListener
-    }
-}
-
-/**
- * Dispose all event listeners with error handling
- */
-function disposeEventListeners() {
-    // Clear all listeners with error handling
-    [
-        { listener: configListener, name: 'configListener' },
-        { listener: diagnosticsListener, name: 'diagnosticsListener' }
-    ].forEach(({ listener, name }) => {
-        if (listener) {
-            try {
-                listener.dispose();
-            } catch (error) {
-                // Silent disposal error
-            }
-        }
-    });
-    
-    // Reset references
-    configListener = null;
-    diagnosticsListener = null;
-    
-    // Clear save timeout (ErrorChecker handles its own timeouts)
-    if (saveTimeout) {
-        clearTimeout(saveTimeout);
-        saveTimeout = null;
-    }
 }
 
 /**
@@ -671,7 +584,15 @@ function activate(context) {
     // Initialize core managers
     errorChecker = new ErrorChecker();
     apiKeyManager = new ApiKeyManager();
-    
+    executionStates = new ExecutionStateManager();
+    eventManager = new EventManager();
+    eventManager.initialize({
+        updateStatusBar,
+        onConfigChange: () => {
+            // Optional: zusätzliche Aktionen bei Config-Änderungen
+        }
+    });
+
     // Auto-Update for providers
     configUpdater.setupAutoUpdates(getDependencies());
 
@@ -682,9 +603,6 @@ function activate(context) {
 
     // Register all commands
     registerCommands(context);
-    
-    // Setup event listeners
-    setupEventListeners(context);
     
     // Show welcome message if needed
     if (uiTools.shouldShowWelcome(getDependencies())) {
@@ -957,9 +875,12 @@ function deactivate() {
     } catch (error) {
         // Silent error on shutdown
     }
-    
-    // Cleanup all event listeners
-    disposeEventListeners();
+
+    // Cleanup event manager
+    if (eventManager) {
+        eventManager.dispose();
+        eventManager = null;
+    }
     
     // Dispose status bar item
     if (statusBarItem) {

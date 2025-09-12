@@ -95,7 +95,7 @@ function saveSelectedModel(modelId) {
         fs.writeFileSync(modelFile, modelId, { mode: 0o600 });
         return true;
     } catch (error) {
-        console.log('Error saving model:', error);
+        // Silent
         return false;
     }
 }
@@ -107,7 +107,7 @@ function saveSelectedModel(modelId) {
  */
 function loadSelectedModel(providers) {
     try {
-        const modelFile = path.join(os.homedir(), '.aiduino-model');
+        const modelFile = path.join(AIDUINO_DIR, '.aiduino-model');
         
         if (fs.existsSync(modelFile)) {
             const savedModel = fs.readFileSync(modelFile, 'utf8').trim();
