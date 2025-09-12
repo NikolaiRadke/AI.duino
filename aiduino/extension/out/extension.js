@@ -59,6 +59,7 @@ const { ApiKeyManager } = require('./utils/apiKeyManager');
 const { LocaleUtils } = require('./utils/localeUtils');
 const { PromptManager } = require('./utils/promptManager');
 const { checkExtensionUpdate } = require('./utils/updateChecker');
+const { StatusBarManager } = require('./utils/statusBarManager');
 
 // Configuration modules
 const { LANGUAGE_METADATA, getLanguageInfo } = require('./config/languageMetadata');
@@ -73,7 +74,7 @@ const TOKEN_USAGE_FILE = path.join(AIDUINO_DIR, '.aiduino-token-usage.json');
 // ===== GLOBAL VARIABLES =====
 // Core system state
 let globalContext;
-let statusBarItem;
+let statusBarManager;
 let currentModel = 'claude';
 let currentLocale = 'en';
 let i18n = {};
@@ -426,7 +427,7 @@ function loadTokenUsage() {
         }
         
         // Update status bar after loading
-        if (statusBarItem) {
+        if (statusBarManager) {
             updateStatusBar();
         }
         
@@ -506,9 +507,9 @@ async function checkForErrors(silent = true) {
     if (hasErrors && !silent) {
         const errorCount = errorChecker.getErrorStatus().lastDiagnosticsCount;
         const providerInfo = minimalModelManager.getProviderInfo(currentModel);
-        statusBarItem.text = `${providerInfo.icon} AI.duino $(error)`;
-        statusBarItem.tooltip = t('statusBar.errorsFound', errorCount) || `${errorCount} errors found`;
-        statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
+        statusBarManager.text = `${providerInfo.icon} AI.duino $(error)`;
+        statusBarManager.tooltip = t('statusBar.errorsFound', errorCount) || `${errorCount} errors found`;
+        statusBarManager.backgroundColor = new vscode.ThemeColor('statusBarManager.errorBackground');
         
         // Auto-clear after 5 seconds
         setTimeout(() => {
@@ -568,10 +569,9 @@ function activate(context) {
     loadTokenUsage();
     
     // Initialize and show status bar
-    statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+    statusBarManager = new StatusBarManager();
+    statusBarManager.createStatusBar();
     updateStatusBar();
-    statusBarItem.command = "aiduino.quickMenu";
-    statusBarItem.show();
 
     // Initialize core managers
     errorChecker = new ErrorChecker();
@@ -708,31 +708,13 @@ function callAI(prompt) {
  * Update status bar with current model info and token costs
  */
 function updateStatusBar() {
-    const providerInfo = minimalModelManager.getProviderInfo(currentModel);
-    const hasApiKey = providerInfo.hasApiKey;
-    
-    // Token costs display
-    const todayCost = tokenUsage[currentModel]?.cost.toFixed(3) || '0.000';
-    const costDisplay = todayCost > 0 ? ` (${todayCost})` : '';
-    
-    if (hasApiKey) {
-        statusBarItem.text = `${providerInfo.icon} AI.duino${costDisplay}`;
-        
-        // Model status information
-        const modelStatus = providerInfo.isLatest ? 
-            `Latest: ${providerInfo.modelName}` :
-            `Fallback: ${providerInfo.modelName}`;
-            
-        statusBarItem.tooltip = 
-            `${providerInfo.name} - ${modelStatus}\n` +
-            `Tokens: ${(tokenUsage[currentModel]?.input || 0) + (tokenUsage[currentModel]?.output || 0)}${costDisplay}\n` +
-            `Input: ${tokenUsage[currentModel]?.input || 0} | Output: ${tokenUsage[currentModel]?.output || 0}`;
-            
-        statusBarItem.backgroundColor = undefined;
-    } else {
-        statusBarItem.text = `${providerInfo.icon} AI.duino $(warning)`;
-        statusBarItem.tooltip = `No API key for ${providerInfo.name}`;
-        statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
+    if (statusBarManager) {
+        statusBarManager.updateStatusBar({
+            currentModel,
+            tokenUsage,
+            modelManager: minimalModelManager,
+            t
+        });
     }
 }
 
@@ -866,10 +848,10 @@ function deactivate() {
         eventManager = null;
     }
     
-    // Dispose status bar item
-    if (statusBarItem) {
-        statusBarItem.dispose();
-        statusBarItem = null;
+    // Cleanup status bar manager
+    if (statusBarManager) {
+       statusBarManager.dispose();
+       statusBarManager = null;
     }
     
     // Clear global references to prevent memory leaks

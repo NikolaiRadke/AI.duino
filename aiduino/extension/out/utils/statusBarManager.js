@@ -1,0 +1,155 @@
+/*
+ * AI.duino - Status Bar Manager
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+"use strict";
+
+const vscode = require("vscode");
+
+/**
+ * Manages the VS Code status bar item for AI.duino
+ * Handles display updates, tooltips, and visual states
+ */
+class StatusBarManager {
+    constructor() {
+        this.statusBarItem = null;
+        this.isDisposed = false;
+    }
+    
+    /**
+     * Create and initialize the status bar item
+     * @returns {vscode.StatusBarItem} Created status bar item
+     */
+    createStatusBar() {
+        if (this.statusBarItem) {
+            // Already exists, return existing
+            return this.statusBarItem;
+        }
+        
+        this.statusBarItem = vscode.window.createStatusBarItem(
+            vscode.StatusBarAlignment.Right, 
+            100
+        );
+        
+        // Set default command for clicking
+        this.statusBarItem.command = "aiduino.quickMenu";
+        
+        // Show initially
+        this.statusBarItem.show();
+        
+        return this.statusBarItem;
+    }
+    
+    /**
+     * Update status bar with current model info and token costs
+     * @param {Object} params - Update parameters
+     * @param {string} params.currentModel - Current model ID
+     * @param {Object} params.tokenUsage - Token usage data
+     * @param {Object} params.modelManager - Model manager instance
+     * @param {Function} params.t - Translation function
+     */
+    updateStatusBar({ currentModel, tokenUsage, modelManager, t }) {
+        if (!this.statusBarItem || this.isDisposed) {
+            return;
+        }
+        
+        try {
+            // Get provider information
+            const providerInfo = modelManager.getProviderInfo(currentModel);
+            const hasApiKey = providerInfo.hasApiKey;
+            
+            // Calculate token costs for display
+            const modelUsage = tokenUsage[currentModel] || { input: 0, output: 0, cost: 0 };
+            const todayCost = modelUsage.cost.toFixed(3);
+            const costDisplay = parseFloat(todayCost) > 0 ? ` (${todayCost})` : '';
+            
+            if (hasApiKey) {
+                // Normal operation - show model with optional cost
+                this.statusBarItem.text = `${providerInfo.icon} AI.duino${costDisplay}`;
+                
+                // Build detailed tooltip
+                const totalTokens = modelUsage.input + modelUsage.output;
+                const modelStatus = providerInfo.isLatest ? 
+                    `Latest: ${providerInfo.modelName}` :
+                    `Fallback: ${providerInfo.modelName}`;
+                
+                this.statusBarItem.tooltip = 
+                    `${providerInfo.name} - ${modelStatus}\n` +
+                    `Tokens: ${totalTokens}${costDisplay}\n` +
+                    `Input: ${modelUsage.input} | Output: ${modelUsage.output}`;
+                
+                // Clear any warning background
+                this.statusBarItem.backgroundColor = undefined;
+                
+            } else {
+                // No API key - show warning
+                this.statusBarItem.text = `${providerInfo.icon} AI.duino $(warning)`;
+                this.statusBarItem.tooltip = 
+                    (t && t('statusBar.noApiKey')) ? 
+                    t('statusBar.noApiKey', providerInfo.name) :
+                    `No API key for ${providerInfo.name}`;
+                    
+                // Set warning background color
+                this.statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
+            }
+            
+        } catch (error) {
+            // Fallback display on error
+            this.statusBarItem.text = "🤖 AI.duino $(error)";
+            this.statusBarItem.tooltip = `AI.duino: Display error - ${error.message}`;
+            this.statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
+        }
+    }
+    
+    /**
+     * Show error state in status bar
+     * @param {number} errorCount - Number of errors found
+     * @param {Function} t - Translation function
+     * @param {Object} providerInfo - Provider information
+     */
+    showErrorState(errorCount, t, providerInfo = null) {
+        if (!this.statusBarItem || this.isDisposed) {
+            return;
+        }
+        
+        const icon = providerInfo ? providerInfo.icon : '🤖';
+        this.statusBarItem.text = `${icon} AI.duino $(error)`;
+        this.statusBarItem.tooltip = 
+            (t && t('statusBar.errorsFound')) ?
+            t('statusBar.errorsFound', errorCount) :
+            `${errorCount} errors found`;
+        
+        this.statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
+    }
+    
+    /**
+     * Dispose the status bar item and cleanup
+     */
+    dispose() {
+        if (this.statusBarItem) {
+            try {
+                this.statusBarItem.dispose();
+            } catch (error) {
+                // Silent error on disposal
+            }
+            this.statusBarItem = null;
+        }
+        
+        this.isDisposed = true;
+    }
+}
+
+module.exports = { StatusBarManager };
