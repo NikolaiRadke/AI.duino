@@ -278,6 +278,9 @@ rmdir /s /q "%TEMP_DIR%" >nul 2>&1
 exit /b 0
 
 :setup_api_keys
+REM Ensure .aiduino directory exists
+if not exist "%USERPROFILE%\.aiduino" mkdir "%USERPROFILE%\.aiduino"
+
 echo.
 echo %CYAN%================================================================%NC%
 echo %BOLD%API Key Setup ^(Optional^)%NC%
@@ -309,63 +312,63 @@ echo.
 REM Claude
 set /p "CLAUDE_KEY=Claude API key (sk-ant-...): "
 if not "!CLAUDE_KEY!"=="" (
-    echo !CLAUDE_KEY!> "%USERPROFILE%\.aiduino-claude-api-key"
+    echo !CLAUDE_KEY!> "%USERPROFILE%\.aiduino\.aiduino-claude-api-key"
     echo %GREEN%✓%NC% Claude API key saved
 )
 
 REM ChatGPT
 set /p "OPENAI_KEY=OpenAI API key (sk-...): "
 if not "!OPENAI_KEY!"=="" (
-    echo !OPENAI_KEY!> "%USERPROFILE%\.aiduino-openai-api-key"
+    echo !OPENAI_KEY!> "%USERPROFILE%\.aiduino\.aiduino-openai-api-key"
     echo %GREEN%✓%NC% OpenAI API key saved
 )
 
 REM Gemini
 set /p "GEMINI_KEY=Gemini API key (AIza...): "
 if not "!GEMINI_KEY!"=="" (
-    echo !GEMINI_KEY!> "%USERPROFILE%\.aiduino-gemini-api-key"
+    echo !GEMINI_KEY!> "%USERPROFILE%\.aiduino\.aiduino-gemini-api-key"
     echo %GREEN%✓%NC% Gemini API key saved
 )
 
 REM Mistral
 set /p "MISTRAL_KEY=Mistral API key: "
 if not "!MISTRAL_KEY!"=="" (
-    echo !MISTRAL_KEY!> "%USERPROFILE%\.aiduino-mistral-api-key"
+    echo !MISTRAL_KEY!> "%USERPROFILE%\.aiduino\.aiduino-mistral-api-key"
     echo %GREEN%✓%NC% Mistral API key saved
 )
 
 REM Groq
 set /p "GROQ_KEY=Groq API key (gsk_...): "
 if not "!GROQ_KEY!"=="" (
-    echo !GROQ_KEY!> "%USERPROFILE%\.aiduino-groq-api-key"
+    echo !GROQ_KEY!> "%USERPROFILE%\.aiduino\.aiduino-groq-api-key"
     echo %GREEN%✓%NC% Groq API key saved
 )
 
 REM Perplexity
 set /p "PERPLEXITY_KEY=Perplexity API key (pplx-...): "
 if not "!PERPLEXITY_KEY!"=="" (
-    echo !PERPLEXITY_KEY!> "%USERPROFILE%\.aiduino-perplexity-api-key"
+    echo !PERPLEXITY_KEY!> "%USERPROFILE%\.aiduino\.aiduino-perplexity-api-key"
     echo %GREEN%✓%NC% Perplexity API key saved
 )
 
 REM Cohere
 set /p "COHERE_KEY=Cohere API key (co-...): "
 if not "!COHERE_KEY!"=="" (
-    echo !COHERE_KEY!> "%USERPROFILE%\.aiduino-cohere-api-key"
+    echo !COHERE_KEY!> "%USERPROFILE%\.aiduino\.aiduino-cohere-api-key"
     echo %GREEN%✓%NC% Cohere API key saved
 )
 
 REM Vertex AI
 set /p "VERTEX_KEY=Vertex AI API key: "
 if not "!VERTEX_KEY!"=="" (
-    echo !VERTEX_KEY!> "%USERPROFILE%\.aiduino-vertex-api-key"
+    echo !VERTEX_KEY!> "%USERPROFILE%\.aiduino\.aiduino-vertex-api-key"
     echo %GREEN%✓%NC% Vertex AI API key saved
 )
 
 REM Hugging Face
 set /p "HUGGINGFACE_KEY=Hugging Face API key (hf_...): "
 if not "!HUGGINGFACE_KEY!"=="" (
-    echo !HUGGINGFACE_KEY!> "%USERPROFILE%\.aiduino-huggingface-api-key"
+    echo !HUGGINGFACE_KEY!> "%USERPROFILE%\.aiduino\.aiduino-huggingface-api-key"
     echo %GREEN%✓%NC% Hugging Face API key saved
 )
 goto :eof

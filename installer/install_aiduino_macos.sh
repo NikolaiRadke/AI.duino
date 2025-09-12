@@ -289,6 +289,9 @@ setup_api_keys() {
 
 # Setup individual API keys
 setup_individual_keys() {
+    # Ensure .aiduino directory exists
+    mkdir -p "$HOME/.aiduino"
+    
     echo ""
     echo "Enter your API keys (press Enter to skip):"
     echo ""
@@ -300,7 +303,7 @@ setup_individual_keys() {
     if [ ! -z "$claude_key" ]; then
         if [[ "$claude_key" == sk-ant-* ]]; then
             echo "$claude_key" > "$HOME/.aiduino-claude-api-key"
-            chmod 600 "$HOME/.aiduino-claude-api-key"
+            chmod 600 "$HOME/.aiduino/.aiduino-claude-api-key"
             echo -e "${GREEN}✓${NC} Claude API key saved"
         else
             echo -e "${YELLOW}⚠${NC} Invalid Claude key format (should start with sk-ant-)"
@@ -314,7 +317,7 @@ setup_individual_keys() {
     if [ ! -z "$openai_key" ]; then
         if [[ "$openai_key" == sk-* ]]; then
             echo "$openai_key" > "$HOME/.aiduino-openai-api-key"
-            chmod 600 "$HOME/.aiduino-openai-api-key"
+            chmod 600 "$HOME/.aiduino/.aiduino-openai-api-key"
             echo -e "${GREEN}✓${NC} OpenAI API key saved"
         else
             echo -e "${YELLOW}⚠${NC} Invalid OpenAI key format (should start with sk-)"
@@ -328,7 +331,7 @@ setup_individual_keys() {
     if [ ! -z "$gemini_key" ]; then
         if [[ "$gemini_key" == AIza* ]]; then
             echo "$gemini_key" > "$HOME/.aiduino-gemini-api-key"
-            chmod 600 "$HOME/.aiduino-gemini-api-key"
+            chmod 600 "$HOME/.aiduino/.aiduino-gemini-api-key"
             echo -e "${GREEN}✓${NC} Gemini API key saved"
         else
             echo -e "${YELLOW}⚠${NC} Invalid Gemini key format (should start with AIza)"
@@ -341,7 +344,7 @@ setup_individual_keys() {
     echo ""
     if [ ! -z "$mistral_key" ]; then
         echo "$mistral_key" > "$HOME/.aiduino-mistral-api-key"
-        chmod 600 "$HOME/.aiduino-mistral-api-key"
+        chmod 600 "$HOME/.aiduino/.aiduino-mistral-api-key"
         echo -e "${GREEN}✓${NC} Mistral API key saved"
     fi
 
@@ -352,7 +355,7 @@ setup_individual_keys() {
     if [ ! -z "$groq_key" ]; then
         if [[ "$groq_key" == gsk_* ]]; then
             echo "$groq_key" > "$HOME/.aiduino-groq-api-key"
-            chmod 600 "$HOME/.aiduino-groq-api-key"
+            chmod 600 "$HOME/.aiduino/.aiduino-groq-api-key"
             echo -e "${GREEN}✓${NC} Groq API key saved"
         else
             echo -e "${YELLOW}⚠ ${NC} Invalid Groq key format (should start with gsk_)"
@@ -366,7 +369,7 @@ setup_individual_keys() {
     if [ ! -z "$perplexity_key" ]; then
         if [[ "$perplexity_key" == pplx-* ]]; then
             echo "$perplexity_key" > "$HOME/.aiduino-perplexity-api-key"
-            chmod 600 "$HOME/.aiduino-perplexity-api-key"
+            chmod 600 "$HOME/.aiduino/.aiduino-perplexity-api-key"
             echo -e "${GREEN}✓${NC} Perplexity API key saved"
         else
             echo -e "${YELLOW}⚠ ${NC} Invalid Perplexity key format (should start with pplx-)"
@@ -380,7 +383,7 @@ setup_individual_keys() {
     if [ ! -z "$cohere_key" ]; then
         if [[ "$cohere_key" == co-* ]]; then
             echo "$cohere_key" > "$HOME/.aiduino-cohere-api-key"
-            chmod 600 "$HOME/.aiduino-cohere-api-key"
+            chmod 600 "$HOME/.aiduino/.aiduino-cohere-api-key"
             echo -e "${GREEN}✓${NC} Cohere API key saved"
         else
             echo -e "${YELLOW}⚠ ${NC} Invalid Cohere key format (should start with co-)"
@@ -393,7 +396,7 @@ setup_individual_keys() {
     echo ""
     if [ ! -z "$vertex_key" ]; then
         echo "$vertex_key" > "$HOME/.aiduino-vertex-api-key"
-        chmod 600 "$HOME/.aiduino-vertex-api-key"
+        chmod 600 "$HOME/.aiduino/.aiduino-vertex-api-key"
         echo -e "${GREEN}✓${NC} Vertex AI API key saved"
     fi
 
@@ -404,7 +407,7 @@ setup_individual_keys() {
     if [ ! -z "$huggingface_key" ]; then
         if [[ "$huggingface_key" == hf_* ]]; then
             echo "$huggingface_key" > "$HOME/.aiduino-huggingface-api-key"
-            chmod 600 "$HOME/.aiduino-huggingface-api-key"
+            chmod 600 "$HOME/.aiduino/.aiduino-huggingface-api-key"
             echo -e "${GREEN}✓${NC} Hugging Face API key saved"
         else
             echo -e "${YELLOW}⚠ ${NC} Invalid Hugging Face key format (should start with hf_)"
