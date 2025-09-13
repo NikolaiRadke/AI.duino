@@ -78,7 +78,8 @@
       {
         "command": "aiduino.askAI",
         "title": "Ask AI",
-        "category": "AI.duino"
+        "category": "AI.duino",
+        "icon": "$(comment-discussion)"
       },
       {
         "command": "aiduino.debugHelp",
