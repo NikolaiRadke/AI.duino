@@ -2,17 +2,7 @@
  * AI.duino - Validation Utilities
  * Copyright 2025 Monster Maker
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Licensed under the Apache License, Version 2.0
  */
 
 "use strict";
@@ -146,31 +136,29 @@ function validateEmail(email) {
 }
 
 /**
- * Validates URL format
+ * Validates URL format (simplified without try-catch)
  * @param {string} url - URL to validate
- * @returns {boolean} True if valid URL
+ * @returns {boolean} True if valid URL format
  */
 function validateUrl(url) {
-    try {
-        new URL(url);
-        return true;
-    } catch {
-        return false;
-    }
+    if (!url || typeof url !== 'string') return false;
+    
+    // Basic URL format check without throwing exceptions
+    return url.startsWith('http://') || url.startsWith('https://');
 }
 
 /**
- * Validates JSON string
+ * Validates JSON string format (simplified without try-catch)
  * @param {string} jsonString - JSON string to validate
- * @returns {boolean} True if valid JSON
+ * @returns {boolean} True if likely valid JSON format
  */
 function validateJson(jsonString) {
-    try {
-        JSON.parse(jsonString);
-        return true;
-    } catch {
-        return false;
-    }
+    if (!jsonString || typeof jsonString !== 'string') return false;
+    
+    const trimmed = jsonString.trim();
+    // Basic format check - starts with { or [ and ends appropriately
+    return (trimmed.startsWith('{') && trimmed.endsWith('}')) ||
+           (trimmed.startsWith('[') && trimmed.endsWith(']'));
 }
 
 module.exports = {

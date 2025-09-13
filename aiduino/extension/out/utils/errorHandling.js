@@ -4,6 +4,8 @@
  */
 
 const vscode = require('vscode');
+const networkUtils = require('./network');
+const uiTools = require('./ui');
 
 /**
  * Handle API errors with appropriate user feedback and recovery options
@@ -30,7 +32,6 @@ function handleApiError(error, context) {
             if (selection === t('buttons.enterApiKey')) {
                 vscode.commands.executeCommand('aiduino.setApiKey');
             } else if (selection === t('buttons.getApiKey')) {
-                const networkUtils = require('./network');
                 networkUtils.openApiKeyUrl(currentModel);
             } else if (selection === t('buttons.switchModel')) {
                 vscode.commands.executeCommand('aiduino.switchModel');
@@ -81,7 +82,6 @@ function handleApiError(error, context) {
             if (selection === t('buttons.switchModel')) {
                 vscode.commands.executeCommand('aiduino.switchModel');
             } else if (selection === t('buttons.checkStatus')) {
-                const networkUtils = require('./network');
                 networkUtils.openServiceStatusUrl(currentModel, minimalModelManager, t);
             }
         });
@@ -103,10 +103,8 @@ function handleApiError(error, context) {
             if (selection === t('buttons.retry')) {
                 vscode.window.showInformationMessage(t('messages.retryLater'));
             } else if (selection === t('buttons.offlineHelp')) {
-                const uiTools = require('./ui');
                 uiTools.showOfflineHelp({ t });
             } else if (selection === t('buttons.checkConnection')) {
-                const networkUtils = require('./network');
                 networkUtils.testNetworkConnectivity({ t });
             }
         });
@@ -126,7 +124,6 @@ function handleApiError(error, context) {
             if (selection === t('buttons.enterApiKey')) {
                 vscode.commands.executeCommand('aiduino.setApiKey');
             } else if (selection === t('buttons.getApiKey')) {
-                const networkUtils = require('./network');
                 networkUtils.openApiKeyUrl(currentModel);
             } else if (selection === t('buttons.switchModel')) {
                 vscode.commands.executeCommand('aiduino.switchModel');
@@ -166,7 +163,6 @@ function handleApiError(error, context) {
             if (selection === t('buttons.switchModel')) {
                 vscode.commands.executeCommand('aiduino.switchModel');
             } else if (selection === t('buttons.checkStatus')) {
-                const networkUtils = require('./network');
                 networkUtils.openServiceStatusUrl(currentModel, minimalModelManager, t);
             }
         });
@@ -197,7 +193,6 @@ function showFirewallHelp(context) {
         t('buttons.offlineHelp')
     ).then(selection => {
         if (selection === t('buttons.offlineHelp')) {
-            const uiTools = require('./ui');
             uiTools.showOfflineHelp({ t });
         }
     });
