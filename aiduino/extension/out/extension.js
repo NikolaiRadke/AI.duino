@@ -2,17 +2,7 @@
  * AI.duino
  * Copyright 2025 Monster Maker
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Licensed under the Apache License, Version 2.0
  */
 
 "use strict";
@@ -60,7 +50,6 @@ const { StatusBarManager } = require('./utils/statusBarManager');
 
 // Configuration modules
 const { LANGUAGE_METADATA, getLanguageInfo } = require('./config/languageMetadata');
-const { PROVIDER_CONFIGS } = require('./config/providerConfigs');
 
 // ===== CONSTANTS =====
 const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
@@ -76,11 +65,6 @@ let currentLocale = 'en';
 let i18n = {};
 let isPromptEditorOpen = false;
 
-// Load remote config URL once at module load
-let remoteConfigUrl = null;
-const { REMOTE_CONFIG_URL } = require('./config/providerConfigs');
-remoteConfigUrl = REMOTE_CONFIG_URL;
-
 // Module instances
 let commandRegistry;
 let errorChecker;
@@ -92,6 +76,11 @@ let quickMenuTreeProvider;
 let executionStates;
 let eventManager;
 const apiClient = new UnifiedAPIClient();
+
+// Single instance of model manager
+let configData;
+let minimalModelManager;
+let REMOTE_CONFIG_URL;
 
 // Data stores
 const apiKeys = {};
@@ -111,7 +100,7 @@ let aiConversationContext = {
  */
 class MinimalModelManager {
     constructor(providers = null) {
-        this.providers = providers || PROVIDER_CONFIGS; // Fallback
+        this.providers = providers || {}; // Fallback to empty object
     }
 
     /**
@@ -170,6 +159,7 @@ class MinimalModelManager {
      * @returns {boolean} True if API key exists
      */
     hasApiKey(providerId) {
+        if (!this.providers[providerId]) return false;
         const keyFile = path.join(AIDUINO_DIR, this.providers[providerId].keyFile);
         return fs.existsSync(keyFile);
     }
@@ -216,25 +206,18 @@ function loadLocale() {
         currentLocale = localeUtils.autoDetectLocale(vscodeLocale);
     }
     
-    // Load locale file with fallback chain to en.json
-    const localeFiles = [
-        path.join(__dirname, '..', 'locales', `${currentLocale}.json`),
-        path.join(__dirname, '..', 'locales', 'en.json')  // Always available fallback
-    ];
+    // Simplified locale loading with single fallback
+    const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
+    const fallbackFile = path.join(__dirname, '..', 'locales', 'en.json');
     
-    let localeLoaded = false;
-    for (const localeFile of localeFiles) {
-        if (fs.existsSync(localeFile)) {
-            const content = fs.readFileSync(localeFile, 'utf8');
-            i18n = JSON.parse(content);
-            localeLoaded = true;
-            break;
-        }
-    }
+    // Try current locale first, then fallback to english
+    const fileToTry = fs.existsSync(localeFile) ? localeFile : fallbackFile;
     
-    // Critical error if no locale could be loaded
-    if (!localeLoaded) {
-        // Set currentLocale to 'en' and create minimal i18n object
+    if (fs.existsSync(fileToTry)) {
+        const content = fs.readFileSync(fileToTry, 'utf8');
+        i18n = JSON.parse(content);
+    } else {
+        // Emergency fallback
         currentLocale = 'en';
         i18n = {
             commands: { quickMenu: "Open Quick Menu" },
@@ -290,7 +273,7 @@ async function switchLanguage() {
         
         const selected = await vscode.window.showQuickPick(availableLanguages, {
             placeHolder: t('language.selectLanguage') || 'Choose language for AI.duino',
-            title: `ðŸŒ AI.duino ${t('language.changeLanguage') || 'Change Language'}`
+            title: `🌍 AI.duino ${t('language.changeLanguage') || 'Change Language'}`
         });
         
         if (selected && selected.value !== currentSetting) {
@@ -336,6 +319,11 @@ function initializeTokenUsage() {
     tokenUsage = {
         daily: new Date().toDateString()
     };
+
+    // Check if model manager is ready
+    if (!minimalModelManager || !minimalModelManager.providers) {
+        return;
+    }
     
     // Initialize for each model
     Object.keys(minimalModelManager.providers).forEach(modelId => {
@@ -357,36 +345,31 @@ function loadTokenUsage() {
         return;
     }
     
-    let fileContent;
-    fileContent = fs.readFileSync(TOKEN_USAGE_FILE, 'utf8');
+    const fileContent = fs.readFileSync(TOKEN_USAGE_FILE, 'utf8');
+    const data = JSON.parse(fileContent);
     
-    // Validate JSON
-    let data;
-    data = JSON.parse(fileContent);
-    
-    // Validate data structure
-    if (!data || typeof data !== 'object' || !data.daily) {
+    // Check if model manager is ready
+    if (!minimalModelManager || !minimalModelManager.providers) {
+        return; // Skip if no providers loaded
+    }
+
+    // Validate data structure and check date
+    if (!data || typeof data !== 'object' || !data.daily || data.daily !== today) {
+        // Different day or invalid data - reset
         initializeTokenUsage();
         saveTokenUsage();
         return;
     }
     
-    // Check if it's the same day
-    if (data.daily === today) {
-        // Same day - restore data
-        tokenUsage = data;
-        
-        // Ensure all models exist in loaded data
-        Object.keys(minimalModelManager.providers).forEach(modelId => {
-            if (!tokenUsage[modelId]) {
-                tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
-            }
-        });
-    } else {
-        // Different day - reset
-        initializeTokenUsage();
-        saveTokenUsage();
-    }
+    // Same day - restore data
+    tokenUsage = data;
+    
+    // Ensure all models exist in loaded data
+    Object.keys(minimalModelManager.providers).forEach(modelId => {
+        if (!tokenUsage[modelId]) {
+            tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
+        }
+    });
     
     // Update status bar after loading
     if (statusBarManager) {
@@ -437,7 +420,11 @@ function updateTokenUsage(modelId, inputText, outputText) {
     
     tokenUsage[modelId].input += inputTokens;
     tokenUsage[modelId].output += outputTokens;
-    
+ 
+   // Check if model manager is ready
+    if (!minimalModelManager || !minimalModelManager.providers) {
+        return;
+    }
     // Calculate costs
     const model = minimalModelManager.providers[modelId];
     if (!model) return;
@@ -486,6 +473,11 @@ async function checkForErrors(silent = true) {
  * @param {vscode.ExtensionContext} context - VS Code extension context
  */
 function activate(context) {
+    // Initialize config and model manager first
+    configData = configUpdater.loadProviderConfigs();
+    REMOTE_CONFIG_URL = configData.REMOTE_CONFIG_URL;
+    minimalModelManager = new MinimalModelManager(configData.providers);
+    
     // Ensure clean state on activation
     if (globalContext) {
         // Extension was somehow already active - cleanup first
@@ -502,7 +494,7 @@ function activate(context) {
     // Initialize Locale Utils first
     localeUtils = new LocaleUtils();
 
-    // Generate AI.duino folder and migrate files (> V1.7.1)     
+    // Generate AI.duino folder and migrate files
     if (!fs.existsSync(AIDUINO_DIR)) {
         fs.mkdirSync(AIDUINO_DIR, { mode: 0o700 });
         fileManager.migrateOldFiles(AIDUINO_DIR);
@@ -518,15 +510,12 @@ function activate(context) {
     // Store context globally
     globalContext = context;
 
-    // Initialize token usage for all models
-    initializeTokenUsage();
-    
     // Load API keys and model configuration on startup
     Object.assign(apiKeys, fileManager.loadAllApiKeys(minimalModelManager.providers));
     const savedModel = fileManager.loadSelectedModel(minimalModelManager.providers);
     if (savedModel) currentModel = savedModel;
     
-    // Load token statistics
+    // Load token statistics (handles initialization internally)
     loadTokenUsage();
     
     // Initialize and show status bar
@@ -610,7 +599,6 @@ function registerCommands(context) {
  * @returns {Object} Dependencies object
  */
 function getDependencies() {
-    const { REMOTE_CONFIG_URL } = require('./config/providerConfigs');
     return {
         t,
         callAI,
@@ -628,7 +616,7 @@ function getDependencies() {
         fileManager,
         validation, 
         EXTENSION_VERSION,
-        REMOTE_CONFIG_URL: remoteConfigUrl,
+        REMOTE_CONFIG_URL,
         updateTokenUsage,
         updateStatusBar,
         aiConversationContext,
@@ -643,21 +631,10 @@ function getDependencies() {
 }
 
 /**
- * Check if welcome message should be shown
- * @returns {boolean} True if no API keys are configured
- */
-function shouldShowWelcome() {
-    return uiTools.shouldShowWelcome(getDependencies());
-}
-
-/**
  * Main API call function - delegates to UnifiedAPIClient
  * @param {string} prompt - The prompt to send to AI
  * @returns {Promise} AI response promise
  */
-const configData = configUpdater.loadProviderConfigs();
-const minimalModelManager = new MinimalModelManager(configData.providers);
-
 function callAI(prompt) {
     return apiManager.callAI(prompt, getDependencies());
 }
@@ -706,7 +683,7 @@ async function showQuickMenu() {
     
     const selected = await vscode.window.showQuickPick(items, {
         placeHolder: t('messages.selectAction'),
-        title: `ðŸ¤– AI.duino v${EXTENSION_VERSION} (${model.name})`
+        title: `🤖 AI.duino v${EXTENSION_VERSION} (${model.name})`
     });
     
     if (selected && selected.command) {
