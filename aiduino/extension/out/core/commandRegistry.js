@@ -145,6 +145,17 @@ class CommandRegistry {
                 description: 'Edit AI Prompts'
             },
 
+            // In commandRegistry.js defineCommands() Array:
+            { 
+                name: 'aiduino.refreshQuickMenu', 
+                  handler: () => {
+                    if (deps.quickMenuTreeProvider) {
+                        deps.quickMenuTreeProvider.refresh();
+                    }
+                },
+                description: 'Refresh Quick Menu Tree View'
+            },
+
             // Debug Commands (normally hidden)
             { 
                 name: 'aiduino.showModels', 

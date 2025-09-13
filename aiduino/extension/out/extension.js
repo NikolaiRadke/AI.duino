@@ -71,7 +71,6 @@ const TOKEN_USAGE_FILE = path.join(AIDUINO_DIR, '.aiduino-token-usage.json');
 // ===== GLOBAL VARIABLES =====
 // Core system state
 let globalContext;
-let statusBarManager;
 let currentModel = 'claude';
 let currentLocale = 'en';
 let i18n = {};
@@ -93,6 +92,8 @@ let errorChecker;
 let apiKeyManager;
 let localeUtils;
 let promptManager;
+let statusBarManager;
+let quickMenuTreeProvider;
 let executionStates;
 let eventManager;
 const apiClient = new UnifiedAPIClient();
@@ -325,6 +326,9 @@ async function switchLanguage() {
                 loadLocale();
                 promptManager.initialize(i18n, currentLocale); 
                 updateStatusBar();
+                if (quickMenuTreeProvider) {
+                    quickMenuTreeProvider.refresh();
+                }
 
                 if (isPromptEditorOpen) {
                     setTimeout(() => {
@@ -575,6 +579,15 @@ function activate(context) {
     statusBarManager.createStatusBar();
     updateStatusBar();
 
+    // Initialize Quick Menu Tree Provider
+    quickMenuTreeProvider = new uiTools.QuickMenuTreeProvider();
+    quickMenuTreeProvider.initialize(getDependencies());
+    const treeView = vscode.window.createTreeView('aiduino.quickMenuView', {
+        treeDataProvider: quickMenuTreeProvider,
+        showCollapseAll: false
+    });
+    context.subscriptions.push(treeView);
+
     // Initialize core managers
     errorChecker = new ErrorChecker();
     apiKeyManager = new ApiKeyManager();
@@ -664,6 +677,7 @@ function getDependencies() {
         updateTokenUsage,
         updateStatusBar,
         aiConversationContext,
+        quickMenuTreeProvider,
         apiKeyManager,
         setCurrentModel: (newModel) => { currentModel = newModel; },  // <- Callback 
         handleApiError: (error) => errorHandling.handleApiError(error, getDependencies()),
@@ -821,6 +835,9 @@ function deactivate() {
     // Cleanup status bar manager
     statusBarManager.dispose();
     statusBarManager = null;
+
+    // Cleanup tree provider
+    quickMenuTreeProvider = null;
     
     // Clear global references to prevent memory leaks
     globalContext = null;

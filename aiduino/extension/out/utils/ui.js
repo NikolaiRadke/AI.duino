@@ -1,10 +1,121 @@
 /**
  * tools/ui.js - UI Display Functions
- * About dialog, token statistics, offline help panels, and menu builders
+ * About dialog, token statistics, offline help panels, menu builders, and Activity Bar TreeView
  */
 
 const vscode = require('vscode');
 const shared = require('../shared');
+
+// ===== ACTIVITY BAR TREE VIEW PROVIDER =====
+
+/**
+ * Tree Data Provider for AI.duino Activity Bar Quick Menu
+ * Integrates with existing menu building logic for consistency
+ */
+class QuickMenuTreeProvider {
+    constructor() {
+        this._onDidChangeTreeData = new vscode.EventEmitter();
+        this.onDidChangeTreeData = this._onDidChangeTreeData.event;
+        this.context = null;
+    }
+    
+    /**
+     * Initialize provider with extension context
+     * @param {Object} context - Extension context with dependencies
+     */
+    initialize(context) {
+        this.context = context;
+    }
+    
+    /**
+     * Refresh tree view with current state
+     */
+    refresh() {
+        this._onDidChangeTreeData.fire();
+    }
+    
+    /**
+     * Get tree item representation
+     * @param {Object} element - Tree element
+     * @returns {vscode.TreeItem} Tree item
+     */
+    getTreeItem(element) {
+        return element;
+    }
+    
+    /**
+     * Get children for tree level
+     * @param {Object} element - Parent element (undefined for root)
+     * @returns {Promise<Array>} Child elements
+     */
+    getChildren(element) {
+        if (!element && this.context) {
+            // Root level - build tree items from menu items
+            return Promise.resolve(this.buildTreeItems());
+        }
+        return Promise.resolve([]);
+    }
+    
+    /**
+     * Build tree items from existing menu building logic
+     * @returns {Array} Array of tree items
+     */
+    buildTreeItems() {
+        if (!this.context) return [];
+        
+        try {
+            // Use existing menu builder logic
+            const menuItems = buildMenuItems(this.context);
+            
+            return menuItems
+                .filter(item => item.command) // Only items with commands
+                .map(item => this.createTreeItem(item));
+                
+        } catch (error) {
+            // Fallback items on error
+            return [
+                new QuickMenuTreeItem('Open Quick Menu', 'aiduino.quickMenu', 'robot', 'Open main AI.duino menu')
+            ];
+        }
+    }
+    
+    /**
+     * Create tree item from menu item
+     * @param {Object} menuItem - Menu item from buildMenuItems
+     * @returns {QuickMenuTreeItem} Tree item
+     */
+    createTreeItem(menuItem) {
+        // Extract icon from label (format: "$(icon) Text")
+        const iconMatch = menuItem.label.match(/\$\(([^)]+)\)/);
+        const icon = iconMatch ? iconMatch[1] : 'circle-outline';
+        const cleanLabel = menuItem.label.replace(/\$\([^)]+\)\s*/, '');
+    
+        return new QuickMenuTreeItem(
+            cleanLabel,
+            menuItem.command,
+            icon
+        );
+    }
+}
+
+/**
+ * Tree item for Quick Menu entries
+ * Represents individual actions in the Activity Bar tree
+ */
+class QuickMenuTreeItem extends vscode.TreeItem {
+    constructor(label, command, iconName) { // Kein tooltip Parameter
+        super(label, vscode.TreeItemCollapsibleState.None);
+        
+        this.command = {
+            command: command,
+            title: label,
+            arguments: []
+        };
+        
+        this.iconPath = new vscode.ThemeIcon(iconName);
+        this.contextValue = 'quickMenuItem';
+    }
+}
 
 // ===== MENU BUILDER FUNCTIONS =====
 
@@ -280,7 +391,9 @@ function showAbout(context) {
             </style>
         </head>
         <body>
-            <div class="logo">🤖</div>
+            <div class="logo">
+                <img src="https://www.nikolairadke.de/aiduino/aiduino-logo.png" width="96" height="96" alt="Ai.duino Logo" />
+            </div>
             <h1>AI.duino</h1>
             <div class="version">Version ${EXTENSION_VERSION}</div>
             
@@ -639,6 +752,10 @@ async function showProgressWithCancel(message, operation, t) {
 }
 
 module.exports = {
+    // Activity Bar TreeView
+    QuickMenuTreeProvider,
+    QuickMenuTreeItem,
+    
     // Existing functions
     showAbout,
     showTokenStats,
