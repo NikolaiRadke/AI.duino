@@ -90,6 +90,7 @@ C:\Program Files\Arduino IDE\resources\app\plugins\
 The `aiduino` folder must have the following structure (>= V1.6.0):
 ```
 aiduino/
+├── icons/ 
 ├── extension/
 │   ├── out/
 │   │   ├── extension.js
