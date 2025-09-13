@@ -96,7 +96,6 @@ class ExecutionStateManager {
      */
     debugShowStates() {
         const runningOps = this.getRunningOperations();
-        console.log('ExecutionStateManager - Running operations:', runningOps);
         return {
             running: runningOps,
             count: runningOps.length,

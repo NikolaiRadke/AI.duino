@@ -6,12 +6,10 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const vscode = require('vscode');
-
 
 class PromptManager {
     constructor() {
-        this.currentLocale = 'en'; // Default
+        this.currentLocale = 'en';
         this.customPromptsFile = null;
         this.backupFile = null;
         this.updateFilePaths();
@@ -33,21 +31,17 @@ class PromptManager {
      * Load custom prompts from file or create default structure
      */
     loadCustomPrompts() {
-        try {
-            if (fs.existsSync(this.customPromptsFile)) {
-                const content = fs.readFileSync(this.customPromptsFile, 'utf8');
-                this.customPrompts = JSON.parse(content);
-                
-                // Validate structure and add missing prompts
-                this.validateAndUpdateStructure();
-                return true;
-            }
-        } catch (error) {
-            console.log('AI.duino: Failed to load custom prompts, using defaults');
+        if (!fs.existsSync(this.customPromptsFile)) {
+            this.customPrompts = null;
+            return false;
         }
+
+        const content = fs.readFileSync(this.customPromptsFile, 'utf8');
+        this.customPrompts = JSON.parse(content);
         
-        this.customPrompts = null;
-        return false;
+        // Validate structure and add missing prompts
+        this.validateAndUpdateStructure();
+        return true;
     }
 
     /**
@@ -97,29 +91,24 @@ class PromptManager {
      * Save custom prompts to file with backup
      */
     saveCustomPrompts() {
-        try {
-            // Create backup first
-            if (fs.existsSync(this.customPromptsFile)) {
-                fs.copyFileSync(this.customPromptsFile, this.backupFile);
-            }
-
-            // Add metadata
-            const dataToSave = {
-                _metadata: {
-                    version: '1.0',
-                    created: new Date().toISOString(),
-                    description: 'AI.duino Custom Prompts - Edit with caution'
-                },
-                ...this.customPrompts
-            };
-
-            const content = JSON.stringify(dataToSave, null, 2);
-            fs.writeFileSync(this.customPromptsFile, content, { mode: 0o600 });
-            return true;
-        } catch (error) {
-            console.error('Failed to save custom prompts:', error);
-            return false;
+        // Create backup first
+        if (fs.existsSync(this.customPromptsFile)) {
+            fs.copyFileSync(this.customPromptsFile, this.backupFile);
         }
+
+        // Add metadata
+        const dataToSave = {
+            _metadata: {
+                version: '1.0',
+                created: new Date().toISOString(),
+                description: 'AI.duino Custom Prompts - Edit with caution'
+            },
+            ...this.customPrompts
+        };
+
+        const content = JSON.stringify(dataToSave, null, 2);
+        fs.writeFileSync(this.customPromptsFile, content, { mode: 0o600 });
+        return true;
     }
 
     /**
@@ -141,12 +130,8 @@ class PromptManager {
      */
     resetToDefaults() {
         this.customPrompts = null;
-        try {
-            if (fs.existsSync(this.customPromptsFile)) {
-                fs.unlinkSync(this.customPromptsFile);
-            }
-        } catch (error) {
-            console.error('Failed to delete custom prompts file:', error);
+        if (fs.existsSync(this.customPromptsFile)) {
+            fs.unlinkSync(this.customPromptsFile);
         }
     }
 

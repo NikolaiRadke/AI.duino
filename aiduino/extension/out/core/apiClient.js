@@ -83,16 +83,12 @@ class UnifiedAPIClient {
                 });
     
                 res.on('end', () => {
-                    try {
-                        const parsedData = JSON.parse(responseData);
-                        
-                        if (res.statusCode === 200) {
-                            resolve(parsedData);
-                        } else {
-                            reject(this.createHttpError(res.statusCode, parsedData));
-                        }
-                    } catch (e) {
-                        reject(new Error('JSON Parse Error: ' + e.message));
+                    const parsedData = JSON.parse(responseData);
+                    
+                    if (res.statusCode === 200) {
+                        resolve(parsedData);
+                    } else {
+                        reject(this.createHttpError(res.statusCode, parsedData));
                     }
                 });
             });
@@ -115,7 +111,7 @@ class UnifiedAPIClient {
      * @returns {Object} Request configuration
      */
     getModelConfig(modelId, prompt, context) {
-        const { minimalModelManager, apiKeys, t } = context;
+        const { minimalModelManager, apiKeys } = context;
         const provider = minimalModelManager.providers[modelId];
         
         if (!provider || !provider.apiConfig) {

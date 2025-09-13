@@ -60,15 +60,11 @@ class ArduinoBoardContext {
             return this.startPolling();
         }
         
-        try {
-            this.logWatcher = fs.watch(this.logDir, { recursive: false }, (eventType, filename) => {
-                if (filename?.endsWith('.log') && eventType === 'change') {
-                    this.handleLogChange();
-                }
-            });
-        } catch (error) {
-            this.startPolling();
-        }
+        this.logWatcher = fs.watch(this.logDir, { recursive: false }, (eventType, filename) => {
+            if (filename?.endsWith('.log') && eventType === 'change') {
+                this.handleLogChange();
+            }
+        });
     }
     
     /**
@@ -90,22 +86,18 @@ class ArduinoBoardContext {
      * Check for board changes in log files
      */
     async checkForBoardChanges() {
-        try {
-            const logPath = this.findNewestLogFile();
-            if (!logPath) return;
-            
-            const stats = fs.statSync(logPath);
-            if (stats.size === this.lastLogSize) return;
-            this.lastLogSize = stats.size;
-            
-            const content = this.readLogTail(logPath);
-            const boardInfo = this.extractBoardFromLog(content);
-            
-            if (boardInfo && boardInfo.fqbn !== this.currentBoard) {
-                await this.updateBoardState(boardInfo);
-            }
-        } catch (error) {
-            // Silent error - board detection is not critical
+        const logPath = this.findNewestLogFile();
+        if (!logPath) return;
+        
+        const stats = fs.statSync(logPath);
+        if (stats.size === this.lastLogSize) return;
+        this.lastLogSize = stats.size;
+        
+        const content = this.readLogTail(logPath);
+        const boardInfo = this.extractBoardFromLog(content);
+        
+        if (boardInfo && boardInfo.fqbn !== this.currentBoard) {
+            await this.updateBoardState(boardInfo);
         }
     }
     
@@ -114,16 +106,12 @@ class ArduinoBoardContext {
      * @returns {string|null} Path to newest log file
      */
     findNewestLogFile() {
-        try {
-            const files = fs.readdirSync(this.logDir)
-                .filter(f => f.endsWith('.log'))
-                .map(f => ({ path: path.join(this.logDir, f), mtime: fs.statSync(path.join(this.logDir, f)).mtime }))
-                .sort((a, b) => b.mtime.getTime() - a.mtime.getTime());
-            
-            return files[0]?.path || null;
-        } catch (error) {
-            return null;
-        }
+        const files = fs.readdirSync(this.logDir)
+            .filter(f => f.endsWith('.log'))
+            .map(f => ({ path: path.join(this.logDir, f), mtime: fs.statSync(path.join(this.logDir, f)).mtime }))
+            .sort((a, b) => b.mtime.getTime() - a.mtime.getTime());
+        
+        return files[0]?.path || null;
     }
     
     /**
@@ -133,25 +121,18 @@ class ArduinoBoardContext {
      * @returns {string} Log content
      */
     readLogTail(logPath, maxBytes = 2048) {
-        try {
-            const stats = fs.statSync(logPath);
-            const bytesToRead = Math.min(maxBytes, stats.size);
-            
-            if (stats.size <= bytesToRead) {
-                return fs.readFileSync(logPath, 'utf8');
-            }
-            
-            const buffer = Buffer.alloc(bytesToRead);
-            const fd = fs.openSync(logPath, 'r');
-            try {
-                fs.readSync(fd, buffer, 0, bytesToRead, stats.size - bytesToRead);
-                return buffer.toString('utf8');
-            } finally {
-                fs.closeSync(fd);
-            }
-        } catch (error) {
-            return '';
+        const stats = fs.statSync(logPath);
+        const bytesToRead = Math.min(maxBytes, stats.size);
+        
+        if (stats.size <= bytesToRead) {
+            return fs.readFileSync(logPath, 'utf8');
         }
+        
+        const buffer = Buffer.alloc(bytesToRead);
+        const fd = fs.openSync(logPath, 'r');
+        fs.readSync(fd, buffer, 0, bytesToRead, stats.size - bytesToRead);
+        fs.closeSync(fd);
+        return buffer.toString('utf8');
     }
     
     /**
@@ -219,23 +200,19 @@ class ArduinoBoardContext {
      * @returns {string|null} Board FQBN from comments
      */
     detectBoardFromCodeComments() {
-        try {
-            const editor = vscode.window.activeTextEditor;
-            if (!editor) return null;
-            
-            const text = editor.document.getText(new vscode.Range(0, 0, 15, 0));
-            const match = text.match(/\/\/\s*(?:Board|FQBN):\s*([^\n]+)/i);
-            
-            if (match?.[1]) {
-                const hint = match[1].trim();
-                if (hint.includes(':') && hint.split(':').length >= 3) {
-                    return hint;
-                }
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) return null;
+        
+        const text = editor.document.getText(new vscode.Range(0, 0, 15, 0));
+        const match = text.match(/\/\/\s*(?:Board|FQBN):\s*([^\n]+)/i);
+        
+        if (match?.[1]) {
+            const hint = match[1].trim();
+            if (hint.includes(':') && hint.split(':').length >= 3) {
+                return hint;
             }
-            return null;
-        } catch (error) {
-            return null;
         }
+        return null;
     }
     
     /**
@@ -255,45 +232,32 @@ class ArduinoBoardContext {
      * Save board context to cache file
      */
     saveToCache() {
-        try {
-            const data = { 
-                currentBoard: this.currentBoard, 
-                boardDetails: this.boardDetails, 
-                savedAt: Date.now() 
-            };
-            const content = JSON.stringify(data, null, 2);
-            
-            // Atomic write with temp file
-            const tempFile = this.cacheFile + '.tmp';
-            fs.writeFileSync(tempFile, content, { mode: 0o600 });
-            fs.renameSync(tempFile, this.cacheFile);
-        } catch (error) {
-            // Fallback: direct write
-            try {
-                fs.writeFileSync(this.cacheFile, JSON.stringify(data), { mode: 0o600 });
-            } catch (fallbackError) {
-                // Silent error - caching is not critical
-            }
-        }
+        const data = { 
+            currentBoard: this.currentBoard, 
+            boardDetails: this.boardDetails, 
+            savedAt: Date.now() 
+        };
+        const content = JSON.stringify(data, null, 2);
+        
+        // Atomic write with temp file
+        const tempFile = this.cacheFile + '.tmp';
+        fs.writeFileSync(tempFile, content, { mode: 0o600 });
+        fs.renameSync(tempFile, this.cacheFile);
     }
     
     /**
      * Load board context from cache file
      */
     loadFromCache() {
-        try {
-            if (!fs.existsSync(this.cacheFile)) return;
-            
-            const data = JSON.parse(fs.readFileSync(this.cacheFile, 'utf8'));
-            const cacheAge = Date.now() - data.savedAt;
-            
-            // Use cache if less than 48 hours old
-            if (cacheAge < 48 * 60 * 60 * 1000 && data.currentBoard) {
-                this.currentBoard = data.currentBoard;
-                this.boardDetails = data.boardDetails;
-            }
-        } catch (error) {
-            // Silent error - cache loading failure is not critical
+        if (!fs.existsSync(this.cacheFile)) return;
+        
+        const data = JSON.parse(fs.readFileSync(this.cacheFile, 'utf8'));
+        const cacheAge = Date.now() - data.savedAt;
+        
+        // Use cache if less than 48 hours old
+        if (cacheAge < 48 * 60 * 60 * 1000 && data.currentBoard) {
+            this.currentBoard = data.currentBoard;
+            this.boardDetails = data.boardDetails;
         }
     }
     
@@ -387,19 +351,15 @@ function getBoardDetails() {
  * @returns {boolean} True if cache cleared successfully
  */
 function clearBoardCache() {
-    try {
-        const cacheFile = path.join(os.homedir(), '.aiduino', '.aiduino-board-context.json');
-        if (fs.existsSync(cacheFile)) {
-            fs.unlinkSync(cacheFile);
-        }
-        if (globalBoardContext) {
-            globalBoardContext.currentBoard = null;
-            globalBoardContext.boardDetails = null;
-        }
-        return true;
-    } catch (error) {
-        return false;
+    const cacheFile = path.join(os.homedir(), '.aiduino', '.aiduino-board-context.json');
+    if (fs.existsSync(cacheFile)) {
+        fs.unlinkSync(cacheFile);
     }
+    if (globalBoardContext) {
+        globalBoardContext.currentBoard = null;
+        globalBoardContext.boardDetails = null;
+    }
+    return true;
 }
 
 /**

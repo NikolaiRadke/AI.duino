@@ -145,10 +145,9 @@ class CommandRegistry {
                 description: 'Edit AI Prompts'
             },
 
-            // In commandRegistry.js defineCommands() Array:
             { 
                 name: 'aiduino.refreshQuickMenu', 
-                  handler: () => {
+                handler: () => {
                     if (deps.quickMenuTreeProvider) {
                         deps.quickMenuTreeProvider.refresh();
                     }
@@ -175,25 +174,17 @@ class CommandRegistry {
         const commands = this.defineCommands(deps);
         
         commands.forEach(cmd => {
-            try {
-                const disposable = vscode.commands.registerCommand(cmd.name, cmd.handler);
-                context.subscriptions.push(disposable);
-                
-                // Store for potential cleanup/debugging
-                this.commands.push({
-                    name: cmd.name,
-                    description: cmd.description,
-                    debug: cmd.debug || false,
-                    disposable: disposable
-                });
-                
-            } catch (error) {
-                // Fail silently for individual commands to avoid breaking entire extension
-                console.log(`AI.duino: Failed to register command ${cmd.name}: ${error.message}`);
-            }
+            const disposable = vscode.commands.registerCommand(cmd.name, cmd.handler);
+            context.subscriptions.push(disposable);
+            
+            // Store for potential cleanup/debugging
+            this.commands.push({
+                name: cmd.name,
+                description: cmd.description,
+                debug: cmd.debug || false,
+                disposable: disposable
+            });
         });
-        
-        console.log(`AI.duino: Registered ${this.commands.length} commands`);
     }
 
     /**
@@ -213,12 +204,8 @@ class CommandRegistry {
      */
     dispose() {
         this.commands.forEach(cmd => {
-            try {
-                if (cmd.disposable) {
-                    cmd.disposable.dispose();
-                }
-            } catch (error) {
-                // Silent disposal errors
+            if (cmd.disposable) {
+                cmd.disposable.dispose();
             }
         });
         this.commands = [];

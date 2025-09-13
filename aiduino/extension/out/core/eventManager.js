@@ -90,15 +90,11 @@ class EventManager {
         // Add listeners to context subscriptions for automatic cleanup
         if (context && context.subscriptions) {
             context.subscriptions.push(this.listeners.configListener);
-            // diagnosticsListener already added by errorChecker.setupDiagnosticListener
         }
-        
-        console.log('AI.duino EventManager: Event listeners setup complete');
     }
     
     /**
      * Debounced configuration change handler
-     * Prevents rapid-fire config changes from overwhelming the system
      * @param {Function} loadLocale - Function to reload locale
      */
     debouncedConfigChange(loadLocale) {
@@ -107,24 +103,19 @@ class EventManager {
         
         // Set new debounced timeout
         this.timeouts.configDebounce = setTimeout(() => {
-            try {
-                if (loadLocale && typeof loadLocale === 'function') {
-                    loadLocale();
-                }
-                
-                if (this.callbacks.updateStatusBar) {
-                    this.callbacks.updateStatusBar();
-                }
-                
-                if (this.callbacks.onConfigChange) {
-                    this.callbacks.onConfigChange();
-                }
-            } catch (error) {
-                // Silent error handling - config changes shouldn't crash extension
-                console.log('AI.duino EventManager: Config change error:', error.message);
-            } finally {
-                this.timeouts.configDebounce = null;
+            if (loadLocale && typeof loadLocale === 'function') {
+                loadLocale();
             }
+            
+            if (this.callbacks.updateStatusBar) {
+                this.callbacks.updateStatusBar();
+            }
+            
+            if (this.callbacks.onConfigChange) {
+                this.callbacks.onConfigChange();
+            }
+            
+            this.timeouts.configDebounce = null;
         }, this.DEBOUNCE_DELAYS.CONFIG_CHANGE);
     }
     
@@ -139,16 +130,10 @@ class EventManager {
         
         // Set new debounced save timeout
         this.timeouts[timeoutKey] = setTimeout(() => {
-            try {
-                if (saveOperation && typeof saveOperation === 'function') {
-                    saveOperation();
-                }
-            } catch (error) {
-                // Silent error - saving is not critical for extension operation
-                console.log('AI.duino EventManager: Save operation error:', error.message);
-            } finally {
-                this.timeouts[timeoutKey] = null;
+            if (saveOperation && typeof saveOperation === 'function') {
+                saveOperation();
             }
+            this.timeouts[timeoutKey] = null;
         }, this.DEBOUNCE_DELAYS.SAVE_OPERATION);
     }
     
@@ -163,15 +148,10 @@ class EventManager {
         
         // Set new error clear timeout
         this.timeouts.errorTimeout = setTimeout(() => {
-            try {
-                if (clearErrorState && typeof clearErrorState === 'function') {
-                    clearErrorState();
-                }
-            } catch (error) {
-                // Silent error
-            } finally {
-                this.timeouts.errorTimeout = null;
+            if (clearErrorState && typeof clearErrorState === 'function') {
+                clearErrorState();
             }
+            this.timeouts.errorTimeout = null;
         }, delay);
     }
     
@@ -196,30 +176,20 @@ class EventManager {
     }
     
     /**
-     * Dispose all event listeners with comprehensive error handling
-     * Safe to call multiple times
+     * Dispose all event listeners
      */
     disposeEventListeners() {
         // Clear all timeouts first
         this.clearAllTimeouts();
         
-        // Dispose listeners with error handling
-        const listenersToDispose = [
-            { listener: this.listeners.configListener, name: 'configListener' },
-            { listener: this.listeners.diagnosticsListener, name: 'diagnosticsListener' }
-        ];
+        // Dispose listeners
+        if (this.listeners.configListener?.dispose) {
+            this.listeners.configListener.dispose();
+        }
         
-        listenersToDispose.forEach(({ listener, name }) => {
-            if (listener && typeof listener.dispose === 'function') {
-                try {
-                    listener.dispose();
-                    console.log(`AI.duino EventManager: Disposed ${name}`);
-                } catch (error) {
-                    // Silent disposal error - don't block cleanup
-                    console.log(`AI.duino EventManager: Error disposing ${name}:`, error.message);
-                }
-            }
-        });
+        if (this.listeners.diagnosticsListener?.dispose) {
+            this.listeners.diagnosticsListener.dispose();
+        }
         
         // Reset listener references
         Object.keys(this.listeners).forEach(key => {
@@ -262,8 +232,6 @@ class EventManager {
      * Called during extension deactivation
      */
     dispose() {
-        console.log('AI.duino EventManager: Starting disposal...');
-        
         // Dispose all listeners and clear timeouts
         this.disposeEventListeners();
         
@@ -271,8 +239,6 @@ class EventManager {
         Object.keys(this.callbacks).forEach(key => {
             this.callbacks[key] = null;
         });
-        
-        console.log('AI.duino EventManager: Disposal complete');
     }
 }
 

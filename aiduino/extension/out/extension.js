@@ -78,13 +78,8 @@ let isPromptEditorOpen = false;
 
 // Load remote config URL once at module load
 let remoteConfigUrl = null;
-try {
-    const { REMOTE_CONFIG_URL } = require('./config/providerConfigs');
-    remoteConfigUrl = REMOTE_CONFIG_URL;
-} catch (error) {
-    // Silent error - auto-update will be disabled if URL is null
-    remoteConfigUrl = null;
-}
+const { REMOTE_CONFIG_URL } = require('./config/providerConfigs');
+remoteConfigUrl = REMOTE_CONFIG_URL;
 
 // Module instances
 let commandRegistry;
@@ -129,7 +124,7 @@ class MinimalModelManager {
         if (!provider) {
             return {
                 name: 'Unknown',
-                icon: '❓',
+                icon: 'â"',
                 color: '#999999',
                 modelName: 'Unknown',
                 modelId: 'unknown',
@@ -175,12 +170,8 @@ class MinimalModelManager {
      * @returns {boolean} True if API key exists
      */
     hasApiKey(providerId) {
-        try {
-            const keyFile = path.join(AIDUINO_DIR, this.providers[providerId].keyFile);
-            return fs.existsSync(keyFile);
-        } catch {
-            return false;
-        }
+        const keyFile = path.join(AIDUINO_DIR, this.providers[providerId].keyFile);
+        return fs.existsSync(keyFile);
     }
 
     /**
@@ -200,13 +191,10 @@ class MinimalModelManager {
      * @returns {Object} Current providers for debugging
      */
     showCurrentModels() {
-        console.log('AI.duino Provider Status:');
         Object.keys(this.providers).forEach(providerId => {
             const hasKey = this.hasApiKey(providerId);
             const provider = this.providers[providerId];
-            console.log(`${providerId}: ${provider.fallback} - API Key: ${hasKey ? 'Yes' : 'No'}`);
         });
-        console.log(`Active Provider: ${currentModel}`);
         return this.providers;
     }
 }
@@ -236,23 +224,16 @@ function loadLocale() {
     
     let localeLoaded = false;
     for (const localeFile of localeFiles) {
-        try {
-            if (fs.existsSync(localeFile)) {
-                const content = fs.readFileSync(localeFile, 'utf8');
-                i18n = JSON.parse(content);
-                localeLoaded = true;
-                console.log(`AI.duino: Loaded locale from ${path.basename(localeFile)}`);
-                break;
-            }
-        } catch (error) {
-            console.log(`AI.duino: Failed to load ${path.basename(localeFile)}: ${error.message}`);
-            continue; // Try next fallback
+        if (fs.existsSync(localeFile)) {
+            const content = fs.readFileSync(localeFile, 'utf8');
+            i18n = JSON.parse(content);
+            localeLoaded = true;
+            break;
         }
     }
     
     // Critical error if no locale could be loaded
     if (!localeLoaded) {
-        console.error('AI.duino CRITICAL: No locale files found! Extension may not work properly.');
         // Set currentLocale to 'en' and create minimal i18n object
         currentLocale = 'en';
         i18n = {
@@ -309,42 +290,37 @@ async function switchLanguage() {
         
         const selected = await vscode.window.showQuickPick(availableLanguages, {
             placeHolder: t('language.selectLanguage') || 'Choose language for AI.duino',
-            title: `🌐 AI.duino ${t('language.changeLanguage') || 'Change Language'}`
+            title: `ðŸŒ AI.duino ${t('language.changeLanguage') || 'Change Language'}`
         });
         
         if (selected && selected.value !== currentSetting) {
-            try {
-                await config.update('language', selected.value, vscode.ConfigurationTarget.Global);
-                
-                if (selected.value === 'auto') {
-                    const vscodeLocale = vscode.env.language || 'en';
-                    currentLocale = localeUtils.autoDetectLocale(vscodeLocale);
-                } else {
-                    currentLocale = selected.value;
-                }
-                
-                loadLocale();
-                promptManager.initialize(i18n, currentLocale); 
-                updateStatusBar();
-                if (quickMenuTreeProvider) {
-                    quickMenuTreeProvider.refresh();
-                }
-
-                if (isPromptEditorOpen) {
-                    setTimeout(() => {
-                        vscode.commands.executeCommand('aiduino.editPrompts');
-                    }, 300);
-                }
-                
-                const successMessage = selected.value === 'auto' ? 
-                    `Language set to Auto (${getLanguageInfo(currentLocale).name})` :
-                    `Language changed to ${getLanguageInfo(currentLocale).name}`;
-                
-                vscode.window.showInformationMessage(successMessage);
-                
-            } catch (error) {
-                vscode.window.showErrorMessage(`Failed to switch language: ${error.message}`);
+            await config.update('language', selected.value, vscode.ConfigurationTarget.Global);
+            
+            if (selected.value === 'auto') {
+                const vscodeLocale = vscode.env.language || 'en';
+                currentLocale = localeUtils.autoDetectLocale(vscodeLocale);
+            } else {
+                currentLocale = selected.value;
             }
+            
+            loadLocale();
+            promptManager.initialize(i18n, currentLocale); 
+            updateStatusBar();
+            if (quickMenuTreeProvider) {
+                quickMenuTreeProvider.refresh();
+            }
+
+            if (isPromptEditorOpen) {
+                setTimeout(() => {
+                    vscode.commands.executeCommand('aiduino.editPrompts');
+                }, 300);
+            }
+            
+            const successMessage = selected.value === 'auto' ? 
+                `Language set to Auto (${getLanguageInfo(currentLocale).name})` :
+                `Language changed to ${getLanguageInfo(currentLocale).name}`;
+            
+            vscode.window.showInformationMessage(successMessage);
         }
     } finally {
         executionStates.stop('switchLanguage');
@@ -371,71 +347,50 @@ function initializeTokenUsage() {
  * Load token usage from file or initialize if needed
  */
 function loadTokenUsage() {
-    try {
-        const currentDate = new Date();
-        const today = currentDate.toDateString();
-        
-        // Check if file exists and is readable
-        if (!fs.existsSync(TOKEN_USAGE_FILE)) {
-            initializeTokenUsage();
-            saveTokenUsage();
-            return;
-        }
-        
-        let fileContent;
-        try {
-            fileContent = fs.readFileSync(TOKEN_USAGE_FILE, 'utf8');
-        } catch (readError) {
-            // File might be corrupted, reinitialize
-            initializeTokenUsage();
-            saveTokenUsage();
-            return;
-        }
-        
-        // Validate JSON
-        let data;
-        try {
-            data = JSON.parse(fileContent);
-        } catch (parseError) {
-            // Corrupted JSON, reinitialize
-            initializeTokenUsage();
-            saveTokenUsage();
-            return;
-        }
-        
-        // Validate data structure
-        if (!data || typeof data !== 'object' || !data.daily) {
-            initializeTokenUsage();
-            saveTokenUsage();
-            return;
-        }
-        
-        // Check if it's the same day
-        if (data.daily === today) {
-            // Same day - restore data
-            tokenUsage = data;
-            
-            // Ensure all models exist in loaded data
-            Object.keys(minimalModelManager.providers).forEach(modelId => {
-                if (!tokenUsage[modelId]) {
-                    tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
-                }
-            });
-        } else {
-            // Different day - reset
-            initializeTokenUsage();
-            saveTokenUsage();
-        }
-        
-        // Update status bar after loading
-        if (statusBarManager) {
-            updateStatusBar();
-        }
-        
-    } catch (error) {
-        // Start with empty values on error
+    const currentDate = new Date();
+    const today = currentDate.toDateString();
+    
+    // Check if file exists and is readable
+    if (!fs.existsSync(TOKEN_USAGE_FILE)) {
         initializeTokenUsage();
         saveTokenUsage();
+        return;
+    }
+    
+    let fileContent;
+    fileContent = fs.readFileSync(TOKEN_USAGE_FILE, 'utf8');
+    
+    // Validate JSON
+    let data;
+    data = JSON.parse(fileContent);
+    
+    // Validate data structure
+    if (!data || typeof data !== 'object' || !data.daily) {
+        initializeTokenUsage();
+        saveTokenUsage();
+        return;
+    }
+    
+    // Check if it's the same day
+    if (data.daily === today) {
+        // Same day - restore data
+        tokenUsage = data;
+        
+        // Ensure all models exist in loaded data
+        Object.keys(minimalModelManager.providers).forEach(modelId => {
+            if (!tokenUsage[modelId]) {
+                tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
+            }
+        });
+    } else {
+        // Different day - reset
+        initializeTokenUsage();
+        saveTokenUsage();
+    }
+    
+    // Update status bar after loading
+    if (statusBarManager) {
+        updateStatusBar();
     }
 }
 
@@ -547,7 +502,7 @@ function activate(context) {
     // Initialize Locale Utils first
     localeUtils = new LocaleUtils();
 
-    // Generate AI.duino folder an migrate files (V1.7.1)     
+    // Generate AI.duino folder and migrate files (> V1.7.1)     
     if (!fs.existsSync(AIDUINO_DIR)) {
         fs.mkdirSync(AIDUINO_DIR, { mode: 0o700 });
         fileManager.migrateOldFiles(AIDUINO_DIR);
@@ -751,7 +706,7 @@ async function showQuickMenu() {
     
     const selected = await vscode.window.showQuickPick(items, {
         placeHolder: t('messages.selectAction'),
-        title: `🤖 AI.duino v${EXTENSION_VERSION} (${model.name})`
+        title: `ðŸ¤– AI.duino v${EXTENSION_VERSION} (${model.name})`
     });
     
     if (selected && selected.command) {
@@ -801,7 +756,6 @@ function getProviderName(modelId) {
  */
 function deactivate() {
     // Cleanup command registry
-
     commandRegistry.dispose();
     commandRegistry = null;
 
@@ -821,12 +775,8 @@ function deactivate() {
     
     // Force final save if queue has pending items
     // Emergency save without complex queue logic
-    try {
-        const data = JSON.stringify(tokenUsage, null, 2);
-        fs.writeFileSync(TOKEN_USAGE_FILE, data, { mode: 0o600 });
-    } catch (error) {
-        // Silent error on shutdown
-    }
+    const data = JSON.stringify(tokenUsage, null, 2);
+    fs.writeFileSync(TOKEN_USAGE_FILE, data, { mode: 0o600 });
 
     // Cleanup event manager
     eventManager.dispose();

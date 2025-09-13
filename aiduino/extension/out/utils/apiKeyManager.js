@@ -60,38 +60,28 @@ class ApiKeyManager {
             });
             
             if (input) {
-                try {
-                    // Save API key using fileManager
-                    if (fileManager.saveApiKey(currentModel, input, providers)) {
-                        // Update in-memory API keys
-                        apiKeys[currentModel] = input;
-                        
-                        // Update status bar
-                        updateStatusBar();
-                        
-                        // Show success message
-                        const successMessage = t('messages.apiKeySaved', providerName) || 
-                                             `${providerName} API key saved!`;
-                        vscode.window.showInformationMessage(successMessage);
-                        
-                        return true;
-                    } else {
-                        throw new Error('File save failed');
-                    }
+                // Save API key using fileManager
+                if (fileManager.saveApiKey(currentModel, input, providers)) {
+                    // Update in-memory API keys
+                    apiKeys[currentModel] = input;
                     
-                } catch (error) {
-                    const errorMessage = t('errors.saveFailed', error.message) || 
-                                        `Failed to save API key: ${error.message}`;
+                    // Update status bar
+                    updateStatusBar();
+                    
+                    // Show success message
+                    const successMessage = t('messages.apiKeySaved', providerName) || 
+                                         `${providerName} API key saved!`;
+                    vscode.window.showInformationMessage(successMessage);
+                    
+                    return true;
+                } else {
+                    const errorMessage = t('errors.saveFailed', 'File save failed') || 
+                                        `Failed to save API key: File save failed`;
                     vscode.window.showErrorMessage(errorMessage);
                     return false;
                 }
             }
             
-            return false;
-            
-        } catch (error) {
-            // Handle unexpected errors
-            vscode.window.showErrorMessage(`API Key setup failed: ${error.message}`);
             return false;
             
         } finally {
@@ -116,24 +106,6 @@ class ApiKeyManager {
      */
     getProviderName(modelId, providers) {
         return providers[modelId]?.name || 'Unknown';
-    }
-
-    /**
-     * Validate that all required dependencies are present
-     * @param {Object} deps - Dependencies object
-     * @returns {boolean} True if all dependencies are present
-     */
-    validateDependencies(deps) {
-        const required = ['t', 'currentModel', 'providers', 'fileManager', 'validation', 'apiKeys', 'updateStatusBar'];
-        
-        for (const dep of required) {
-            if (!deps[dep]) {
-                console.log(`ApiKeyManager: Missing dependency: ${dep}`);
-                return false;
-            }
-        }
-        
-        return true;
     }
 
     /**
