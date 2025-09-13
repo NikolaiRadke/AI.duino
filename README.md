@@ -108,7 +108,9 @@ aiduino/
 
 1. Select code in Arduino IDE
 2. Right-click → `AI.duino` → Choose function in the menu above
-3. Alternative: `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac) or press the `AI.duino` button below  
+* `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac)
+* Press the `AI.duino` button below  
+* Enter Ai.duino menü through the side bar
 
 ### Explain error
 1. Compile code and find error message in output window
