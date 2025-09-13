@@ -2,7 +2,8 @@
 
 ## 2025
 
-* **12.09.2025** Migrate configuration files to own folder .aiduino  
+* **13.09.2025** Release **V1.8.0** with better IDE integration and configuration files folder.  
+* **12.09.2025** Migrate configuration files to own folder .aiduino.  
 * **11.09.2025** Release **V1.7.0** with update detection and a prompt editor.  
 * **09.09.2025** Bugfix: The first three menu entries are now translated correcty.   
 * **09.09.2025** **V1.6.2** with important ChatGPT bugfix!    
