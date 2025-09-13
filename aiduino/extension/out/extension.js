@@ -533,6 +533,13 @@ function activate(context) {
         deactivate();
     }    
 
+    // Initialize EventManager FIRST - before anything else
+    eventManager = new EventManager();
+    eventManager.initialize({
+        updateStatusBar,
+        onConfigChange: () => {}
+    });
+
     // Initialize Locale Utils first
     localeUtils = new LocaleUtils();
 
@@ -572,14 +579,7 @@ function activate(context) {
     errorChecker = new ErrorChecker();
     apiKeyManager = new ApiKeyManager();
     executionStates = new ExecutionStateManager();
-    eventManager = new EventManager();
-    eventManager.initialize({
-        updateStatusBar,
-        onConfigChange: () => {
-            // Optional: zusätzliche Aktionen bei Config-Änderungen
-        }
-    });
-
+  
     // Auto-Update for providers
     configUpdater.setupAutoUpdates(getDependencies());
 
