@@ -264,6 +264,8 @@ function formatQuestionPreview(question, timestamp) {
  * @param {Object} context - Extension context with dependencies
  */
 function showAbout(context) {
+    const logoData = require('../../icons/aiduino-logo');
+    const logoDataUrl = logoData.logoDataUrl;
     const { t, minimalModelManager, EXTENSION_VERSION } = context;
     
     // Generate dynamic API keys list directly from provider configs
@@ -392,7 +394,7 @@ function showAbout(context) {
         </head>
         <body>
             <div class="logo">
-                <img src="https://www.nikolairadke.de/aiduino/aiduino-logo.png" width="96" height="96" alt="Ai.duino Logo" />
+                <img src="${logoDataUrl}" width="96" height="96" alt="AI.duino Logo" />
             </div>
             <h1>AI.duino</h1>
             <div class="version">Version ${EXTENSION_VERSION}</div>
