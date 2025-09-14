@@ -7,8 +7,23 @@
   "engines": {
     "vscode": "^1.60.0"
   },
-  "categories": ["Other", "Debuggers", "Education"],
-  "keywords": ["arduino", "ai", "claude", "chatgpt", "gemini", "mistral", "debug", "error", "help", "assistant"],
+  "categories": [
+    "Other",
+    "Debuggers",
+    "Education"
+  ],
+  "keywords": [
+    "arduino",
+    "ai",
+    "claude",
+    "chatgpt",
+    "gemini",
+    "mistral",
+    "debug",
+    "error",
+    "help",
+    "assistant"
+  ],
   "activationEvents": [
     "*"
   ],
@@ -219,11 +234,6 @@
           "description": "Enable debug console output"
         },
         "aiduino.autoUpdateConfigs": {
-          "type": "boolean", 
-          "default": true,
-          "description": "Automatically check for provider configuration updates"
-        },
-        "aiduino.autoUpdateConfigs": {
           "type": "boolean",
           "default": true,
           "description": "Automatically check for provider configuration updates"
@@ -242,5 +252,8 @@
   "bugs": {
     "url": "https://github.com/NikolaiRadke/AI.duino/issues"
   },
-  "homepage": "https://github.com/NikolaiRadke/AI.duino#readme"
+  "homepage": "https://github.com/NikolaiRadke/AI.duino#readme",
+  "dependencies": {
+    "nvm": "^0.0.4"
+  }
 }
