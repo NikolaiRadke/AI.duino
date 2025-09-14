@@ -58,12 +58,12 @@ Run install_aiduino_windows.bat as administrator
 
 #### Linux
 ```bash
-chmod +x aiduino_install_linux.sh
+chmod +x install_aiduino_linux.sh
 ./install_aiduino_install_linux.sh
 ```
 #### macOS
 ```bash
-chmod +x aiduino_install_macos.sh
+chmod +x install_aiduino_macos.sh
 ./install_aiduino_Install_macos.sh
 ```
 
