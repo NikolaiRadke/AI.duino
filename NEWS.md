@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **14.09.2025** Release **V1.8.1** with tons of refactorings, code cleanup, new installers and bugfixing.
 * **13.09.2025** Release **V1.8.0** with better IDE integration and configuration files folder.  
 * **12.09.2025** Migrate configuration files to own folder .aiduino.  
 * **11.09.2025** Release **V1.7.0** with update detection and a prompt editor.  
