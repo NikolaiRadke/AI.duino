@@ -48,7 +48,8 @@ The provider settings will be updated when availabe. They will be generated auto
 
 ### Automatic (recommended)
 
-You need the ZIP *aiduino-X.X.X.zip* in the same folder with the installer.
+You need the VSIX file *aiduino.vsix* in the same folder with the installer. The installer will install the plugin
+in your home folder.
 
 #### Windows
 ```
@@ -57,13 +58,13 @@ Run install_aiduino_windows.bat as administrator
 
 #### Linux
 ```bash
-chmod +x aiduino_linux.sh
-./install_aiduino_linux.sh
+chmod +x aiduino_install_linux.sh
+./install_aiduino_install_linux.sh
 ```
 #### macOS
 ```bash
-chmod +x aiduino_macos.sh
-./install_aiduino_macos.sh
+chmod +x aiduino_install_macos.sh
+./install_aiduino_Install_macos.sh
 ```
 
 ### Manual installation
