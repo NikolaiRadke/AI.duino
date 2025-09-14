@@ -49,7 +49,7 @@ The provider settings will be updated when availabe. They will be generated auto
 ### Automatic (recommended)
 
 You need the VSIX file *aiduino.vsix* in the same folder with the installer. The installer will install the plugin
-in your home folder.
+in your home folder. If you want to install it into the arduino system folder, see *Manual installation*.
 
 #### Windows
 ```
