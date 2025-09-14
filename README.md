@@ -110,7 +110,7 @@ aiduino/
 2. Right-click → `AI.duino` → Choose function in the menu above
 * `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac)
 * Press the `AI.duino` button below  
-* Enter Ai.duino menü through the side bar
+* Enter Ai.duino menu through the side bar
 
 ### Explain error
 1. Compile code and find error message in output window
