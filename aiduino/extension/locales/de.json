@@ -45,7 +45,8 @@
     "noConnection": "Keine Internetverbindung erkannt",
     "noValidContext": "Keine aktuelle Unterhaltung zum Fortsetzen (max. 30 Min.)",
     "followUpContext": "Fortsetzung der Unterhaltung: \"{0}\" (vor {1} Min.)",
-    "contextCleared": "Unterhaltungskontext gelöscht"
+    "contextCleared": "Unterhaltungskontext gelöscht",
+    "operationAlreadyRunning": "Vorgang läuft bereits! Bitte warten..."
   },
   
   "buttons": {

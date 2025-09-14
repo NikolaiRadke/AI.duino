@@ -1,5 +1,5 @@
 /*
- * AI.duino - Validation Utilities
+ * AI.duino - Validation Utilities Module
  * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0

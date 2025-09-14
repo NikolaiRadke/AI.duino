@@ -157,6 +157,7 @@
     "analyzingError": "{0} is analyzing the error...",
     "analyzingProblem": "{0} is analyzing the problem...",
     "testingConnection": "Testing connection...",
+    "askingAI": "{0} is answering your question...",
     "askingFollowUp": "{0} is processing your follow-up..."
   },
   

@@ -1,65 +1,60 @@
-/**
- * features/explainError.js - Error Explanation Feature
- * Explains Arduino compilation errors using AI with HTML panel display
+/*
+ * AI.duino - Explain Error Feature Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0
  */
 
 const vscode = require('vscode');
 const shared = require('../shared');
 const validation = require('../utils/validation');
-const { showProgressWithCancel } = require('../utils/ui');
+const featureUtils = require('./featureUtils');
 
 /**
  * Main explainError function with dependency injection
  * @param {Object} context - Extension context with dependencies
  */
 async function explainError(context) {
-    const { t, callAI, executionStates, minimalModelManager, currentModel, handleApiError } = context;
-    
-    // Check if already running
-    if (!executionStates.start(executionStates.OPERATIONS.ERROR)) {
-        vscode.window.showInformationMessage("Error Explanation is already running! Please wait...");
-        return;
-    }
-    
-    try {
-        const editor = vscode.window.activeTextEditor;
-        if (!editor || !validation.validateArduinoFile(editor.document.fileName)) {
-            vscode.window.showWarningMessage(t('messages.openInoFile'));
-            return;
-        }
-        
-        // For Arduino files, directly ask for error
-        const errorInput = await vscode.window.showInputBox({
-            prompt: context.promptManager.getPrompt('pasteError'),
-            placeHolder: t('placeholders.errorExample'),
-            ignoreFocusOut: true
-        });
-        
-        if (!errorInput) return;
-        
-        // Get code context around current cursor position
-        const line = editor.selection.active.line;
-        const startLine = Math.max(0, line - 5);
-        const endLine = Math.min(editor.document.lineCount - 1, line + 5);
-        const codeContext = editor.document.getText(
-            new vscode.Range(startLine, 0, endLine, Number.MAX_VALUE)
-        );
-        
-        const prompt = context.promptManager.getPrompt('explainError', errorInput, line + 1, codeContext) + shared.getBoardContext();
-        
-        try {
-            const model = minimalModelManager.providers[currentModel];
+    return featureUtils.executeFeature(
+        context.executionStates.OPERATIONS.ERROR,
+        async () => {
+            const editor = vscode.window.activeTextEditor;
+            if (!editor || !validation.validateArduinoFile(editor.document.fileName)) {
+                vscode.window.showWarningMessage(context.t('messages.openInoFile'));
+                return;
+            }
             
-            // Use vscode.window.withProgress like askAI
-            response = await showProgressWithCancel(
-                    t('progress.analyzingError', model.name),
-                    callAI(prompt),
-                    t
+            // Get error input from user
+            const errorInput = await vscode.window.showInputBox({
+                prompt: context.promptManager.getPrompt('pasteError'),
+                placeHolder: context.t('placeholders.errorExample'),
+                ignoreFocusOut: true
+            });
+            
+            if (!errorInput) return;
+            
+            // Get code context around current cursor position
+            const line = editor.selection.active.line;
+            const startLine = Math.max(0, line - 5);
+            const endLine = Math.min(editor.document.lineCount - 1, line + 5);
+            const codeContext = editor.document.getText(
+                new vscode.Range(startLine, 0, endLine, Number.MAX_VALUE)
             );
+            
+            // Build prompt with context
+            const prompt = context.promptManager.getPrompt('explainError', errorInput, line + 1, codeContext) + shared.getBoardContext();
+            
+            // Call AI with progress
+            const response = await featureUtils.callAIWithProgress(
+                prompt,
+                'progress.analyzingError',
+                context
+            );
+            
             // Create WebviewPanel for error explanation
             const panel = vscode.window.createWebviewPanel(
                 'aiError',
-                t('commands.explainError'),
+                context.t('commands.explainError'),
                 vscode.ViewColumn.Beside,
                 { enableScripts: true }
             );
@@ -68,17 +63,12 @@ async function explainError(context) {
                 errorInput,
                 line + 1,
                 response,
-                currentModel,
-                t
+                context.currentModel,
+                context.t
             );
-            
-        } catch (error) {
-            // Silent catch - VS Code internal timing issue
-        }
-    } finally {
-        // Always cleanup
-        executionStates.stop(executionStates.OPERATIONS.ERROR);
-    }
+        },
+        context
+    );
 }
 
 /**
@@ -91,10 +81,7 @@ async function explainError(context) {
  * @returns {string} HTML content
  */
 function createErrorExplanationHtml(error, line, explanation, modelId, t) {
-    // Get model info for badge
     const modelBadge = `<span style="background: #6B46C1; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">AI Error Analysis</span>`;
-    
-    // Escape HTML and replace newlines with <br> for HTML display
     const htmlExplanation = shared.escapeHtml(explanation).replace(/\n/g, '<br>');
     
     return `

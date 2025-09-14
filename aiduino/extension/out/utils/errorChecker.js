@@ -25,6 +25,18 @@ class ErrorChecker {
     }
 
     /**
+     * Get current error status for debugging
+     * @returns {Object} Error status information
+     */
+    getErrorStatus() {
+        return {
+            lastDiagnosticsCount: this.lastDiagnosticsCount,
+            lastErrorCheck: this.lastErrorCheck,
+            lastCheckedUri: this.lastCheckedUri
+        };
+    }
+
+    /**
      * Check for compiler errors in the active editor
      * @param {boolean} silent - If true, don't show status updates  
      * @returns {boolean} True if errors found
@@ -56,23 +68,17 @@ class ErrorChecker {
             this.lastDiagnosticsCount = 0;
         }
         
-        try {
-            const diagnostics = vscode.languages.getDiagnostics(editor.document.uri);
-            const errors = diagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
-            const errorCount = errors.length;
-            
-            // Update internal state
-            const hadErrors = this.lastDiagnosticsCount > 0;
-            const hasErrors = errorCount > 0;
-            this.lastDiagnosticsCount = errorCount;
-            
-            // Return true if we have errors (status bar logic handled in extension.js)
-            return hasErrors;
-            
-        } catch (error) {
-            // Silent error handling - don't break extension
-            return false;
-        }
+        const diagnostics = vscode.languages.getDiagnostics(editor.document.uri);
+        const errors = diagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error);
+        const errorCount = errors.length;
+        
+        // Update internal state
+        const hadErrors = this.lastDiagnosticsCount > 0;
+        const hasErrors = errorCount > 0;
+        this.lastDiagnosticsCount = errorCount;
+        
+        // Return true if we have errors (status bar logic handled in extension.js)
+        return hasErrors;
     }
 
     /**
@@ -88,7 +94,7 @@ class ErrorChecker {
                 return;
             }
             
-            if (!validation.validateArduinoFile(editor.document.fileName)) {
+            if (!validation.validateArduinoFile(activeEditor.document.fileName)) {
                 return;
             }
             
@@ -107,13 +113,8 @@ class ErrorChecker {
             }
             
             this.errorTimeout = setTimeout(() => {
-                try {
-                    this.checkForErrors();
-                } catch (error) {
-                    // Silent error handling
-                } finally {
-                    this.errorTimeout = null;
-                }
+                this.checkForErrors();
+                this.errorTimeout = null;
             }, 1000);
         });
         
@@ -124,11 +125,6 @@ class ErrorChecker {
         
         return diagnosticsListener;
     }
-
-    /**
-     * Set callback for status bar updates (REMOVED - not needed)
-     */
-    // setStatusCallback() method removed - simpler architecture
 
     /**
      * Cleanup all timers and listeners

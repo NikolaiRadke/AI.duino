@@ -1,6 +1,8 @@
-/**
- * utils/apiManager.js - API Management Functions
- * Centralizes API calls, model switching, and API key management
+/*
+ * AI.duino - API Manager Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0
  */
 
 const vscode = require('vscode');

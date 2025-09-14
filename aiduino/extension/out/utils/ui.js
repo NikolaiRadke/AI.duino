@@ -1,7 +1,10 @@
-/**
- * tools/ui.js - UI Display Functions (Final Optimized)
- * About dialog, token statistics, offline help panels, menu builders, and Activity Bar TreeView
+/*
+ * AI.duino - UI Display Functions Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0
  */
+
 
 const vscode = require('vscode');
 const shared = require('../shared');

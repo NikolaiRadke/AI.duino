@@ -1,7 +1,10 @@
-/**
- * utils/errorHandling.js - Error Management System
- * Centralized error handling with user-friendly messages and recovery actions
+/*
+ * AI.duino - Error Handling Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0
  */
+
 
 const vscode = require('vscode');
 const networkUtils = require('./network');

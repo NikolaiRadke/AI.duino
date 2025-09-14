@@ -28,21 +28,24 @@ class LocaleUtils {
      */
     getAvailableLocales() {
         const localesDir = path.join(__dirname, '..', '..', 'locales');
+        
+        if (!fs.existsSync(localesDir)) {
+            // Return minimum supported locales if directory doesn't exist
+            return ['en', 'de'];
+        }
+        
+        const files = fs.readdirSync(localesDir);
         const availableLocales = [];
         
-        try {
-            if (fs.existsSync(localesDir)) {
-                const files = fs.readdirSync(localesDir);
-                
-                files.forEach(file => {
-                    if (file.endsWith('.json')) {
-                        const locale = file.replace('.json', '');
-                        availableLocales.push(locale);
-                    }
-                });
+        files.forEach(file => {
+            if (file.endsWith('.json')) {
+                const locale = file.replace('.json', '');
+                availableLocales.push(locale);
             }
-        } catch (error) {
-            // Silent fallback - return minimum supported locales
+        });
+        
+        // Return minimum if no files found
+        if (availableLocales.length === 0) {
             return ['en', 'de'];
         }
         
@@ -79,7 +82,7 @@ class LocaleUtils {
 
         // Add auto-detect option
         availableLanguages.push({ 
-            label: '🌐 Auto (VS Code)', 
+            label: '🌍 Auto (VS Code)', 
             description: 'Auto-detect from VS Code', 
             value: 'auto' 
         });

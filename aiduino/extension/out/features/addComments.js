@@ -1,159 +1,97 @@
-/**
- * features/addComments.js - Add Comments Feature
- * Adds helpful comments to selected Arduino code using AI
+/*
+ * AI.duino - Add Comments Feature Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0
  */
-
 const vscode = require('vscode');
 const shared = require('../shared');
-const { showProgressWithCancel } = require('../utils/ui');
+const featureUtils = require('./featureUtils');
 
 /**
  * Main addComments function with dependency injection
  * @param {Object} context - Extension context with dependencies
  */
 async function addComments(context) {
-    const { t, callAI, executionStates, minimalModelManager, currentModel, handleApiError, globalContext } = context;
-    
-    // Check if already running
-    if (!executionStates.start(executionStates.OPERATIONS.COMMENTS)) {
-        vscode.window.showInformationMessage("Add Comments is already running! Please wait...");
-        return;
-    }
-    
-    try {
-        const editor = vscode.window.activeTextEditor;
-        if (!editor) {
-            vscode.window.showWarningMessage(t('messages.noEditor'));
-            return;
-        }
-        
-        const selection = editor.selection;
-        const selectedText = editor.document.getText(selection);
-        
-        if (!selectedText.trim()) {
-            vscode.window.showWarningMessage(t('messages.selectCodeToComment'));
-            return;
-        }
-        
-        // Load saved custom instructions for comments
-        const savedInstructions = globalContext.globalState.get('aiduino.commentInstructions', '');
-        
-        // Dialog for custom instructions
-        const customInstructions = await vscode.window.showInputBox({
-            prompt: t('prompts.commentInstructions'),
-            placeHolder: t('placeholders.commentInstructions'),
-            value: savedInstructions,
-            ignoreFocusOut: true
-        });
-        
-        // Cancel if user pressed Cancel
-        if (customInstructions === undefined) {
-            return;
-        }
-        
-        // Save instructions for next time
-        globalContext.globalState.update('aiduino.commentInstructions', customInstructions);
-        
-        // Build prompt
-        let prompt = context.promptManager.getPrompt('addComments', selectedText) + shared.getBoardContext();
-    
-        // Add custom instructions if provided
-        if (customInstructions && customInstructions.trim()) {
-            const instructions = customInstructions.split(',').map(s => s.trim()).join('\n- ');
-            prompt += '\n\n' + context.promptManager.getPrompt('additionalInstructions', instructions);
-        }
-    
-        prompt += '\n\n' + context.promptManager.getPrompt('addCommentsSuffix');
-        
-        const model = minimalModelManager.providers[currentModel];
-        
-        let response;
-        try {
-            response = await showProgressWithCancel(
-                t('progress.addingComments', model.name),
-                callAI(prompt),
-                t
+    return featureUtils.executeFeature(
+        context.executionStates.OPERATIONS.COMMENTS,
+        async () => {
+            // Validate editor and selection
+            const validation = featureUtils.validateEditorAndSelection(
+                context.t,
+                'messages.noEditor',
+                'messages.selectCodeToComment'
             );
-        } catch (progressError) {
-            throw progressError;
-        }
-        
-        // Remove markdown code block markers
-        let cleanedResponse = response;
-        let extractedCode = '';
-        
-        // Search for pattern ```cpp...``` and extract only the code
-        const codeBlockMatch = cleanedResponse.match(/```(?:cpp|c\+\+|arduino)?\s*\n([\s\S]*?)\n```/);
-        if (codeBlockMatch) {
-            extractedCode = codeBlockMatch[1].trim();
-        } else {
-            // Fallback
-            extractedCode = cleanedResponse;
-            extractedCode = extractedCode.replace(/^```(?:cpp|c\+\+|arduino)?\s*\n?/i, '');
-            const endIndex = extractedCode.indexOf('```');
-            if (endIndex !== -1) {
-                extractedCode = extractedCode.substring(0, endIndex);
+            if (!validation) return;
+            
+            const { editor, selection, selectedText } = validation;
+            
+            // Get custom comment instructions
+            const customInstructions = await featureUtils.getAndSaveCustomInstructions(
+                context.globalContext,
+                'aiduino.commentInstructions',
+                'commentInstructions',
+                'placeholders.commentInstructions',
+                context
+            );
+            
+            if (customInstructions === undefined) {
+                return; // User cancelled
             }
-            extractedCode = extractedCode.trim();
-        }
-        
-        // Create display content with custom instructions info
-        let displayContent = extractedCode;
-        
-        // Add custom instructions footer if present
-        if (customInstructions && customInstructions.trim()) {
-            displayContent += '\n\n';
-            displayContent += '/* ========================================\n';
-            displayContent += '   COMMENT INSTRUCTIONS USED:\n';
             
-            const wrappedInstructions = shared.wrapText(customInstructions, 80);
-            wrappedInstructions.split('\n').forEach(line => {
-                displayContent += `   ${line}\n`;
+            // Build prompt with board context
+            let prompt = context.promptManager.getPrompt('addComments', selectedText) + shared.getBoardContext();
+            
+            // Add custom instructions if provided
+            if (customInstructions && customInstructions.trim()) {
+                const instructions = customInstructions.split(',').map(s => s.trim()).join('\n- ');
+                prompt += '\n\n' + context.promptManager.getPrompt('additionalInstructions', instructions);
+            }
+            
+            prompt += '\n\n' + context.promptManager.getPrompt('addCommentsSuffix');
+            
+            // Call AI with progress
+            const response = await featureUtils.callAIWithProgress(
+                prompt,
+                'progress.addingComments',
+                context
+            );
+            
+            // Extract code from response
+            const { extractedCode } = featureUtils.extractCodeFromResponse(response);
+            
+            // Build content with footer (custom instructions + board info)
+            const boardInfo = shared.detectArduinoBoard();
+            const displayContent = featureUtils.buildContentWithFooter(extractedCode, {
+                customInstructions,
+                boardInfo,
+                t: context.t
             });
             
-            displayContent += '   ======================================== */';
-        }
-        
-        // Add board info if detected
-        const board = shared.detectArduinoBoard();
-        if (board) {
-            displayContent += '\n';
-            displayContent += `// Board: ${board}`;
-        }
-        
-        // Create and show document
-        try {
-            const doc = await vscode.workspace.openTextDocument({
-                content: displayContent,
-                language: 'cpp',
-                uri: vscode.Uri.parse(`untitled:${t('commands.addComments')}.cpp`)
-            });
+            // Create and show document
+            await featureUtils.createAndShowDocument(
+                displayContent,
+                'cpp',
+                context.t('commands.addComments')
+            );
             
-            await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
-        } catch (docError) {
-            // Silent catch - VS Code internal timing issue
-        }
-        
-        // Choice dialog
-        const choice = await vscode.window.showInformationMessage(
-            t('messages.commentsAdded'),
-            t('buttons.replaceOriginal'),
-            t('buttons.keepBoth')
-        );
-        
-        if (choice === t('buttons.replaceOriginal')) {
-            await editor.edit(editBuilder => {
-                editBuilder.replace(selection, extractedCode);  // Only code without footer
-            });
-            vscode.window.showInformationMessage(t('messages.codeReplaced'));
-        }
-        
-    } catch (error) {
-        handleApiError(error);
-    } finally {
-        // Always cleanup
-        executionStates.stop(executionStates.OPERATIONS.COMMENTS);
-    }
+            // Show choice dialog
+            const choice = await featureUtils.showReplaceKeepChoice(
+                context.t('messages.commentsAdded'),
+                context.t
+            );
+            
+            if (choice === context.t('buttons.replaceOriginal')) {
+                await featureUtils.replaceSelectedText(
+                    editor,
+                    selection,
+                    extractedCode,
+                    context.t('messages.codeReplaced')
+                );
+            }
+        },
+        context
+    );
 }
 
 module.exports = {

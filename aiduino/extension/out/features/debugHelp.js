@@ -1,216 +1,174 @@
-/**
- * features/debugHelp.js - Debug Help Feature
- * Provides various debugging assistance for Arduino projects
+/*
+ * AI.duino - Debug Help Feature Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0
  */
 
 const vscode = require('vscode');
 const shared = require('../shared');
-const { showProgressWithCancel } = require('../utils/ui');
+const featureUtils = require('./featureUtils');
 
 /**
  * Main debugHelp function with dependency injection
  * @param {Object} context - Extension context with dependencies
  */
 async function debugHelp(context) {
-    const { t, callAI, executionStates, minimalModelManager, currentModel, handleApiError } = context;
-    
-    // Check if already running
-    if (!executionStates.start(executionStates.OPERATIONS.DEBUG)) {
-        vscode.window.showInformationMessage("Debug Help is already running! Please wait...");
-        return;
-    }
-    
-    try {
-        const editor = vscode.window.activeTextEditor;
-        if (!editor) return;
-        
-        const options = [
-            {
-                label: '$(search) ' + t('debug.analyzeSerial'),
-                description: t('debug.analyzeSerialDesc'),
-                value: 'serial'
-            },
-            {
-                label: '$(circuit-board) ' + t('debug.hardwareProblem'),
-                description: t('debug.hardwareProblemDesc'),
-                value: 'hardware'
-            },
-            {
-                label: '$(watch) ' + t('debug.addDebugCode'),
-                description: t('debug.addDebugCodeDesc'),
-                value: 'debug'
-            },
-            {
-                label: '$(pulse) ' + t('debug.timingProblems'),
-                description: t('debug.timingProblemsDesc'),
-                value: 'timing'
-            }
-        ];
-        
-        const selected = await vscode.window.showQuickPick(options, {
-            placeHolder: t('debug.selectHelp')
-        });
-        
-        if (!selected) return;
-        
-        let prompt = '';
-        let needsCode = true;
-        
-        switch (selected.value) {
-            case 'serial':
-                const serialOutput = await vscode.window.showInputBox({
-                    prompt: context.promptManager.getPrompt('pasteSerial'),
-                    placeHolder: t('placeholders.serialExample'),
-                    ignoreFocusOut: true
-                });
-                if (!serialOutput) return;
-                
-                const codeForSerial = editor.selection.isEmpty ? '' : editor.document.getText(editor.selection);
-                prompt = context.promptManager.getPrompt('analyzeSerial', serialOutput, codeForSerial);
-                needsCode = false;
-                break;
-                
-            case 'hardware':
-                const hardwareCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-                prompt = context.promptManager.getPrompt('hardwareDebug', hardwareCode) + shared.getBoardContext();  
-                break;
-                
-            case 'debug':
-                const debugCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-                prompt = context.promptManager.getPrompt('addDebugStatements', debugCode); 
-                break;
-                
-            case 'timing':
-                const timingCode = editor.document.getText(editor.selection.isEmpty ? undefined : editor.selection);
-                prompt = context.promptManager.getPrompt('analyzeTiming', timingCode) + shared.getBoardContext();  
-                break;
-        }
-        
-        if (needsCode && editor.selection.isEmpty) {
-            vscode.window.showWarningMessage(
-                t('messages.selectRelevantCode')
-            );
-            return;
-        }
-        
-        try {
-            const model = minimalModelManager.providers[currentModel];
+    return featureUtils.executeFeature(
+        context.executionStates.OPERATIONS.DEBUG,
+        async () => {
+            const editor = vscode.window.activeTextEditor;
+            if (!editor) return;
             
-            let response;
-            try {
-                response = await showProgressWithCancel(
-                    t('progress.analyzingProblem', model.name),
-                    callAI(prompt),
-                    t
-                );
-            } catch (progressError) {
-                throw progressError;
+            // Show debug options to user
+            const selectedOption = await showDebugOptions(context.t);
+            if (!selectedOption) return;
+            
+            // Build prompt based on selected option
+            const { prompt, needsCode } = await buildDebugPrompt(selectedOption, editor, context);
+            if (!prompt) return;
+            
+            // Validate code selection if needed
+            if (needsCode && editor.selection.isEmpty) {
+                vscode.window.showWarningMessage(context.t('messages.selectRelevantCode'));
+                return;
             }
             
-            const panel = vscode.window.createWebviewPanel(
-                'aiDebug',
-                t('panels.debugHelp'),
-                vscode.ViewColumn.Beside,
-                { enableScripts: true }
+            // Call AI with progress
+            const response = await featureUtils.callAIWithProgress(
+                prompt,
+                'progress.analyzingProblem',
+                context
             );
-            panel.webview.html = createDebugHelpHtml(selected.label, response, currentModel, t);
-        } catch (error) {
-            // Silent catch - VS Code internal timing issue
-        }
-    } finally {
-        // Always cleanup
-        executionStates.stop(executionStates.OPERATIONS.DEBUG);
-    }
+            
+            // Create HTML panel for debug help
+            const panel = featureUtils.createHtmlPanel(
+                context.t('panels.debugHelp'),
+                response,
+                context.currentModel,
+                context.t,
+                context.t('buttons.copy'),
+                'Debug Assistant',
+                '#4CAF50'
+            );
+            
+            // Add the selected option title to the panel
+            enhanceDebugPanelWithTitle(panel, selectedOption.label);
+        },
+        context
+    );
 }
 
 /**
- * Create HTML content for debug help panel
- * @param {string} title - Debug help title/type
- * @param {string} content - AI response content
- * @param {string} modelId - Current AI model ID
+ * Show debug options to user
  * @param {Function} t - Translation function
- * @returns {string} HTML content
+ * @returns {Object|null} Selected debug option or null if cancelled
  */
-function createDebugHelpHtml(title, content, modelId, t) {
-    const modelBadge = `<span style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">Debug Assistant</span>`;
+async function showDebugOptions(t) {
+    const options = [
+        {
+            label: '$(search) ' + t('debug.analyzeSerial'),
+            description: t('debug.analyzeSerialDesc'),
+            value: 'serial'
+        },
+        {
+            label: '$(circuit-board) ' + t('debug.hardwareProblem'),
+            description: t('debug.hardwareProblemDesc'),
+            value: 'hardware'
+        },
+        {
+            label: '$(watch) ' + t('debug.addDebugCode'),
+            description: t('debug.addDebugCodeDesc'),
+            value: 'debug'
+        },
+        {
+            label: '$(pulse) ' + t('debug.timingProblems'),
+            description: t('debug.timingProblemsDesc'),
+            value: 'timing'
+        }
+    ];
     
-    const htmlContent = shared.escapeHtml(content).replace(/\n/g, '<br>');
+    return await vscode.window.showQuickPick(options, {
+        placeHolder: t('debug.selectHelp')
+    });
+}
+
+/**
+ * Build debug prompt based on selected option
+ * @param {Object} selectedOption - Selected debug option
+ * @param {vscode.TextEditor} editor - Active text editor
+ * @param {Object} context - Extension context
+ * @returns {Object} {prompt, needsCode} or {prompt: null} if cancelled
+ */
+async function buildDebugPrompt(selectedOption, editor, context) {
+    const { t } = context;
+    let prompt = '';
+    let needsCode = true;
     
-    return `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <style>
-                body {
-                    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-                    padding: 20px;
-                    line-height: 1.6;
-                    color: #333;
-                    max-width: 900px;
-                    margin: 0 auto;
-                }
-                .header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    border-bottom: 2px solid #e0e0e0;
-                    padding-bottom: 10px;
-                }
-                h1 {
-                    color: #2196F3;
-                    margin: 0;
-                }
-                .content {
-                    margin: 20px 0;
-                    white-space: pre-wrap;
-                }
-                pre {
-                    background: #f4f4f4;
-                    border: 1px solid #ddd;
-                    border-radius: 4px;
-                    padding: 15px;
-                    overflow-x: auto;
-                }
-                .tip {
-                    background: #fff3cd;
-                    border-left: 4px solid #ffc107;
-                    padding: 15px;
-                    margin: 15px 0;
-                }
-                button {
-                    background: #4CAF50;
-                    color: white;
-                    border: none;
-                    padding: 10px 20px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    margin-right: 10px;
-                }
-                button:hover {
-                    background: #45a049;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="header">
-                <h1>${shared.escapeHtml(title)}</h1>
-                ${modelBadge}
-            </div>
-            <div class="content">${htmlContent}</div>
+    switch (selectedOption.value) {
+        case 'serial':
+            const serialOutput = await vscode.window.showInputBox({
+                prompt: context.promptManager.getPrompt('pasteSerial'),
+                placeHolder: t('placeholders.serialExample'),
+                ignoreFocusOut: true
+            });
+            if (!serialOutput) return { prompt: null };
             
-            <button onclick="copyToClipboard()">📋 ${t('buttons.copy')}</button>
+            const codeForSerial = editor.selection.isEmpty ? '' : editor.document.getText(editor.selection);
+            prompt = context.promptManager.getPrompt('analyzeSerial', serialOutput, codeForSerial);
+            needsCode = false;
+            break;
             
-            <script>
-                function copyToClipboard() {
-                    const text = document.querySelector('.content').innerText;
-                    navigator.clipboard.writeText(text).then(() => {
-                        alert('${t('messages.copiedToClipboard')}');
-                    });
-                }
-            </script>
-        </body>
-        </html>
-    `;
+        case 'hardware':
+            const hardwareCode = getSelectedOrFullCode(editor);
+            prompt = context.promptManager.getPrompt('hardwareDebug', hardwareCode) + shared.getBoardContext();
+            break;
+            
+        case 'debug':
+            const debugCode = getSelectedOrFullCode(editor);
+            prompt = context.promptManager.getPrompt('addDebugStatements', debugCode);
+            break;
+            
+        case 'timing':
+            const timingCode = getSelectedOrFullCode(editor);
+            prompt = context.promptManager.getPrompt('analyzeTiming', timingCode) + shared.getBoardContext();
+            break;
+            
+        default:
+            return { prompt: null };
+    }
+    
+    return { prompt, needsCode };
+}
+
+/**
+ * Get selected code or full document content
+ * @param {vscode.TextEditor} editor - Active text editor
+ * @returns {string} Selected text or full document content
+ */
+function getSelectedOrFullCode(editor) {
+    return editor.selection.isEmpty ? 
+        editor.document.getText() : 
+        editor.document.getText(editor.selection);
+}
+
+/**
+ * Enhance debug panel with option title
+ * @param {vscode.WebviewPanel} panel - The webview panel
+ * @param {string} title - Selected option title
+ */
+function enhanceDebugPanelWithTitle(panel, title) {
+    // Clean the title by removing VS Code icons
+    const cleanTitle = title.replace(/\$\([^)]+\)\s*/, '');
+    
+    // Get current HTML and update the title
+    const originalHtml = panel.webview.html;
+    const enhancedHtml = originalHtml.replace(
+        /<h1>([^<]+)<\/h1>/,
+        `<h1>${shared.escapeHtml(cleanTitle)}</h1>`
+    );
+    
+    panel.webview.html = enhancedHtml;
 }
 
 module.exports = {

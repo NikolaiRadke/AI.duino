@@ -1,6 +1,8 @@
-/**
- * utils/configUpdater.js - Provider Configuration Auto-Updater
- * Automatic updates for provider configs using HOME directory override system
+/*
+ * AI.duino - Provider Config Updater Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0
  */
 
 const vscode = require('vscode');
@@ -27,28 +29,24 @@ function loadProviderConfigs() {
     ];
     
     for (const configPath of configPaths) {
-        try {
-            if (fs.existsSync(configPath)) {
-                // Clear require cache for dynamic loading
-                delete require.cache[require.resolve(configPath)];
-                
-                const config = require(configPath);
-                return {
-                    providers: config.PROVIDER_CONFIGS || config,
-                    version: config.CONFIG_VERSION || '010125',
-                    source: configPath.includes('homedir') ? 'user' : 'plugin',
-                    path: configPath
-                };
-            }
-        } catch (error) {
-            continue; // Try next path
+        if (fs.existsSync(configPath)) {
+            // Clear require cache for dynamic loading
+            delete require.cache[require.resolve(configPath)];
+            
+            const config = require(configPath);
+            return {
+                providers: config.PROVIDER_CONFIGS || config,
+                version: config.CONFIG_VERSION || '010125',
+                source: configPath.includes('homedir') ? 'user' : 'plugin',
+                path: configPath
+            };
         }
     }
     
     // Fallback if no config found
     return {
         providers: {},
-        version: '010125',
+        version: '100925',
         source: 'none',
         path: null
     };
@@ -75,15 +73,11 @@ async function checkConfigUpdates(context) {
         return;
     }
     
-    try {
-        const currentVersion = getCurrentConfigVersion();
-        const remoteVersion = await getRemoteConfigVersion(context);
-        
-        if (remoteVersion && isNewerVersion(remoteVersion, currentVersion)) {
-            await showUpdateNotification(currentVersion, remoteVersion, context);
-        }
-    } catch (error) {
-        // Silent fail for background checks - auto-update will retry on next startup
+    const currentVersion = getCurrentConfigVersion();
+    const remoteVersion = await getRemoteConfigVersion(context);
+    
+    if (remoteVersion && isNewerVersion(remoteVersion, currentVersion)) {
+        await showUpdateNotification(currentVersion, remoteVersion, context);
     }
 }
 
@@ -93,23 +87,19 @@ async function checkConfigUpdates(context) {
  * @returns {Promise<string|null>} Remote config version or null if failed
  */
 async function getRemoteConfigVersion(context) {
-    try {
-        const remoteConfig = await fetchRemoteConfig(context);
-        return extractVersionFromConfig(remoteConfig);
-    } catch (error) {
-        return null;
-    }
+    const remoteConfig = await fetchRemoteConfig(context);
+    return remoteConfig ? extractVersionFromConfig(remoteConfig) : null;
 }
 
 /**
  * Download complete remote config
  * @param {Object} context - Extension context with URL
- * @returns {Promise<string>} Remote config content
+ * @returns {Promise<string|null>} Remote config content or null if failed
  */
 function fetchRemoteConfig(context) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         if (!context || !context.REMOTE_CONFIG_URL) {
-            reject(new Error('No REMOTE_CONFIG_URL in context'));
+            resolve(null);
             return;
         }
         
@@ -127,7 +117,7 @@ function fetchRemoteConfig(context) {
         
         const req = https.request(options, (res) => {
             if (res.statusCode !== 200) {
-                reject(new Error(`HTTP ${res.statusCode} for ${configUrl}`));
+                resolve(null);
                 return;
             }
             
@@ -136,8 +126,8 @@ function fetchRemoteConfig(context) {
             res.on('end', () => resolve(data));
         });
         
-        req.on('error', (err) => reject(new Error(`Network error: ${err.message}`)));
-        req.on('timeout', () => reject(new Error(`Timeout accessing ${configUrl}`)));
+        req.on('error', () => resolve(null));
+        req.on('timeout', () => resolve(null));
         req.end();
     });
 }
@@ -151,37 +141,28 @@ async function updateProviderConfig(remoteConfig, context) {
     const { t } = context;
     const backupPath = USER_CONFIG_FILE + BACKUP_SUFFIX;
     
-    try {
-        // Create backup of existing user config if it exists
-        if (fs.existsSync(USER_CONFIG_FILE)) {
-            fs.copyFileSync(USER_CONFIG_FILE, backupPath);
-        }
-        
-        // Validate remote config before writing
-        if (!validateConfigContent(remoteConfig)) {
-            throw new Error('Invalid remote config format');
-        }
-        
-        // Write to HOME directory (always writable)
-        fs.writeFileSync(USER_CONFIG_FILE, remoteConfig, { mode: 0o600 });
-        
-        // Show restart notification
-        const choice = await vscode.window.showInformationMessage(
-            t('config.restartRequired'),
-            t('config.restartExtension'),
-            t('config.updateLater')
-        );
-        
-        if (choice === t('config.restartExtension')) {
-            vscode.commands.executeCommand('workbench.action.reloadWindow');
-        }
-        
-    } catch (error) {
-        // Restore backup on error
-        if (fs.existsSync(backupPath)) {
-            fs.copyFileSync(backupPath, USER_CONFIG_FILE);
-        }
-        throw error;
+    // Create backup of existing user config if it exists
+    if (fs.existsSync(USER_CONFIG_FILE)) {
+        fs.copyFileSync(USER_CONFIG_FILE, backupPath);
+    }
+    
+    // Validate remote config before writing
+    if (!validateConfigContent(remoteConfig)) {
+        throw new Error('Invalid remote config format');
+    }
+    
+    // Write to HOME directory (always writable)
+    fs.writeFileSync(USER_CONFIG_FILE, remoteConfig, { mode: 0o600 });
+    
+    // Show restart notification
+    const choice = await vscode.window.showInformationMessage(
+        t('config.restartRequired'),
+        t('config.restartExtension'),
+        t('config.updateLater')
+    );
+    
+    if (choice === t('config.restartExtension')) {
+        vscode.commands.executeCommand('workbench.action.reloadWindow');
     }
 }
 
@@ -202,7 +183,9 @@ async function showUpdateNotification(currentVersion, remoteVersion, context) {
     
     if (choice === t('config.updateNow')) {
         const remoteConfig = await fetchRemoteConfig(context);
-        await updateProviderConfig(remoteConfig, context);
+        if (remoteConfig) {
+            await updateProviderConfig(remoteConfig, context);
+        }
     }
 }
 
@@ -223,24 +206,20 @@ function extractVersionFromConfig(configContent) {
  * @returns {boolean} True if remote is newer
  */
 function isNewerVersion(remoteVersion, currentVersion) {
-    try {
-        const parseVersionDate = (version) => {
-            if (!version || version.length !== 6) {
-                return new Date(0);
-            }
-            
-            const dd = parseInt(version.substr(0, 2), 10);
-            const mm = parseInt(version.substr(2, 2), 10);
-            const yy = parseInt(version.substr(4, 2), 10);
-            const fullYear = 2000 + yy;
-            
-            return new Date(fullYear, mm - 1, dd);
-        };
+    const parseVersionDate = (version) => {
+        if (!version || version.length !== 6) {
+            return new Date(0);
+        }
         
-        return parseVersionDate(remoteVersion) > parseVersionDate(currentVersion);
-    } catch (error) {
-        return remoteVersion > currentVersion;
-    }
+        const dd = parseInt(version.substr(0, 2), 10);
+        const mm = parseInt(version.substr(2, 2), 10);
+        const yy = parseInt(version.substr(4, 2), 10);
+        const fullYear = 2000 + yy;
+        
+        return new Date(fullYear, mm - 1, dd);
+    };
+    
+    return parseVersionDate(remoteVersion) > parseVersionDate(currentVersion);
 }
 
 /**
@@ -249,16 +228,14 @@ function isNewerVersion(remoteVersion, currentVersion) {
  * @returns {boolean} True if valid
  */
 function validateConfigContent(configContent) {
-    try {
-        const hasConfigVersion = configContent.includes('CONFIG_VERSION');
-        const hasProviderConfigs = configContent.includes('PROVIDER_CONFIGS');
-        const hasModuleExports = configContent.includes('module.exports');
-        const hasValidSyntax = configContent.includes('{') && configContent.includes('}');
-        
-        return hasConfigVersion && hasProviderConfigs && hasModuleExports && hasValidSyntax;
-    } catch (error) {
-        return false;
-    }
+    if (!configContent || typeof configContent !== 'string') return false;
+    
+    const hasConfigVersion = configContent.includes('CONFIG_VERSION');
+    const hasProviderConfigs = configContent.includes('PROVIDER_CONFIGS');
+    const hasModuleExports = configContent.includes('module.exports');
+    const hasValidSyntax = configContent.includes('{') && configContent.includes('}');
+    
+    return hasConfigVersion && hasProviderConfigs && hasModuleExports && hasValidSyntax;
 }
 
 /**
@@ -334,22 +311,17 @@ async function forceConfigUpdate(context) {
         title: t('config.updatingConfigs'),
         cancellable: false
     }, async () => {
-        try {
-            const remoteConfig = await fetchRemoteConfig(context);
-            const remoteVersion = extractVersionFromConfig(remoteConfig);
-            
-            await updateProviderConfig(remoteConfig, context);
-            
-            vscode.window.showInformationMessage(
-                t('config.updateSuccess', remoteVersion)
-            );
-            return true;
-        } catch (error) {
-            vscode.window.showErrorMessage(
-                t('config.updateFailed', error.message)
-            );
+        const remoteConfig = await fetchRemoteConfig(context);
+        if (!remoteConfig) {
+            vscode.window.showErrorMessage(t('config.updateFailed', 'Network error'));
             return false;
         }
+        
+        const remoteVersion = extractVersionFromConfig(remoteConfig);
+        await updateProviderConfig(remoteConfig, context);
+        
+        vscode.window.showInformationMessage(t('config.updateSuccess', remoteVersion));
+        return true;
     });
 }
 

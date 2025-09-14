@@ -1,33 +1,32 @@
-/**
- * Extension Update Checker
- * Checks for new extension versions and notifies users
+/*
+ * AI.duino - Extension Update Checker Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0
  */
+
 
 const vscode = require('vscode');
 const https = require('https');
 
 async function checkExtensionUpdate(currentVersion, t) {
-    try {
-        const latestVersion = await fetchLatestVersion();
+    const latestVersion = await fetchLatestVersion();
+    
+    if (latestVersion && isNewerVersion(latestVersion, currentVersion)) {
+        const choice = await vscode.window.showInformationMessage(
+            t('extensionUpdate.available', currentVersion, latestVersion),
+            t('extensionUpdate.download'),
+            t('config.updateLater') 
+        );
         
-        if (isNewerVersion(latestVersion, currentVersion)) {
-            const choice = await vscode.window.showInformationMessage(
-                t('extensionUpdate.available', currentVersion, latestVersion),
-                t('extensionUpdate.download'),
-                t('config.updateLater') 
-            );
-            
-            if (choice === t('extensionUpdate.download')) {
-                vscode.env.openExternal(vscode.Uri.parse('https://github.com/NikolaiRadke/AI.duino/releases/latest'));
-            }
+        if (choice === t('extensionUpdate.download')) {
+            vscode.env.openExternal(vscode.Uri.parse('https://github.com/NikolaiRadke/AI.duino/releases/latest'));
         }
-    } catch (error) {
-        // Silent error
     }
 }
 
 function fetchLatestVersion() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const options = {
             hostname: 'raw.githubusercontent.com',
             path: '/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/package.json',
@@ -39,26 +38,22 @@ function fetchLatestVersion() {
         
         const req = https.request(options, (res) => {
             if (res.statusCode !== 200) {
-                reject(new Error(`HTTP ${res.statusCode}`));
+                resolve(null);
                 return;
             }
             
             let data = '';
             res.on('data', chunk => data += chunk);
             res.on('end', () => {
-                try {
-                    const packageJson = JSON.parse(data);
-                    resolve(packageJson.version);
-                } catch (e) { 
-                    reject(new Error('Invalid JSON'));
-                }
+                const packageJson = JSON.parse(data);
+                resolve(packageJson.version);
             });
         });
         
-        req.on('error', reject);
+        req.on('error', () => resolve(null));
         req.on('timeout', () => {
             req.destroy();
-            reject(new Error('Timeout'));
+            resolve(null);
         });
         
         req.end();
@@ -66,6 +61,8 @@ function fetchLatestVersion() {
 }
 
 function isNewerVersion(latest, current) {
+    if (!latest || !current) return false;
+    
     const l = latest.split('.').map(n => parseInt(n));
     const c = current.split('.').map(n => parseInt(n));
     

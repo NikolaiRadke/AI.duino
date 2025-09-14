@@ -1,7 +1,10 @@
-/**
- * utils/promptManager.js - Custom Prompt Management System
- * Manages user-customizable prompts with fallback to locale defaults
+/*
+ * AI.duino -Prompt Manager Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0
  */
+
 
 const fs = require('fs');
 const path = require('path');
@@ -16,8 +19,8 @@ class PromptManager {
     }
 
     updateFilePaths() {
-        this.customPromptsFile = path.join(os.homedir(), `.aiduino-custom-prompts-${this.currentLocale}.json`);
-        this.backupFile = path.join(os.homedir(), `.aiduino-custom-prompts-${this.currentLocale}.backup.json`);
+        this.customPromptsFile = path.join(os.homedir(), `.aiduino/.aiduino-custom-prompts-${this.currentLocale}.json`);
+        this.backupFile = path.join(os.homedir(), `.aiduino/.aiduino-custom-prompts-${this.currentLocale}.backup.json`);
     }
 
     initialize(i18n, locale = 'en') {

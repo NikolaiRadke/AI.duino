@@ -1,9 +1,14 @@
-/**
- * utils/network.js - Network-related Functions
- * Network error handling, connectivity testing, and external URL management
+/*
+ * AI.duino - Network Related Utilities Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0
  */
 
 const vscode = require('vscode');
+const dns = require('dns');
+const errorHandling = require('./errorHandling');
+const uiTools = require('./ui');
 
 /**
  * Handle network errors with appropriate error messages
@@ -47,19 +52,16 @@ async function testNetworkConnectivity(context) {
         let connectionWorks = false;
         
         for (const testUrl of testUrls) {
-            try {
-                // Simple DNS lookup test
-                const dns = require('dns');
-                await new Promise((resolve, reject) => {
-                    dns.lookup(testUrl, (err) => {
-                        if (err) reject(err);
-                        else resolve();
-                    });
+            // Simple DNS lookup test without try-catch - let it fail naturally
+            const result = await new Promise((resolve) => {
+                dns.lookup(testUrl, (err) => {
+                    resolve(!err); // true if no error
                 });
+            });
+            
+            if (result) {
                 connectionWorks = true;
                 break;
-            } catch (error) {
-                continue;
             }
         }
         
@@ -69,7 +71,6 @@ async function testNetworkConnectivity(context) {
                 t('buttons.checkFirewall')
             ).then(selection => {
                 if (selection === t('buttons.checkFirewall')) {
-                    const errorHandling = require('./errorHandling');
                     errorHandling.showFirewallHelp(context);
                 }
             });
@@ -80,7 +81,6 @@ async function testNetworkConnectivity(context) {
                 t('buttons.offlineHelp')
             ).then(selection => {
                 if (selection === t('buttons.offlineHelp')) {
-                    const uiTools = require('./ui');
                     uiTools.showOfflineHelp(context);
                 }
             });

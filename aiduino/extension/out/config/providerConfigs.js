@@ -78,8 +78,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.id.includes('sonnet-4')) || models.find(m => m.id.includes('3-5-sonnet')) || models[0],
         fallback: 'claude-3-5-sonnet-20241022',
         prices: {
-            input: 3.0 / 1000000,     // $3.00 per 1M tokens (war: 3.0 / 1000)
-            output: 15.0 / 1000000    // $15.00 per 1M tokens (war: 15.0 / 1000)
+            input: 3.0 / 1000000,     // $3.00 per 1M tokens (was: 3.0 / 1000)
+            output: 15.0 / 1000000    // $15.00 per 1M tokens (was: 15.0 / 1000)
         },
         apiConfig: {
             apiPath: '/v1/messages',
@@ -222,8 +222,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.id.includes('medium-3') || m.id.includes('large')) || models[0],
         fallback: 'mistral-medium-3',
         prices: {
-            input: 0.40 / 1000000,    // $0.40 per 1M tokens (war: 0.40 / 1000)
-            output: 2.0 / 1000000     // $2.00 per 1M tokens (war: 2.0 / 1000)
+            input: 0.40 / 1000000,    // $0.40 per 1M tokens (was: 0.40 / 1000)
+            output: 2.0 / 1000000     // $2.00 per 1M tokens (was: 2.0 / 1000)
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -260,8 +260,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models[0],
         fallback: 'llama-3.1-sonar-large-128k-online',
         prices: {
-           input: 1.0 / 1000000,     // $1.00 per 1M tokens (war: 1.0 / 1000)
-           output: 3.0 / 1000000     // $3.00 per 1M tokens (war: 3.0 / 1000)
+           input: 1.0 / 1000000,     // $1.00 per 1M tokens (was: 1.0 / 1000)
+           output: 3.0 / 1000000     // $3.00 per 1M tokens (was: 3.0 / 1000)
         }   ,
         apiConfig: {
             apiPath: '/chat/completions',
@@ -338,8 +338,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.id.includes('llama-3.1')) || models[0],
         fallback: 'llama-3.3-70b-versatile',  // Statt llama-3.1-70b-versatile
         prices: {
-            input: 0.59 / 1000000,    // $0.59 per 1M tokens (war: 0.59 / 1000)
-            output: 0.79 / 1000000    // $0.79 per 1M tokens (war: 0.79 / 1000)
+            input: 0.59 / 1000000,    // $0.59 per 1M tokens (was: 0.59 / 1000)
+            output: 0.79 / 1000000    // $0.79 per 1M tokens (was: 0.79 / 1000)
         },
         apiConfig: {
             apiPath: '/openai/v1/chat/completions',

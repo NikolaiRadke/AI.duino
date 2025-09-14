@@ -475,7 +475,8 @@ async function checkForErrors(silent = true) {
 function activate(context) {
     // Initialize config and model manager first
     configData = configUpdater.loadProviderConfigs();
-    REMOTE_CONFIG_URL = configData.REMOTE_CONFIG_URL;
+    const { REMOTE_CONFIG_URL: remoteUrl } = require('./config/providerConfigs');
+    REMOTE_CONFIG_URL = remoteUrl;
     minimalModelManager = new MinimalModelManager(configData.providers);
     
     // Ensure clean state on activation

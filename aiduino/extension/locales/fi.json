@@ -157,6 +157,7 @@
     "analyzingError": "{0} analysoi virhettä...",
     "analyzingProblem": "{0} analysoi ongelmaa...",
     "testingConnection": "Testataan yhteyttä...",
+    "askingAI": "{0} käsittelee kysymystäsi..."
     "askingFollowUp": "{0} käsittelee jatkokysymystäsi..."
   },
   

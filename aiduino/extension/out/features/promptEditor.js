@@ -1,9 +1,15 @@
-/**
- * features/promptEditor.js - Finale Version mit Lokalisierung
+/*
+ * AI.duino - Prompt Editor Feature Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0
  */
-
 const vscode = require('vscode');
 
+/**
+ * Show prompt editor with dependency injection
+ * @param {Object} context - Extension context with dependencies
+ */
 async function showPromptEditor(context) {
     try {
         const { t, promptManager } = context;
@@ -11,14 +17,27 @@ async function showPromptEditor(context) {
         const promptData = promptManager.getAllPrompts();
         const allowedPrompts = ['addComments', 'improveCode', 'hardwareDebug', 'explainCode'];
         
+        // Centralized localized strings to avoid repeated t() calls
+        const strings = {
+            custom: t('promptEditor.custom') || 'Custom',
+            standard: t('promptEditor.standard') || 'Standard',
+            modified: t('promptEditor.modified') || 'Modified',
+            saving: t('promptEditor.saving') || 'Saving',
+            saved: t('promptEditor.saved') || 'Saved',
+            resetSuccess: t('promptEditor.resetSuccess') || 'Reset successful',
+            resetText: t('buttons.reset') || 'Reset',
+            saveText: t('buttons.save') || 'Save',
+            title: t('commands.editPrompts') || 'Edit Prompts'
+        };
+        
         const panel = vscode.window.createWebviewPanel(
             'aiduinoPromptEditor',
-            t('commands.editPrompts') || 'Edit Prompts',
+            strings.title,
             vscode.ViewColumn.One,
             { enableScripts: true }
         );
 
-        // HTML-Generierung mit Status-Badges und Button-Zuständen
+        // Generate HTML content for all prompt cards
         let promptsHtml = '';
         allowedPrompts.forEach(key => {
             if (promptData.prompts[key]) {
@@ -28,36 +47,30 @@ async function showPromptEditor(context) {
                 const isModified = promptData.isCustom && 
                     promptData.prompts[key] !== (promptData.defaults[key] || '');
 
-                // Lokalisierte Strings
-                const statusText = isModified ? 
-                    (t('promptEditor.custom') || 'Custom') : 
-                    (t('promptEditor.standard') || 'Standard');
-                const modifiedText = t('promptEditor.modified') || 'Modified';
-                const resetText = t('buttons.reset') || 'Reset';
-                const saveText = t('buttons.save') || 'Save';
-
-                // CSS-Klassen basierend auf Zustand
                 const cardClass = isModified ? 'prompt-card modified' : 'prompt-card';
                 const statusBadgeClass = isModified ? 'status-badge custom' : 'status-badge default';
                 const saveButtonClass = isModified ? 'btn-save active' : 'btn-save inactive';
                 const resetButtonClass = isModified ? 'btn-reset active' : 'btn-reset inactive';
-                const modifiedBadgeHtml = isModified ? '<span class="modified-badge">' + modifiedText + '</span>' : '';
+                const statusText = isModified ? strings.custom : strings.standard;
+                const modifiedBadgeHtml = isModified ? `<span class="modified-badge">${strings.modified}</span>` : '';
 
-                promptsHtml += '<div class="' + cardClass + '">';
-                promptsHtml += '<div class="prompt-header">';
-                promptsHtml += '<h3>' + title + '</h3>';
-                promptsHtml += '<div class="prompt-actions">';
-                promptsHtml += '<span class="' + statusBadgeClass + '">' + statusText + '</span>';
-                promptsHtml += modifiedBadgeHtml;
-                promptsHtml += '<button class="' + resetButtonClass + '" onclick="doReset(\'' + key + '\')">' + resetText + '</button>';
-                promptsHtml += '</div>';
-                promptsHtml += '</div>';
-                promptsHtml += '<textarea id="prompt-' + key + '" class="prompt-textarea" rows="8">' + content + '</textarea>';
-                promptsHtml += '<div class="prompt-footer">';
-                promptsHtml += '<button class="' + saveButtonClass + '" onclick="doSave(\'' + key + '\')">' + saveText + '</button>';
-                promptsHtml += '<span id="status-' + key + '" class="save-status"></span>';
-                promptsHtml += '</div>';
-                promptsHtml += '</div>';
+                promptsHtml += `
+                    <div class="${cardClass}">
+                        <div class="prompt-header">
+                            <h3>${title}</h3>
+                            <div class="prompt-actions">
+                                <span class="${statusBadgeClass}">${statusText}</span>
+                                ${modifiedBadgeHtml}
+                                <button class="${resetButtonClass}" onclick="doReset('${key}')">${strings.resetText}</button>
+                            </div>
+                        </div>
+                        <textarea id="prompt-${key}" class="prompt-textarea" rows="8">${content}</textarea>
+                        <div class="prompt-footer">
+                            <button class="${saveButtonClass}" onclick="doSave('${key}')">${strings.saveText}</button>
+                            <span id="status-${key}" class="save-status"></span>
+                        </div>
+                    </div>
+                `;
             }
         });
 
@@ -66,7 +79,7 @@ async function showPromptEditor(context) {
             <html>
             <head>
                 <meta charset="UTF-8">
-                <title>${t('commands.editPrompts') || 'Edit Prompts'}</title>
+                <title>${strings.title}</title>
                 <style>
                     * {
                         box-sizing: border-box;
@@ -205,7 +218,6 @@ async function showPromptEditor(context) {
                         white-space: nowrap;
                     }
                     
-                    /* Save Button States */
                     .btn-save.active {
                         background: var(--vscode-button-background);
                         color: var(--vscode-button-foreground);
@@ -228,7 +240,6 @@ async function showPromptEditor(context) {
                         opacity: 1;
                     }
                     
-                    /* Reset Button States */
                     .btn-reset.active {
                         background: var(--vscode-button-background);
                         color: var(--vscode-button-foreground);
@@ -297,7 +308,7 @@ async function showPromptEditor(context) {
             </head>
             <body>
                 <div class="header">
-                    <h1>${t('commands.editPrompts') || 'Edit Prompts'}</h1>
+                    <h1>${strings.title}</h1>
                 </div>
                 
                 <div class="prompts-container">
@@ -306,6 +317,7 @@ async function showPromptEditor(context) {
                 
                 <script>
                     const vscode = acquireVsCodeApi();
+                    const strings = ${JSON.stringify(strings)};
                     
                     // Store original values for real-time change detection
                     const originalValues = {};
@@ -318,7 +330,7 @@ async function showPromptEditor(context) {
                         const textarea = document.getElementById('prompt-' + key);
                         const status = document.getElementById('status-' + key);
                         
-                        status.textContent = '${t('promptEditor.saving') || 'Saving'}...';
+                        status.textContent = strings.saving + '...';
                         status.className = 'save-status';
                         
                         vscode.postMessage({
@@ -331,7 +343,7 @@ async function showPromptEditor(context) {
                     function doReset(key) {
                         const resetButton = document.querySelector('.btn-reset[onclick*="' + key + '"]');
                         if (resetButton && resetButton.classList.contains('inactive')) {
-                            return; // Don't reset if already at default
+                            return;
                         }
                         
                         const status = document.getElementById('status-' + key);
@@ -355,9 +367,8 @@ async function showPromptEditor(context) {
                         let modifiedBadge = card.querySelector('.modified-badge');
                         
                         if (isModified) {
-                            // Modified state
                             card.classList.add('modified');
-                            statusBadge.textContent = 'Custom';
+                            statusBadge.textContent = strings.custom;
                             statusBadge.className = 'status-badge custom';
                             
                             if (saveButton) {
@@ -370,13 +381,12 @@ async function showPromptEditor(context) {
                             if (!modifiedBadge) {
                                 modifiedBadge = document.createElement('span');
                                 modifiedBadge.className = 'modified-badge';
-                                modifiedBadge.textContent = '${t('promptEditor.modified') || 'Modified'}';
+                                modifiedBadge.textContent = strings.modified;
                                 statusBadge.parentNode.insertBefore(modifiedBadge, statusBadge.nextSibling);
                             }
                         } else {
-                            // Default state
                             card.classList.remove('modified');
-                            statusBadge.textContent = 'Standard';
+                            statusBadge.textContent = strings.standard;
                             statusBadge.className = 'status-badge default';
                             
                             if (saveButton) {
@@ -410,14 +420,13 @@ async function showPromptEditor(context) {
                             const textarea = document.getElementById('prompt-' + message.key);
                             
                             if (status) {
-                                status.textContent = '${t('promptEditor.saved') || 'Saved'}';
+                                status.textContent = strings.saved;
                                 status.className = 'save-status success';
                                 setTimeout(() => {
                                     status.textContent = '';
                                 }, 3000);
                             }
                             
-                            // Update button states after save
                             if (textarea) {
                                 const key = message.key;
                                 const isModified = textarea.value !== originalValues[key];
@@ -436,7 +445,7 @@ async function showPromptEditor(context) {
                             }
                             
                             if (status) {
-                                status.textContent = '${t('promptEditor.resetSuccess') || 'Reset successful'}';
+                                status.textContent = strings.resetSuccess;
                                 status.className = 'save-status success';
                                 setTimeout(() => {
                                     status.textContent = '';
@@ -486,10 +495,35 @@ async function showPromptEditor(context) {
             }
         });
     } catch (error) {
+        const { t } = context;
         vscode.window.showErrorMessage(`${t('errors.saveFailed', error.message) || 'Error'}: ${error.message}`);
     }
 }
 
+/**
+ * Get fresh localized strings for current language
+ * @param {Function} t - Translation function
+ * @returns {Object} Localized strings object
+ */
+function getLocalizedStrings(t) {
+    return {
+        custom: t('promptEditor.custom') || 'Custom',
+        standard: t('promptEditor.standard') || 'Standard',
+        modified: t('promptEditor.modified') || 'Modified',
+        saving: t('promptEditor.saving') || 'Saving',
+        saved: t('promptEditor.saved') || 'Saved',
+        resetSuccess: t('promptEditor.resetSuccess') || 'Reset successful',
+        resetText: t('buttons.reset') || 'Reset',
+        saveText: t('buttons.save') || 'Save',
+        title: t('commands.editPrompts') || 'Edit Prompts'
+    };
+}
+
+/**
+ * Escape HTML special characters for safe display
+ * @param {string} text - Text to escape
+ * @returns {string} HTML-escaped text
+ */
 function escapeHtml(text) {
     if (!text) return '';
     const map = {

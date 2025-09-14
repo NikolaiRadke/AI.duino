@@ -1,8 +1,9 @@
-/**
- * core/apiClient.js - Unified API Client
- * Handles HTTP requests to different AI providers with unified interface
+/*
+ * AI.duino - Api Client Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0
  */
-
 const https = require('https');
 
 /**
