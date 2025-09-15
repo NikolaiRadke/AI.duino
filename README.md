@@ -124,9 +124,9 @@ aiduino/
 
 ## API keys
 
-AI.duino communicates through the API with die AI. It's impossible to  connect with the web 
+AI.duino communicates through the API with the AIs. It's impossible to  connect through the web 
 interface, so an API key is **mandatory**. If you already have a monthly paid account, you need 
-to *sigh* buy an additional key for about 5$. Fortunatly, this really lasts long.
+to - *sigh* - buy an additional key for about 5$. Fortunatly, this really lasts long.
   
 You can try **Groq** and **Gemini**: They have a free rate for API keys without payment.  
   
