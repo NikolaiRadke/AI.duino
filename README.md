@@ -124,6 +124,12 @@ aiduino/
 
 ## API keys
 
+AI.duino communicates through the API with die AI. It's impossible to  connect with the web 
+interface, so an API key is **mandatory**. If you already have a monthly paid account, you need 
+to *sigh* buy an additional key for about 5$. Fortunatly, this really lasts long.
+  
+You can try **Groq** and **Gemini**: They have a free rate for API keys without payment.  
+  
 Required: An API key from either:
 - Claude: https://console.anthropic.com
 - ChatGPT: https://platform.openai.com
