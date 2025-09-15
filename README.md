@@ -6,7 +6,7 @@ AI.duino integrates **Claude, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **14.09.2025** Release **V1.8.1** with tons of refactorings, code cleanup and bugfixing.  
+* **15.09.2025** Notes on the API keys have been added.
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
@@ -126,9 +126,9 @@ aiduino/
 
 AI.duino communicates through the API with the AIs. It's impossible to  connect through the web 
 interface, so an API key is **mandatory**. If you already have a monthly paid account, you need 
-to - *sigh* - buy an additional key for about 5$. Fortunatly, this really lasts long.
+to - *sigh* - buy an additional key for about **5$**. Fortunatly, this really lasts long.
   
-You can try **Groq** and **Gemini**: They have a free rate for API keys without payment.  
+You can try **Groq** and **Gemini**: They have a rate for API keys for **free**.  
   
 Required: An API key from either:
 - Claude: https://console.anthropic.com
