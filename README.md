@@ -49,8 +49,10 @@ The provider settings will be updated when availabe. They will be generated auto
 ### Automatic (recommended)
 
 You need the VSIX file *aiduino.vsix* in the same folder with the installer. The installer will install the plugin
-in your home folder. If you want to install it into the Arduino programm directory, see *Manual installation*. If you
-have installed another Verison of the plugin into the Arduino IDE programm directory before, you need to delete it first.  
+in your home folder. If you want to install it into the Arduino programm directory, see *Manual installation*. 
+  
+**Note:** If you have installed another Verison of the plugin into the Arduino IDE programm directory before, you 
+need to delete it first.  
 
 #### Windows
 ```
