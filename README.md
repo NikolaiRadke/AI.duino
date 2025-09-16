@@ -152,5 +152,5 @@ Root directory with some explanation files
 ├── aiduinio/
 |   The plugin directory structure for manual installation.
 └── installer/
-    Installer files with plugin ZIP file  
+    Installer files with plugin VSIX file  
 ```  
