@@ -1,7 +1,8 @@
 # Newsblog
 
 ## 2025
-  
+
+* **16.09.2025** Release **V1.8.2** with user prompt history and new installers.
 * **15.09.2025** Notes on the API keys have been added.
 * **14.09.2025** Release **V1.8.1** with tons of refactorings, code cleanup, new installers and bugfixing.
 * **13.09.2025** Release **V1.8.0** with better IDE integration and configuration files folder.  
