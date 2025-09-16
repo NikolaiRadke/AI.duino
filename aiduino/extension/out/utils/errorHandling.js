@@ -8,7 +8,7 @@
 
 const vscode = require('vscode');
 const networkUtils = require('./network');
-const uiTools = require('./ui');
+const { showOfflineHelp } = require('./panels/offlineHelpPanel');
 
 /**
  * Handle API errors with appropriate user feedback and recovery options
@@ -19,7 +19,34 @@ function handleApiError(error, context) {
     const { t, minimalModelManager, currentModel } = context;
     const model = minimalModelManager.providers[currentModel];
 
-    // Add model context to all errors if not present
+    // DNS/Network Errors - Handle FIRST before adding model context
+    if (error.message.includes('DNS resolution failed') || 
+        error.message.includes('ENOTFOUND') || 
+        error.message.includes('ETIMEDOUT') || 
+        error.message.includes('ECONNREFUSED') || 
+        error.message.includes('ECONNRESET') ||
+        error.message.includes('EHOSTUNREACH') || 
+        error.message.includes('ENETUNREACH') ||
+        error.message.includes('ECONNABORTED')) {
+        
+        vscode.window.showErrorMessage(
+            error.message,
+            t('buttons.retry'),
+            t('buttons.offlineHelp'),
+            t('buttons.checkConnection')
+        ).then(selection => {
+            if (selection === t('buttons.retry')) {
+                vscode.window.showInformationMessage(t('messages.retryLater'));
+            } else if (selection === t('buttons.offlineHelp')) {
+                showOfflineHelp(context);
+            } else if (selection === t('buttons.checkConnection')) {
+                networkUtils.testNetworkConnectivity(context);
+            }
+        });
+        return;
+    }
+
+    // Add model context to all other errors
     if (!error.message.includes(model.name)) {
         error.message = `${model.name}: ${error.message}`;
     }
@@ -91,35 +118,12 @@ function handleApiError(error, context) {
         return;
     }
     
-    // Network Errors (original messages, not enhanced)
-    if (error.message.includes('ENOTFOUND') || error.message.includes('ETIMEDOUT') || 
-        error.message.includes('ECONNREFUSED') || error.message.includes('ECONNRESET') ||
-        error.message.includes('EHOSTUNREACH') || error.message.includes('ENETUNREACH') ||
-        error.message.includes('ECONNABORTED')) {
-        
-        vscode.window.showErrorMessage(
-            t('errors.noInternet'),
-            t('buttons.retry'),
-            t('buttons.offlineHelp'),
-            t('buttons.checkConnection')
-        ).then(selection => {
-            if (selection === t('buttons.retry')) {
-                vscode.window.showInformationMessage(t('messages.retryLater'));
-            } else if (selection === t('buttons.offlineHelp')) {
-                uiTools.showOfflineHelp({ t });
-            } else if (selection === t('buttons.checkConnection')) {
-                networkUtils.testNetworkConnectivity({ t });
-            }
-        });
-        return;
-    }
-    
     // Fallback for original API errors that weren't enhanced
     if (error.message.includes('Invalid API Key') || error.message.includes('401') || 
         error.message.includes('403') || error.message.includes('Unauthorized')) {
         
         vscode.window.showErrorMessage(
-            `🔐 ${t('errors.invalidApiKey', model.name)}`,
+            `🔒 ${t('errors.invalidApiKey', model.name)}`,
             t('buttons.enterApiKey'),
             t('buttons.getApiKey'),
             t('buttons.switchModel')
@@ -196,7 +200,7 @@ function showFirewallHelp(context) {
         t('buttons.offlineHelp')
     ).then(selection => {
         if (selection === t('buttons.offlineHelp')) {
-            uiTools.showOfflineHelp({ t });
+            showOfflineHelp({ t });
         }
     });
 }

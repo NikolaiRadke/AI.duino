@@ -95,6 +95,21 @@ class StatusBarManager {
             this.statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
         }
     }
+
+    /**
+     * Update status bar from extension context (simplified wrapper)
+     * @param {Object} context - Extension context from getDependencies()
+     */
+    updateFromContext(context) {
+        if (!context) return;
+    
+        this.updateStatusBar({
+            currentModel: context.currentModel,
+            tokenUsage: context.tokenUsage,
+            modelManager: context.minimalModelManager,
+            t: context.t
+        });
+    }
     
     /**
      * Show error state in status bar

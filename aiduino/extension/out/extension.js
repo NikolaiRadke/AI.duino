@@ -48,6 +48,7 @@ const { PromptManager } = require('./utils/promptManager');
 const { checkExtensionUpdate } = require('./utils/updateChecker');
 const { StatusBarManager } = require('./utils/statusBarManager');
 const { PromptHistoryManager } = require('./utils/promptHistory');
+const { buildMenuItems } = require('./utils/menuBuilder');
 
 // Configuration modules
 const { LANGUAGE_METADATA, getLanguageInfo } = require('./config/languageMetadata');
@@ -290,7 +291,7 @@ async function switchLanguage() {
             
             loadLocale();
             promptManager.initialize(i18n, currentLocale); 
-            updateStatusBar();
+            statusBarManager.updateFromContext(getDependencies());;
             if (quickMenuTreeProvider) {
                 quickMenuTreeProvider.refresh();
             }
@@ -375,7 +376,7 @@ function loadTokenUsage() {
     
     // Update status bar after loading
     if (statusBarManager) {
-        updateStatusBar();
+        statusBarManager.updateFromContext(getDependencies());;
     }
 }
 
@@ -435,7 +436,7 @@ function updateTokenUsage(modelId, inputText, outputText) {
     tokenUsage[modelId].cost += (inputCost + outputCost);
     
     saveTokenUsage();
-    updateStatusBar();
+    statusBarManager.updateFromContext(getDependencies());;
 }
 
 /**
@@ -458,11 +459,11 @@ async function checkForErrors(silent = true) {
         setTimeout(() => {
             const currentStatus = errorChecker.getErrorStatus();
             if (currentStatus.lastDiagnosticsCount === 0) {
-                updateStatusBar();
+                statusBarManager.updateFromContext(getDependencies());;
             }
         }, 5000);
     } else if (!hasErrors) {
-        updateStatusBar();
+        statusBarManager.updateFromContext(getDependencies());;
     }
     
     return hasErrors;
@@ -490,7 +491,7 @@ function activate(context) {
     // Initialize EventManager FIRST - before anything else
     eventManager = new EventManager();
     eventManager.initialize({
-        updateStatusBar,
+        updateStatusBar: () => statusBarManager.updateFromContext(getDependencies()),
         onConfigChange: () => {}
     });
 
@@ -527,7 +528,7 @@ function activate(context) {
     // Initialize and show status bar
     statusBarManager = new StatusBarManager();
     statusBarManager.createStatusBar();
-    updateStatusBar();
+    statusBarManager.updateFromContext(getDependencies());;
 
     // Initialize Quick Menu Tree Provider
     quickMenuTreeProvider = new uiTools.QuickMenuTreeProvider();
@@ -574,8 +575,8 @@ function registerCommands(context) {
     const commandDeps = {
         // Handler functions
         showQuickMenu,
-        switchModel, 
-        setApiKey,
+        switchModel: () => apiManager.switchModel(getDependencies()),
+        setApiKey: () => apiManager.setApiKey(getDependencies()),
         switchLanguage,
         clearAIContext,
         
@@ -606,61 +607,53 @@ function registerCommands(context) {
  */
 function getDependencies() {
     return {
+        // Core functions
         t,
-        callAI,
-        executionStates,
-        minimalModelManager,
+        callAI: (prompt) => apiManager.callAI(prompt, getDependencies()),
+        handleApiError: (error) => errorHandling.handleApiError(error, getDependencies()),
+        
+        // System configuration
         currentModel,
+        currentLocale,
         globalContext,
+        EXTENSION_VERSION,
+        REMOTE_CONFIG_URL,
+        
+        // Data stores
         apiKeys,
         tokenUsage,
-        currentLocale, 
+        aiConversationContext,
+        
+        // Manager instances
+        minimalModelManager,
+        executionStates,
         localeUtils,
         promptManager,
         promptHistory,
-        switchModel,
-        apiClient, 
-        fileManager,
-        validation, 
-        EXTENSION_VERSION,
-        REMOTE_CONFIG_URL,
-        updateTokenUsage,
-        updateStatusBar,
-        aiConversationContext,
-        quickMenuTreeProvider,
         apiKeyManager,
-        setCurrentModel: (newModel) => { currentModel = newModel; },  // <- Callback 
-        handleApiError: (error) => errorHandling.handleApiError(error, getDependencies()),
+        quickMenuTreeProvider,
+        
+        // Core clients/services
+        apiClient,
+        fileManager,
+        validation,
+        
+        // UI functions
+        updateStatusBar: statusBarManager.updateFromContext.bind(statusBarManager),
+        
+        // API functions
+        switchModel: () => apiManager.switchModel(getDependencies()),
+        updateTokenUsage,
+        
+        // State setters (callbacks)
+        setCurrentModel: (newModel) => { currentModel = newModel; },
         setAiConversationContext: (newContext) => { 
             Object.assign(aiConversationContext, newContext); 
         }
     };
 }
 
-/**
- * Main API call function - delegates to UnifiedAPIClient
- * @param {string} prompt - The prompt to send to AI
- * @returns {Promise} AI response promise
- */
-function callAI(prompt) {
-    return apiManager.callAI(prompt, getDependencies());
-}
-
 // ===== UI FUNCTIONS =====
-
-/**
- * Update status bar with current model info and token costs
- */
-function updateStatusBar() {
-    if (statusBarManager) {
-        statusBarManager.updateStatusBar({
-            currentModel,
-            tokenUsage,
-            modelManager: minimalModelManager,
-            t
-        });
-    }
-}
 
 /**
  * Show main quick menu with all available actions
@@ -686,7 +679,7 @@ async function showQuickMenu() {
     }
     
     // Build and show menu
-    const items = uiTools.buildMenuItems(getDependencies());
+    const items = buildMenuItems(getDependencies());
     
     const selected = await vscode.window.showQuickPick(items, {
         placeHolder: t('messages.selectAction'),
@@ -704,32 +697,6 @@ async function showQuickMenu() {
 function clearAIContext() {
     Object.assign(aiConversationContext, fileManager.clearAIContext());
     vscode.window.showInformationMessage(t('messages.contextCleared'));
-}
-
-// ===== MODEL/API MANAGEMENT =====
-
-/**
- * Switch AI model with user selection and API key validation
- */
-async function switchModel() {
-    return await apiManager.switchModel(getDependencies());
-}
-
-/**
- * API Key setup wrapper - delegates to ApiKeyManager
- * @returns {Promise<boolean>} True if API key was successfully set
- */
-async function setApiKey() {
-    return await apiManager.setApiKey(getDependencies());
-}
-
-/**
- * Get provider display name for a model
- * @param {string} modelId - Model identifier
- * @returns {string} Provider name or 'Unknown'
- */
-function getProviderName(modelId) {
-    return apiManager.getProviderName(modelId, minimalModelManager);
 }
 
 // ===== CLEANUP & DEACTIVATION =====

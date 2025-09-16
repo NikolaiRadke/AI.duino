@@ -446,6 +446,33 @@ function hasValidContext(aiConversationContext) {
            (Date.now() - aiConversationContext.timestamp) < 30 * 60 * 1000;
 }
 
+/**
+ * Iterate over providers with callback
+ * @param {Object} providers - Provider configurations
+ * @param {Function} callback - Callback function (modelId, provider)
+ */
+function forEachProvider(providers, callback) {
+    Object.entries(providers).forEach(([modelId, provider]) => {
+        callback(modelId, provider);
+    });
+}
+
+/**
+ * Calculate total cost across all providers
+ * @param {Object} tokenUsage - Token usage data
+ * @param {Object} providers - Provider configurations
+ * @returns {number} Total cost today
+ */
+function calculateTotalCost(tokenUsage, providers) {
+    let total = 0;
+    Object.keys(providers).forEach(modelId => {
+        if (tokenUsage[modelId]) {
+            total += tokenUsage[modelId].cost;
+        }
+    });
+    return total;
+}
+
 // ===== MODULE EXPORTS =====
 
 module.exports = {
@@ -460,5 +487,9 @@ module.exports = {
     // Text utilities
     escapeHtml,
     wrapText,
-    hasValidContext
+    hasValidContext,
+    
+    // Provider utilities
+    forEachProvider,
+    calculateTotalCost
 };

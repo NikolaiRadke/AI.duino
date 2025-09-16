@@ -8,7 +8,7 @@
 const vscode = require('vscode');
 const dns = require('dns');
 const errorHandling = require('./errorHandling');
-const uiTools = require('./ui');
+const { showOfflineHelp } = require('./panels/offlineHelpPanel');
 
 /**
  * Handle network errors with appropriate error messages
@@ -81,7 +81,7 @@ async function testNetworkConnectivity(context) {
                 t('buttons.offlineHelp')
             ).then(selection => {
                 if (selection === t('buttons.offlineHelp')) {
-                    uiTools.showOfflineHelp(context);
+                    showOfflineHelp(context);
                 }
             });
         }

@@ -5,6 +5,7 @@
  * Licensed under the Apache License, Version 2.0
  */
 const vscode = require('vscode');
+const { escapeHtml } = require('../shared');
 
 /**
  * Show prompt editor with dependency injection
@@ -517,23 +518,6 @@ function getLocalizedStrings(t) {
         saveText: t('buttons.save') || 'Save',
         title: t('commands.editPrompts') || 'Edit Prompts'
     };
-}
-
-/**
- * Escape HTML special characters for safe display
- * @param {string} text - Text to escape
- * @returns {string} HTML-escaped text
- */
-function escapeHtml(text) {
-    if (!text) return '';
-    const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-    return text.replace(/[&<>"']/g, m => map[m]);
 }
 
 module.exports = {
