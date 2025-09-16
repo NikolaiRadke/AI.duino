@@ -101,7 +101,8 @@ aiduino/
 │   │   ├── core/
 │   │   ├── utils/
 │   │   ├── features/
-│   │   └── config/
+│   │   ├── config/
+|   |   |   └── panels/
 │   ├── locales/
 |   └── package.json
 └── extension.vsixmanifest
