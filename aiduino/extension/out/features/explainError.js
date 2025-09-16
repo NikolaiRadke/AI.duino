@@ -18,21 +18,23 @@ async function explainError(context) {
     return featureUtils.executeFeature(
         context.executionStates.OPERATIONS.ERROR,
         async () => {
-            const editor = vscode.window.activeTextEditor;
-            if (!editor || !validation.validateArduinoFile(editor.document.fileName)) {
-                vscode.window.showWarningMessage(context.t('messages.openInoFile'));
-                return;
-            }
+            // Unified validation
+            const editorValidation = await featureUtils.validateArduinoFile(context);
+            if (!editorValidation) return;
             
-            // Get error input from user
-            const errorInput = await vscode.window.showInputBox({
-                prompt: context.promptManager.getPrompt('pasteError'),
-                placeHolder: context.t('placeholders.errorExample'),
-                ignoreFocusOut: true
-            });
+            const { editor } = editorValidation;
             
+            // Get error input with history
+            const errorInput = await featureUtils.showInputWithCreateQuickPickHistory(
+                context, 'pasteError', 'placeholders.errorExample', 'explainError'
+            );
             if (!errorInput) return;
             
+            // Unified history saving
+            featureUtils.saveToHistory(context, 'explainError', errorInput, {
+                board: shared.detectArduinoBoard() || 'unknown'
+            });
+                
             // Get code context around current cursor position
             const line = editor.selection.active.line;
             const startLine = Math.max(0, line - 5);

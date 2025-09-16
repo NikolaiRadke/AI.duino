@@ -23,26 +23,23 @@ async function improveCode(context) {
         async () => {
             // Validate editor and selection
             const validation = featureUtils.validateEditorAndSelection(
-                context.t,
-                'messages.noEditor',
-                'messages.selectCodeToImprove'
+                context.t, 'messages.noEditor', 'messages.selectCodeToImprove'
             );
             if (!validation) return;
-            
+
             const { editor, selection, selectedText } = validation;
-            
-            // Get custom instructions
-            const customInstructions = await featureUtils.getAndSaveCustomInstructions(
-                context.globalContext,
-                'aiduino.customInstructions',
-                'customInstructions',
-                'placeholders.customInstructions',
-                context
+
+            // Get custom instructions with history
+            const customInstructions = await featureUtils.showInputWithCreateQuickPickHistory(
+                context, 'customInstructions', 'placeholders.customInstructions', 'improveCode',
+                context.globalContext.globalState.get('aiduino.customInstructions', '')
             );
-            
-            if (customInstructions === undefined) {
-                return; // User cancelled
-            }
+            if (!customInstructions) return;
+
+            context.globalContext.globalState.update('aiduino.customInstructions', customInstructions);
+
+            // Unified history saving
+            featureUtils.saveToHistory(context, 'improveCode', customInstructions);
             
             // Build prompt with board context
             let prompt = context.promptManager.getPrompt('improveCode', selectedText) + shared.getBoardContext();

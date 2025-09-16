@@ -18,26 +18,23 @@ async function addComments(context) {
         async () => {
             // Validate editor and selection
             const validation = featureUtils.validateEditorAndSelection(
-                context.t,
-                'messages.noEditor',
-                'messages.selectCodeToComment'
+                context.t, 'messages.noEditor', 'messages.selectCodeToComment'
             );
             if (!validation) return;
             
             const { editor, selection, selectedText } = validation;
             
-            // Get custom comment instructions
-            const customInstructions = await featureUtils.getAndSaveCustomInstructions(
-                context.globalContext,
-                'aiduino.commentInstructions',
-                'commentInstructions',
-                'placeholders.commentInstructions',
-                context
-            );
-            
-            if (customInstructions === undefined) {
-                return; // User cancelled
-            }
+            // Get custom instructions with history 
+            const customInstructions = await featureUtils.showInputWithCreateQuickPickHistory(
+                context, 'commentInstructions', 'placeholders.customInstructions', 'addComments',
+                context.globalContext.globalState.get('aiduino.customInstructions', '')
+            );            
+            if (!customInstructions) return;
+
+            context.globalContext.globalState.update('aiduino.commentInstructions', customInstructions);
+
+            // Unified history saving
+            featureUtils.saveToHistory(context, 'addComments', customInstructions);
             
             // Build prompt with board context
             let prompt = context.promptManager.getPrompt('addComments', selectedText) + shared.getBoardContext();

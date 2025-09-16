@@ -25,27 +25,7 @@ async function askAI(context, isFollowUp = false) {
                 vscode.window.showWarningMessage(context.t('messages.noValidContext'));
                 return;
             }
-
-            // Check API key availability
-            if (!apiKeys[currentModel]) {
-                const model = minimalModelManager.providers[currentModel];
-                const choice = await vscode.window.showWarningMessage(
-                    context.t('messages.noApiKey', model.name),
-                    context.t('buttons.setupNow'),
-                    context.t('buttons.switchModel'),
-                    context.t('buttons.cancel')
-                );
-                if (choice === context.t('buttons.setupNow')) {
-                    vscode.window.showInformationMessage("Please use Quick Menu to set API key");
-                    return;
-                } else if (choice === context.t('buttons.switchModel')) {
-                    vscode.window.showInformationMessage("Please use Quick Menu to switch model");
-                    return;
-                } else {
-                    return;
-                }
-            }
-
+           
             // Get user question
             const { question, finalPrompt, currentCode } = await buildQuestionPrompt(context, isFollowUp);
             if (!question) return;
@@ -100,14 +80,23 @@ async function buildQuestionPrompt(context, isFollowUp) {
     const promptText = isFollowUp ? context.promptManager.getPrompt('askFollowUp') : context.promptManager.getPrompt('askAI');
     const placeholderText = isFollowUp ? context.t('placeholders.askFollowUp') : context.t('placeholders.askAI');
 
-    const question = await vscode.window.showInputBox({
-        prompt: promptText,
-        placeHolder: placeholderText,
-        ignoreFocusOut: true
-    });
+    const question = await featureUtils.showInputWithCreateQuickPickHistory(
+        context,
+        isFollowUp ? 'askFollowUp' : 'askAI',
+        isFollowUp ? 'placeholders.askFollowUp' : 'placeholders.askAI', 
+        'askAI'
+    );
 
     if (!question || !question.trim()) {
         return { question: null };
+    }
+
+    // Save to history (only for new questions, not follow-ups)
+    if (!isFollowUp) {
+        featureUtils.saveToHistory(context, 'askAI', question, {
+            board: shared.detectArduinoBoard() || 'unknown',
+            hasCodeContext: false  // wird später aktualisiert wenn Code-Context hinzugefügt wird
+        });
     }
 
     let finalPrompt;

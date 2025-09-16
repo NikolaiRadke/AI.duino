@@ -47,6 +47,7 @@ const { LocaleUtils } = require('./utils/localeUtils');
 const { PromptManager } = require('./utils/promptManager');
 const { checkExtensionUpdate } = require('./utils/updateChecker');
 const { StatusBarManager } = require('./utils/statusBarManager');
+const { PromptHistoryManager } = require('./utils/promptHistory');
 
 // Configuration modules
 const { LANGUAGE_METADATA, getLanguageInfo } = require('./config/languageMetadata');
@@ -75,6 +76,7 @@ let statusBarManager;
 let quickMenuTreeProvider;
 let executionStates;
 let eventManager;
+let promptHistory;
 const apiClient = new UnifiedAPIClient();
 
 // Single instance of model manager
@@ -508,6 +510,9 @@ function activate(context) {
     promptManager = new PromptManager();
     promptManager.initialize(i18n);
 
+    // Initialize Prompt History Manager
+    promptHistory = new PromptHistoryManager();
+
     // Store context globally
     globalContext = context;
 
@@ -612,6 +617,7 @@ function getDependencies() {
         currentLocale, 
         localeUtils,
         promptManager,
+        promptHistory,
         switchModel,
         apiClient, 
         fileManager,
@@ -773,6 +779,11 @@ function deactivate() {
     // Cleanup prompt manager
     if (promptManager) {
         promptManager = null;
+    }
+
+    if (promptHistory) {
+        promptHistory.saveHistory(); // Final saving
+        promptHistory = null;
     }
 
     // Clear AI conversation context

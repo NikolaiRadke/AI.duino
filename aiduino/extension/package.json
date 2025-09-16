@@ -2,8 +2,8 @@
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "AI-powered assistance for Arduino with Claude, ChatGPT, and other AIs: improve code, explain errors, debug help",
-  "version": "1.8.1",
-  "publisher": "Monster Maker",
+  "version": "1.8.2",
+  "publisher": "MonsterMaker",
   "engines": {
     "vscode": "^1.60.0"
   },

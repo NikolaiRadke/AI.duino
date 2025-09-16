@@ -6,6 +6,7 @@
  */
 const vscode = require('vscode');
 const shared = require('../shared');
+const validation = require('../utils/validation');
 const { showProgressWithCancel } = require('../utils/ui');
 
 /**
@@ -101,33 +102,6 @@ function extractCodeFromResponse(response, fallbackToFullResponse = true) {
     }
     
     return { extractedCode, additionalContent };
-}
-
-/**
- * Get and save custom instructions with standard UI pattern
- * @param {Object} globalContext - VS Code global context
- * @param {string} storageKey - Key for storing in globalState
- * @param {string} promptKey - Translation key for prompt
- * @param {string} placeholderKey - Translation key for placeholder
- * @param {Object} context - Extension context with t and promptManager
- * @returns {Promise<string|undefined>} Instructions or undefined if cancelled
- */
-async function getAndSaveCustomInstructions(globalContext, storageKey, promptKey, placeholderKey, context) {
-    const { t } = context;
-    const savedInstructions = globalContext.globalState.get(storageKey, '');
-    
-    const customInstructions = await vscode.window.showInputBox({
-        prompt: context.promptManager.getPrompt(promptKey),
-        placeHolder: t(placeholderKey),
-        value: savedInstructions,
-        ignoreFocusOut: true
-    });
-    
-    if (customInstructions !== undefined) {
-        globalContext.globalState.update(storageKey, customInstructions);
-    }
-    
-    return customInstructions;
 }
 
 /**
@@ -372,16 +346,128 @@ function validateEditorAndSelection(t, noEditorKey, noSelectionKey) {
     return { editor, selection, selectedText };
 }
 
+/**
+ * Show input with createQuickPick-based history support
+ * Proven to work in Arduino IDE (unlike showQuickPick)
+ * @param {Object} context - Extension context
+ * @param {string} promptKey - Prompt manager key (e.g. 'commentInstructions', 'askAI')
+ * @param {string} placeholderKey - Translation key for placeholder
+ * @param {string} historyCategory - History category for storage
+ * @param {string} savedValue - Pre-filled value (optional, for custom instructions)
+ * @returns {Promise<string|null>} User input or null if cancelled
+ */
+async function showInputWithCreateQuickPickHistory(context, promptKey, placeholderKey, historyCategory, savedValue = '') {
+    // Fallback to simple input if no history available
+    if (!context.promptHistory) {
+        return showSimpleInputBox(context, promptKey, placeholderKey, savedValue);
+    }
+
+    const recentItems = context.promptHistory.getRecentPrompts(historyCategory, 5);
+    
+    // If no history exists, use simple input
+    if (recentItems.length === 0) {
+        return showSimpleInputBox(context, promptKey, placeholderKey, savedValue);
+    }
+
+    // Create QuickPick with history (Arduino IDE compatible pattern)
+    const quickPick = vscode.window.createQuickPick();
+    quickPick.title = context.promptManager.getPrompt(promptKey);
+    quickPick.placeholder = context.t(placeholderKey);
+    quickPick.ignoreFocusOut = true;
+    quickPick.items = recentItems;
+    
+    return new Promise((resolve) => {
+        let currentValue = savedValue || '';
+        
+        // Handle typing new values
+        quickPick.onDidChangeValue((value) => {
+            currentValue = value;
+        });
+        
+        // Handle selection from history
+        quickPick.onDidChangeSelection((items) => {
+            if (items.length > 0 && items[0].value) {
+                quickPick.value = items[0].value;
+                currentValue = items[0].value;
+            }
+        });
+        
+        // Handle accept (Return key)
+        quickPick.onDidAccept(() => {
+            const finalValue = currentValue.trim();
+            quickPick.hide();
+            resolve(finalValue || null);
+        });
+        
+        // Handle hide/cancel (Escape key)
+        quickPick.onDidHide(() => {
+            resolve(null);
+        });
+        
+        quickPick.show();
+    });
+}
+
+/**
+ * Simple input box helper
+ * @param {Object} context - Extension context
+ * @param {string} promptKey - Prompt manager key
+ * @param {string} placeholderKey - Translation key for placeholder
+ * @param {string} savedValue - Pre-filled value
+ * @returns {Promise<string|undefined>} User input
+ */
+async function showSimpleInputBox(context, promptKey, placeholderKey, savedValue = '') {
+    return await vscode.window.showInputBox({
+        prompt: context.promptManager.getPrompt(promptKey),
+        placeHolder: context.t(placeholderKey),
+        value: savedValue,
+        ignoreFocusOut: true
+    });
+}
+
+/**
+ * Validate Arduino file is open (no code selection needed)
+ * @param {Object} context - Extension context with t function
+ * @returns {Object|null} {editor} or null if validation failed
+ */
+async function validateArduinoFile(context) {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showWarningMessage(context.t('messages.noEditor'));
+        return null;
+    }
+    if (!validation.validateArduinoFile(editor.document.fileName)) {
+        vscode.window.showWarningMessage(context.t('messages.openInoFile'));
+        return null;
+    }
+    return { editor };
+}
+
+/**
+ * Save input to history with optional metadata
+ * @param {Object} context - Extension context
+ * @param {string} category - History category
+ * @param {string} input - User input to save
+ * @param {Object} metadata - Optional metadata (board, etc.)
+ */
+function saveToHistory(context, category, input, metadata = {}) {
+    if (context.promptHistory && input && input.trim()) {
+        context.promptHistory.addPrompt(category, input.trim(), metadata);
+    }
+}
+
 module.exports = {
     executeFeature,
     createAndShowDocument,
     extractCodeFromResponse,
-    getAndSaveCustomInstructions,
     callAIWithProgress,
     createHtmlPanel,
     buildContentWithFooter,
     showReplaceKeepChoice,
     replaceSelectedText,
     validateEditorAndSelection,
-    getFileExtension
+    getFileExtension,
+    showInputWithCreateQuickPickHistory, 
+    validateArduinoFile,
+    saveToHistory
 };
