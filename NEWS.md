@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **16.09.2025** Release **V1.8.3** with more refactoring and offline help bugfix  
 * **16.09.2025** Release **V1.8.2** with user prompt history and new installers.
 * **15.09.2025** Notes on the API keys have been added.
 * **14.09.2025** Release **V1.8.1** with tons of refactorings, code cleanup, new installers and bugfixing.
