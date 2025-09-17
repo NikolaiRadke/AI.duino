@@ -362,8 +362,9 @@ async function showInputWithCreateQuickPickHistory(context, promptKey, placehold
         return showSimpleInputBox(context, promptKey, placeholderKey, savedValue);
     }
 
-    const recentItems = context.promptHistory.getRecentPrompts(historyCategory, 5);
-    
+    const recentItems = context.promptHistory.getRecentPrompts(historyCategory, 5, context.t, context.currentLocale);
+
+ 
     // If no history exists, use simple input
     if (recentItems.length === 0) {
         return showSimpleInputBox(context, promptKey, placeholderKey, savedValue);

@@ -344,5 +344,12 @@
     "saving": "Ukladá",
     "saved": "Uložený",
     "resetSuccess": "Obnovený"
+  },
+
+  "time": {
+    "justNow": "práve teraz",
+    "minutesAgo": "pred {0}min",
+    "hoursAgo": "pred {0}h", 
+    "daysAgo": "pred {0}d"
   }
 }

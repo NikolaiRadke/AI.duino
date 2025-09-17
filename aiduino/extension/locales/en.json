@@ -45,7 +45,8 @@
     "noConnection": "No internet connection detected",
     "noValidContext": "No recent conversation to continue (max 30 min)",
     "followUpContext": "Continuing conversation: \"{0}\" ({1} min ago)",
-    "contextCleared": "Conversation context cleared"
+    "contextCleared": "Conversation context cleared",
+    "operationAlreadyRunning": "Operation already running! Please wait..."
   },
   
   "buttons": {
@@ -344,5 +345,12 @@
     "saving": "Saving",
     "saved": "Saved",
     "resetSuccess": "Reset"
+  },
+
+  "time": {
+    "justNow": "just now",
+    "minutesAgo": "{0}min ago",
+    "hoursAgo": "{0}h ago", 
+    "daysAgo": "{0}d ago"
   }
 }

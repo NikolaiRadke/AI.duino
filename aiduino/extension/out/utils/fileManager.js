@@ -282,14 +282,6 @@ function clearAIContext() {
     };
 }
 
-/**
- * Legacy wrapper for safeWriteFile (backward compatibility)
- * @deprecated Use atomicWrite instead
- */
-function safeWriteFile(filePath, content, options = { mode: SECURE_FILE_MODE }) {
-    return atomicWrite(filePath, content, options);
-}
-
 // ===== EXPORTS =====
 
 module.exports = {
@@ -312,7 +304,4 @@ module.exports = {
     isFileReadable,
     migrateOldFiles,
     clearAIContext,
-    
-    // Legacy compatibility
-    safeWriteFile
 };

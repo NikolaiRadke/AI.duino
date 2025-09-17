@@ -344,5 +344,12 @@
     "saving": "Mentés",
     "saved": "Mentve",
     "resetSuccess": "Visszaállítva"
+  },
+
+  "time": {
+    "justNow": "most",
+    "minutesAgo": "{0}perce",
+    "hoursAgo": "{0}órája", 
+    "daysAgo": "{0}napja"
   }
 }

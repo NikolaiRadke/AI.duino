@@ -340,5 +340,12 @@
     "saving": "保存中",
     "saved": "保存済み",
     "resetSuccess": "リセット完了"
+  },
+
+  "time": {
+    "justNow": "たった今",
+    "minutesAgo": "{0}分前",
+    "hoursAgo": "{0}時間前", 
+    "daysAgo": "{0}日前"
   }
 }

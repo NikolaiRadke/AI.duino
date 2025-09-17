@@ -344,5 +344,12 @@
     "saving": "Sparar",
     "saved": "Sparad",
     "resetSuccess": "Återställd"
+  },
+
+  "time": {
+    "justNow": "just nu",
+    "minutesAgo": "för {0}min sedan",
+    "hoursAgo": "för {0}h sedan", 
+    "daysAgo": "för {0}d sedan"
   }
 }

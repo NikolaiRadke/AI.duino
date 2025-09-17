@@ -344,5 +344,12 @@
     "saving": "保存中",
     "saved": "已保存",
     "resetSuccess": "已重置"
+  },
+
+  "time": {
+    "justNow": "刚刚",
+    "minutesAgo": "{0}分钟前",
+    "hoursAgo": "{0}小时前", 
+    "daysAgo": "{0}天前"
   }
 }

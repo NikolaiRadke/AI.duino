@@ -2,7 +2,7 @@
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "AI-powered assistance for Arduino with Claude, ChatGPT, and other AIs: improve code, explain errors, debug help",
-  "version": "1.8.4",
+  "version": "1.8.5",
   "publisher": "MonsterMaker",
   "engines": {
     "vscode": "^1.60.0"
@@ -14,11 +14,15 @@
   ],
   "keywords": [
     "arduino",
+    "arduinoIDE",
     "ai",
     "claude",
     "chatgpt",
     "gemini",
     "mistral",
+    "perplexity",
+    "groq",
+    "cohere",
     "debug",
     "error",
     "help",
@@ -247,8 +251,5 @@
   "bugs": {
     "url": "https://github.com/NikolaiRadke/AI.duino/issues"
   },
-  "homepage": "https://github.com/NikolaiRadke/AI.duino#readme",
-  "dependencies": {
-    "nvm": "^0.0.4"
-  }
+  "homepage": "https://github.com/NikolaiRadke/AI.duino#readme"
 }

@@ -344,5 +344,12 @@
     "saving": "Opslaan",
     "saved": "Opgeslagen",
     "resetSuccess": "Hersteld"
+  },
+
+  "time": {
+    "justNow": "zojuist",
+    "minutesAgo": "{0}min geleden",
+    "hoursAgo": "{0}u geleden", 
+    "daysAgo": "{0}d geleden"
   }
 }

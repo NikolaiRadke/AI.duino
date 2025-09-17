@@ -345,5 +345,12 @@
     "saving": "Speichere",
     "saved": "Gespeichert",
     "resetSuccess": "Zurückgesetzt"
+  },
+
+  "time": {
+    "justNow": "gerade eben",
+    "minutesAgo": "vor {0}min",
+    "hoursAgo": "vor {0}h", 
+    "daysAgo": "vor {0}d"
   }
 }

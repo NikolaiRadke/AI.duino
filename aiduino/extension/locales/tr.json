@@ -344,5 +344,12 @@
     "saving": "Kaydediyor",
     "saved": "Kaydedildi",
     "resetSuccess": "Sıfırlandı"
+  },
+
+  "time": {
+    "justNow": "şimdi",
+    "minutesAgo": "{0}dk önce",
+    "hoursAgo": "{0}sa önce", 
+    "daysAgo": "{0}g önce"
   }
 }

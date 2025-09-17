@@ -344,5 +344,12 @@
     "saving": "Запазва",
     "saved": "Запазен",
     "resetSuccess": "Възстановен"
+  },
+
+  "time": {
+    "justNow": "току що",
+    "minutesAgo": "преди {0}мин",
+    "hoursAgo": "преди {0}ч", 
+    "daysAgo": "преди {0}д"
   }
 }

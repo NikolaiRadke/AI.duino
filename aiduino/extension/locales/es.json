@@ -344,5 +344,12 @@
     "saving": "Guardando",
     "saved": "Guardado",
     "resetSuccess": "Restablecido"
+  },
+
+  "time": {
+    "justNow": "ahora mismo",
+    "minutesAgo": "hace {0}min",
+    "hoursAgo": "hace {0}h", 
+    "daysAgo": "hace {0}d"
   }
 }

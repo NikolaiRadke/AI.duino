@@ -28,11 +28,7 @@ class PromptHistoryManager {
      */
     loadHistory() {
         if (!fs.existsSync(this.historyFile)) {
-            return {
-                version: '1.0',
-                categories: {},
-                lastUpdated: Date.now()
-            };
+            return this.createEmptyHistory();
         }
 
         try {
@@ -148,37 +144,19 @@ class PromptHistoryManager {
      * Get recent prompts for a category
      * @param {string} category - Feature category
      * @param {number} limit - Maximum results
+     * @param {Function} t - Translation function
+     * @param {string} currentLocale - Current locale
      * @returns {Array} Recent prompts
      */
-    getRecentPrompts(category, limit = this.maxSearchResults) {
+    getRecentPrompts(category, limit = this.maxSearchResults, t = null, currentLocale = 'en') {
         const categoryHistory = this.history.categories[category] || [];
         return categoryHistory
             .slice(0, limit)
             .map(entry => ({
                 label: this.formatPromptLabel(entry.prompt),
-                description: this.formatPromptDescription(entry),
+                description: t ? this.formatPromptDescription(entry, t, currentLocale) : '',
                 value: entry.prompt,
                 timestamp: entry.timestamp,
-                count: entry.count
-            }));
-    }
-
-    /**
-     * Get frequently used prompts
-     * @param {string} category - Feature category
-     * @param {number} limit - Maximum results
-     * @returns {Array} Frequent prompts sorted by count
-     */
-    getFrequentPrompts(category, limit = this.maxSearchResults) {
-        const categoryHistory = this.history.categories[category] || [];
-        return categoryHistory
-            .filter(entry => entry.count > 1)
-            .sort((a, b) => b.count - a.count)
-            .slice(0, limit)
-            .map(entry => ({
-                label: `🔥 ${this.formatPromptLabel(entry.prompt)}`,
-                description: this.formatFrequentDescription(entry),
-                value: entry.prompt,
                 count: entry.count
             }));
     }
@@ -188,11 +166,13 @@ class PromptHistoryManager {
      * @param {string} category - Feature category
      * @param {string} searchText - Search query
      * @param {number} limit - Maximum results
+     * @param {Function} t - Translation function
+     * @param {string} currentLocale - Current locale
      * @returns {Array} Matching prompts
      */
-    searchPrompts(category, searchText, limit = this.maxSearchResults) {
+    searchPrompts(category, searchText, limit = this.maxSearchResults, t = null, currentLocale = 'en') {
         if (!searchText || searchText.length < 2) {
-            return this.getRecentPrompts(category, limit);
+            return this.getRecentPrompts(category, limit, t, currentLocale);
         }
 
         const categoryHistory = this.history.categories[category] || [];
@@ -203,44 +183,25 @@ class PromptHistoryManager {
             .slice(0, limit)
             .map(entry => ({
                 label: this.highlightSearchTerm(entry.prompt, searchText),
-                description: this.formatPromptDescription(entry),
+                description: t ? this.formatPromptDescription(entry, t, currentLocale) : '',
                 value: entry.prompt
             }));
     }
 
     /**
-     * Get combined history for dropdown
+     * Get history for dropdown (simplified)
      * @param {string} category - Feature category
      * @param {string} searchText - Optional search text
-     * @returns {Array} Combined history items with separators
+     * @param {Function} t - Translation function
+     * @param {string} currentLocale - Current locale
+     * @returns {Array} History items without separators
      */
-    getCombinedHistory(category, searchText = '') {
-        const items = [];
-        
+    getCombinedHistory(category, searchText = '', t = null, currentLocale = 'en') {
         if (searchText && searchText.length >= 2) {
-            // Search mode
-            const searchResults = this.searchPrompts(category, searchText);
-            if (searchResults.length > 0) {
-                items.push({ kind: vscode.QuickPickItemKind.Separator, label: 'Suchergebnisse' });
-                items.push(...searchResults);
-            }
+            return this.searchPrompts(category, searchText, this.maxSearchResults, t, currentLocale);
         } else {
-            // Normal mode: frequent + recent
-            const frequent = this.getFrequentPrompts(category, 4);
-            const recent = this.getRecentPrompts(category, 6);
-            
-            if (frequent.length > 0) {
-                items.push({ kind: vscode.QuickPickItemKind.Separator, label: 'Häufig gefragt' });
-                items.push(...frequent);
-            }
-            
-            if (recent.length > 0) {
-                items.push({ kind: vscode.QuickPickItemKind.Separator, label: 'Letzte Fragen' });
-                items.push(...recent);
-            }
+            return this.getRecentPrompts(category, this.maxSearchResults, t, currentLocale);
         }
-        
-        return items;
     }
 
     /**
@@ -285,21 +246,12 @@ class PromptHistoryManager {
     /**
      * Format prompt description with timestamp
      * @param {Object} entry - History entry
+     * @param {Function} t - Translation function
+     * @param {string} currentLocale - Current locale
      * @returns {string} Formatted description
      */
-    formatPromptDescription(entry) {
-        const ago = this.getTimeAgo(entry.timestamp);
-        const countText = entry.count > 1 ? ` • ${entry.count}x verwendet` : '';
-        return `${ago}${countText}`;
-    }
-
-    /**
-     * Format description for frequent prompts
-     * @param {Object} entry - History entry
-     * @returns {string} Formatted description
-     */
-    formatFrequentDescription(entry) {
-        return `${entry.count}x verwendet • ${this.getTimeAgo(entry.timestamp)}`;
+    formatPromptDescription(entry, t, currentLocale) {
+        return this.getTimeAgo(entry.timestamp, t, currentLocale);
     }
 
     /**
@@ -315,22 +267,26 @@ class PromptHistoryManager {
     }
 
     /**
-     * Get human-readable time ago string
+     * Get human-readable time ago string for Arduino IDE
      * @param {number} timestamp - Timestamp in milliseconds
-     * @returns {string} Time ago string
+     * @param {Function} t - Translation function
+     * @param {string} currentLocale - Current locale (e.g. 'de', 'en')
+     * @returns {string} Localized time ago string
      */
-    getTimeAgo(timestamp) {
+    getTimeAgo(timestamp, t, currentLocale) {
         const now = Date.now();
         const diff = now - timestamp;
         const minutes = Math.floor(diff / 60000);
         const hours = Math.floor(diff / 3600000);
         const days = Math.floor(diff / 86400000);
 
-        if (minutes < 1) return 'gerade eben';
-        if (minutes < 60) return `vor ${minutes}min`;
-        if (hours < 24) return `vor ${hours}h`;
-        if (days < 7) return `vor ${days}d`;
-        return new Date(timestamp).toLocaleDateString('de-DE');
+        if (minutes < 1) return t('time.justNow');
+        if (minutes < 60) return t('time.minutesAgo', minutes);
+        if (hours < 24) return t('time.hoursAgo', hours);
+        if (days < 7) return t('time.daysAgo', days);
+        
+        // For older entries, use simple date formatting
+        return new Date(timestamp).toLocaleDateString();
     }
 }
 

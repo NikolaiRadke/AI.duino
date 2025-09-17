@@ -344,5 +344,12 @@
     "saving": "Salvează",
     "saved": "Salvat",
     "resetSuccess": "Resetat"
+  },
+
+  "time": {
+    "justNow": "chiar acum",
+    "minutesAgo": "acum {0}min",
+    "hoursAgo": "acum {0}h", 
+    "daysAgo": "acum {0}z"
   }
 }

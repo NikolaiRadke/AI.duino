@@ -16,19 +16,19 @@ async function showPromptEditor(context) {
         const { t, promptManager } = context;
         
         const promptData = promptManager.getAllPrompts();
-        const allowedPrompts = ['addComments', 'improveCode', 'hardwareDebug', 'explainCode'];
+        const allowedPrompts = ['improveCode', 'explainCode', 'addComments', 'explainError', 'hardwareDebug' ];
         
         // Centralized localized strings to avoid repeated t() calls
         const strings = {
-            custom: t('promptEditor.custom') || 'Custom',
-            standard: t('promptEditor.standard') || 'Standard',
-            modified: t('promptEditor.modified') || 'Modified',
-            saving: t('promptEditor.saving') || 'Saving',
-            saved: t('promptEditor.saved') || 'Saved',
-            resetSuccess: t('promptEditor.resetSuccess') || 'Reset successful',
-            resetText: t('buttons.reset') || 'Reset',
-            saveText: t('buttons.save') || 'Save',
-            title: t('commands.editPrompts') || 'Edit Prompts'
+            custom: t('promptEditor.custom'),
+            standard: t('promptEditor.standard'), 
+            modified: t('promptEditor.modified'),
+            saving: t('promptEditor.saving'),
+            saved: t('promptEditor.saved'),
+            resetSuccess: t('promptEditor.resetSuccess'),
+            resetText: t('buttons.reset'),
+            saveText: t('buttons.save'),
+            title: t('commands.editPrompts')
         };
         
         const panel = vscode.window.createWebviewPanel(

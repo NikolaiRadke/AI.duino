@@ -95,7 +95,7 @@ async function buildQuestionPrompt(context, isFollowUp) {
     if (!isFollowUp) {
         featureUtils.saveToHistory(context, 'askAI', question, {
             board: shared.detectArduinoBoard() || 'unknown',
-            hasCodeContext: false  // wird später aktualisiert wenn Code-Context hinzugefügt wird
+            hasCodeContext: false
         });
     }
 

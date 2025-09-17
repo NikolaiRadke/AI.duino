@@ -344,5 +344,12 @@
     "saving": "저장 중",
     "saved": "저장됨",
     "resetSuccess": "재설정됨"
+  },
+
+  "time": {
+    "justNow": "방금",
+    "minutesAgo": "{0}분 전",
+    "hoursAgo": "{0}시간 전", 
+    "daysAgo": "{0}일 전"
   }
 }

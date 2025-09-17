@@ -344,5 +344,12 @@
     "saving": "Zapisywanie",
     "saved": "Zapisany",
     "resetSuccess": "Przywrócony"
+  },
+
+  "time": {
+    "justNow": "właśnie teraz",
+    "minutesAgo": "{0}min temu",
+    "hoursAgo": "{0}h temu", 
+    "daysAgo": "{0}d temu"
   }
 }

@@ -344,5 +344,12 @@
     "saving": "Lagrer",
     "saved": "Lagret",
     "resetSuccess": "Tilbakestilt"
+  },
+
+  "time": {
+    "justNow": "akkurat nå",
+    "minutesAgo": "for {0}min siden",
+    "hoursAgo": "for {0}t siden", 
+    "daysAgo": "for {0}d siden"
   }
 }

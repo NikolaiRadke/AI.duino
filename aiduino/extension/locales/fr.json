@@ -344,5 +344,12 @@
     "saving": "Enregistrement",
     "saved": "Enregistré",
     "resetSuccess": "Réinitialisé"
+  },
+
+  "time": {
+    "justNow": "à l'instant",
+    "minutesAgo": "il y a {0}min",
+    "hoursAgo": "il y a {0}h", 
+    "daysAgo": "il y a {0}j"
   }
 }

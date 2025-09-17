@@ -344,5 +344,12 @@
     "saving": "Tallentaa",
     "saved": "Tallennettu",
     "resetSuccess": "Palautettu"
+  },
+
+  "time": {
+    "justNow": "juuri nyt",
+    "minutesAgo": "{0}min sitten",
+    "hoursAgo": "{0}h sitten", 
+    "daysAgo": "{0}pv sitten"
   }
 }

@@ -344,5 +344,12 @@
     "saving": "Salvataggio",
     "saved": "Salvato",
     "resetSuccess": "Ripristinato"
+  },
+
+  "time": {
+    "justNow": "proprio ora",
+    "minutesAgo": "{0}min fa",
+    "hoursAgo": "{0}h fa", 
+    "daysAgo": "{0}g fa"
   }
 }

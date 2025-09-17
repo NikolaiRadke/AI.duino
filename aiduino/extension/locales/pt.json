@@ -344,5 +344,12 @@
     "saving": "Salvando",
     "saved": "Salvo",
     "resetSuccess": "Redefinido"
+   },
+ 
+  "time": {
+    "justNow": "agora mesmo",
+    "minutesAgo": "há {0}min",
+    "hoursAgo": "há {0}h", 
+    "daysAgo": "há {0}d"
   }
 }
