@@ -42,7 +42,7 @@
     "selectModel": "Escolha o modelo de IA",
     "apiKeyRequired": "{0} requer uma chave API",
     "connectionOk": "Conexiunea la internet funcționează",
-    "noConnection": "Nu s-a detectat conexiune la internet"
+    "noConnection": "Nu s-a detectat conexiune la internet",
     "noValidContext": "Sem conversa recente para continuar (máx 30 min)",
     "followUpContext": "Continuando conversa: \"{0}\" ({1} min atrás)",
     "contextCleared": "Contexto de conversa apagado"
