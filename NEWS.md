@@ -2,7 +2,8 @@
 
 ## 2025
 
-* **16.09.2025** Release **V1.8.3** with more refactoring and offline help bugfix  
+* **17.09.2025** Release **V1.8.4** with uninstallers and optical enhancements.    
+* **16.09.2025** Release **V1.8.3** with more refactoring and offline help bugfix. 
 * **16.09.2025** Release **V1.8.2** with user prompt history and new installers.
 * **15.09.2025** Notes on the API keys have been added.
 * **14.09.2025** Release **V1.8.1** with tons of refactorings, code cleanup, new installers and bugfixing.
@@ -26,7 +27,7 @@
 * **09.08.2025** Release **V1.3.1** release. Non-IDE languages like sv (Swedish) are now supported and selectable in the plugin menu.   
 * **08.08.2025** Release **V1.3** with l18n support: en, de, fr, it, es, tr, pl, po, el, nl, cs, sv, ja, ko, zh.  
 * **05.08.2025** Release **V1.2** with better code optimization and commenting.  
-* **04.08.2025** Added SECURITY.md
+* **04.08.2025** Added SECURITY.md.
 * **30.07.2025** **V1.1.1** with Mistral support.  
 * **29.07.2025** **V1.1** release with bugfixes, better error handling and Gemini support.  
 * **28.07.2025** **V1.0** release.  
