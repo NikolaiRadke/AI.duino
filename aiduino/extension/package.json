@@ -2,7 +2,7 @@
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "AI-powered assistance for Arduino with Claude, ChatGPT, and other AIs: improve code, explain errors, debug help",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "publisher": "MonsterMaker",
   "engines": {
     "vscode": "^1.60.0"
@@ -109,6 +109,12 @@
         "icon": "$(globe)"
       },
       {
+        "command": "aiduino.editPrompts",
+        "title": "Edit Prompts",
+        "category": "AI.duino",
+        "icon": "$(edit)"
+      },
+      {
         "command": "aiduino.showTokenStats",
         "title": "Show Token Statistics",
         "category": "AI.duino",
@@ -119,17 +125,6 @@
         "title": "About AI.duino...",
         "category": "AI.duino",
         "icon": "$(info)"
-      },
-      {
-        "command": "aiduino.showModels",
-        "title": "Show Current Models (Debug)",
-        "category": "AI.duino"
-      },
-      {
-        "command": "aiduino.editPrompts",
-        "title": "Edit Prompts",
-        "category": "AI.duino",
-        "icon": "$(edit)"
       }
     ],
     "keybindings": [

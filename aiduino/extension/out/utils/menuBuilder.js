@@ -20,6 +20,9 @@ function buildMenuItems(context) {
         minimalModelManager, 
         currentModel, 
         aiConversationContext, 
+        localeUtils,
+        currentLocale,
+        tokenUsage,
         EXTENSION_VERSION 
     } = context;
     
@@ -28,8 +31,9 @@ function buildMenuItems(context) {
     const board = shared.detectArduinoBoard();
     const boardDisplay = shared.getBoardDisplayName(board);
     const model = minimalModelManager.providers[currentModel];
+    const totalCostToday = calculateTotalCost(tokenUsage, minimalModelManager.providers);
     
-    // Core action items
+    // Block 1: Core action items
     const coreItems = [
         createMenuItem('$(symbol-method)', 'improveCode', hasSelection, t),
         createMenuItem('$(comment-discussion)', 'explainCode', hasSelection, t),
@@ -39,10 +43,79 @@ function buildMenuItems(context) {
         createMenuItem('$(comment-discussion)', 'askAI', false, t, 'descriptions.askAI')
     ];
     
-    // Conditional items
-    const conditionalItems = getConditionalItems(context, hasSelection, boardDisplay, model, EXTENSION_VERSION);
+    // Separator 1
+    const separator1 = { 
+        label: '', 
+        kind: vscode.QuickPickItemKind.Separator 
+    };
     
-    return [...coreItems, ...conditionalItems];
+    // Block 2: Settings items
+    const settingsItems = [
+        {
+            label: `$(globe) ${t('commands.switchLanguage')}`,
+            description: t('descriptions.currentLanguage', 
+                localeUtils.getCurrentLanguageName(currentLocale, 
+                    vscode.workspace.getConfiguration('aiduino').get('language', 'auto'))),
+            command: 'aiduino.switchLanguage'
+        },
+        {
+            label: `$(sync) ${t('commands.switchModel')}`,
+            description: t('descriptions.currentModel', model.name),
+            command: 'aiduino.switchModel'
+        },
+        {
+            label: `$(key) ${t('commands.changeApiKey')}`,
+            description: `${model.name} Key`,
+            command: 'aiduino.setApiKey'
+        },
+        {
+            label: `$(edit) ${t('commands.editPrompts')}`,
+            description: t('descriptions.editPrompts'),
+            command: 'aiduino.editPrompts'
+        }
+    ];
+    
+    // Separator 2
+    const separator2 = { 
+        label: '', 
+        kind: vscode.QuickPickItemKind.Separator 
+    };
+    
+    // Block 3: Info items
+    const infoItems = [];
+    
+    // Follow-up option if context exists
+    if (shared.hasValidContext(aiConversationContext)) {
+        infoItems.push({
+            label: `$(arrow-right) ${t('commands.askFollowUp')}`,
+            description: t('descriptions.askFollowUp', 
+                formatQuestionPreview(aiConversationContext.lastQuestion, aiConversationContext.timestamp)),
+            command: 'aiduino.askFollowUp'
+        });
+    }
+    
+    // Board info
+    infoItems.push({
+        label: `$(circuit-board) Board`,
+        description: boardDisplay,
+        command: null
+    });
+    
+    // Token statistics
+    infoItems.push({
+        label: `$(graph) ${t('commands.tokenStats')}`,
+        description: t('descriptions.todayUsage', `$${totalCostToday.toFixed(3)}`),
+        command: 'aiduino.showTokenStats'
+    });
+    
+    // About
+    infoItems.push({
+        label: `$(info) ${t('commands.about')}`,
+        description: `Version ${EXTENSION_VERSION}`,
+        command: 'aiduino.about'
+    });
+    
+    return [...coreItems, separator1, ...settingsItems, separator2, ...infoItems];
 }
 
 /**
@@ -108,24 +181,24 @@ function getConditionalItems(context, hasSelection, boardDisplay, model, version
             command: 'aiduino.switchModel'
         },
         {
-            label: `$(circuit-board) Board`,
-            description: boardDisplay,
-            command: null
-        },
-        {
             label: `$(key) ${t('commands.changeApiKey')}`,
             description: `${model.name} Key`,
             command: 'aiduino.setApiKey'
         },
         {
-            label: `$(graph) ${t('commands.tokenStats')}`,
-            description: t('descriptions.todayUsage', `$${totalCostToday.toFixed(3)}`),
-            command: 'aiduino.showTokenStats'
-        },
-        {
             label: `$(edit) ${t('commands.editPrompts')}`,
             description: t('descriptions.editPrompts'),
             command: 'aiduino.editPrompts'
+        },
+        {
+            label: `$(circuit-board) Board`,
+            description: boardDisplay,
+            command: null
+        },
+        {
+            label: `$(graph) ${t('commands.tokenStats')}`,
+            description: t('descriptions.todayUsage', `$${totalCostToday.toFixed(3)}`),
+            command: 'aiduino.showTokenStats'
         },
         {
             label: `$(info) ${t('commands.about')}`,

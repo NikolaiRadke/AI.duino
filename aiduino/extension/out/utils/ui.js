@@ -47,12 +47,52 @@ class QuickMenuTreeProvider {
     
     buildTreeItems() {
         if (!this.context) return [];
-        
+    
         const menuItems = buildMenuItems(this.context);
-        
-        return menuItems
-            .filter(item => item.command)
-            .map(item => this.createTreeItem(item));
+        const treeItems = [];
+
+        // Block 1: Code Actions
+        const codeActions = menuItems.filter(item => 
+            ['improveCode', 'explainCode', 'addComments', 'explainError', 'debugHelp', 'askAI'].some(cmd => 
+                item.command?.includes(cmd)
+            )
+        );
+        codeActions.forEach(item => treeItems.push(this.createTreeItem(item)));
+    
+        // Separator 1
+        if (codeActions.length > 0) {
+            treeItems.push(this.createSeparator());
+        }
+    
+        // Block 2: Settings
+        const settings = menuItems.filter(item => 
+            ['switchLanguage', 'switchModel', 'setApiKey', 'editPrompts'].some(cmd => 
+                item.command?.includes(cmd)
+            )
+        );
+        settings.forEach(item => treeItems.push(this.createTreeItem(item)));
+    
+        // Separator 2
+        if (settings.length > 0) {
+            treeItems.push(this.createSeparator());
+        }
+    
+        // Block 3: Info items
+        const infoItems = menuItems.filter(item => 
+            ['showTokenStats', 'about'].some(cmd => 
+                item.command?.includes(cmd)
+            )
+        );
+        infoItems.forEach(item => treeItems.push(this.createTreeItem(item)));
+    
+        return treeItems;
+    }
+
+    createSeparator() {
+        const separator = new vscode.TreeItem('────────────', vscode.TreeItemCollapsibleState.None);
+        separator.contextValue = 'separator';
+        separator.command = undefined;
+        return separator;
     }
     
     createTreeItem(menuItem) {

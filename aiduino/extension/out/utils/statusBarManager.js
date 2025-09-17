@@ -77,8 +77,7 @@ class StatusBarManager {
             
             this.statusBarItem.tooltip = 
                 `${providerInfo.name} - ${modelStatus}\n` +
-                `Tokens: ${totalTokens}${costDisplay}\n` +
-                `Input: ${modelUsage.input} | Output: ${modelUsage.output}`;
+                `${t('descriptions.todayUsage', `$${todayCost}`)}`;
             
             // Clear any warning background
             this.statusBarItem.backgroundColor = undefined;
