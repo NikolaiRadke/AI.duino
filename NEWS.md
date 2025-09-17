@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **17.09.2025** Release **V1.8.5** with prompt editor bugfix and international history time stamps.    
 * **17.09.2025** Release **V1.8.4** with uninstallers and optical enhancements.    
 * **16.09.2025** Release **V1.8.3** with more refactoring and offline help bugfix. 
 * **16.09.2025** Release **V1.8.2** with user prompt history and new installers.
