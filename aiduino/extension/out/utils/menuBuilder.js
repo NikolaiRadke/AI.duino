@@ -172,7 +172,7 @@ function getConditionalItems(context, hasSelection, boardDisplay, model, version
             label: `$(globe) ${t('commands.switchLanguage')}`,
             description: t('descriptions.currentLanguage', 
                 localeUtils.getCurrentLanguageName(currentLocale, 
-                    vscode.workspace.getConfiguration('aiduino').get('language', 'auto'))),
+                    vscode.workspace.getConfiguration('aiduino').get('language', 'auto'), t)),
             command: 'aiduino.switchLanguage'
         },
         {

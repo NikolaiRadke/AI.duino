@@ -339,7 +339,8 @@
     "modified": "変更済み",
     "saving": "保存中",
     "saved": "保存済み",
-    "resetSuccess": "リセット完了"
+    "resetSuccess": "リセット完了",
+    "unsavedWarning": "言語を切り替えますか？プロンプトエディターの未保存の変更は失われます。"
   },
 
   "time": {

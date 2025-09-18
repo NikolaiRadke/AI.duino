@@ -46,6 +46,7 @@ const LANGUAGE_METADATA = {
     'be': { name: 'Беларуская', flag: '🇧🇾', region: 'Belarusian' },
     'mk': { name: 'Македонски', flag: '🇲🇰', region: 'Macedonian' },
     'sr': { name: 'Српски', flag: '🇷🇸', region: 'Serbian' },
+    'sq': { name: 'Shqip', flag: '🇦🇱', region: 'Albanian' },
     'bs': { name: 'Bosanski', flag: '🇧🇦', region: 'Bosnian' },
     'me': { name: 'Crnogorski', flag: '🇲🇪', region: 'Montenegrin' },
     'mt': { name: 'Malti', flag: '🇲🇹', region: 'Maltese' },

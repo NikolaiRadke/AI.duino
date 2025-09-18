@@ -344,7 +344,8 @@
     "modified": "Geändert",
     "saving": "Speichere",
     "saved": "Gespeichert",
-    "resetSuccess": "Zurückgesetzt"
+    "resetSuccess": "Zurückgesetzt",
+    "unsavedWarning": "Sprache wechseln? Die ungesicherte Änderungen im Prompt-Editor gehen verloren."
   },
 
   "time": {

@@ -343,7 +343,8 @@
     "modified": "已修改",
     "saving": "保存中",
     "saved": "已保存",
-    "resetSuccess": "已重置"
+    "resetSuccess": "已重置",
+    "unsavedWarning": "切换语言？提示编辑器中未保存的更改将丢失。"
   },
 
   "time": {

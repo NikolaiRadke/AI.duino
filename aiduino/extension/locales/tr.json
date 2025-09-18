@@ -343,7 +343,8 @@
     "modified": "Değiştirildi",
     "saving": "Kaydediyor",
     "saved": "Kaydedildi",
-    "resetSuccess": "Sıfırlandı"
+    "resetSuccess": "Sıfırlandı",
+    "unsavedWarning": "Dili değiştir? İstem düzenleyicisindeki kaydedilmemiş değişiklikler kaybolacak."
   },
 
   "time": {

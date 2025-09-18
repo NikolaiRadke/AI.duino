@@ -343,7 +343,8 @@
     "modified": "Gewijzigd",
     "saving": "Opslaan",
     "saved": "Opgeslagen",
-    "resetSuccess": "Hersteld"
+    "resetSuccess": "Hersteld",
+    "unsavedWarning": "Taal wisselen? Niet-opgeslagen wijzigingen in de prompt-editor gaan verloren."
   },
 
   "time": {

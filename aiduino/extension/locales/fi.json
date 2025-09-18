@@ -343,7 +343,8 @@
     "modified": "Muokattu",
     "saving": "Tallentaa",
     "saved": "Tallennettu",
-    "resetSuccess": "Palautettu"
+    "resetSuccess": "Palautettu",
+    "unsavedWarning": "Vaihda kieli? Tallentamattomat muutokset kehote-editorissa menetetään."
   },
 
   "time": {

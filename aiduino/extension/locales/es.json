@@ -343,7 +343,9 @@
     "modified": "Modificado",
     "saving": "Guardando",
     "saved": "Guardado",
-    "resetSuccess": "Restablecido"
+    "resetSuccess": "Restablecido",
+    "unsavedWarning": "¿Cambiar idioma? Los cambios no guardados en el editor de indicaciones se perderán."
+
   },
 
   "time": {

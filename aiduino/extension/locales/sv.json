@@ -343,7 +343,8 @@
     "modified": "Ändrad",
     "saving": "Sparar",
     "saved": "Sparad",
-    "resetSuccess": "Återställd"
+    "resetSuccess": "Återställd",
+    "unsavedWarning": "Byt språk? Osparade ändringar i prompt-editorn kommer att gå förlorade."
   },
 
   "time": {

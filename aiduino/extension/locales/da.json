@@ -343,7 +343,8 @@
     "modified": "Ændret",
     "saving": "Gemmer",
     "saved": "Gemt",
-    "resetSuccess": "Nulstillet"
+    "resetSuccess": "Nulstillet",
+    "unsavedWarning": "Skift sprog? Ikke-gemte ændringer i prompt-editoren vil gå tabt."
   },
 
   "time": {

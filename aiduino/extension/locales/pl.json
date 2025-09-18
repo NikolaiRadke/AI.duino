@@ -343,7 +343,8 @@
     "modified": "Zmodyfikowany",
     "saving": "Zapisywanie",
     "saved": "Zapisany",
-    "resetSuccess": "Przywrócony"
+    "resetSuccess": "Przywrócony",
+    "unsavedWarning": "Zmienić język? Niezapisane zmiany w edytorze poleceń zostaną utracone."
   },
 
   "time": {

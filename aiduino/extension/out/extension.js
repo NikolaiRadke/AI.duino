@@ -66,6 +66,7 @@ let currentModel = 'claude';
 let currentLocale = 'en';
 let i18n = {};
 let isPromptEditorOpen = false;
+let promptEditorHasChanges = false;
 
 // Module instances
 let commandRegistry;
@@ -268,11 +269,25 @@ async function switchLanguage() {
     }
     
     try {
+        if (isPromptEditorOpen && promptEditorHasChanges) {
+            const choice = await vscode.window.showWarningMessage(
+                t('promptEditor.unsavedWarning'),
+                t('buttons.yes'),    
+                t('buttons.cancel') 
+            );
+    
+            if (choice !== t('buttons.yes')) {
+                return;
+            }
+    
+        promptEditorHasChanges = false;
+        }
+            
         const config = vscode.workspace.getConfiguration('aiduino');
         const currentSetting = config.get('language', 'auto');
         
         // Use LocaleUtils for building language selection
-        const availableLanguages = localeUtils.buildLanguagePickItems(currentLocale, currentSetting);
+        const availableLanguages = localeUtils.buildLanguagePickItems(currentLocale, currentSetting, t);
         
         const selected = await vscode.window.showQuickPick(availableLanguages, {
             placeHolder: t('language.selectLanguage') || 'Choose language for AI.duino',
@@ -292,20 +307,19 @@ async function switchLanguage() {
             loadLocale();
             promptManager.initialize(i18n, currentLocale); 
             statusBarManager.updateFromContext(getDependencies());;
+
             if (quickMenuTreeProvider) {
                 quickMenuTreeProvider.refresh();
             }
 
             if (isPromptEditorOpen) {
-                setTimeout(() => {
-                    vscode.commands.executeCommand('aiduino.editPrompts');
-                }, 300);
+                vscode.commands.executeCommand('workbench.action.closeActiveEditor');
+                isPromptEditorOpen = false; 
             }
             
             const successMessage = selected.value === 'auto' ? 
-                `Language set to Auto (${getLanguageInfo(currentLocale).name})` :
-                `Language changed to ${getLanguageInfo(currentLocale).name}`;
-            
+                t('language.changed', `Auto (${getLanguageInfo(currentLocale).name})`) :
+                t('language.changed', getLanguageInfo(currentLocale).name);
             vscode.window.showInformationMessage(successMessage);
         }
     } finally {
@@ -509,7 +523,7 @@ function activate(context) {
 
     // Prompt manager
     promptManager = new PromptManager();
-    promptManager.initialize(i18n);
+    promptManager.initialize(i18n, currentLocale); 
 
     // Initialize Prompt History Manager
     promptHistory = new PromptHistoryManager();
@@ -640,6 +654,7 @@ function getDependencies() {
         
         // UI functions
         updateStatusBar: statusBarManager.updateFromContext.bind(statusBarManager),
+        setPromptEditorChanges: (hasChanges) => { promptEditorHasChanges = hasChanges; },
         
         // API functions
         switchModel: () => apiManager.switchModel(getDependencies()),

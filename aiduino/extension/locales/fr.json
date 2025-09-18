@@ -343,7 +343,8 @@
     "modified": "Modifié",
     "saving": "Enregistrement",
     "saved": "Enregistré",
-    "resetSuccess": "Réinitialisé"
+    "resetSuccess": "Réinitialisé",
+    "unsavedWarning": "Changer de langue ? Les modifications non sauvegardées dans l'éditeur d'invites seront perdues."
   },
 
   "time": {

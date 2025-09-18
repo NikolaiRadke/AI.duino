@@ -343,7 +343,8 @@
     "modified": "Modificado",
     "saving": "Salvando",
     "saved": "Salvo",
-    "resetSuccess": "Redefinido"
+    "resetSuccess": "Redefinido",
+    "unsavedWarning": "Mudar idioma? As alterações não salvas no editor de prompts serão perdidas."
    },
  
   "time": {

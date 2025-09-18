@@ -343,7 +343,8 @@
     "modified": "Změněn",
     "saving": "Ukládá",
     "saved": "Uložen",
-    "resetSuccess": "Obnoven"
+    "resetSuccess": "Obnoven",
+    "unsavedWarning": "Změnit jazyk? Neuložené změny v editoru příkazů budou ztraceny."
   },
 
   "time": {

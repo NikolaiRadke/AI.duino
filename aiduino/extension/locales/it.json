@@ -343,7 +343,8 @@
     "modified": "Modificato",
     "saving": "Salvataggio",
     "saved": "Salvato",
-    "resetSuccess": "Ripristinato"
+    "resetSuccess": "Ripristinato",
+    "unsavedWarning": "Cambiare lingua? Le modifiche non salvate nell'editor dei prompt andranno perse."
   },
 
   "time": {

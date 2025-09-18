@@ -343,7 +343,8 @@
     "modified": "Spremenjeno",
     "saving": "Shranjevanje",
     "saved": "Shranjeno",
-    "resetSuccess": "Ponastavljeno"
+    "resetSuccess": "Ponastavljeno",
+    "unsavedWarning": "Spremeni jezik? Neshranjene spremembe v urejevalniku pozivov bodo izgubljene."
   },
 
   "time": {

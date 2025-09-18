@@ -343,7 +343,8 @@
     "modified": "Módosított",
     "saving": "Mentés",
     "saved": "Mentve",
-    "resetSuccess": "Visszaállítva"
+    "resetSuccess": "Visszaállítva",
+    "unsavedWarning": "Nyelvváltás? A nem mentett változások a prompt szerkesztőben elvesznek."
   },
 
   "time": {

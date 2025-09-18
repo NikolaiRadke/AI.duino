@@ -20,13 +20,13 @@ class PromptManager {
 
     updateFilePaths() {
         this.customPromptsFile = path.join(os.homedir(), `.aiduino/.aiduino-custom-prompts-${this.currentLocale}.json`);
-        this.backupFile = path.join(os.homedir(), `.aiduino/.aiduino-custom-prompts-${this.currentLocale}.backup.json`);
     }
 
     initialize(i18n, locale = 'en') {
         this.currentLocale = locale;
         this.updateFilePaths();
         this.defaultPrompts = i18n.prompts || {};
+        this.customPrompts = null;
         this.loadCustomPrompts();
     }
 
@@ -91,14 +91,9 @@ class PromptManager {
     }
 
     /**
-     * Save custom prompts to file with backup
+     * Save custom prompts to file
      */
     saveCustomPrompts() {
-        // Create backup first
-        if (fs.existsSync(this.customPromptsFile)) {
-            fs.copyFileSync(this.customPromptsFile, this.backupFile);
-        }
-
         // Add metadata
         const dataToSave = {
             _metadata: {
@@ -110,7 +105,9 @@ class PromptManager {
         };
 
         const content = JSON.stringify(dataToSave, null, 2);
-        fs.writeFileSync(this.customPromptsFile, content, { mode: 0o600 });
+        const tempFile = this.customPromptsFile + '.tmp';
+        fs.writeFileSync(tempFile, content, { mode: 0o600 });
+        fs.renameSync(tempFile, this.customPromptsFile);
         return true;
     }
 
@@ -129,16 +126,6 @@ class PromptManager {
     }
 
     /**
-     * Reset all prompts to defaults
-     */
-    resetToDefaults() {
-        this.customPrompts = null;
-        if (fs.existsSync(this.customPromptsFile)) {
-            fs.unlinkSync(this.customPromptsFile);
-        }
-    }
-
-    /**
      * Get all prompts for editor
      * @returns {Object} All prompts with metadata
      */
@@ -149,6 +136,25 @@ class PromptManager {
             prompts: prompts || {},
             defaults: this.defaultPrompts || {}
         };
+    }
+
+    /**
+     * Check if all custom prompts match defaults and delete file if so
+     */
+    cleanupIfUnchanged() {
+        if (!this.customPrompts) return;
+    
+        const hasModifiedPrompts = Object.keys(this.customPrompts)
+            .filter(k => k !== '_metadata')
+            .some(k => this.customPrompts[k] !== this.defaultPrompts[k]);
+    
+        if (!hasModifiedPrompts) {
+            // All prompts match defaults - delete file
+            if (fs.existsSync(this.customPromptsFile)) {
+                fs.unlinkSync(this.customPromptsFile);
+            }
+            this.customPrompts = null;
+        }
     }
 }
 

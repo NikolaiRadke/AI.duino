@@ -344,7 +344,8 @@
     "modified": "Modified",
     "saving": "Saving",
     "saved": "Saved",
-    "resetSuccess": "Reset"
+    "resetSuccess": "Reset",
+    "unsavedWarning": "Switch language? Unsaved changes in the prompt editor will be lost."
   },
 
   "time": {

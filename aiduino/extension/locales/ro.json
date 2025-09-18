@@ -343,7 +343,8 @@
     "modified": "Modificat",
     "saving": "Salvează",
     "saved": "Salvat",
-    "resetSuccess": "Resetat"
+    "resetSuccess": "Resetat",
+    "unsavedWarning": "Schimbă limba? Modificările nesalvate din editorul de solicitări vor fi pierdute."
   },
 
   "time": {

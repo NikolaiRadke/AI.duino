@@ -58,9 +58,10 @@ class LocaleUtils {
      * Get current language display name
      * @param {string} currentLocale - Current locale code
      * @param {string} userLanguageChoice - User's language setting ('auto' or specific locale)
+     * @param {Function} t - Translation function
      * @returns {string} Display name for current language
      */
-    getCurrentLanguageName(currentLocale, userLanguageChoice) {
+    getCurrentLanguageName(currentLocale, userLanguageChoice, t) {
         const info = getLanguageInfo(currentLocale);
         
         if (userLanguageChoice === 'auto') {
@@ -74,16 +75,17 @@ class LocaleUtils {
      * Build language selection items for QuickPick
      * @param {string} currentLocale - Current active locale
      * @param {string} userLanguageChoice - User's setting ('auto' or specific locale)
+     * @param {Function} t - Translation function
      * @returns {Array} QuickPick items for language selection
      */
-    buildLanguagePickItems(currentLocale, userLanguageChoice) {
+    buildLanguagePickItems(currentLocale, userLanguageChoice, t) {
         const supportedLocales = this.getAvailableLocales();
         const availableLanguages = [];
 
         // Add auto-detect option
         availableLanguages.push({ 
-            label: '🌍 Auto (VS Code)', 
-            description: 'Auto-detect from VS Code', 
+            label: `🌐 ${t('language.autoDetect')}`, 
+            // description: t('language.autoDetect'), 
             value: 'auto' 
         });
         
@@ -104,9 +106,9 @@ class LocaleUtils {
             if (lang.value === activeValue) {
                 if (activeValue === 'auto') {
                     const info = getLanguageInfo(currentLocale);
-                    lang.description = `✓ Currently using ${info.region}`;
+                    lang.description = `✓ ${info.region}`;
                 } else {
-                    lang.description = `✓ ${lang.description}`;
+                    lang.description = `✓ `;
                 }
             }
         });
@@ -128,9 +130,10 @@ class LocaleUtils {
 
     /**
      * Get locale statistics (for debugging)
+     * @param {Function} t - Translation function (optional)
      * @returns {Object} Locale information
      */
-    getLocaleStats() {
+    getLocaleStats(t) {
         const available = this.getAvailableLocales();
         return {
             totalLocales: available.length,

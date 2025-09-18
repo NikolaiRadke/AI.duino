@@ -343,7 +343,8 @@
     "modified": "Endret",
     "saving": "Lagrer",
     "saved": "Lagret",
-    "resetSuccess": "Tilbakestilt"
+    "resetSuccess": "Tilbakestilt",
+    "unsavedWarning": "Bytt språk? Ulagrede endringer i prompt-editoren vil gå tapt."
   },
 
   "time": {

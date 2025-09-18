@@ -1,0 +1,357 @@
+{
+  "commands": {
+    "quickMenu": "Atvērt ātro izvēlni",
+    "switchModel": "Mainīt AI modeli",
+    "setApiKey": "Ievadīt API atslēgu",
+    "improveCode": "Uzlabot kodu",
+    "explainCode": "Izskaidrot kodu",
+    "addCommentsSelected": "Pievienot komentārus",
+    "addComments": "Pievienot komentārus",
+    "explainError": "Izskaidrot kļūdu",
+    "debugHelp": "Atkļūdošanas palīdzība",
+    "about": "Par AI.duino...",
+    "changeApiKey": "Mainīt API atslēgu",
+    "tokenStats": "Žetonu statistika",
+    "switchLanguage": "Mainīt valodu",
+    "askAI": "Jautāt AI",
+    "askFollowUp": "Uzdot papildu jautājumu",
+    "editPrompts": "Rediģēt uzvednes"
+  },
+
+  "messages": {
+    "welcome": "👋 Esiet sveicināti! AI.duino atbalsta {0}!",
+    "noApiKey": "🔑 Vispirms nepieciešama {0} API atslēga",
+    "selectAction": "Ko vēlaties darīt?",
+    "selectArduinoCode": "💡 Iezīmējiet Arduino kodu, lai izmantotu AI funkcijas!",
+    "noEditor": "Nav aktīva koda redaktora",
+    "selectCodeToExplain": "Lūdzu iezīmējiet kodu, kuru vēlaties izskaidrot",
+    "selectCodeToImprove": "Lūdzu iezīmējiet kodu, kuru vēlaties uzlabot",
+    "selectCodeToComment": "💡 Iezīmējiet kodu, kuram vēlaties pievienot komentārus",
+    "selectRelevantCode": "💡 Iezīmējiet atbilstošo kodu labākai atkļūdošanas palīdzībai",
+    "openInoFile": "Atveriet .ino failu",
+    "apiKeySaved": "✅ {0} API atslēga saglabāta!",
+    "modelSwitched": "✅ Pārslēgts uz {0}",
+    "codeImproved": "✅ Kods uzlabots! Ko vēlaties darīt?",
+    "codeReplaced": "✅ Kods aizstāts!",
+    "codeUpdated": "✅ Kods atjaunināts!",
+    "commentsAdded": "Komentāri pievienoti! Ko vēlaties darīt?",
+    "connectionError": "Savienojuma kļūda. Mēģināt vēlreiz?",
+    "retryLater": "Mēģiniet vēlreiz pēc dažām sekundēm...",
+    "copiedToClipboard": "Nokopēts starpliktuvē!",
+    "statsReset": "✅ Žetonu statistika atiestatīta!",
+    "selectModel": "Izvēlieties AI modeli",
+    "apiKeyRequired": "{0} nepieciešama API atslēga",
+    "connectionOk": "Interneta savienojums darbojas",
+    "noConnection": "Nav interneta savienojuma",
+    "noValidContext": "Nav pašreizējās sarunas turpināšanai (maks. 30 min.)",
+    "followUpContext": "Sarunas turpinājums: \"{0}\" (pirms {1} min.)",
+    "contextCleared": "Sarunas konteksts dzēsts",
+    "operationAlreadyRunning": "Darbība jau notiek! Lūdzu uzgaidiet..."
+  },
+  
+  "buttons": {
+    "chooseModel": "Izvēlēties AI modeli",
+    "later": "Vēlāk",
+    "setupNow": "Iestatīt tagad",
+    "switchModel": "Mainīt modeli",
+    "cancel": "Atcelt",
+    "enterNow": "Ievadīt tagad",
+    "enterApiKey": "Ievadīt API atslēgu",
+    "retry": "Mēģināt vēlreiz",
+    "offlineHelp": "Bezsaistes palīdzība",
+    "tryLater": "Mēģināt vēlāk",
+    "yes": "Jā",
+    "no": "Nē",
+    "replaceOriginal": "Aizstāt oriģinālu",
+    "keepBoth": "Paturēt abus",
+    "copySolution": "Kopēt risinājumu",
+    "copy": "Kopēt",
+    "resetStats": "Atiestatīt statistiku",
+    "getApiKey": "Iegūt API atslēgu",
+    "checkConnection": "Pārbaudīt savienojumu",
+    "checkFirewall": "Pārbaudīt ugunsmūri",
+    "showTokenStats": "Parādīt žetonu statistiku",
+    "tryAgain": "Mēģināt vēlreiz",
+    "checkStatus": "Pārbaudīt statusu",
+    "checkRouter": "Pārbaudīt maršrutētāju",
+    "save": "Saglabāt",
+    "reset": "Atiestatīt"
+  },
+  
+  "descriptions": {
+    "improveCodeSelected": "Optimizēt iezīmēto kodu",
+    "explainCodeSelected": "Izskaidrot iezīmēto kodu",
+    "addCommentsSelected": "Komentēt kodu",
+    "addComments": "Komentēt kodu",
+    "selectFirst": "Vispirms iezīmējiet kodu",
+    "errorsFound": "🔴 Atrastas kompailatora kļūdas",
+    "noErrors": "Nav kļūdu",
+    "debugHelp": "Palīdzība kļūdu meklēšanā",
+    "currentModel": "Pašreizējais: {0}",
+    "todayUsage": "Šodien: {0}",
+    "currentLanguage": "Pašreizējā: {0}",
+    "askAI": "Uzdot tiešu jautājumu AI",
+    "askFollowUp": "Turpināt iepriekšējo sarunu: {0}",
+    "noValidContext": "Nav iepriekšējās sarunas",
+    "editPrompts": "Pielāgot AI uzvednes"
+  },
+  
+  "language": {
+    "autoDetect": "Automātiski noteikt no VS Code",
+    "selectLanguage": "Izvēlieties valodu AI.duino",
+    "changeLanguage": "Mainīt valodu",
+    "changed": "Valoda mainīta uz {0}"
+  },
+  
+  "labels": {
+    "active": "Aktīvs",
+    "aiHints": "AI padomi"
+  },
+  
+  "prompts": {
+    "enterApiKey": "Ievadiet {0} API atslēgu",
+    "customInstructions": "Pielāgotas instrukcijas koda uzlabošanai (neobligāti)",
+    "commentInstructions": "Pielāgotas instrukcijas komentēšanai (neobligāti)",
+    "pasteError": "Nokopējiet kļūdu no Arduino izvades loga (sarkanā rinda ar \"error:\")",
+    "pasteSerial": "Ielīmējiet savu Serial Monitor izvadi",
+    "systemPrompt": "Jūs esat noderīgs Arduino programmēšanas asistents. Vienmēr atbildiet latviešu valodā un skaidrojiet Arduino kodu saprotami.",
+    "explainCode": "Izskaidrojiet šo Arduino kodu latviešu valodā vienkārši un saprotami:\n\n```cpp\n{0}\n```\n\nIzskaidrojiet:\n- Ko dara kods\n- Kā tas darbojas\n- Kādu aparatūru tas vada\n- Svarīgus jēdzienus iesācējiem\n\nEsiet laipni un detalizēti.",
+    "improveCode": "Uzlabojiet šo Arduino kodu:\n\n```cpp\n{0}\n```\n\nOptimizējiet:\n- Nebloķējošu kodu (millis nevis delay)\n- Atmiņas efektivitāti\n- Labāku lasāmību\n- Arduino labākās prakses\n- Noturību",
+    "improveCodeSuffix": "Atgrieziet tikai uzlaboto kodu ar īsiem latviešu komentāriem par izmaiņām.",
+    "addCommentsSelected": "Pievienojiet noderīgus latviešu komentārus šim Arduino kodam:\n\n```cpp\n{0}\n```\n\nNoteikumi:\n- Izskaidrojiet, ko dara katra svarīgā rinda\n- Komentējiet funkcijas un to parametrus\n- Izskaidrojiet mijiedarbību ar aparatūru\n- Izmantojiet // vienrindas un /* */ daudzrindas komentāriem\n- Komentāriem jāpalīdz iesācējiem",
+    "addComments": "Pievienojiet noderīgus latviešu komentārus šim Arduino kodam:\n\n```cpp\n{0}\n```\n\nNoteikumi:\n- Izskaidrojiet, ko dara katra svarīgā rinda\n- Komentējiet funkcijas un to parametrus\n- Izskaidrojiet mijiedarbību ar aparatūru\n- Izmantojiet // vienrindas un /* */ daudzrindas komentāriem\n- Komentāriem jāpalīdz iesācējiem",
+    "addCommentsSuffix": "Atgrieziet TIKAI komentēto kodu, bez skaidrojumiem ap to.",
+    "additionalInstructions": "Papildu instrukcijas no lietotāja:\n- {0}",
+    "explainError": "Izskaidrot un atrisināt Arduino kompailatora kļūdu:\n\nKļūda: {0}\n\nKoda konteksts (ap {1}. rindu):\n```cpp\n{2}\n```\n\nLūdzu izskaidrojiet:\n1. Ko nozīmē šī kļūda?\n2. Kāpēc tā rodas?\n3. Kā to novērst?\n4. Parādiet laboto kodu\n\nIzskaidrojiet vienkārši un saprotami latviešu valodā.",
+    "analyzeSerial": "Analizējiet šo Arduino Serial Monitor izvadi un izskaidrojiet, ko tā nozīmē:\n\nSerial izvade:\n{0}\n\n{1}\n\nIzskaidrojiet:\n- Ko nozīmē izvade\n- Iespējamās problēmas\n- Risinājumu priekšlikumus",
+    "hardwareDebug": "Palīdziet atrast aparatūras kļūdas šim Arduino kodam:\n\n```cpp\n{0}\n```\n\nLūdzu pārbaudiet:\n- Tipiskās savienojumu kļūdas\n- Kontaktu konfliktus\n- Barošanas problēmas\n- Pull-up/Pull-down pretestības\n- Saderības problēmas",
+    "addDebugStatements": "Pievienojiet stratēģiskas atkļūdošanas izvades šim Arduino kodam:\n\n```cpp\n{0}\n```\n\nPievienojiet Serial.print() komandas:\n- Mainīgo vērtību uzraudzībai\n- Programmas plūsmas izsekošanai\n- Laika mērīšanai\n- Kļūdu atradei",
+    "analyzeTiming": "Analizējiet laika problēmas šim Arduino kodam:\n\n```cpp\n{0}\n```\n\nPārbaudiet:\n- Bloķējošos delay\n- millis() pārplūdi\n- Race apstākļus\n- Pārtraukumu konfliktus\n\nParādiet uzlabotu nebloķējošu kodu.",
+    "askAI": "Ko vēlaties jautāt AI?",
+    "askAIGeneral": "Lietotāja jautājums: {0}\n\nAtbildiet latviešu valodā skaidri un noderīgi.",
+    "askAIWithContext": "Lietotāja jautājums: {0}\n\nKoda konteksts:\n```cpp\n{1}\n```\n\nAtbildiet latviešu valodā, ņemot vērā pievienoto Arduino kodu.",
+    "askFollowUp": "Papildu jautājums:",
+    "followUpContext": "Iepriekšējās sarunas konteksts:",
+    "followUpInstruction": "Atbildiet latviešu valodā, ņemot vērā iepriekšējo sarunu."
+  },
+  
+  "placeholders": {
+    "customInstructions": "piemēram, \"neizmantot millis()\", \"optimizēt Arduino Nano\", \"pievienot kļūdu apstrādi\"",
+    "commentInstructions": "piemēram, \"ļoti detalizēti\", \"komentēt tikai funkcijas\", \"angļu valodā\"",
+    "errorExample": "error: 'xc' was not declared in this scope",
+    "serialExample": "piemēram, \"Sensor value: -1\"",
+    "askAI": "piemēram, \"Kā darbojas PWM?\", \"Kāpēc mans sensors nedarbojas?\"",
+    "askFollowUp": "Turpināt sarunu..."
+  },
+  
+  "validation": {
+    "apiKeyRequired": "API atslēga nepieciešama",
+    "apiKeyPrefix": "Jāsākas ar \"{0}\"",
+    "apiKeyTooShort": "Atslēga šķiet pārāk īsa"
+  },
+  
+  "progress": {
+    "retrying": "{0} (mēģinājums {1}/{2})",
+    "explaining": "{0} skaidro kodu...",
+    "optimizing": "{0} optimizē kodu...",
+    "addingComments": "{0} pievieno komentārus...",
+    "analyzingError": "{0} analizē kļūdu...",
+    "analyzingProblem": "{0} analizē problēmu...",
+    "testingConnection": "Savienojuma pārbaude...",
+    "askingAI": "{0} apstrādā jūsu jautājumu...",
+    "askingFollowUp": "{0} apstrādā jūsu papildu jautājumu..."
+  },
+  
+  "errors": {
+    "quotaExceeded": "Mēneša kvota izsmelts",
+    "quotaExceededDetail": "{0}: Mēneša kvota izsmelts. Lūdzu uzgaidiet līdz mēneša sākumam vai mainiet modeli.",
+    "networkError": "Tīkla kļūda",
+    "timeout": "Taimauts – lūdzu pārbaudiet interneta savienojumu",
+    "unreachable": "Nepieejams",
+    "operationCancelled": "Darbība atcelta",
+    "unknownModel": "Nezināms modelis: {0}",
+    "noApiKey": "Nav {0} API atslēgas",
+    "invalidApiKey": "{0} API atslēga nederīga",
+    "rateLimit": "{0} ātruma ierobežojums sasniegts – lūdzu īsi uzgaidiet",
+    "serverUnavailable": "{0} serveris pašlaik nepieejams",
+    "apiError": "⚠ {0} kļūda: {1}",
+    "apiErrorWithCode": "{0} API kļūda ({1}): {2}",
+    "parseError": "Kļūda parsējot {0} atbildi",
+    "unexpectedResponse": "Negaidīta {0} API atbildes struktūra",
+    "unknownError": "Nezināma kļūda",
+    "saveFailed": "⚠ Kļūda saglabāšanā: {0}",
+    "noInternet": "🌐 Nav interneta savienojuma",
+    "network": {
+      "dns": "Nav interneta savienojuma – DNS izšķiršana neizdevās",
+      "timeout": "Taimauts – interneta savienojums pārāk lēns",
+      "refused": "Savienojums noraidīts – ugunsmūra vai proxy problēma?",
+      "reset": "Savienojums pārtraukts – nestabils interneta savienojums",
+      "hostUnreachable": "Serveris nepieejams – tīkla problēma",
+      "netUnreachable": "Tīkls nepieejams – maršrutētāja problēma?",
+      "aborted": "Savienojums pārtraukts – taimauts vai tīkla kļūda",
+      "general": "Tīkla kļūda: {0}"
+    }
+  },
+  
+  "statusBar": {
+    "tooltip": "AI.duino : {0}\nŠodien: {1} Žetoni{2}\nIevade: {3} | Izvade: {4}\nKlikšķis izvēlnei • Ctrl+Shift+C • Labais klikšķis pārslēgšanai",
+    "noApiKey": "{0} API atslēga trūkst! • Klikšķis iestatīšanai",
+    "errorsFound": "{0} kļūdas atrastas • Klikšķis palīdzībai"
+  },
+  
+  "output": {
+    "codeExplanation": "{0} skaidrojums",
+    "explanationFrom": "KODA SKAIDROJUMS NO {0}",
+    "aiResponse": "{0} atbilde",
+    "responseFrom": "ATBILDE NO {0}",
+    "yourQuestion": "Jūsu jautājums",
+    "aiAnswer": "AI atbilde",
+    "aiFollowUp": "{0} papildu atbilde",
+    "followUpTo": "Papildu jautājums par",
+    "followUpHint": "Turpināt sarunu",
+    "codeContextYes": "Koda konteksts: Jā ({0} rindas)",
+    "boardDetected": "Plate: {0}"
+  },
+
+  "chat": {
+    "includeSelectedCode": "Iekļaut iezīmēto kodu",
+    "includeSelectedCodeDesc": "Sūtīt jautājumu ar pašlaik iezīmēto kodu",
+    "questionOnly": "Tikai jautājums",
+    "questionOnlyDesc": "Sūtīt tikai jautājumu bez koda",
+    "selectContext": "Vai vēlaties iekļaut koda kontekstu?",
+    "previousQuestion": "Iepriekšējais jautājums",
+    "previousAnswer": "Iepriekšējā atbilde",
+    "followUpQuestion": "Papildu jautājums",
+    "relatedCode": "Saistītais kods"
+  },
+
+  "shortcuts": {
+    "askFollowUp": "Papildu jautājums",
+    "askAI": "Jauns jautājums"
+  },
+
+  "panels": {
+    "errorExplanation": "🔧 Kļūdas skaidrojums",
+    "debugHelp": "🔍 Atkļūdošanas palīdzība",
+    "offlineHelp": "📡 Bezsaistes palīdzība",
+    "tokenStats": "📊 Žetonu statistika",
+    "about": "Par AI.duino"
+  },
+  
+  "html": {
+    "errorExplanation": "Kļūdas skaidrojums",
+    "errorInLine": "Kļūda {0}. rindā"
+  },
+  
+  "debug": {
+    "analyzeSerial": "Analizēt Serial Monitor izvadi",
+    "analyzeSerialDesc": "Palīdzība atkļūdošanas izvadu interpretācijā",
+    "hardwareProblem": "Diagnosticēt aparatūras problēmu",
+    "hardwareProblemDesc": "Iespējamie aparatūras cēloņi problēmām",
+    "addDebugCode": "Pievienot atkļūdošanas kodu",
+    "addDebugCodeDesc": "Stratēģiski izvietot Serial.print() komandas",
+    "timingProblems": "Atrast laika problēmas",
+    "timingProblemsDesc": "Palīdzība ar delay(), millis() un laika kļūdām",
+    "selectHelp": "Ar ko jums nepieciešama palīdzība?"
+  },
+  
+  "offline": {
+    "title": "Nav interneta savienojuma",
+    "requiresInternet": "AI.duino nepieciešams interneta savienojums komunikācijai ar Claude, ChatGPT, Gemini vai Mistral.",
+    "solutions": "Risinājumu priekšlikumi",
+    "checkInternet": "Pārbaudīt interneta savienojumu",
+    "checkWifi": "Pārbaudīt WLAN/Ethernet savienojumu",
+    "restartRouter": "Restartēt maršrutētāju",
+    "testOtherSites": "Testēt citas mājas lapas",
+    "firewallSettings": "Ugunsmūra/proxy iestatījumi",
+    "ensureNotBlocked": "Pārliecinieties, ka šie domēni nav bloķēti",
+    "disableVpn": "Atspējot VPN",
+    "vpnMayBlock": "Daži VPN pakalpojumi var bloķēt API pieprasījumus.",
+    "commonProblems": "Biežas Arduino problēmas (bezsaistes atsauce)",
+    "solution": "Risinājums",
+    "declareVariable": "Deklarēt mainīgo",
+    "missingDeclaration": "Trūkst deklarācijas",
+    "addSemicolon": "Pievienot semikolu",
+    "dontForgetSemicolon": "; neaizmirstiet!",
+    "insteadOfDelay": "Delay() vietā izmantot",
+    "executeCodeHere": "Izpildīt kodu šeit",
+    "tip": "Padoms",
+    "onlineAgain": "Tiklīdz atkal būsiet tiešsaistē, AI.duino var palīdzēt ar konkrētām problēmām!"
+  },
+  
+  "stats": {
+    "tokenUsageFor": "Žetonu izmantošana {0}",
+    "totalCostToday": "Kopējās izmaksas šodien",
+    "inputTokens": "Ievades žetoni",
+    "outputTokens": "Izvades žetoni",
+    "cost": "Izmaksas",
+    "tip": "Padoms",
+    "tipDescription": "Žetonu skaitīšana ir novērtējums. Faktiskās izmaksas var nedaudz atšķirties.",
+    "confirmReset": "Tiešām atiestatīt statistiku?"
+  },
+  
+  "about": {
+    "tagline": "AI atbalstīta Arduino izstrāde",
+    "features": "Funkcijas",
+    "integration": "Integrācija",
+    "feature1": "Koda uzlabošana un optimizācija",
+    "feature2": "Kļūdu skaidrojumi latviešu valodā",
+    "feature3": "Automātiska koda komentēšana",
+    "feature4": "Atkļūdošanas palīdzība un aparatūras diagnostika",
+    "feature5": "Žetonu izmantošanas izsekošana",
+    "feature6": "Bezsaistes palīdzība savienojuma problēmām",
+    "feature7": "Modulāra arhitektūra vieglai paplašināšanai",
+    "feature8": "Daudzvalodu atbalsts",
+    "quickstart": "Ātrs sākums",
+    "step1": "Iezīmējiet Arduino kodu",
+    "step2": "Nospiediet",
+    "step3": "Izvēlieties darbību",
+    "tip": "Padoms",
+    "tipText": "Labais klikšķis uz statusa joslas modeļa pārslēgšanai!",
+    "license": "Licence",
+    "getApiKeys": "Iegūt API atslēgas",
+    "publisher": "Izdevējs",
+    "repository": "Repozitorijs",
+    "reportBugs": "Ziņot par kļūdām",
+    "madeWith": "Izstrādāts ar 💙 Arduino kopienai"
+  },
+
+  "config": {
+    "updateAvailable": "Pieejams pakalpojumu sniedzēju konfigurācijas atjauninājums: {0} → {1}",
+    "updateNow": "Atjaunināt tagad",
+    "updateLater": "Vēlāk",
+    "updatingConfigs": "Atjaunina pakalpojumu sniedzēju konfigurācijas...",
+    "updateSuccess": "Pakalpojumu sniedzēju konfigurācijas atjauninātas uz versiju {0}",
+    "updateFailed": "Konfigurācijas atjaunināšana neizdevās: {0}",
+    "restartRequired": "Pakalpojumu sniedzēju konfigurācijas veiksmīgi atjauninātas! Nepieciešams restarts izmaiņām.",
+    "restartExtension": "Restartēt paplašinājumu",
+    "modelOutdated": "Modelis šķiet novecojis. Atjaunināt konfigurācijas?",
+    "notNow": "Ne tagad"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "Automātiski meklēt pakalpojumu sniedzēju konfigurācijas atjauninājumus"
+  },
+
+  "extensionUpdate": {
+    "available": "Pieejams AI.duino paplašinājuma atjauninājums: {0} → {1}",
+    "download": "Lejupielādēt"
+  },
+
+  "promptEditor": {
+    "standard": "Standarta",
+    "custom": "Pielāgots",
+    "modified": "Mainīts",
+    "saving": "Saglabā",
+    "saved": "Saglabāts",
+    "resetSuccess": "Atiestatīts",
+    "unsavedWarning": "Mainīt valodu? Nesaglabātās izmaiņas uzvedņu redaktorā tiks zaudētas."
+  },
+
+  "time": {
+    "justNow": "tikko",
+    "minutesAgo": "pirms {0}min",
+    "hoursAgo": "pirms {0}h",
+    "daysAgo": "pirms {0}d"
+  }
+}

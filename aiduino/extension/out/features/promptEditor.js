@@ -38,6 +38,16 @@ async function showPromptEditor(context) {
             { enableScripts: true }
         );
 
+panel.onDidDispose(() => {
+            // Reset flags when panel is closed
+            if (context.setPromptEditorChanges) {
+                context.setPromptEditorChanges(false);
+            }
+            if (context.onPromptEditorClosed) {
+                context.onPromptEditorClosed();
+            }
+        });
+
         // Generate HTML content for all prompt cards
         let promptsHtml = '';
         allowedPrompts.forEach(key => {
@@ -409,6 +419,17 @@ async function showPromptEditor(context) {
                             const key = this.id.replace('prompt-', '');
                             const isModified = this.value !== originalValues[key];
                             updateCardStatus(key, isModified);
+        
+                            const hasAnyChanges = Array.from(document.querySelectorAll('.prompt-textarea'))
+                            .some(ta => {
+                                const k = ta.id.replace('prompt-', '');
+                                return ta.value !== originalValues[k];
+                            });
+
+                            vscode.postMessage({
+                                command: 'hasUnsavedChanges',
+                                hasChanges: hasAnyChanges
+                            });
                         });
                     });
                     
@@ -469,6 +490,7 @@ async function showPromptEditor(context) {
                             command: 'saveConfirmed',
                             key: message.key
                         });
+                        context.setPromptEditorChanges(false);
                         break;
                 
                     case 'resetPrompt':
@@ -477,6 +499,7 @@ async function showPromptEditor(context) {
                             if (promptManager.customPrompts && promptManager.customPrompts[message.key]) {
                                 delete promptManager.customPrompts[message.key];
                                 promptManager.saveCustomPrompts();
+                                promptManager.cleanupIfUnchanged(); // Clean separation of concerns
                             }
                             
                             panel.webview.postMessage({
@@ -485,7 +508,14 @@ async function showPromptEditor(context) {
                                 value: defaultValue
                             });
                         }
+                        context.setPromptEditorChanges(false);
                         break;
+                    
+                    case 'hasUnsavedChanges':
+                        if (context.setPromptEditorChanges) {
+                            context.setPromptEditorChanges(message.hasChanges);
+                    }
+                    break;
                 }
             } catch (error) {
                 panel.webview.postMessage({
@@ -508,15 +538,15 @@ async function showPromptEditor(context) {
  */
 function getLocalizedStrings(t) {
     return {
-        custom: t('promptEditor.custom') || 'Custom',
-        standard: t('promptEditor.standard') || 'Standard',
-        modified: t('promptEditor.modified') || 'Modified',
-        saving: t('promptEditor.saving') || 'Saving',
-        saved: t('promptEditor.saved') || 'Saved',
-        resetSuccess: t('promptEditor.resetSuccess') || 'Reset successful',
-        resetText: t('buttons.reset') || 'Reset',
-        saveText: t('buttons.save') || 'Save',
-        title: t('commands.editPrompts') || 'Edit Prompts'
+        custom: t('promptEditor.custom'),
+        standard: t('promptEditor.standard'),
+        modified: t('promptEditor.modified'),
+        saving: t('promptEditor.saving'),
+        saved: t('promptEditor.saved'),
+        resetSuccess: t('promptEditor.resetSuccess'),
+        resetText: t('buttons.reset'),
+        saveText: t('buttons.save'),
+        title: t('commands.editPrompts')
     };
 }
 
