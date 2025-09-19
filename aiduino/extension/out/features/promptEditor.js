@@ -423,68 +423,38 @@ async function showPromptEditor(context) {
                     function updateCardStatus(key, isModified) {
                         const textarea = document.getElementById('prompt-' + key);
                         if (!textarea) return;
-                        
+    
                         const card = textarea.closest('.prompt-card');
-                        const statusBadge = card.querySelector('.status-badge');
+                        const statusBadge = card.querySelector('.status-badge');            
                         const saveButton = card.querySelector('.btn-save');
                         const resetButton = card.querySelector('.btn-reset');
                         let modifiedBadge = card.querySelector('.modified-badge');
-                        
-                        if (isModified) {
-                            card.classList.add('modified');
-                            statusBadge.textContent = strings.custom;
-                            statusBadge.className = 'status-badge custom';
-                            
-                            if (saveButton) {
-                                saveButton.className = 'btn-save active';
-                            }
-                            if (resetButton) {
-                                resetButton.className = 'btn-reset active';
-                            }
-                            
-                            if (!modifiedBadge) {
-                                modifiedBadge = document.createElement('span');
-                                modifiedBadge.className = 'modified-badge';
-                                modifiedBadge.textContent = strings.modified;
-                                statusBadge.parentNode.insertBefore(modifiedBadge, statusBadge.nextSibling);
-                            }
-                        } else {
-                            card.classList.remove('modified');
-                            statusBadge.textContent = strings.standard;
-                            statusBadge.className = 'status-badge default';
-                            
-                            if (saveButton) {
-                                saveButton.className = 'btn-save inactive';
-                            }
-                            if (resetButton) {
-                                resetButton.className = 'btn-reset inactive';
-                            }
-                            
-                            if (modifiedBadge) {
-                                modifiedBadge.remove();
-                            }
+    
+                        // Toggle modified state
+                        card.classList.toggle('modified', isModified);
+    
+                        // Update status badge
+                        statusBadge.textContent = isModified ? strings.custom : strings.standard;
+                        statusBadge.className = isModified ? 'status-badge custom' : 'status-badge default';
+    
+                        // Update buttons
+                        if (saveButton) {
+                            saveButton.className = isModified ? 'btn-save active' : 'btn-save inactive';
                         }
+                        if (resetButton) {
+                            resetButton.className = isModified ? 'btn-reset active' : 'btn-reset inactive';
+                        }
+    
+                        // Handle modified badge
+                        if (isModified && !modifiedBadge) {
+                            modifiedBadge = document.createElement('span');
+                            modifiedBadge.className = 'modified-badge';
+                            modifiedBadge.textContent = strings.modified;
+                            statusBadge.parentNode.insertBefore(modifiedBadge, statusBadge.nextSibling);
+                        } else if (!isModified && modifiedBadge) {
+                            modifiedBadge.remove();
+                        }                   
                     }
-                    
-                    // Real-time change detection
-                    document.querySelectorAll('.prompt-textarea').forEach(textarea => {
-                        textarea.addEventListener('input', function() {
-                            const key = this.id.replace('prompt-', '');
-                            const isModified = this.value !== originalValues[key];
-                            updateCardStatus(key, isModified);
-        
-                            const hasAnyChanges = Array.from(document.querySelectorAll('.prompt-textarea'))
-                            .some(ta => {
-                                const k = ta.id.replace('prompt-', '');
-                                return ta.value !== originalValues[k];
-                            });
-
-                            vscode.postMessage({
-                                command: 'hasUnsavedChanges',
-                                hasChanges: hasAnyChanges
-                            });
-                        });
-                    });
                     
                     // Handle backend messages
                     window.addEventListener('message', event => {
@@ -564,25 +534,29 @@ async function showPromptEditor(context) {
                         break;
                 
                     case 'resetPrompt':
-                    // Remove from pending changes when reset
+                        // Remove from pending changes when reset
                         delete pendingChanges[message.key];
                         hasUnsavedChanges = Object.keys(pendingChanges).length > 0;
-    
-                        let promptDefaultValue = promptManager.defaultPrompts?.[message.key] || '';  // DIFFERENT NAME
+
+                        const promptDefaultValue = promptManager.defaultPrompts?.[message.key] || '';
                         if (promptDefaultValue) {
                             if (promptManager.customPrompts && promptManager.customPrompts[message.key]) {
-                               delete promptManager.customPrompts[message.key];
-                               promptManager.saveCustomPrompts();
-                               promptManager.cleanupIfUnchanged();
-                            }
-        
+                                delete promptManager.customPrompts[message.key];
+                                    promptManager.saveCustomPrompts();
+                                    promptManager.cleanupIfUnchanged();
+                            }   
+
                             panel.webview.postMessage({
                                 command: 'promptReset',
                                 key: message.key,
                                 value: promptDefaultValue
                             });
                         }
-                        context.setPromptEditorChanges(false);
+    
+                        // Use actual state instead of hardcoded false
+                        if (context.setPromptEditorChanges) {
+                            context.setPromptEditorChanges(hasUnsavedChanges);
+                        }
                         break;
                     
                     case 'hasUnsavedChanges':
@@ -619,4 +593,3 @@ async function showPromptEditor(context) {
 module.exports = {
     showPromptEditor
 };
-
