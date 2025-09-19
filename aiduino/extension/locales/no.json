@@ -17,7 +17,6 @@
     "askFollowUp": "Still oppfølgingsspørsmål",
     "editPrompts": "Rediger prompter"
   },
-  
   "messages": {
     "welcome": "👋 Velkommen! AI.duino støtter {0}!",
     "noApiKey": "🔑 Først trenger du en API-nøkkel for {0}",
@@ -47,7 +46,6 @@
     "followUpContext": "Fortsetter samtale: \"{0}\" ({1} min siden)",
     "contextCleared": "Samtale-kontekst ryddet"
   },
-  
   "buttons": {
     "chooseModel": "Velg AI-modell",
     "later": "Senere",
@@ -74,9 +72,11 @@
     "checkStatus": "Sjekk status",
     "checkRouter": "Sjekk ruter",
     "save": "Lagre",
-    "reset": "Tilbakestill"
+    "reset": "Tilbakestill",
+    "saveChanges": "Lagre endringer",
+    "discard": "Forkast",
+    "closeWithoutSaving": "Lukk uten å lagre"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Optimaliser valgt kode",
     "explainCodeSelected": "Forklar valgt kode",
@@ -94,19 +94,16 @@
     "noValidContext": "Ingen forrige samtale",
     "editPrompts": "Tilpass og administrer AI-prompter"
   },
-
   "language": {
     "autoDetect": "Auto-detect fra VS Code",
     "selectLanguage": "Velg språk for AI.duino",
     "changeLanguage": "Endre språk",
     "changed": "Språk endret til {0}"
   },
-  
   "labels": {
     "active": "Aktiv",
     "aiHints": "AI TIPS"
   },
-  
   "prompts": {
     "enterApiKey": "Skriv inn {0} API-nøkkel",
     "customInstructions": "Tilpassede instruksjoner for kodeforbedring (valgfritt)",
@@ -133,7 +130,6 @@
     "followUpContext": "Forrige samtale-kontekst:",
     "followUpInstruction": "Svar med hensyn til den forrige samtalen."
   },
-  
   "placeholders": {
     "customInstructions": "f.eks. \"ikke bruk millis()\", \"optimaliser for Arduino Nano\", \"legg til feilhåndtering\"",
     "commentInstructions": "f.eks. \"svært detaljert\", \"bare kommenter funksjoner\", \"på norsk\"",
@@ -142,13 +138,11 @@
     "askAI": "f.eks. \"Hvordan fungerer PWM?\", \"Hvorfor fungerer ikke sensoren min?\"",
     "askFollowUp": "Fortsett samtalen..."
   },
-  
   "validation": {
     "apiKeyRequired": "API-nøkkel påkrevd",
     "apiKeyPrefix": "Må starte med \"{0}\"",
     "apiKeyTooShort": "Nøkkel virker for kort"
   },
-  
   "progress": {
     "retrying": "{0} (Forsøk {1}/{2})",
     "explaining": "{0} forklarer koden...",
@@ -160,7 +154,6 @@
     "askingAI": "{0} behandler spørsmålet ditt...",
     "askingFollowUp": "{0} behandler oppfølgingsspørsmålet ditt..."
   },
-  
   "errors": {
     "quotaExceeded": "Månedlig kvote overskredet",
     "quotaExceededDetail": "{0}: Månedlig kvote overskredet. Vennligst vent til neste måned eller bytt modell.",
@@ -191,13 +184,11 @@
       "general": "Nettverksfeil: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nI dag: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlikk for meny • Ctrl+Shift+C • Høyreklikk for å bytte",
     "noApiKey": "{0} API-nøkkel mangler! • Klikk for å sette opp",
     "errorsFound": "{0} feil funnet • Klikk for hjelp"
   },
-  
   "output": {
     "codeExplanation": "{0} Forklaring",
     "explanationFrom": "KODEFORKLARING FRA {0}",
@@ -211,7 +202,6 @@
     "codeContextYes": "Kode-kontekst: Ja ({0} linjer)",
     "boardDetected": "Kort: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Inkluder valgt kode",
     "includeSelectedCodeDesc": "Send spørsmål med nåværende valgt kode",
@@ -223,12 +213,10 @@
     "followUpQuestion": "Oppfølgingsspørsmål",
     "relatedCode": "Relatert kode"
   },
-
   "shortcuts": {
     "askFollowUp": "Oppfølgingsspørsmål",
     "askAI": "Nytt spørsmål"
   },
-
   "panels": {
     "errorExplanation": "🔧 Feilforklaring",
     "debugHelp": "🔍 Debug-hjelp",
@@ -236,12 +224,10 @@
     "tokenStats": "📊 Token-statistikk",
     "about": "Om AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Feilforklaring",
     "errorInLine": "Feil i linje {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Analyser Serial Monitor-output",
     "analyzeSerialDesc": "Hjelp med å tolke debug-output",
@@ -253,7 +239,6 @@
     "timingProblemsDesc": "Hjelp med delay(), millis() og timing-bugs",
     "selectHelp": "Hva trenger du hjelp med?"
   },
-  
   "offline": {
     "title": "Ingen internettforbindelse",
     "requiresInternet": "AI.duino krever en internettforbindelse for å kommunisere med Claude, ChatGPT, Gemini eller Mistral.",
@@ -277,7 +262,6 @@
     "tip": "Tips",
     "onlineAgain": "Når du er online igjen, kan AI.duino hjelpe deg med spesifikke problemer!"
   },
-  
   "stats": {
     "tokenUsageFor": "Token-bruk for {0}",
     "totalCostToday": "Total kostnad i dag",
@@ -288,7 +272,6 @@
     "tipDescription": "Token-telling er et estimat. Faktiske kostnader kan variere litt.",
     "confirmReset": "Virkelig tilbakestille statistikk?"
   },
-  
   "about": {
     "tagline": "AI-drevet Arduino-utvikling",
     "features": "Funksjoner",
@@ -314,7 +297,6 @@
     "reportBugs": "Rapporter bugs",
     "madeWith": "Laget med 💙 for Arduino-samfunnet"
   },
-
   "config": {
     "updateAvailable": "Provider Config oppdatering tilgjengelig: {0} → {1}",
     "updateNow": "Oppdater nå",
@@ -327,30 +309,31 @@
     "modelOutdated": "Modellen virker utdatert. Oppdater konfigurasjoner?",
     "notNow": "Ikke nå"
   },
-
   "settings": {
     "autoUpdateConfigs": "Automatisk sjekk for oppdateringer av leverandørkonfigurasjoner"
   },
-
   "extensionUpdate": {
     "available": "AI.duino Extension oppdatering tilgjengelig: {0} → {1}",
     "download": "Last ned"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Viktig: Ikke slett plassholdere {0}, {1}, {2} - de erstattes med kode og instruksjoner!",
+    "missingPlaceholder": "Feil: Manglende plassholder {0}!",
+    "missingPlaceholderMultiple": "Feil: Manglende plassholder {0}, {1} eller {2}!",
     "standard": "Standard",
     "custom": "Tilpasset",
     "modified": "Endret",
     "saving": "Lagrer",
     "saved": "Lagret",
     "resetSuccess": "Tilbakestilt",
-    "unsavedWarning": "Bytt språk? Ulagrede endringer i prompt-editoren vil gå tapt."
+    "unsavedWarning": "Bytt språk? Ulagrede endringer i prompt-editoren vil gå tapt.",
+    "changesLostDialog": "Panelet ble lukket med ulagrede endringer. Hva vil du gjøre?",
+    "changesSaved": "Endringer lagret!"
   },
-
   "time": {
     "justNow": "akkurat nå",
     "minutesAgo": "for {0}min siden",
-    "hoursAgo": "for {0}t siden", 
+    "hoursAgo": "for {0}t siden",
     "daysAgo": "for {0}d siden"
   }
 }

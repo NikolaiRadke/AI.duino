@@ -75,7 +75,10 @@
     "checkStatus": "Status prüfen",
     "checkRouter": "Router prüfen",
     "save": "Speichern",
-    "reset": "Zurücksetzen"
+    "reset": "Zurücksetzen",
+    "saveChanges": "Änderungen speichern",
+    "discard": "Verwerfen",
+    "closeWithoutSaving": "Beenden ohne Speichern"
   },
   
   "descriptions": {
@@ -339,13 +342,18 @@
   },
 
   "promptEditor": {
+    "placeholderWarning": "Wichtig: Platzhalter {0}, {1}, {2} nicht löschen - sie werden durch Code und Anweisungen ersetzt!",
+    "missingPlaceholder": "Fehler: Platzhalter {0} fehlt!",
+    "missingPlaceholderMultiple": "Fehler: Platzhalter {0}, {1} oder {2} fehlt!",
     "standard": "Standard",
     "custom": "Angepasst", 
     "modified": "Geändert",
     "saving": "Speichere",
     "saved": "Gespeichert",
     "resetSuccess": "Zurückgesetzt",
-    "unsavedWarning": "Sprache wechseln? Die ungesicherte Änderungen im Prompt-Editor gehen verloren."
+    "unsavedWarning": "Sprache wechseln? Die ungesicherte Änderungen im Prompt-Editor gehen verloren.",
+    "changesLostDialog": "Das Panel wurde mit ungespeicherten Änderungen geschlossen. Was möchten Sie tun?",
+    "changesSaved": "Änderungen gespeichert!"
   },
 
   "time": {

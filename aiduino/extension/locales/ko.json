@@ -17,7 +17,6 @@
     "askFollowUp": "추가 질문",
     "editPrompts": "프롬프트 편집"
   },
-  
   "messages": {
     "welcome": "👋 환영합니다! AI.duino {0}을(를) 지원합니다!",
     "noApiKey": "🔑 먼저 {0}용 API 키가 필요합니다",
@@ -41,13 +40,12 @@
     "statsReset": "✅ 토큰 통계가 재설정되었습니다!",
     "selectModel": "AI 모델 선택",
     "apiKeyRequired": "{0}은(는) API 키가 필요합니다",
-   "connectionOk": "인터넷 연결이 작동합니다",
+    "connectionOk": "인터넷 연결이 작동합니다",
     "noConnection": "인터넷 연결이 감지되지 않았습니다",
     "noValidContext": "계속할 최근 대화가 없습니다 (최대 30분)",
     "followUpContext": "대화 계속: \"{0}\" ({1}분 전)",
     "contextCleared": "대화 컨텍스트가 지워졌습니다"
   },
-  
   "buttons": {
     "chooseModel": "AI 모델 선택",
     "later": "나중에",
@@ -74,9 +72,11 @@
     "checkStatus": "상태 확인",
     "checkRouter": "라우터 확인",
     "save": "저장",
-    "reset": "재설정"
+    "reset": "재설정",
+    "saveChanges": "변경사항 저장",
+    "discard": "취소",
+    "closeWithoutSaving": "저장하지 않고 닫기"
   },
-  
   "descriptions": {
     "improveCodeSelected": "선택한 코드 최적화",
     "explainCodeSelected": "선택한 코드 설명",
@@ -94,19 +94,16 @@
     "noValidContext": "이전 대화 없음",
     "editPrompts": "AI 프롬프트 사용자 정의 및 관리"
   },
-
   "language": {
     "autoDetect": "VS Code에서 자동 감지",
     "selectLanguage": "AI.duino 언어 선택",
     "changeLanguage": "언어 변경",
     "changed": "언어가 {0}로 변경되었습니다"
   },
-  
   "labels": {
     "active": "활성",
     "aiHints": "AI 힌트"
   },
- 
   "prompts": {
     "enterApiKey": "{0} API 키 입력",
     "customInstructions": "코드 개선을 위한 사용자 지정 지침 (선택사항)",
@@ -133,7 +130,6 @@
     "followUpContext": "이전 대화 컨텍스트:",
     "followUpInstruction": "이전 대화를 고려하여 한국어로 답변해주세요."
   },
-  
   "placeholders": {
     "customInstructions": "예: \"millis() 사용 안 함\", \"Arduino Nano용 최적화\", \"오류 처리 추가\"",
     "commentInstructions": "예: \"매우 자세히\", \"함수만 주석\", \"한국어로\"",
@@ -142,13 +138,11 @@
     "askAI": "예: \"PWM이 어떻게 작동합니까?\", \"왜 제 센서가 작동하지 않습니까?\"",
     "askFollowUp": "대화를 계속하세요..."
   },
-  
   "validation": {
     "apiKeyRequired": "API 키 필요",
     "apiKeyPrefix": "\"{0}\"(으)로 시작해야 합니다",
     "apiKeyTooShort": "키가 너무 짧은 것 같습니다"
   },
-  
   "progress": {
     "retrying": "{0} (시도 {1}/{2})",
     "explaining": "{0}이(가) 코드를 설명하는 중...",
@@ -160,7 +154,6 @@
     "askingAI": "{0}이(가) 질문을 처리 중...",
     "askingFollowUp": "{0}이(가) 추가 질문을 처리 중..."
   },
-  
   "errors": {
     "quotaExceeded": "월간 할당량 초과",
     "quotaExceededDetail": "{0}: 월간 할당량이 초과되었습니다. 다음 달까지 기다리거나 모델을 변경해 주세요.",
@@ -191,13 +184,11 @@
       "general": "네트워크 오류: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino: {0}\n오늘: {1} 토큰{2}\n입력: {3} | 출력: {4}\n메뉴는 클릭 • Ctrl+Shift+C • 전환은 우클릭",
     "noApiKey": "{0} API 키 없음! • 설정하려면 클릭",
     "errorsFound": "{0}개 오류 발견 • 도움말은 클릭"
   },
-  
   "output": {
     "codeExplanation": "{0} 설명",
     "explanationFrom": "{0}의 코드 설명",
@@ -211,7 +202,6 @@
     "codeContextYes": "코드 컨텍스트: 예 ({0} 줄)",
     "boardDetected": "보드: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "선택된 코드 포함",
     "includeSelectedCodeDesc": "현재 선택된 코드와 함께 질문 보내기",
@@ -223,12 +213,10 @@
     "followUpQuestion": "추가 질문",
     "relatedCode": "관련 코드"
   },
-
   "shortcuts": {
     "askFollowUp": "추가 질문",
     "askAI": "새 질문"
   },
-  
   "panels": {
     "errorExplanation": "🔧 오류 설명",
     "debugHelp": "🔍 디버그 도움말",
@@ -236,12 +224,10 @@
     "tokenStats": "📊 토큰 통계",
     "about": "AI.duino 정보"
   },
-  
   "html": {
     "errorExplanation": "오류 설명",
     "errorInLine": "{0}번째 줄 오류"
   },
-  
   "debug": {
     "analyzeSerial": "시리얼 모니터 출력 분석",
     "analyzeSerialDesc": "디버그 출력 해석 도움",
@@ -253,7 +239,6 @@
     "timingProblemsDesc": "delay(), millis() 및 타이밍 버그 도움말",
     "selectHelp": "어떤 도움이 필요하신가요?"
   },
-  
   "offline": {
     "title": "인터넷 연결 없음",
     "requiresInternet": "AI.duino는 Claude, ChatGPT, Gemini 또는 Mistral과 통신하기 위해 인터넷 연결이 필요합니다.",
@@ -277,7 +262,6 @@
     "tip": "팁",
     "onlineAgain": "다시 온라인이 되면 AI.duino가 특정 문제를 도와드릴 수 있습니다!"
   },
-  
   "stats": {
     "tokenUsageFor": "{0} 토큰 사용량",
     "totalCostToday": "오늘 총 비용",
@@ -288,7 +272,6 @@
     "tipDescription": "토큰 수는 추정치입니다. 실제 비용은 약간 다를 수 있습니다.",
     "confirmReset": "정말로 통계를 재설정하시겠습니까?"
   },
-  
   "about": {
     "tagline": "AI 기반 Arduino 개발",
     "features": "기능",
@@ -314,7 +297,6 @@
     "reportBugs": "버그 신고",
     "madeWith": "Arduino 커뮤니티를 위해 💙로 제작"
   },
-
   "config": {
     "updateAvailable": "프로바이더 설정 업데이트 사용 가능: {0} → {1}",
     "updateNow": "지금 업데이트",
@@ -327,30 +309,31 @@
     "modelOutdated": "모델이 오래된 것 같습니다. 설정을 업데이트하시겠습니까?",
     "notNow": "지금은 아님"
   },
-
   "settings": {
     "autoUpdateConfigs": "프로바이더 설정 업데이트를 자동으로 확인"
   },
-
   "extensionUpdate": {
     "available": "AI.duino Extension 업데이트 사용 가능: {0} → {1}",
     "download": "다운로드"
   },
-
   "promptEditor": {
+    "placeholderWarning": "중요: 자리 표시자 {0}, {1}, {2}를 삭제하지 마세요 - 코드와 지침으로 대체됩니다!",
+    "missingPlaceholder": "오류: 자리 표시자 {0}가 누락되었습니다!",
+    "missingPlaceholderMultiple": "오류: 자리 표시자 {0}, {1} 또는 {2}가 누락되었습니다!",
     "standard": "표준",
     "custom": "사용자 정의",
     "modified": "수정됨",
     "saving": "저장 중",
     "saved": "저장됨",
     "resetSuccess": "재설정됨",
-    "unsavedWarning": "언어를 변경하시겠습니까? 프롬프트 편집기의 저장되지 않은 변경 사항이 손실됩니다."
+    "unsavedWarning": "언어를 변경하시겠습니까? 프롬프트 편집기의 저장되지 않은 변경 사항이 손실됩니다.",
+    "changesLostDialog": "패널이 저장되지 않은 변경사항과 함께 닫혔습니다. 어떻게 하시겠습니까?",
+    "changesSaved": "변경사항이 저장되었습니다!"
   },
-
   "time": {
     "justNow": "방금",
     "minutesAgo": "{0}분 전",
-    "hoursAgo": "{0}시간 전", 
+    "hoursAgo": "{0}시간 전",
     "daysAgo": "{0}일 전"
   }
 }

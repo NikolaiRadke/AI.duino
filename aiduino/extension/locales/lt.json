@@ -17,7 +17,6 @@
     "askFollowUp": "Užduoti papildomą klausimą",
     "editPrompts": "Redaguoti užklausas"
   },
-
   "messages": {
     "welcome": "👋 Sveiki! AI.duino palaiko {0}!",
     "noApiKey": "🔑 Pirmiausia reikia {0} API rakto",
@@ -48,7 +47,6 @@
     "contextCleared": "Pokalbio kontekstas ištrintas",
     "operationAlreadyRunning": "Operacija jau vyksta! Prašome palaukti..."
   },
-  
   "buttons": {
     "chooseModel": "Pasirinkti AI modelį",
     "later": "Vėliau",
@@ -75,9 +73,11 @@
     "checkStatus": "Tikrinti statusą",
     "checkRouter": "Tikrinti maršrutizatorių",
     "save": "Išsaugoti",
-    "reset": "Atstatyti"
+    "reset": "Atstatyti",
+    "saveChanges": "Išsaugoti pakeitimus",
+    "discard": "Atšaukti",
+    "closeWithoutSaving": "Uždaryti neišsaugant"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Optimizuoti pažymėtą kodą",
     "explainCodeSelected": "Paaiškinti pažymėtą kodą",
@@ -95,19 +95,16 @@
     "noValidContext": "Nėra ankstesnio pokalbio",
     "editPrompts": "Pritaikyti AI užklausas"
   },
-  
   "language": {
     "autoDetect": "Automatiškai nustatyti iš VS Code",
     "selectLanguage": "Pasirinkite kalbą AI.duino",
     "changeLanguage": "Keisti kalbą",
     "changed": "Kalba pakeista į {0}"
   },
-  
   "labels": {
     "active": "Aktyvus",
     "aiHints": "AI patarimai"
   },
-  
   "prompts": {
     "enterApiKey": "Įveskite {0} API raktą",
     "customInstructions": "Individuali kodų tobulinimo instrukcijos (neprivaloma)",
@@ -134,7 +131,6 @@
     "followUpContext": "Ankstesnio pokalbio kontekstas:",
     "followUpInstruction": "Atsakykite lietuvių kalba, atsižvelgdami į ankstesnį pokalbį."
   },
-  
   "placeholders": {
     "customInstructions": "pvz., \"nenaudoti millis()\", \"optimizuoti Arduino Nano\", \"pridėti klaidų tvarkymą\"",
     "commentInstructions": "pvz., \"labai detaliai\", \"komentuoti tik funkcijas\", \"anglų kalba\"",
@@ -143,13 +139,11 @@
     "askAI": "pvz., \"Kaip veikia PWM?\", \"Kodėl mano jutiklis neveikia?\"",
     "askFollowUp": "Tęsti pokalbį..."
   },
-  
   "validation": {
     "apiKeyRequired": "API raktas būtinas",
     "apiKeyPrefix": "Turi prasidėti \"{0}\"",
     "apiKeyTooShort": "Raktas atrodo per trumpas"
   },
-  
   "progress": {
     "retrying": "{0} (bandymas {1}/{2})",
     "explaining": "{0} aiškina kodą...",
@@ -161,7 +155,6 @@
     "askingAI": "{0} apdoroja jūsų klausimą...",
     "askingFollowUp": "{0} apdoroja jūsų papildomą klausimą..."
   },
-  
   "errors": {
     "quotaExceeded": "Mėnesio kvota išsemta",
     "quotaExceededDetail": "{0}: Mėnesio kvota išsemta. Palaukite iki mėnesio pradžios arba pakeiskite modelį.",
@@ -192,13 +185,11 @@
       "general": "Tinklo klaida: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nŠiandien: {1} Žetonai{2}\nĮvestis: {3} | Išvestis: {4}\nPaspaudimas meniu • Ctrl+Shift+C • Dešinys paspaudimas perjungimui",
     "noApiKey": "{0} API raktas trūksta! • Paspaudimas nustatymui",
     "errorsFound": "{0} klaidų rasta • Paspaudimas pagalbai"
   },
-  
   "output": {
     "codeExplanation": "{0} paaiškinimas",
     "explanationFrom": "KODO PAAIŠKINIMAS IŠ {0}",
@@ -212,7 +203,6 @@
     "codeContextYes": "Kodo kontekstas: Taip ({0} eilutės)",
     "boardDetected": "Plokštė: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Įtraukti pažymėtą kodą",
     "includeSelectedCodeDesc": "Siųsti klausimą su šiuo metu pažymėtu kodu",
@@ -224,12 +214,10 @@
     "followUpQuestion": "Papildomas klausimas",
     "relatedCode": "Susijęs kodas"
   },
-
   "shortcuts": {
     "askFollowUp": "Papildomas klausimas",
     "askAI": "Naujas klausimas"
   },
-
   "panels": {
     "errorExplanation": "🔧 Klaidos paaiškinimas",
     "debugHelp": "🔍 Derinimo pagalba",
@@ -237,12 +225,10 @@
     "tokenStats": "📊 Žetonų statistika",
     "about": "Apie AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Klaidos paaiškinimas",
     "errorInLine": "Klaida {0} eilutėje"
   },
-  
   "debug": {
     "analyzeSerial": "Analizuoti Serial Monitor išvestį",
     "analyzeSerialDesc": "Pagalba interpretuojant derinimo išvestis",
@@ -254,7 +240,6 @@
     "timingProblemsDesc": "Pagalba su delay(), millis() ir laiko klaidomis",
     "selectHelp": "Su kuo jums reikia pagalbos?"
   },
-  
   "offline": {
     "title": "Nėra interneto ryšio",
     "requiresInternet": "AI.duino reikia interneto ryšio komunikacijai su Claude, ChatGPT, Gemini ar Mistral.",
@@ -278,7 +263,6 @@
     "tip": "Patarimas",
     "onlineAgain": "Kai tik vėl prisijungsite prie interneto, AI.duino galės padėti spręsti konkrečias problemas!"
   },
-  
   "stats": {
     "tokenUsageFor": "Žetonų naudojimas {0}",
     "totalCostToday": "Bendra šiandienos kaina",
@@ -289,7 +273,6 @@
     "tipDescription": "Žetonų skaičiavimas yra apskaičiuotas. Tikrosios kainos gali šiek tiek skirtis.",
     "confirmReset": "Tikrai atstatyti statistiką?"
   },
-  
   "about": {
     "tagline": "AI palaikomas Arduino kūrimas",
     "features": "Funkcijos",
@@ -315,7 +298,6 @@
     "reportBugs": "Pranešti apie klaidas",
     "madeWith": "Sukurta su 💙 Arduino bendruomenei"
   },
-
   "config": {
     "updateAvailable": "Prieinama paslaugų teikėjų konfigūracijos naujinimas: {0} → {1}",
     "updateNow": "Atnaujinti dabar",
@@ -328,26 +310,27 @@
     "modelOutdated": "Modelis atrodo pasenęs. Atnaujinti konfigūracijas?",
     "notNow": "Ne dabar"
   },
-
   "settings": {
     "autoUpdateConfigs": "Automatiškai ieškoti paslaugų teikėjų konfigūracijos naujinimų"
   },
-
   "extensionUpdate": {
     "available": "Prieinamas AI.duino plėtinio naujinimas: {0} → {1}",
     "download": "Atsisiųsti"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Svarbu: Neištrinkite vietos žymeklių {0}, {1}, {2} - jie pakeičiami kodu ir instrukcijomis!",
+    "missingPlaceholder": "Klaida: Trūksta vietos žymeklio {0}!",
+    "missingPlaceholderMultiple": "Klaida: Trūksta vietos žymeklio {0}, {1} arba {2}!",
     "standard": "Standartinis",
     "custom": "Pritaikytas",
     "modified": "Pakeistas",
     "saving": "Išsaugo",
     "saved": "Išsaugota",
     "resetSuccess": "Atstatyta",
-    "unsavedWarning": "Keisti kalbą? Neišsaugoti pakeitimai užklausų redaktoriuje bus prarasti."
+    "unsavedWarning": "Keisti kalbą? Neišsaugoti pakeitimai užklausų redaktoriuje bus prarasti.",
+    "changesLostDialog": "Skydelis buvo uždarytas su neišsaugotais pakeitimais. Ką norėtumėte daryti?",
+    "changesSaved": "Pakeitimai išsaugoti!"
   },
-
   "time": {
     "justNow": "ką tik",
     "minutesAgo": "prieš {0}min",

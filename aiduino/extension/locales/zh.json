@@ -17,7 +17,6 @@
     "askFollowUp": "追问",
     "editPrompts": "编辑提示词"
   },
-  
   "messages": {
     "welcome": "👋 欢迎！AI.duino 支持{0}！",
     "noApiKey": "🔑 首先您需要{0}的API密钥",
@@ -47,7 +46,6 @@
     "followUpContext": "继续对话: \"{0}\" ({1}分钟前)",
     "contextCleared": "对话上下文已清除"
   },
-  
   "buttons": {
     "chooseModel": "选择AI模型",
     "later": "稍后",
@@ -74,9 +72,11 @@
     "checkStatus": "检查状态",
     "checkRouter": "检查路由器",
     "save": "保存",
-    "reset": "重置"
+    "reset": "重置",
+    "saveChanges": "保存更改",
+    "discard": "放弃",
+    "closeWithoutSaving": "不保存关闭"
   },
-  
   "descriptions": {
     "improveCodeSelected": "优化选定的代码",
     "explainCodeSelected": "解释选定的代码",
@@ -94,19 +94,16 @@
     "noValidContext": "没有之前的对话",
     "editPrompts": "自定义和管理AI提示词"
   },
-
   "language": {
     "autoDetect": "从 VS Code 自动检测",
     "selectLanguage": "为 AI.duino 选择语言",
     "changeLanguage": "更改语言",
     "changed": "语言已更改为 {0}"
   },
-  
   "labels": {
     "active": "活动",
     "aiHints": "AI提示"
   },
-  
   "prompts": {
     "enterApiKey": "输入{0} API密钥",
     "customInstructions": "代码改进的自定义指令（可选）",
@@ -133,7 +130,6 @@
     "followUpContext": "之前对话的上下文:",
     "followUpInstruction": "请用中文回答，并考虑之前的对话。"
   },
-  
   "placeholders": {
     "customInstructions": "例如：\"不使用millis()\"、\"为Arduino Nano优化\"、\"添加错误处理\"",
     "commentInstructions": "例如：\"非常详细\"、\"只注释函数\"、\"用中文\"",
@@ -142,13 +138,11 @@
     "askAI": "例如：\"PWM是如何工作的？\"，\"为什么我的传感器不工作？\"",
     "askFollowUp": "继续对话..."
   },
-  
   "validation": {
     "apiKeyRequired": "需要API密钥",
     "apiKeyPrefix": "必须以\"{0}\"开头",
     "apiKeyTooShort": "密钥似乎太短"
   },
-  
   "progress": {
     "retrying": "{0}（尝试 {1}/{2}）",
     "explaining": "{0}正在解释代码...",
@@ -160,7 +154,6 @@
     "askingAI": "{0}正在处理您的问题...",
     "askingFollowUp": "{0}正在处理您的追问..."
   },
-  
   "errors": {
     "quotaExceeded": "月度配额已用完",
     "quotaExceededDetail": "{0}: 月度配额已用完。请等到下个月或切换模型。",
@@ -191,13 +184,11 @@
       "general": "网络错误：{0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino：{0}\n今日：{1} Tokens{2}\n输入：{3} | 输出：{4}\n点击打开菜单 • Ctrl+Shift+C • 右键切换",
     "noApiKey": "{0} API密钥缺失！• 点击设置",
     "errorsFound": "发现{0}个错误 • 点击获取帮助"
   },
-  
   "output": {
     "codeExplanation": "{0}解释",
     "explanationFrom": "来自{0}的代码解释",
@@ -211,7 +202,6 @@
     "codeContextYes": "代码上下文：是（{0} 行）",
     "boardDetected": "开发板：{0}"
   },
-
   "chat": {
     "includeSelectedCode": "包含选中的代码",
     "includeSelectedCodeDesc": "发送问题时包含当前选中的代码",
@@ -223,12 +213,10 @@
     "followUpQuestion": "追问",
     "relatedCode": "相关代码"
   },
-  
   "shortcuts": {
     "askFollowUp": "追问",
     "askAI": "新问题"
   },
-
   "panels": {
     "errorExplanation": "🔧 错误解释",
     "debugHelp": "🔍 调试帮助",
@@ -236,12 +224,10 @@
     "tokenStats": "📊 Token统计",
     "about": "关于AI.duino"
   },
-  
   "html": {
     "errorExplanation": "错误解释",
     "errorInLine": "第{0}行错误"
   },
-  
   "debug": {
     "analyzeSerial": "分析串口监视器输出",
     "analyzeSerialDesc": "帮助解释调试输出",
@@ -253,7 +239,6 @@
     "timingProblemsDesc": "delay()、millis()和时序错误的帮助",
     "selectHelp": "您需要什么帮助？"
   },
-  
   "offline": {
     "title": "没有互联网连接",
     "requiresInternet": "AI.duino需要互联网连接才能与Claude、ChatGPT、Gemini或Mistral通信。",
@@ -277,7 +262,6 @@
     "tip": "提示",
     "onlineAgain": "一旦您再次上线，AI.duino可以帮助您解决具体问题！"
   },
-  
   "stats": {
     "tokenUsageFor": "{0}的Token使用情况",
     "totalCostToday": "今日总成本",
@@ -288,7 +272,6 @@
     "tipDescription": "Token计数是估计值。实际成本可能略有不同。",
     "confirmReset": "确实要重置统计吗？"
   },
-  
   "about": {
     "tagline": "AI驱动的Arduino开发",
     "features": "功能",
@@ -314,7 +297,6 @@
     "reportBugs": "报告错误",
     "madeWith": "用💙为Arduino社区制作"
   },
-
   "config": {
     "updateAvailable": "提供商配置更新可用：{0} → {1}",
     "updateNow": "立即更新",
@@ -327,30 +309,31 @@
     "modelOutdated": "模型似乎已过时。更新配置？",
     "notNow": "现在不要"
   },
-
   "settings": {
     "autoUpdateConfigs": "自动检查提供商配置更新"
   },
-
   "extensionUpdate": {
     "available": "AI.duino Extension 更新可用: {0} → {1}",
     "download": "下载"
   },
-
   "promptEditor": {
+    "placeholderWarning": "重要：不要删除占位符 {0}, {1}, {2} - 它们会被代码和指令替换！",
+    "missingPlaceholder": "错误：缺少占位符 {0}！",
+    "missingPlaceholderMultiple": "错误：缺少占位符 {0}、{1} 或 {2}！",
     "standard": "标准",
     "custom": "自定义",
     "modified": "已修改",
     "saving": "保存中",
     "saved": "已保存",
     "resetSuccess": "已重置",
-    "unsavedWarning": "切换语言？提示编辑器中未保存的更改将丢失。"
+    "unsavedWarning": "切换语言？提示编辑器中未保存的更改将丢失。",
+    "changesLostDialog": "面板关闭时有未保存的更改。您想要做什么？",
+    "changesSaved": "更改已保存！"
   },
-
   "time": {
     "justNow": "刚刚",
     "minutesAgo": "{0}分钟前",
-    "hoursAgo": "{0}小时前", 
+    "hoursAgo": "{0}小时前",
     "daysAgo": "{0}天前"
   }
 }

@@ -17,7 +17,6 @@
     "askFollowUp": "Pergunta de acompanhamento",
     "editPrompts": "Editar prompts"
   },
-  
   "messages": {
     "welcome": "👋 Bem-vindo! AI.duino  suporta {0}!",
     "noApiKey": "🔑 Primeiro você precisa de uma chave API para {0}",
@@ -47,7 +46,6 @@
     "followUpContext": "Continuando conversa: \"{0}\" ({1} min atrás)",
     "contextCleared": "Contexto de conversa apagado"
   },
-  
   "buttons": {
     "chooseModel": "Escolher Modelo de IA",
     "later": "Depois",
@@ -74,9 +72,11 @@
     "checkStatus": "Verifică starea",
     "checkRouter": "Verifică router-ul",
     "save": "Salvar",
-    "reset": "Redefinir"
+    "reset": "Redefinir",
+    "saveChanges": "Salvar alterações",
+    "discard": "Descartar",
+    "closeWithoutSaving": "Fechar sem salvar"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Otimizar código selecionado",
     "explainCodeSelected": "Explicar código selecionado",
@@ -94,19 +94,16 @@
     "noValidContext": "Sem conversa anterior",
     "editPrompts": "Personalizar e gerenciar prompts de IA"
   },
-
   "language": {
     "autoDetect": "Detectar automaticamente do VS Code",
     "selectLanguage": "Escolher idioma para AI.duino",
     "changeLanguage": "Mudar idioma",
     "changed": "Idioma alterado para {0}"
   },
-  
   "labels": {
     "active": "Ativo",
     "aiHints": "DICAS DA IA"
   },
-  
   "prompts": {
     "enterApiKey": "Insira a Chave API {0}",
     "customInstructions": "Instruções personalizadas para melhoria do código (opcional)",
@@ -133,7 +130,6 @@
     "followUpContext": "Contexto da conversa anterior:",
     "followUpInstruction": "Responda em português considerando a conversa anterior."
   },
-  
   "placeholders": {
     "customInstructions": "ex: \"não use millis()\", \"otimize para Arduino Nano\", \"adicione tratamento de erros\"",
     "commentInstructions": "ex: \"muito detalhado\", \"apenas comente funções\", \"em português\"",
@@ -142,13 +138,11 @@
     "askAI": "ex. \"Como funciona o PWM?\", \"Por que meu sensor não está funcionando?\"",
     "askFollowUp": "Continuar a conversa..."
   },
-  
   "validation": {
     "apiKeyRequired": "Chave API necessária",
     "apiKeyPrefix": "Deve começar com \"{0}\"",
     "apiKeyTooShort": "Chave parece muito curta"
   },
-  
   "progress": {
     "retrying": "{0} (Tentativa {1}/{2})",
     "explaining": "{0} está explicando o código...",
@@ -160,7 +154,6 @@
     "askingAI": "{0} está processando sua pergunta...",
     "askingFollowUp": "{0} está processando sua pergunta de acompanhamento..."
   },
-  
   "errors": {
     "quotaExceeded": "Cota mensal excedida",
     "quotaExceededDetail": "{0}: Cota mensal excedida. Aguarde até o próximo mês ou mude o modelo.",
@@ -191,13 +184,11 @@
       "general": "Erro de rede: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nHoje: {1} Tokens{2}\nEntrada: {3} | Saída: {4}\nClique para menu • Ctrl+Shift+C • Clique direito para trocar",
     "noApiKey": "Chave API {0} faltando! • Clique para configurar",
     "errorsFound": "{0} erros encontrados • Clique para ajuda"
   },
-  
   "output": {
     "codeExplanation": "Explicação {0}",
     "explanationFrom": "EXPLICAÇÃO DO CÓDIGO DE {0}",
@@ -211,7 +202,6 @@
     "codeContextYes": "Contexto de código: Sim ({0} linhas)",
     "boardDetected": "Placa: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Incluir código selecionado",
     "includeSelectedCodeDesc": "Enviar pergunta com o código atualmente selecionado",
@@ -223,12 +213,10 @@
     "followUpQuestion": "Pergunta de acompanhamento",
     "relatedCode": "Código relacionado"
   },
-
   "shortcuts": {
     "askFollowUp": "Pergunta de acompanhamento",
     "askAI": "Nova pergunta"
   },
-  
   "panels": {
     "errorExplanation": "🔧 Explicação do Erro",
     "debugHelp": "🔍 Ajuda com Debug",
@@ -236,12 +224,10 @@
     "tokenStats": "📊 Estatísticas de Tokens",
     "about": "Sobre AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Explicação do Erro",
     "errorInLine": "Erro na linha {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Analisar saída do Monitor Serial",
     "analyzeSerialDesc": "Ajuda para interpretar saída de debug",
@@ -253,7 +239,6 @@
     "timingProblemsDesc": "Ajuda com delay(), millis() e bugs de temporização",
     "selectHelp": "Com o que você precisa de ajuda?"
   },
-  
   "offline": {
     "title": "Sem Conexão com a Internet",
     "requiresInternet": "AI.duino requer conexão com a internet para comunicar com Claude, ChatGPT, Gemini ou Mistral.",
@@ -277,7 +262,6 @@
     "tip": "Dica",
     "onlineAgain": "Quando você estiver online novamente, AI.duino pode ajudá-lo com problemas específicos!"
   },
-  
   "stats": {
     "tokenUsageFor": "Uso de Tokens para {0}",
     "totalCostToday": "Custo total hoje",
@@ -288,7 +272,6 @@
     "tipDescription": "A contagem de tokens é uma estimativa. Os custos reais podem variar ligeiramente.",
     "confirmReset": "Realmente resetar estatísticas?"
   },
-  
   "about": {
     "tagline": "Desenvolvimento Arduino alimentado por IA",
     "features": "Recursos",
@@ -314,7 +297,6 @@
     "reportBugs": "Reportar bugs",
     "madeWith": "Feito com 💙 para a comunidade Arduino"
   },
-
   "config": {
     "updateAvailable": "Atualização de Provider Config disponível: {0} → {1}",
     "updateNow": "Atualizar agora",
@@ -327,30 +309,31 @@
     "modelOutdated": "Modelo parece estar desatualizado. Atualizar configurações?",
     "notNow": "Agora não"
   },
-
   "settings": {
     "autoUpdateConfigs": "Verificar automaticamente atualizações de configurações de fornecedores"
   },
-
   "extensionUpdate": {
     "available": "Atualização AI.duino Extension disponível: {0} → {1}",
     "download": "Baixar"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Importante: Não excluir os marcadores {0}, {1}, {2} - eles são substituídos por código e instruções!",
+    "missingPlaceholder": "Erro: Marcador {0} ausente!",
+    "missingPlaceholderMultiple": "Erro: Marcador {0}, {1} ou {2} ausente!",
     "standard": "Padrão",
     "custom": "Personalizado",
     "modified": "Modificado",
     "saving": "Salvando",
     "saved": "Salvo",
     "resetSuccess": "Redefinido",
-    "unsavedWarning": "Mudar idioma? As alterações não salvas no editor de prompts serão perdidas."
-   },
- 
+    "unsavedWarning": "Mudar idioma? As alterações não salvas no editor de prompts serão perdidas.",
+    "changesLostDialog": "O painel foi fechado com alterações não salvas. O que você gostaria de fazer?",
+    "changesSaved": "Alterações salvas!"
+  },
   "time": {
     "justNow": "agora mesmo",
     "minutesAgo": "há {0}min",
-    "hoursAgo": "há {0}h", 
+    "hoursAgo": "há {0}h",
     "daysAgo": "há {0}d"
   }
 }

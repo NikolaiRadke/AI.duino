@@ -17,7 +17,6 @@
     "askFollowUp": "Συνέχεια ερώτησης",
     "editPrompts": "Editar indicaciones"
   },
-  
   "messages": {
     "welcome": "👋 Καλώς ήρθατε! Το AI.duino  υποστηρίζει {0}!",
     "noApiKey": "🔑 Πρώτα χρειάζεστε ένα κλειδί API για {0}",
@@ -47,7 +46,6 @@
     "followUpContext": "Συνέχεια συνομιλίας: \"{0}\" (πριν {1} λεπτά)",
     "contextCleared": "Το πλαίσιο συνομιλίας διαγράφηκε"
   },
-  
   "buttons": {
     "chooseModel": "Επιλογή Μοντέλου AI",
     "later": "Αργότερα",
@@ -74,9 +72,11 @@
     "checkStatus": "Έλεγχος κατάστασης",
     "checkRouter": "Έλεγχος δρομολογητή",
     "save": "Guardar",
-    "reset": "Restablecer"
+    "reset": "Restablecer",
+    "saveChanges": "Αποθήκευση αλλαγών",
+    "discard": "Απόρριψη",
+    "closeWithoutSaving": "Κλείσιμο χωρίς αποθήκευση"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Βελτιστοποίηση επιλεγμένου κώδικα",
     "explainCodeSelected": "Επεξήγηση επιλεγμένου κώδικα",
@@ -94,19 +94,16 @@
     "noValidContext": "Καμία προηγούμενη συνομιλία",
     "editPrompts": "Personalizar y gestionar indicaciones de IA"
   },
-
   "language": {
     "autoDetect": "Αυτόματη ανίχνευση από VS Code",
     "selectLanguage": "Επιλέξτε γλώσσα για AI.duino",
     "changeLanguage": "Αλλαγή γλώσσας",
     "changed": "Η γλώσσα άλλαξε σε {0}"
   },
-  
   "labels": {
     "active": "Ενεργό",
     "aiHints": "ΥΠΟΔΕΙΞΕΙΣ AI"
   },
-  
   "prompts": {
     "enterApiKey": "Εισάγετε το κλειδί API {0}",
     "customInstructions": "Προσαρμοσμένες οδηγίες για βελτίωση κώδικα (προαιρετικό)",
@@ -133,7 +130,6 @@
     "followUpContext": "Πλαίσιο προηγούμενης συνομιλίας:",
     "followUpInstruction": "Απάντησε στα ελληνικά λαμβάνοντας υπόψη την προηγούμενη συνομιλία."
   },
-  
   "placeholders": {
     "customInstructions": "π.χ. \"μη χρησιμοποιείς millis()\", \"βελτιστοποίησε για Arduino Nano\", \"πρόσθεσε διαχείριση σφαλμάτων\"",
     "commentInstructions": "π.χ. \"πολύ λεπτομερή\", \"σχολίασε μόνο συναρτήσεις\", \"στα Ελληνικά\"",
@@ -142,13 +138,11 @@
     "askAI": "π.χ. \"Πώς λειτουργεί το PWM;\", \"Γιατί δεν λειτουργεί ο αισθητήρας μου;\"",
     "askFollowUp": "Συνέχεια συνομιλίας..."
   },
-  
   "validation": {
     "apiKeyRequired": "Απαιτείται κλειδί API",
     "apiKeyPrefix": "Πρέπει να ξεκινά με \"{0}\"",
     "apiKeyTooShort": "Το κλειδί φαίνεται πολύ μικρό"
   },
-  
   "progress": {
     "retrying": "{0} (Προσπάθεια {1}/{2})",
     "explaining": "Το {0} εξηγεί τον κώδικα...",
@@ -160,7 +154,6 @@
     "askingAI": "Το {0} επεξεργάζεται την ερώτησή σας...",
     "askingFollowUp": "Το {0} επεξεργάζεται τη συνέχεια της ερώτησής σας..."
   },
-  
   "errors": {
     "quotaExceeded": "Το μηνιαίο όριο ξεπεράστηκε",
     "quotaExceededDetail": "{0}: Το μηνιαίο όριο ξεπεράστηκε. Παρακαλώ περιμένετε μέχρι τον επόμενο μήνα ή αλλάξτε μοντέλο.",
@@ -191,13 +184,11 @@
       "general": "Σφάλμα δικτύου: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nΣήμερα: {1} Token{2}\nΕίσοδος: {3} | Έξοδος: {4}\nΚλικ για μενού • Ctrl+Shift+C • Δεξί κλικ για αλλαγή",
     "noApiKey": "Λείπει το κλειδί API {0}! • Κλικ για ρύθμιση",
     "errorsFound": "Βρέθηκαν {0} σφάλματα • Κλικ για βοήθεια"
   },
-  
   "output": {
     "codeExplanation": "Επεξήγηση {0}",
     "explanationFrom": "ΕΠΕΞΗΓΗΣΗ ΚΩΔΙΚΑ ΑΠΟ {0}",
@@ -211,7 +202,6 @@
     "codeContextYes": "Code-Kontext: Ja ({0} Zeilen)",
     "boardDetected": "Board: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Συμπερίληψη επιλεγμένου κώδικα",
     "includeSelectedCodeDesc": "Αποστολή ερώτησης με τον τρέχοντα επιλεγμένο κώδικα",
@@ -223,12 +213,10 @@
     "followUpQuestion": "Συνέχεια ερώτησης",
     "relatedCode": "Σχετικός κώδικας"
   },
-
   "shortcuts": {
     "askFollowUp": "Συνέχεια ερώτησης",
     "askAI": "Νέα ερώτηση"
   },
-  
   "panels": {
     "errorExplanation": "🔧 Επεξήγηση Σφάλματος",
     "debugHelp": "🔍 Βοήθεια Αποσφαλμάτωσης",
@@ -236,12 +224,10 @@
     "tokenStats": "📊 Στατιστικά Token",
     "about": "Σχετικά με το AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Επεξήγηση Σφάλματος",
     "errorInLine": "Σφάλμα στη γραμμή {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Ανάλυση εξόδου Σειριακής Οθόνης",
     "analyzeSerialDesc": "Βοήθεια με την ερμηνεία εξόδου αποσφαλμάτωσης",
@@ -253,7 +239,6 @@
     "timingProblemsDesc": "Βοήθεια με delay(), millis() και σφάλματα χρονισμού",
     "selectHelp": "Με τι χρειάζεστε βοήθεια;"
   },
-  
   "offline": {
     "title": "Χωρίς Σύνδεση στο Διαδίκτυο",
     "requiresInternet": "Το AI.duino απαιτεί σύνδεση στο διαδίκτυο για επικοινωνία με Claude, ChatGPT, Gemini ή Mistral.",
@@ -277,7 +262,6 @@
     "tip": "Συμβουλή",
     "onlineAgain": "Μόλις συνδεθείτε ξανά, το AI.duino μπορεί να σας βοηθήσει με συγκεκριμένα προβλήματα!"
   },
-  
   "stats": {
     "tokenUsageFor": "Χρήση Token για {0}",
     "totalCostToday": "Συνολικό κόστος σήμερα",
@@ -288,7 +272,6 @@
     "tipDescription": "Η μέτρηση token είναι εκτίμηση. Τα πραγματικά κόστη μπορεί να διαφέρουν ελαφρώς.",
     "confirmReset": "Θέλετε σίγουρα να επαναφέρετε τα στατιστικά;"
   },
-  
   "about": {
     "tagline": "Ανάπτυξη Arduino με τεχνητή νοημοσύνη",
     "features": "Χαρακτηριστικά",
@@ -314,7 +297,6 @@
     "reportBugs": "Αναφορά σφαλμάτων",
     "madeWith": "Φτιαγμένο με 💙 για την κοινότητα Arduino"
   },
-
   "config": {
     "updateAvailable": "Ενημέρωση Provider Config διαθέσιμη: {0} → {1}",
     "updateNow": "Ενημέρωση τώρα",
@@ -327,30 +309,31 @@
     "modelOutdated": "Το μοντέλο φαίνεται παρωχημένο. Ενημέρωση διαμορφώσεων;",
     "notNow": "Όχι τώρα"
   },
-
   "settings": {
     "autoUpdateConfigs": "Αυτόματος έλεγχος για ενημερώσεις διαμορφώσεων παρόχων"
   },
-
   "extensionUpdate": {
     "available": "AI.duino Extension ενημέρωση διαθέσιμη: {0} → {1}",
     "download": "Λήψη"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Σημαντικό: Μην διαγράψετε τους κράτες θέσης {0}, {1}, {2} - αντικαθίστανται με κώδικα και οδηγίες!",
+    "missingPlaceholder": "Σφάλμα: Λείπει ο κράτης θέσης {0}!",
+    "missingPlaceholderMultiple": "Σφάλμα: Λείπει ο κράτης θέσης {0}, {1} ή {2}!",
     "standard": "Τυπικό",
     "custom": "Προσαρμοσμένο",
     "modified": "Τροποποιημένο",
     "saving": "Αποθηκεύει",
     "saved": "Αποθηκεύτηκε",
     "resetSuccess": "Επαναφέρθηκε",
-    "unsavedWarning": "Αλλαγή γλώσσας; Οι μη αποθηκευμένες αλλαγές στον επεξεργαστή εντολών θα χαθούν."
+    "unsavedWarning": "Αλλαγή γλώσσας; Οι μη αποθηκευμένες αλλαγές στον επεξεργαστή εντολών θα χαθούν.",
+    "changesLostDialog": "Ο πίνακας έκλεισε με μη αποθηκευμένες αλλαγές. Τι θέλετε να κάνετε;",
+    "changesSaved": "Οι αλλαγές αποθηκεύτηκαν!"
   },
-
   "time": {
     "justNow": "μόλις τώρα",
     "minutesAgo": "πριν {0}λεπτά",
-    "hoursAgo": "πριν {0}ω", 
+    "hoursAgo": "πριν {0}ω",
     "daysAgo": "πριν {0}μ"
   }
 }

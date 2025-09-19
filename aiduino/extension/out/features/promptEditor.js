@@ -14,6 +14,11 @@ const { escapeHtml } = require('../shared');
 async function showPromptEditor(context) {
     try {
         const { t, promptManager } = context;
+
+        // Variables for close protection - RIGHT HERE AT THE TOP
+        let hasUnsavedChanges = false;
+        let isForceClosing = false;
+        let pendingChanges = {};
         
         const promptData = promptManager.getAllPrompts();
         const allowedPrompts = ['improveCode', 'explainCode', 'addComments', 'explainError', 'hardwareDebug' ];
@@ -28,7 +33,9 @@ async function showPromptEditor(context) {
             resetSuccess: t('promptEditor.resetSuccess'),
             resetText: t('buttons.reset'),
             saveText: t('buttons.save'),
-            title: t('commands.editPrompts')
+            title: t('commands.editPrompts'),
+            missingPlaceholder: t('promptEditor.missingPlaceholder'),
+            missingPlaceholderMultiple: t('promptEditor.missingPlaceholderMultiple')
         };
         
         const panel = vscode.window.createWebviewPanel(
@@ -38,7 +45,22 @@ async function showPromptEditor(context) {
             { enableScripts: true }
         );
 
-panel.onDidDispose(() => {
+        panel.onDidDispose(() => {
+            if (hasUnsavedChanges && !isForceClosing) {
+                vscode.window.showWarningMessage(
+                    t('promptEditor.changesLostDialog'),
+                    t('buttons.saveChanges'),
+                    t('buttons.discard')
+                ).then(choice => {
+                    if (choice === t('buttons.saveChanges')) {
+                        Object.entries(pendingChanges).forEach(([key, value]) => {
+                            promptManager.updatePrompt(key, value);
+                        });
+                        vscode.window.showInformationMessage(t('promptEditor.changesSaved'));
+                    }
+                });
+            }
+
             // Reset flags when panel is closed
             if (context.setPromptEditorChanges) {
                 context.setPromptEditorChanges(false);
@@ -278,7 +300,7 @@ panel.onDidDispose(() => {
                     .save-status {
                         font-size: 12px;
                         color: var(--vscode-descriptionForeground);
-                        font-style: italic;
+                        font-weight: bold;
                         flex: 1;
                         text-align: right;
                     }
@@ -320,6 +342,7 @@ panel.onDidDispose(() => {
             <body>
                 <div class="header">
                     <h1>${strings.title}</h1>
+                    ${t('promptEditor.placeholderWarning')}
                 </div>
                 
                 <div class="prompts-container">
@@ -336,14 +359,44 @@ panel.onDidDispose(() => {
                         const key = textarea.id.replace('prompt-', '');
                         originalValues[key] = textarea.value;
                     });
+
+                    // Real-time change detection
+                    document.querySelectorAll('.prompt-textarea').forEach(textarea => {
+                        textarea.addEventListener('input', function() {
+                            const key = this.id.replace('prompt-', '');
+                            const isModified = this.value !== originalValues[key];
+                            updateCardStatus(key, isModified);
+
+                            // Store change in backend
+                            vscode.postMessage({
+                                command: 'storeChange',
+                                key: key,
+                                value: this.value
+                            });
+                        });
+                    });
     
                     function doSave(key) {
                         const textarea = document.getElementById('prompt-' + key);
                         const status = document.getElementById('status-' + key);
-                        
+    
+                        if (key === 'explainError') {
+                            if (!textarea.value.includes('{0}') || !textarea.value.includes('{1}') || !textarea.value.includes('{2}')) {
+                                status.textContent = strings.missingPlaceholderMultiple;
+                                status.className = 'save-status error';
+                                return;
+                            }
+                        } else {
+                            if (!textarea.value.includes('{0}')) {
+                                status.textContent = strings.missingPlaceholder;
+                                status.className = 'save-status error';
+                                return;
+                            }
+                        }
+    
                         status.textContent = strings.saving + '...';
                         status.className = 'save-status';
-                        
+    
                         vscode.postMessage({
                             command: 'savePrompt',
                             key: key,
@@ -485,37 +538,69 @@ panel.onDidDispose(() => {
             try {
                 switch (message.command) {
                     case 'savePrompt':
-                        promptManager.updatePrompt(message.key, message.value);
-                        panel.webview.postMessage({
-                            command: 'saveConfirmed',
-                            key: message.key
-                        });
-                        context.setPromptEditorChanges(false);
+                        try {
+                            promptManager.updatePrompt(message.key, message.value);
+        
+                            // Only remove from pending changes if save was successful
+                            delete pendingChanges[message.key];
+                            hasUnsavedChanges = Object.keys(pendingChanges).length > 0;
+        
+                            panel.webview.postMessage({
+                                command: 'saveConfirmed',
+                                key: message.key
+                            });
+            
+                            if (context.setPromptEditorChanges) {
+                                context.setPromptEditorChanges(hasUnsavedChanges);
+                            }
+                        } catch (error) {
+                            // Keep in pendingChanges if save failed
+                            panel.webview.postMessage({
+                                command: 'error',
+                                key: message.key,
+                                text: error.message
+                            });
+                        }
                         break;
                 
                     case 'resetPrompt':
-                        const defaultValue = promptManager.defaultPrompts?.[message.key] || '';
-                        if (defaultValue) {
+                    // Remove from pending changes when reset
+                        delete pendingChanges[message.key];
+                        hasUnsavedChanges = Object.keys(pendingChanges).length > 0;
+    
+                        let promptDefaultValue = promptManager.defaultPrompts?.[message.key] || '';  // DIFFERENT NAME
+                        if (promptDefaultValue) {
                             if (promptManager.customPrompts && promptManager.customPrompts[message.key]) {
-                                delete promptManager.customPrompts[message.key];
-                                promptManager.saveCustomPrompts();
-                                promptManager.cleanupIfUnchanged(); // Clean separation of concerns
+                               delete promptManager.customPrompts[message.key];
+                               promptManager.saveCustomPrompts();
+                               promptManager.cleanupIfUnchanged();
                             }
-                            
+        
                             panel.webview.postMessage({
                                 command: 'promptReset',
                                 key: message.key,
-                                value: defaultValue
+                                value: promptDefaultValue
                             });
                         }
                         context.setPromptEditorChanges(false);
                         break;
                     
                     case 'hasUnsavedChanges':
+                        hasUnsavedChanges = message.hasChanges;
                         if (context.setPromptEditorChanges) {
                             context.setPromptEditorChanges(message.hasChanges);
-                    }
-                    break;
+                        }
+                        break;
+
+                    case 'storeChange':
+                        // Store pending changes for close protection
+                        pendingChanges[message.key] = message.value;
+                        hasUnsavedChanges = Object.keys(pendingChanges).length > 0;
+    
+                        if (context.setPromptEditorChanges) {
+                            context.setPromptEditorChanges(hasUnsavedChanges);
+                        }
+                        break;
                 }
             } catch (error) {
                 panel.webview.postMessage({
@@ -531,25 +616,7 @@ panel.onDidDispose(() => {
     }
 }
 
-/**
- * Get fresh localized strings for current language
- * @param {Function} t - Translation function
- * @returns {Object} Localized strings object
- */
-function getLocalizedStrings(t) {
-    return {
-        custom: t('promptEditor.custom'),
-        standard: t('promptEditor.standard'),
-        modified: t('promptEditor.modified'),
-        saving: t('promptEditor.saving'),
-        saved: t('promptEditor.saved'),
-        resetSuccess: t('promptEditor.resetSuccess'),
-        resetText: t('buttons.reset'),
-        saveText: t('buttons.save'),
-        title: t('commands.editPrompts')
-    };
-}
-
 module.exports = {
     showPromptEditor
 };
+

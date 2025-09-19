@@ -17,7 +17,6 @@
     "askFollowUp": "Následná otázka",
     "editPrompts": "Upraviť výzvy"
   },
-
   "messages": {
     "welcome": "Vitajte! AI.duino podporuje {0}!",
     "noApiKey": "Najprv potrebujete API kľúč pre {0}",
@@ -47,7 +46,6 @@
     "followUpContext": "Pokračovanie rozhovoru: \"{0}\" (pred {1} min.)",
     "contextCleared": "Kontext rozhovoru vymazaný"
   },
-  
   "buttons": {
     "chooseModel": "Výber AI modelu",
     "later": "Neskôr",
@@ -74,9 +72,11 @@
     "checkStatus": "Skontrolovať stav",
     "checkRouter": "Skontrolovať router",
     "save": "Uložiť",
-    "reset": "Obnoviť"
+    "reset": "Obnoviť",
+    "saveChanges": "Uložiť zmeny",
+    "discard": "Zahodiť",
+    "closeWithoutSaving": "Zavrieť bez uloženia"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Optimalizácia označeného kódu",
     "explainCodeSelected": "Vysvetlenie označeného kódu",
@@ -94,19 +94,16 @@
     "noValidContext": "Žiadny predchádzajúci rozhovor",
     "editPrompts": "Prispôsobiť a spravovať AI výzvy"
   },
-  
   "language": {
     "autoDetect": "Automatické rozpoznanie z VS Code",
     "selectLanguage": "Výber jazyka pre AI.duino",
     "changeLanguage": "Zmena jazyka",
     "changed": "Jazyk zmenený na {0}"
   },
-  
   "labels": {
     "active": "Aktívny",
     "aiHints": "AI tipy"
   },
-  
   "prompts": {
     "enterApiKey": "Zadanie {0} API kľúča",
     "customInstructions": "Vlastné inštrukcie pre zlepšenie kódu (voliteľné)",
@@ -133,7 +130,6 @@
     "followUpContext": "Kontext z predchádzajúceho rozhovoru:",
     "followUpInstruction": "Odpovedzte po slovensky s ohľadom na predchádzajúci rozhovor."
   },
-  
   "placeholders": {
     "customInstructions": "napr. \"nepoužívaj millis()\", \"optimalizuj pre Arduino Nano\", \"pridaj spracovanie chýb\"",
     "commentInstructions": "napr. \"veľmi podrobne\", \"komentuj len funkcie\", \"v angličtine\"",
@@ -142,13 +138,11 @@
     "askAI": "napr. \"Ako funguje PWM?\", \"Prečo mi nefunguje senzor?\"",
     "askFollowUp": "Pokračovanie rozhovoru..."
   },
-  
   "validation": {
     "apiKeyRequired": "API kľúč je potrebný",
     "apiKeyPrefix": "Musí začínať s \"{0}\"",
     "apiKeyTooShort": "Kľúč sa zdá príliš krátky"
   },
-  
   "progress": {
     "retrying": "{0} (Pokus {1}/{2})",
     "explaining": "{0} vysvetľuje kód...",
@@ -160,7 +154,6 @@
     "askingAI": "{0} spracováva vašu otázku...",
     "askingFollowUp": "{0} spracováva vašu následnú otázku..."
   },
-  
   "errors": {
     "quotaExceeded": "Mesačná kvóta vyčerpaná",
     "quotaExceededDetail": "{0}: Mesačná kvóta vyčerpaná. Prosím počkajte do začiatku mesiaca alebo prepnite model.",
@@ -191,13 +184,11 @@
       "general": "Sieťová chyba: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDnes: {1} Tokens{2}\nVstup: {3} | Výstup: {4}\nKlik pre menu • Ctrl+Shift+C • Pravý klik na prepnutie",
     "noApiKey": "{0} API kľúč chýba! • Klik na nastavenie",
     "errorsFound": "{0} chýb nájdených • Klik pre pomoc"
   },
-  
   "output": {
     "codeExplanation": "{0} Vysvetlenie",
     "explanationFrom": "VYSVETLENIE KÓDU OD {0}",
@@ -211,7 +202,6 @@
     "codeContextYes": "Kód kontext: Áno ({0} riadkov)",
     "boardDetected": "Doska: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Zahrnúť označený kód",
     "includeSelectedCodeDesc": "Poslať otázku s aktuálne označeným kódom",
@@ -223,12 +213,10 @@
     "followUpQuestion": "Následná otázka",
     "relatedCode": "Súvisiaci kód"
   },
-
   "shortcuts": {
     "askFollowUp": "Následná otázka",
     "askAI": "Nová otázka"
   },
-
   "panels": {
     "errorExplanation": "🔧 Vysvetlenie chyby",
     "debugHelp": "🔍 Debug pomoc",
@@ -236,12 +224,10 @@
     "tokenStats": "📊 Token štatistiky",
     "about": "O AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Vysvetlenie chyby",
     "errorInLine": "Chyba v riadku {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Analýza Serial Monitor výstupu",
     "analyzeSerialDesc": "Pomoc pri interpretácii debug výstupov",
@@ -253,7 +239,6 @@
     "timingProblemsDesc": "Pomoc s delay(), millis() a timing chybami",
     "selectHelp": "V čom môžem pomôcť?"
   },
-  
   "offline": {
     "title": "Žiadne internetové pripojenie",
     "requiresInternet": "AI.duino potrebuje internetové pripojenie na komunikáciu s Claude, ChatGPT, Gemini alebo Mistral.",
@@ -277,7 +262,6 @@
     "tip": "Tip",
     "onlineAgain": "Hneď ako budete opäť online, AI.duino môže pomôcť so špecifickými problémami!"
   },
-  
   "stats": {
     "tokenUsageFor": "Používanie tokenov pre {0}",
     "totalCostToday": "Celkové náklady dnes",
@@ -288,7 +272,6 @@
     "tipDescription": "Počítanie tokenov je odhad. Skutočné náklady sa môžu mierne líšiť.",
     "confirmReset": "Skutočne chcete vynulovať štatistiky?"
   },
-  
   "about": {
     "tagline": "AI-podporovaný Arduino vývoj",
     "features": "Funkcie",
@@ -314,7 +297,6 @@
     "reportBugs": "Hlásenie chýb",
     "madeWith": "Vytvorené s ❤️ pre Arduino komunitu"
   },
-
   "config": {
     "updateAvailable": "Dostupná aktualizácia provider config: {0} → {1}",
     "updateNow": "Aktualizovať teraz",
@@ -327,30 +309,31 @@
     "modelOutdated": "Model sa zdá zastaraný. Aktualizovať konfigurácie?",
     "notNow": "Nie teraz"
   },
-
   "settings": {
     "autoUpdateConfigs": "Automatické hľadanie aktualizácií provider config-ov"
   },
-
   "extensionUpdate": {
     "available": "AI.duino Extension aktualizácia dostupná: {0} → {1}",
     "download": "Stiahnuť"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Dôležité: Nemazajte zástupné symboly {0}, {1}, {2} - nahradia sa kódom a pokynmi!",
+    "missingPlaceholder": "Chyba: Chýba zástupný symbol {0}!",
+    "missingPlaceholderMultiple": "Chyba: Chýba zástupný symbol {0}, {1} alebo {2}!",
     "standard": "Štandardný",
     "custom": "Vlastný",
     "modified": "Zmenený",
     "saving": "Ukladá",
     "saved": "Uložený",
     "resetSuccess": "Obnovený",
-    "unsavedWarning": "Zmeniť jazyk? Neuložené zmeny v editore príkazov budú stratené."
+    "unsavedWarning": "Zmeniť jazyk? Neuložené zmeny v editore príkazov budú stratené.",
+    "changesLostDialog": "Panel bol zatvorený s neuloženými zmenami. Čo chcete urobiť?",
+    "changesSaved": "Zmeny uložené!"
   },
-
   "time": {
     "justNow": "práve teraz",
     "minutesAgo": "pred {0}min",
-    "hoursAgo": "pred {0}h", 
+    "hoursAgo": "pred {0}h",
     "daysAgo": "pred {0}d"
   }
 }

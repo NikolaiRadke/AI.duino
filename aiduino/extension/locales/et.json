@@ -17,7 +17,6 @@
     "askFollowUp": "Esita täiendav küsimus",
     "editPrompts": "Redigeeri päringuid"
   },
-
   "messages": {
     "welcome": "👋 Tere tulemast! AI.duino toetab {0}!",
     "noApiKey": "🔑 Esmalt vajate {0} API võtit",
@@ -48,7 +47,6 @@
     "contextCleared": "Vestluse kontekst kustutatud",
     "operationAlreadyRunning": "Toiming juba käib! Palun oodake..."
   },
-  
   "buttons": {
     "chooseModel": "Vali AI mudel",
     "later": "Hiljem",
@@ -75,9 +73,11 @@
     "checkStatus": "Kontrolli staatust",
     "checkRouter": "Kontrolli ruuterit",
     "save": "Salvesta",
-    "reset": "Lähtesta"
+    "reset": "Lähtesta",
+    "saveChanges": "Salvesta muudatused",
+    "discard": "Loobu",
+    "closeWithoutSaving": "Sulge salvestamata"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Optimiseeri märgitud kood",
     "explainCodeSelected": "Selgita märgitud kood",
@@ -95,19 +95,16 @@
     "noValidContext": "Pole eelmist vestlust",
     "editPrompts": "Kohanda AI päringuid"
   },
-  
   "language": {
     "autoDetect": "Tuvasta automaatselt VS Code-st",
     "selectLanguage": "Valige keel AI.duino jaoks",
     "changeLanguage": "Muuda keel",
     "changed": "Keel muudetud: {0}"
   },
-  
   "labels": {
     "active": "Aktiivne",
     "aiHints": "AI nõuanded"
   },
-  
   "prompts": {
     "enterApiKey": "Sisestage {0} API võti",
     "customInstructions": "Kohandatud juhised koodi parandamiseks (valikuline)",
@@ -134,7 +131,6 @@
     "followUpContext": "Eelmise vestluse kontekst:",
     "followUpInstruction": "Vastake eesti keeles, arvestades eelmist vestlust."
   },
-  
   "placeholders": {
     "customInstructions": "nt \"ära kasuta millis()\", \"optimeeri Arduino Nano jaoks\", \"lisa vigade käsitlemine\"",
     "commentInstructions": "nt \"väga üksikasjalikult\", \"kommenteeri ainult funktsioone\", \"inglise keeles\"",
@@ -143,13 +139,11 @@
     "askAI": "nt \"Kuidas PWM töötab?\", \"Miks mu andur ei tööta?\"",
     "askFollowUp": "Jätka vestlust..."
   },
-  
   "validation": {
     "apiKeyRequired": "API võti on nõutav",
     "apiKeyPrefix": "Peab algama \"{0}\"",
     "apiKeyTooShort": "Võti tundub liiga lühike"
   },
-  
   "progress": {
     "retrying": "{0} (katse {1}/{2})",
     "explaining": "{0} selgitab koodi...",
@@ -161,7 +155,6 @@
     "askingAI": "{0} töötleb teie küsimust...",
     "askingFollowUp": "{0} töötleb teie täiendavat küsimust..."
   },
-  
   "errors": {
     "quotaExceeded": "Kuu kvoot ammendatud",
     "quotaExceededDetail": "{0}: Kuu kvoot ammendatud. Palun oodake kuu alguseni või muutke mudelit.",
@@ -192,13 +185,11 @@
       "general": "Võrgu viga: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nTäna: {1} Tokenid{2}\nSisend: {3} | Väljund: {4}\nKlõps menüü jaoks • Ctrl+Shift+C • Parem klõps vahetamiseks",
     "noApiKey": "{0} API võti puudub! • Klõps seadistamiseks",
     "errorsFound": "{0} viga leitud • Klõps abi saamiseks"
   },
-  
   "output": {
     "codeExplanation": "{0} selgitus",
     "explanationFrom": "KOODI SELGITUS: {0}",
@@ -212,7 +203,6 @@
     "codeContextYes": "Koodi kontekst: Jah ({0} rida)",
     "boardDetected": "Laud: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Lisa märgitud kood",
     "includeSelectedCodeDesc": "Saada küsimus praegu märgitud koodiga",
@@ -224,12 +214,10 @@
     "followUpQuestion": "Täiendav küsimus",
     "relatedCode": "Seotud kood"
   },
-
   "shortcuts": {
     "askFollowUp": "Täiendav küsimus",
     "askAI": "Uus küsimus"
   },
-
   "panels": {
     "errorExplanation": "🔧 Vea selgitus",
     "debugHelp": "🔍 Silumisabi",
@@ -237,12 +225,10 @@
     "tokenStats": "📊 Tokenite statistika",
     "about": "AI.duino kohta"
   },
-  
   "html": {
     "errorExplanation": "Vea selgitus",
     "errorInLine": "Viga real {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Analüüsi Serial Monitor väljundit",
     "analyzeSerialDesc": "Abi silumise väljundite tõlgendamisel",
@@ -254,7 +240,6 @@
     "timingProblemsDesc": "Abi delay(), millis() ja aja vigadega",
     "selectHelp": "Millega vajate abi?"
   },
-  
   "offline": {
     "title": "Internetiühendus puudub",
     "requiresInternet": "AI.duino vajab internetiühendust suhtlemiseks Claude'i, ChatGPT, Gemini või Mistraliga.",
@@ -278,7 +263,6 @@
     "tip": "Nõuanne",
     "onlineAgain": "Niipea kui olete jälle võrgus, saab AI.duino aidata konkreetsete probleemidega!"
   },
-  
   "stats": {
     "tokenUsageFor": "Tokenite kasutamine {0}",
     "totalCostToday": "Täna kokku maksumus",
@@ -289,7 +273,6 @@
     "tipDescription": "Tokenite arv on hinnanguline. Tegelikud kulud võivad veidi erineda.",
     "confirmReset": "Kas tõesti lähtestada statistika?"
   },
-  
   "about": {
     "tagline": "AI toetatud Arduino arendus",
     "features": "Funktsioonid",
@@ -315,7 +298,6 @@
     "reportBugs": "Teata vigadest",
     "madeWith": "Tehtud 💙-ga Arduino kogukonnale"
   },
-
   "config": {
     "updateAvailable": "Saadaval teenusepakkujate konfiguratsiooni uuendus: {0} → {1}",
     "updateNow": "Uuenda nüüd",
@@ -328,26 +310,27 @@
     "modelOutdated": "Mudel tundub aegunud. Uuendada konfiguratsioone?",
     "notNow": "Mitte nüüd"
   },
-
   "settings": {
     "autoUpdateConfigs": "Otsi automaatselt teenusepakkujate konfiguratsiooni uuendusi"
   },
-
   "extensionUpdate": {
     "available": "Saadaval AI.duino laienduse uuendus: {0} → {1}",
     "download": "Laadi alla"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Oluline: Ärge kustutage kohatäitjaid {0}, {1}, {2} - need asendatakse koodi ja juhenditega!",
+    "missingPlaceholder": "Viga: Puudub kohatäitja {0}!",
+    "missingPlaceholderMultiple": "Viga: Puudub kohatäitja {0}, {1} või {2}!",
     "standard": "Standard",
     "custom": "Kohandatud",
     "modified": "Muudetud",
     "saving": "Salvestab",
     "saved": "Salvestatud",
     "resetSuccess": "Lähtestatud",
-    "unsavedWarning": "Vahetada keel? Salvestamata muudatused päringu redaktoris lähevad kaotsi."
+    "unsavedWarning": "Vahetada keel? Salvestamata muudatused päringu redaktoris lähevad kaotsi.",
+    "changesLostDialog": "Paneel suleti salvestamata muudatustega. Mida soovite teha?",
+    "changesSaved": "Muudatused salvestatud!"
   },
-
   "time": {
     "justNow": "just nüüd",
     "minutesAgo": "{0}min tagasi",

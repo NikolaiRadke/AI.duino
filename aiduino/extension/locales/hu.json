@@ -17,7 +17,6 @@
     "askFollowUp": "Követő kérdés feltevése",
     "editPrompts": "Promptok szerkesztése"
   },
-
   "messages": {
     "welcome": "Üdvözöl a {0} támogatásával!",
     "noApiKey": "Először {0} API kulcsra van szükséged",
@@ -47,7 +46,6 @@
     "followUpContext": "Beszélgetés folytatása: \"{0}\" ({1} perce)",
     "contextCleared": "Beszélgetési kontextus törölve"
   },
-  
   "buttons": {
     "chooseModel": "AI modell választása",
     "later": "Később",
@@ -74,9 +72,11 @@
     "checkStatus": "Státusz ellenőrzése",
     "checkRouter": "Router ellenőrzése",
     "save": "Mentés",
-    "reset": "Visszaállítás"
+    "reset": "Visszaállítás",
+    "saveChanges": "Változások mentése",
+    "discard": "Elvetés",
+    "closeWithoutSaving": "Bezárás mentés nélkül"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Kijelölt kód optimalizálása",
     "explainCodeSelected": "Kijelölt kód magyarázata",
@@ -94,19 +94,16 @@
     "noValidContext": "Nincs előző beszélgetés",
     "editPrompts": "AI promptok testreszabása és kezelése"
   },
-  
   "language": {
     "autoDetect": "Automatikus felismerés VS Code-ból",
     "selectLanguage": "Nyelv választása AI.duino-hoz",
     "changeLanguage": "Nyelv váltása",
     "changed": "Nyelv váltva erre: {0}"
   },
-  
   "labels": {
     "active": "Aktív",
     "aiHints": "AI tippek"
   },
-  
   "prompts": {
     "enterApiKey": "{0} API kulcs megadása",
     "customInstructions": "Egyéni utasítások a kód javításához (opcionális)",
@@ -133,7 +130,6 @@
     "followUpContext": "Előző beszélgetés kontextusa:",
     "followUpInstruction": "Válaszolj magyarul az előző beszélgetés figyelembevételével."
   },
-  
   "placeholders": {
     "customInstructions": "pl. \"ne használj millis()-t\", \"Arduino Nano-ra optimalizáld\", \"adj hozzá hibakezelést\"",
     "commentInstructions": "pl. \"nagyon részletes\", \"csak függvényeket kommentezd\", \"angolul\"",
@@ -142,13 +138,11 @@
     "askAI": "pl. \"Hogyan működik a PWM?\", \"Miért nem működik a szenzor?\"",
     "askFollowUp": "Beszélgetés folytatása..."
   },
-  
   "validation": {
     "apiKeyRequired": "API kulcs szükséges",
     "apiKeyPrefix": "\"{0}\"-vel kell kezdődnie",
     "apiKeyTooShort": "A kulcs túl rövidnek tűnik"
   },
-  
   "progress": {
     "retrying": "{0} (Próbálkozás {1}/{2})",
     "explaining": "{0} magyarázza a kódot...",
@@ -160,7 +154,6 @@
     "askingAI": "{0} feldolgozza a kérdésed...",
     "askingFollowUp": "{0} feldolgozza a követő kérdésed..."
   },
-  
   "errors": {
     "quotaExceeded": "Havi kvóta kimerült",
     "quotaExceededDetail": "{0}: Havi kvóta kimerült. Kérlek várj a hónap elejéig vagy válts modellt.",
@@ -191,13 +184,11 @@
       "general": "Hálózati hiba: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nMa: {1} Token{2}\nBemenet: {3} | Kimenet: {4}\nKattints a menühöz • Ctrl+Shift+C • Jobb katt a váltáshoz",
     "noApiKey": "{0} API kulcs hiányzik! • Kattints a beállításhoz",
     "errorsFound": "{0} hiba találva • Kattints a segítségért"
   },
-  
   "output": {
     "codeExplanation": "{0} Magyarázat",
     "explanationFrom": "KÓD MAGYARÁZAT TŐLE: {0}",
@@ -211,7 +202,6 @@
     "codeContextYes": "Kód kontextus: Igen ({0} sor)",
     "boardDetected": "Board: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Kijelölt kód bevonása",
     "includeSelectedCodeDesc": "Kérdés küldése a jelenleg kijelölt kóddal",
@@ -223,12 +213,10 @@
     "followUpQuestion": "Követő kérdés",
     "relatedCode": "Kapcsolódó kód"
   },
-
   "shortcuts": {
     "askFollowUp": "Követő kérdés",
     "askAI": "Új kérdés"
   },
-
   "panels": {
     "errorExplanation": "🔧 Hiba magyarázat",
     "debugHelp": "🔍 Debug segítség",
@@ -236,12 +224,10 @@
     "tokenStats": "📊 Token statisztikák",
     "about": "AI.duino névjegy"
   },
-  
   "html": {
     "errorExplanation": "Hiba magyarázat",
     "errorInLine": "Hiba a {0}. sorban"
   },
-  
   "debug": {
     "analyzeSerial": "Serial Monitor kimenet elemzése",
     "analyzeSerialDesc": "Segítség debug kimenetek értelmezésében",
@@ -253,7 +239,6 @@
     "timingProblemsDesc": "Segítség delay(), millis() és időzítési hibákkal",
     "selectHelp": "Miben segíthetek?"
   },
-  
   "offline": {
     "title": "Nincs internet kapcsolat",
     "requiresInternet": "AI.duino internet kapcsolatot igényel a Claude, ChatGPT, Gemini vagy Mistral kommunikációhoz.",
@@ -277,7 +262,6 @@
     "tip": "Tipp",
     "onlineAgain": "Amint újra online vagy, AI.duino segíthet specifikus problémákkal!"
   },
-  
   "stats": {
     "tokenUsageFor": "Token felhasználás: {0}",
     "totalCostToday": "Mai összköltség",
@@ -288,7 +272,6 @@
     "tipDescription": "A token számolás becslés. A tényleges költségek kissé eltérhetnek.",
     "confirmReset": "Biztosan visszaállítod a statisztikákat?"
   },
-  
   "about": {
     "tagline": "AI-támogatott Arduino fejlesztés",
     "features": "Funkciók",
@@ -314,7 +297,6 @@
     "reportBugs": "Hibák jelentése",
     "madeWith": "Készítve ❤️-tel az Arduino közösségnek"
   },
-
   "config": {
     "updateAvailable": "Provider config frissítés elérhető: {0} → {1}",
     "updateNow": "Frissítés most",
@@ -327,30 +309,31 @@
     "modelOutdated": "A modell elavultnak tűnik. Frissíted a konfigurációkat?",
     "notNow": "Most nem"
   },
-
   "settings": {
     "autoUpdateConfigs": "Automatikus keresés provider config frissítésekhez"
   },
-
   "extensionUpdate": {
     "available": "AI.duino Extension frissítés elérhető: {0} → {1}",
     "download": "Letöltés"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Fontos: Ne törölje a helyőrzőket {0}, {1}, {2} - kóddal és utasításokkal helyettesítődnek!",
+    "missingPlaceholder": "Hiba: Hiányzó helyőrző {0}!",
+    "missingPlaceholderMultiple": "Hiba: Hiányzó helyőrző {0}, {1} vagy {2}!",
     "standard": "Szabványos",
     "custom": "Egyéni",
     "modified": "Módosított",
     "saving": "Mentés",
     "saved": "Mentve",
     "resetSuccess": "Visszaállítva",
-    "unsavedWarning": "Nyelvváltás? A nem mentett változások a prompt szerkesztőben elvesznek."
+    "unsavedWarning": "Nyelvváltás? A nem mentett változások a prompt szerkesztőben elvesznek.",
+    "changesLostDialog": "A panel nem mentett változtatásokkal lett bezárva. Mit szeretne tenni?",
+    "changesSaved": "Változások mentve!"
   },
-
   "time": {
     "justNow": "most",
     "minutesAgo": "{0}perce",
-    "hoursAgo": "{0}órája", 
+    "hoursAgo": "{0}órája",
     "daysAgo": "{0}napja"
   }
 }

@@ -17,7 +17,6 @@
     "askFollowUp": "Esitä Jatkokysymys",
     "editPrompts": "Muokkaa kehotteita"
   },
-  
   "messages": {
     "welcome": "👋 Tervetuloa! AI.duino tukee {0}:tä!",
     "noApiKey": "🔑 Tarvitset ensin API-avaimen {0}:lle",
@@ -47,7 +46,6 @@
     "followUpContext": "Jatketaan keskustelua: \"{0}\" ({1} min sitten)",
     "contextCleared": "Keskustelun konteksti tyhjennetty"
   },
-  
   "buttons": {
     "chooseModel": "Valitse AI-malli",
     "later": "Myöhemmin",
@@ -74,9 +72,11 @@
     "checkStatus": "Tarkista Tila",
     "checkRouter": "Tarkista Reititin",
     "save": "Tallenna",
-    "reset": "Palauta"
+    "reset": "Palauta",
+    "saveChanges": "Tallenna muutokset",
+    "discard": "Hylkää",
+    "closeWithoutSaving": "Sulje tallentamatta"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Optimoi valittu koodi",
     "explainCodeSelected": "Selitä valittu koodi",
@@ -94,19 +94,16 @@
     "noValidContext": "Ei edellistä keskustelua",
     "editPrompts": "Mukauta ja hallitse AI-kehotteita"
   },
-
   "language": {
     "autoDetect": "Tunnista automaattisesti VS Codesta",
     "selectLanguage": "Valitse kieli AI.duino:lle",
     "changeLanguage": "Vaihda Kieli",
     "changed": "Kieli vaihdettu kieleen {0}"
   },
-  
   "labels": {
     "active": "Aktiivinen",
     "aiHints": "AI VINKIT"
   },
-  
   "prompts": {
     "enterApiKey": "Syötä {0} API-avain",
     "customInstructions": "Mukautetut ohjeet koodin parantamiseen (valinnainen)",
@@ -133,7 +130,6 @@
     "followUpContext": "Edellisen keskustelun konteksti:",
     "followUpInstruction": "Vastaa ottaen huomioon edellinen keskustelu."
   },
-  
   "placeholders": {
     "customInstructions": "esim. \"älä käytä millis()\", \"optimoi Arduino Nanolle\", \"lisää virheenkäsittely\"",
     "commentInstructions": "esim. \"hyvin yksityiskohtainen\", \"kommentoi vain funktiot\", \"suomeksi\"",
@@ -142,13 +138,11 @@
     "askAI": "esim. \"Miten PWM toimii?\", \"Miksi anturini ei toimi?\"",
     "askFollowUp": "Jatka keskustelua..."
   },
-  
   "validation": {
     "apiKeyRequired": "API-avain vaaditaan",
     "apiKeyPrefix": "Täytyy alkaa \"{0}\":lla",
     "apiKeyTooShort": "Avain vaikuttaa liian lyhyeltä"
   },
-  
   "progress": {
     "retrying": "{0} (Yritys {1}/{2})",
     "explaining": "{0} selittää koodia...",
@@ -160,7 +154,6 @@
     "askingAI": "{0} käsittelee kysymystäsi...",
     "askingFollowUp": "{0} käsittelee jatkokysymystäsi..."
   },
-  
   "errors": {
     "quotaExceeded": "Kuukausikiintiö ylitetty",
     "quotaExceededDetail": "{0}: Kuukausikiintiö ylitetty. Odota seuraavaa kuukautta tai vaihda mallia.",
@@ -191,13 +184,11 @@
       "general": "Verkkovirhe: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nTänään: {1} Tokenia{2}\nSyöte: {3} | Tuloste: {4}\nKlikkaa valikko • Ctrl+Shift+C • Oikeaklikkaa vaihtaaksesi",
     "noApiKey": "{0} API-avain puuttuu! • Klikkaa asettaaksesi",
     "errorsFound": "{0} virhettä löytyi • Klikkaa saadaksesi apua"
   },
-  
   "output": {
     "codeExplanation": "{0} Selitys",
     "explanationFrom": "KOODIN SELITYS {0}:LTA",
@@ -211,7 +202,6 @@
     "codeContextYes": "Koodin konteksti: Kyllä ({0} riviä)",
     "boardDetected": "Kortti: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Sisällytä valittu koodi",
     "includeSelectedCodeDesc": "Lähetä kysymys nykyisen valitun koodin kanssa",
@@ -223,12 +213,10 @@
     "followUpQuestion": "Jatkokysymys",
     "relatedCode": "Liittyvä koodi"
   },
-
   "shortcuts": {
     "askFollowUp": "Jatkokysymys",
     "askAI": "Uusi kysymys"
   },
-
   "panels": {
     "errorExplanation": "🔧 Virheen Selitys",
     "debugHelp": "🔍 Debug-apu",
@@ -236,12 +224,10 @@
     "tokenStats": "📊 Token-tilastot",
     "about": "Tietoja AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Virheen Selitys",
     "errorInLine": "Virhe rivillä {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Analysoi Serial Monitor -tuloste",
     "analyzeSerialDesc": "Apu debug-tulosteen tulkinnassa",
@@ -253,7 +239,6 @@
     "timingProblemsDesc": "Apu delay()-, millis()- ja ajoitusbugeissa",
     "selectHelp": "Missä tarvitset apua?"
   },
-  
   "offline": {
     "title": "Ei Internet-yhteyttä",
     "requiresInternet": "AI.duino vaatii internet-yhteyden kommunikoidakseen Clauden, ChatGPT:n, Geminin tai Mistralin kanssa.",
@@ -277,7 +262,6 @@
     "tip": "Vinkki",
     "onlineAgain": "Kun olet taas verkossa, AI.duino voi auttaa sinua tietyissä ongelmissa!"
   },
-  
   "stats": {
     "tokenUsageFor": "Token-käyttö {0}:lle",
     "totalCostToday": "Kokonaiskustannus tänään",
@@ -288,7 +272,6 @@
     "tipDescription": "Token-laskenta on arvio. Todelliset kustannukset voivat vaihdella hieman.",
     "confirmReset": "Todella nollata tilastot?"
   },
-  
   "about": {
     "tagline": "AI-avusteinen Arduino-kehitys",
     "features": "Ominaisuudet",
@@ -314,7 +297,6 @@
     "reportBugs": "Raportoi bugit",
     "madeWith": "Tehty 💙:lla Arduino-yhteisölle"
   },
-
   "config": {
     "updateAvailable": "Provider Config -päivitys saatavilla: {0} → {1}",
     "updateNow": "Päivitä nyt",
@@ -327,30 +309,31 @@
     "modelOutdated": "Malli vaikuttaa vanhentuneelta. Päivitä asetukset?",
     "notNow": "Ei nyt"
   },
-
   "settings": {
     "autoUpdateConfigs": "Tarkista automaattisesti palveluntarjoajien asetusten päivitykset"
   },
-
   "extensionUpdate": {
     "available": "AI.duino Extension päivitys saatavilla: {0} → {1}",
     "download": "Lataa"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Tärkeää: Älä poista paikkamerkkejä {0}, {1}, {2} - ne korvataan koodilla ja ohjeilla!",
+    "missingPlaceholder": "Virhe: Paikkamerkki {0} puuttuu!",
+    "missingPlaceholderMultiple": "Virhe: Paikkamerkki {0}, {1} tai {2} puuttuu!",
     "standard": "Vakio",
     "custom": "Mukautettu",
     "modified": "Muokattu",
     "saving": "Tallentaa",
     "saved": "Tallennettu",
     "resetSuccess": "Palautettu",
-    "unsavedWarning": "Vaihda kieli? Tallentamattomat muutokset kehote-editorissa menetetään."
+    "unsavedWarning": "Vaihda kieli? Tallentamattomat muutokset kehote-editorissa menetetään.",
+    "changesLostDialog": "Paneeli suljettiin tallentamattomien muutosten kanssa. Mitä haluat tehdä?",
+    "changesSaved": "Muutokset tallennettu!"
   },
-
   "time": {
     "justNow": "juuri nyt",
     "minutesAgo": "{0}min sitten",
-    "hoursAgo": "{0}h sitten", 
+    "hoursAgo": "{0}h sitten",
     "daysAgo": "{0}pv sitten"
   }
 }

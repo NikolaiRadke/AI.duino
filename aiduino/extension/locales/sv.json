@@ -17,7 +17,6 @@
     "askFollowUp": "Följdfråga",
     "editPrompts": "Redigera prompter"
   },
-  
   "messages": {
     "welcome": "👋 Välkommen! AI.duino  stöder {0}!",
     "noApiKey": "🔑 Först behöver du en API-nyckel för {0}",
@@ -47,7 +46,6 @@
     "followUpContext": "Fortsätter konversation: \"{0}\" ({1} min sedan)",
     "contextCleared": "Konversationskontext rensad"
   },
-  
   "buttons": {
     "chooseModel": "Välj AI-modell",
     "later": "Senare",
@@ -74,9 +72,11 @@
     "checkStatus": "Kontrollera status",
     "checkRouter": "Kontrollera router",
     "save": "Spara",
-    "reset": "Återställ"
+    "reset": "Återställ",
+    "saveChanges": "Spara ändringar",
+    "discard": "Förkasta",
+    "closeWithoutSaving": "Stäng utan att spara"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Optimera vald kod",
     "explainCodeSelected": "Förklara vald kod",
@@ -94,19 +94,16 @@
     "noValidContext": "Ingen föregående konversation",
     "editPrompts": "Anpassa och hantera AI-prompter"
   },
-
   "language": {
     "autoDetect": "Upptäck automatiskt från VS Code",
     "selectLanguage": "Välj språk för AI.duino",
     "changeLanguage": "Byt språk",
     "changed": "Språk ändrat till {0}"
   },
-  
   "labels": {
     "active": "Aktiv",
     "aiHints": "AI-TIPS"
   },
-  
   "prompts": {
     "enterApiKey": "Ange {0} API-nyckel",
     "customInstructions": "Anpassade instruktioner för kodförbättring (valfritt)",
@@ -133,7 +130,6 @@
     "followUpContext": "Kontext från föregående konversation:",
     "followUpInstruction": "Svara på svenska med hänsyn till föregående konversation."
   },
-  
   "placeholders": {
     "customInstructions": "t.ex. \"använd inte millis()\", \"optimera för Arduino Nano\", \"lägg till felhantering\"",
     "commentInstructions": "t.ex. \"mycket detaljerat\", \"kommentera bara funktioner\", \"på svenska\"",
@@ -142,13 +138,11 @@
     "askAI": "t.ex. \"Hur fungerar PWM?\", \"Varför fungerar inte min sensor?\"",
     "askFollowUp": "Fortsätt konversationen..."
   },
-  
   "validation": {
     "apiKeyRequired": "API-nyckel krävs",
     "apiKeyPrefix": "Måste börja med \"{0}\"",
     "apiKeyTooShort": "Nyckeln verkar för kort"
   },
-  
   "progress": {
     "retrying": "{0} (Försök {1}/{2})",
     "explaining": "{0} förklarar koden...",
@@ -160,7 +154,6 @@
     "askingAI": "{0} bearbetar din fråga...",
     "askingFollowUp": "{0} bearbetar din följdfråga..."
   },
-  
   "errors": {
     "quotaExceeded": "Månadskvot överskriden",
     "quotaExceededDetail": "{0}: Månadskvot överskriden. Vänta tills nästa månad eller byt modell.",
@@ -191,13 +184,11 @@
       "general": "Nätverksfel: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nIdag: {1} Tokens{2}\nIndata: {3} | Utdata: {4}\nKlicka för meny • Ctrl+Shift+C • Högerklicka för att byta",
     "noApiKey": "{0} API-nyckel saknas! • Klicka för att konfigurera",
     "errorsFound": "{0} fel hittade • Klicka för hjälp"
   },
-  
   "output": {
     "codeExplanation": "{0} Förklaring",
     "explanationFrom": "KODFÖRKLARING FRÅN {0}",
@@ -211,7 +202,6 @@
     "codeContextYes": "Kodkontext: Ja ({0} rader)",
     "boardDetected": "Kort: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Inkludera vald kod",
     "includeSelectedCodeDesc": "Skicka fråga med nuvarande vald kod",
@@ -223,12 +213,10 @@
     "followUpQuestion": "Följdfråga",
     "relatedCode": "Relaterad kod"
   },
-
   "shortcuts": {
     "askFollowUp": "Följdfråga",
     "askAI": "Ny fråga"
   },
-  
   "panels": {
     "errorExplanation": "🔧 Felförklaring",
     "debugHelp": "🔍 Felsökningshjälp",
@@ -236,12 +224,10 @@
     "tokenStats": "📊 Token-statistik",
     "about": "Om AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Felförklaring",
     "errorInLine": "Fel på rad {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Analysera Seriemonitor-utdata",
     "analyzeSerialDesc": "Hjälp med att tolka felsökningsutdata",
@@ -253,7 +239,6 @@
     "timingProblemsDesc": "Hjälp med delay(), millis() och timingbuggar",
     "selectHelp": "Vad behöver du hjälp med?"
   },
-  
   "offline": {
     "title": "Ingen internetanslutning",
     "requiresInternet": "AI.duino kräver internetanslutning för att kommunicera med Claude, ChatGPT, Gemini eller Mistral.",
@@ -277,7 +262,6 @@
     "tip": "Tips",
     "onlineAgain": "När du är online igen kan AI.duino hjälpa dig med specifika problem!"
   },
-  
   "stats": {
     "tokenUsageFor": "Token-användning för {0}",
     "totalCostToday": "Total kostnad idag",
@@ -288,7 +272,6 @@
     "tipDescription": "Token-räkning är en uppskattning. Faktiska kostnader kan variera något.",
     "confirmReset": "Vill du verkligen återställa statistiken?"
   },
-  
   "about": {
     "tagline": "AI-driven Arduino-utveckling",
     "features": "Funktioner",
@@ -314,7 +297,6 @@
     "reportBugs": "Rapportera buggar",
     "madeWith": "Skapad med 💙 för Arduino-gemenskapen"
   },
-
   "config": {
     "updateAvailable": "Provider Config uppdatering tillgänglig: {0} → {1}",
     "updateNow": "Uppdatera nu",
@@ -327,30 +309,31 @@
     "modelOutdated": "Modellen verkar föråldrad. Uppdatera konfigurationer?",
     "notNow": "Inte nu"
   },
-
   "settings": {
     "autoUpdateConfigs": "Kontrollera automatiskt för leverantörskonfigurationsuppdateringar"
   },
-
   "extensionUpdate": {
     "available": "AI.duino Extension uppdatering tillgänglig: {0} → {1}",
     "download": "Ladda ned"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Viktigt: Ta inte bort platshållarna {0}, {1}, {2} - de ersätts med kod och instruktioner!",
+    "missingPlaceholder": "Fel: Saknar platshållare {0}!",
+    "missingPlaceholderMultiple": "Fel: Saknar platshållare {0}, {1} eller {2}!",
     "standard": "Standard",
     "custom": "Anpassad",
     "modified": "Ändrad",
     "saving": "Sparar",
     "saved": "Sparad",
     "resetSuccess": "Återställd",
-    "unsavedWarning": "Byt språk? Osparade ändringar i prompt-editorn kommer att gå förlorade."
+    "unsavedWarning": "Byt språk? Osparade ändringar i prompt-editorn kommer att gå förlorade.",
+    "changesLostDialog": "Panelen stängdes med osparade ändringar. Vad vill du göra?",
+    "changesSaved": "Ändringar sparade!"
   },
-
   "time": {
     "justNow": "just nu",
     "minutesAgo": "för {0}min sedan",
-    "hoursAgo": "för {0}h sedan", 
+    "hoursAgo": "för {0}h sedan",
     "daysAgo": "för {0}d sedan"
   }
 }

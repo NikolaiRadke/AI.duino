@@ -17,7 +17,6 @@
     "askFollowUp": "Vervolgvraag",
     "editPrompts": "Prompts bewerken"
   },
-  
   "messages": {
     "welcome": "👋 Welkom! AI.duino  ondersteunt {0}!",
     "noApiKey": "🔑 Eerst heb je een API-sleutel nodig voor {0}",
@@ -47,7 +46,6 @@
     "followUpContext": "Gesprek voortzetten: \"{0}\" ({1} min geleden)",
     "contextCleared": "Gesprekcontext gewist"
   },
-  
   "buttons": {
     "chooseModel": "AI-model kiezen",
     "later": "Later",
@@ -74,9 +72,11 @@
     "checkStatus": "Sprawdź status",
     "checkRouter": "Sprawdź router",
     "save": "Opslaan",
-    "reset": "Herstellen"
+    "reset": "Herstellen",
+    "saveChanges": "Wijzigingen opslaan",
+    "discard": "Verwerpen",
+    "closeWithoutSaving": "Sluiten zonder opslaan"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Geselecteerde code optimaliseren",
     "explainCodeSelected": "Geselecteerde code uitleggen",
@@ -94,19 +94,16 @@
     "noValidContext": "Geen vorig gesprek",
     "editPrompts": "AI-prompts aanpassen en beheren"
   },
-  
-   "language": {
+  "language": {
     "autoDetect": "Automatisch detecteren vanuit VS Code",
     "selectLanguage": "Kies taal voor AI.duino",
     "changeLanguage": "Taal wijzigen",
     "changed": "Taal gewijzigd naar {0}"
   },
-
   "labels": {
     "active": "Actief",
     "aiHints": "AI-TIPS"
   },
-  
   "prompts": {
     "enterApiKey": "Voer {0} API-sleutel in",
     "customInstructions": "Aangepaste instructies voor codeverbetering (optioneel)",
@@ -133,7 +130,6 @@
     "followUpContext": "Context van vorig gesprek:",
     "followUpInstruction": "Antwoord in het Nederlands rekening houdend met het vorige gesprek."
   },
-  
   "placeholders": {
     "customInstructions": "bijv. \"gebruik geen millis()\", \"optimaliseer voor Arduino Nano\", \"voeg foutafhandeling toe\"",
     "commentInstructions": "bijv. \"zeer gedetailleerd\", \"alleen functies becommentariëren\", \"in het Nederlands\"",
@@ -142,13 +138,11 @@
     "askAI": "bijv. \"Hoe werkt PWM?\", \"Waarom werkt mijn sensor niet?\"",
     "askFollowUp": "Gesprek voortzetten..."
   },
-  
   "validation": {
     "apiKeyRequired": "API-sleutel vereist",
     "apiKeyPrefix": "Moet beginnen met \"{0}\"",
     "apiKeyTooShort": "Sleutel lijkt te kort"
   },
-  
   "progress": {
     "retrying": "{0} (Poging {1}/{2})",
     "explaining": "{0} legt de code uit...",
@@ -160,7 +154,6 @@
     "askingAI": "{0} verwerkt uw vraag...",
     "askingFollowUp": "{0} verwerkt uw vervolgvraag..."
   },
-  
   "errors": {
     "quotaExceeded": "Maandelijkse quota overschreden",
     "quotaExceededDetail": "{0}: Maandelijkse quota overschreden. Wacht tot volgende maand of wissel van model.",
@@ -191,16 +184,14 @@
       "general": "Netwerkfout: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nVandaag: {1} Tokens{2}\nInvoer: {3} | Uitvoer: {4}\nKlik voor menu • Ctrl+Shift+C • Rechtsklik om te wisselen",
     "noApiKey": "{0} API-sleutel ontbreekt! • Klik om in te stellen",
     "errorsFound": "{0} fouten gevonden • Klik voor hulp"
   },
-  
   "output": {
     "codeExplanation": "{0} Uitleg",
-    "explanationFrom": "CODE-UITLEG VAN {0}",    
+    "explanationFrom": "CODE-UITLEG VAN {0}",
     "aiResponse": "{0} Antwoord",
     "responseFrom": "ANTWOORD VAN {0}",
     "yourQuestion": "Uw vraag",
@@ -211,7 +202,6 @@
     "codeContextYes": "Code context: Ja ({0} regels)",
     "boardDetected": "Board: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Geselecteerde code opnemen",
     "includeSelectedCodeDesc": "Vraag versturen met momenteel geselecteerde code",
@@ -223,12 +213,10 @@
     "followUpQuestion": "Vervolgvraag",
     "relatedCode": "Gerelateerde code"
   },
-
   "shortcuts": {
     "askFollowUp": "Vervolgvraag",
     "askAI": "Nieuwe vraag"
   },
-  
   "panels": {
     "errorExplanation": "🔧 Foutuitleg",
     "debugHelp": "🔍 Debug-hulp",
@@ -236,12 +224,10 @@
     "tokenStats": "📊 Token-statistieken",
     "about": "Over AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Foutuitleg",
     "errorInLine": "Fout in regel {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Seriële Monitor uitvoer analyseren",
     "analyzeSerialDesc": "Hulp bij het interpreteren van debug-uitvoer",
@@ -253,7 +239,6 @@
     "timingProblemsDesc": "Hulp met delay(), millis() en timing-bugs",
     "selectHelp": "Waarbij heb je hulp nodig?"
   },
-  
   "offline": {
     "title": "Geen internetverbinding",
     "requiresInternet": "AI.duino vereist een internetverbinding om te communiceren met Claude, ChatGPT, Gemini of Mistral.",
@@ -277,7 +262,6 @@
     "tip": "Tip",
     "onlineAgain": "Zodra je weer online bent, kan AI.duino je helpen met specifieke problemen!"
   },
-  
   "stats": {
     "tokenUsageFor": "Tokengebruik voor {0}",
     "totalCostToday": "Totale kosten vandaag",
@@ -288,7 +272,6 @@
     "tipDescription": "Token-telling is een schatting. Werkelijke kosten kunnen licht afwijken.",
     "confirmReset": "Weet je zeker dat je de statistieken wilt resetten?"
   },
-  
   "about": {
     "tagline": "AI-aangedreven Arduino-ontwikkeling",
     "features": "Functies",
@@ -314,7 +297,6 @@
     "reportBugs": "Bugs melden",
     "madeWith": "Gemaakt met 💙 voor de Arduino-community"
   },
-
   "config": {
     "updateAvailable": "Provider Config update beschikbaar: {0} → {1}",
     "updateNow": "Nu bijwerken",
@@ -327,30 +309,31 @@
     "modelOutdated": "Model lijkt verouderd. Configuraties bijwerken?",
     "notNow": "Niet nu"
   },
-
   "settings": {
     "autoUpdateConfigs": "Automatisch controleren op provider configuratie updates"
   },
-
   "extensionUpdate": {
     "available": "AI.duino Extension update beschikbaar: {0} → {1}",
     "download": "Downloaden"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Belangrijk: Verwijder placeholders {0}, {1}, {2} niet - deze worden vervangen door code en instructies!",
+    "missingPlaceholder": "Fout: Ontbrekende placeholder {0}!",
+    "missingPlaceholderMultiple": "Fout: Ontbrekende placeholder {0}, {1} of {2}!",
     "standard": "Standaard",
     "custom": "Aangepast",
     "modified": "Gewijzigd",
     "saving": "Opslaan",
     "saved": "Opgeslagen",
     "resetSuccess": "Hersteld",
-    "unsavedWarning": "Taal wisselen? Niet-opgeslagen wijzigingen in de prompt-editor gaan verloren."
+    "unsavedWarning": "Taal wisselen? Niet-opgeslagen wijzigingen in de prompt-editor gaan verloren.",
+    "changesLostDialog": "Het paneel werd gesloten met niet-opgeslagen wijzigingen. Wat wilt u doen?",
+    "changesSaved": "Wijzigingen opgeslagen!"
   },
-
   "time": {
     "justNow": "zojuist",
     "minutesAgo": "{0}min geleden",
-    "hoursAgo": "{0}u geleden", 
+    "hoursAgo": "{0}u geleden",
     "daysAgo": "{0}d geleden"
   }
 }

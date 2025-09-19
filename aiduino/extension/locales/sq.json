@@ -17,7 +17,6 @@
     "askFollowUp": "Bëj një pyetje shtesë",
     "editPrompts": "Redakto kërkesat"
   },
-
   "messages": {
     "welcome": "👋 Mirë se vini! AI.duino mbështet {0}!",
     "noApiKey": "🔑 Ju duhet më parë një çelës API për {0}",
@@ -48,7 +47,6 @@
     "contextCleared": "Konteksti i bisedës u pastrua",
     "operationAlreadyRunning": "Operacioni tashmë po vazhdon! Ju lutemi prisni..."
   },
-  
   "buttons": {
     "chooseModel": "Zgjidh modelin AI",
     "later": "Më vonë",
@@ -75,9 +73,11 @@
     "checkStatus": "Kontrollo statusin",
     "checkRouter": "Kontrollo router-in",
     "save": "Ruaj",
-    "reset": "Rivendos"
+    "reset": "Rivendos",
+    "saveChanges": "Ruaj ndryshimet",
+    "discard": "Hidh",
+    "closeWithoutSaving": "Mbyll pa ruajtur"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Optimizo kodin e zgjedhur",
     "explainCodeSelected": "Shpjego kodin e zgjedhur",
@@ -95,19 +95,16 @@
     "noValidContext": "Nuk ka bisedë të mëparshme",
     "editPrompts": "Përshtat kërkesat e AI-së"
   },
-  
   "language": {
     "autoDetect": "Zbulo automatikisht nga VS Code",
     "selectLanguage": "Zgjidhni gjuhën për AI.duino",
     "changeLanguage": "Ndrysho gjuhën",
     "changed": "Gjuha u ndryshua në {0}"
   },
-  
   "labels": {
     "active": "Aktiv",
     "aiHints": "Këshilla AI"
   },
-  
   "prompts": {
     "enterApiKey": "Vendosni çelësin API të {0}",
     "customInstructions": "Instruksione të personalizuara për përmirësimin e kodit (opsionale)",
@@ -134,7 +131,6 @@
     "followUpContext": "Konteksti i bisedës së mëparshme:",
     "followUpInstruction": "Përgjigjuni në gjuhën shqipe duke marrë parasysh bisedën e mëparshme."
   },
-  
   "placeholders": {
     "customInstructions": "p.sh. \"mos përdor millis()\", \"optimizo për Arduino Nano\", \"shto trajtimin e gabimeve\"",
     "commentInstructions": "p.sh. \"shumë detajisht\", \"komento vetëm funksionet\", \"në anglisht\"",
@@ -143,13 +139,11 @@
     "askAI": "p.sh. \"Si funksionon PWM?\", \"Pse sensori im nuk punon?\"",
     "askFollowUp": "Vazhdo bisedën..."
   },
-  
   "validation": {
     "apiKeyRequired": "Çelësi API është i kërkuar",
     "apiKeyPrefix": "Duhet të fillojë me \"{0}\"",
     "apiKeyTooShort": "Çelësi duket shumë i shkurtër"
   },
-  
   "progress": {
     "retrying": "{0} (përpjekje {1}/{2})",
     "explaining": "{0} po shpjegon kodin...",
@@ -161,7 +155,6 @@
     "askingAI": "{0} po përpunon pyetjen tuaj...",
     "askingFollowUp": "{0} po përpunon pyetjen tuaj shtesë..."
   },
-  
   "errors": {
     "quotaExceeded": "Kuota mujore është shteruar",
     "quotaExceededDetail": "{0}: Kuota mujore është shteruar. Ju lutemi prisni deri në fillimin e muajit ose ndryshoni modelin.",
@@ -192,13 +185,11 @@
       "general": "Gabim rrjeti: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nSot: {1} Tokenë{2}\nHyrje: {3} | Dalje: {4}\nKliko për menu • Ctrl+Shift+C • Klik i djathtë për ndryshim",
     "noApiKey": "Çelësi API i {0} mungon! • Kliko për konfigurimin",
     "errorsFound": "{0} gabime u gjetën • Kliko për ndihmë"
   },
-  
   "output": {
     "codeExplanation": "Shpjegimi i {0}",
     "explanationFrom": "SHPJEGIMI I KODIT NGA {0}",
@@ -212,7 +203,6 @@
     "codeContextYes": "Konteksti i kodit: Po ({0} rreshta)",
     "boardDetected": "Kartela: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Përfshi kodin e zgjedhur",
     "includeSelectedCodeDesc": "Dërgo pyetjen me kodin aktualisht të zgjedhur",
@@ -224,12 +214,10 @@
     "followUpQuestion": "Pyetje shtesë",
     "relatedCode": "Kodi i lidhur"
   },
-
   "shortcuts": {
     "askFollowUp": "Pyetje shtesë",
     "askAI": "Pyetje e re"
   },
-
   "panels": {
     "errorExplanation": "🔧 Shpjegimi i gabimit",
     "debugHelp": "🔍 Ndihmë debug",
@@ -237,12 +225,10 @@
     "tokenStats": "📊 Statistikat e tokenëve",
     "about": "Rreth AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Shpjegimi i gabimit",
     "errorInLine": "Gabim në rreshtin {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Analizo output-in e Serial Monitor",
     "analyzeSerialDesc": "Ndihmë në interpretimin e output-eve të debug",
@@ -254,7 +240,6 @@
     "timingProblemsDesc": "Ndihmë me delay(), millis() dhe gabime kohe",
     "selectHelp": "Me çfarë keni nevojë për ndihmë?"
   },
-  
   "offline": {
     "title": "Nuk ka lidhje interneti",
     "requiresInternet": "AI.duino kërkon lidhje interneti për komunikim me Claude, ChatGPT, Gemini ose Mistral.",
@@ -278,7 +263,6 @@
     "tip": "Këshillë",
     "onlineAgain": "Sapo të lidheni përsëri online, AI.duino mund t'ju ndihmojë me probleme specifike!"
   },
-  
   "stats": {
     "tokenUsageFor": "Përdorimi i tokenëve për {0}",
     "totalCostToday": "Kostoja totale sot",
@@ -289,7 +273,6 @@
     "tipDescription": "Numërimi i tokenëve është i përafërt. Kostot aktuale mund të ndryshojnë pak.",
     "confirmReset": "Vërtet të rivendosen statistikat?"
   },
-  
   "about": {
     "tagline": "Zhvillim Arduino i mbështetur nga AI",
     "features": "Veçoritë",
@@ -315,7 +298,6 @@
     "reportBugs": "Raporto gabimet",
     "madeWith": "Bërë me 💙 për komunitetin Arduino"
   },
-
   "config": {
     "updateAvailable": "Përditësim i disponueshëm i konfigurimit të ofruesve: {0} → {1}",
     "updateNow": "Përditëso tani",
@@ -328,26 +310,27 @@
     "modelOutdated": "Modeli duket i vjetëruar. Të përditësohen konfigurimet?",
     "notNow": "Jo tani"
   },
-
   "settings": {
     "autoUpdateConfigs": "Kërko automatikisht përditësime të konfigurimit të ofruesve"
   },
-
   "extensionUpdate": {
     "available": "Përditësim i disponueshëm i shtojcës AI.duino: {0} → {1}",
     "download": "Shkarko"
   },
-
   "promptEditor": {
+    "placeholderWarning": "E rëndësishme: Mos i fshini vendmbajtësit {0}, {1}, {2} - ata zëvendësohen me kod dhe udhëzime!",
+    "missingPlaceholder": "Gabim: Mungon vendmbajtësi {0}!",
+    "missingPlaceholderMultiple": "Gabim: Mungon vendmbajtësi {0}, {1} ose {2}!",
     "standard": "Standard",
     "custom": "I personalizuar",
     "modified": "I modifikuar",
     "saving": "Po ruan",
     "saved": "U ruajt",
     "resetSuccess": "U rivendos",
-    "unsavedWarning": "Të ndryshohet gjuha? Ndryshimet e paruajtura në redaktuesin e kërkesave do të humbin."
+    "unsavedWarning": "Të ndryshohet gjuha? Ndryshimet e paruajtura në redaktuesin e kërkesave do të humbin.",
+    "changesLostDialog": "Paneli u mbyll me ndryshime të paruajtura. Çfarë dëshironi të bëni?",
+    "changesSaved": "Ndryshimet u ruajtën!"
   },
-
   "time": {
     "justNow": "tani",
     "minutesAgo": "{0}min më parë",

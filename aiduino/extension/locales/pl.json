@@ -17,7 +17,6 @@
     "askFollowUp": "Pytanie uzupełniające",
     "editPrompts": "Edytuj polecenia"
   },
-  
   "messages": {
     "welcome": "👋 Witaj! AI.duino  obsługuje {0}!",
     "noApiKey": "🔑 Najpierw potrzebujesz klucza API dla {0}",
@@ -47,7 +46,6 @@
     "followUpContext": "Kontynuacja rozmowy: \"{0}\" ({1} min temu)",
     "contextCleared": "Kontekst rozmowy wyczyszczony"
   },
-  
   "buttons": {
     "chooseModel": "Wybierz model AI",
     "later": "Później",
@@ -74,9 +72,11 @@
     "checkStatus": "Sprawdź status",
     "checkRouter": "Sprawdź router",
     "save": "Zapisz",
-    "reset": "Resetuj"
+    "reset": "Resetuj",
+    "saveChanges": "Zapisz zmiany",
+    "discard": "Odrzuć",
+    "closeWithoutSaving": "Zamknij bez zapisywania"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Optymalizuj zaznaczony kod",
     "explainCodeSelected": "Wyjaśnij zaznaczony kod",
@@ -94,19 +94,16 @@
     "noValidContext": "Brak poprzedniej rozmowy",
     "editPrompts": "Dostosuj i zarządzaj poleceniami AI"
   },
-
   "language": {
     "autoDetect": "Wykryj automatycznie z VS Code",
     "selectLanguage": "Wybierz język dla AI.duino",
     "changeLanguage": "Zmień język",
     "changed": "Język zmieniony na {0}"
   },
-  
   "labels": {
     "active": "Aktywny",
     "aiHints": "WSKAZÓWKI AI"
   },
-  
   "prompts": {
     "enterApiKey": "Wprowadź klucz API {0}",
     "customInstructions": "Własne instrukcje do ulepszenia kodu (opcjonalne)",
@@ -133,7 +130,6 @@
     "followUpContext": "Kontekst poprzedniej rozmowy:",
     "followUpInstruction": "Odpowiedz po polsku biorąc pod uwagę poprzednią rozmowę."
   },
-  
   "placeholders": {
     "customInstructions": "np. \"nie używaj millis()\", \"optymalizuj dla Arduino Nano\", \"dodaj obsługę błędów\"",
     "commentInstructions": "np. \"bardzo szczegółowo\", \"tylko komentuj funkcje\", \"po polsku\"",
@@ -142,13 +138,11 @@
     "askAI": "np. \"Jak działa PWM?\", \"Dlaczego mój czujnik nie działa?\"",
     "askFollowUp": "Kontynuuj rozmowę..."
   },
-  
   "validation": {
     "apiKeyRequired": "Klucz API wymagany",
     "apiKeyPrefix": "Musi zaczynać się od \"{0}\"",
     "apiKeyTooShort": "Klucz wydaje się za krótki"
   },
-  
   "progress": {
     "retrying": "{0} (Próba {1}/{2})",
     "explaining": "{0} wyjaśnia kod...",
@@ -160,7 +154,6 @@
     "askingAI": "{0} przetwarza twoje pytanie...",
     "askingFollowUp": "{0} przetwarza twoje pytanie uzupełniające..."
   },
-  
   "errors": {
     "quotaExceeded": "Miesięczny limit przekroczony",
     "quotaExceededDetail": "{0}: Miesięczny limit przekroczony. Proszę poczekać do następnego miesiąca lub zmienić model.",
@@ -191,13 +184,11 @@
       "general": "Błąd sieci: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDzisiaj: {1} tokenów{2}\nWejście: {3} | Wyjście: {4}\nKliknij dla menu • Ctrl+Shift+C • Prawy klik aby zmienić",
     "noApiKey": "Brak klucza API {0}! • Kliknij aby skonfigurować",
     "errorsFound": "Znaleziono {0} błędów • Kliknij po pomoc"
   },
-  
   "output": {
     "codeExplanation": "Wyjaśnienie {0}",
     "explanationFrom": "WYJAŚNIENIE KODU OD {0}",
@@ -211,7 +202,6 @@
     "codeContextYes": "Kontekst kodu: Tak ({0} linii)",
     "boardDetected": "Płytka: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Dołącz zaznaczony kod",
     "includeSelectedCodeDesc": "Wyślij pytanie z aktualnie zaznaczonym kodem",
@@ -223,12 +213,10 @@
     "followUpQuestion": "Pytanie uzupełniające",
     "relatedCode": "Powiązany kod"
   },
-
   "shortcuts": {
     "askFollowUp": "Pytanie uzupełniające",
     "askAI": "Nowe pytanie"
   },
-  
   "panels": {
     "errorExplanation": "🔧 Wyjaśnienie błędu",
     "debugHelp": "🔍 Pomoc w debugowaniu",
@@ -236,12 +224,10 @@
     "tokenStats": "📊 Statystyki tokenów",
     "about": "O AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Wyjaśnienie błędu",
     "errorInLine": "Błąd w linii {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Analizuj wyjście Monitora szeregowego",
     "analyzeSerialDesc": "Pomoc w interpretacji wyjścia debugowania",
@@ -253,7 +239,6 @@
     "timingProblemsDesc": "Pomoc z delay(), millis() i błędami czasowymi",
     "selectHelp": "W czym potrzebujesz pomocy?"
   },
-  
   "offline": {
     "title": "Brak połączenia z internetem",
     "requiresInternet": "AI.duino wymaga połączenia z internetem do komunikacji z Claude, ChatGPT, Gemini lub Mistral.",
@@ -277,7 +262,6 @@
     "tip": "Wskazówka",
     "onlineAgain": "Gdy znów będziesz online, AI.duino może pomóc Ci z konkretnymi problemami!"
   },
-  
   "stats": {
     "tokenUsageFor": "Użycie tokenów dla {0}",
     "totalCostToday": "Całkowity koszt dzisiaj",
@@ -288,7 +272,6 @@
     "tipDescription": "Liczenie tokenów jest szacunkowe. Rzeczywiste koszty mogą się nieznacznie różnić.",
     "confirmReset": "Czy na pewno zresetować statystyki?"
   },
-  
   "about": {
     "tagline": "Rozwój Arduino wspierany przez AI",
     "features": "Funkcje",
@@ -314,7 +297,6 @@
     "reportBugs": "Zgłoś błędy",
     "madeWith": "Stworzone z 💙 dla społeczności Arduino"
   },
-
   "config": {
     "updateAvailable": "Dostępna aktualizacja Provider Config: {0} → {1}",
     "updateNow": "Aktualizuj teraz",
@@ -327,30 +309,31 @@
     "modelOutdated": "Model wydaje się przestarzały. Zaktualizować konfiguracje?",
     "notNow": "Nie teraz"
   },
-
   "settings": {
     "autoUpdateConfigs": "Automatycznie sprawdzaj aktualizacje konfiguracji dostawców"
   },
-
   "extensionUpdate": {
     "available": "AI.duino Extension aktualizacja dostępna: {0} → {1}",
     "download": "Pobierz"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Ważne: Nie usuwaj symboli zastępczych {0}, {1}, {2} - są zastępowane kodem i instrukcjami!",
+    "missingPlaceholder": "Błąd: Brak symbolu zastępczego {0}!",
+    "missingPlaceholderMultiple": "Błąd: Brak symbolu zastępczego {0}, {1} lub {2}!",
     "standard": "Standardowy",
     "custom": "Niestandardowy",
     "modified": "Zmodyfikowany",
     "saving": "Zapisywanie",
     "saved": "Zapisany",
     "resetSuccess": "Przywrócony",
-    "unsavedWarning": "Zmienić język? Niezapisane zmiany w edytorze poleceń zostaną utracone."
+    "unsavedWarning": "Zmienić język? Niezapisane zmiany w edytorze poleceń zostaną utracone.",
+    "changesLostDialog": "Panel został zamknięty z niezapisanymi zmianami. Co chcesz zrobić?",
+    "changesSaved": "Zmiany zapisane!"
   },
-
   "time": {
     "justNow": "właśnie teraz",
     "minutesAgo": "{0}min temu",
-    "hoursAgo": "{0}h temu", 
+    "hoursAgo": "{0}h temu",
     "daysAgo": "{0}d temu"
   }
 }

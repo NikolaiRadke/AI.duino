@@ -17,7 +17,6 @@
     "askFollowUp": "Ask Follow-up",
     "editPrompts": "Edit Prompts"
   },
-  
   "messages": {
     "welcome": "👋 Welcome! AI.duino  supports {0}!",
     "noApiKey": "🔑 First you need an API key for {0}",
@@ -48,7 +47,6 @@
     "contextCleared": "Conversation context cleared",
     "operationAlreadyRunning": "Operation already running! Please wait..."
   },
-  
   "buttons": {
     "chooseModel": "Choose AI Model",
     "later": "Later",
@@ -75,9 +73,11 @@
     "checkStatus": "Check Status",
     "checkRouter": "Check Router",
     "save": "Save",
-    "reset": "Reset"
+    "reset": "Reset",
+    "saveChanges": "Save Changes",
+    "discard": "Discard",
+    "closeWithoutSaving": "Close without Saving"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Optimize selected code",
     "explainCodeSelected": "Explain selected code",
@@ -95,19 +95,16 @@
     "noValidContext": "No previous conversation",
     "editPrompts": "Customize and manage AI prompts"
   },
-
   "language": {
     "autoDetect": "Auto-detect from VS Code",
     "selectLanguage": "Choose language for AI.duino",
     "changeLanguage": "Change Language",
     "changed": "Language changed to {0}"
   },
-  
   "labels": {
     "active": "Active",
     "aiHints": "AI HINTS"
   },
-  
   "prompts": {
     "enterApiKey": "Enter {0} API Key",
     "customInstructions": "Custom instructions for code improvement (optional)",
@@ -134,7 +131,6 @@
     "followUpContext": "Previous conversation context:",
     "followUpInstruction": "Respond considering the previous conversation."
   },
-  
   "placeholders": {
     "customInstructions": "e.g., \"don't use millis()\", \"optimize for Arduino Nano\", \"add error handling\"",
     "commentInstructions": "e.g., \"very detailed\", \"only comment functions\", \"in English\"",
@@ -143,13 +139,11 @@
     "askAI": "e.g. \"How does PWM work?\", \"Why isn't my sensor working?\"",
     "askFollowUp": "Continue the conversation..."
   },
-  
   "validation": {
     "apiKeyRequired": "API Key required",
     "apiKeyPrefix": "Must start with \"{0}\"",
     "apiKeyTooShort": "Key seems too short"
   },
-  
   "progress": {
     "retrying": "{0} (Attempt {1}/{2})",
     "explaining": "{0} is explaining the code...",
@@ -161,7 +155,6 @@
     "askingAI": "{0} is answering your question...",
     "askingFollowUp": "{0} is processing your follow-up..."
   },
-  
   "errors": {
     "quotaExceeded": "Monthly quota exceeded",
     "quotaExceededDetail": "{0}: Monthly quota exceeded. Please wait until next month or switch model.",
@@ -192,13 +185,11 @@
       "general": "Network error: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nToday: {1} Tokens{2}\nInput: {3} | Output: {4}\nClick for menu • Ctrl+Shift+C • Right-click to switch",
     "noApiKey": "{0} API Key missing! • Click to set up",
     "errorsFound": "{0} errors found • Click for help"
   },
-  
   "output": {
     "codeExplanation": "{0} Explanation",
     "explanationFrom": "CODE EXPLANATION FROM {0}",
@@ -212,7 +203,6 @@
     "codeContextYes": "Code Context: Yes ({0} lines)",
     "boardDetected": "Board: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Include selected code",
     "includeSelectedCodeDesc": "Send question with currently selected code",
@@ -224,12 +214,10 @@
     "followUpQuestion": "Follow-up question",
     "relatedCode": "Related code"
   },
-
   "shortcuts": {
     "askFollowUp": "Follow-up question",
     "askAI": "New question"
   },
-
   "panels": {
     "errorExplanation": "🔧 Error Explanation",
     "debugHelp": "🔍 Debug Help",
@@ -237,12 +225,10 @@
     "tokenStats": "📊 Token Statistics",
     "about": "About AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Error Explanation",
     "errorInLine": "Error in line {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Analyze Serial Monitor output",
     "analyzeSerialDesc": "Help with interpreting debug output",
@@ -254,7 +240,6 @@
     "timingProblemsDesc": "Help with delay(), millis() and timing bugs",
     "selectHelp": "What do you need help with?"
   },
-  
   "offline": {
     "title": "No Internet Connection",
     "requiresInternet": "AI.duino requires an internet connection to communicate with Claude, ChatGPT, Gemini or Mistral.",
@@ -278,7 +263,6 @@
     "tip": "Tip",
     "onlineAgain": "Once you're online again, AI.duino can help you with specific problems!"
   },
-  
   "stats": {
     "tokenUsageFor": "Token Usage for {0}",
     "totalCostToday": "Total cost today",
@@ -289,7 +273,6 @@
     "tipDescription": "Token counting is an estimate. Actual costs may vary slightly.",
     "confirmReset": "Really reset statistics?"
   },
-  
   "about": {
     "tagline": "AI-powered Arduino Development",
     "features": "Features",
@@ -315,7 +298,6 @@
     "reportBugs": "Report bugs",
     "madeWith": "Made with 💙 for the Arduino community"
   },
-
   "config": {
     "updateAvailable": "Provider Config Update available: {0} → {1}",
     "updateNow": "Update Now",
@@ -328,30 +310,31 @@
     "modelOutdated": "Model appears to be outdated. Update configurations?",
     "notNow": "Not Now"
   },
-
   "settings": {
     "autoUpdateConfigs": "Automatically check for provider configuration updates"
   },
-
   "extensionUpdate": {
     "available": "AI.duino Extension update available: {0} → {1}",
     "download": "Download"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Important: Do not delete placeholders {0}, {1}, {2} - they get replaced with code and instructions!",
+    "missingPlaceholder": "Error: Missing placeholder {0}!",
+    "missingPlaceholderMultiple": "Error: Missing placeholder {0}, {1} or {2}!",
     "standard": "Standard",
     "custom": "Custom",
     "modified": "Modified",
     "saving": "Saving",
     "saved": "Saved",
     "resetSuccess": "Reset",
-    "unsavedWarning": "Switch language? Unsaved changes in the prompt editor will be lost."
+    "unsavedWarning": "Switch language? Unsaved changes in the prompt editor will be lost.",
+    "changesLostDialog": "The panel was closed with unsaved changes. What would you like to do?",
+    "changesSaved": "Changes saved!"
   },
-
   "time": {
     "justNow": "just now",
     "minutesAgo": "{0}min ago",
-    "hoursAgo": "{0}h ago", 
+    "hoursAgo": "{0}h ago",
     "daysAgo": "{0}d ago"
   }
 }

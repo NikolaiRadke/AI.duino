@@ -17,7 +17,6 @@
     "askFollowUp": "Question de suivi",
     "editPrompts": "Modifier les invites"
   },
-  
   "messages": {
     "welcome": "👋 Bienvenue ! AI.duino  prend en charge {0} !",
     "noApiKey": "🔑 Vous avez d'abord besoin d'une clé API pour {0}",
@@ -47,7 +46,6 @@
     "followUpContext": "Continuation de conversation : \"{0}\" (il y a {1} min)",
     "contextCleared": "Contexte de conversation effacé"
   },
-  
   "buttons": {
     "chooseModel": "Choisir le modèle IA",
     "later": "Plus tard",
@@ -74,9 +72,11 @@
     "checkStatus": "Vérifier le statut",
     "checkRouter": "Vérifier le routeur",
     "save": "Enregistrer",
-    "reset": "Réinitialiser"
+    "reset": "Réinitialiser",
+    "saveChanges": "Enregistrer les modifications",
+    "discard": "Annuler",
+    "closeWithoutSaving": "Fermer sans enregistrer"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Optimiser le code sélectionné",
     "explainCodeSelected": "Expliquer le code sélectionné",
@@ -94,19 +94,16 @@
     "noValidContext": "Aucune conversation précédente",
     "editPrompts": "Personnaliser et gérer les invites IA"
   },
-
   "language": {
     "autoDetect": "Détecter automatiquement depuis VS Code",
     "selectLanguage": "Choisir la langue pour AI.duino",
     "changeLanguage": "Changer de langue",
     "changed": "Langue changée en {0}"
   },
-
   "labels": {
     "active": "Actif",
     "aiHints": "CONSEILS IA"
   },
-  
   "prompts": {
     "enterApiKey": "Entrer la clé API {0}",
     "customInstructions": "Instructions personnalisées pour l'amélioration du code (optionnel)",
@@ -133,7 +130,6 @@
     "followUpContext": "Contexte de conversation précédente :",
     "followUpInstruction": "Réponds en français en tenant compte de la conversation précédente."
   },
-  
   "placeholders": {
     "customInstructions": "ex. \"n'utilise pas millis()\", \"optimise pour Arduino Nano\", \"ajoute la gestion d'erreurs\"",
     "commentInstructions": "ex. \"très détaillé\", \"commenter seulement les fonctions\", \"en anglais\"",
@@ -142,13 +138,11 @@
     "askAI": "ex. \"Comment fonctionne le PWM ?\", \"Pourquoi mon capteur ne fonctionne pas ?\"",
     "askFollowUp": "Continuer la conversation..."
   },
-  
   "validation": {
     "apiKeyRequired": "Clé API requise",
     "apiKeyPrefix": "Doit commencer par \"{0}\"",
     "apiKeyTooShort": "La clé semble trop courte"
   },
-  
   "progress": {
     "retrying": "{0} (Tentative {1}/{2})",
     "explaining": "{0} explique le code...",
@@ -160,7 +154,6 @@
     "askingAI": "{0} traite votre question...",
     "askingFollowUp": "{0} traite votre question de suivi..."
   },
-  
   "errors": {
     "quotaExceeded": "Quota mensuel dépassé",
     "quotaExceededDetail": "{0}: Quota mensuel dépassé. Veuillez attendre le mois prochain ou changer de modèle.",
@@ -191,13 +184,11 @@
       "general": "Erreur réseau : {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino  : {0}\nAujourd'hui : {1} Tokens{2}\nEntrée : {3} | Sortie : {4}\nClic pour menu • Ctrl+Maj+C • Clic droit pour changer",
     "noApiKey": "Clé API {0} manquante ! • Clic pour configurer",
     "errorsFound": "{0} erreurs trouvées • Clic pour aide"
   },
-  
   "output": {
     "codeExplanation": "Explication {0}",
     "explanationFrom": "EXPLICATION DU CODE PAR {0}",
@@ -211,7 +202,6 @@
     "codeContextYes": "Contexte de code: Oui ({0} lignes)",
     "boardDetected": "Carte: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Inclure le code sélectionné",
     "includeSelectedCodeDesc": "Envoyer la question avec le code actuellement sélectionné",
@@ -223,12 +213,10 @@
     "followUpQuestion": "Question de suivi",
     "relatedCode": "Code associé"
   },
-
   "shortcuts": {
     "askFollowUp": "Question de suivi",
     "askAI": "Nouvelle question"
   },
-  
   "panels": {
     "errorExplanation": "🔧 Explication de l'erreur",
     "debugHelp": "🔍 Aide au débogage",
@@ -236,12 +224,10 @@
     "tokenStats": "📊 Statistiques des tokens",
     "about": "À propos d'AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Explication de l'erreur",
     "errorInLine": "Erreur à la ligne {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Analyser la sortie du Moniteur Série",
     "analyzeSerialDesc": "Aide à l'interprétation des sorties de débogage",
@@ -253,7 +239,6 @@
     "timingProblemsDesc": "Aide avec delay(), millis() et bugs de temporisation",
     "selectHelp": "De quelle aide avez-vous besoin ?"
   },
-  
   "offline": {
     "title": "Aucune connexion internet",
     "requiresInternet": "AI.duino nécessite une connexion internet pour communiquer avec Claude, ChatGPT, Gemini ou Mistral.",
@@ -277,7 +262,6 @@
     "tip": "Conseil",
     "onlineAgain": "Une fois en ligne, AI.duino peut vous aider avec des problèmes spécifiques !"
   },
-  
   "stats": {
     "tokenUsageFor": "Utilisation des tokens pour {0}",
     "totalCostToday": "Coût total aujourd'hui",
@@ -288,7 +272,6 @@
     "tipDescription": "Le comptage des tokens est une estimation. Les coûts réels peuvent varier légèrement.",
     "confirmReset": "Vraiment réinitialiser les statistiques ?"
   },
-  
   "about": {
     "tagline": "Développement Arduino propulsé par l'IA",
     "features": "Fonctionnalités",
@@ -314,7 +297,6 @@
     "reportBugs": "Signaler des bugs",
     "madeWith": "Fait avec 💙 pour la communauté Arduino"
   },
-
   "config": {
     "updateAvailable": "Mise à jour Provider Config disponible : {0} → {1}",
     "updateNow": "Mettre à jour maintenant",
@@ -327,30 +309,31 @@
     "modelOutdated": "Le modèle semble obsolète. Mettre à jour les configurations ?",
     "notNow": "Pas maintenant"
   },
-
   "settings": {
     "autoUpdateConfigs": "Vérifier automatiquement les mises à jour des configurations des fournisseurs"
   },
-
   "extensionUpdate": {
     "available": "Mise à jour AI.duino Extension disponible: {0} → {1}",
     "download": "Télécharger"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Important: Ne pas supprimer les espaces réservés {0}, {1}, {2} - ils sont remplacés par du code et des instructions!",
+    "missingPlaceholder": "Erreur: Espace réservé {0} manquant!",
+    "missingPlaceholderMultiple": "Erreur: Espace réservé {0}, {1} ou {2} manquant!",
     "standard": "Standard",
     "custom": "Personnalisé",
     "modified": "Modifié",
     "saving": "Enregistrement",
     "saved": "Enregistré",
     "resetSuccess": "Réinitialisé",
-    "unsavedWarning": "Changer de langue ? Les modifications non sauvegardées dans l'éditeur d'invites seront perdues."
+    "unsavedWarning": "Changer de langue ? Les modifications non sauvegardées dans l'éditeur d'invites seront perdues.",
+    "changesLostDialog": "Le panneau a été fermé avec des modifications non enregistrées. Que voulez-vous faire ?",
+    "changesSaved": "Modifications enregistrées !"
   },
-
   "time": {
     "justNow": "à l'instant",
     "minutesAgo": "il y a {0}min",
-    "hoursAgo": "il y a {0}h", 
+    "hoursAgo": "il y a {0}h",
     "daysAgo": "il y a {0}j"
   }
 }

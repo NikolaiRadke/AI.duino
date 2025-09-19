@@ -17,7 +17,6 @@
     "askFollowUp": "Uzdot papildu jautājumu",
     "editPrompts": "Rediģēt uzvednes"
   },
-
   "messages": {
     "welcome": "👋 Esiet sveicināti! AI.duino atbalsta {0}!",
     "noApiKey": "🔑 Vispirms nepieciešama {0} API atslēga",
@@ -48,7 +47,6 @@
     "contextCleared": "Sarunas konteksts dzēsts",
     "operationAlreadyRunning": "Darbība jau notiek! Lūdzu uzgaidiet..."
   },
-  
   "buttons": {
     "chooseModel": "Izvēlēties AI modeli",
     "later": "Vēlāk",
@@ -75,9 +73,11 @@
     "checkStatus": "Pārbaudīt statusu",
     "checkRouter": "Pārbaudīt maršrutētāju",
     "save": "Saglabāt",
-    "reset": "Atiestatīt"
+    "reset": "Atiestatīt",
+    "saveChanges": "Saglabāt izmaiņas",
+    "discard": "Atmest",
+    "closeWithoutSaving": "Aizvērt nesaglabājot"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Optimizēt iezīmēto kodu",
     "explainCodeSelected": "Izskaidrot iezīmēto kodu",
@@ -95,19 +95,16 @@
     "noValidContext": "Nav iepriekšējās sarunas",
     "editPrompts": "Pielāgot AI uzvednes"
   },
-  
   "language": {
     "autoDetect": "Automātiski noteikt no VS Code",
     "selectLanguage": "Izvēlieties valodu AI.duino",
     "changeLanguage": "Mainīt valodu",
     "changed": "Valoda mainīta uz {0}"
   },
-  
   "labels": {
     "active": "Aktīvs",
     "aiHints": "AI padomi"
   },
-  
   "prompts": {
     "enterApiKey": "Ievadiet {0} API atslēgu",
     "customInstructions": "Pielāgotas instrukcijas koda uzlabošanai (neobligāti)",
@@ -134,7 +131,6 @@
     "followUpContext": "Iepriekšējās sarunas konteksts:",
     "followUpInstruction": "Atbildiet latviešu valodā, ņemot vērā iepriekšējo sarunu."
   },
-  
   "placeholders": {
     "customInstructions": "piemēram, \"neizmantot millis()\", \"optimizēt Arduino Nano\", \"pievienot kļūdu apstrādi\"",
     "commentInstructions": "piemēram, \"ļoti detalizēti\", \"komentēt tikai funkcijas\", \"angļu valodā\"",
@@ -143,13 +139,11 @@
     "askAI": "piemēram, \"Kā darbojas PWM?\", \"Kāpēc mans sensors nedarbojas?\"",
     "askFollowUp": "Turpināt sarunu..."
   },
-  
   "validation": {
     "apiKeyRequired": "API atslēga nepieciešama",
     "apiKeyPrefix": "Jāsākas ar \"{0}\"",
     "apiKeyTooShort": "Atslēga šķiet pārāk īsa"
   },
-  
   "progress": {
     "retrying": "{0} (mēģinājums {1}/{2})",
     "explaining": "{0} skaidro kodu...",
@@ -161,7 +155,6 @@
     "askingAI": "{0} apstrādā jūsu jautājumu...",
     "askingFollowUp": "{0} apstrādā jūsu papildu jautājumu..."
   },
-  
   "errors": {
     "quotaExceeded": "Mēneša kvota izsmelts",
     "quotaExceededDetail": "{0}: Mēneša kvota izsmelts. Lūdzu uzgaidiet līdz mēneša sākumam vai mainiet modeli.",
@@ -192,13 +185,11 @@
       "general": "Tīkla kļūda: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nŠodien: {1} Žetoni{2}\nIevade: {3} | Izvade: {4}\nKlikšķis izvēlnei • Ctrl+Shift+C • Labais klikšķis pārslēgšanai",
     "noApiKey": "{0} API atslēga trūkst! • Klikšķis iestatīšanai",
     "errorsFound": "{0} kļūdas atrastas • Klikšķis palīdzībai"
   },
-  
   "output": {
     "codeExplanation": "{0} skaidrojums",
     "explanationFrom": "KODA SKAIDROJUMS NO {0}",
@@ -212,7 +203,6 @@
     "codeContextYes": "Koda konteksts: Jā ({0} rindas)",
     "boardDetected": "Plate: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Iekļaut iezīmēto kodu",
     "includeSelectedCodeDesc": "Sūtīt jautājumu ar pašlaik iezīmēto kodu",
@@ -224,12 +214,10 @@
     "followUpQuestion": "Papildu jautājums",
     "relatedCode": "Saistītais kods"
   },
-
   "shortcuts": {
     "askFollowUp": "Papildu jautājums",
     "askAI": "Jauns jautājums"
   },
-
   "panels": {
     "errorExplanation": "🔧 Kļūdas skaidrojums",
     "debugHelp": "🔍 Atkļūdošanas palīdzība",
@@ -237,12 +225,10 @@
     "tokenStats": "📊 Žetonu statistika",
     "about": "Par AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Kļūdas skaidrojums",
     "errorInLine": "Kļūda {0}. rindā"
   },
-  
   "debug": {
     "analyzeSerial": "Analizēt Serial Monitor izvadi",
     "analyzeSerialDesc": "Palīdzība atkļūdošanas izvadu interpretācijā",
@@ -254,7 +240,6 @@
     "timingProblemsDesc": "Palīdzība ar delay(), millis() un laika kļūdām",
     "selectHelp": "Ar ko jums nepieciešama palīdzība?"
   },
-  
   "offline": {
     "title": "Nav interneta savienojuma",
     "requiresInternet": "AI.duino nepieciešams interneta savienojums komunikācijai ar Claude, ChatGPT, Gemini vai Mistral.",
@@ -278,7 +263,6 @@
     "tip": "Padoms",
     "onlineAgain": "Tiklīdz atkal būsiet tiešsaistē, AI.duino var palīdzēt ar konkrētām problēmām!"
   },
-  
   "stats": {
     "tokenUsageFor": "Žetonu izmantošana {0}",
     "totalCostToday": "Kopējās izmaksas šodien",
@@ -289,7 +273,6 @@
     "tipDescription": "Žetonu skaitīšana ir novērtējums. Faktiskās izmaksas var nedaudz atšķirties.",
     "confirmReset": "Tiešām atiestatīt statistiku?"
   },
-  
   "about": {
     "tagline": "AI atbalstīta Arduino izstrāde",
     "features": "Funkcijas",
@@ -315,7 +298,6 @@
     "reportBugs": "Ziņot par kļūdām",
     "madeWith": "Izstrādāts ar 💙 Arduino kopienai"
   },
-
   "config": {
     "updateAvailable": "Pieejams pakalpojumu sniedzēju konfigurācijas atjauninājums: {0} → {1}",
     "updateNow": "Atjaunināt tagad",
@@ -328,26 +310,27 @@
     "modelOutdated": "Modelis šķiet novecojis. Atjaunināt konfigurācijas?",
     "notNow": "Ne tagad"
   },
-
   "settings": {
     "autoUpdateConfigs": "Automātiski meklēt pakalpojumu sniedzēju konfigurācijas atjauninājumus"
   },
-
   "extensionUpdate": {
     "available": "Pieejams AI.duino paplašinājuma atjauninājums: {0} → {1}",
     "download": "Lejupielādēt"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Svarīgi: Neizdzēsiet vietturus {0}, {1}, {2} - tie tiek aizstāti ar kodu un instrukcijām!",
+    "missingPlaceholder": "Kļūda: Trūkst vietturi {0}!",
+    "missingPlaceholderMultiple": "Kļūda: Trūkst vietturi {0}, {1} vai {2}!",
     "standard": "Standarta",
     "custom": "Pielāgots",
     "modified": "Mainīts",
     "saving": "Saglabā",
     "saved": "Saglabāts",
     "resetSuccess": "Atiestatīts",
-    "unsavedWarning": "Mainīt valodu? Nesaglabātās izmaiņas uzvedņu redaktorā tiks zaudētas."
+    "unsavedWarning": "Mainīt valodu? Nesaglabātās izmaiņas uzvedņu redaktorā tiks zaudētas.",
+    "changesLostDialog": "Panelis tika aizvērts ar nesaglabātām izmaiņām. Ko vēlaties darīt?",
+    "changesSaved": "Izmaiņas saglabātas!"
   },
-
   "time": {
     "justNow": "tikko",
     "minutesAgo": "pirms {0}min",

@@ -17,7 +17,6 @@
     "askFollowUp": "Postavi dodatno pitanje",
     "editPrompts": "Uredi upite"
   },
-
   "messages": {
     "welcome": "👋 Dobrodošli! AI.duino podržava {0}!",
     "noApiKey": "🔑 Prvo trebate API ključ za {0}",
@@ -48,7 +47,6 @@
     "contextCleared": "Kontekst razgovora je obrisan",
     "operationAlreadyRunning": "Operacija već traje! Molimo sačekajte..."
   },
-  
   "buttons": {
     "chooseModel": "Odaberi AI model",
     "later": "Kasnije",
@@ -75,9 +73,11 @@
     "checkStatus": "Provjeri status",
     "checkRouter": "Provjeri router",
     "save": "Sačuvaj",
-    "reset": "Resetuj"
+    "reset": "Resetuj",
+    "saveChanges": "Sačuvaj izmjene",
+    "discard": "Odbaci",
+    "closeWithoutSaving": "Zatvori bez čuvanja"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Optimiziraj označeni kod",
     "explainCodeSelected": "Objasni označeni kod",
@@ -95,19 +95,16 @@
     "noValidContext": "Nema prethodnog razgovora",
     "editPrompts": "Prilagodite AI upite"
   },
-  
   "language": {
     "autoDetect": "Automatski prepoznaj iz VS Code",
     "selectLanguage": "Odaberite jezik za AI.duino",
     "changeLanguage": "Promijeni jezik",
     "changed": "Jezik promijenjen na {0}"
   },
-  
   "labels": {
     "active": "Aktivan",
     "aiHints": "AI savjeti"
   },
-  
   "prompts": {
     "enterApiKey": "Unesite {0} API ključ",
     "customInstructions": "Vlastite instrukcije za poboljšanje koda (opciono)",
@@ -134,7 +131,6 @@
     "followUpContext": "Kontekst prethodnog razgovora:",
     "followUpInstruction": "Odgovorite na bosanskom jeziku uzimajući u obzir prethodnji razgovor."
   },
-  
   "placeholders": {
     "customInstructions": "npr. \"ne koristiti millis()\", \"optimizirati za Arduino Nano\", \"dodati error handling\"",
     "commentInstructions": "npr. \"vrlo detaljno\", \"komentirati samo funkcije\", \"na engleskom\"",
@@ -143,13 +139,11 @@
     "askAI": "npr. \"Kako funkcioniše PWM?\", \"Zašto moj senzor ne radi?\"",
     "askFollowUp": "Nastavi razgovor..."
   },
-  
   "validation": {
     "apiKeyRequired": "API ključ je potreban",
     "apiKeyPrefix": "Mora počinjati sa \"{0}\"",
     "apiKeyTooShort": "Ključ je prekratak"
   },
-  
   "progress": {
     "retrying": "{0} (pokušaj {1}/{2})",
     "explaining": "{0} objašnjava kod...",
@@ -161,7 +155,6 @@
     "askingAI": "{0} obrađuje vaše pitanje...",
     "askingFollowUp": "{0} obrađuje vaše dodatno pitanje..."
   },
-  
   "errors": {
     "quotaExceeded": "Mjesečna kvota je iscrpljena",
     "quotaExceededDetail": "{0}: Mjesečna kvota je iscrpljena. Molimo sačekajte do početka mjeseca ili promijenite model.",
@@ -192,13 +185,11 @@
       "general": "Greška mreže: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDanas: {1} Tokeni{2}\nUlaz: {3} | Izlaz: {4}\nKlik za meni • Ctrl+Shift+C • Desni klik za prebacivanje",
     "noApiKey": "{0} API ključ nedostaje! • Klik za podešavanje",
     "errorsFound": "{0} grešaka pronađeno • Klik za pomoć"
   },
-  
   "output": {
     "codeExplanation": "{0} objašnjenje",
     "explanationFrom": "OBJAŠNJENJE KODA OD {0}",
@@ -212,7 +203,6 @@
     "codeContextYes": "Kontekst koda: Da ({0} linija)",
     "boardDetected": "Ploča: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Uključi označeni kod",
     "includeSelectedCodeDesc": "Pošaljite pitanje sa trenutno označenim kodom",
@@ -224,12 +214,10 @@
     "followUpQuestion": "Dodatno pitanje",
     "relatedCode": "Povezani kod"
   },
-
   "shortcuts": {
     "askFollowUp": "Dodatno pitanje",
     "askAI": "Novo pitanje"
   },
-
   "panels": {
     "errorExplanation": "🔧 Objašnjenje greške",
     "debugHelp": "🔍 Debug pomoć",
@@ -237,12 +225,10 @@
     "tokenStats": "📊 Statistike tokena",
     "about": "O AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Objašnjenje greške",
     "errorInLine": "Greška u liniji {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Analiziraj Serial Monitor output",
     "analyzeSerialDesc": "Pomoć pri tumačenju debug outputa",
@@ -254,7 +240,6 @@
     "timingProblemsDesc": "Pomoć sa delay(), millis() i timing bugovima",
     "selectHelp": "Sa čim trebate pomoć?"
   },
-  
   "offline": {
     "title": "Nema internet konekcije",
     "requiresInternet": "AI.duino zahtijeva internet konekciju za komunikaciju sa Claude, ChatGPT, Gemini ili Mistral.",
@@ -278,7 +263,6 @@
     "tip": "Savjet",
     "onlineAgain": "Čim se ponovo spojite online, AI.duino vam može pomoći sa specifičnim problemima!"
   },
-  
   "stats": {
     "tokenUsageFor": "Upotreba tokena za {0}",
     "totalCostToday": "Ukupni trošak danas",
@@ -289,7 +273,6 @@
     "tipDescription": "Brojanje tokena je procjena. Stvarni troškovi se mogu neznatno razlikovati.",
     "confirmReset": "Stvarno resetovati statistike?"
   },
-  
   "about": {
     "tagline": "AI-podržan Arduino razvoj",
     "features": "Funkcije",
@@ -315,7 +298,6 @@
     "reportBugs": "Prijavi greške",
     "madeWith": "Napravljeno sa 💙 za Arduino zajednicu"
   },
-
   "config": {
     "updateAvailable": "Dostupan update konfiguracije provider-a: {0} → {1}",
     "updateNow": "Update sada",
@@ -328,26 +310,27 @@
     "modelOutdated": "Model izgleda zastarjel. Update-ovati konfiguracije?",
     "notNow": "Ne sada"
   },
-
   "settings": {
     "autoUpdateConfigs": "Automatski tražiti update-e konfiguracije provider-a"
   },
-
   "extensionUpdate": {
     "available": "Dostupan AI.duino ekstenzija update: {0} → {1}",
     "download": "Download"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Važno: Ne brišite čuvare mesta {0}, {1}, {2} - zamenjuju se kodom i instrukcijama!",
+    "missingPlaceholder": "Greška: Nedostaje čuvar mesta {0}!",
+    "missingPlaceholderMultiple": "Greška: Nedostaje čuvar mesta {0}, {1} ili {2}!",
     "standard": "Standardno",
     "custom": "Prilagođeno",
     "modified": "Promijenjeno",
     "saving": "Čuva",
     "saved": "Sačuvano",
     "resetSuccess": "Resetovano",
-    "unsavedWarning": "Promijeniti jezik? Nesačuvane promjene u editoru upita će biti izgubljene."
+    "unsavedWarning": "Promijeniti jezik? Nesačuvane promjene u editoru upita će biti izgubljene.",
+    "changesLostDialog": "Panel je zatvoren sa nesačuvanim izmjenama. Šta želite da radite?",
+    "changesSaved": "Izmjene su sačuvane!"
   },
-
   "time": {
     "justNow": "upravo sada",
     "minutesAgo": "prije {0}min",

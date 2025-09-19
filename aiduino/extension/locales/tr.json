@@ -17,7 +17,6 @@
     "askFollowUp": "Takip sorusu",
     "editPrompts": "İstemleri düzenle"
   },
-  
   "messages": {
     "welcome": "👋 Hoş geldiniz! AI.duino  {0} destekliyor!",
     "noApiKey": "🔑 Önce {0} için bir API anahtarına ihtiyacınız var",
@@ -47,7 +46,6 @@
     "followUpContext": "Konuşma devam ediyor: \"{0}\" ({1} dk önce)",
     "contextCleared": "Konuşma bağlamı temizlendi"
   },
-  
   "buttons": {
     "chooseModel": "YZ Modeli Seç",
     "later": "Sonra",
@@ -74,9 +72,11 @@
     "checkStatus": "Durumu Kontrol Et",
     "checkRouter": "Yönlendiricini Kontrol Et",
     "save": "Kaydet",
-    "reset": "Sıfırla"
+    "reset": "Sıfırla",
+    "saveChanges": "Değişiklikleri kaydet",
+    "discard": "İptal et",
+    "closeWithoutSaving": "Kaydetmeden kapat"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Seçili kodu optimize et",
     "explainCodeSelected": "Seçili kodu açıkla",
@@ -94,19 +94,16 @@
     "noValidContext": "Önceki konuşma yok",
     "editPrompts": "AI istemlerini özelleştir ve yönet"
   },
-
   "language": {
     "autoDetect": "VS Code'dan otomatik algıla",
     "selectLanguage": "AI.duino için dil seç",
     "changeLanguage": "Dili değiştir",
     "changed": "Dil {0} olarak değiştirildi"
   },
-  
   "labels": {
     "active": "Aktif",
     "aiHints": "YAPAY ZEKA İPUÇLARI"
   },
-  
   "prompts": {
     "enterApiKey": "{0} API Anahtarını girin",
     "customInstructions": "Kod iyileştirme için özel talimatlar (isteğe bağlı)",
@@ -133,7 +130,6 @@
     "followUpContext": "Önceki konuşma bağlamı:",
     "followUpInstruction": "Önceki konuşmayı dikkate alarak Türkçe yanıtla."
   },
-  
   "placeholders": {
     "customInstructions": "örn. \"millis() kullanma\", \"Arduino Nano için optimize et\", \"hata işleme ekle\"",
     "commentInstructions": "örn. \"çok ayrıntılı\", \"sadece fonksiyonları yorumla\", \"Türkçe olarak\"",
@@ -142,13 +138,11 @@
     "askAI": "örn. \"PWM nasıl çalışır?\", \"Sensörüm neden çalışmıyor?\"",
     "askFollowUp": "Konuşmayı devam ettir..."
   },
-  
   "validation": {
     "apiKeyRequired": "API anahtarı gerekli",
     "apiKeyPrefix": "\"{0}\" ile başlamalı",
     "apiKeyTooShort": "Anahtar çok kısa görünüyor"
   },
-  
   "progress": {
     "retrying": "{0} (Deneme {1}/{2})",
     "explaining": "{0} kodu açıklıyor...",
@@ -160,7 +154,6 @@
     "askingAI": "{0} sorunuzu işliyor...",
     "askingFollowUp": "{0} takip sorunuzu işliyor..."
   },
-  
   "errors": {
     "quotaExceeded": "Aylık kota aşıldı",
     "quotaExceededDetail": "{0}: Aylık kota aşıldı. Lütfen gelecek aya kadar bekleyin veya modeli değiştirin.",
@@ -191,13 +184,11 @@
       "general": "Ağ hatası: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nBugün: {1} Token{2}\nGiriş: {3} | Çıkış: {4}\nMenü için tıkla • Ctrl+Shift+C • Değiştirmek için sağ tıkla",
     "noApiKey": "{0} API Anahtarı eksik! • Ayarlamak için tıkla",
     "errorsFound": "{0} hata bulundu • Yardım için tıkla"
   },
-  
   "output": {
     "codeExplanation": "{0} Açıklaması",
     "explanationFrom": "{0} TARAFINDAN KOD AÇIKLAMASI",
@@ -211,7 +202,6 @@
     "codeContextYes": "Kod bağlamı: Evet ({0} satır)",
     "boardDetected": "Kart: {0}"
   },
-
   "chat": {
     "includeSelectedCode": "Seçili kodu dahil et",
     "includeSelectedCodeDesc": "Şu anda seçili olan kodla birlikte soru gönder",
@@ -223,12 +213,10 @@
     "followUpQuestion": "Takip sorusu",
     "relatedCode": "İlgili kod"
   },
-
   "shortcuts": {
     "askFollowUp": "Takip sorusu",
     "askAI": "Yeni soru"
   },
-  
   "panels": {
     "errorExplanation": "🔧 Hata Açıklaması",
     "debugHelp": "🔍 Hata Ayıklama Yardımı",
@@ -236,12 +224,10 @@
     "tokenStats": "📊 Token İstatistikleri",
     "about": "AI.duino Hakkında"
   },
-  
   "html": {
     "errorExplanation": "Hata Açıklaması",
     "errorInLine": "Satır {0}'da hata"
   },
-  
   "debug": {
     "analyzeSerial": "Seri Monitör çıktısını analiz et",
     "analyzeSerialDesc": "Hata ayıklama çıktısını yorumlama yardımı",
@@ -253,7 +239,6 @@
     "timingProblemsDesc": "delay(), millis() ve zamanlama hataları için yardım",
     "selectHelp": "Neyle ilgili yardıma ihtiyacınız var?"
   },
-  
   "offline": {
     "title": "İnternet Bağlantısı Yok",
     "requiresInternet": "AI.duino, Claude, ChatGPT, Gemini veya Mistral ile iletişim kurmak için internet bağlantısı gerektirir.",
@@ -277,7 +262,6 @@
     "tip": "İpucu",
     "onlineAgain": "Tekrar çevrimiçi olduğunuzda, AI.duino size özel sorunlarla yardımcı olabilir!"
   },
-  
   "stats": {
     "tokenUsageFor": "{0} için Token Kullanımı",
     "totalCostToday": "Bugünkü toplam maliyet",
@@ -288,7 +272,6 @@
     "tipDescription": "Token sayımı tahminidir. Gerçek maliyetler biraz farklı olabilir.",
     "confirmReset": "İstatistikleri gerçekten sıfırlamak istiyor musunuz?"
   },
-  
   "about": {
     "tagline": "Yapay Zeka destekli Arduino Geliştirme",
     "features": "Özellikler",
@@ -314,7 +297,6 @@
     "reportBugs": "Hataları bildir",
     "madeWith": "Arduino topluluğu için 💙 ile yapıldı"
   },
-
   "config": {
     "updateAvailable": "Sağlayıcı Yapılandırma güncellemesi mevcut: {0} → {1}",
     "updateNow": "Şimdi güncelle",
@@ -327,30 +309,31 @@
     "modelOutdated": "Model güncel değil gibi görünüyor. Yapılandırmaları güncelle?",
     "notNow": "Şimdi değil"
   },
-
   "settings": {
     "autoUpdateConfigs": "Sağlayıcı yapılandırma güncellemelerini otomatik kontrol et"
   },
-
   "extensionUpdate": {
     "available": "AI.duino Extension güncellemesi mevcut: {0} → {1}",
     "download": "İndir"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Önemli: Yer tutucuları {0}, {1}, {2} silmeyin - kod ve talimatlarla değiştirilir!",
+    "missingPlaceholder": "Hata: Yer tutucu {0} eksik!",
+    "missingPlaceholderMultiple": "Hata: Yer tutucu {0}, {1} veya {2} eksik!",
     "standard": "Standart",
     "custom": "Özel",
     "modified": "Değiştirildi",
     "saving": "Kaydediyor",
     "saved": "Kaydedildi",
     "resetSuccess": "Sıfırlandı",
-    "unsavedWarning": "Dili değiştir? İstem düzenleyicisindeki kaydedilmemiş değişiklikler kaybolacak."
+    "unsavedWarning": "Dili değiştir? İstem düzenleyicisindeki kaydedilmemiş değişiklikler kaybolacak.",
+    "changesLostDialog": "Panel kaydedilmemiş değişikliklerle kapatıldı. Ne yapmak istiyorsunuz?",
+    "changesSaved": "Değişiklikler kaydedildi!"
   },
-
   "time": {
     "justNow": "şimdi",
     "minutesAgo": "{0}dk önce",
-    "hoursAgo": "{0}sa önce", 
+    "hoursAgo": "{0}sa önce",
     "daysAgo": "{0}g önce"
   }
 }

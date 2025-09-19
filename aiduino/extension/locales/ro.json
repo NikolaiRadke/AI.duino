@@ -17,7 +17,6 @@
     "askFollowUp": "Întrebare de urmărire",
     "editPrompts": "Editare prompturi"
   },
-  
   "messages": {
     "welcome": "👋 Bun venit! AI.duino suportă {0}!",
     "noApiKey": "🔑 Mai întâi aveți nevoie de o cheie API pentru {0}",
@@ -47,7 +46,6 @@
     "followUpContext": "Continuând conversația: \"{0}\" (acum {1} min)",
     "contextCleared": "Contextul conversației a fost șters"
   },
-  
   "buttons": {
     "chooseModel": "Alegeți modelul AI",
     "later": "Mai târziu",
@@ -74,9 +72,11 @@
     "checkStatus": "Verifică starea",
     "checkRouter": "Verifică router-ul",
     "save": "Salvează",
-    "reset": "Resetează"
+    "reset": "Resetează",
+    "saveChanges": "Salvează modificările",
+    "discard": "Renunță",
+    "closeWithoutSaving": "Închide fără salvare"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Optimizează codul selectat",
     "explainCodeSelected": "Explică codul selectat",
@@ -94,12 +94,10 @@
     "noValidContext": "Fără conversație anterioară",
     "editPrompts": "Personalizează și gestionează prompturile AI"
   },
-  
   "labels": {
     "active": "Activ",
     "aiHints": "SFATURI AI"
   },
-  
   "prompts": {
     "enterApiKey": "Introduceți cheia API {0}",
     "customInstructions": "Instrucțiuni personalizate pentru îmbunătățirea codului (opțional)",
@@ -126,7 +124,6 @@
     "followUpContext": "Contextul conversației anterioare:",
     "followUpInstruction": "Răspunde în română ținând cont de conversația anterioară."
   },
-  
   "placeholders": {
     "customInstructions": "de ex. \"nu folosi millis()\", \"optimizează pentru Arduino Nano\", \"adaugă gestionarea erorilor\"",
     "commentInstructions": "de ex. \"foarte detaliat\", \"comentează doar funcțiile\", \"în engleză\"",
@@ -135,13 +132,11 @@
     "askAI": "ex. \"Cum funcționează PWM?\", \"De ce nu funcționează senzorul meu?\"",
     "askFollowUp": "Continuă conversația..."
   },
-  
   "validation": {
     "apiKeyRequired": "Cheia API este necesară",
     "apiKeyPrefix": "Trebuie să înceapă cu \"{0}\"",
     "apiKeyTooShort": "Cheia pare prea scurtă"
   },
-  
   "progress": {
     "retrying": "{0} (Încercarea {1}/{2})",
     "explaining": "{0} explică codul...",
@@ -153,7 +148,6 @@
     "askingAI": "{0} procesează întrebarea ta...",
     "askingFollowUp": "{0} procesează întrebarea ta de urmărire..."
   },
-  
   "errors": {
     "quotaExceeded": "Cota lunară depășită",
     "quotaExceededDetail": "{0}: Cota lunară depășită. Vă rugăm să așteptați până luna viitoare sau să schimbați modelul.",
@@ -184,13 +178,11 @@
       "general": "Eroare de rețea: {0}"
     }
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nAstăzi: {1} Tokeni{2}\nInput: {3} | Output: {4}\nClick pentru meniu • Ctrl+Shift+C • Click dreapta pentru a comuta",
     "noApiKey": "Lipsește cheia API {0}! • Click pentru configurare",
     "errorsFound": "{0} erori găsite • Click pentru ajutor"
   },
-  
   "output": {
     "codeExplanation": "Explicația {0}",
     "explanationFrom": "EXPLICAȚIA CODULUI DE LA {0}",
@@ -204,7 +196,6 @@
     "codeContextYes": "Context cod: Da ({0} linii)",
     "boardDetected": "Placă: {0}"
   },
-  
   "chat": {
     "includeSelectedCode": "Include codul selectat",
     "includeSelectedCodeDesc": "Trimite întrebarea cu codul selectat curent",
@@ -216,12 +207,10 @@
     "followUpQuestion": "Întrebare de urmărire",
     "relatedCode": "Cod relacionat"
   },
-
   "shortcuts": {
     "askFollowUp": "Întrebare de urmărire",
     "askAI": "Întrebare nouă"
   },
-
   "panels": {
     "errorExplanation": "🔧 Explicația erorii",
     "debugHelp": "🔍 Ajutor debug",
@@ -229,12 +218,10 @@
     "tokenStats": "📊 Statistici tokeni",
     "about": "Despre AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Explicația erorii",
     "errorInLine": "Eroare în linia {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Analizează ieșirea Serial Monitor",
     "analyzeSerialDesc": "Ajutor la interpretarea ieșirilor de debug",
@@ -246,7 +233,6 @@
     "timingProblemsDesc": "Ajutor cu delay(), millis() și bug-uri de timing",
     "selectHelp": "Cu ce aveți nevoie de ajutor?"
   },
-  
   "offline": {
     "title": "Nu există conexiune la internet",
     "requiresInternet": "AI.duino necesită o conexiune la internet pentru a comunica cu Claude, ChatGPT, Gemini sau Mistral.",
@@ -270,7 +256,6 @@
     "tip": "Sfat",
     "onlineAgain": "Odată ce sunteți din nou online, AI.duino vă poate ajuta cu probleme specifice!"
   },
-  
   "stats": {
     "tokenUsageFor": "Utilizarea tokenilor pentru {0}",
     "totalCostToday": "Costul total astăzi",
@@ -281,14 +266,12 @@
     "tipDescription": "Numărarea tokenilor este o estimare. Costurile reale pot diferi ușor.",
     "confirmReset": "Resetați cu adevărat statisticile?"
   },
-  
   "language": {
     "autoDetect": "Detectare automată din VS Code",
     "selectLanguage": "Alegeți limba pentru AI.duino",
     "changeLanguage": "Schimbă limba",
     "changed": "Limba schimbată în {0}"
   },
-  
   "about": {
     "tagline": "Dezvoltare Arduino asistată de AI",
     "features": "Caracteristici",
@@ -314,7 +297,6 @@
     "reportBugs": "Raportați bug-uri",
     "madeWith": "Dezvoltat cu 💙 pentru comunitatea Arduino"
   },
-
   "config": {
     "updateAvailable": "Actualizare Provider Config disponibilă: {0} → {1}",
     "updateNow": "Actualizează acum",
@@ -327,30 +309,31 @@
     "modelOutdated": "Modelul pare a fi învechit. Actualizezi configurațiile?",
     "notNow": "Nu acum"
   },
-
   "settings": {
     "autoUpdateConfigs": "Verifică automat actualizări de configurații furnizori"
   },
-
   "extensionUpdate": {
     "available": "Actualizare AI.duino Extension disponibilă: {0} → {1}",
     "download": "Descărcare"
   },
-
   "promptEditor": {
+    "placeholderWarning": "Important: Nu ștergeți substituțiile {0}, {1}, {2} - sunt înlocuite cu cod și instrucțiuni!",
+    "missingPlaceholder": "Eroare: Lipsește substituția {0}!",
+    "missingPlaceholderMultiple": "Eroare: Lipsește substituția {0}, {1} sau {2}!",
     "standard": "Standard",
     "custom": "Personalizat",
     "modified": "Modificat",
     "saving": "Salvează",
     "saved": "Salvat",
     "resetSuccess": "Resetat",
-    "unsavedWarning": "Schimbă limba? Modificările nesalvate din editorul de solicitări vor fi pierdute."
+    "unsavedWarning": "Schimbă limba? Modificările nesalvate din editorul de solicitări vor fi pierdute.",
+    "changesLostDialog": "Panoul a fost închis cu modificări nesalvate. Ce doriți să faceți?",
+    "changesSaved": "Modificări salvate!"
   },
-
   "time": {
     "justNow": "chiar acum",
     "minutesAgo": "acum {0}min",
-    "hoursAgo": "acum {0}h", 
+    "hoursAgo": "acum {0}h",
     "daysAgo": "acum {0}z"
   }
 }
