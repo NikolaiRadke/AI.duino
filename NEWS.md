@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **21.09.2025** New screeonshots for the README.md.    
 * **19.09.2025** Release **V1.9.1** with prompt editor safty checks.    
 * **18.09.2025** Release **V1.9.0** with prompt editor and localisazation bugfix and new locales.      
 * **17.09.2025** Release **V1.8.5** with prompt editor bugfix and international prompt history time stamps.    
