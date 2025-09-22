@@ -220,20 +220,6 @@ function getVersionFromPackage() {
     }
 }
 
-/**
- * Check file read permissions
- * @param {string} filePath - Path to check
- * @returns {boolean} True if readable
- */
-function isFileReadable(filePath) {
-    try {
-        fs.accessSync(filePath, fs.constants.R_OK);
-        return true;
-    } catch {
-        return false;
-    }
-}
-
 // ===== MIGRATION UTILITIES =====
 
 /**
@@ -301,7 +287,6 @@ module.exports = {
     
     // Utilities
     getVersionFromPackage,
-    isFileReadable,
     migrateOldFiles,
-    clearAIContext,
+    clearAIContext
 };

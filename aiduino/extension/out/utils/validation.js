@@ -124,43 +124,6 @@ function sanitizeInput(input) {
         .trim();
 }
 
-/**
- * Validates email format (basic)
- * @param {string} email - Email to validate
- * @returns {boolean} True if valid format
- */
-function validateEmail(email) {
-    if (!email) return false;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-/**
- * Validates URL format (simplified without try-catch)
- * @param {string} url - URL to validate
- * @returns {boolean} True if valid URL format
- */
-function validateUrl(url) {
-    if (!url || typeof url !== 'string') return false;
-    
-    // Basic URL format check without throwing exceptions
-    return url.startsWith('http://') || url.startsWith('https://');
-}
-
-/**
- * Validates JSON string format (simplified without try-catch)
- * @param {string} jsonString - JSON string to validate
- * @returns {boolean} True if likely valid JSON format
- */
-function validateJson(jsonString) {
-    if (!jsonString || typeof jsonString !== 'string') return false;
-    
-    const trimmed = jsonString.trim();
-    // Basic format check - starts with { or [ and ends appropriately
-    return (trimmed.startsWith('{') && trimmed.endsWith('}')) ||
-           (trimmed.startsWith('[') && trimmed.endsWith(']'));
-}
-
 module.exports = {
     validateApiKey,
     validateModelId,
@@ -170,8 +133,5 @@ module.exports = {
     validateNumberRange,
     validateTemperature,
     validateMaxTokens,
-    sanitizeInput,
-    validateEmail,
-    validateUrl,
-    validateJson
+    sanitizeInput
 };

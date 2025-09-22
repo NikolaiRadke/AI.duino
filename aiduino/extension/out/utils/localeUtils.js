@@ -127,20 +127,6 @@ class LocaleUtils {
         
         return supportedLocales.includes(detectedLang) ? detectedLang : 'en';
     }
-
-    /**
-     * Get locale statistics (for debugging)
-     * @param {Function} t - Translation function (optional)
-     * @returns {Object} Locale information
-     */
-    getLocaleStats(t) {
-        const available = this.getAvailableLocales();
-        return {
-            totalLocales: available.length,
-            availableLocales: available,
-            cacheStatus: 'disabled (no cache)'
-        };
-    }
 }
 
 module.exports = { LocaleUtils };

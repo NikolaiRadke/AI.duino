@@ -25,18 +25,6 @@ class ErrorChecker {
     }
 
     /**
-     * Get current error status for debugging
-     * @returns {Object} Error status information
-     */
-    getErrorStatus() {
-        return {
-            lastDiagnosticsCount: this.lastDiagnosticsCount,
-            lastErrorCheck: this.lastErrorCheck,
-            lastCheckedUri: this.lastCheckedUri
-        };
-    }
-
-    /**
      * Check for compiler errors in the active editor
      * @param {boolean} silent - If true, don't show status updates  
      * @returns {boolean} True if errors found

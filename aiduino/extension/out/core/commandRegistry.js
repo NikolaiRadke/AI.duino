@@ -188,18 +188,6 @@ class CommandRegistry {
     }
 
     /**
-     * Get list of registered commands (for debugging)
-     * @returns {Array} List of command info
-     */
-    getRegisteredCommands() {
-        return this.commands.map(cmd => ({
-            name: cmd.name,
-            description: cmd.description,
-            debug: cmd.debug
-        }));
-    }
-
-    /**
      * Dispose all registered commands (cleanup)
      */
     dispose() {

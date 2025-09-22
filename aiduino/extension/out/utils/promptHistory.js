@@ -215,23 +215,6 @@ class PromptHistoryManager {
         }
     }
 
-    /**
-     * Get statistics for a category
-     * @param {string} category - Feature category
-     * @returns {Object} Statistics
-     */
-    getStats(category) {
-        const categoryHistory = this.history.categories[category] || [];
-        return {
-            totalPrompts: categoryHistory.length,
-            totalUsage: categoryHistory.reduce((sum, entry) => sum + entry.count, 0),
-            oldestEntry: categoryHistory.length > 0 ? 
-                Math.min(...categoryHistory.map(e => e.timestamp)) : null,
-            newestEntry: categoryHistory.length > 0 ? 
-                Math.max(...categoryHistory.map(e => e.timestamp)) : null
-        };
-    }
-
     // ===== PRIVATE HELPER METHODS =====
 
     /**

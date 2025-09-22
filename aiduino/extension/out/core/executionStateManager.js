@@ -79,19 +79,6 @@ class ExecutionStateManager {
     getRunningCount() {
         return this.getRunningOperations().length;
     }
-    
-    /**
-     * Debug helper: Show current state
-     * @returns {object} Current states object
-     */
-    debugShowStates() {
-        const runningOps = this.getRunningOperations();
-        return {
-            running: runningOps,
-            count: runningOps.length,
-            allStates: Object.fromEntries(this.states)
-        };
-    }
 }
 
 module.exports = { ExecutionStateManager };

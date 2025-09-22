@@ -187,28 +187,6 @@ class EventManager {
     }
     
     /**
-     * Get current state of event manager for debugging
-     * @returns {Object} Current state information
-     */
-    getDebugState() {
-        const activeListeners = Object.entries(this.listeners)
-            .filter(([key, listener]) => listener !== null)
-            .map(([key]) => key);
-            
-        const activeTimeouts = Object.entries(this.timeouts)
-            .filter(([key, timeout]) => timeout !== null)
-            .map(([key]) => key);
-            
-        return {
-            activeListeners,
-            activeTimeouts,
-            listenerCount: activeListeners.length,
-            timeoutCount: activeTimeouts.length,
-            hasCallbacks: Object.values(this.callbacks).filter(cb => cb !== null).length
-        };
-    }
-    
-    /**
      * Check if event manager is properly initialized
      * @returns {boolean} True if initialized with required callbacks
      */

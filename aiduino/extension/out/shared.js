@@ -337,22 +337,6 @@ function getBoardDetails() {
 }
 
 /**
- * Clear board cache and force re-detection
- * @returns {boolean} True if cache cleared successfully
- */
-function clearBoardCache() {
-    const cacheFile = path.join(os.homedir(), '.aiduino', '.aiduino-board-context.json');
-    if (fs.existsSync(cacheFile)) {
-        fs.unlinkSync(cacheFile);
-    }
-    if (globalBoardContext) {
-        globalBoardContext.currentBoard = null;
-        globalBoardContext.boardDetails = null;
-    }
-    return true;
-}
-
-/**
  * Get display-friendly board name from FQBN
  * @param {string} fqbn - Fully Qualified Board Name
  * @returns {string} Human-readable board name
@@ -482,7 +466,6 @@ module.exports = {
     getBoardDisplayName,
     getBoardDetails,
     onBoardChange,
-    clearBoardCache,
     
     // Text utilities
     escapeHtml,
