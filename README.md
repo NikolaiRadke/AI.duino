@@ -40,7 +40,7 @@ Ask something with or without marked code. You can ask further context-related.
 ### Auto update
 The provider settings will be updated when availabe. They will be generated automatically every week.  
 
-## Screeenshots
+## Screenshots
 
 ![Screenshot 1](http://www.nikolairadke.de/aiduino/aiduino_screenshot_1_3.png)
 ![Screenshot 2](http://www.nikolairadke.de/aiduino/aiduino_screenshot_2_3.png)
