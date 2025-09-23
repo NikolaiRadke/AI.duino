@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **23.09.2025** Release **V1.9.3**. No bugs found again but localized last hard-coded strings.
 * **22.09.2025** Release **V1.9.2**. No bugs found but removed ~80 unused lines of code.
 * **21.09.2025** New screenshots for the README.md.    
 * **19.09.2025** Release **V1.9.1** with prompt editor safty checks.    
