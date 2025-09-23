@@ -182,7 +182,10 @@
       "netUnreachable": "Netværk ikke tilgængeligt - router problem?",
       "aborted": "Forbindelse afbrudt - timeout eller netværksfejl",
       "general": "Netværksfejl: {0}"
-    }
+    },
+    "unknownProvider": "Ukendt udbyder",
+    "noApiKeyUrl": "Ingen API-nøgle URL konfigureret for {0}",
+    "noDetailsAvailable": "Ingen detaljer tilgængelige"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nI dag: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlik for menu • Ctrl+Shift+C • Højreklik for at skifte",
@@ -200,7 +203,8 @@
     "followUpTo": "Opfølgning til",
     "followUpHint": "Fortsæt samtalen",
     "codeContextYes": "Kode Kontekst: Ja ({0} linjer)",
-    "boardDetected": "Board: {0}"
+    "boardDetected": "Board: {0}",
+    "boardUnknown": "Ukendt kort"
   },
   "chat": {
     "includeSelectedCode": "Inkluder valgte kode",

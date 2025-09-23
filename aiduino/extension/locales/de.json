@@ -193,7 +193,11 @@
       "netUnreachable": "Netzwerk nicht erreichbar – Router-Problem?",
       "aborted": "Verbindung abgebrochen – Timeout oder Netzwerkfehler",
       "general": "Netzwerkfehler: {0}"
-    }
+    },
+    "unknownProvider": "Unbekannter Anbieter",
+    "noApiKeyUrl": "Keine API-Key-URL konfiguriert für {0}",
+    "quotaExceeded": "Kontingent erschöpft", 
+    "noDetailsAvailable": "Keine Details verfügbar"
   },
   
   "statusBar": {
@@ -213,7 +217,8 @@
     "followUpTo": "Rückfrage zu",
     "followUpHint": "Unterhaltung fortsetzen",
     "codeContextYes": "Code-Kontext: Ja ({0} Zeilen)",
-    "boardDetected": "Board: {0}"
+    "boardDetected": "Board: {0}",
+    "boardUnknown": "Unbekanntes Board"
   },
 
   "chat": {

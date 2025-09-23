@@ -183,7 +183,10 @@
       "netUnreachable": "Mreža nedostupna – problem sa routerom?",
       "aborted": "Konekcija prekinuta – timeout ili greška mreže",
       "general": "Greška mreže: {0}"
-    }
+    },
+    "unknownProvider": "Nepoznat pružatelj",
+    "noApiKeyUrl": "Nema konfigurisan URL za API ključ za {0}",
+    "noDetailsAvailable": "Nema dostupnih detalja"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDanas: {1} Tokeni{2}\nUlaz: {3} | Izlaz: {4}\nKlik za meni • Ctrl+Shift+C • Desni klik za prebacivanje",
@@ -201,7 +204,8 @@
     "followUpTo": "Dodatno pitanje za",
     "followUpHint": "Nastavi razgovor",
     "codeContextYes": "Kontekst koda: Da ({0} linija)",
-    "boardDetected": "Ploča: {0}"
+    "boardDetected": "Ploča: {0}",
+    "boardUnknown": "Nepoznata ploča"
   },
   "chat": {
     "includeSelectedCode": "Uključi označeni kod",

@@ -35,7 +35,8 @@ async function showPromptEditor(context) {
             saveText: t('buttons.save'),
             title: t('commands.editPrompts'),
             missingPlaceholder: t('promptEditor.missingPlaceholder'),
-            missingPlaceholderMultiple: t('promptEditor.missingPlaceholderMultiple')
+            missingPlaceholderMultiple: t('promptEditor.missingPlaceholderMultiple'),
+            resetConfirm: t('promptEditor.resetConfirm')  // ← NEU
         };
         
         const panel = vscode.window.createWebviewPanel(

@@ -183,7 +183,10 @@
       "netUnreachable": "Tīkls nepieejams – maršrutētāja problēma?",
       "aborted": "Savienojums pārtraukts – taimauts vai tīkla kļūda",
       "general": "Tīkla kļūda: {0}"
-    }
+    },
+    "unknownProvider": "Nezināms sniedzējs",
+    "noApiKeyUrl": "Nav konfigurēts API atslēgas URL {0}",
+    "noDetailsAvailable": "Nav pieejami dati"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nŠodien: {1} Žetoni{2}\nIevade: {3} | Izvade: {4}\nKlikšķis izvēlnei • Ctrl+Shift+C • Labais klikšķis pārslēgšanai",
@@ -201,7 +204,8 @@
     "followUpTo": "Papildu jautājums par",
     "followUpHint": "Turpināt sarunu",
     "codeContextYes": "Koda konteksts: Jā ({0} rindas)",
-    "boardDetected": "Plate: {0}"
+    "boardDetected": "Plate: {0}",
+    "boardUnknown": "Nezināma plate"
   },
   "chat": {
     "includeSelectedCode": "Iekļaut iezīmēto kodu",

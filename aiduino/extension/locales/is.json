@@ -17,7 +17,6 @@
     "askFollowUp": "Spyrja framhaldsspurningar",
     "editPrompts": "Breyta fyrirmælum"
   },
-
   "messages": {
     "welcome": "👋 Velkominn! AI.duino styður {0}!",
     "noApiKey": "🔑 Þú þarft fyrst API-lykil fyrir {0}",
@@ -48,7 +47,6 @@
     "contextCleared": "Samtalssandur hreinsaður",
     "operationAlreadyRunning": "Aðgerð þegar í gangi! Vinsamlegast bíddu..."
   },
-  
   "buttons": {
     "chooseModel": "Veldu gervigreindarlíkan",
     "later": "Seinna",
@@ -80,7 +78,6 @@
     "discard": "Henda",
     "closeWithoutSaving": "Loka án þess að vista"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Bæta valinn kóða",
     "explainCodeSelected": "Útskýra valinn kóða",
@@ -98,19 +95,16 @@
     "noValidContext": "Ekkert fyrra samtal",
     "editPrompts": "Aðlaga gervigreindafyrirmæli"
   },
-  
   "language": {
     "autoDetect": "Greina sjálfkrafa frá VS Code",
     "selectLanguage": "Veldu tungumál fyrir AI.duino",
     "changeLanguage": "Breyta tungumáli",
     "changed": "Tungumáli breytt í {0}"
   },
-  
   "labels": {
     "active": "Virkur",
     "aiHints": "Gervigreindarábendingar"
   },
-  
   "prompts": {
     "enterApiKey": "Slá inn {0} API-lykil",
     "customInstructions": "Eigin leiðbeiningar fyrir kóðabót (valfrjálst)",
@@ -137,7 +131,6 @@
     "followUpContext": "Samhengi fyrri samtalsins:",
     "followUpInstruction": "Svaraðu á íslensku með tilliti til fyrri samtalsins."
   },
-  
   "placeholders": {
     "customInstructions": "t.d. \"ekki nota millis()\", \"bæta fyrir Arduino Nano\", \"bæta við villumeðferð\"",
     "commentInstructions": "t.d. \"mjög ítarlegt\", \"aðeins athugasemdir við föll\", \"á ensku\"",
@@ -146,13 +139,11 @@
     "askAI": "t.d. \"Hvernig virkar PWM?\", \"Af hverju virkar skynjarinn minn ekki?\"",
     "askFollowUp": "Halda samtali áfram..."
   },
-  
   "validation": {
     "apiKeyRequired": "API-lykils krafist",
     "apiKeyPrefix": "Verður að byrja á \"{0}\"",
     "apiKeyTooShort": "Lykill virðist of stuttur"
   },
-  
   "progress": {
     "retrying": "{0} (Tilraun {1}/{2})",
     "explaining": "{0} útskýrir kóðann...",
@@ -164,10 +155,9 @@
     "askingAI": "{0} vinnur úr spurningunni þinni...",
     "askingFollowUp": "{0} vinnur úr framhaldsspurningunum þínum..."
   },
-  
   "errors": {
     "quotaExceeded": "Mánaðarlega kvóta uppurin",
-    "quotaExceededDetail": "{0}: Mánaðarlega kvóta uppurin. Vinsamlegast bíddu til mánaðamóta eða skiptu um líkan.",    
+    "quotaExceededDetail": "{0}: Mánaðarlega kvóta uppurin. Vinsamlegast bíddu til mánaðamóta eða skiptu um líkan.",
     "networkError": "Netvilla",
     "timeout": "Tímamörk farin yfir — athugaðu nettengingu",
     "unreachable": "Ekki aðgengilegt",
@@ -193,15 +183,16 @@
       "netUnreachable": "Net ekki aðgengilegt — beinivandamál?",
       "aborted": "Tenging hætt við — tímamörk eða netvilla",
       "general": "Netvilla: {0}"
-    }
+    },
+    "unknownProvider": "Óþekktur þjónustuaðili",
+    "noApiKeyUrl": "Engin API lykils veffang stillt fyrir {0}",
+    "noDetailsAvailable": "Engar upplýsingar í boði"
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nÍ dag: {1} Tokens{2}\nInntak: {3} | Úttak: {4}\nSmelltu fyrir valmynd • Ctrl+Shift+C • Hægri smell til að skipta",
     "noApiKey": "{0}-API-lykill vantar! • Smelltu til að setja upp",
     "errorsFound": "{0} villur fundust • Smelltu fyrir hjálp"
   },
-  
   "output": {
     "codeExplanation": "{0} Útskýring",
     "explanationFrom": "KÓÐAÚTSKÝRING FRÁ {0}",
@@ -213,9 +204,9 @@
     "followUpTo": "Framhald við",
     "followUpHint": "Halda samtali áfram",
     "codeContextYes": "Kóðasamhengi: Já ({0} línur)",
-    "boardDetected": "Spjald: {0}"
+    "boardDetected": "Spjald: {0}",
+    "boardUnknown": "Óþekkt spjald"
   },
-
   "chat": {
     "includeSelectedCode": "Taka með valinn kóða",
     "includeSelectedCodeDesc": "Senda spurningu með núverandi völdum kóða",
@@ -227,12 +218,10 @@
     "followUpQuestion": "Framhaldsspurning",
     "relatedCode": "Tengdur kóði"
   },
-
   "shortcuts": {
     "askFollowUp": "Framhaldsspurning",
     "askAI": "Ný spurning"
-  },  
-
+  },
   "panels": {
     "errorExplanation": "🔧 Villuútskýring",
     "debugHelp": "🔍 Aflúsunarhjálp",
@@ -240,12 +229,10 @@
     "tokenStats": "📊 Token-tölfræði",
     "about": "Um AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Villuútskýring",
     "errorInLine": "Villa í línu {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Greina Serial Monitor úttak",
     "analyzeSerialDesc": "Hjálp við túlkun aflúsunarúttaks",
@@ -257,7 +244,6 @@
     "timingProblemsDesc": "Hjálp við delay(), millis() og tímasetningarvillur",
     "selectHelp": "Við hvað þarftu hjálp?"
   },
-  
   "offline": {
     "title": "Engin nettengning",
     "requiresInternet": "AI.duino þarfnast nettengingar til að eiga samskipti við Claude, ChatGPT, Gemini eða Mistral.",
@@ -281,7 +267,6 @@
     "tip": "Ábending",
     "onlineAgain": "Um leið og þú ert aftur á netinu getur AI.duino hjálpað þér við sérstök vandamál!"
   },
-  
   "stats": {
     "tokenUsageFor": "Token notkun fyrir {0}",
     "totalCostToday": "Heildarkostnaður í dag",
@@ -292,7 +277,6 @@
     "tipDescription": "Token talningu er mat. Raunverulegur kostnaður getur verið aðeins öðruvísi.",
     "confirmReset": "Viltu virkilega núllstilla tölfræði?"
   },
-  
   "about": {
     "tagline": "Gervigreindarstudda Arduino þróun",
     "features": "Eiginleikar",
@@ -318,11 +302,10 @@
     "reportBugs": "Tilkynna villur",
     "madeWith": "Þróað með 💙 fyrir Arduino samfélagið"
   },
-
   "config": {
     "updateAvailable": "Provider-Config uppfærsla tiltæk: {0} → {1}",
     "updateNow": "Uppfæra núna",
-    "updateLater": "Seinna", 
+    "updateLater": "Seinna",
     "updatingConfigs": "Provider stillingar eru uppfærðar...",
     "updateSuccess": "Provider-Configs uppfærður í útgáfu {0}",
     "updateFailed": "Config-uppfærsla mistókst: {0}",
@@ -331,22 +314,19 @@
     "modelOutdated": "Líkan virðist úrelt. Uppfæra stillingar?",
     "notNow": "Ekki núna"
   },
-
   "settings": {
     "autoUpdateConfigs": "Leita sjálfkrafa að Provider-Config uppfærslum"
   },
-
   "extensionUpdate": {
     "available": "AI.duino viðbótaruppfærsla tiltæk: {0} → {1}",
     "download": "Hlaða niður"
   },
-
   "promptEditor": {
     "placeholderWarning": "Mikilvægt: Ekki eyða staðgenglunum {0}, {1}, {2} - þeir eru skipt út fyrir kóða og leiðbeiningar!",
     "missingPlaceholder": "Villa: Staðgengill {0} vantar!",
     "missingPlaceholderMultiple": "Villa: Staðgengill {0}, {1} eða {2} vantar!",
     "standard": "Staðlað",
-    "custom": "Sérsniðið", 
+    "custom": "Sérsniðið",
     "modified": "Breytt",
     "saving": "Vista",
     "saved": "Vistað",
@@ -355,11 +335,10 @@
     "changesLostDialog": "Spjaldið var lokað með óvistuðum breytingum. Hvað viltu gera?",
     "changesSaved": "Breytingar vistaðar!"
   },
-
   "time": {
     "justNow": "rétt núna",
     "minutesAgo": "fyrir {0}mín",
-    "hoursAgo": "fyrir {0}klst", 
+    "hoursAgo": "fyrir {0}klst",
     "daysAgo": "fyrir {0}dögum"
   }
 }

@@ -183,7 +183,10 @@
       "netUnreachable": "Võrk kättesaamatu – ruuteri probleem?",
       "aborted": "Ühendus katkestatud – timeout või võrgu viga",
       "general": "Võrgu viga: {0}"
-    }
+    },
+    "unknownProvider": "Tundmatu teenusepakkuja",
+    "noApiKeyUrl": "API võtme URL pole konfigureeritud teenuse {0} jaoks",
+    "noDetailsAvailable": "Üksikasjad ei ole saadaval"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nTäna: {1} Tokenid{2}\nSisend: {3} | Väljund: {4}\nKlõps menüü jaoks • Ctrl+Shift+C • Parem klõps vahetamiseks",
@@ -201,7 +204,8 @@
     "followUpTo": "Täiendav küsimus",
     "followUpHint": "Jätka vestlust",
     "codeContextYes": "Koodi kontekst: Jah ({0} rida)",
-    "boardDetected": "Laud: {0}"
+    "boardDetected": "Laud: {0}",
+    "boardUnknown": "Tundmatu plaat"
   },
   "chat": {
     "includeSelectedCode": "Lisa märgitud kood",

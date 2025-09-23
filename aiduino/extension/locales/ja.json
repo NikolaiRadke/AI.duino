@@ -178,7 +178,10 @@
       "netUnreachable": "ネットワークに到達不可 - ルーター問題？",
       "aborted": "接続中止 - タイムアウトまたはネットワークエラー",
       "general": "ネットワークエラー: {0}"
-    }
+    },
+    "unknownProvider": "不明なプロバイダー",
+    "noApiKeyUrl": "{0}にAPIキーのURLが設定されていません",
+    "noDetailsAvailable": "詳細情報はありません"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\n今日: {1}トークン{2}\n入力: {3} | 出力: {4}\nメニューはクリック • Ctrl+Shift+C • 切り替えは右クリック",
@@ -196,7 +199,8 @@
     "followUpTo": "の追加質問",
     "followUpHint": "会話を続ける",
     "codeContextYes": "コードコンテキスト: はい ({0} 行)",
-    "boardDetected": "ボード: {0}"
+    "boardDetected": "ボード: {0}",
+    "boardUnknown": "不明なボード"
   },
   "chat": {
     "includeSelectedCode": "選択したコードを含める",

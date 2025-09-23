@@ -182,7 +182,10 @@
       "netUnreachable": "Hálózat nem elérhető - router probléma?",
       "aborted": "Kapcsolat megszakítva - időtúllépés vagy hálózati hiba",
       "general": "Hálózati hiba: {0}"
-    }
+    },
+    "unknownProvider": "Ismeretlen szolgáltató",
+    "noApiKeyUrl": "Nincs API kulcs URL beállítva a következőhöz: {0}",
+    "noDetailsAvailable": "Nincsenek részletek"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nMa: {1} Token{2}\nBemenet: {3} | Kimenet: {4}\nKattints a menühöz • Ctrl+Shift+C • Jobb katt a váltáshoz",
@@ -200,7 +203,8 @@
     "followUpTo": "Követő kérdés ehhez",
     "followUpHint": "Beszélgetés folytatása",
     "codeContextYes": "Kód kontextus: Igen ({0} sor)",
-    "boardDetected": "Board: {0}"
+    "boardDetected": "Board: {0}",
+    "boardUnknown": "Ismeretlen kártya"
   },
   "chat": {
     "includeSelectedCode": "Kijelölt kód bevonása",

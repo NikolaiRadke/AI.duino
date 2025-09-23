@@ -183,7 +183,10 @@
       "netUnreachable": "Rrjeti i paarritshëm – problem me router?",
       "aborted": "Lidhja u ndërpre – timeout ose gabim rrjeti",
       "general": "Gabim rrjeti: {0}"
-    }
+    },
+    "unknownProvider": "Ofruesi i panjohur",
+    "noApiKeyUrl": "Nuk është konfiguruar URL e çelësit të API për {0}",
+    "noDetailsAvailable": "Nuk ka detaje të disponueshme"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nSot: {1} Tokenë{2}\nHyrje: {3} | Dalje: {4}\nKliko për menu • Ctrl+Shift+C • Klik i djathtë për ndryshim",
@@ -201,7 +204,8 @@
     "followUpTo": "Pyetje shtesë për",
     "followUpHint": "Vazhdo bisedën",
     "codeContextYes": "Konteksti i kodit: Po ({0} rreshta)",
-    "boardDetected": "Kartela: {0}"
+    "boardDetected": "Kartela: {0}",
+    "boardUnknown": "Kartë e panjohur"
   },
   "chat": {
     "includeSelectedCode": "Përfshi kodin e zgjedhur",

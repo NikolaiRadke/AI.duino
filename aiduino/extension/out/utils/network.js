@@ -107,7 +107,7 @@ function openApiKeyUrl(modelId) {
     if (url) {
         vscode.env.openExternal(vscode.Uri.parse(url));
     } else {
-        vscode.window.showWarningMessage(`No API key URL configured for ${modelId}`);
+        vscode.window.showWarningMessage(t('errors.noApiKeyUrl', modelId));
     }
 }
 

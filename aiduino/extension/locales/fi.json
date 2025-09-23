@@ -182,7 +182,10 @@
       "netUnreachable": "Verkko ei tavoitettavissa - reitittimen ongelma?",
       "aborted": "Yhteys keskeytetty - aikakatkaisu tai verkkovirhe",
       "general": "Verkkovirhe: {0}"
-    }
+    },
+    "unknownProvider": "Tuntematon palveluntarjoaja",
+    "noApiKeyUrl": "API-avaimen URL-osoitetta ei ole määritetty palvelulle {0}",
+    "noDetailsAvailable": "Ei yksityiskohtia saatavilla"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nTänään: {1} Tokenia{2}\nSyöte: {3} | Tuloste: {4}\nKlikkaa valikko • Ctrl+Shift+C • Oikeaklikkaa vaihtaaksesi",
@@ -200,7 +203,8 @@
     "followUpTo": "Jatko kysymykseen",
     "followUpHint": "Jatka keskustelua",
     "codeContextYes": "Koodin konteksti: Kyllä ({0} riviä)",
-    "boardDetected": "Kortti: {0}"
+    "boardDetected": "Kortti: {0}",
+    "boardUnknown": "Tuntematon piirilevy"
   },
   "chat": {
     "includeSelectedCode": "Sisällytä valittu koodi",

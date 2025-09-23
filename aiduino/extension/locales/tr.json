@@ -182,7 +182,10 @@
       "netUnreachable": "Ağa erişilemiyor - yönlendirici sorunu?",
       "aborted": "Bağlantı iptal edildi - zaman aşımı veya ağ hatası",
       "general": "Ağ hatası: {0}"
-    }
+    },
+    "unknownProvider": "Bilinmeyen sağlayıcı",
+    "noApiKeyUrl": "{0} için yapılandırılmış API anahtarı URL'si yok",
+    "noDetailsAvailable": "Ayrıntı mevcut değil"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nBugün: {1} Token{2}\nGiriş: {3} | Çıkış: {4}\nMenü için tıkla • Ctrl+Shift+C • Değiştirmek için sağ tıkla",
@@ -200,7 +203,8 @@
     "followUpTo": "Takibi",
     "followUpHint": "Konuşmayı devam ettir",
     "codeContextYes": "Kod bağlamı: Evet ({0} satır)",
-    "boardDetected": "Kart: {0}"
+    "boardDetected": "Kart: {0}",
+    "boardUnknown": "Bilinmeyen kart"
   },
   "chat": {
     "includeSelectedCode": "Seçili kodu dahil et",

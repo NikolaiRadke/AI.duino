@@ -182,7 +182,10 @@
       "netUnreachable": "Síť není dostupná - problém s routerem?",
       "aborted": "Připojení přerušeno - časový limit nebo chyba sítě",
       "general": "Chyba sítě: {0}"
-    }
+    },
+    "unknownProvider": "Neznámý poskytovatel",
+    "noApiKeyUrl": "Žádná URL pro API klíč není nakonfigurována pro {0}",
+    "noDetailsAvailable": "Žádné podrobnosti nejsou k dispozici"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDnes: {1} Tokenů{2}\nVstup: {3} | Výstup: {4}\nKlikněte pro menu • Ctrl+Shift+C • Pravé tlačítko pro přepnutí",
@@ -200,7 +203,8 @@
     "followUpTo": "Navazuje na",
     "followUpHint": "Pokračovat v konverzaci",
     "codeContextYes": "Kontext kódu: Ano ({0} řádků)",
-    "boardDetected": "Deska: {0}"
+    "boardDetected": "Deska: {0}",
+    "boardUnknown": "Neznámá deska"
   },
   "chat": {
     "includeSelectedCode": "Zahrnout označený kód",

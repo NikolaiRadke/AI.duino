@@ -182,7 +182,10 @@
       "netUnreachable": "Nätverk inte nåbart - routerproblem?",
       "aborted": "Anslutning avbruten - timeout eller nätverksfel",
       "general": "Nätverksfel: {0}"
-    }
+    },
+    "unknownProvider": "Okänd leverantör",
+    "noApiKeyUrl": "Ingen API-nyckel URL konfigurerad för {0}",
+    "noDetailsAvailable": "Inga detaljer tillgängliga"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nIdag: {1} Tokens{2}\nIndata: {3} | Utdata: {4}\nKlicka för meny • Ctrl+Shift+C • Högerklicka för att byta",
@@ -200,7 +203,8 @@
     "followUpTo": "Följd till",
     "followUpHint": "Fortsätt konversationen",
     "codeContextYes": "Kodkontext: Ja ({0} rader)",
-    "boardDetected": "Kort: {0}"
+    "boardDetected": "Kort: {0}",
+    "boardUnknown": "Okänt kort"
   },
   "chat": {
     "includeSelectedCode": "Inkludera vald kod",

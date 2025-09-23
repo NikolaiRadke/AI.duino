@@ -182,7 +182,10 @@
       "netUnreachable": "Netwerk niet bereikbaar - routerprobleem?",
       "aborted": "Verbinding afgebroken - time-out of netwerkfout",
       "general": "Netwerkfout: {0}"
-    }
+    },
+    "unknownProvider": "Onbekende provider",
+    "noApiKeyUrl": "Geen API-sleutel URL geconfigureerd voor {0}",
+    "noDetailsAvailable": "Geen details beschikbaar"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nVandaag: {1} Tokens{2}\nInvoer: {3} | Uitvoer: {4}\nKlik voor menu • Ctrl+Shift+C • Rechtsklik om te wisselen",
@@ -200,7 +203,8 @@
     "followUpTo": "Vervolg van",
     "followUpHint": "Gesprek voortzetten",
     "codeContextYes": "Code context: Ja ({0} regels)",
-    "boardDetected": "Board: {0}"
+    "boardDetected": "Board: {0}",
+    "boardUnknown": "Onbekend bord"
   },
   "chat": {
     "includeSelectedCode": "Geselecteerde code opnemen",

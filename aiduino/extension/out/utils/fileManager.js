@@ -53,70 +53,41 @@ function safeReadFile(filePath, fallback = null) {
  * @returns {boolean} Success status
  */
 function atomicWrite(filePath, content, options = { mode: SECURE_FILE_MODE }) {
-    const isWindows = process.platform === 'win32';
-    
-    if (isWindows) {
-        return windowsWrite(filePath, content, options);
-    } else {
-        return unixWrite(filePath, content, options);
-    }
-}
-
-/**
- * Windows-compatible file write with backup
- */
-function windowsWrite(filePath, content, options) {
-    const backupFile = filePath + '.backup';
-    
-    try {
-        // Create backup if original exists
-        if (fileExists(filePath)) {
-            fs.copyFileSync(filePath, backupFile);
-        }
-        
-        // Write new content
-        fs.writeFileSync(filePath, content, options);
-        
-        // Cleanup backup on success
-        if (fileExists(backupFile)) {
-            fs.unlinkSync(backupFile);
-        }
-        
-        return true;
-    } catch {
-        // Restore backup on failure
-        if (fileExists(backupFile)) {
-            try {
-                fs.copyFileSync(backupFile, filePath);
+    if (process.platform === 'win32') {
+        // Windows: Backup-Strategie (direkt hier)
+        const backupFile = filePath + '.backup';
+        try {
+            if (fileExists(filePath)) {
+                fs.copyFileSync(filePath, backupFile);
+            }
+            fs.writeFileSync(filePath, content, options);
+            if (fileExists(backupFile)) {
                 fs.unlinkSync(backupFile);
-            } catch {
-                // Backup restore failed - file may be corrupted
             }
-        }
-        return false;
-    }
-}
-
-/**
- * Unix atomic write using temp file + rename
- */
-function unixWrite(filePath, content, options) {
-    const tempFile = filePath + '.tmp';
-    
-    try {
-        fs.writeFileSync(tempFile, content, options);
-        fs.renameSync(tempFile, filePath);
-        return true;
-    } catch {
-        // Cleanup temp file on failure
-        if (fileExists(tempFile)) {
-            try {
-                fs.unlinkSync(tempFile);
-            } catch {
-                // Temp file cleanup failed - not critical
+            return true;
+        } catch {
+            // Restore backup on failure
+            if (fileExists(backupFile)) {
+                try {
+                    fs.copyFileSync(backupFile, filePath);
+                    fs.unlinkSync(backupFile);
+                } catch {}
             }
+            return false;
         }
-        return false;
+    } else {
+        // Unix: Atomic rename (direkt hier)
+        const tempFile = filePath + '.tmp';
+        try {
+            fs.writeFileSync(tempFile, content, options);
+            fs.renameSync(tempFile, filePath);
+            return true;
+        } catch {
+            if (fileExists(tempFile)) {
+                try { fs.unlinkSync(tempFile); } catch {}
+            }
+            return false;
+        }
     }
 }
 

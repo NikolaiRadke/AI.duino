@@ -182,7 +182,10 @@
       "netUnreachable": "Nettverk ikke tilgjengelig - ruterproblem?",
       "aborted": "Forbindelse avbrutt - timeout eller nettverksfeil",
       "general": "Nettverksfeil: {0}"
-    }
+    },
+    "unknownProvider": "Ukjent leverandør",
+    "noApiKeyUrl": "Ingen API-nøkkel URL konfigurert for {0}",
+    "noDetailsAvailable": "Ingen detaljer tilgjengelig"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nI dag: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlikk for meny • Ctrl+Shift+C • Høyreklikk for å bytte",
@@ -200,7 +203,8 @@
     "followUpTo": "Oppfølging til",
     "followUpHint": "Fortsett samtalen",
     "codeContextYes": "Kode-kontekst: Ja ({0} linjer)",
-    "boardDetected": "Kort: {0}"
+    "boardDetected": "Kort: {0}",
+    "boardUnknown": "Ukjent kort"
   },
   "chat": {
     "includeSelectedCode": "Inkluder valgt kode",

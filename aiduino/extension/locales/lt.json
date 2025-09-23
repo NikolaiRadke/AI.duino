@@ -183,7 +183,10 @@
       "netUnreachable": "Tinklas nepasiekiamas – maršrutizatoriaus problema?",
       "aborted": "Ryšys nutrauktas – laikas baigėsi ar tinklo klaida",
       "general": "Tinklo klaida: {0}"
-    }
+    },
+    "unknownProvider": "Nežinomas teikėjas",
+    "noApiKeyUrl": "Nesukonfigūruotas API rakto URL {0}",
+    "noDetailsAvailable": "Nėra išsamių duomenų"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nŠiandien: {1} Žetonai{2}\nĮvestis: {3} | Išvestis: {4}\nPaspaudimas meniu • Ctrl+Shift+C • Dešinys paspaudimas perjungimui",
@@ -201,7 +204,8 @@
     "followUpTo": "Papildomas klausimas apie",
     "followUpHint": "Tęsti pokalbį",
     "codeContextYes": "Kodo kontekstas: Taip ({0} eilutės)",
-    "boardDetected": "Plokštė: {0}"
+    "boardDetected": "Plokštė: {0}",
+    "boardUnknown": "Nežinoma plokštė"
   },
   "chat": {
     "includeSelectedCode": "Įtraukti pažymėtą kodą",

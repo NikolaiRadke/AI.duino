@@ -182,7 +182,10 @@
       "netUnreachable": "Omrežje nedosegljivo - težava z usmerjevalnikom?",
       "aborted": "Povezava prekinjena - timeout ali omrežna napaka",
       "general": "Omrežna napaka: {0}"
-    }
+    },
+    "unknownProvider": "Neznani ponudnik",
+    "noApiKeyUrl": "Ni konfiguriran URL ključa API za {0}",
+    "noDetailsAvailable": "Ni podrobnosti na voljo"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDanes: {1} Žetonov{2}\nVhod: {3} | Izhod: {4}\nKlik za meni • Ctrl+Shift+C • Desni klik za preklop",
@@ -200,7 +203,8 @@
     "followUpTo": "Nadaljnje vprašanje k",
     "followUpHint": "Nadaljevanje pogovora",
     "codeContextYes": "Kontekst kode: Da ({0} vrstic)",
-    "boardDetected": "Plošča: {0}"
+    "boardDetected": "Plošča: {0}",
+    "boardUnknown": "Neznana plošča"
   },
   "chat": {
     "includeSelectedCode": "Vključi označeno kodo",

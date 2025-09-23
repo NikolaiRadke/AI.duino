@@ -264,7 +264,7 @@ function t(key, ...args) {
 async function switchLanguage() {
     // Check if already running
     if (!executionStates.start(executionStates.OPERATIONS.SWITCH_LANGUAGE)) {
-        vscode.window.showInformationMessage("Language switch is already running! Please wait...");
+        vscode.window.showInformationMessage(t('messages.operationAlreadyRunning'));
         return;
     }
     

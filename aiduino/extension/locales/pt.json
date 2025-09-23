@@ -182,7 +182,10 @@
       "netUnreachable": "Rede não alcançável - problema com roteador?",
       "aborted": "Conexão abortada - tempo esgotado ou erro de rede",
       "general": "Erro de rede: {0}"
-    }
+    },
+    "unknownProvider": "Provedor desconhecido",
+    "noApiKeyUrl": "Nenhuma URL de chave de API configurada para {0}",
+    "noDetailsAvailable": "Nenhum detalhe disponível"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nHoje: {1} Tokens{2}\nEntrada: {3} | Saída: {4}\nClique para menu • Ctrl+Shift+C • Clique direito para trocar",
@@ -200,7 +203,8 @@
     "followUpTo": "Acompanhamento de",
     "followUpHint": "Continuar a conversa",
     "codeContextYes": "Contexto de código: Sim ({0} linhas)",
-    "boardDetected": "Placa: {0}"
+    "boardDetected": "Placa: {0}",
+    "boardUnknown": "Placa desconhecida"
   },
   "chat": {
     "includeSelectedCode": "Incluir código selecionado",

@@ -72,7 +72,7 @@ class UnifiedAPIClient {
     
             const timeout = setTimeout(() => {
                 req.destroy();
-                reject(new Error('Request timeout'));
+                reject(new Error(t('errors.timeout')));
             }, this.timeout);
     
             const req = https.request(options, (res) => {
@@ -163,7 +163,7 @@ class UnifiedAPIClient {
     createHttpError(statusCode, responseData) {
         // Special handling for quota errors
         if (responseData?.error?.message?.includes('quota')) {
-            const error = new Error('Quota exceeded');
+            const error = new Error(t('errors.quotaExceeded'));
             error.type = 'QUOTA_ERROR';
             return error;
         }
@@ -178,7 +178,7 @@ class UnifiedAPIClient {
         };
 
         const message = errorMessages[statusCode] || 'Unknown HTTP Error';
-        const details = responseData.error?.message || responseData.message || 'No details available';
+        const details = responseData.error?.message || responseData.message || t('errors.noDetailsAvailable');
         
         return new Error(`${message} (${statusCode}): ${details}`);
     }
@@ -204,33 +204,33 @@ class UnifiedAPIClient {
     }
 
     /**
-     * Enhance error with model context
-     * @param {string} modelId - Model identifier
-     * @param {Error} error - Original error
-     * @param {Object} minimalModelManager - Model manager
-     * @param {Function} t - Translation function
-     * @returns {Error} Enhanced error
-     */
-    enhanceError(modelId, error, minimalModelManager, t) {
-        const modelName = minimalModelManager.providers[modelId]?.name || 'Unknown Provider';
-        
-        // Add model context to error WITH error types
-        if (error.message.includes('Invalid API Key')) {
-            const enhancedError = new Error(t('errors.invalidApiKey', modelName));
-            enhancedError.type = 'API_KEY_ERROR';  
-            return enhancedError;
-        } else if (error.message.includes('Rate Limit')) {
-            const enhancedError = new Error(t('errors.rateLimit', modelName));
-            enhancedError.type = 'RATE_LIMIT_ERROR'; 
-            return enhancedError;
-        } else if (error.message.includes('Server Error') || error.message.includes('Service Unavailable')) {
-            const enhancedError = new Error(t('errors.serverUnavailable', modelName));
-            enhancedError.type = 'SERVER_ERROR';  
-            return enhancedError;
-        }
-        
-        return new Error(`${modelName}: ${error.message}`);
+ * Enhance error with model context
+ * @param {string} modelId - Model identifier
+ * @param {Error} error - Original error
+ * @param {Object} minimalModelManager - Model manager
+ * @param {Function} t - Translation function
+ * @returns {Error} Enhanced error
+ */
+enhanceError(modelId, error, minimalModelManager, t) {
+    const modelName = minimalModelManager.providers[modelId]?.name || t('errors.unknownProvider');
+    
+    // Add model context to error WITH error types
+    if (error.message.includes('Invalid API Key')) {
+        const enhancedError = new Error(t('errors.invalidApiKey', modelName));
+        enhancedError.type = 'API_KEY_ERROR';  
+        return enhancedError;
+    } else if (error.message.includes('Rate Limit')) {
+        const enhancedError = new Error(t('errors.rateLimit', modelName));
+        enhancedError.type = 'RATE_LIMIT_ERROR'; 
+        return enhancedError;
+    } else if (error.message.includes('Server Error') || error.message.includes('Service Unavailable')) {
+        const enhancedError = new Error(t('errors.serverUnavailable', modelName));
+        enhancedError.type = 'SERVER_ERROR';  
+        return enhancedError;
     }
+    
+    return new Error(`${modelName}: ${error.message}`);
+}
 
     /**
      * Check if error is retryable

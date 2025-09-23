@@ -182,7 +182,10 @@
       "netUnreachable": "Sieć nieosiągalna - problem z routerem?",
       "aborted": "Połączenie przerwane - przekroczenie czasu lub błąd sieci",
       "general": "Błąd sieci: {0}"
-    }
+    },
+    "unknownProvider": "Nieznany dostawca",
+    "noApiKeyUrl": "Brak skonfigurowanego adresu URL klucza API dla {0}",
+    "noDetailsAvailable": "Brak dostępnych szczegółów"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDzisiaj: {1} tokenów{2}\nWejście: {3} | Wyjście: {4}\nKliknij dla menu • Ctrl+Shift+C • Prawy klik aby zmienić",
@@ -200,7 +203,8 @@
     "followUpTo": "Uzupełnienie do",
     "followUpHint": "Kontynuuj rozmowę",
     "codeContextYes": "Kontekst kodu: Tak ({0} linii)",
-    "boardDetected": "Płytka: {0}"
+    "boardDetected": "Płytka: {0}",
+    "boardUnknown": "Nieznana płytka"
   },
   "chat": {
     "includeSelectedCode": "Dołącz zaznaczony kod",

@@ -17,7 +17,6 @@
     "askFollowUp": "Staqsi mistoqsija follow-up",
     "editPrompts": "Editja l-prompts"
   },
-
   "messages": {
     "welcome": "👋 Merħba! AI.duino jappoġġa {0}!",
     "noApiKey": "🔑 L-ewwel għandek bżonn API key għal {0}",
@@ -48,7 +47,6 @@
     "contextCleared": "Kuntest tal-konversazzjoni mħassar",
     "operationAlreadyRunning": "Operazzjoni diġà qed issir! Jekk jogħġbok stenna..."
   },
-  
   "buttons": {
     "chooseModel": "Agħżel mudell AI",
     "later": "Aktar tard",
@@ -80,7 +78,6 @@
     "discard": "Armi",
     "closeWithoutSaving": "Agħlaq mingħajr ma ssalva"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Ħassan il-kodiċi magħżul",
     "explainCodeSelected": "Ispjega l-kodiċi magħżul",
@@ -98,19 +95,16 @@
     "noValidContext": "L-ebda konversazzjoni ta' qabel",
     "editPrompts": "Aġġusta l-prompts tal-AI"
   },
-  
   "language": {
     "autoDetect": "Awtomatikament minn VS Code",
     "selectLanguage": "Agħżel lingwa għal AI.duino",
     "changeLanguage": "Ibdel il-lingwa",
     "changed": "Lingwa mibdula għal {0}"
   },
-  
   "labels": {
     "active": "Attiv",
     "aiHints": "Ħintat tal-AI"
   },
-  
   "prompts": {
     "enterApiKey": "Daħħal {0} API key",
     "customInstructions": "Istruzzjonijiet personalizzati għat-titjib tal-kodiċi (fakultattiv)",
@@ -137,7 +131,6 @@
     "followUpContext": "Kuntest tal-konversazzjoni ta' qabel:",
     "followUpInstruction": "Wieġeb bil-Malti b'kunsiderazzjoni tal-konversazzjoni ta' qabel."
   },
-  
   "placeholders": {
     "customInstructions": "eż. \"ma tużax millis()\", \"ottimizza għal Arduino Nano\", \"żid error handling\"",
     "commentInstructions": "eż. \"dettaljat ħafna\", \"kummenti biss għall-funzjonijiet\", \"bl-Ingliż\"",
@@ -146,13 +139,11 @@
     "askAI": "eż. \"Kif jaħdem PWM?\", \"Għaliex is-sensor tiegħi ma jaħdemx?\"",
     "askFollowUp": "Kompli konversazzjoni..."
   },
-  
   "validation": {
     "apiKeyRequired": "API key meħtieġ",
     "apiKeyPrefix": "Għandu jibda bi \"{0}\"",
     "apiKeyTooShort": "Key jidher qasir wisq"
   },
-  
   "progress": {
     "retrying": "{0} (Tentattiv {1}/{2})",
     "explaining": "{0} qed jispjega l-kodiċi...",
@@ -164,10 +155,9 @@
     "askingAI": "{0} qed jaħdem fuq il-mistoqsija tiegħek...",
     "askingFollowUp": "{0} qed jaħdem fuq il-mistoqsijiet follow-up tiegħek..."
   },
-  
   "errors": {
     "quotaExceeded": "Kwota ta' xahar tmiem",
-    "quotaExceededDetail": "{0}: Kwota ta' xahar tmiem. Jekk jogħġbok stenna sal-bidu tax-xahar li jmiss jew ibdel il-mudell.",    
+    "quotaExceededDetail": "{0}: Kwota ta' xahar tmiem. Jekk jogħġbok stenna sal-bidu tax-xahar li jmiss jew ibdel il-mudell.",
     "networkError": "Żball tan-network",
     "timeout": "Timeout — jekk jogħġbok iċċekkja l-konnessjoni tal-internet",
     "unreachable": "Ma jintlaħaqx",
@@ -193,15 +183,16 @@
       "netUnreach": "Network ma jintlaħaqx — problema tar-router?",
       "aborted": "Konnessjoni mħassra — timeout jew żball tan-network",
       "general": "Żball tan-network: {0}"
-    }
+    },
+    "unknownProvider": "Fornitur mhux magħruf",
+    "noApiKeyUrl": "Ebda URL tal-iċ-ċavetta tal-API konfigurat għal {0}",
+    "noDetailsAvailable": "Ebda dettalji disponibbli"
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nIllum: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlikkja għal menu • Ctrl+Shift+C • Right click biex tibdel",
     "noApiKey": "{0} API key nieqes! • Klikkja biex tissettja",
     "errorsFound": "{0} żbalji nstabu • Klikkja għal għajnuna"
   },
-  
   "output": {
     "codeExplanation": "{0} Spjegazzjoni",
     "explanationFrom": "SPJEGAZZJONI TAL-KODIĊI MINN {0}",
@@ -213,9 +204,9 @@
     "followUpTo": "Follow-up għal",
     "followUpHint": "Kompli konversazzjoni",
     "codeContextYes": "Kuntest tal-kodiċi: Iva ({0} linji)",
-    "boardDetected": "Board: {0}"
+    "boardDetected": "Board: {0}",
+    "boardUnknown": "Bord mhux magħruf"
   },
-
   "chat": {
     "includeSelectedCode": "Inkludi kodiċi magħżul",
     "includeSelectedCodeDesc": "Ibgħat mistoqsija bil-kodiċi magħżul kurrenti",
@@ -227,12 +218,10 @@
     "followUpQuestion": "Mistoqsija follow-up",
     "relatedCode": "Kodiċi relatat"
   },
-
   "shortcuts": {
     "askFollowUp": "Mistoqsija follow-up",
     "askAI": "Mistoqsija ġdida"
-  },  
-
+  },
   "panels": {
     "errorExplanation": "🔧 Spjegazzjoni tal-Iżball",
     "debugHelp": "🔍 Għajnuna tal-Debug",
@@ -240,12 +229,10 @@
     "tokenStats": "📊 Statistika tat-Token",
     "about": "Dwar AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Spjegazzjoni tal-Iżball",
     "errorInLine": "Żball fil-linja {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Analizza output tas-Serial Monitor",
     "analyzeSerialDesc": "Għajnuna fl-interpretazzjoni tal-outputs tad-debug",
@@ -257,7 +244,6 @@
     "timingProblemsDesc": "Għajnuna bi delay(), millis() u bugs ta' timing",
     "selectHelp": "B'xiex għandek bżonn għajnuna?"
   },
-  
   "offline": {
     "title": "L-ebda konnessjoni tal-internet",
     "requiresInternet": "AI.duino jeħtieġ konnessjoni tal-internet biex jikkomunika ma' Claude, ChatGPT, Gemini jew Mistral.",
@@ -281,7 +267,6 @@
     "tip": "Suġġeriment",
     "onlineAgain": "Malli tkun online mill-ġdid, AI.duino jista' jgħinek bi problemi speċifiċi!"
   },
-  
   "stats": {
     "tokenUsageFor": "Użu ta' tokens għal {0}",
     "totalCostToday": "Spejjeż totali illum",
@@ -292,7 +277,6 @@
     "tipDescription": "Il-għadd tat-tokens huwa stima. L-ispejjeż reali jistgħu jkunu ftit differenti.",
     "confirmReset": "Żgur tixtieq tirresettja l-istatistika?"
   },
-  
   "about": {
     "tagline": "Żvilupp tal-Arduino b'appoġġ tal-AI",
     "features": "Karatteristiċi",
@@ -318,11 +302,10 @@
     "reportBugs": "Irraporta bugs",
     "madeWith": "Magħmul bi 💙 għall-komunità tal-Arduino"
   },
-
   "config": {
     "updateAvailable": "Aġġornament tal-Provider-Config disponibbli: {0} → {1}",
     "updateNow": "Aġġorna issa",
-    "updateLater": "Aktar tard", 
+    "updateLater": "Aktar tard",
     "updatingConfigs": "Konfigurazzjonijiet tal-provider qed jiġu aġġornati...",
     "updateSuccess": "Provider-Configs aġġornat għal verżjoni {0}",
     "updateFailed": "Aġġornament tal-config falliet: {0}",
@@ -331,22 +314,19 @@
     "modelOutdated": "Mudell jidher antik. Aġġorna l-konfigurazzjonijiet?",
     "notNow": "Mhux issa"
   },
-
   "settings": {
     "autoUpdateConfigs": "Fittex aġġornamenti tal-Provider-Config awtomatikament"
   },
-
   "extensionUpdate": {
     "available": "Aġġornament tal-AI.duino extension disponibbli: {0} → {1}",
     "download": "Niżżel"
   },
-
   "promptEditor": {
     "placeholderWarning": "Importanti: Tħassarx il-placeholders {0}, {1}, {2} - dawn jiġu sostitwiti bil-kodiċi u l-istruzzjonijiet!",
     "missingPlaceholder": "Żball: Placeholder {0} nieqes!",
     "missingPlaceholderMultiple": "Żball: Placeholder {0}, {1} jew {2} nieqes!",
     "standard": "Standard",
-    "custom": "Personalizzat", 
+    "custom": "Personalizzat",
     "modified": "Modifikat",
     "saving": "Qed issalva",
     "saved": "Salvat",
@@ -355,11 +335,10 @@
     "changesLostDialog": "Il-panel ingħalaq bi bidliet li ma ġewx salvati. X'tixtieq tagħmel?",
     "changesSaved": "Bidliet salvati!"
   },
-
   "time": {
     "justNow": "issa kif",
     "minutesAgo": "qabel {0}min",
-    "hoursAgo": "qabel {0}h", 
+    "hoursAgo": "qabel {0}h",
     "daysAgo": "qabel {0} ġranet"
   }
 }

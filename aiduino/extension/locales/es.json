@@ -182,7 +182,10 @@
       "netUnreachable": "Red no accesible - ¿problema del router?",
       "aborted": "Conexión abortada - tiempo agotado o error de red",
       "general": "Error de red: {0}"
-    }
+    },
+    "unknownProvider": "Proveedor desconocido",
+    "noApiKeyUrl": "No hay URL de clave API configurada para {0}",
+    "noDetailsAvailable": "No hay detalles disponibles"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nHoy: {1} Tokens{2}\nEntrada: {3} | Salida: {4}\nClic para menú • Ctrl+Shift+C • Clic derecho para cambiar",
@@ -200,7 +203,8 @@
     "followUpTo": "Seguimiento de",
     "followUpHint": "Continuar la conversación",
     "codeContextYes": "Contexto de código: Sí ({0} líneas)",
-    "boardDetected": "Placa: {0}"
+    "boardDetected": "Placa: {0}",
+    "boardUnknown": "Placa desconocida"
   },
   "chat": {
     "includeSelectedCode": "Incluir código seleccionado",

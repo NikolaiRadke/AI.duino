@@ -183,7 +183,10 @@
       "netUnreachable": "Мрежа недоступна – проблем са рутером?",
       "aborted": "Веза прекинута – timeout или мрежна грешка",
       "general": "Мрежна грешка: {0}"
-    }
+    },
+    "unknownProvider": "Непознати провајдер",
+    "noApiKeyUrl": "Није конфигурисан URL за API кључ за {0}",
+    "noDetailsAvailable": "Нису доступни детаљи"
   },
   "statusBar": {
     "tooltip": "АИ.дуино : {0}\nДанас: {1} Токени{2}\nУлаз: {3} | Излаз: {4}\nКлик за мени • Ctrl+Shift+C • Десни клик за пребацивање",
@@ -201,7 +204,8 @@
     "followUpTo": "Додатно питање за",
     "followUpHint": "Настави конверзацију",
     "codeContextYes": "Контекст кода: Да ({0} линија)",
-    "boardDetected": "Плоча: {0}"
+    "boardDetected": "Плоча: {0}",
+    "boardUnknown": "Непозната плоча"
   },
   "chat": {
     "includeSelectedCode": "Укључи означени код",

@@ -176,7 +176,10 @@
       "netUnreachable": "Rețea inaccesibilă - problemă router?",
       "aborted": "Conexiune abandonată - timeout sau eroare de rețea",
       "general": "Eroare de rețea: {0}"
-    }
+    },
+    "unknownProvider": "Furnizor necunoscut",
+    "noApiKeyUrl": "Nu este configurată URL pentru cheia API pentru {0}",
+    "noDetailsAvailable": "Nu sunt disponibile detalii"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nAstăzi: {1} Tokeni{2}\nInput: {3} | Output: {4}\nClick pentru meniu • Ctrl+Shift+C • Click dreapta pentru a comuta",
@@ -194,7 +197,8 @@
     "followUpTo": "Urmărirea lui",
     "followUpHint": "Continuă conversația",
     "codeContextYes": "Context cod: Da ({0} linii)",
-    "boardDetected": "Placă: {0}"
+    "boardDetected": "Placă: {0}",
+    "boardUnknown": "Placă necunoscută"
   },
   "chat": {
     "includeSelectedCode": "Include codul selectat",

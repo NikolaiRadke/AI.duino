@@ -182,7 +182,10 @@
       "netUnreachable": "网络无法访问 - 路由器问题？",
       "aborted": "连接中止 - 超时或网络错误",
       "general": "网络错误：{0}"
-    }
+    },
+    "unknownProvider": "未知提供商",
+    "noApiKeyUrl": "未为 {0} 配置 API 密钥 URL",
+    "noDetailsAvailable": "无详细信息"
   },
   "statusBar": {
     "tooltip": "AI.duino：{0}\n今日：{1} Tokens{2}\n输入：{3} | 输出：{4}\n点击打开菜单 • Ctrl+Shift+C • 右键切换",
@@ -200,7 +203,8 @@
     "followUpTo": "追问",
     "followUpHint": "继续对话",
     "codeContextYes": "代码上下文：是（{0} 行）",
-    "boardDetected": "开发板：{0}"
+    "boardDetected": "开发板：{0}",
+    "boardUnknown": "未知板卡"
   },
   "chat": {
     "includeSelectedCode": "包含选中的代码",

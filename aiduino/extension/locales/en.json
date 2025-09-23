@@ -183,7 +183,10 @@
       "netUnreachable": "Network not reachable - router problem?",
       "aborted": "Connection aborted - timeout or network error",
       "general": "Network error: {0}"
-    }
+    },
+    "unknownProvider": "Unknown Provider",
+    "noApiKeyUrl": "No API key URL configured for {0}",
+    "noDetailsAvailable": "No details available"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nToday: {1} Tokens{2}\nInput: {3} | Output: {4}\nClick for menu • Ctrl+Shift+C • Right-click to switch",
@@ -201,7 +204,8 @@
     "followUpTo": "Follow-up to",
     "followUpHint": "Continue the conversation",
     "codeContextYes": "Code Context: Yes ({0} lines)",
-    "boardDetected": "Board: {0}"
+    "boardDetected": "Board: {0}",
+    "boardUnknown": "Unknown Board"
   },
   "chat": {
     "includeSelectedCode": "Include selected code",

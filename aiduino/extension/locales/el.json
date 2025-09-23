@@ -182,7 +182,10 @@
       "netUnreachable": "Το δίκτυο δεν είναι προσβάσιμο - πρόβλημα δρομολογητή;",
       "aborted": "Η σύνδεση ακυρώθηκε - λήξη χρόνου ή σφάλμα δικτύου",
       "general": "Σφάλμα δικτύου: {0}"
-    }
+    },
+    "unknownProvider": "Άγνωστος πάροχος",
+    "noApiKeyUrl": "Δεν υπάρχει διαμορφωμένη διεύθυνση URL κλειδιού API για {0}",
+    "noDetailsAvailable": "Δεν υπάρχουν διαθέσιμες λεπτομέρειες"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nΣήμερα: {1} Token{2}\nΕίσοδος: {3} | Έξοδος: {4}\nΚλικ για μενού • Ctrl+Shift+C • Δεξί κλικ για αλλαγή",
@@ -200,7 +203,8 @@
     "followUpTo": "Συνέχεια του",
     "followUpHint": "Συνέχεια συνομιλίας",
     "codeContextYes": "Code-Kontext: Ja ({0} Zeilen)",
-    "boardDetected": "Board: {0}"
+    "boardDetected": "Board: {0}",
+    "boardUnknown": "Άγνωστη πλακέτα"
   },
   "chat": {
     "includeSelectedCode": "Συμπερίληψη επιλεγμένου κώδικα",

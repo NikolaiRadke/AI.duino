@@ -182,7 +182,10 @@
       "netUnreachable": "네트워크에 연결할 수 없음 - 라우터 문제?",
       "aborted": "연결 중단됨 - 시간 초과 또는 네트워크 오류",
       "general": "네트워크 오류: {0}"
-    }
+    },
+    "unknownProvider": "알 수 없는 공급자",
+    "noApiKeyUrl": "{0}에 대한 API 키 URL이 구성되지 않았습니다",
+    "noDetailsAvailable": "세부 정보를 사용할 수 없습니다"
   },
   "statusBar": {
     "tooltip": "AI.duino: {0}\n오늘: {1} 토큰{2}\n입력: {3} | 출력: {4}\n메뉴는 클릭 • Ctrl+Shift+C • 전환은 우클릭",
@@ -200,7 +203,8 @@
     "followUpTo": "의 추가 질문",
     "followUpHint": "대화 계속하기",
     "codeContextYes": "코드 컨텍스트: 예 ({0} 줄)",
-    "boardDetected": "보드: {0}"
+    "boardDetected": "보드: {0}",
+    "boardUnknown": "알 수 없는 보드"
   },
   "chat": {
     "includeSelectedCode": "선택된 코드 포함",

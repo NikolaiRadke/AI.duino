@@ -182,7 +182,10 @@
       "netUnreachable": "Мрежата не е достъпна - проблем с рутера?",
       "aborted": "Връзката е прекратена - timeout или мрежова грешка",
       "general": "Мрежова грешка: {0}"
-    }
+    },
+    "unknownProvider": "Непознат доставчик",
+    "noApiKeyUrl": "Няма конфигуриран URL за API ключ за {0}",
+    "noDetailsAvailable": "Няма налични подробности"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nДнес: {1} Tokens{2}\nВход: {3} | Изход: {4}\nКлик за меню • Ctrl+Shift+C • Десен клик за смяна",
@@ -200,7 +203,8 @@
     "followUpTo": "Последващ въпрос към",
     "followUpHint": "Продължение на разговора",
     "codeContextYes": "Код контекст: Да ({0} реда)",
-    "boardDetected": "Платка: {0}"
+    "boardDetected": "Платка: {0}",
+    "boardUnknown": "Непозната платка"
   },
   "chat": {
     "includeSelectedCode": "Включване на маркирания код",
