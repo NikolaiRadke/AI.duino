@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="44.935745mm"
+   height="45.025192mm"
+   viewBox="0 0 44.935745 45.025192"
+   version="1.1"
+   id="svg5"
+   inkscape:export-filename="/home/niko/Rastergrafik.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="Logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.0620589"
+     inkscape:cx="69.205201"
+     inkscape:cy="117.69592"
+     inkscape:window-width="1547"
+     inkscape:window-height="1022"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     inkscape:snap-bbox="false" />
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient18951"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#0000ff;stop-opacity:1;"
+         offset="0"
+         id="stop18949" />
+    </linearGradient>
+  </defs>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-79.751169,-59.035933)">
+    <g
+       id="g21377"
+       transform="translate(22.840191,-11.611203)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:46.9019px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.17255"
+         x="53.483593"
+         y="108.85456"
+         id="text2805"
+         transform="scale(1.0568424,0.94621484)"
+         inkscape:export-filename="/home/niko/text2805.png"
+         inkscape:export-xdpi="113.05"
+         inkscape:export-ydpi="113.05"><tspan
+           sodipodi:role="line"
+           id="tspan2803"
+           style="stroke-width:1.17255"
+           x="53.483593"
+           y="108.85456">AI</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:15.8722px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.396805"
+         x="53.226654"
+         y="101.79697"
+         id="text13531"
+         transform="scale(1.0535101,0.94920776)"
+         inkscape:export-filename="/home/niko/text2805.png"
+         inkscape:export-xdpi="113.05"
+         inkscape:export-ydpi="113.05"><tspan
+           sodipodi:role="line"
+           id="tspan13529"
+           style="stroke-width:0.396805"
+           x="53.226654"
+           y="101.79697"></tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:0.396805"
+           id="tspan13533"
+           x="53.226654"
+           y="121.63721">duino</tspan></text>
+    </g>
+  </g>
+</svg>

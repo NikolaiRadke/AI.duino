@@ -1,0 +1,376 @@
+{
+  "commands": {
+    "quickMenu": "Quick-Menü öffnen",
+    "switchModel": "KI-Modell wechseln",
+    "setApiKey": "API-Schlüssel eingeben",
+    "improveCode": "Code verbessern",
+    "explainCode": "Code erklären",
+    "addCommentsSelected": "Kommentare hinzufügen",
+    "addComments": "Kommentare hinzufügen",
+    "explainError": "Fehler erklären",
+    "debugHelp": "Debug-Hilfe",
+    "about": "Über AI.duino...",
+    "changeApiKey": "API-Schlüssel ändern",
+    "tokenStats": "Token-Statistik",
+    "switchLanguage": "Sprache wechseln",
+    "askAI": "KI fragen",
+    "askFollowUp": "Rückfrage stellen",
+    "editPrompts": "Prompts bearbeiten"
+  },
+
+  "messages": {
+    "welcome": "👋 Willkommen! AI.duino unterstützt {0}!",
+    "noApiKey": "🔑 Du brauchst zuerst einen API-Schlüssel für {0}",
+    "selectAction": "Was möchtest du tun?",
+    "selectArduinoCode": "💡 Markiere Arduino-Code, um KI-Funktionen zu nutzen!",
+    "noEditor": "Kein Code-Editor aktiv",
+    "selectCodeToExplain": "Bitte markiere den Code, den du erklärt haben möchtest",
+    "selectCodeToImprove": "Bitte markiere den Code, den du verbessern möchtest",
+    "selectCodeToComment": "💡 Markiere den Code, den du kommentieren möchtest",
+    "selectRelevantCode": "💡 Markiere relevanten Code für bessere Debug-Hilfe",
+    "openInoFile": "Öffne eine .ino-Datei",
+    "apiKeySaved": "✅ {0} API-Schlüssel gespeichert!",
+    "modelSwitched": "✅ Gewechselt zu {0}",
+    "codeImproved": "✅ Code verbessert! Was möchtest du tun?",
+    "codeReplaced": "✅ Code wurde ersetzt!",
+    "codeUpdated": "✅ Code wurde aktualisiert!",
+    "commentsAdded": "Kommentare hinzugefügt! Was möchtest du tun?",
+    "connectionError": "Verbindungsfehler. Nochmal versuchen?",
+    "retryLater": "Versuche es in ein paar Sekunden nochmal...",
+    "copiedToClipboard": "In Zwischenablage kopiert!",
+    "statsReset": "✅ Token-Statistik zurückgesetzt!",
+    "selectModel": "Wähle das KI-Modell",
+    "apiKeyRequired": "{0} benötigt einen API-Schlüssel",
+    "connectionOk": "Internetverbindung funktioniert",
+    "noConnection": "Keine Internetverbindung erkannt",
+    "noValidContext": "Keine aktuelle Unterhaltung zum Fortsetzen (max. 30 Min.)",
+    "followUpContext": "Fortsetzung der Unterhaltung: \"{0}\" (vor {1} Min.)",
+    "contextCleared": "Unterhaltungskontext gelöscht",
+    "operationAlreadyRunning": "Vorgang läuft bereits! Bitte warten...",
+    "noPath": "🔧 Du brauchst zuerst einen Pfad für {0}",
+    "pathRequired": "{0} benötigt einen Pfad"
+  },
+  
+  "buttons": {
+    "chooseModel": "KI-Modell wählen",
+    "later": "Später",
+    "setupNow": "Jetzt einrichten",
+    "switchModel": "Modell wechseln",
+    "cancel": "Abbrechen",
+    "enterNow": "Jetzt eingeben",
+    "enterApiKey": "API-Schlüssel eingeben",
+    "retry": "Nochmal versuchen",
+    "offlineHelp": "Offline-Hilfe",
+    "tryLater": "Später nochmal",
+    "yes": "Ja",
+    "no": "Nein",
+    "replaceOriginal": "Original ersetzen",
+    "keepBoth": "Beide behalten",
+    "copySolution": "Lösung kopieren",
+    "copy": "Kopieren",
+    "resetStats": "Statistik zurücksetzen",
+    "getApiKey": "API-Schlüssel holen",
+    "checkConnection": "Verbindung prüfen",
+    "checkFirewall": "Firewall prüfen",
+    "showTokenStats": "Token-Statistik anzeigen",
+    "tryAgain": "Erneut versuchen",
+    "checkStatus": "Status prüfen",
+    "checkRouter": "Router prüfen",
+    "save": "Speichern",
+    "reset": "Zurücksetzen",
+    "saveChanges": "Änderungen speichern",
+    "discard": "Verwerfen",
+    "closeWithoutSaving": "Beenden ohne Speichern"
+  },
+  
+  "descriptions": {
+    "improveCodeSelected": "Ausgewählten Code optimieren",
+    "explainCodeSelected": "Ausgewählten Code erklären",
+    "addCommentsSelected": "Code kommentieren",
+    "addComments": "Code kommentieren",
+    "selectFirst": "Zuerst Code markieren",
+    "errorsFound": "🔴 Compiler-Fehler gefunden",
+    "noErrors": "Keine Fehler",
+    "debugHelp": "Hilfe bei der Fehlersuche",
+    "currentModel": "Aktuell: {0}",
+    "todayUsage": "Heute: {0}",
+    "currentLanguage": "Aktuell: {0}",
+    "askAI": "Direkte Frage an die KI stellen",
+    "askFollowUp": "Vorherige Unterhaltung fortsetzen: {0}",
+    "noValidContext": "Keine vorherige Unterhaltung",
+    "editPrompts": "AI-Prompts anpassen"
+  },
+  
+  "language": {
+    "autoDetect": "Automatisch von VS Code erkennen",
+    "selectLanguage": "Sprache für AI.duino wählen",
+    "changeLanguage": "Sprache ändern",
+    "changed": "Sprache geändert zu {0}"
+  },
+  
+  "labels": {
+    "active": "Aktiv",
+    "aiHints": "KI-Hinweise"
+  },
+  
+  "prompts": {
+    "enterApiKey": "{0} API-Schlüssel eingeben",
+    "customInstructions": "Eigene Anweisungen für die Code-Verbesserung (optional)",
+    "commentInstructions": "Eigene Anweisungen für die Kommentierung (optional)",
+    "pasteError": "Kopiere den Fehler aus dem Arduino-Ausgabefenster (rote Zeile mit \"error:\")",
+    "pasteSerial": "Füge deine Serial-Monitor-Ausgabe ein",
+    "systemPrompt": "Du bist ein hilfreicher Arduino-Programmierassistent. Antworte immer auf Deutsch und erkläre Arduino-Code verständlich.",
+    "explainCode": "Erkläre diesen Arduino-Code auf Deutsch in einfacher, verständlicher Sprache:\n\n```cpp\n{0}\n```\n\nErkläre:\n- Was der Code macht\n- Wie er funktioniert\n- Welche Hardware er ansteuert\n- Wichtige Konzepte für Anfänger\n\nSei freundlich und ausführlich.",
+    "improveCode": "Verbessere diesen Arduino-Code:\n\n```cpp\n{0}\n```\n\nOptimiere für:\n- Nicht-blockierenden Code (millis statt delay)\n- Speicher-Effizienz\n- Bessere Lesbarkeit\n- Arduino Best Practices\n- Robustheit",
+    "improveCodeSuffix": "Gib nur den verbesserten Code zurück mit kurzen deutschen Kommentaren zu den Änderungen.",
+    "addCommentsSelected": "Füge hilfreiche deutsche Kommentare zu diesem Arduino-Code hinzu:\n\n```cpp\n{0}\n```\n\nRegeln:\n- Erkläre, was jede wichtige Zeile macht\n- Kommentiere Funktionen und ihre Parameter\n- Erkläre Hardware-Interaktionen\n- Nutze // für einzeilige und /* */ für mehrzeilige Kommentare\n- Kommentare sollen Anfängern helfen",
+    "addComments": "Füge hilfreiche deutsche Kommentare zu diesem Arduino-Code hinzu:\n\n```cpp\n{0}\n```\n\nRegeln:\n- Erkläre, was jede wichtige Zeile macht\n- Kommentiere Funktionen und ihre Parameter\n- Erkläre Hardware-Interaktionen\n- Nutze // für einzeilige und /* */ für mehrzeilige Kommentare\n- Kommentare sollen Anfängern helfen",
+    "addCommentsSuffix": "Gib NUR den kommentierten Code zurück, keine Erklärungen drumherum.",
+    "additionalInstructions": "Zusätzliche Anweisungen vom Nutzer:\n- {0}",
+    "explainError": "Arduino-Compiler-Fehler erklären und lösen:\n\nFehler: {0}\n\nCode-Kontext (um Zeile {1}):\n```cpp\n{2}\n```\n\nBitte erkläre:\n1. Was bedeutet dieser Fehler?\n2. Warum tritt er auf?\n3. Wie behebe ich ihn?\n4. Zeige den korrigierten Code\n\nErkläre einfach und verständlich auf Deutsch.",
+    "analyzeSerial": "Analysiere diese Arduino-Serial-Monitor-Ausgabe und erkläre, was sie bedeutet:\n\nSerial Output:\n{0}\n\n{1}\n\nErkläre:\n- Was die Ausgabe bedeutet\n- Mögliche Probleme\n- Lösungsvorschläge",
+    "hardwareDebug": "Hilf bei der Hardware-Fehlersuche für diesen Arduino-Code:\n\n```cpp\n{0}\n```\n\nBitte prüfe:\n- Typische Verdrahtungsfehler\n- Pin-Konflikte\n- Stromversorgungsprobleme\n- Pull-up/Pull-down-Widerstände\n- Kompatibilitätsprobleme",
+    "addDebugStatements": "Füge strategische Debug-Ausgaben zu diesem Arduino-Code hinzu:\n\n```cpp\n{0}\n```\n\nFüge Serial.print()-Anweisungen hinzu, um:\n- Variablenwerte zu überwachen\n- Programmfluss zu verfolgen\n- Timing zu messen\n- Fehler zu finden",
+    "analyzeTiming": "Analysiere Timing-Probleme in diesem Arduino-Code:\n\n```cpp\n{0}\n```\n\nPrüfe auf:\n- Blockierende Delays\n- millis()-Overflow\n- Race Conditions\n- Interrupt-Konflikte\n\nZeige verbesserten nicht-blockierenden Code.",
+    "askAI": "Was möchtest du die KI fragen?",
+    "askAIGeneral": "Nutzerfrage: {0}\n\nAntworte auf Deutsch klar und hilfreich.",
+    "askAIWithContext": "Nutzerfrage: {0}\n\nCode-Kontext:\n```cpp\n{1}\n```\n\nAntworte auf Deutsch unter Berücksichtigung des bereitgestellten Arduino-Codes.",
+    "askFollowUp": "Rückfrage:",
+    "followUpContext": "Kontext der vorherigen Unterhaltung:",
+    "followUpInstruction": "Antworte auf Deutsch unter Berücksichtigung der vorherigen Unterhaltung."
+  },
+  
+  "placeholders": {
+    "customInstructions": "z.B. \"keine millis() verwenden\", \"optimieren für Arduino Nano\", \"Error-Handling hinzufügen\"",
+    "commentInstructions": "z.B. \"sehr ausführlich\", \"nur Funktionen kommentieren\", \"auf Englisch\"",
+    "errorExample": "error: 'xc' was not declared in this scope",
+    "serialExample": "z.B. \"Sensor value: -1\"",
+    "askAI": "z.B. \"Wie funktioniert PWM?\", \"Warum funktioniert mein Sensor nicht?\"",
+    "askFollowUp": "Unterhaltung fortsetzen..."
+  },
+  
+  "validation": {
+    "apiKeyRequired": "API-Schlüssel erforderlich",
+    "apiKeyPrefix": "Muss mit \"{0}\" beginnen",
+    "apiKeyTooShort": "Schlüssel scheint zu kurz"
+  },
+  
+  "progress": {
+    "retrying": "{0} (Versuch {1}/{2})",
+    "explaining": "{0} erklärt den Code...",
+    "optimizing": "{0} optimiert den Code...",
+    "addingComments": "{0} fügt Kommentare hinzu...",
+    "analyzingError": "{0} analysiert den Fehler...",
+    "analyzingProblem": "{0} analysiert das Problem...",
+    "testingConnection": "Verbindung wird getestet...",
+    "askingAI": "{0} bearbeitet deine Frage...",
+    "askingFollowUp": "{0} bearbeitet deine Rückfrage..."
+  },
+  
+  "errors": {
+    "quotaExceeded": "Monatliches Kontingent erschöpft",
+    "quotaExceededDetail": "{0}: Monatliches Kontingent erschöpft. Bitte warte bis zum Monatsanfang oder wechsle das Modell.",    
+    "networkError": "Netzwerkfehler",
+    "timeout": "Zeitüberschreitung – bitte Internetverbindung prüfen",
+    "unreachable": "Nicht erreichbar",
+    "operationCancelled": "Vorgang abgebrochen",
+    "unknownModel": "Unbekanntes Modell: {0}",
+    "noApiKey": "Kein {0}-API-Schlüssel gesetzt",
+    "invalidApiKey": "{0}-API-Schlüssel ungültig",
+    "rateLimit": "{0} Ratenlimit erreicht – bitte kurz warten",
+    "serverUnavailable": "{0}-Server momentan nicht erreichbar",
+    "apiError": "❌ {0}-Fehler: {1}",
+    "apiErrorWithCode": "{0}-API-Fehler ({1}): {2}",
+    "parseError": "Fehler beim Parsen der {0}-Antwort",
+    "unexpectedResponse": "Unerwartete {0}-API-Antwort-Struktur",
+    "unknownError": "Unbekannter Fehler",
+    "saveFailed": "❌ Fehler beim Speichern: {0}",
+    "noInternet": "🌐 Keine Internetverbindung",
+    "network": {
+      "dns": "Keine Internetverbindung – DNS-Auflösung fehlgeschlagen",
+      "timeout": "Zeitüberschreitung – Internetverbindung zu langsam",
+      "refused": "Verbindung verweigert – Firewall- oder Proxy-Problem?",
+      "reset": "Verbindung unterbrochen – instabile Internetverbindung",
+      "hostUnreachable": "Server nicht erreichbar – Netzwerkproblem",
+      "netUnreachable": "Netzwerk nicht erreichbar – Router-Problem?",
+      "aborted": "Verbindung abgebrochen – Timeout oder Netzwerkfehler",
+      "general": "Netzwerkfehler: {0}"
+    },
+    "unknownProvider": "Unbekannter Anbieter",
+    "noApiKeyUrl": "Keine API-Key-URL konfiguriert für {0}",
+    "quotaExceeded": "Kontingent erschöpft", 
+    "noDetailsAvailable": "Keine Details verfügbar",
+    "claudeCodeNotFound": "Claude Code nicht gefunden unter '{0}'. Bitte korrekten Pfad über 'API Key eingeben' konfigurieren.",
+    "claudeCodeTimeout": "Claude Code Sitzung abgelaufen",
+    "processError": "Prozessfehler: {0}",
+    "processFailedWithCode": "Prozess mit Fehlercode {0} beendet"
+  },
+  
+  "statusBar": {
+    "tooltip": "AI.duino : {0}\nHeute: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlick für Menü • Strg+Shift+C • Rechtsklick zum Wechseln",
+    "noApiKey": "{0}-API-Schlüssel fehlt! • Klick zum Einrichten",
+    "errorsFound": "{0} Fehler gefunden • Klick für Hilfe"
+  },
+  
+  "output": {
+    "codeExplanation": "{0} Erklärung",
+    "explanationFrom": "CODE-ERKLÄRUNG VON {0}",
+    "aiResponse": "{0} Antwort",
+    "responseFrom": "ANTWORT VON {0}",
+    "yourQuestion": "Deine Frage",
+    "aiAnswer": "KI-Antwort",
+    "aiFollowUp": "{0} Rückfrage-Antwort",
+    "followUpTo": "Rückfrage zu",
+    "followUpHint": "Unterhaltung fortsetzen",
+    "codeContextYes": "Code-Kontext: Ja ({0} Zeilen)",
+    "boardDetected": "Board: {0}",
+    "boardUnknown": "Unbekanntes Board"
+  },
+
+  "chat": {
+    "includeSelectedCode": "Markierten Code einbeziehen",
+    "includeSelectedCodeDesc": "Frage mit aktuell markiertem Code senden",
+    "questionOnly": "Nur Frage",
+    "questionOnlyDesc": "Nur die Frage ohne Code senden",
+    "selectContext": "Möchtest du Code-Kontext einbeziehen?",
+    "previousQuestion": "Vorherige Frage",
+    "previousAnswer": "Vorherige Antwort",
+    "followUpQuestion": "Rückfrage",
+    "relatedCode": "Zugehöriger Code"
+  },
+
+  "shortcuts": {
+    "askFollowUp": "Rückfrage",
+    "askAI": "Neue Frage"
+  },  
+
+  "panels": {
+    "errorExplanation": "🔧 Fehler-Erklärung",
+    "debugHelp": "🔍 Debug-Hilfe",
+    "offlineHelp": "📡 Offline-Hilfe",
+    "tokenStats": "📊 Token-Statistik",
+    "about": "Über AI.duino"
+  },
+  
+  "html": {
+    "errorExplanation": "Fehler-Erklärung",
+    "errorInLine": "Fehler in Zeile {0}"
+  },
+  
+  "debug": {
+    "analyzeSerial": "Serial-Monitor-Ausgabe analysieren",
+    "analyzeSerialDesc": "Hilfe bei der Interpretation von Debug-Ausgaben",
+    "hardwareProblem": "Hardware-Problem diagnostizieren",
+    "hardwareProblemDesc": "Mögliche Hardware-Ursachen für Probleme",
+    "addDebugCode": "Debug-Code hinzufügen",
+    "addDebugCodeDesc": "Serial.print()-Anweisungen strategisch platzieren",
+    "timingProblems": "Timing-Probleme finden",
+    "timingProblemsDesc": "Hilfe bei delay(), millis() und Timing-Bugs",
+    "selectHelp": "Wobei brauchst du Hilfe?"
+  },
+  
+  "offline": {
+    "title": "Keine Internetverbindung",
+    "requiresInternet": "AI.duino benötigt eine Internetverbindung, um mit Claude, ChatGPT, Gemini oder Mistral zu kommunizieren.",
+    "solutions": "Lösungsvorschläge",
+    "checkInternet": "Internetverbindung prüfen",
+    "checkWifi": "WLAN/Ethernet-Verbindung überprüfen",
+    "restartRouter": "Router neu starten",
+    "testOtherSites": "Andere Webseiten testen",
+    "firewallSettings": "Firewall-/Proxy-Einstellungen",
+    "ensureNotBlocked": "Stelle sicher, dass folgende Domains nicht blockiert sind",
+    "disableVpn": "VPN deaktivieren",
+    "vpnMayBlock": "Manche VPN-Dienste können API-Anfragen blockieren.",
+    "commonProblems": "Häufige Arduino-Probleme (Offline-Referenz)",
+    "solution": "Lösung",
+    "declareVariable": "Variable deklarieren",
+    "missingDeclaration": "Fehlende Deklaration",
+    "addSemicolon": "Semikolon hinzufügen",
+    "dontForgetSemicolon": "; nicht vergessen!",
+    "insteadOfDelay": "Statt delay() verwenden",
+    "executeCodeHere": "Code hier ausführen",
+    "tip": "Tipp",
+    "onlineAgain": "Sobald du wieder online bist, kann AI.duino dir bei spezifischen Problemen helfen!"
+  },
+  
+  "stats": {
+    "tokenUsageFor": "Token-Verbrauch für {0}",
+    "totalCostToday": "Gesamtkosten heute",
+    "inputTokens": "Input-Tokens",
+    "outputTokens": "Output-Tokens",
+    "cost": "Kosten",
+    "tip": "Tipp",
+    "tipDescription": "Die Token-Zählung ist eine Schätzung. Die tatsächlichen Kosten können leicht abweichen.",
+    "confirmReset": "Statistik wirklich zurücksetzen?"
+  },
+  
+  "about": {
+    "tagline": "KI-gestützte Arduino-Entwicklung",
+    "features": "Funktionen",
+    "integration": "Integration",
+    "feature1": "Code-Verbesserung und Optimierung",
+    "feature2": "Fehler-Erklärung auf Deutsch",
+    "feature3": "Automatische Code-Kommentierung",
+    "feature4": "Debug-Hilfe und Hardware-Diagnose",
+    "feature5": "Token-Verbrauch-Tracking",
+    "feature6": "Offline-Hilfe bei Verbindungsproblemen",
+    "feature7": "Modulare Architektur für einfache Erweiterung",
+    "feature8": "Mehrsprachige Unterstützung",
+    "quickstart": "Schnellstart",
+    "step1": "Markiere Arduino-Code",
+    "step2": "Drücke",
+    "step3": "Wähle eine Aktion aus",
+    "tip": "Tipp",
+    "tipText": "Rechtsklick auf die Statusleiste zum Modellwechsel!",
+    "license": "Lizenz",
+    "getApiKeys": "API-Schlüssel erhalten",
+    "publisher": "Publisher",
+    "repository": "Repository",
+    "reportBugs": "Fehler melden",
+    "madeWith": "Entwickelt mit 💙 für die Arduino-Community"
+  },
+
+  "config": {
+    "updateAvailable": "Provider-Config Update verfügbar: {0} → {1}",
+    "updateNow": "Jetzt aktualisieren",
+    "updateLater": "Später", 
+    "updatingConfigs": "Provider-Konfigurationen werden aktualisiert...",
+    "updateSuccess": "Provider-Configs auf Version {0} aktualisiert",
+    "updateFailed": "Config-Update fehlgeschlagen: {0}",
+    "restartRequired": "Provider-Configs erfolgreich aktualisiert! Neustart erforderlich für Änderungen.",
+    "restartExtension": "Extension neustarten",
+    "modelOutdated": "Modell scheint veraltet zu sein. Konfigurationen aktualisieren?",
+    "notNow": "Nicht jetzt"
+  },
+
+  "settings": {
+    "autoUpdateConfigs": "Automatisch nach Provider-Config-Updates suchen"
+  },
+
+  "extensionUpdate": {
+    "available": "AI.duino Extension Update verfügbar: {0} → {1}",
+    "download": "Herunterladen"
+  },
+
+  "promptEditor": {
+    "placeholderWarning": "Wichtig: Platzhalter {0}, {1}, {2} nicht löschen - sie werden durch Code und Anweisungen ersetzt!",
+    "missingPlaceholder": "Fehler: Platzhalter {0} fehlt!",
+    "missingPlaceholderMultiple": "Fehler: Platzhalter {0}, {1} oder {2} fehlt!",
+    "standard": "Standard",
+    "custom": "Angepasst", 
+    "modified": "Geändert",
+    "saving": "Speichere",
+    "saved": "Gespeichert",
+    "resetSuccess": "Zurückgesetzt",
+    "unsavedWarning": "Sprache wechseln? Die ungesicherte Änderungen im Prompt-Editor gehen verloren.",
+    "changesLostDialog": "Das Panel wurde mit ungespeicherten Änderungen geschlossen. Was möchten Sie tun?",
+    "changesSaved": "Änderungen gespeichert!"
+  },
+
+  "time": {
+    "justNow": "gerade eben",
+    "minutesAgo": "vor {0}min",
+    "hoursAgo": "vor {0}h", 
+    "daysAgo": "vor {0}d"
+  }
+}
