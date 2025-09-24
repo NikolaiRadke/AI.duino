@@ -1,12 +1,12 @@
 ![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back.png)
 # 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
-AI.duino integrates **Claude, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq, Vertex and Hugging Face** directly into the Arduino IDE for intelligent code assistance. The newest model will be selected automaticaly. It also works with **VS Code**.    
+AI.duino integrates **Claude, Claude Code, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq, Vertex and Hugging Face** directly into the Arduino IDE for intelligent code assistance. The newest model will be selected automaticaly. It also works with **VS Code**.    
  
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **24.09.2025** Release **V1.10.0**. Integraded **Claude Code**! Use your **Pro Plan account** in ai.duino for free!  
+* **24.09.2025** Release **V1.10.0**. Integraded Claude Code! Use your Pro Plan account in AI.duino for free.  
 
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
@@ -145,6 +145,9 @@ Required: An API key from either:
 - Hugging Face: https://huggingface.co/settings/tokens 
 
 The keys are stored locally and not transmitted.
+
+**Claude Code** does'nt need an API key, only the path to your claude binary. Try *which claude* (Linux/macOS) or *where claude* (Windows)
+and copy the path for the AI.duino input field when selecting Claude Code.  
 
 ## Content
   
