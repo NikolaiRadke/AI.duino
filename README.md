@@ -6,7 +6,8 @@ AI.duino integrates **Claude, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **23.09.2025** Release **V1.9.3**. No bugs found again but localized last hard-coded strings.
+* **24.09.2025** Release **V1.10.0**. Integraded **Claude Code**! Use your **Pro Plan account** in ai.duino for free!  
+
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
