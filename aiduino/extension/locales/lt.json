@@ -45,7 +45,9 @@
     "noValidContext": "Nėra dabartinio pokalbio tęsimui (maks. 30 min.)",
     "followUpContext": "Pokalbio tęsinys: \"{0}\" (prieš {1} min.)",
     "contextCleared": "Pokalbio kontekstas ištrintas",
-    "operationAlreadyRunning": "Operacija jau vyksta! Prašome palaukti..."
+    "operationAlreadyRunning": "Operacija jau vyksta! Prašome palaukti...",
+    "noPath": "🔧 Pirmiausia jums reikia kelio į {0}",
+    "pathRequired": "{0} reikalauja kelio"
   },
   "buttons": {
     "chooseModel": "Pasirinkti AI modelį",
@@ -186,7 +188,11 @@
     },
     "unknownProvider": "Nežinomas teikėjas",
     "noApiKeyUrl": "Nesukonfigūruotas API rakto URL {0}",
-    "noDetailsAvailable": "Nėra išsamių duomenų"
+    "noDetailsAvailable": "Nėra išsamių duomenų",
+    "claudeCodeNotFound": "Claude Code nerastas '{0}'. Sukonfigūruokite teisingą kelią per 'Enter API Key'.",
+    "claudeCodeTimeout": "Claude Code sesijos skirtasis laikas",
+    "processError": "Proceso klaida: {0}",
+    "processFailedWithCode": "Procesas baigtas su klaidos kodu {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nŠiandien: {1} Žetonai{2}\nĮvestis: {3} | Išvestis: {4}\nPaspaudimas meniu • Ctrl+Shift+C • Dešinys paspaudimas perjungimui",

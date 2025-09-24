@@ -44,7 +44,9 @@
     "noConnection": "未检测到网络连接",
     "noValidContext": "没有可继续的近期对话（最多30分钟）",
     "followUpContext": "继续对话: \"{0}\" ({1}分钟前)",
-    "contextCleared": "对话上下文已清除"
+    "contextCleared": "对话上下文已清除",
+    "noPath": "🔧 您首先需要 {0} 的路径",
+    "pathRequired": "{0} 需要路径"
   },
   "buttons": {
     "chooseModel": "选择AI模型",
@@ -185,7 +187,11 @@
     },
     "unknownProvider": "未知提供商",
     "noApiKeyUrl": "未为 {0} 配置 API 密钥 URL",
-    "noDetailsAvailable": "无详细信息"
+    "noDetailsAvailable": "无详细信息",
+    "claudeCodeNotFound": "在 '{0}'找不到 Claude Code。请通过 'Enter API Key' 配置正确路径。",
+    "claudeCodeTimeout": "Claude Code 会话超时",
+    "processError": "进程错误：{0}",
+    "processFailedWithCode": "进程以错误代码 {0} 终止"
   },
   "statusBar": {
     "tooltip": "AI.duino：{0}\n今日：{1} Tokens{2}\n输入：{3} | 输出：{4}\n点击打开菜单 • Ctrl+Shift+C • 右键切换",

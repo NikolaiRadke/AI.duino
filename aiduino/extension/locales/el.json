@@ -44,7 +44,9 @@
     "noConnection": "Δεν εντοπίστηκε σύνδεση στο διαδίκτυο",
     "noValidContext": "Καμία πρόσφατη συνομιλία για συνέχεια (μέγ. 30 λεπτά)",
     "followUpContext": "Συνέχεια συνομιλίας: \"{0}\" (πριν {1} λεπτά)",
-    "contextCleared": "Το πλαίσιο συνομιλίας διαγράφηκε"
+    "contextCleared": "Το πλαίσιο συνομιλίας διαγράφηκε",
+    "noPath": "🔧 Χρειάζεστε πρώτα μια διαδρομή για το {0}",
+    "pathRequired": "{0} απαιτεί διαδρομή"
   },
   "buttons": {
     "chooseModel": "Επιλογή Μοντέλου AI",
@@ -185,7 +187,11 @@
     },
     "unknownProvider": "Άγνωστος πάροχος",
     "noApiKeyUrl": "Δεν υπάρχει διαμορφωμένη διεύθυνση URL κλειδιού API για {0}",
-    "noDetailsAvailable": "Δεν υπάρχουν διαθέσιμες λεπτομέρειες"
+    "noDetailsAvailable": "Δεν υπάρχουν διαθέσιμες λεπτομέρειες",
+    "claudeCodeNotFound": "Το Claude Code δεν βρέθηκε στο '{0}'. Παρακαλώ ρυθμίστε τη διαδρομή μέσω 'Enter API Key'.",
+    "claudeCodeTimeout": "Η συνεδρία Claude Code έληξε",
+    "processError": "Σφάλμα διεργασίας: {0}",
+    "processFailedWithCode": "Η διεργασία τερματίστηκε με κωδικό σφάλματος {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nΣήμερα: {1} Token{2}\nΕίσοδος: {3} | Έξοδος: {4}\nΚλικ για μενού • Ctrl+Shift+C • Δεξί κλικ για αλλαγή",

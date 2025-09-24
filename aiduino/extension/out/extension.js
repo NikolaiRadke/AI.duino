@@ -12,7 +12,6 @@ exports.deactivate = exports.activate = void 0;
 // ===== IMPORTS =====
 // Node.js modules
 const vscode = require("vscode");
-const https = require("https");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
@@ -158,9 +157,9 @@ class MinimalModelManager {
     }
 
     /**
-     * Check if provider has API key configured
+    * Check if provider has API key configured
      * @param {string} providerId - Provider identifier  
-     * @returns {boolean} True if API key exists
+     * @returns {boolean} True if API key exists or local provider
      */
     hasApiKey(providerId) {
         if (!this.providers[providerId]) return false;
@@ -661,7 +660,12 @@ function getDependencies() {
         updateTokenUsage,
         
         // State setters (callbacks)
-        setCurrentModel: (newModel) => { currentModel = newModel; },
+        setCurrentModel: (newModel) => { 
+            currentModel = newModel; 
+            if (statusBarManager) {
+               statusBarManager.updateFromContext(getDependencies());
+            }
+        },
         setAiConversationContext: (newContext) => { 
             Object.assign(aiConversationContext, newContext); 
         }
@@ -675,20 +679,25 @@ function getDependencies() {
  */
 async function showQuickMenu() {
     const model = minimalModelManager.providers[currentModel];
-    const hasApiKey = apiKeys[currentModel];
+    const hasApiKey = minimalModelManager.hasApiKey(currentModel); 
 
     // Check API key first
     if (!hasApiKey) {
+        const isLocal = model.type === 'local';
+        const message = isLocal ? 
+            t('messages.noPath', model.name) : 
+            t('messages.noApiKey', model.name);
+    
         const choice = await vscode.window.showWarningMessage(
-            t('messages.noApiKey', model.name),
+            message,
             t('buttons.setupNow'),
             t('buttons.switchModel'),
             t('buttons.cancel')
         );
         if (choice === t('buttons.setupNow')) {
-            await setApiKey();
+            await apiManager.setApiKey(getDependencies());
         } else if (choice === t('buttons.switchModel')) {
-            await switchModel();
+            await apiManager.switchModel(getDependencies());
         }
         return;
     }

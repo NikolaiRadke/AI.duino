@@ -86,7 +86,7 @@ function buildMenuItems(context) {
     
     // Follow-up option if context exists
     if (shared.hasValidContext(aiConversationContext)) {
-        infoItems.push({
+        coreItems.push({
             label: `$(arrow-right) ${t('commands.askFollowUp')}`,
             description: t('descriptions.askFollowUp', 
                 formatQuestionPreview(aiConversationContext.lastQuestion, aiConversationContext.timestamp)),

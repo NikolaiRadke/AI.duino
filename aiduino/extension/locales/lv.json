@@ -45,7 +45,9 @@
     "noValidContext": "Nav pašreizējās sarunas turpināšanai (maks. 30 min.)",
     "followUpContext": "Sarunas turpinājums: \"{0}\" (pirms {1} min.)",
     "contextCleared": "Sarunas konteksts dzēsts",
-    "operationAlreadyRunning": "Darbība jau notiek! Lūdzu uzgaidiet..."
+    "operationAlreadyRunning": "Darbība jau notiek! Lūdzu uzgaidiet...",
+    "noPath": "🔧 Vispirms jums nepieciešams ceļš uz {0}",
+    "pathRequired": "{0} nepieciešams ceļš"
   },
   "buttons": {
     "chooseModel": "Izvēlēties AI modeli",
@@ -186,7 +188,11 @@
     },
     "unknownProvider": "Nezināms sniedzējs",
     "noApiKeyUrl": "Nav konfigurēts API atslēgas URL {0}",
-    "noDetailsAvailable": "Nav pieejami dati"
+    "noDetailsAvailable": "Nav pieejami dati",
+    "claudeCodeNotFound": "Claude Code nav atrasts '{0}'. Lūdzu, konfigurējiet pareizo ceļu, izmantojot 'Enter API Key'.",
+    "claudeCodeTimeout": "Claude Code sesijas noildze",
+    "processError": "Procesa kļūda: {0}",
+    "processFailedWithCode": "Process beidzās ar kļūdas kodu {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nŠodien: {1} Žetoni{2}\nIevade: {3} | Izvade: {4}\nKlikšķis izvēlnei • Ctrl+Shift+C • Labais klikšķis pārslēgšanai",

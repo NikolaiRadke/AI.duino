@@ -44,7 +44,9 @@
     "noConnection": "Ingen internettforbindelse oppdaget",
     "noValidContext": "Ingen nylig samtale å fortsette (maks 30 min)",
     "followUpContext": "Fortsetter samtale: \"{0}\" ({1} min siden)",
-    "contextCleared": "Samtale-kontekst ryddet"
+    "contextCleared": "Samtale-kontekst ryddet",
+    "noPath": "🔧 Du trenger først en bane for {0}",
+    "pathRequired": "{0} krever en bane"
   },
   "buttons": {
     "chooseModel": "Velg AI-modell",
@@ -185,7 +187,11 @@
     },
     "unknownProvider": "Ukjent leverandør",
     "noApiKeyUrl": "Ingen API-nøkkel URL konfigurert for {0}",
-    "noDetailsAvailable": "Ingen detaljer tilgjengelig"
+    "noDetailsAvailable": "Ingen detaljer tilgjengelig",
+    "claudeCodeNotFound": "Claude Code ikke funnet på '{0}'. Vennligst konfigurer riktig bane via 'Enter API Key'.",
+    "claudeCodeTimeout": "Claude Code økt tidsavbrudd",
+    "processError": "Prosess feil: {0}",
+    "processFailedWithCode": "Prosess avsluttet med feilkode {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nI dag: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlikk for meny • Ctrl+Shift+C • Høyreklikk for å bytte",

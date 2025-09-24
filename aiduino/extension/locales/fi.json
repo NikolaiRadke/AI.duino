@@ -44,7 +44,9 @@
     "noConnection": "Internet-yhteyttä ei havaittu",
     "noValidContext": "Ei viimeaikaista keskustelua jatkettavaksi (max 30 min)",
     "followUpContext": "Jatketaan keskustelua: \"{0}\" ({1} min sitten)",
-    "contextCleared": "Keskustelun konteksti tyhjennetty"
+    "contextCleared": "Keskustelun konteksti tyhjennetty",
+    "noPath": "🔧 Tarvitset ensin polun kohteeseen {0}",
+    "pathRequired": "{0} vaatii polun"
   },
   "buttons": {
     "chooseModel": "Valitse AI-malli",
@@ -185,7 +187,11 @@
     },
     "unknownProvider": "Tuntematon palveluntarjoaja",
     "noApiKeyUrl": "API-avaimen URL-osoitetta ei ole määritetty palvelulle {0}",
-    "noDetailsAvailable": "Ei yksityiskohtia saatavilla"
+    "noDetailsAvailable": "Ei yksityiskohtia saatavilla",
+    "claudeCodeNotFound": "Claude Code ei löytynyt sijainnista '{0}'. Aseta oikea polku 'Enter API Key' kautta.",
+    "claudeCodeTimeout": "Claude Code istunto aikakatkaisu",
+    "processError": "Prosessivirhe: {0}",
+    "processFailedWithCode": "Prosessi päättyi virhekoodilla {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nTänään: {1} Tokenia{2}\nSyöte: {3} | Tuloste: {4}\nKlikkaa valikko • Ctrl+Shift+C • Oikeaklikkaa vaihtaaksesi",

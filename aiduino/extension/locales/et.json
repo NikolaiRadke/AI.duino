@@ -45,7 +45,9 @@
     "noValidContext": "Pole praegust vestlust jätkamiseks (max 30 min)",
     "followUpContext": "Vestluse jätk: \"{0}\" ({1} min tagasi)",
     "contextCleared": "Vestluse kontekst kustutatud",
-    "operationAlreadyRunning": "Toiming juba käib! Palun oodake..."
+    "operationAlreadyRunning": "Toiming juba käib! Palun oodake...",
+    "noPath": "🔧 Vajate esmalt teed {0} jaoks",
+    "pathRequired": "{0} nõuab teed"
   },
   "buttons": {
     "chooseModel": "Vali AI mudel",
@@ -186,7 +188,11 @@
     },
     "unknownProvider": "Tundmatu teenusepakkuja",
     "noApiKeyUrl": "API võtme URL pole konfigureeritud teenuse {0} jaoks",
-    "noDetailsAvailable": "Üksikasjad ei ole saadaval"
+    "noDetailsAvailable": "Üksikasjad ei ole saadaval",
+    "claudeCodeNotFound": "Claude Code ei leitud aadressilt '{0}'. Palun seadista õige tee 'Enter API Key' kaudu.",
+    "claudeCodeTimeout": "Claude Code seanss aegus",
+    "processError": "Protsessi viga: {0}",
+    "processFailedWithCode": "Protsess lõppes veakoodiga {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nTäna: {1} Tokenid{2}\nSisend: {3} | Väljund: {4}\nKlõps menüü jaoks • Ctrl+Shift+C • Parem klõps vahetamiseks",

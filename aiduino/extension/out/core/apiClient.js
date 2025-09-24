@@ -5,6 +5,8 @@
  * Licensed under the Apache License, Version 2.0
  */
 const https = require('https');
+const { spawn } = require('child_process'); 
+const vscode = require("vscode");
 
 /**
  * Unified API client for all AI providers
@@ -23,10 +25,19 @@ class UnifiedAPIClient {
      * @returns {Promise<string>} AI response
      */
     async callAPI(modelId, prompt, context) {
-        const { apiKeys, minimalModelManager, updateTokenUsage, t } = context;
-        
+        const { minimalModelManager } = context;
+        const provider = minimalModelManager.providers[modelId];
+    
+        // Route to local or remote
+        if (provider.type === 'local') {
+            return this.callLocalProvider(modelId, prompt, context);
+        }
+    
+        // Existing remote API logic (unchanged)
+        const { apiKeys, updateTokenUsage, t } = context;
+    
         if (!apiKeys[modelId]) {
-            const providerName = minimalModelManager.providers[modelId]?.name || 'Unknown Provider';
+            const providerName = provider?.name || 'Unknown Provider';
             throw new Error(t('errors.noApiKey', providerName));
         }
 
@@ -139,21 +150,32 @@ class UnifiedAPIClient {
     } 
     
     /**
-     * Extract response from API data
+     * Extract response from API data (enhanced for local providers)
      * @param {string} modelId - Model identifier
-     * @param {Object} responseData - Raw API response
+     * @param {Object|string} responseData - Raw API response or JSON string
      * @param {Object} minimalModelManager - Model manager
      * @returns {string} Extracted response text
      */
     extractResponse(modelId, responseData, minimalModelManager) {
         const provider = minimalModelManager.providers[modelId];
-        if (!provider || !provider.apiConfig) {
+        if (!provider) {
             throw new Error(`Unknown provider: ${modelId}`);
         }
+    
+        // Local provider JSON parsing (like Claude Code)
+        if (provider.type === 'local' && typeof responseData === 'string') {
+            try {
+                const jsonResponse = JSON.parse(responseData);
+                return jsonResponse.result || responseData;
+            } catch {
+                return responseData; // Fallback to raw text
+            }
+        }
 
+        // Existing API provider logic
         return provider.apiConfig.extractResponse(responseData);
     }
-
+ 
     /**
      * Create HTTP error with appropriate message
      * @param {number} statusCode - HTTP status code
@@ -184,6 +206,70 @@ class UnifiedAPIClient {
     }
 
     /**
+     * Handle local providers (like Claude Code)
+     */
+    async callLocalProvider(modelId, prompt, context) {
+        const { minimalModelManager, updateTokenUsage, apiKeys, t } = context; 
+        const provider = minimalModelManager.providers[modelId];
+        const claudePath = apiKeys[modelId] || 'claude';
+        const editor = vscode.window.activeTextEditor;
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        const shared = require('../shared');
+    
+        const localContext = {
+            board: shared.getBoardDisplayName(shared.detectArduinoBoard()),
+            activeFile: editor?.document.fileName,
+            selectedCode: editor && !editor.selection.isEmpty ? 
+                editor.document.getText(editor.selection) : null,
+            workspaceFolder: workspaceFolder?.uri.fsPath
+        };
+        const enhancedPrompt = provider.processConfig.buildPrompt(prompt, localContext);
+        const args = provider.processConfig.buildArgs(enhancedPrompt, localContext);
+        
+        // Execute process and return response
+        return new Promise((resolve, reject) => {
+            const childProcess = spawn(claudePath, args, {
+                cwd: '/tmp',
+                stdio: ['ignore', 'pipe', 'pipe'],
+                detached: true,
+                windowsHide: true
+            });
+            
+            childProcess.unref();
+            
+            let stdout = '';
+            let stderr = '';
+            
+            childProcess.stdout.on('data', (data) => stdout += data.toString());
+            childProcess.stderr.on('data', (data) => stderr += data.toString());
+            
+            childProcess.on('close', (code) => {
+                if (code === 0 && stdout.trim()) {
+                    const extractedResponse = this.extractResponse(modelId, stdout.trim(), minimalModelManager);
+                    updateTokenUsage(modelId, prompt, extractedResponse);
+                    resolve(extractedResponse);
+                } else {
+                    reject(new Error(stderr || t('errors.processFailedWithCode', code)));
+                }
+            });
+    
+            childProcess.on('error', (error) => {
+                if (error.code === 'ENOENT') {
+                    reject(new Error(t('errors.claudeCodeNotFound', claudePath)));
+                } else {
+                    reject(new Error(t('errors.processError', error.message)));
+                }
+            });
+            
+            // 3 minute timeout
+            setTimeout(() => {
+                childProcess.kill();
+                    reject(new Error(t('errors.claudeCodeTimeout')));
+            }, 180000);
+        });
+    }
+    
+    /**
      * Handle network errors
      * @param {Error} error - Network error
      * @returns {Error} Enhanced error
@@ -204,33 +290,33 @@ class UnifiedAPIClient {
     }
 
     /**
- * Enhance error with model context
- * @param {string} modelId - Model identifier
- * @param {Error} error - Original error
- * @param {Object} minimalModelManager - Model manager
- * @param {Function} t - Translation function
- * @returns {Error} Enhanced error
- */
-enhanceError(modelId, error, minimalModelManager, t) {
-    const modelName = minimalModelManager.providers[modelId]?.name || t('errors.unknownProvider');
+     * Enhance error with model context
+     * @param {string} modelId - Model identifier
+     * @param {Error} error - Original error
+     * @param {Object} minimalModelManager - Model manager
+     * @param {Function} t - Translation function
+     * @returns {Error} Enhanced error
+     */
+    enhanceError(modelId, error, minimalModelManager, t) {
+        const modelName = minimalModelManager.providers[modelId]?.name || t('errors.unknownProvider');
     
-    // Add model context to error WITH error types
-    if (error.message.includes('Invalid API Key')) {
-        const enhancedError = new Error(t('errors.invalidApiKey', modelName));
-        enhancedError.type = 'API_KEY_ERROR';  
-        return enhancedError;
-    } else if (error.message.includes('Rate Limit')) {
-        const enhancedError = new Error(t('errors.rateLimit', modelName));
-        enhancedError.type = 'RATE_LIMIT_ERROR'; 
-        return enhancedError;
-    } else if (error.message.includes('Server Error') || error.message.includes('Service Unavailable')) {
-        const enhancedError = new Error(t('errors.serverUnavailable', modelName));
-        enhancedError.type = 'SERVER_ERROR';  
-        return enhancedError;
-    }
-    
-    return new Error(`${modelName}: ${error.message}`);
-}
+        // Add model context to error WITH error types
+        if (error.message.includes('Invalid API Key')) {
+            const enhancedError = new Error(t('errors.invalidApiKey', modelName));
+            enhancedError.type = 'API_KEY_ERROR';  
+            return enhancedError;
+        } else if (error.message.includes('Rate Limit')) {
+            const enhancedError = new Error(t('errors.rateLimit', modelName));
+            enhancedError.type = 'RATE_LIMIT_ERROR'; 
+            return enhancedError;
+        } else if (error.message.includes('Server Error') || error.message.includes('Service Unavailable')) {
+            const enhancedError = new Error(t('errors.serverUnavailable', modelName));
+            enhancedError.type = 'SERVER_ERROR';  
+            return enhancedError;
+        }
+        
+        return new Error(`${modelName}: ${error.message}`);
+    }   
 
     /**
      * Check if error is retryable

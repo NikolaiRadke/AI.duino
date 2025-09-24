@@ -45,7 +45,9 @@
     "noValidContext": "Nema trenutnog razgovora za nastavak (max. 30 min.)",
     "followUpContext": "Nastavak razgovora: \"{0}\" (prije {1} min.)",
     "contextCleared": "Kontekst razgovora obrisan",
-    "operationAlreadyRunning": "Operacija već u tijeku! Molimo pričekajte..."
+    "operationAlreadyRunning": "Operacija već u tijeku! Molimo pričekajte...",
+    "noPath": "🔧 Prvo trebate putanju za {0}",
+    "pathRequired": "{0} zahtijeva putanju"
   },
   "buttons": {
     "chooseModel": "Odaberite AI model",
@@ -186,7 +188,11 @@
     },
     "unknownProvider": "Nepoznati pružatelj",
     "noApiKeyUrl": "Nema konfiguriran URL za API ključ za {0}",
-    "noDetailsAvailable": "Nema dostupnih detalja"
+    "noDetailsAvailable": "Nema dostupnih detalja",
+    "claudeCodeNotFound": "Claude Code nije pronađen na '{0}'. Molimo konfigurirajte ispravnu putanju preko 'Enter API Key'.",
+    "claudeCodeTimeout": "Claude Code sesija istekla",
+    "processError": "Greška procesa: {0}",
+    "processFailedWithCode": "Proces završen s kodom greške {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDanas: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlik za izbornik • Ctrl+Shift+C • Desni klik za promjenu",

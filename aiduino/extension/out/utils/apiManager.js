@@ -62,8 +62,14 @@ async function switchModel(context) {
             // Check if API key is needed
             if (!minimalModelManager.getProviderInfo(selected.value).hasApiKey) {
                 const provider = minimalModelManager.providers[selected.value];
+                const isLocal = provider.type === 'local';
+    
+                const message = isLocal ? 
+                    t('messages.pathRequired', provider.name) : 
+                    t('messages.apiKeyRequired', provider.name);
+    
                 const choice = await vscode.window.showWarningMessage(
-                    t('messages.apiKeyRequired', provider.name),
+                    message,
                     t('buttons.enterNow'),
                     t('buttons.later')
                 );

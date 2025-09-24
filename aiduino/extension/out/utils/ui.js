@@ -53,7 +53,7 @@ class QuickMenuTreeProvider {
 
         // Block 1: Code Actions
         const codeActions = menuItems.filter(item => 
-            ['improveCode', 'explainCode', 'addComments', 'explainError', 'debugHelp', 'askAI'].some(cmd => 
+            ['improveCode', 'explainCode', 'addComments', 'explainError', 'debugHelp', 'askAI', 'askFollowUp'].some(cmd => 
                 item.command?.includes(cmd)
             )
         );

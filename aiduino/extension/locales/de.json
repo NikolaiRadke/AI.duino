@@ -46,7 +46,9 @@
     "noValidContext": "Keine aktuelle Unterhaltung zum Fortsetzen (max. 30 Min.)",
     "followUpContext": "Fortsetzung der Unterhaltung: \"{0}\" (vor {1} Min.)",
     "contextCleared": "Unterhaltungskontext gelöscht",
-    "operationAlreadyRunning": "Vorgang läuft bereits! Bitte warten..."
+    "operationAlreadyRunning": "Vorgang läuft bereits! Bitte warten...",
+    "noPath": "🔧 Du brauchst zuerst einen Pfad für {0}",
+    "pathRequired": "{0} benötigt einen Pfad"
   },
   
   "buttons": {
@@ -197,7 +199,11 @@
     "unknownProvider": "Unbekannter Anbieter",
     "noApiKeyUrl": "Keine API-Key-URL konfiguriert für {0}",
     "quotaExceeded": "Kontingent erschöpft", 
-    "noDetailsAvailable": "Keine Details verfügbar"
+    "noDetailsAvailable": "Keine Details verfügbar",
+    "claudeCodeNotFound": "Claude Code nicht gefunden unter '{0}'. Bitte korrekten Pfad über 'API Key eingeben' konfigurieren.",
+    "claudeCodeTimeout": "Claude Code Sitzung abgelaufen",
+    "processError": "Prozessfehler: {0}",
+    "processFailedWithCode": "Prozess mit Fehlercode {0} beendet"
   },
   
   "statusBar": {

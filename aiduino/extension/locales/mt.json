@@ -45,7 +45,9 @@
     "noValidContext": "L-ebda konversazzjoni kurrenti biex tkompli (massimu 30 min.)",
     "followUpContext": "Kontinwazzjoni tal-konversazzjoni: \"{0}\" (qabel {1} min.)",
     "contextCleared": "Kuntest tal-konversazzjoni mħassar",
-    "operationAlreadyRunning": "Operazzjoni diġà qed issir! Jekk jogħġbok stenna..."
+    "operationAlreadyRunning": "Operazzjoni diġà qed issir! Jekk jogħġbok stenna...",
+    "noPath": "🔧 L-ewwel għandek bżonn mogħdija għal {0}",
+    "pathRequired": "{0} jeħtieġ mogħdija"
   },
   "buttons": {
     "chooseModel": "Agħżel mudell AI",
@@ -186,7 +188,11 @@
     },
     "unknownProvider": "Fornitur mhux magħruf",
     "noApiKeyUrl": "Ebda URL tal-iċ-ċavetta tal-API konfigurat għal {0}",
-    "noDetailsAvailable": "Ebda dettalji disponibbli"
+    "noDetailsAvailable": "Ebda dettalji disponibbli",
+    "claudeCodeNotFound": "Claude Code ma nstabx f'{0}'. Jekk jogħġbok ikkonfigura t-triq it-tajba permezz ta' 'Enter API Key'.",
+    "claudeCodeTimeout": "Sessjoni Claude Code skat",
+    "processError": "Żball fil-proċess: {0}",
+    "processFailedWithCode": "Proċess temm b'kodiċi ta' żball {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nIllum: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlikkja għal menu • Ctrl+Shift+C • Right click biex tibdel",

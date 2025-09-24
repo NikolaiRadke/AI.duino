@@ -44,7 +44,9 @@
     "noConnection": "Nu s-a detectat conexiune la internet",
     "noValidContext": "Fără conversație recentă de continuat (max 30 min)",
     "followUpContext": "Continuând conversația: \"{0}\" (acum {1} min)",
-    "contextCleared": "Contextul conversației a fost șters"
+    "contextCleared": "Contextul conversației a fost șters",
+    "noPath": "🔧 Ai nevoie mai întâi de o cale pentru {0}",
+    "pathRequired": "{0} necesită o cale"
   },
   "buttons": {
     "chooseModel": "Alegeți modelul AI",
@@ -179,7 +181,11 @@
     },
     "unknownProvider": "Furnizor necunoscut",
     "noApiKeyUrl": "Nu este configurată URL pentru cheia API pentru {0}",
-    "noDetailsAvailable": "Nu sunt disponibile detalii"
+    "noDetailsAvailable": "Nu sunt disponibile detalii",
+    "claudeCodeNotFound": "Claude Code nu a fost găsit la '{0}'. Vă rugăm să configurați calea corectă prin 'Enter API Key'.",
+    "claudeCodeTimeout": "Sesiunea Claude Code a expirat",
+    "processError": "Eroare proces: {0}",
+    "processFailedWithCode": "Proces terminat cu codul de eroare {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nAstăzi: {1} Tokeni{2}\nInput: {3} | Output: {4}\nClick pentru meniu • Ctrl+Shift+C • Click dreapta pentru a comuta",

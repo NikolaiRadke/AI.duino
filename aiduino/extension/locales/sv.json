@@ -44,7 +44,9 @@
     "noConnection": "Ingen internetanslutning upptäckt",
     "noValidContext": "Ingen nylig konversation att fortsätta (max 30 min)",
     "followUpContext": "Fortsätter konversation: \"{0}\" ({1} min sedan)",
-    "contextCleared": "Konversationskontext rensad"
+    "contextCleared": "Konversationskontext rensad",
+    "noPath": "🔧 Du behöver först en sökväg för {0}",
+    "pathRequired": "{0} kräver en sökväg"
   },
   "buttons": {
     "chooseModel": "Välj AI-modell",
@@ -185,7 +187,11 @@
     },
     "unknownProvider": "Okänd leverantör",
     "noApiKeyUrl": "Ingen API-nyckel URL konfigurerad för {0}",
-    "noDetailsAvailable": "Inga detaljer tillgängliga"
+    "noDetailsAvailable": "Inga detaljer tillgängliga",
+    "claudeCodeNotFound": "Claude Code hittades inte på '{0}'. Konfigurera rätt sökväg via 'Enter API Key'.",
+    "claudeCodeTimeout": "Claude Code session timeout",
+    "processError": "Processfel: {0}",
+    "processFailedWithCode": "Process avslutad med felkod {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nIdag: {1} Tokens{2}\nIndata: {3} | Utdata: {4}\nKlicka för meny • Ctrl+Shift+C • Högerklicka för att byta",

@@ -41,7 +41,9 @@
     "selectModel": "AIモデルを選択",
     "apiKeyRequired": "{0}にはAPIキーが必要です",
     "connectionOk": "インターネット接続は正常です",
-    "noConnection": "インターネット接続が検出されませんでした"
+    "noConnection": "インターネット接続が検出されませんでした",
+    "noPath": "🔧 まず{0}のパスが必要です",
+    "pathRequired": "{0}にはパスが必要です"
   },
   "buttons": {
     "chooseModel": "AIモデルを選択",
@@ -181,7 +183,11 @@
     },
     "unknownProvider": "不明なプロバイダー",
     "noApiKeyUrl": "{0}にAPIキーのURLが設定されていません",
-    "noDetailsAvailable": "詳細情報はありません"
+    "noDetailsAvailable": "詳細情報はありません",
+    "claudeCodeNotFound": "Claude Code が'{0}'で見つかりません。'Enter API Key'から正しいパスを設定してください。",
+    "claudeCodeTimeout": "Claude Code セッション タイムアウト",
+    "processError": "プロセス エラー: {0}",
+    "processFailedWithCode": "プロセスがエラーコード {0} で終了しました"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\n今日: {1}トークン{2}\n入力: {3} | 出力: {4}\nメニューはクリック • Ctrl+Shift+C • 切り替えは右クリック",

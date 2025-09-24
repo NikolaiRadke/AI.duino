@@ -44,7 +44,9 @@
     "noConnection": "Nie wykryto połączenia internetowego",
     "noValidContext": "Geen recent gesprek om voort te zetten (max 30 min)",
     "followUpContext": "Gesprek voortzetten: \"{0}\" ({1} min geleden)",
-    "contextCleared": "Gesprekcontext gewist"
+    "contextCleared": "Gesprekcontext gewist",
+    "noPath": "🔧 Je hebt eerst een pad nodig voor {0}",
+    "pathRequired": "{0} vereist een pad"
   },
   "buttons": {
     "chooseModel": "AI-model kiezen",
@@ -185,7 +187,11 @@
     },
     "unknownProvider": "Onbekende provider",
     "noApiKeyUrl": "Geen API-sleutel URL geconfigureerd voor {0}",
-    "noDetailsAvailable": "Geen details beschikbaar"
+    "noDetailsAvailable": "Geen details beschikbaar",
+    "claudeCodeNotFound": "Claude Code niet gevonden op '{0}'. Configureer het juiste pad via 'Enter API Key'.",
+    "claudeCodeTimeout": "Claude Code sessie time-out",
+    "processError": "Procesfout: {0}",
+    "processFailedWithCode": "Proces beëindigd met foutcode {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nVandaag: {1} Tokens{2}\nInvoer: {3} | Uitvoer: {4}\nKlik voor menu • Ctrl+Shift+C • Rechtsklik om te wisselen",

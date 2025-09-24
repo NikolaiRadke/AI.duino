@@ -45,7 +45,9 @@
     "noValidContext": "Nuk ka bisedë aktuale për të vazhduar (maks. 30 min.)",
     "followUpContext": "Vazhdim i bisedës: \"{0}\" ({1} min. më parë)",
     "contextCleared": "Konteksti i bisedës u pastrua",
-    "operationAlreadyRunning": "Operacioni tashmë po vazhdon! Ju lutemi prisni..."
+    "operationAlreadyRunning": "Operacioni tashmë po vazhdon! Ju lutemi prisni...",
+    "noPath": "🔧 Ju duhet fillimisht një shteg për {0}",
+    "pathRequired": "{0} kërkon një shteg"
   },
   "buttons": {
     "chooseModel": "Zgjidh modelin AI",
@@ -186,7 +188,11 @@
     },
     "unknownProvider": "Ofruesi i panjohur",
     "noApiKeyUrl": "Nuk është konfiguruar URL e çelësit të API për {0}",
-    "noDetailsAvailable": "Nuk ka detaje të disponueshme"
+    "noDetailsAvailable": "Nuk ka detaje të disponueshme",
+    "claudeCodeNotFound": "Claude Code nuk u gjet në '{0}'. Ju lutemi konfiguroni shtegun e saktë përmes 'Enter API Key'.",
+    "claudeCodeTimeout": "Sesioni Claude Code skadoi",
+    "processError": "Gabim procesi: {0}",
+    "processFailedWithCode": "Procesi përfundoi me kodin e gabimit {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nSot: {1} Tokenë{2}\nHyrje: {3} | Dalje: {4}\nKliko për menu • Ctrl+Shift+C • Klik i djathtë për ndryshim",

@@ -44,7 +44,9 @@
     "noConnection": "Nu s-a detectat conexiune la internet",
     "noValidContext": "Sem conversa recente para continuar (máx 30 min)",
     "followUpContext": "Continuando conversa: \"{0}\" ({1} min atrás)",
-    "contextCleared": "Contexto de conversa apagado"
+    "contextCleared": "Contexto de conversa apagado",
+    "noPath": "🔧 Você precisa primeiro de um caminho para {0}",
+    "pathRequired": "{0} requer um caminho"
   },
   "buttons": {
     "chooseModel": "Escolher Modelo de IA",
@@ -185,7 +187,11 @@
     },
     "unknownProvider": "Provedor desconhecido",
     "noApiKeyUrl": "Nenhuma URL de chave de API configurada para {0}",
-    "noDetailsAvailable": "Nenhum detalhe disponível"
+    "noDetailsAvailable": "Nenhum detalhe disponível",
+    "claudeCodeNotFound": "Claude Code não encontrado em '{0}'. Configure o caminho correto via 'Enter API Key'.",
+    "claudeCodeTimeout": "Sessão Claude Code expirou",
+    "processError": "Erro de processo: {0}",
+    "processFailedWithCode": "Processo terminado com código de erro {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nHoje: {1} Tokens{2}\nEntrada: {3} | Saída: {4}\nClique para menu • Ctrl+Shift+C • Clique direito para trocar",

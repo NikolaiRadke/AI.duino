@@ -473,9 +473,41 @@ const PROVIDER_CONFIGS = {
                 throw new Error('Unexpected Hugging Face response format');
             }
         }
-    }
-};
+    },
 
+    claudecode: {
+        name: 'Claude Code',
+        icon: '🤖',
+        color: '#FF6B35',
+        type: 'local',
+        keyFile: '.aiduino-claudecode-path',
+        keyPrefix: '/', 
+        keyMinLength: 5, 
+        apiKeyUrl: 'https://docs.claude.com/en/docs/claude-code',
+        fallback: 'claude-code-local',
+        processConfig: {
+            command: 'claude',
+            
+            buildPrompt: (prompt, context) => {
+                // Use same prompt format as API providers for consistency
+                return prompt;
+            },            
+            buildArgs: (prompt, context) => {
+                return [
+                    '--print', 
+                    '--dangerously-skip-permissions',
+                    '--output-format', 'json',
+                    prompt
+                ];
+            }
+        },        
+        prices: {
+            input: 0.0,
+            output: 0.0
+        }
+    }      
+};  
+    
 module.exports = {
     PROVIDER_CONFIGS,
     CONFIG_VERSION,

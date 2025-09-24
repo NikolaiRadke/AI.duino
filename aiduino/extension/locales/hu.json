@@ -44,7 +44,9 @@
     "noConnection": "Nincs internet kapcsolat",
     "noValidContext": "Nincs aktuális beszélgetés a folytatáshoz (max. 30 perc)",
     "followUpContext": "Beszélgetés folytatása: \"{0}\" ({1} perce)",
-    "contextCleared": "Beszélgetési kontextus törölve"
+    "contextCleared": "Beszélgetési kontextus törölve",
+    "noPath": "🔧 Először útvonalra van szüksége a {0} számára",
+    "pathRequired": "{0} útvonalat igényel"
   },
   "buttons": {
     "chooseModel": "AI modell választása",
@@ -185,7 +187,11 @@
     },
     "unknownProvider": "Ismeretlen szolgáltató",
     "noApiKeyUrl": "Nincs API kulcs URL beállítva a következőhöz: {0}",
-    "noDetailsAvailable": "Nincsenek részletek"
+    "noDetailsAvailable": "Nincsenek részletek",
+    "claudeCodeNotFound": "Claude Code nem található itt: '{0}'. Kérjük állítsa be a helyes útvonalat az 'Enter API Key' segítségével.",
+    "claudeCodeTimeout": "Claude Code munkamenet időtúllépés",
+    "processError": "Folyamathiba: {0}",
+    "processFailedWithCode": "A folyamat {0} hibakóddal záródott"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nMa: {1} Token{2}\nBemenet: {3} | Kimenet: {4}\nKattints a menühöz • Ctrl+Shift+C • Jobb katt a váltáshoz",

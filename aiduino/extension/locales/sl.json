@@ -44,7 +44,9 @@
     "noConnection": "Ni internetne povezave",
     "noValidContext": "Ni trenutnega pogovora za nadaljevanje (maks. 30 min.)",
     "followUpContext": "Nadaljevanje pogovora: \"{0}\" (pred {1} min.)",
-    "contextCleared": "Kontekst pogovora izbrisan"
+    "contextCleared": "Kontekst pogovora izbrisan",
+    "noPath": "🔧 Najprej potrebujete pot za {0}",
+    "pathRequired": "{0} zahteva pot"
   },
   "buttons": {
     "chooseModel": "Izbira AI modela",
@@ -185,7 +187,11 @@
     },
     "unknownProvider": "Neznani ponudnik",
     "noApiKeyUrl": "Ni konfiguriran URL ključa API za {0}",
-    "noDetailsAvailable": "Ni podrobnosti na voljo"
+    "noDetailsAvailable": "Ni podrobnosti na voljo",
+    "claudeCodeNotFound": "Claude Code ni najden v '{0}'. Konfigurirajte pravilno pot prek 'Enter API Key'.",
+    "claudeCodeTimeout": "Seja Claude Code je potekla",
+    "processError": "Napaka procesa: {0}",
+    "processFailedWithCode": "Proces končan s kodo napake {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDanes: {1} Žetonov{2}\nVhod: {3} | Izhod: {4}\nKlik za meni • Ctrl+Shift+C • Desni klik za preklop",

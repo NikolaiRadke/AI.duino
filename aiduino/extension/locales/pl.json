@@ -44,7 +44,9 @@
     "noConnection": "Nie wykryto połączenia internetowego",
     "noValidContext": "Brak niedawnej rozmowy do kontynuacji (maks 30 min)",
     "followUpContext": "Kontynuacja rozmowy: \"{0}\" ({1} min temu)",
-    "contextCleared": "Kontekst rozmowy wyczyszczony"
+    "contextCleared": "Kontekst rozmowy wyczyszczony",
+    "noPath": "🔧 Najpierw potrzebujesz ścieżki dla {0}",
+    "pathRequired": "{0} wymaga ścieżki"
   },
   "buttons": {
     "chooseModel": "Wybierz model AI",
@@ -185,7 +187,11 @@
     },
     "unknownProvider": "Nieznany dostawca",
     "noApiKeyUrl": "Brak skonfigurowanego adresu URL klucza API dla {0}",
-    "noDetailsAvailable": "Brak dostępnych szczegółów"
+    "noDetailsAvailable": "Brak dostępnych szczegółów",
+    "claudeCodeNotFound": "Claude Code nie znaleziony w '{0}'. Skonfiguruj prawidłową ścieżkę przez 'Enter API Key'.",
+    "claudeCodeTimeout": "Przekroczenie czasu sesji Claude Code",
+    "processError": "Błąd procesu: {0}",
+    "processFailedWithCode": "Proces zakończony kodem błędu {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDzisiaj: {1} tokenów{2}\nWejście: {3} | Wyjście: {4}\nKliknij dla menu • Ctrl+Shift+C • Prawy klik aby zmienić",

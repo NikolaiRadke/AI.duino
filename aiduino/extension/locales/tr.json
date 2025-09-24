@@ -44,7 +44,9 @@
     "noConnection": "İnternet bağlantısı tespit edilmedi",
     "noValidContext": "Devam ettirilecek yakın konuşma yok (maks 30 dk)",
     "followUpContext": "Konuşma devam ediyor: \"{0}\" ({1} dk önce)",
-    "contextCleared": "Konuşma bağlamı temizlendi"
+    "contextCleared": "Konuşma bağlamı temizlendi",
+    "noPath": "🔧 Öncelikle {0} için bir yola ihtiyacınız var",
+    "pathRequired": "{0} bir yol gerektirir"
   },
   "buttons": {
     "chooseModel": "YZ Modeli Seç",
@@ -185,7 +187,11 @@
     },
     "unknownProvider": "Bilinmeyen sağlayıcı",
     "noApiKeyUrl": "{0} için yapılandırılmış API anahtarı URL'si yok",
-    "noDetailsAvailable": "Ayrıntı mevcut değil"
+    "noDetailsAvailable": "Ayrıntı mevcut değil",
+    "claudeCodeNotFound": "Claude Code '{0}'da bulunamadı. Lütfen 'Enter API Key' aracılığıyla doğru yolu yapılandırın.",
+    "claudeCodeTimeout": "Claude Code oturum zaman aşımı",
+    "processError": "İşlem hatası: {0}",
+    "processFailedWithCode": "İşlem hata kodu {0} ile sonlandı"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nBugün: {1} Token{2}\nGiriş: {3} | Çıkış: {4}\nMenü için tıkla • Ctrl+Shift+C • Değiştirmek için sağ tıkla",

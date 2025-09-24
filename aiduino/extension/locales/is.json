@@ -45,7 +45,9 @@
     "noValidContext": "Ekkert núverandi samtal til að halda áfram (hámark 30 mín.)",
     "followUpContext": "Framhald samtalsins: \"{0}\" (fyrir {1} mín.)",
     "contextCleared": "Samtalssandur hreinsaður",
-    "operationAlreadyRunning": "Aðgerð þegar í gangi! Vinsamlegast bíddu..."
+    "operationAlreadyRunning": "Aðgerð þegar í gangi! Vinsamlegast bíddu...",
+    "noPath": "🔧 Þú þarft fyrst slóð fyrir {0}",
+    "pathRequired": "{0} krefst slóðar"
   },
   "buttons": {
     "chooseModel": "Veldu gervigreindarlíkan",
@@ -186,7 +188,11 @@
     },
     "unknownProvider": "Óþekktur þjónustuaðili",
     "noApiKeyUrl": "Engin API lykils veffang stillt fyrir {0}",
-    "noDetailsAvailable": "Engar upplýsingar í boði"
+    "noDetailsAvailable": "Engar upplýsingar í boði",
+    "claudeCodeNotFound": "Claude Code fannst ekki á '{0}'. Vinsamlegast stilltu rétta slóð í gegnum 'Enter API Key'.",
+    "claudeCodeTimeout": "Claude Code lotu tímamörk",
+    "processError": "Ferli villa: {0}",
+    "processFailedWithCode": "Ferli endaði með villukóða {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nÍ dag: {1} Tokens{2}\nInntak: {3} | Úttak: {4}\nSmelltu fyrir valmynd • Ctrl+Shift+C • Hægri smell til að skipta",

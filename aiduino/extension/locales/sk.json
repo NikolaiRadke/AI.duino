@@ -44,7 +44,9 @@
     "noConnection": "Žiadne internetové pripojenie",
     "noValidContext": "Žiadny aktuálny rozhovor na pokračovanie (max. 30 min.)",
     "followUpContext": "Pokračovanie rozhovoru: \"{0}\" (pred {1} min.)",
-    "contextCleared": "Kontext rozhovoru vymazaný"
+    "contextCleared": "Kontext rozhovoru vymazaný",
+    "noPath": "🔧 Najprv potrebujete cestu pre {0}",
+    "pathRequired": "{0} vyžaduje cestu"
   },
   "buttons": {
     "chooseModel": "Výber AI modelu",
@@ -185,7 +187,11 @@
     },
     "unknownProvider": "Neznámy poskytovateľ",
     "noApiKeyUrl": "Žiadna URL pre API kľúč nie je nakonfigurovaná pre {0}",
-    "noDetailsAvailable": "Žiadne podrobnosti nie sú k dispozícii"
+    "noDetailsAvailable": "Žiadne podrobnosti nie sú k dispozícii",
+    "claudeCodeNotFound": "Claude Code sa nenašiel na '{0}'. Nakonfigurujte správnu cestu cez 'Enter API Key'.",
+    "claudeCodeTimeout": "Relácia Claude Code vypršala",
+    "processError": "Chyba procesu: {0}",
+    "processFailedWithCode": "Proces skončil s kódom chyby {0}"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDnes: {1} Tokens{2}\nVstup: {3} | Výstup: {4}\nKlik pre menu • Ctrl+Shift+C • Pravý klik na prepnutie",
