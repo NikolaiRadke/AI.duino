@@ -342,7 +342,7 @@ function getBoardDetails() {
  * @returns {string} Human-readable board name
  */
 function getBoardDisplayName(fqbn) {
-    if (!fqbn) return t('output.boardUnknown');
+    if (!fqbn) return (typeof t !== 'undefined') ? t('output.boardUnknown') : 'Unknown Board';
     
     const baseFqbn = fqbn.split(':').slice(0, 3).join(':');
     const names = {
