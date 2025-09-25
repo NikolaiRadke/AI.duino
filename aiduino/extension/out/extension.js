@@ -653,7 +653,7 @@ function getDependencies() {
         validation,
         
         // UI functions
-        updateStatusBar: statusBarManager.updateFromContext.bind(statusBarManager),
+        updateStatusBar: () => statusBarManager.updateFromContext(getDependencies()),
         setPromptEditorChanges: (hasChanges) => { promptEditorHasChanges = hasChanges; },
         
         // API functions

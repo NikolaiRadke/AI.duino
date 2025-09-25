@@ -81,13 +81,15 @@ class StatusBarManager {
             this.statusBarItem.backgroundColor = undefined;
             
         } else {
-            // No API key - show warning
+            // No API key/path - show warning
+            const provider = modelManager.providers[currentModel];
+            const isLocal = provider && provider.type === 'local';
+    
             this.statusBarItem.text = `${providerInfo.icon} AI.duino $(warning)`;
-            this.statusBarItem.tooltip = 
-                (t && t('statusBar.noApiKey')) ? 
-                t('statusBar.noApiKey', providerInfo.name) :
-                `No API key for ${providerInfo.name}`;
-                
+            this.statusBarItem.tooltip = isLocal ? 
+                t('messages.noPath', providerInfo.name) :
+                t('messages.noApiKey', providerInfo.name);
+        
             // Set warning background color
             this.statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
         }

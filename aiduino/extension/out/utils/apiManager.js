@@ -74,34 +74,37 @@ async function switchModel(context) {
         if (selected) {
             // Update current model via callback
             context.setCurrentModel(selected.value);
+    
+            // Create updated context with new model
+            const updatedContext = {
+                ...context,
+                currentModel: selected.value
+            };
+    
             if (context.quickMenuTreeProvider) {
-                const updatedContext = {
-                    ...context,
-                    currentModel: selected.value  // Explizit das neue Model setzen
-                };
                 context.quickMenuTreeProvider.context = updatedContext;
                 context.quickMenuTreeProvider.refresh();
             }
             fileManager.saveSelectedModel(selected.value);
             context.updateStatusBar();
-            
+    
             // Check if API key is needed
             if (!minimalModelManager.getProviderInfo(selected.value).hasApiKey) {
                 const provider = minimalModelManager.providers[selected.value];
                 const isLocal = provider.type === 'local';
-    
+
                 const message = isLocal ? 
                     t('messages.pathRequired', provider.name) : 
                     t('messages.apiKeyRequired', provider.name);
-    
+        
                 const choice = await vscode.window.showWarningMessage(
                     message,
                     t('buttons.enterNow'),
                     t('buttons.later')
                 );
                 if (choice === t('buttons.enterNow')) {
-                    // Don't await setApiKey to avoid blocking the execution state
-                    setApiKey(context);
+                    // Use updated context with new model
+                    setApiKey(updatedContext);
                 }
             } else {
                 const provider = minimalModelManager.providers[selected.value];
