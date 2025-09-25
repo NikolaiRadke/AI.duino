@@ -15,7 +15,8 @@
     "switchLanguage": "Nyelv váltása",
     "askAI": "AI kérdezése",
     "askFollowUp": "Követő kérdés feltevése",
-    "editPrompts": "Promptok szerkesztése"
+    "editPrompts": "Promptok szerkesztése",
+    "changePath": "Útvonal módosítása"
   },
   "messages": {
     "welcome": "Üdvözöl a {0} támogatásával!",
@@ -77,7 +78,8 @@
     "reset": "Visszaállítás",
     "saveChanges": "Változások mentése",
     "discard": "Elvetés",
-    "closeWithoutSaving": "Bezárás mentés nélkül"
+    "closeWithoutSaving": "Bezárás mentés nélkül",
+    "enterPath": "Útvonal megadása"
   },
   "descriptions": {
     "improveCodeSelected": "Kijelölt kód optimalizálása",

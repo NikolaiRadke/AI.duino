@@ -39,23 +39,49 @@ async function switchModel(context) {
     
     try {
         // Build model selection items
-        const items = Object.keys(minimalModelManager.providers).map(modelId => {
+        const items = [];
+        const cloudItems = [];
+        const localItems = [];
+
+
+        Object.keys(minimalModelManager.providers).forEach(modelId => {
             const provider = minimalModelManager.providers[modelId];
             const currentModelInfo = minimalModelManager.getCurrentModel(modelId);
-            return {
+    
+            const item = {
                 label: `${provider.icon} ${provider.name}`,
                 description: modelId === currentModel ? '✓ ' + t('labels.active') : currentModelInfo.name,
                 value: modelId
             };
+    
+            if (provider.type === 'local') {
+                localItems.push(item);
+            } else {
+                cloudItems.push(item);
+            }
         });
-        
-        const selected = await vscode.window.showQuickPick(items, {
+
+        const allItems = [...cloudItems];
+        if (localItems.length > 0) {
+            allItems.push({ label: '', kind: vscode.QuickPickItemKind.Separator });
+            allItems.push(...localItems);
+        }
+
+        const selected = await vscode.window.showQuickPick(allItems, {
             placeHolder: t('messages.selectModel')
         });
         
         if (selected) {
             // Update current model via callback
             context.setCurrentModel(selected.value);
+            if (context.quickMenuTreeProvider) {
+                const updatedContext = {
+                    ...context,
+                    currentModel: selected.value  // Explizit das neue Model setzen
+                };
+                context.quickMenuTreeProvider.context = updatedContext;
+                context.quickMenuTreeProvider.refresh();
+            }
             fileManager.saveSelectedModel(selected.value);
             context.updateStatusBar();
             

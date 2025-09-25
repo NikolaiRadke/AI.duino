@@ -15,7 +15,8 @@
     "switchLanguage": "Αλλαγή γλώσσας",
     "askAI": "Ρώτησε το AI",
     "askFollowUp": "Συνέχεια ερώτησης",
-    "editPrompts": "Editar indicaciones"
+    "editPrompts": "Editar indicaciones",
+    "changePath": "Αλλαγή διαδρομής"
   },
   "messages": {
     "welcome": "👋 Καλώς ήρθατε! Το AI.duino  υποστηρίζει {0}!",
@@ -77,7 +78,8 @@
     "reset": "Restablecer",
     "saveChanges": "Αποθήκευση αλλαγών",
     "discard": "Απόρριψη",
-    "closeWithoutSaving": "Κλείσιμο χωρίς αποθήκευση"
+    "closeWithoutSaving": "Κλείσιμο χωρίς αποθήκευση",
+    "enterPath": "Εισάγετε διαδρομή"
   },
   "descriptions": {
     "improveCodeSelected": "Βελτιστοποίηση επιλεγμένου κώδικα",

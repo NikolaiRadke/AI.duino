@@ -15,7 +15,8 @@
     "switchLanguage": "Bytt språk",
     "askAI": "Spør AI",
     "askFollowUp": "Still oppfølgingsspørsmål",
-    "editPrompts": "Rediger prompter"
+    "editPrompts": "Rediger prompter",
+    "changePath": "Endre bane"
   },
   "messages": {
     "welcome": "👋 Velkommen! AI.duino støtter {0}!",
@@ -77,7 +78,8 @@
     "reset": "Tilbakestill",
     "saveChanges": "Lagre endringer",
     "discard": "Forkast",
-    "closeWithoutSaving": "Lukk uten å lagre"
+    "closeWithoutSaving": "Lukk uten å lagre",
+    "enterPath": "Skriv inn bane"
   },
   "descriptions": {
     "improveCodeSelected": "Optimaliser valgt kode",

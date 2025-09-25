@@ -15,7 +15,8 @@
     "switchLanguage": "Promijeni jezik",
     "askAI": "Pitaj AI",
     "askFollowUp": "Postavi dodatno pitanje",
-    "editPrompts": "Uredi upite"
+    "editPrompts": "Uredi upite",
+    "changePath": "Promijeniti putanju"
   },
   "messages": {
     "welcome": "👋 Dobrodošli! AI.duino podržava {0}!",
@@ -78,7 +79,8 @@
     "reset": "Resetuj",
     "saveChanges": "Sačuvaj izmjene",
     "discard": "Odbaci",
-    "closeWithoutSaving": "Zatvori bez čuvanja"
+    "closeWithoutSaving": "Zatvori bez čuvanja",
+    "enterPath": "Unesite putanju"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiziraj označeni kod",

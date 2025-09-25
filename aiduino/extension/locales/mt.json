@@ -15,7 +15,8 @@
     "switchLanguage": "Ibdel il-lingwa",
     "askAI": "Staqsi l-AI",
     "askFollowUp": "Staqsi mistoqsija follow-up",
-    "editPrompts": "Editja l-prompts"
+    "editPrompts": "Editja l-prompts",
+    "changePath": "Ibdel il-mogħdija"
   },
   "messages": {
     "welcome": "👋 Merħba! AI.duino jappoġġa {0}!",
@@ -78,7 +79,8 @@
     "reset": "Reset",
     "saveChanges": "Ħallas il-bidliet",
     "discard": "Armi",
-    "closeWithoutSaving": "Agħlaq mingħajr ma ssalva"
+    "closeWithoutSaving": "Agħlaq mingħajr ma ssalva",
+    "enterPath": "Daħħal il-mogħdija"
   },
   "descriptions": {
     "improveCodeSelected": "Ħassan il-kodiċi magħżul",

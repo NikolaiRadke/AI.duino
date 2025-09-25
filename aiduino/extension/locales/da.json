@@ -15,7 +15,8 @@
     "switchLanguage": "Skift Sprog",
     "askAI": "Spørg AI",
     "askFollowUp": "Stil Opfølgende Spørgsmål",
-    "editPrompts": "Rediger prompts"
+    "editPrompts": "Rediger prompts",
+    "changePath": "Skift sti"
   },
   "messages": {
     "welcome": "👋 Velkommen! AI.duino understøtter {0}!",
@@ -77,7 +78,8 @@
     "reset": "Nulstil",
     "saveChanges": "Gem ændringer",
     "discard": "Kassér",
-    "closeWithoutSaving": "Luk uden at gemme"
+    "closeWithoutSaving": "Luk uden at gemme",
+    "enterPath": "Indtast sti"
   },
   "descriptions": {
     "improveCodeSelected": "Optimere valgte kode",

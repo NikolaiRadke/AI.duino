@@ -130,7 +130,8 @@ class MinimalModelManager {
             color: provider.color,
             modelName: this.cleanName(provider.fallback),
             modelId: provider.fallback,
-            hasApiKey: this.hasApiKey(providerId)
+            hasApiKey: this.hasApiKey(providerId),
+            isLatest: true
         };
     }
 

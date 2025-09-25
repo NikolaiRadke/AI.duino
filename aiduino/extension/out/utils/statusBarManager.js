@@ -71,10 +71,8 @@ class StatusBarManager {
             
             // Build detailed tooltip
             const totalTokens = modelUsage.input + modelUsage.output;
-            const modelStatus = providerInfo.isLatest ? 
-                `Latest: ${providerInfo.modelName}` :
-                `Fallback: ${providerInfo.modelName}`;
-            
+            const modelStatus = providerInfo.modelName;
+
             this.statusBarItem.tooltip = 
                 `${providerInfo.name} - ${modelStatus}\n` +
                 `${t('descriptions.todayUsage', `$${todayCost}`)}`;

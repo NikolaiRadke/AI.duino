@@ -15,7 +15,8 @@
     "switchLanguage": "Zmień język",
     "askAI": "Zapytaj AI",
     "askFollowUp": "Pytanie uzupełniające",
-    "editPrompts": "Edytuj polecenia"
+    "editPrompts": "Edytuj polecenia",
+    "changePath": "Zmień ścieżkę"
   },
   "messages": {
     "welcome": "👋 Witaj! AI.duino  obsługuje {0}!",
@@ -77,7 +78,8 @@
     "reset": "Resetuj",
     "saveChanges": "Zapisz zmiany",
     "discard": "Odrzuć",
-    "closeWithoutSaving": "Zamknij bez zapisywania"
+    "closeWithoutSaving": "Zamknij bez zapisywania",
+    "enterPath": "Wprowadź ścieżkę"
   },
   "descriptions": {
     "improveCodeSelected": "Optymalizuj zaznaczony kod",

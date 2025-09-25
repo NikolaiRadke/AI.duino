@@ -15,7 +15,8 @@
     "switchLanguage": "Mainīt valodu",
     "askAI": "Jautāt AI",
     "askFollowUp": "Uzdot papildu jautājumu",
-    "editPrompts": "Rediģēt uzvednes"
+    "editPrompts": "Rediģēt uzvednes",
+    "changePath": "Mainīt ceļu"
   },
   "messages": {
     "welcome": "👋 Esiet sveicināti! AI.duino atbalsta {0}!",
@@ -78,7 +79,8 @@
     "reset": "Atiestatīt",
     "saveChanges": "Saglabāt izmaiņas",
     "discard": "Atmest",
-    "closeWithoutSaving": "Aizvērt nesaglabājot"
+    "closeWithoutSaving": "Aizvērt nesaglabājot",
+    "enterPath": "Ievadiet ceļu"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizēt iezīmēto kodu",

@@ -15,7 +15,8 @@
     "switchLanguage": "言語を切り替え",
     "askAI": "AIに質問",
     "askFollowUp": "追加質問",
-    "editPrompts": "プロンプトを編集"
+    "editPrompts": "プロンプトを編集",
+    "changePath": "パスを変更"
   },
   "messages": {
     "welcome": "👋 ようこそ！AI.duino は{0}をサポートしています！",
@@ -74,7 +75,8 @@
     "reset": "リセット",
     "saveChanges": "変更を保存",
     "discard": "破棄",
-    "closeWithoutSaving": "保存せずに閉じる"
+    "closeWithoutSaving": "保存せずに閉じる",
+    "enterPath": "パスを入力"
   },
   "descriptions": {
     "improveCodeSelected": "選択したコードを最適化",

@@ -15,7 +15,8 @@
     "switchLanguage": "切换语言",
     "askAI": "询问AI",
     "askFollowUp": "追问",
-    "editPrompts": "编辑提示词"
+    "editPrompts": "编辑提示词",
+    "changePath": "更改路径"
   },
   "messages": {
     "welcome": "👋 欢迎！AI.duino 支持{0}！",
@@ -77,7 +78,8 @@
     "reset": "重置",
     "saveChanges": "保存更改",
     "discard": "放弃",
-    "closeWithoutSaving": "不保存关闭"
+    "closeWithoutSaving": "不保存关闭",
+    "enterPath": "输入路径"
   },
   "descriptions": {
     "improveCodeSelected": "优化选定的代码",

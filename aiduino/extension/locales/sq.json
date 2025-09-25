@@ -15,7 +15,8 @@
     "switchLanguage": "Ndrysho gjuhën",
     "askAI": "Pyet AI-në",
     "askFollowUp": "Bëj një pyetje shtesë",
-    "editPrompts": "Redakto kërkesat"
+    "editPrompts": "Redakto kërkesat",
+    "changePath": "Ndrysho shtegun"
   },
   "messages": {
     "welcome": "👋 Mirë se vini! AI.duino mbështet {0}!",
@@ -78,7 +79,8 @@
     "reset": "Rivendos",
     "saveChanges": "Ruaj ndryshimet",
     "discard": "Hidh",
-    "closeWithoutSaving": "Mbyll pa ruajtur"
+    "closeWithoutSaving": "Mbyll pa ruajtur",
+    "enterPath": "Vendosni shtegun"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizo kodin e zgjedhur",

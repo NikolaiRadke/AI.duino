@@ -64,8 +64,8 @@ function buildMenuItems(context) {
             command: 'aiduino.switchModel'
         },
         {
-            label: `$(key) ${t('commands.changeApiKey')}`,
-            description: `${model.name} Key`,
+            label: `$(key) ${model.type === 'local' ? t('commands.changePath') : t('commands.changeApiKey')}`,
+            description: `${model.name} ${model.type === 'local' ? 'Path' : 'Key'}`,
             command: 'aiduino.setApiKey'
         },
         {

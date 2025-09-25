@@ -15,7 +15,8 @@
     "switchLanguage": "Skipta um tungumál",
     "askAI": "Spyrja gervigreind",
     "askFollowUp": "Spyrja framhaldsspurningar",
-    "editPrompts": "Breyta fyrirmælum"
+    "editPrompts": "Breyta fyrirmælum",
+    "changePath": "Breyta slóð"
   },
   "messages": {
     "welcome": "👋 Velkominn! AI.duino styður {0}!",
@@ -78,7 +79,8 @@
     "reset": "Núllstilla",
     "saveChanges": "Vista breytingar",
     "discard": "Henda",
-    "closeWithoutSaving": "Loka án þess að vista"
+    "closeWithoutSaving": "Loka án þess að vista",
+    "enterPath": "Sláðu inn slóð"
   },
   "descriptions": {
     "improveCodeSelected": "Bæta valinn kóða",

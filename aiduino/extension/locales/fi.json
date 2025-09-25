@@ -15,7 +15,8 @@
     "switchLanguage": "Vaihda Kieli",
     "askAI": "Kysy AI:lta",
     "askFollowUp": "Esitä Jatkokysymys",
-    "editPrompts": "Muokkaa kehotteita"
+    "editPrompts": "Muokkaa kehotteita",
+    "changePath": "Vaihda polku"
   },
   "messages": {
     "welcome": "👋 Tervetuloa! AI.duino tukee {0}:tä!",
@@ -77,7 +78,8 @@
     "reset": "Palauta",
     "saveChanges": "Tallenna muutokset",
     "discard": "Hylkää",
-    "closeWithoutSaving": "Sulje tallentamatta"
+    "closeWithoutSaving": "Sulje tallentamatta",
+    "enterPath": "Syötä polku"
   },
   "descriptions": {
     "improveCodeSelected": "Optimoi valittu koodi",

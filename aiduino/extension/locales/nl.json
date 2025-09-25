@@ -15,7 +15,8 @@
     "switchLanguage": "Taal wijzigen",
     "askAI": "Vraag AI",
     "askFollowUp": "Vervolgvraag",
-    "editPrompts": "Prompts bewerken"
+    "editPrompts": "Prompts bewerken",
+    "changePath": "Pad wijzigen"
   },
   "messages": {
     "welcome": "👋 Welkom! AI.duino  ondersteunt {0}!",
@@ -77,7 +78,8 @@
     "reset": "Herstellen",
     "saveChanges": "Wijzigingen opslaan",
     "discard": "Verwerpen",
-    "closeWithoutSaving": "Sluiten zonder opslaan"
+    "closeWithoutSaving": "Sluiten zonder opslaan",
+    "enterPath": "Voer pad in"
   },
   "descriptions": {
     "improveCodeSelected": "Geselecteerde code optimaliseren",

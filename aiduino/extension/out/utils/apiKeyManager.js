@@ -43,11 +43,15 @@ class ApiKeyManager {
             }
             
             const providerName = provider.name;
-            
+            const currentValue = provider.type === 'local' ? (apiKeys[currentModel] || '') : '';
+
             const input = await vscode.window.showInputBox({
-                prompt: t('prompts.enterApiKey', providerName) || `Enter ${providerName} API key`,
+                prompt: provider.type === 'local' ? 
+                    `${providerName} ${t('buttons.enterPath')}` : 
+                    `${providerName} ${t('buttons.enterApiKey')}`,
                 placeHolder: provider.keyPrefix + '...',
-                password: true,
+                value: currentValue, 
+                password: provider.type !== 'local',  
                 ignoreFocusOut: true,
                 validateInput: (value) => {
                     return validation.validateApiKey(
@@ -57,7 +61,7 @@ class ApiKeyManager {
                         t
                     );
                 }
-            });
+            })
             
             if (input) {
                 // Save API key using fileManager

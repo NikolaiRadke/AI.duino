@@ -15,7 +15,8 @@
     "switchLanguage": "언어 변경",
     "askAI": "AI에게 질문",
     "askFollowUp": "추가 질문",
-    "editPrompts": "프롬프트 편집"
+    "editPrompts": "프롬프트 편집",
+    "changePath": "경로 변경"
   },
   "messages": {
     "welcome": "👋 환영합니다! AI.duino {0}을(를) 지원합니다!",
@@ -77,7 +78,8 @@
     "reset": "재설정",
     "saveChanges": "변경사항 저장",
     "discard": "취소",
-    "closeWithoutSaving": "저장하지 않고 닫기"
+    "closeWithoutSaving": "저장하지 않고 닫기",
+    "enterPath": "경로 입력"
   },
   "descriptions": {
     "improveCodeSelected": "선택한 코드 최적화",

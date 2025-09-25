@@ -15,7 +15,8 @@
     "switchLanguage": "Dili değiştir",
     "askAI": "AI'ya Sor",
     "askFollowUp": "Takip sorusu",
-    "editPrompts": "İstemleri düzenle"
+    "editPrompts": "İstemleri düzenle",
+    "changePath": "Yolu değiştir"
   },
   "messages": {
     "welcome": "👋 Hoş geldiniz! AI.duino  {0} destekliyor!",
@@ -77,7 +78,8 @@
     "reset": "Sıfırla",
     "saveChanges": "Değişiklikleri kaydet",
     "discard": "İptal et",
-    "closeWithoutSaving": "Kaydetmeden kapat"
+    "closeWithoutSaving": "Kaydetmeden kapat",
+    "enterPath": "Yolu girin"
   },
   "descriptions": {
     "improveCodeSelected": "Seçili kodu optimize et",

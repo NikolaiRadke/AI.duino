@@ -15,7 +15,8 @@
     "switchLanguage": "Mudar idioma",
     "askAI": "Perguntar à IA",
     "askFollowUp": "Pergunta de acompanhamento",
-    "editPrompts": "Editar prompts"
+    "editPrompts": "Editar prompts",
+    "changePath": "Alterar caminho"
   },
   "messages": {
     "welcome": "👋 Bem-vindo! AI.duino  suporta {0}!",
@@ -77,7 +78,8 @@
     "reset": "Redefinir",
     "saveChanges": "Salvar alterações",
     "discard": "Descartar",
-    "closeWithoutSaving": "Fechar sem salvar"
+    "closeWithoutSaving": "Fechar sem salvar",
+    "enterPath": "Inserir caminho"
   },
   "descriptions": {
     "improveCodeSelected": "Otimizar código selecionado",

@@ -15,7 +15,8 @@
     "switchLanguage": "Prepnutie jazyka",
     "askAI": "Otázka pre AI",
     "askFollowUp": "Následná otázka",
-    "editPrompts": "Upraviť výzvy"
+    "editPrompts": "Upraviť výzvy",
+    "changePath": "Zmeniť cestu"
   },
   "messages": {
     "welcome": "Vitajte! AI.duino podporuje {0}!",
@@ -77,7 +78,8 @@
     "reset": "Obnoviť",
     "saveChanges": "Uložiť zmeny",
     "discard": "Zahodiť",
-    "closeWithoutSaving": "Zavrieť bez uloženia"
+    "closeWithoutSaving": "Zavrieť bez uloženia",
+    "enterPath": "Zadajte cestu"
   },
   "descriptions": {
     "improveCodeSelected": "Optimalizácia označeného kódu",

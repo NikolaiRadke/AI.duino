@@ -15,7 +15,8 @@
     "switchLanguage": "Vaheta keelt",
     "askAI": "Küsi AI-lt",
     "askFollowUp": "Esita täiendav küsimus",
-    "editPrompts": "Redigeeri päringuid"
+    "editPrompts": "Redigeeri päringuid",
+    "changePath": "Muuda teed"
   },
   "messages": {
     "welcome": "👋 Tere tulemast! AI.duino toetab {0}!",
@@ -78,7 +79,8 @@
     "reset": "Lähtesta",
     "saveChanges": "Salvesta muudatused",
     "discard": "Loobu",
-    "closeWithoutSaving": "Sulge salvestamata"
+    "closeWithoutSaving": "Sulge salvestamata",
+    "enterPath": "Sisestage tee"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiseeri märgitud kood",

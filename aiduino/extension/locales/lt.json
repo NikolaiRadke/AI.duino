@@ -15,7 +15,8 @@
     "switchLanguage": "Keisti kalbą",
     "askAI": "Klausti AI",
     "askFollowUp": "Užduoti papildomą klausimą",
-    "editPrompts": "Redaguoti užklausas"
+    "editPrompts": "Redaguoti užklausas",
+    "changePath": "Keisti kelią"
   },
   "messages": {
     "welcome": "👋 Sveiki! AI.duino palaiko {0}!",
@@ -78,7 +79,8 @@
     "reset": "Atstatyti",
     "saveChanges": "Išsaugoti pakeitimus",
     "discard": "Atšaukti",
-    "closeWithoutSaving": "Uždaryti neišsaugant"
+    "closeWithoutSaving": "Uždaryti neišsaugant",
+    "enterPath": "Įveskite kelią"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizuoti pažymėtą kodą",

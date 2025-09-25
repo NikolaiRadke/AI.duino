@@ -15,7 +15,8 @@
     "switchLanguage": "Sprache wechseln",
     "askAI": "KI fragen",
     "askFollowUp": "Rückfrage stellen",
-    "editPrompts": "Prompts bearbeiten"
+    "editPrompts": "Prompts bearbeiten",
+    "changePath": "Pfad ändern"
   },
 
   "messages": {
@@ -80,7 +81,8 @@
     "reset": "Zurücksetzen",
     "saveChanges": "Änderungen speichern",
     "discard": "Verwerfen",
-    "closeWithoutSaving": "Beenden ohne Speichern"
+    "closeWithoutSaving": "Beenden ohne Speichern",
+    "enterPath": "Pfad eingeben"
   },
   
   "descriptions": {
@@ -114,7 +116,6 @@
   },
   
   "prompts": {
-    "enterApiKey": "{0} API-Schlüssel eingeben",
     "customInstructions": "Eigene Anweisungen für die Code-Verbesserung (optional)",
     "commentInstructions": "Eigene Anweisungen für die Kommentierung (optional)",
     "pasteError": "Kopiere den Fehler aus dem Arduino-Ausgabefenster (rote Zeile mit \"error:\")",

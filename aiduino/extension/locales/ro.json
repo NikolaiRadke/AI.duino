@@ -15,7 +15,8 @@
     "switchLanguage": "Schimbă limba",
     "askAI": "Întreabă AI",
     "askFollowUp": "Întrebare de urmărire",
-    "editPrompts": "Editare prompturi"
+    "editPrompts": "Editare prompturi",
+    "changePath": "Modificați calea"
   },
   "messages": {
     "welcome": "👋 Bun venit! AI.duino suportă {0}!",
@@ -77,7 +78,8 @@
     "reset": "Resetează",
     "saveChanges": "Salvează modificările",
     "discard": "Renunță",
-    "closeWithoutSaving": "Închide fără salvare"
+    "closeWithoutSaving": "Închide fără salvare",
+    "enterPath": "Introduceți calea"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizează codul selectat",

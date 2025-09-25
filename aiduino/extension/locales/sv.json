@@ -15,7 +15,8 @@
     "switchLanguage": "Byt språk",
     "askAI": "Fråga AI",
     "askFollowUp": "Följdfråga",
-    "editPrompts": "Redigera prompter"
+    "editPrompts": "Redigera prompter",
+    "changePath": "Ändra sökväg"
   },
   "messages": {
     "welcome": "👋 Välkommen! AI.duino  stöder {0}!",
@@ -77,7 +78,8 @@
     "reset": "Återställ",
     "saveChanges": "Spara ändringar",
     "discard": "Förkasta",
-    "closeWithoutSaving": "Stäng utan att spara"
+    "closeWithoutSaving": "Stäng utan att spara",
+    "enterPath": "Ange sökväg"
   },
   "descriptions": {
     "improveCodeSelected": "Optimera vald kod",
