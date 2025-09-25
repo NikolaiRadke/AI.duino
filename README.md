@@ -1,7 +1,7 @@
 ![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back.png)
 # 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
-AI.duino integrates **Claude, Claude Code, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq, Vertex and Hugging Face** directly into the Arduino IDE for intelligent code assistance. The newest model will be selected automaticaly. It also works with **VS Code**.    
+AI.duino integrates **Claude, Claude Code, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq, Vertex and Hugging Face** directly into the Arduino IDE for intelligent code assistance. It also works with **VS Code**. Please use the newest Version to avoid annoying bugs.       
  
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
@@ -74,7 +74,7 @@ chmod +x install_aiduino_macos.sh
 
 ### Manual installation
 
-Copy the prepared `aiduino` folder to the Arduino IDE plugin directory:
+Add read permissions to each folder and file. Copy the prepared `aiduino` folder to the Arduino IDE plugin directory:
 
 #### Windows
 ```
