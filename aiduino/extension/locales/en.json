@@ -191,10 +191,11 @@
     "unknownProvider": "Unknown Provider",
     "noApiKeyUrl": "No API key URL configured for {0}",
     "noDetailsAvailable": "No details available",
-    "claudeCodeNotFound": "Claude Code not found at '{0}'. Please configure correct path via 'Enter API Key'.",
-    "claudeCodeTimeout": "Claude Code session timeout",
     "processError": "Process error: {0}",
-    "processFailedWithCode": "Process terminated with error code {0}"
+    "processFailedWithCode": "Process terminated with error code {0}",
+    "localProviderNotFound": "{0} not found at '{1}'. Please configure correct path via 'Enter API Key'.",
+    "localProviderNotRunning": "Not running. Please start.",
+    "localProviderTimeout": "Session expired"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nToday: {1} Tokens{2}\nInput: {3} | Output: {4}\nClick for menu • Ctrl+Shift+C • Right-click to switch",

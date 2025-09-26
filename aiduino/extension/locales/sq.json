@@ -191,10 +191,11 @@
     "unknownProvider": "Ofruesi i panjohur",
     "noApiKeyUrl": "Nuk është konfiguruar URL e çelësit të API për {0}",
     "noDetailsAvailable": "Nuk ka detaje të disponueshme",
-    "claudeCodeNotFound": "Claude Code nuk u gjet në '{0}'. Ju lutemi konfiguroni shtegun e saktë përmes 'Enter API Key'.",
-    "claudeCodeTimeout": "Sesioni Claude Code skadoi",
     "processError": "Gabim procesi: {0}",
-    "processFailedWithCode": "Procesi përfundoi me kodin e gabimit {0}"
+    "processFailedWithCode": "Procesi përfundoi me kodin e gabimit {0}",
+    "localProviderNotFound": "{0} nuk u gjet në '{1}'. Ju lutemi konfiguroni rrugën e duhur përmes 'Fut çelësin API'.",
+    "localProviderNotRunning": "Nuk po ekzekutohet. Ju lutemi niseni.",
+    "localProviderTimeout": "Sesioni skadoi"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nSot: {1} Tokenë{2}\nHyrje: {3} | Dalje: {4}\nKliko për menu • Ctrl+Shift+C • Klik i djathtë për ndryshim",

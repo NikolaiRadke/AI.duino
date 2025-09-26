@@ -184,10 +184,11 @@
     "unknownProvider": "Furnizor necunoscut",
     "noApiKeyUrl": "Nu este configurată URL pentru cheia API pentru {0}",
     "noDetailsAvailable": "Nu sunt disponibile detalii",
-    "claudeCodeNotFound": "Claude Code nu a fost găsit la '{0}'. Vă rugăm să configurați calea corectă prin 'Enter API Key'.",
-    "claudeCodeTimeout": "Sesiunea Claude Code a expirat",
     "processError": "Eroare proces: {0}",
-    "processFailedWithCode": "Proces terminat cu codul de eroare {0}"
+    "processFailedWithCode": "Proces terminat cu codul de eroare {0}",
+    "localProviderNotFound": "{0} nu a fost găsit la '{1}'. Vă rugăm să configurați calea corectă prin 'Introduceți cheia API'.",
+    "localProviderNotRunning": "Nu rulează. Vă rugăm să porniți.",
+    "localProviderTimeout": "Sesiunea a expirat"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nAstăzi: {1} Tokeni{2}\nInput: {3} | Output: {4}\nClick pentru meniu • Ctrl+Shift+C • Click dreapta pentru a comuta",

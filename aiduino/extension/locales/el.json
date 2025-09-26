@@ -190,10 +190,11 @@
     "unknownProvider": "Άγνωστος πάροχος",
     "noApiKeyUrl": "Δεν υπάρχει διαμορφωμένη διεύθυνση URL κλειδιού API για {0}",
     "noDetailsAvailable": "Δεν υπάρχουν διαθέσιμες λεπτομέρειες",
-    "claudeCodeNotFound": "Το Claude Code δεν βρέθηκε στο '{0}'. Παρακαλώ ρυθμίστε τη διαδρομή μέσω 'Enter API Key'.",
-    "claudeCodeTimeout": "Η συνεδρία Claude Code έληξε",
     "processError": "Σφάλμα διεργασίας: {0}",
-    "processFailedWithCode": "Η διεργασία τερματίστηκε με κωδικό σφάλματος {0}"
+    "processFailedWithCode": "Η διεργασία τερματίστηκε με κωδικό σφάλματος {0}",
+    "localProviderNotFound": "{0} δεν βρέθηκε στο '{1}'. Παρακαλώ διαμορφώστε τη σωστή διαδρομή μέσω 'Εισάγετε κλειδί API'.",
+    "localProviderNotRunning": "Δεν εκτελείται. Παρακαλώ εκκινήστε.",
+    "localProviderTimeout": "Η συνεδρία έληξε"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nΣήμερα: {1} Token{2}\nΕίσοδος: {3} | Έξοδος: {4}\nΚλικ για μενού • Ctrl+Shift+C • Δεξί κλικ για αλλαγή",

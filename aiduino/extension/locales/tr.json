@@ -190,10 +190,11 @@
     "unknownProvider": "Bilinmeyen sağlayıcı",
     "noApiKeyUrl": "{0} için yapılandırılmış API anahtarı URL'si yok",
     "noDetailsAvailable": "Ayrıntı mevcut değil",
-    "claudeCodeNotFound": "Claude Code '{0}'da bulunamadı. Lütfen 'Enter API Key' aracılığıyla doğru yolu yapılandırın.",
-    "claudeCodeTimeout": "Claude Code oturum zaman aşımı",
     "processError": "İşlem hatası: {0}",
-    "processFailedWithCode": "İşlem hata kodu {0} ile sonlandı"
+    "processFailedWithCode": "İşlem hata kodu {0} ile sonlandı",
+    "localProviderNotFound": "{0} '{1}' konumunda bulunamadı. Lütfen 'API Anahtarını Gir' yoluyla doğru yolu yapılandırın.",
+    "localProviderNotRunning": "Çalışmıyor. Lütfen başlatın.",
+    "localProviderTimeout": "Oturum süresi doldu"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nBugün: {1} Token{2}\nGiriş: {3} | Çıkış: {4}\nMenü için tıkla • Ctrl+Shift+C • Değiştirmek için sağ tıkla",

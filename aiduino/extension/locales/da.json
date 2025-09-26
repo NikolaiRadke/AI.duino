@@ -190,10 +190,11 @@
     "unknownProvider": "Ukendt udbyder",
     "noApiKeyUrl": "Ingen API-nøgle URL konfigureret for {0}",
     "noDetailsAvailable": "Ingen detaljer tilgængelige",
-    "claudeCodeNotFound": "Claude Code ikke fundet i '{0}'. Konfigurer venligst stien via 'Enter API Key'.",
-    "claudeCodeTimeout": "Claude Code session udløbet",
     "processError": "Procesfejl: {0}",
-    "processFailedWithCode": "Proces afsluttet med fejlkode {0}"
+    "processFailedWithCode": "Proces afsluttet med fejlkode {0}",
+    "localProviderNotFound": "{0} ikke fundet på '{1}'. Venligst konfigurer korrekte sti via 'Indtast API-nøgle'.",
+    "localProviderNotRunning": "Kører ikke. Venligst start.",
+    "localProviderTimeout": "Session udløbet"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nI dag: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlik for menu • Ctrl+Shift+C • Højreklik for at skifte",

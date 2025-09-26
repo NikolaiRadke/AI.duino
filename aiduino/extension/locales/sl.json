@@ -190,10 +190,11 @@
     "unknownProvider": "Neznani ponudnik",
     "noApiKeyUrl": "Ni konfiguriran URL ključa API za {0}",
     "noDetailsAvailable": "Ni podrobnosti na voljo",
-    "claudeCodeNotFound": "Claude Code ni najden v '{0}'. Konfigurirajte pravilno pot prek 'Enter API Key'.",
-    "claudeCodeTimeout": "Seja Claude Code je potekla",
     "processError": "Napaka procesa: {0}",
-    "processFailedWithCode": "Proces končan s kodo napake {0}"
+    "processFailedWithCode": "Proces končan s kodo napake {0}",
+    "localProviderNotFound": "{0} ni najden na '{1}'. Prosim konfigurirajte pravilno pot preko 'Vnesite API ključ'.",
+    "localProviderNotRunning": "Se ne izvaja. Prosim zaženite.",
+    "localProviderTimeout": "Seja je potekla"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDanes: {1} Žetonov{2}\nVhod: {3} | Izhod: {4}\nKlik za meni • Ctrl+Shift+C • Desni klik za preklop",

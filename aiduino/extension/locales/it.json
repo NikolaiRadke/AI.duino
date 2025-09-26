@@ -190,10 +190,11 @@
     "unknownProvider": "Provider sconosciuto",
     "noApiKeyUrl": "Nessun URL chiave API configurato per {0}",
     "noDetailsAvailable": "Nessun dettaglio disponibile",
-    "claudeCodeNotFound": "Claude Code non trovato in '{0}'. Configura il percorso corretto tramite 'Enter API Key'.",
-    "claudeCodeTimeout": "Sessione Claude Code scaduta",
     "processError": "Errore di processo: {0}",
-    "processFailedWithCode": "Processo terminato con codice errore {0}"
+    "processFailedWithCode": "Processo terminato con codice errore {0}",
+    "localProviderNotFound": "{0} non trovato a '{1}'. Si prega di configurare il percorso corretto tramite 'Inserisci chiave API'.",
+    "localProviderNotRunning": "Non in esecuzione. Si prega di avviare.",
+    "localProviderTimeout": "Sessione scaduta"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nOggi: {1} Token{2}\nInput: {3} | Output: {4}\nClick per menu • Ctrl+Shift+C • Click destro per cambiare",

@@ -191,10 +191,11 @@
     "unknownProvider": "Невідомий провайдер",
     "noApiKeyUrl": "Не налаштовано URL API ключа для {0}",
     "noDetailsAvailable": "Деталі недоступні",
-    "claudeCodeNotFound": "Claude Code не знайдено в '{0}'. Будь ласка, налаштуйте правильний шлях через 'Enter API Key'.",
-    "claudeCodeTimeout": "Тайм-аут сесії Claude Code",
     "processError": "Помилка процесу: {0}",
-    "processFailedWithCode": "Процес завершено з кодом помилки {0}"
+    "processFailedWithCode": "Процес завершено з кодом помилки {0}",
+    "localProviderNotFound": "{0} не знайдено за адресою '{1}'. Будь ласка, налаштуйте правильний шлях через 'Ввести ключ API'.",
+    "localProviderNotRunning": "Не запущено. Будь ласка, запустіть.",
+    "localProviderTimeout": "Сесія закінчилася"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nСьогодні: {1} Токени{2}\nВхід: {3} | Вихід: {4}\nКлік для меню • Ctrl+Shift+C • Правий клік для переключення",

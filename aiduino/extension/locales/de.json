@@ -201,10 +201,11 @@
     "noApiKeyUrl": "Keine API-Key-URL konfiguriert für {0}",
     "quotaExceeded": "Kontingent erschöpft", 
     "noDetailsAvailable": "Keine Details verfügbar",
-    "claudeCodeNotFound": "Claude Code nicht gefunden unter '{0}'. Bitte korrekten Pfad über 'API Key eingeben' konfigurieren.",
-    "claudeCodeTimeout": "Claude Code Sitzung abgelaufen",
     "processError": "Prozessfehler: {0}",
-    "processFailedWithCode": "Prozess mit Fehlercode {0} beendet"
+    "processFailedWithCode": "Prozess mit Fehlercode {0} beendet",
+    "localProviderNotFound": "{0} nicht gefunden unter '{1}'. Bitte korrekten Pfad über 'API Key eingeben' konfigurieren.",
+    "localProviderNotRunning": "läuft nicht. Bitte starten.",
+    "localProviderTimeout": "Sitzung abgelaufen"
   },
   
   "statusBar": {

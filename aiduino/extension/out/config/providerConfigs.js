@@ -58,7 +58,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '150925'; 
+const CONFIG_VERSION = '260925'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -501,6 +501,26 @@ const PROVIDER_CONFIGS = {
                 ];
             }
         },        
+        prices: {
+            input: 0.0,
+            output: 0.0
+        }
+    },
+
+    ollama: {
+        name: 'Ollama',
+        icon: '🦙',
+        color: '#FF6B35',
+        type: 'local',
+        keyFile: '.aiduino-ollama-url',
+        keyPrefix: 'http',
+        keyMinLength: 7,
+        apiKeyUrl: 'https://ollama.com',
+        fallback: 'llama3:latest',
+        autoDetectUrls: ['http://127.0.0.1:11434', 'http://localhost:11434'],
+        httpConfig: {
+            endpoint: '/api/chat'
+        },
         prices: {
             input: 0.0,
             output: 0.0

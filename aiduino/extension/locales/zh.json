@@ -190,10 +190,11 @@
     "unknownProvider": "未知提供商",
     "noApiKeyUrl": "未为 {0} 配置 API 密钥 URL",
     "noDetailsAvailable": "无详细信息",
-    "claudeCodeNotFound": "在 '{0}'找不到 Claude Code。请通过 'Enter API Key' 配置正确路径。",
-    "claudeCodeTimeout": "Claude Code 会话超时",
     "processError": "进程错误：{0}",
-    "processFailedWithCode": "进程以错误代码 {0} 终止"
+    "processFailedWithCode": "进程以错误代码 {0} 终止",
+    "localProviderNotFound": "在'{1}'未找到{0}。请通过'输入API密钥'配置正确路径。",
+    "localProviderNotRunning": "未运行。请启动。",
+    "localProviderTimeout": "会话已过期"
   },
   "statusBar": {
     "tooltip": "AI.duino：{0}\n今日：{1} Tokens{2}\n输入：{3} | 输出：{4}\n点击打开菜单 • Ctrl+Shift+C • 右键切换",

@@ -190,10 +190,11 @@
     "unknownProvider": "Okänd leverantör",
     "noApiKeyUrl": "Ingen API-nyckel URL konfigurerad för {0}",
     "noDetailsAvailable": "Inga detaljer tillgängliga",
-    "claudeCodeNotFound": "Claude Code hittades inte på '{0}'. Konfigurera rätt sökväg via 'Enter API Key'.",
-    "claudeCodeTimeout": "Claude Code session timeout",
     "processError": "Processfel: {0}",
-    "processFailedWithCode": "Process avslutad med felkod {0}"
+    "processFailedWithCode": "Process avslutad med felkod {0}",
+    "localProviderNotFound": "{0} hittades inte på '{1}'. Vänligen konfigurera rätt sökväg via 'Ange API-nyckel'.",
+    "localProviderNotRunning": "Körs inte. Vänligen starta.",
+    "localProviderTimeout": "Sessionen har upphört"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nIdag: {1} Tokens{2}\nIndata: {3} | Utdata: {4}\nKlicka för meny • Ctrl+Shift+C • Högerklicka för att byta",

@@ -190,10 +190,11 @@
     "unknownProvider": "Ukjent leverandør",
     "noApiKeyUrl": "Ingen API-nøkkel URL konfigurert for {0}",
     "noDetailsAvailable": "Ingen detaljer tilgjengelig",
-    "claudeCodeNotFound": "Claude Code ikke funnet på '{0}'. Vennligst konfigurer riktig bane via 'Enter API Key'.",
-    "claudeCodeTimeout": "Claude Code økt tidsavbrudd",
     "processError": "Prosess feil: {0}",
-    "processFailedWithCode": "Prosess avsluttet med feilkode {0}"
+    "processFailedWithCode": "Prosess avsluttet med feilkode {0}",
+    "localProviderNotFound": "{0} ikke funnet på '{1}'. Vennligst konfigurer riktig bane via 'Angi API-nøkkel'.",
+    "localProviderNotRunning": "Kjører ikke. Vennligst start.",
+    "localProviderTimeout": "Økt utløpt"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nI dag: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlikk for meny • Ctrl+Shift+C • Høyreklikk for å bytte",

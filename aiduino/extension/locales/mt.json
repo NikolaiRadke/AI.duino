@@ -191,10 +191,11 @@
     "unknownProvider": "Fornitur mhux magħruf",
     "noApiKeyUrl": "Ebda URL tal-iċ-ċavetta tal-API konfigurat għal {0}",
     "noDetailsAvailable": "Ebda dettalji disponibbli",
-    "claudeCodeNotFound": "Claude Code ma nstabx f'{0}'. Jekk jogħġbok ikkonfigura t-triq it-tajba permezz ta' 'Enter API Key'.",
-    "claudeCodeTimeout": "Sessjoni Claude Code skat",
     "processError": "Żball fil-proċess: {0}",
-    "processFailedWithCode": "Proċess temm b'kodiċi ta' żball {0}"
+    "processFailedWithCode": "Proċess temm b'kodiċi ta' żball {0}",
+    "localProviderNotFound": "{0} ma nstabx f'{1}'. Jekk jogħġbok ikkonfigura l-mogħdija t-tajba permezz ta' 'Daħħal iċ-ċavetta tal-API'.",
+    "localProviderNotRunning": "Mhux qed jaħdem. Jekk jogħġbok ibda.",
+    "localProviderTimeout": "Sessjoni skadiet"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nIllum: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlikkja għal menu • Ctrl+Shift+C • Right click biex tibdel",

@@ -191,10 +191,11 @@
     "unknownProvider": "Óþekktur þjónustuaðili",
     "noApiKeyUrl": "Engin API lykils veffang stillt fyrir {0}",
     "noDetailsAvailable": "Engar upplýsingar í boði",
-    "claudeCodeNotFound": "Claude Code fannst ekki á '{0}'. Vinsamlegast stilltu rétta slóð í gegnum 'Enter API Key'.",
-    "claudeCodeTimeout": "Claude Code lotu tímamörk",
     "processError": "Ferli villa: {0}",
-    "processFailedWithCode": "Ferli endaði með villukóða {0}"
+    "processFailedWithCode": "Ferli endaði með villukóða {0}",
+    "localProviderNotFound": "{0} fannst ekki á '{1}'. Vinsamlegast stilltu rétta slóð í gegnum 'Slá inn API lykil'.",
+    "localProviderNotRunning": "Ekki í gangi. Vinsamlegast ræstu.",
+    "localProviderTimeout": "Seta útrunnin"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nÍ dag: {1} Tokens{2}\nInntak: {3} | Úttak: {4}\nSmelltu fyrir valmynd • Ctrl+Shift+C • Hægri smell til að skipta",

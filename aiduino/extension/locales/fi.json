@@ -190,10 +190,11 @@
     "unknownProvider": "Tuntematon palveluntarjoaja",
     "noApiKeyUrl": "API-avaimen URL-osoitetta ei ole määritetty palvelulle {0}",
     "noDetailsAvailable": "Ei yksityiskohtia saatavilla",
-    "claudeCodeNotFound": "Claude Code ei löytynyt sijainnista '{0}'. Aseta oikea polku 'Enter API Key' kautta.",
-    "claudeCodeTimeout": "Claude Code istunto aikakatkaisu",
     "processError": "Prosessivirhe: {0}",
-    "processFailedWithCode": "Prosessi päättyi virhekoodilla {0}"
+    "processFailedWithCode": "Prosessi päättyi virhekoodilla {0}",
+    "localProviderNotFound": "{0} ei löytynyt osoitteesta '{1}'. Määritä oikea polku 'Syötä API-avain' kautta.",
+    "localProviderNotRunning": "Ei käynnissä. Käynnistä.",
+    "localProviderTimeout": "Istunto vanhentunut"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nTänään: {1} Tokenia{2}\nSyöte: {3} | Tuloste: {4}\nKlikkaa valikko • Ctrl+Shift+C • Oikeaklikkaa vaihtaaksesi",

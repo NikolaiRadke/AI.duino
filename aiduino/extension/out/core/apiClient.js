@@ -161,19 +161,6 @@ class UnifiedAPIClient {
         if (!provider) {
             throw new Error(`Unknown provider: ${modelId}`);
         }
-    
-        // Local provider JSON parsing (like Claude Code)
-        if (provider.type === 'local' && typeof responseData === 'string') {
-            try {
-                const jsonResponse = JSON.parse(responseData);
-                return jsonResponse.result || responseData;
-            } catch {
-                return responseData; // Fallback to raw text
-            }
-        }
-
-        // Existing API provider logic
-        return provider.apiConfig.extractResponse(responseData);
     }
  
     /**
@@ -208,66 +195,133 @@ class UnifiedAPIClient {
     /**
      * Handle local providers (like Claude Code)
      */
-    async callLocalProvider(modelId, prompt, context) {
-        const { minimalModelManager, updateTokenUsage, apiKeys, t } = context; 
+     async callLocalProvider(modelId, prompt, context) {
+        const { minimalModelManager } = context; 
         const provider = minimalModelManager.providers[modelId];
-        const claudePath = apiKeys[modelId] || 'claude';
-        const editor = vscode.window.activeTextEditor;
-        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-        const shared = require('../shared');
-    
-        const localContext = {
-            board: shared.getBoardDisplayName(shared.detectArduinoBoard()),
-            activeFile: editor?.document.fileName,
-            selectedCode: editor && !editor.selection.isEmpty ? 
-                editor.document.getText(editor.selection) : null,
-            workspaceFolder: workspaceFolder?.uri.fsPath
-        };
-        const enhancedPrompt = provider.processConfig.buildPrompt(prompt, localContext);
-        const args = provider.processConfig.buildArgs(enhancedPrompt, localContext);
         
-        // Execute process and return response
-        return new Promise((resolve, reject) => {
-            const childProcess = spawn(claudePath, args, {
-                cwd: '/tmp',
-                stdio: ['ignore', 'pipe', 'pipe'],
-                detached: true,
-                windowsHide: true
-            });
-            
-            childProcess.unref();
-            
-            let stdout = '';
-            let stderr = '';
-            
-            childProcess.stdout.on('data', (data) => stdout += data.toString());
-            childProcess.stderr.on('data', (data) => stderr += data.toString());
-            
-            childProcess.on('close', (code) => {
-                if (code === 0 && stdout.trim()) {
-                    const extractedResponse = this.extractResponse(modelId, stdout.trim(), minimalModelManager);
-                    updateTokenUsage(modelId, prompt, extractedResponse);
-                    resolve(extractedResponse);
-                } else {
-                    reject(new Error(stderr || t('errors.processFailedWithCode', code)));
-                }
-            });
-    
-            childProcess.on('error', (error) => {
-                if (error.code === 'ENOENT') {
-                    reject(new Error(t('errors.claudeCodeNotFound', claudePath)));
-                } else {
-                    reject(new Error(t('errors.processError', error.message)));
-                }
-            });
-            
-            // 3 minute timeout
-            setTimeout(() => {
-                childProcess.kill();
-                    reject(new Error(t('errors.claudeCodeTimeout')));
-            }, 180000);
-        });
+        // Route to HTTP or Process based on config
+        if (provider.httpConfig) {
+            return this.callHttpLocalProvider(modelId, prompt, context);
+        } else if (provider.processConfig) {
+            return this.callProcessLocalProvider(modelId, prompt, context);
+        } else {
+            throw new Error(`Local provider ${modelId} has no valid config`);
+        }
     }
+
+    /**
+     * Handle HTTP-based local providers (Ollama, LocalAI, etc.)
+     */
+    async callHttpLocalProvider(modelId, prompt, context) {
+        const { apiKeys, updateTokenUsage } = context;
+        const provider = context.minimalModelManager.providers[modelId];
+    
+        // Parse stored configuration (URL|model format from auto-detection)
+        const storedConfig = apiKeys[modelId];
+        if (!storedConfig || !storedConfig.includes('|')) {
+            throw new Error(`${provider.name} not properly configured. Please re-run model selection.`);
+        }
+    
+        const [baseUrl, selectedModel] = storedConfig.split('|');
+    
+        // Make HTTP request to local provider
+        const response = await this.makeLocalHttpRequest(baseUrl, selectedModel, prompt, provider, context.t);
+        updateTokenUsage(modelId, prompt, response);
+        return response;
+    }
+
+    /**
+     * Handle Process-based local providers (Claude Code, etc.) - REFACTORED
+     */
+    async callProcessLocalProvider(modelId, prompt, context) {
+        const { minimalModelManager, updateTokenUsage, apiKeys } = context; 
+        const provider = minimalModelManager.providers[modelId];
+    
+        // Get process provider handler from router
+        const localProviders = require('../localProviders');
+        const providerHandler = localProviders.getProcessProvider(provider.name);
+    
+        if (!providerHandler) {
+            throw new Error(`No process handler found for ${provider.name}`);
+        }
+    
+        // Get tool path from stored API key or default command
+        const toolPath = apiKeys[modelId] || provider.processConfig?.command;
+    
+        if (!toolPath) {
+            const { t } = context;
+            throw new Error(t('errors.localProviderNotFound', provider.name, 'not configured'));
+        }
+    
+        // Execute command using provider handler
+        const response = await providerHandler.executeCommand(toolPath, prompt, context);
+    
+        // Extract and process response
+        const extractedResponse = providerHandler.extractResponse ? 
+            providerHandler.extractResponse(response) : response;
+    
+        // Update token usage
+        updateTokenUsage(modelId, prompt, extractedResponse);
+    
+        return extractedResponse;
+    }
+
+    /**
+     * Make direct HTTP request to local provider
+     */
+    async makeLocalHttpRequest(baseUrl, modelName, prompt, provider, t) {
+    const localProviders = require('../localProviders');
+        const providerHandler = localProviders.getHttpProvider(provider.name);
+    
+        if (!providerHandler) {
+            throw new Error(`No handler found for ${provider.name}`);
+        }
+    
+        return new Promise((resolve, reject) => {
+            const requestBody = providerHandler.buildRequest(modelName, prompt);
+            const data = JSON.stringify(requestBody);
+            const buffer = Buffer.from(data, 'utf8');
+            
+            const http = require('http');
+            const req = http.request({
+                hostname: new URL(baseUrl).hostname,
+                port: new URL(baseUrl).port,
+                path: provider.httpConfig.endpoint,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'Content-Length': buffer.length
+                }
+            }, (res) => {
+                let body = '';
+                res.on('data', chunk => body += chunk);
+                res.on('end', () => {
+                    try {
+                        const response = providerHandler.extractResponse(body);
+                        resolve(response);
+                    } catch (e) {
+                        reject(new Error(`${provider.name}: ${e.message}`));
+                    }
+                });
+            });
+            
+            req.on('error', (error) => {
+                if (error.code === 'ECONNREFUSED') {
+                    reject(new Error(t('errors.localProviderNotRunning')));
+                } else {
+                    reject(new Error(error.message));
+                }
+            });
+            
+            req.setTimeout(180000, () => {
+                req.destroy();
+                reject(new Error(t('errors.localProviderTimeout')));
+            });
+            
+            req.write(buffer);
+            req.end();
+        });
+    }   
     
     /**
      * Handle network errors

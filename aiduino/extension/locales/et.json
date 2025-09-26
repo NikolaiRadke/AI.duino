@@ -191,10 +191,11 @@
     "unknownProvider": "Tundmatu teenusepakkuja",
     "noApiKeyUrl": "API võtme URL pole konfigureeritud teenuse {0} jaoks",
     "noDetailsAvailable": "Üksikasjad ei ole saadaval",
-    "claudeCodeNotFound": "Claude Code ei leitud aadressilt '{0}'. Palun seadista õige tee 'Enter API Key' kaudu.",
-    "claudeCodeTimeout": "Claude Code seanss aegus",
     "processError": "Protsessi viga: {0}",
-    "processFailedWithCode": "Protsess lõppes veakoodiga {0}"
+    "processFailedWithCode": "Protsess lõppes veakoodiga {0}",
+    "localProviderNotFound": "{0} ei leitud aadressilt '{1}'. Palun seadistage õige tee 'API võtme sisestamine' kaudu.",
+    "localProviderNotRunning": "Ei tööta. Palun käivitage.",
+    "localProviderTimeout": "Seanss aegus"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nTäna: {1} Tokenid{2}\nSisend: {3} | Väljund: {4}\nKlõps menüü jaoks • Ctrl+Shift+C • Parem klõps vahetamiseks",

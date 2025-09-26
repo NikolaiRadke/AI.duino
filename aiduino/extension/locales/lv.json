@@ -191,10 +191,11 @@
     "unknownProvider": "Nezināms sniedzējs",
     "noApiKeyUrl": "Nav konfigurēts API atslēgas URL {0}",
     "noDetailsAvailable": "Nav pieejami dati",
-    "claudeCodeNotFound": "Claude Code nav atrasts '{0}'. Lūdzu, konfigurējiet pareizo ceļu, izmantojot 'Enter API Key'.",
-    "claudeCodeTimeout": "Claude Code sesijas noildze",
     "processError": "Procesa kļūda: {0}",
-    "processFailedWithCode": "Process beidzās ar kļūdas kodu {0}"
+    "processFailedWithCode": "Process beidzās ar kļūdas kodu {0}",
+    "localProviderNotFound": "{0} nav atrasts '{1}'. Lūdzu konfigurējiet pareizo ceļu caur 'Ievadīt API atslēgu'.",
+    "localProviderNotRunning": "Nedarbojas. Lūdzu palaidiet.",
+    "localProviderTimeout": "Sesija beigusies"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nŠodien: {1} Žetoni{2}\nIevade: {3} | Izvade: {4}\nKlikšķis izvēlnei • Ctrl+Shift+C • Labais klikšķis pārslēgšanai",

@@ -190,10 +190,11 @@
     "unknownProvider": "Onbekende provider",
     "noApiKeyUrl": "Geen API-sleutel URL geconfigureerd voor {0}",
     "noDetailsAvailable": "Geen details beschikbaar",
-    "claudeCodeNotFound": "Claude Code niet gevonden op '{0}'. Configureer het juiste pad via 'Enter API Key'.",
-    "claudeCodeTimeout": "Claude Code sessie time-out",
     "processError": "Procesfout: {0}",
-    "processFailedWithCode": "Proces beëindigd met foutcode {0}"
+    "processFailedWithCode": "Proces beëindigd met foutcode {0}",
+    "localProviderNotFound": "{0} niet gevonden op '{1}'. Configureer het juiste pad via 'API-sleutel invoeren'.",
+    "localProviderNotRunning": "Loopt niet. Start a.u.b.",
+    "localProviderTimeout": "Sessie verlopen"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nVandaag: {1} Tokens{2}\nInvoer: {3} | Uitvoer: {4}\nKlik voor menu • Ctrl+Shift+C • Rechtsklik om te wisselen",

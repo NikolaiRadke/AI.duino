@@ -191,10 +191,11 @@
     "unknownProvider": "Непознати провајдер",
     "noApiKeyUrl": "Није конфигурисан URL за API кључ за {0}",
     "noDetailsAvailable": "Нису доступни детаљи",
-    "claudeCodeNotFound": "Claude Code није пронађен на '{0}'. Молимо вас да конфигуришете исправну путању преко 'Enter API Key'.",
-    "claudeCodeTimeout": "Claude Code сесија истекла",
     "processError": "Грешка процеса: {0}",
-    "processFailedWithCode": "Процес завршен кодом грешке {0}"
+    "processFailedWithCode": "Процес завршен кодом грешке {0}",
+    "localProviderNotFound": "{0} није пронађен на '{1}'. Молимо конфигуришите исправну путању преко 'Унесите API кључ'.",
+    "localProviderNotRunning": "Не ради. Молимо покрените.",
+    "localProviderTimeout": "Сесија је истекла"
   },
   "statusBar": {
     "tooltip": "АИ.дуино : {0}\nДанас: {1} Токени{2}\nУлаз: {3} | Излаз: {4}\nКлик за мени • Ctrl+Shift+C • Десни клик за пребацивање",

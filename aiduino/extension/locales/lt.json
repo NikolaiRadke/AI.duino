@@ -191,10 +191,11 @@
     "unknownProvider": "Nežinomas teikėjas",
     "noApiKeyUrl": "Nesukonfigūruotas API rakto URL {0}",
     "noDetailsAvailable": "Nėra išsamių duomenų",
-    "claudeCodeNotFound": "Claude Code nerastas '{0}'. Sukonfigūruokite teisingą kelią per 'Enter API Key'.",
-    "claudeCodeTimeout": "Claude Code sesijos skirtasis laikas",
     "processError": "Proceso klaida: {0}",
-    "processFailedWithCode": "Procesas baigtas su klaidos kodu {0}"
+    "processFailedWithCode": "Procesas baigtas su klaidos kodu {0}",
+    "localProviderNotFound": "{0} nerastas '{1}'. Prašome sukonfigūruoti teisingą kelią per 'Įvesti API raktą'.",
+    "localProviderNotRunning": "Neveikia. Prašome paleisti.",
+    "localProviderTimeout": "Sesija baigėsi"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nŠiandien: {1} Žetonai{2}\nĮvestis: {3} | Išvestis: {4}\nPaspaudimas meniu • Ctrl+Shift+C • Dešinys paspaudimas perjungimui",

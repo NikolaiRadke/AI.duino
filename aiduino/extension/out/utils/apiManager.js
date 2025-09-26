@@ -19,7 +19,7 @@ function callAI(prompt, context) {
 }
 
 /**
- * Switch AI model with user selection and API key validation
+ * Switch AI model with user selection and auto-detection for local providers
  * @param {Object} context - Extension context with dependencies
  * @returns {Promise<void>}
  */
@@ -29,7 +29,10 @@ async function switchModel(context) {
         minimalModelManager, 
         currentModel, 
         fileManager, 
-        t 
+        t,
+        setCurrentModel,
+        updateStatusBar,
+        quickMenuTreeProvider
     } = context;
     
     if (!executionStates.start(executionStates.OPERATIONS.SWITCH_MODEL)) {
@@ -42,7 +45,6 @@ async function switchModel(context) {
         const items = [];
         const cloudItems = [];
         const localItems = [];
-
 
         Object.keys(minimalModelManager.providers).forEach(modelId => {
             const provider = minimalModelManager.providers[modelId];
@@ -72,8 +74,8 @@ async function switchModel(context) {
         });
         
         if (selected) {
-            // Update current model via callback
-            context.setCurrentModel(selected.value);
+            // Update current model
+            setCurrentModel(selected.value);
     
             // Create updated context with new model
             const updatedContext = {
@@ -81,34 +83,58 @@ async function switchModel(context) {
                 currentModel: selected.value
             };
     
-            if (context.quickMenuTreeProvider) {
-                context.quickMenuTreeProvider.context = updatedContext;
-                context.quickMenuTreeProvider.refresh();
+            if (quickMenuTreeProvider) {
+                quickMenuTreeProvider.context = updatedContext;
+                quickMenuTreeProvider.refresh();
             }
             fileManager.saveSelectedModel(selected.value);
-            context.updateStatusBar();
-    
-            // Check if API key is needed
-            if (!minimalModelManager.getProviderInfo(selected.value).hasApiKey) {
-                const provider = minimalModelManager.providers[selected.value];
-                const isLocal = provider.type === 'local';
-
-                const message = isLocal ? 
-                    t('messages.pathRequired', provider.name) : 
-                    t('messages.apiKeyRequired', provider.name);
-        
-                const choice = await vscode.window.showWarningMessage(
-                    message,
-                    t('buttons.enterNow'),
-                    t('buttons.later')
-                );
-                if (choice === t('buttons.enterNow')) {
-                    // Use updated context with new model
-                    setApiKey(updatedContext);
-                }
+            
+            const provider = minimalModelManager.providers[selected.value];
+            
+            // Force auto-detection for local providers
+            if (provider.type === 'local' && provider.httpConfig) {
+                await vscode.window.withProgress({
+                    location: vscode.ProgressLocation.Notification,
+                    title: `Detecting ${provider.name}...`,
+                    cancellable: false
+                }, async () => {
+                    // Clear existing config to force re-detection
+                    delete updatedContext.apiKeys[selected.value];
+                    
+                    // Run auto-detection
+                    const detected = await autoDetectLocalProvider(selected.value, minimalModelManager.providers);
+                    if (detected) {
+                        updatedContext.apiKeys[selected.value] = detected;
+                        fileManager.saveApiKey(selected.value, detected, minimalModelManager.providers);
+                        updateStatusBar();
+                            vscode.window.showInformationMessage(`${provider.name} detected: ${detected.split('|')[0]}`);
+                    } else {
+                        updateStatusBar();
+                            vscode.window.showWarningMessage(`$(warning) ${provider.name} not found...`);
+                    }
+                });
+                
             } else {
-                const provider = minimalModelManager.providers[selected.value];
-                vscode.window.showInformationMessage(t('messages.modelSwitched', provider.name));
+                // All non-HTTP local providers: Process providers + Remote providers
+                updateStatusBar();
+    
+                if (!minimalModelManager.getProviderInfo(selected.value).hasApiKey) {
+                    // Determine message based on provider type
+                    const message = (provider.type === 'local' && provider.processConfig) ? 
+                        t('messages.pathRequired', provider.name) : 
+                        t('messages.apiKeyRequired', provider.name);
+            
+                    const choice = await vscode.window.showWarningMessage(
+                        message,
+                        t('buttons.enterNow'),
+                        t('buttons.later')
+                    );
+                    if (choice === t('buttons.enterNow')) {
+                        setApiKey(updatedContext);
+                    }
+                } else {
+                    vscode.window.showInformationMessage(t('messages.modelSwitched', provider.name));
+                }
             }
         }
     } finally {
@@ -180,6 +206,61 @@ async function validateApiConnection(context) {
     }
     
     return true;
+}
+
+/**
+ * Auto-detect local HTTP provider
+ * @param {string} modelId - Model identifier
+ * @param {Object} providers - Provider configurations
+ * @returns {Promise<string|null>} Detected URL or null
+ */
+async function autoDetectLocalProvider(modelId, providers) {
+    const provider = providers[modelId];
+    if (!provider?.autoDetectUrls) {
+        return null;
+    }
+    
+    for (const url of provider.autoDetectUrls) {
+        if (await testHttpProvider(url, provider)) {
+            // Provider-spezifische Modell-Detection
+            if (provider.name === 'Ollama') {
+                const ollama = require('../localProviders/httpProviders/ollama');
+                const bestModel = await ollama.detectBestModel(url, provider.preferredModels);
+                return `${url}|${bestModel || 'llama3:latest'}`;
+            }
+            // Andere Provider: nur URL (für Process-basierte wie Claude Code)
+            return url;
+        }
+    }
+    return null;
+}
+
+/**
+ * Test HTTP provider connection
+ * @param {string} url - URL to test
+ * @param {Object} provider - Provider configuration
+ * @returns {Promise<boolean>} True if accessible
+ */
+async function testHttpProvider(url, provider) {
+    return new Promise((resolve) => {
+        const http = require('http');
+        const testUrl = new URL(url);
+        
+        const req = http.get({
+            hostname: testUrl.hostname,
+            port: testUrl.port,
+            path: '/',
+            timeout: 3000
+        }, (res) => {
+            resolve(res.statusCode === 200);
+        });
+        
+        req.on('error', () => resolve(false));
+        req.on('timeout', () => {
+            req.destroy();
+            resolve(false);
+        });
+    });
 }
 
 module.exports = {

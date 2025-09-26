@@ -190,10 +190,11 @@
     "unknownProvider": "Непознат доставчик",
     "noApiKeyUrl": "Няма конфигуриран URL за API ключ за {0}",
     "noDetailsAvailable": "Няма налични подробности",
-    "claudeCodeNotFound": "Claude Code не е намерен в '{0}'. Моля, конфигурирайте правилния път чрез 'Enter API Key'.",
-    "claudeCodeTimeout": "Claude Code сесията изтече",
     "processError": "Грешка в процеса: {0}",
-    "processFailedWithCode": "Процесът завърши с код за грешка {0}"
+    "processFailedWithCode": "Процесът завърши с код за грешка {0}",
+    "localProviderNotFound": "{0} не е намерен в '{1}'. Моля, конфигурирайте правилния път чрез 'Въведете API ключ'.",
+    "localProviderNotRunning": "Не работи. Моля, стартирайте.",
+    "localProviderTimeout": "Сесията изтече"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nДнес: {1} Tokens{2}\nВход: {3} | Изход: {4}\nКлик за меню • Ctrl+Shift+C • Десен клик за смяна",

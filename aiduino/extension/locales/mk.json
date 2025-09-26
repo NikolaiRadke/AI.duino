@@ -191,10 +191,11 @@
     "unknownProvider": "Непознат провајдер",
     "noApiKeyUrl": "Нема конфигурирано URL за API клуч за {0}",
     "noDetailsAvailable": "Нема достапни детали",
-    "claudeCodeNotFound": "Claude Code не е најден на '{0}'. Ве молиме конфигурирајте ја правилната патека преку 'Enter API Key'.",
-    "claudeCodeTimeout": "Claude Code сесија истече",
     "processError": "Грешка во процесот: {0}",
-    "processFailedWithCode": "Процесот заврши со код за грешка {0}"
+    "processFailedWithCode": "Процесот заврши со код за грешка {0}",
+    "localProviderNotFound": "{0} не е пронајден на '{1}'. Ве молиме конфигурирајте го точниот пат преку 'Внесете API клуч'.",
+    "localProviderNotRunning": "Не работи. Ве молиме стартувајте.",
+    "localProviderTimeout": "Сесијата истече"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nДенес: {1} токени{2}\nInput: {3} | Output: {4}\nКликни за мени • Ctrl+Shift+C • Десен клик за промена",

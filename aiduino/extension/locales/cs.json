@@ -190,10 +190,11 @@
     "unknownProvider": "Neznámý poskytovatel",
     "noApiKeyUrl": "Žádná URL pro API klíč není nakonfigurována pro {0}",
     "noDetailsAvailable": "Žádné podrobnosti nejsou k dispozici",
-    "claudeCodeNotFound": "Claude Code nebyl nalezen v '{0}'. Prosím nakonfigurujte cestu přes 'Enter API Key'.",
-    "claudeCodeTimeout": "Relace Claude Code vypršela",
     "processError": "Chyba procesu: {0}",
-    "processFailedWithCode": "Proces skončil s kódem chyby {0}"
+    "processFailedWithCode": "Proces skončil s kódem chyby {0}",
+    "localProviderNotFound": "{0} nenalezen v '{1}'. Prosím nakonfigurujte správnou cestu přes 'Zadat API klíč'.",
+    "localProviderNotRunning": "Neběží. Prosím spusťte.",
+    "localProviderTimeout": "Relace vypršela"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDnes: {1} Tokenů{2}\nVstup: {3} | Výstup: {4}\nKlikněte pro menu • Ctrl+Shift+C • Pravé tlačítko pro přepnutí",

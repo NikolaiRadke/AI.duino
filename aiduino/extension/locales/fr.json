@@ -190,10 +190,11 @@
     "unknownProvider": "Fournisseur inconnu",
     "noApiKeyUrl": "Aucune URL de clé API configurée pour {0}",
     "noDetailsAvailable": "Aucun détail disponible",
-    "claudeCodeNotFound": "Claude Code introuvable à '{0}'. Veuillez configurer le bon chemin via 'Enter API Key'.",
-    "claudeCodeTimeout": "Session Claude Code expirée",
     "processError": "Erreur de processus: {0}",
-    "processFailedWithCode": "Processus terminé avec le code d'erreur {0}"
+    "processFailedWithCode": "Processus terminé avec le code d'erreur {0}",
+    "localProviderNotFound": "{0} introuvable à '{1}'. Veuillez configurer le chemin correct via 'Saisir la clé API'.",
+    "localProviderNotRunning": "N'est pas en cours d'exécution. Veuillez démarrer.",
+    "localProviderTimeout": "Session expirée"
   },
   "statusBar": {
     "tooltip": "AI.duino  : {0}\nAujourd'hui : {1} Tokens{2}\nEntrée : {3} | Sortie : {4}\nClic pour menu • Ctrl+Maj+C • Clic droit pour changer",
