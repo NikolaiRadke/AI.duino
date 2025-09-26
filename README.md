@@ -102,6 +102,9 @@ aiduino/
 │   │   ├── core/
 │   │   ├── utils/
 │   │   ├── features/
+│   │   ├── localProviders/
+|   |   |   ├── httpProviders/
+|   |   |   └── processProviders/
 │   │   ├── config/
 |   |   |   └── panels/
 │   ├── locales/
