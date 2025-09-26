@@ -1,7 +1,7 @@
 ![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back.png)
 # 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
-AI.duino integrates **Claude, Claude Code, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq, Vertex and Hugging Face** directly into the Arduino IDE for intelligent code assistance. It also works with **VS Code**. Please use the newest Version to avoid annoying bugs.       
+AI.duino integrates **Claude, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq, Vertex, Hugging Face** and **Claude Code and Ollama** directly into the Arduino IDE for intelligent code assistance. It also works with **VS Code**. Please use the newest Version to avoid annoying bugs.       
  
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
