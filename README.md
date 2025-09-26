@@ -6,7 +6,7 @@ AI.duino integrates **Claude, Claude Code, ChatGPT, Gemini, Mistral, Perplexity,
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **26.09.2025** Release **V1.11.0** with fixes for two status bar issues.  
+* **26.09.2025** Release **V1.11.0** with Ollama integration and local provider modularization.  
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
