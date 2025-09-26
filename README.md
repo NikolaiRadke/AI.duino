@@ -148,8 +148,9 @@ Required: An API key from either:
 
 The keys are stored locally and not transmitted.
 
-**Claude Code** does'nt need an API key, only the path to your claude binary. Try *which claude* (Linux/macOS) or *where claude* (Windows)
-and copy the path for the AI.duino input field when selecting Claude Code.  
+**Local Privoders** don't need an API key. HTTP based providers like **Ollama** get auto detected, process based providers like **Claude Code**
+only needs the path to the binary. Example: Try *which claude* (Linux/macOS) or *where claude* (Windows) and copy the path for the AI.duino 
+input field when selecting Claude Code.  
 
 ## Content
   
