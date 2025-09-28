@@ -161,6 +161,50 @@ class UnifiedAPIClient {
         if (!provider) {
             throw new Error(`Unknown provider: ${modelId}`);
         }
+
+        // For local providers, delegate to local provider handlers
+        if (provider.type === 'local') {
+            const localProviders = require('../localProviders');
+        
+            if (provider.httpConfig) {
+                const providerHandler = localProviders.getHttpProvider(provider.name);
+                if (providerHandler && providerHandler.extractResponse) {
+                    return providerHandler.extractResponse(responseData);
+                }
+            } else if (provider.processConfig) {
+                const providerHandler = localProviders.getProcessProvider(provider.name);
+                if (providerHandler && providerHandler.extractResponse) {
+                    return providerHandler.extractResponse(responseData);
+                }
+            }
+            
+            // Fallback for local providers
+            return typeof responseData === 'string' ? responseData : JSON.stringify(responseData);
+        }
+    
+        // For API providers, use the apiConfig.extractResponse function
+        if (provider.apiConfig && provider.apiConfig.extractResponse) {
+            return provider.apiConfig.extractResponse(responseData);
+        }
+    
+        // Fallback for API providers without extractResponse
+        if (responseData && typeof responseData === 'object') {
+            // Try common response patterns
+            if (responseData.choices && responseData.choices[0] && responseData.choices[0].message) {
+                return responseData.choices[0].message.content;
+            }
+            if (responseData.content && responseData.content[0] && responseData.content[0].text) {
+                return responseData.content[0].text;
+            }
+            if (responseData.text) {
+                return responseData.text;
+            }
+            if (responseData.message) {
+                return responseData.message;
+            }
+        }
+
+        throw new Error(`Unable to extract response from ${provider.name} API`);
     }
  
     /**
