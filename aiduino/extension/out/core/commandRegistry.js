@@ -106,6 +106,11 @@ class CommandRegistry {
                 handler: () => askAIFeature.askAI(deps.getDependencies(), true),
                 description: 'Ask Follow-up Question'
             },
+            {
+                name: 'aiduino.openChatPanel',
+                handler: () => chatPanelFeature.showChatPanel(deps.getDependencies()),
+                description: 'Open AI Chat Panel'
+            },
 
             // Utility & Info Commands
             { 
