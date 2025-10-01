@@ -2,7 +2,7 @@
 
 ## 2025
   
-* **01.10.2025** **V2.0.0 Beta** is ready for testing! With complete feature rework and a multiple AI chat.  
+* **01.10.2025** **V2.0.0 Beta** is ready for testing! With complete feature rework and multiple AI chats.  
 * **29.09.2025** Working on V2. Testing, testing, testing.     
 * **26.09.2025** Release **V1.11.0** with Ollama integration and local provider modularization.  
 * **25.09.2025** Release **V1.10.2** with fixes for two status bar issues.  
