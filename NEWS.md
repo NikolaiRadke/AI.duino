@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **29.09.2025** Working on V2. Testing, testing, testing.     
 * **26.09.2025** Release **V1.11.0** with Ollama integration and local provider modularization.  
 * **25.09.2025** Release **V1.10.2** with fixes for two status bar issues.  
 * **25.09.2025** Release **V1.10.1** with full localized and UI optimized Claude Code integration.   
