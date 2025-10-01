@@ -42,8 +42,10 @@ The provider settings will be updated when availabe. They will be generated auto
 
 ## Screenshots
 
-![Screenshot 1](http://www.nikolairadke.de/aiduino/aiduino_screenshot_1_3.png)
-![Screenshot 2](http://www.nikolairadke.de/aiduino/aiduino_screenshot_2_3.png)
+![Screenshot 1](http://www.nikolairadke.de/aiduino/screenshot1.png)
+![Screenshot 2](http://www.nikolairadke.de/aiduino/screenshot2.png)
+![Screenshot 3](http://www.nikolairadke.de/aiduino/screenshot3.png)
+
 
 ## Installation
 
