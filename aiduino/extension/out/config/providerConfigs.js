@@ -58,7 +58,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '260925'; 
+const CONFIG_VERSION = '300925'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -151,61 +151,29 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.name.includes('2.5-flash')) || models.find(m => m.name.includes('1.5-flash')) || models[0],
         fallback: 'models/gemini-2.5-flash',
         prices: {
-            input: 0.075 / 1000,   // $0.075 per 1M tokens (2.5 Flash) - Updated Sept 2025
-            output: 0.30 / 1000    // $0.30 per 1M tokens (2.5 Flash) - Updated Sept 2025
+            input: 0.075 / 1000000,
+            output: 0.30 / 1000000
         },
         apiConfig: {
             apiPath: (modelId, key) => {
-                if (!modelId.startsWith('models/')) {
-                    modelId = 'models/' + modelId;
-                }
-                return `/v1beta/${modelId}:generateContent?key=${key}`;
+                if (!modelId.startsWith('models/')) modelId = 'models/' + modelId;
+                return `/v1/${modelId}:generateContent?key=${key}`;
             },
             method: 'POST',
-            headers: (key) => ({
-                'Content-Type': 'application/json'
-            }),
+            headers: () => ({ 'Content-Type': 'application/json' }),
             buildRequest: (modelId, prompt) => ({
-                contents: [{
-                    parts: [{ text: prompt }]
-                }],
+                contents: [{ parts: [{ text: prompt }] }],
                 generationConfig: {
                     temperature: 0.7,
-                    topK: 1,
-                    topP: 1,
-                    maxOutputTokens: 2048,
-                },
-                safetySettings: [
-                    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
-                ]
-            }),         
+                    maxOutputTokens: 8192
+                }
+            }),
             extractResponse: (data) => {
-                if (data.error) {
-                    throw new Error(`Gemini API Error: ${data.error.message || JSON.stringify(data.error)}`);
-                }
-                
-                if (data.candidates && data.candidates[0]) {
-                    const candidate = data.candidates[0];
-                    
-                    if (candidate.finishReason === 'SAFETY') {
-                        throw new Error('Response blocked due to safety settings');
-                    }
-                    
-                    if (candidate.content && 
-                        candidate.content.parts && 
-                        candidate.content.parts[0] &&
-                        candidate.content.parts[0].text) {
-                        return candidate.content.parts[0].text;
-                    }
-                }
-                
-                throw new Error('Unexpected response format from Gemini');
-            }           
+                if (data.error) throw new Error(data.error.message);
+                return data.candidates[0].content.parts[0].text;
+            }
         }
-    },
+    },  
 
     mistral: {
         name: 'Mistral',

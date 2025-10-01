@@ -88,50 +88,11 @@ function validateNumberRange(value, min, max) {
     return typeof value === 'number' && value >= min && value <= max;
 }
 
-/**
- * Validates temperature setting for AI models
- * @param {number} temperature - Temperature value (0-1)
- * @returns {boolean} True if valid
- */
-function validateTemperature(temperature) {
-    return validateNumberRange(temperature, 0, 1);
-}
-
-/**
- * Validates max tokens setting
- * @param {number} maxTokens - Maximum tokens value
- * @returns {boolean} True if valid
- */
-function validateMaxTokens(maxTokens) {
-    return validateNumberRange(maxTokens, 100, 8000);
-}
-
-/**
- * Sanitizes user input to prevent injection
- * @param {string} input - User input to sanitize
- * @returns {string} Sanitized input
- */
-function sanitizeInput(input) {
-    if (!input || typeof input !== 'string') {
-        return '';
-    }
-    
-    // Remove potentially harmful characters for file paths and commands
-    return input
-        .replace(/[<>:"|?*]/g, '') // Windows forbidden chars
-        .replace(/\.\./g, '')      // Path traversal
-        .replace(/[\x00-\x1f]/g, '') // Control characters
-        .trim();
-}
-
 module.exports = {
     validateApiKey,
     validateModelId,
     validateLocale,
     validateTextInput,
     validateArduinoFile,
-    validateNumberRange,
-    validateTemperature,
-    validateMaxTokens,
-    sanitizeInput
+    validateNumberRange
 };

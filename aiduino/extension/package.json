@@ -2,7 +2,7 @@
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "AI-powered assistance for Arduino with Claude, ChatGPT, and other AIs: improve code, explain errors, debug help",
-  "version": "1.11.1",
+  "version": "2.0.0",
   "publisher": "MonsterMaker",
   "engines": {
     "vscode": "^1.60.0"
@@ -101,6 +101,12 @@
         "icon": "$(comment-discussion)"
       },
       {
+        "command": "aiduino.openChatPanel",
+        "title": "Open AI Chat Panel",
+        "category": "AI.duino",
+        "icon": "$(comment-discussion)"
+      },
+      {
         "command": "aiduino.debugHelp",
         "title": "Debug Help",
         "category": "AI.duino",
@@ -148,6 +154,12 @@
         "command": "aiduino.askAI",
         "key": "ctrl+shift+a",
         "mac": "cmd+shift+a",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "aiduino.openChatPanel", 
+        "key": "ctrl+shift+d",
+        "mac": "cmd+shift+d",
         "when": "editorTextFocus"
       }
     ],

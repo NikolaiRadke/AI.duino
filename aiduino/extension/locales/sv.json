@@ -16,7 +16,8 @@
     "askAI": "Fråga AI",
     "askFollowUp": "Följdfråga",
     "editPrompts": "Redigera prompter",
-    "changePath": "Ändra sökväg"
+    "changePath": "Ändra sökväg",
+    "openChatPanel": "AI Chat"
   },
   "messages": {
     "welcome": "👋 Välkommen! AI.duino  stöder {0}!",
@@ -79,7 +80,11 @@
     "saveChanges": "Spara ändringar",
     "discard": "Förkasta",
     "closeWithoutSaving": "Stäng utan att spara",
-    "enterPath": "Ange sökväg"
+    "enterPath": "Ange sökväg",
+    "close": "Stäng",
+    "send": "Skicka",
+    "newInput": "Ny inmatning",
+    "delete": "Ta bort"
   },
   "descriptions": {
     "improveCodeSelected": "Optimera vald kod",
@@ -96,7 +101,8 @@
     "askAI": "Ställ en direkt fråga till AI",
     "askFollowUp": "Fortsätt föregående konversation: {0}",
     "noValidContext": "Ingen föregående konversation",
-    "editPrompts": "Anpassa och hantera AI-prompter"
+    "editPrompts": "Anpassa och hantera AI-prompter",
+    "openChatPanel": "AI-chatt med kodintegrering"
   },
   "language": {
     "autoDetect": "Upptäck automatiskt från VS Code",
@@ -224,7 +230,23 @@
     "previousQuestion": "Föregående fråga",
     "previousAnswer": "Föregående svar",
     "followUpQuestion": "Följdfråga",
-    "relatedCode": "Relaterad kod"
+    "relatedCode": "Relaterad kod",
+    "sendCode": "Skicka kod",
+    "insertCode": "Infoga",
+    "inputPlaceholder": "Arduino-fråga eller kodhjälp...",
+    "you": "Du",
+    "welcomeMessage": "Ställ frågor om Arduino-kod eller skicka vald kod för analys.",
+    "suggestedCode": "Föreslagen kod",
+    "sentCode": "Skickad kod",
+    "newChat": "Ny chatt",
+    "chats": "Chattar",
+    "maxChatsReached": "Maximalt antal chattar (10) uppnått",
+    "cannotDeleteLastChat": "Sista chatten kan inte tas bort",
+    "confirmDelete": "Ta bort chatt?",
+    "noChatsYet": "Inga chattar ännu",
+    "createFirstChat": "Skapa din första chatt!",
+    "chatsOverview": "Chattöversikt",
+    "messages": "Meddelanden"
   },
   "shortcuts": {
     "askFollowUp": "Följdfråga",
@@ -348,5 +370,27 @@
     "minutesAgo": "för {0}min sedan",
     "hoursAgo": "för {0}h sedan",
     "daysAgo": "för {0}d sedan"
+  },
+  "improveCode": {
+    "originalCode": "Original kod",
+    "customInstructions": "Anpassade instruktioner",
+    "aiAnalysis": "AI-analys och förbättringar",
+    "noCodeBlocksTitle": "Inga kodblock hittades",
+    "noCodeBlocksText": "AI-svaret innehåller förbättringsförslag men inga extraherbara kodblock.",
+    "noCodeBlocksSuggestion": "Analysen ovan innehåller förbättringsförslagen.",
+    "targetBoard": "Målkort",
+    "codeBadge": "AI-kodförbättring",
+    "improvedCodeTitle": "Förbättrad kod"
+  },
+  "explainError": {
+    "errorBadge": "AI-felanalys",
+    "correctedCodeTitle": "Korrigerad kod"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI-kodförslag"
+  },
+  "debugHelp": {
+    "debugBadge": "AI-debug-assistent",
+    "debugSolutionTitle": "Debug-lösning"
   }
 }

@@ -28,6 +28,7 @@ const explainCodeFeature = require('./features/explainCode');
 const improveCodeFeature = require('./features/improveCode');
 const addCommentsFeature = require('./features/addComments');
 const askAIFeature = require('./features/askAI');
+const chatPanelFeature = require('./features/chatPanel');
 const explainErrorFeature = require('./features/explainError');
 const debugHelpFeature = require('./features/debugHelp');
 const promptEditorFeature = require('./features/promptEditor'); 
@@ -178,18 +179,6 @@ class MinimalModelManager {
             .replace(/^models\//, '')
             .replace(/-/g, ' ')
             .replace(/\b\w/g, l => l.toUpperCase());
-    }
-
-    /**
-     * Debug helper: Show provider status
-     * @returns {Object} Current providers for debugging
-     */
-    showCurrentModels() {
-        Object.keys(this.providers).forEach(providerId => {
-            const hasKey = this.hasApiKey(providerId);
-            const provider = this.providers[providerId];
-        });
-        return this.providers;
     }
 }
 
@@ -601,6 +590,7 @@ function registerCommands(context) {
         explainErrorFeature,
         debugHelpFeature,
         askAIFeature,
+        chatPanelFeature,
         promptEditorFeature,
         setPromptEditorOpen: (isOpen) => { isPromptEditorOpen = isOpen; },
         uiTools,

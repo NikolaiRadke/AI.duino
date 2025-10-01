@@ -103,16 +103,6 @@ class ApiKeyManager {
     }
 
     /**
-     * Get provider name for current model
-     * @param {string} modelId - Model identifier
-     * @param {Object} providers - Provider configurations
-     * @returns {string} Provider display name
-     */
-    getProviderName(modelId, providers) {
-        return providers[modelId]?.name || 'Unknown';
-    }
-
-    /**
      * Cleanup any ongoing operations
      */
     dispose() {

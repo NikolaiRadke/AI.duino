@@ -18,10 +18,6 @@ const { getLanguageInfo } = require('../config/languageMetadata');
  * Cache removed for better reliability and simpler maintenance
  */
 class LocaleUtils {
-    constructor() {
-        // No cache needed - locale operations are infrequent
-    }
-
     /**
      * Get all available locales from the locales directory
      * @returns {Array<string>} Array of available locale codes

@@ -16,7 +16,8 @@
     "askAI": "AIに質問",
     "askFollowUp": "追加質問",
     "editPrompts": "プロンプトを編集",
-    "changePath": "パスを変更"
+    "changePath": "パスを変更",
+    "openChatPanel": "AIチャット"
   },
   "messages": {
     "welcome": "👋 ようこそ！AI.duino は{0}をサポートしています！",
@@ -76,7 +77,11 @@
     "saveChanges": "変更を保存",
     "discard": "破棄",
     "closeWithoutSaving": "保存せずに閉じる",
-    "enterPath": "パスを入力"
+    "enterPath": "パスを入力",
+    "close": "閉じる",
+    "send": "送信",
+    "newInput": "新しい入力",
+    "delete": "削除"
   },
   "descriptions": {
     "improveCodeSelected": "選択したコードを最適化",
@@ -93,7 +98,8 @@
     "askAI": "AIに直接質問する",
     "askFollowUp": "前の会話を続ける: {0}",
     "noValidContext": "前の会話がありません",
-    "editPrompts": "AIプロンプトのカスタマイズと管理"
+    "editPrompts": "AIプロンプトのカスタマイズと管理",
+    "openChatPanel": "コード統合機能付きAIチャット"
   },
   "language": {
     "autoDetect": "VS Codeから自動検出",
@@ -220,7 +226,23 @@
     "previousQuestion": "前の質問",
     "previousAnswer": "前の回答",
     "followUpQuestion": "追加質問",
-    "relatedCode": "関連コード"
+    "relatedCode": "関連コード",
+    "sendCode": "コードを送信",
+    "insertCode": "挿入",
+    "inputPlaceholder": "Arduino質問またはコードヘルプ...",
+    "you": "あなた",
+    "welcomeMessage": "Arduinoコードについて質問するか、選択したコードを送信して分析してください。",
+    "suggestedCode": "提案されたコード",
+    "sentCode": "送信されたコード",
+    "newChat": "新しいチャット",
+    "chats": "チャット",
+    "maxChatsReached": "チャット数の上限（10）に達しました",
+    "cannotDeleteLastChat": "最後のチャットは削除できません",
+    "confirmDelete": "チャットを削除しますか？",
+    "noChatsYet": "まだチャットがありません",
+    "createFirstChat": "最初のチャットを作成しましょう！",
+    "chatsOverview": "チャット概要",
+    "messages": "メッセージ"
   },
   "shortcuts": {
     "askFollowUp": "追加質問",
@@ -344,5 +366,27 @@
     "minutesAgo": "{0}分前",
     "hoursAgo": "{0}時間前",
     "daysAgo": "{0}日前"
+  },
+  "improveCode": {
+    "originalCode": "元のコード",
+    "customInstructions": "カスタム指示",
+    "aiAnalysis": "AI分析と改善",
+    "noCodeBlocksTitle": "コードブロックが見つかりません",
+    "noCodeBlocksText": "AI応答には改善の提案が含まれていますが、抽出可能なコードブロックはありません。",
+    "noCodeBlocksSuggestion": "上記の分析には改善の提案が含まれています。",
+    "targetBoard": "ターゲットボード",
+    "codeBadge": "AIコード改善",
+    "improvedCodeTitle": "改善されたコード"
+  },
+  "explainError": {
+    "errorBadge": "AIエラー分析",
+    "correctedCodeTitle": "修正されたコード"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AIコード提案"
+  },
+  "debugHelp": {
+    "debugBadge": "AIデバッグアシスタント",
+    "debugSolutionTitle": "デバッグソリューション"
   }
 }

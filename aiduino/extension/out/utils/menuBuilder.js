@@ -40,7 +40,8 @@ function buildMenuItems(context) {
         createMenuItem('$(edit)', 'addComments', hasSelection, t),
         createMenuItem('$(error)', 'explainError', false, t, 'descriptions.noErrors'),
         createMenuItem('$(bug)', 'debugHelp', false, t, 'descriptions.debugHelp'),
-        createMenuItem('$(comment-discussion)', 'askAI', false, t, 'descriptions.askAI')
+        createMenuItem('$(question)', 'askAI', false, t, 'descriptions.askAI'),
+        createMenuItem('$(comment-discussion)', 'openChatPanel', false, t, 'descriptions.openChatPanel'),
     ];
     
     // Separator 1
@@ -141,76 +142,6 @@ function createMenuItem(icon, command, hasSelection, t, overrideDesc = null) {
 }
 
 /**
- * Get conditional menu items (follow-up, settings, info)
- * @param {Object} context - Extension context
- * @param {boolean} hasSelection - Whether code is selected
- * @param {string} boardDisplay - Board display name
- * @param {Object} model - Current model info
- * @param {string} version - Extension version
- * @returns {Array} Conditional menu items
- */
-function getConditionalItems(context, hasSelection, boardDisplay, model, version) {
-    const { t, aiConversationContext, localeUtils, currentLocale, tokenUsage, minimalModelManager } = context;
-    const items = [];
-    
-    // Calculate total cost for token usage display
-    const totalCostToday = calculateTotalCost(tokenUsage, minimalModelManager.providers);
-    
-    // Follow-up option if context exists
-    if (shared.hasValidContext(aiConversationContext)) {
-        items.push({
-            label: `$(arrow-right) ${t('commands.askFollowUp')}`,
-            description: t('descriptions.askFollowUp', 
-                formatQuestionPreview(aiConversationContext.lastQuestion, aiConversationContext.timestamp)),
-            command: 'aiduino.askFollowUp'
-        });
-    }
-    
-    // Settings and info items
-    const settingsItems = [
-        {
-            label: `$(globe) ${t('commands.switchLanguage')}`,
-            description: t('descriptions.currentLanguage', 
-                localeUtils.getCurrentLanguageName(currentLocale, 
-                    vscode.workspace.getConfiguration('aiduino').get('language', 'auto'), t)),
-            command: 'aiduino.switchLanguage'
-        },
-        {
-            label: `$(sync) ${t('commands.switchModel')}`,
-            description: t('descriptions.currentModel', model.name),
-            command: 'aiduino.switchModel'
-        },
-        {
-            label: `$(key) ${t('commands.changeApiKey')}`,
-            description: `${model.name} Key`,
-            command: 'aiduino.setApiKey'
-        },
-        {
-            label: `$(edit) ${t('commands.editPrompts')}`,
-            description: t('descriptions.editPrompts'),
-            command: 'aiduino.editPrompts'
-        },
-        {
-            label: `$(circuit-board) Board`,
-            description: boardDisplay,
-            command: null
-        },
-        {
-            label: `$(graph) ${t('commands.tokenStats')}`,
-            description: t('descriptions.todayUsage', `$${totalCostToday.toFixed(3)}`),
-            command: 'aiduino.showTokenStats'
-        },
-        {
-            label: `$(info) ${t('commands.about')}`,
-            description: `Version ${version}`,
-            command: 'aiduino.about'
-        }
-    ];
-    
-    return [...items, ...settingsItems];
-}
-
-/**
  * Format question preview for menu display
  * @param {string} question - The question to format
  * @param {number} timestamp - Question timestamp
@@ -225,6 +156,5 @@ function formatQuestionPreview(question, timestamp) {
 
 module.exports = {
     buildMenuItems,
-    getConditionalItems,
-    formatQuestionPreview,
+    formatQuestionPreview
 };

@@ -16,7 +16,8 @@
     "askAI": "Küsi AI-lt",
     "askFollowUp": "Esita täiendav küsimus",
     "editPrompts": "Redigeeri päringuid",
-    "changePath": "Muuda teed"
+    "changePath": "Muuda teed",
+    "openChatPanel": "AI Vestlus"
   },
   "messages": {
     "welcome": "👋 Tere tulemast! AI.duino toetab {0}!",
@@ -80,7 +81,11 @@
     "saveChanges": "Salvesta muudatused",
     "discard": "Loobu",
     "closeWithoutSaving": "Sulge salvestamata",
-    "enterPath": "Sisestage tee"
+    "enterPath": "Sisestage tee",
+    "close": "Sulge",
+    "send": "Saada",
+    "newInput": "Uus sisend",
+    "delete": "Kustuta"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiseeri märgitud kood",
@@ -97,7 +102,8 @@
     "askAI": "Esita otsene küsimus AI-le",
     "askFollowUp": "Jätka eelmist vestlust: {0}",
     "noValidContext": "Pole eelmist vestlust",
-    "editPrompts": "Kohanda AI päringuid"
+    "editPrompts": "Kohanda AI päringuid",
+    "openChatPanel": "AI vestlus koodi integratsiooniga"
   },
   "language": {
     "autoDetect": "Tuvasta automaatselt VS Code-st",
@@ -225,7 +231,23 @@
     "previousQuestion": "Eelmine küsimus",
     "previousAnswer": "Eelmine vastus",
     "followUpQuestion": "Täiendav küsimus",
-    "relatedCode": "Seotud kood"
+    "relatedCode": "Seotud kood",
+    "sendCode": "Saada kood",
+    "insertCode": "Sisesta",
+    "inputPlaceholder": "Arduino küsimus või koodi abi...",
+    "you": "Sina",
+    "welcomeMessage": "Esitage küsimusi Arduino koodi kohta või saatke valitud kood analüüsimiseks.",
+    "suggestedCode": "Soovitatud kood",
+    "sentCode": "Saadetud kood",
+    "newChat": "Uus vestlus",
+    "chats": "Vestlused",
+    "maxChatsReached": "Maksimaalne vestluste arv (10) saavutatud",
+    "cannotDeleteLastChat": "Viimast vestlust ei saa kustutada",
+    "confirmDelete": "Kas kustutada vestlus?",
+    "noChatsYet": "Vestlusi pole veel",
+    "createFirstChat": "Loo oma esimene vestlus!",
+    "chatsOverview": "Vestluste ülevaade",
+    "messages": "Sõnumid"
   },
   "shortcuts": {
     "askFollowUp": "Täiendav küsimus",
@@ -349,5 +371,27 @@
     "minutesAgo": "{0}min tagasi",
     "hoursAgo": "{0}h tagasi",
     "daysAgo": "{0}p tagasi"
+  },
+  "improveCode": {
+    "originalCode": "Algne kood",
+    "customInstructions": "Kohandatud juhised",
+    "aiAnalysis": "AI analüüs ja täiustused",
+    "noCodeBlocksTitle": "Koodi plokke ei leitud",
+    "noCodeBlocksText": "AI vastus sisaldab täiustusettepanekuid, kuid mitte eraldatavaid koodi plokke.",
+    "noCodeBlocksSuggestion": "Ülaltoodud analüüs sisaldab täiustusettepanekuid.",
+    "targetBoard": "Sihtplaat",
+    "codeBadge": "AI koodi täiustus",
+    "improvedCodeTitle": "Täiustatud kood"
+  },
+  "explainError": {
+    "errorBadge": "AI vea analüüs",
+    "correctedCodeTitle": "Parandatud kood"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI koodi soovitus"
+  },
+  "debugHelp": {
+    "debugBadge": "AI silumise abiline",
+    "debugSolutionTitle": "Silumise lahendus"
   }
 }

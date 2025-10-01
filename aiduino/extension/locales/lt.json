@@ -16,7 +16,8 @@
     "askAI": "Klausti AI",
     "askFollowUp": "Užduoti papildomą klausimą",
     "editPrompts": "Redaguoti užklausas",
-    "changePath": "Keisti kelią"
+    "changePath": "Keisti kelią",
+    "openChatPanel": "AI Pokalbis"
   },
   "messages": {
     "welcome": "👋 Sveiki! AI.duino palaiko {0}!",
@@ -80,7 +81,11 @@
     "saveChanges": "Išsaugoti pakeitimus",
     "discard": "Atšaukti",
     "closeWithoutSaving": "Uždaryti neišsaugant",
-    "enterPath": "Įveskite kelią"
+    "enterPath": "Įveskite kelią",
+    "close": "Uždaryti",
+    "send": "Siųsti",
+    "newInput": "Naujas įvedimas",
+    "delete": "Ištrinti"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizuoti pažymėtą kodą",
@@ -97,7 +102,8 @@
     "askAI": "Užduoti tiesioginį klausimą AI",
     "askFollowUp": "Tęsti ankstesnį pokalbį: {0}",
     "noValidContext": "Nėra ankstesnio pokalbio",
-    "editPrompts": "Pritaikyti AI užklausas"
+    "editPrompts": "Pritaikyti AI užklausas",
+    "openChatPanel": "AI pokalbis su kodo integracija"
   },
   "language": {
     "autoDetect": "Automatiškai nustatyti iš VS Code",
@@ -225,7 +231,23 @@
     "previousQuestion": "Ankstesnis klausimas",
     "previousAnswer": "Ankstesnis atsakymas",
     "followUpQuestion": "Papildomas klausimas",
-    "relatedCode": "Susijęs kodas"
+    "relatedCode": "Susijęs kodas",
+    "sendCode": "Siųsti kodą",
+    "insertCode": "Įterpti",
+    "inputPlaceholder": "Arduino klausimas arba pagalba su kodu...",
+    "you": "Tu",
+    "welcomeMessage": "Užduokite klausimus apie Arduino kodą arba siųskite pasirinktą kodą analizei.",
+    "suggestedCode": "Siūlomas kodas",
+    "sentCode": "Išsiųstas kodas",
+    "newChat": "Naujas pokalbis",
+    "chats": "Pokalbiai",
+    "maxChatsReached": "Pasiektas maksimalus pokalbių skaičius (10)",
+    "cannotDeleteLastChat": "Paskutinio pokalbio ištrinti negalima",
+    "confirmDelete": "Ištrinti pokalbį?",
+    "noChatsYet": "Dar nėra pokalbių",
+    "createFirstChat": "Sukurkite savo pirmą pokalbį!",
+    "chatsOverview": "Pokalbių apžvalga",
+    "messages": "Pranešimai"
   },
   "shortcuts": {
     "askFollowUp": "Papildomas klausimas",
@@ -349,5 +371,27 @@
     "minutesAgo": "prieš {0}min",
     "hoursAgo": "prieš {0}val",
     "daysAgo": "prieš {0}d"
+  },
+  "improveCode": {
+    "originalCode": "Originalus kodas",
+    "customInstructions": "Pritaikytos instrukcijos",
+    "aiAnalysis": "AI analizė ir patobulinimai",
+    "noCodeBlocksTitle": "Kodo blokų nerasta",
+    "noCodeBlocksText": "AI atsakyme yra patobulinimo pasiūlymų, bet nėra išskiriamų kodo blokų.",
+    "noCodeBlocksSuggestion": "Aukščiau pateiktoje analizėje yra patobulinimo pasiūlymai.",
+    "targetBoard": "Tikslinė plokštė",
+    "codeBadge": "AI kodo patobulinimas",
+    "improvedCodeTitle": "Patobulinta kodas"
+  },
+  "explainError": {
+    "errorBadge": "AI klaidos analizė",
+    "correctedCodeTitle": "Pataisytas kodas"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI kodo pasiūlymas"
+  },
+  "debugHelp": {
+    "debugBadge": "AI derinimo asistentas",
+    "debugSolutionTitle": "Derinimo sprendimas"
   }
 }

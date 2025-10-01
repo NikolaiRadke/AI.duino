@@ -16,7 +16,8 @@
     "askAI": "Ask AI",
     "askFollowUp": "Ask Follow-up",
     "editPrompts": "Edit Prompts",
-    "changePath": "Change Path"
+    "changePath": "Change Path",
+    "openChatPanel": "AI Chat"
   },
   "messages": {
     "welcome": "👋 Welcome! AI.duino  supports {0}!",
@@ -80,7 +81,11 @@
     "saveChanges": "Save Changes",
     "discard": "Discard",
     "closeWithoutSaving": "Close without Saving",
-    "enterPath": "Enter Path"
+    "enterPath": "Enter Path",
+    "close": "Close",
+    "send": "Send",
+    "newInput": "New input",
+    "delete": "Delete"
   },
   "descriptions": {
     "improveCodeSelected": "Optimize selected code",
@@ -97,7 +102,8 @@
     "askAI": "Ask AI a direct question",
     "askFollowUp": "Continue previous conversation: {0}",
     "noValidContext": "No previous conversation",
-    "editPrompts": "Customize and manage AI prompts"
+    "editPrompts": "Customize and manage AI prompts",
+    "openChatPanel": "AI chat with code integration"
   },
   "language": {
     "autoDetect": "Auto-detect from VS Code",
@@ -225,7 +231,23 @@
     "previousQuestion": "Previous question",
     "previousAnswer": "Previous answer",
     "followUpQuestion": "Follow-up question",
-    "relatedCode": "Related code"
+    "relatedCode": "Related code",
+    "sendCode": "Send Code",
+    "insertCode": "Insert",
+    "inputPlaceholder": "Arduino question or code help...",
+    "you": "You",
+    "welcomeMessage": "Ask questions about Arduino code or send selected code for analysis.",
+    "suggestedCode": "Suggested Code",
+    "sentCode": "Sent Code",
+    "newChat": "New Chat",
+    "chats": "Chats",
+    "maxChatsReached": "Maximum number of chats (10) reached",
+    "cannotDeleteLastChat": "Last chat cannot be deleted",
+    "confirmDelete": "Really delete chat?",
+    "noChatsYet": "No chats yet",
+    "createFirstChat": "Create your first chat!",
+    "chatsOverview": "Chat Overview",
+    "messages": "Messages"
   },
   "shortcuts": {
     "askFollowUp": "Follow-up question",
@@ -349,5 +371,27 @@
     "minutesAgo": "{0}min ago",
     "hoursAgo": "{0}h ago",
     "daysAgo": "{0}d ago"
+  },
+  "improveCode": {
+    "originalCode": "Original Code",
+    "customInstructions": "Custom Instructions",
+    "aiAnalysis": "AI Analysis & Improvements",
+    "noCodeBlocksTitle": "No Code Blocks Found",
+    "noCodeBlocksText": "The AI response contains improvement suggestions but no extractable code blocks.",
+    "noCodeBlocksSuggestion": "The analysis above contains the improvement suggestions.",
+    "targetBoard": "Target Board",
+    "codeBadge": "AI Code Improvement",
+    "improvedCodeTitle": "Improved Code"
+  },
+  "explainError": {
+    "errorBadge": "AI Error Analysis",
+    "correctedCodeTitle": "Corrected Code"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI Code Suggestion"
+  },
+  "debugHelp": {
+    "debugBadge": "AI Debug Assistant",
+    "debugSolutionTitle": "Debug Solution"
   }
 }

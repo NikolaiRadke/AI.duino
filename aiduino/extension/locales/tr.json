@@ -16,7 +16,8 @@
     "askAI": "AI'ya Sor",
     "askFollowUp": "Takip sorusu",
     "editPrompts": "İstemleri düzenle",
-    "changePath": "Yolu değiştir"
+    "changePath": "Yolu değiştir",
+    "openChatPanel": "AI Sohbet"
   },
   "messages": {
     "welcome": "👋 Hoş geldiniz! AI.duino  {0} destekliyor!",
@@ -79,7 +80,11 @@
     "saveChanges": "Değişiklikleri kaydet",
     "discard": "İptal et",
     "closeWithoutSaving": "Kaydetmeden kapat",
-    "enterPath": "Yolu girin"
+    "enterPath": "Yolu girin",
+    "close": "Kapat",
+    "send": "Gönder",
+    "newInput": "Yeni giriş",
+    "delete": "Sil"
   },
   "descriptions": {
     "improveCodeSelected": "Seçili kodu optimize et",
@@ -96,7 +101,8 @@
     "askAI": "AI'ya doğrudan soru sor",
     "askFollowUp": "Önceki konuşmayı devam ettir: {0}",
     "noValidContext": "Önceki konuşma yok",
-    "editPrompts": "AI istemlerini özelleştir ve yönet"
+    "editPrompts": "AI istemlerini özelleştir ve yönet",
+    "openChatPanel": "Kod entegrasyonlu AI sohbet"
   },
   "language": {
     "autoDetect": "VS Code'dan otomatik algıla",
@@ -224,7 +230,23 @@
     "previousQuestion": "Önceki soru",
     "previousAnswer": "Önceki yanıt",
     "followUpQuestion": "Takip sorusu",
-    "relatedCode": "İlgili kod"
+    "relatedCode": "İlgili kod",
+    "sendCode": "Kod gönder",
+    "insertCode": "Ekle",
+    "inputPlaceholder": "Arduino sorusu veya kod yardımı...",
+    "you": "Sen",
+    "welcomeMessage": "Arduino kodu hakkında sorular sorun veya analiz için seçili kodu gönderin.",
+    "suggestedCode": "Önerilen kod",
+    "sentCode": "Gönderilen kod",
+    "newChat": "Yeni sohbet",
+    "chats": "Sohbetler",
+    "maxChatsReached": "Maksimum sohbet sayısına (10) ulaşıldı",
+    "cannotDeleteLastChat": "Son sohbet silinemiyor",
+    "confirmDelete": "Sohbet silinsin mi?",
+    "noChatsYet": "Henüz sohbet yok",
+    "createFirstChat": "İlk sohbetini oluştur!",
+    "chatsOverview": "Sohbet Özeti",
+    "messages": "Mesajlar"
   },
   "shortcuts": {
     "askFollowUp": "Takip sorusu",
@@ -348,5 +370,27 @@
     "minutesAgo": "{0}dk önce",
     "hoursAgo": "{0}sa önce",
     "daysAgo": "{0}g önce"
+  },
+  "improveCode": {
+    "originalCode": "Orijinal kod",
+    "customInstructions": "Özel talimatlar",
+    "aiAnalysis": "AI analizi ve iyileştirmeler",
+    "noCodeBlocksTitle": "Kod blokları bulunamadı",
+    "noCodeBlocksText": "AI yanıtı iyileştirme önerileri içeriyor ancak çıkarılabilir kod blokları yok.",
+    "noCodeBlocksSuggestion": "Yukarıdaki analiz iyileştirme önerilerini içerir.",
+    "targetBoard": "Hedef kart",
+    "codeBadge": "AI kod iyileştirmesi",
+    "improvedCodeTitle": "İyileştirilmiş kod"
+  },
+  "explainError": {
+    "errorBadge": "AI hata analizi",
+    "correctedCodeTitle": "Düzeltilmiş kod"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI kod önerisi"
+  },
+  "debugHelp": {
+    "debugBadge": "AI hata ayıklama asistanı",
+    "debugSolutionTitle": "Hata ayıklama çözümü"
   }
 }

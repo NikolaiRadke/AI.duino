@@ -16,7 +16,8 @@
     "askAI": "Питај АИ",
     "askFollowUp": "Постави додатно питање",
     "editPrompts": "Уреди упите",
-    "changePath": "Промените путању"
+    "changePath": "Промените путању",
+    "openChatPanel": "AI Chat"
   },
   "messages": {
     "welcome": "👋 Добродошли! АИ.дуино подржава {0}!",
@@ -80,7 +81,11 @@
     "saveChanges": "Сачувај измене",
     "discard": "Одбаци",
     "closeWithoutSaving": "Затвори без чувања",
-    "enterPath": "Унесите путању"
+    "enterPath": "Унесите путању",
+    "close": "Zatvori",
+    "send": "Pošalji",
+    "newInput": "Нови унос",
+    "delete": "Обриши"
   },
   "descriptions": {
     "improveCodeSelected": "Оптимизуј означени код",
@@ -97,7 +102,8 @@
     "askAI": "Поставите директно питање АИ-у",
     "askFollowUp": "Настави претходну конверзацију: {0}",
     "noValidContext": "Нема претходне конверзације",
-    "editPrompts": "Прилагоди АИ упите"
+    "editPrompts": "Прилагоди АИ упите",
+    "openChatPanel": "AI chat sa integracijom koda"
   },
   "language": {
     "autoDetect": "Аутоматски препознај из VS Code",
@@ -225,7 +231,23 @@
     "previousQuestion": "Претходно питање",
     "previousAnswer": "Претходни одговор",
     "followUpQuestion": "Додатно питање",
-    "relatedCode": "Повезани код"
+    "relatedCode": "Повезани код",
+    "sendCode": "Pošalji kod",
+    "insertCode": "Umetni",
+    "inputPlaceholder": "Arduino pitanje ili pomoć sa kodom...",
+    "you": "Ti",
+    "welcomeMessage": "Postavite pitanja o Arduino kodu ili pošaljite izabrani kod za analizu.",
+    "suggestedCode": "Predloženi kod",
+    "sentCode": "Poslati kod",
+    "newChat": "Нови чат",
+    "chats": "Чатови",
+    "maxChatsReached": "Достигнут максималан број чатова (10)",
+    "cannotDeleteLastChat": "Последњи чат не може бити обрисан",
+    "confirmDelete": "Заиста обрисати чат?",
+    "noChatsYet": "Још нема чатова",
+    "createFirstChat": "Креирајте свој први чат!",
+    "chatsOverview": "Преглед чатова",
+    "messages": "Поруке"
   },
   "shortcuts": {
     "askFollowUp": "Додатно питање",
@@ -349,5 +371,27 @@
     "minutesAgo": "пре {0}мин",
     "hoursAgo": "пре {0}ч",
     "daysAgo": "пре {0}д"
+  },
+  "improveCode": {
+    "originalCode": "Originalni kod",
+    "customInstructions": "Prilagođena uputstva",
+    "aiAnalysis": "AI analiza i poboljšanja",
+    "noCodeBlocksTitle": "Nisu pronađeni blokovi koda",
+    "noCodeBlocksText": "AI odgovor sadrži predloge za poboljšanje, ali nema izdvojivih blokova koda.",
+    "noCodeBlocksSuggestion": "Gornja analiza sadrži predloge za poboljšanje.",
+    "targetBoard": "Ciljna ploča",
+    "codeBadge": "AI poboljšanje koda",
+    "improvedCodeTitle": "Poboljšani kod"
+  },
+  "explainError": {
+    "errorBadge": "AI analiza greške",
+    "correctedCodeTitle": "Ispravljeni kod"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI predlog koda"
+  },
+  "debugHelp": {
+    "debugBadge": "AI asistent za otklanjanje grešaka",
+    "debugSolutionTitle": "Rešenje za otklanjanje grešaka"
   }
 }

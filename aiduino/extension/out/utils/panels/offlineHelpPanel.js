@@ -38,15 +38,6 @@ function generateOfflineHelpHTML(firewallList, t) {
 <html>
 <head>
     ${getSharedCSS()}
-    <style>
-        .warning {
-            background: #fff3cd;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #ffc107;
-        }
-    </style>
 </head>
 <body>
     <h1>🔡 ${t('offline.title')}</h1>

@@ -16,7 +16,8 @@
     "askAI": "Ρώτησε το AI",
     "askFollowUp": "Συνέχεια ερώτησης",
     "editPrompts": "Editar indicaciones",
-    "changePath": "Αλλαγή διαδρομής"
+    "changePath": "Αλλαγή διαδρομής",
+    "openChatPanel": "AI Chat"
   },
   "messages": {
     "welcome": "👋 Καλώς ήρθατε! Το AI.duino  υποστηρίζει {0}!",
@@ -79,7 +80,11 @@
     "saveChanges": "Αποθήκευση αλλαγών",
     "discard": "Απόρριψη",
     "closeWithoutSaving": "Κλείσιμο χωρίς αποθήκευση",
-    "enterPath": "Εισάγετε διαδρομή"
+    "enterPath": "Εισάγετε διαδρομή",
+    "close": "Κλείσιμο",
+    "send": "Αποστολή",
+    "newInput": "Νέα εισαγωγή",
+    "delete": "Διαγραφή"
   },
   "descriptions": {
     "improveCodeSelected": "Βελτιστοποίηση επιλεγμένου κώδικα",
@@ -96,7 +101,8 @@
     "askAI": "Κάνε άμεση ερώτηση στο AI",
     "askFollowUp": "Συνέχεια προηγούμενης συνομιλίας: {0}",
     "noValidContext": "Καμία προηγούμενη συνομιλία",
-    "editPrompts": "Personalizar y gestionar indicaciones de IA"
+    "editPrompts": "Personalizar y gestionar indicaciones de IA",
+    "openChatPanel": "AI chat με ενσωμάτωση κώδικα"
   },
   "language": {
     "autoDetect": "Αυτόματη ανίχνευση από VS Code",
@@ -224,7 +230,23 @@
     "previousQuestion": "Προηγούμενη ερώτηση",
     "previousAnswer": "Προηγούμενη απάντηση",
     "followUpQuestion": "Συνέχεια ερώτησης",
-    "relatedCode": "Σχετικός κώδικας"
+    "relatedCode": "Σχετικός κώδικας",
+    "sendCode": "Αποστολή κώδικα",
+    "insertCode": "Εισαγωγή",
+    "inputPlaceholder": "Ερώτηση Arduino ή βοήθεια με κώδικα...",
+    "you": "Εσύ",
+    "welcomeMessage": "Κάντε ερωτήσεις σχετικά με κώδικα Arduino ή στείλτε επιλεγμένο κώδικα για ανάλυση.",
+    "suggestedCode": "Προτεινόμενος κώδικας",
+    "sentCode": "Απεσταλμένος κώδικας",
+    "newChat": "Νέα συνομιλία",
+    "chats": "Συνομιλίες",
+    "maxChatsReached": "Μέγιστος αριθμός συνομιλιών (10)",
+    "cannotDeleteLastChat": "Η τελευταία συνομιλία δεν μπορεί να διαγραφεί",
+    "confirmDelete": "Να διαγραφεί η συνομιλία;",
+    "noChatsYet": "Δεν υπάρχουν συνομιλίες ακόμα",
+    "createFirstChat": "Δημιούργησε την πρώτη σου συνομιλία!",
+    "chatsOverview": "Επισκόπηση συνομιλιών",
+    "messages": "Μηνύματα"
   },
   "shortcuts": {
     "askFollowUp": "Συνέχεια ερώτησης",
@@ -348,5 +370,27 @@
     "minutesAgo": "πριν {0}λεπτά",
     "hoursAgo": "πριν {0}ω",
     "daysAgo": "πριν {0}μ"
+  },
+  "improveCode": {
+    "originalCode": "Αρχικός κώδικας",
+    "customInstructions": "Προσαρμοσμένες οδηγίες",
+    "aiAnalysis": "AI ανάλυση και βελτιώσεις",
+    "noCodeBlocksTitle": "Δεν βρέθηκαν μπλοκ κώδικα",
+    "noCodeBlocksText": "Η απάντηση AI περιέχει προτάσεις για βελτίωση αλλά όχι εξαγώγιμα μπλοκ κώδικα.",
+    "noCodeBlocksSuggestion": "Η παραπάνω ανάλυση περιέχει τις προτάσεις βελτίωσης.",
+    "targetBoard": "Πλακέτα στόχου",
+    "codeBadge": "AI βελτίωση κώδικα",
+    "improvedCodeTitle": "Βελτιωμένος κώδικας"
+  },
+  "explainError": {
+    "errorBadge": "AI ανάλυση σφάλματος",
+    "correctedCodeTitle": "Διορθωμένος κώδικας"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI πρόταση κώδικα"
+  },
+  "debugHelp": {
+    "debugBadge": "AI βοηθός αποσφαλμάτωσης",
+    "debugSolutionTitle": "Λύση αποσφαλμάτωσης"
   }
 }

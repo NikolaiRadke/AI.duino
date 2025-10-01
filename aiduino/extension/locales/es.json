@@ -16,7 +16,8 @@
     "askAI": "Preguntar a la IA",
     "askFollowUp": "Pregunta de seguimiento",
     "editPrompts": "Editar indicaciones",
-    "changePath": "Cambiar ruta"
+    "changePath": "Cambiar ruta",
+    "openChatPanel": "Chat IA"
   },
   "messages": {
     "welcome": "👋 ¡Bienvenido! AI.duino  soporta {0}!",
@@ -79,7 +80,11 @@
     "saveChanges": "Guardar cambios",
     "discard": "Descartar",
     "closeWithoutSaving": "Cerrar sin guardar",
-    "enterPath": "Introducir ruta"
+    "enterPath": "Introducir ruta",
+    "close": "Cerrar",
+    "send": "Enviar",
+    "newInput": "Nueva entrada",
+    "delete": "Eliminar"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizar código seleccionado",
@@ -96,7 +101,8 @@
     "askAI": "Hacer una pregunta directa a la IA",
     "askFollowUp": "Continuar conversación anterior: {0}",
     "noValidContext": "Sin conversación anterior",
-    "editPrompts": "Personalizar y gestionar indicaciones de IA"
+    "editPrompts": "Personalizar y gestionar indicaciones de IA",
+    "openChatPanel": "Chat IA con integración de código"
   },
   "language": {
     "autoDetect": "Detectar automáticamente desde VS Code",
@@ -224,7 +230,23 @@
     "previousQuestion": "Pregunta anterior",
     "previousAnswer": "Respuesta anterior",
     "followUpQuestion": "Pregunta de seguimiento",
-    "relatedCode": "Código relacionado"
+    "relatedCode": "Código relacionado",
+    "sendCode": "Enviar código",
+    "insertCode": "Insertar",
+    "inputPlaceholder": "Pregunta de Arduino o ayuda con código...",
+    "you": "Tú",
+    "welcomeMessage": "Haz preguntas sobre código Arduino o envía código seleccionado para análisis.",
+    "suggestedCode": "Código sugerido",
+    "sentCode": "Código enviado",
+    "newChat": "Nuevo chat",
+    "chats": "Chats",
+    "maxChatsReached": "Número máximo de chats (10) alcanzado",
+    "cannotDeleteLastChat": "El último chat no se puede eliminar",
+    "confirmDelete": "¿Eliminar chat?",
+    "noChatsYet": "Aún no hay chats",
+    "createFirstChat": "¡Crea tu primer chat!",
+    "chatsOverview": "Resumen de chats",
+    "messages": "Mensajes"
   },
   "shortcuts": {
     "askFollowUp": "Pregunta de seguimiento",
@@ -348,5 +370,27 @@
     "minutesAgo": "hace {0}min",
     "hoursAgo": "hace {0}h",
     "daysAgo": "hace {0}d"
+  },
+  "improveCode": {
+    "originalCode": "Código original",
+    "customInstructions": "Instrucciones personalizadas",
+    "aiAnalysis": "Análisis IA y mejoras",
+    "noCodeBlocksTitle": "No se encontraron bloques de código",
+    "noCodeBlocksText": "La respuesta de la IA contiene sugerencias de mejora pero no bloques de código extraíbles.",
+    "noCodeBlocksSuggestion": "El análisis anterior contiene las sugerencias de mejora.",
+    "targetBoard": "Placa objetivo",
+    "codeBadge": "Mejora de código IA",
+    "improvedCodeTitle": "Código mejorado"
+  },
+  "explainError": {
+    "errorBadge": "Análisis de error IA",
+    "correctedCodeTitle": "Código corregido"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "Sugerencia de código IA"
+  },
+  "debugHelp": {
+    "debugBadge": "Asistente de depuración IA",
+    "debugSolutionTitle": "Solución de depuración"
   }
 }

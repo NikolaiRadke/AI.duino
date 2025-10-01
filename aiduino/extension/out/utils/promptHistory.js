@@ -149,17 +149,28 @@ class PromptHistoryManager {
      * @returns {Array} Recent prompts
      */
     getRecentPrompts(category, limit = this.maxSearchResults, t = null, currentLocale = 'en') {
-        const categoryHistory = this.history.categories[category] || [];
-        return categoryHistory
-            .slice(0, limit)
-            .map(entry => ({
-                label: this.formatPromptLabel(entry.prompt),
-                description: t ? this.formatPromptDescription(entry, t, currentLocale) : '',
-                value: entry.prompt,
-                timestamp: entry.timestamp,
-                count: entry.count
-            }));
-    }
+    const categoryHistory = this.history.categories[category] || [];
+    const items = categoryHistory
+        .slice(0, limit)
+        .map(entry => ({
+            label: this.formatPromptLabel(entry.prompt),
+            description: t ? this.formatPromptDescription(entry, t, currentLocale) : '',
+            value: entry.prompt,
+            timestamp: entry.timestamp,
+            count: entry.count
+        }));
+    
+    // Add placeholder at beginning
+    items.unshift({
+        label: '💭 ' + (t ? t('buttons.newInput') : 'New input'),
+        description: '',
+        value: '__PLACEHOLDER__',
+        timestamp: Date.now(),
+        count: 0
+    });
+    
+    return items;
+}
 
     /**
      * Search prompts by text

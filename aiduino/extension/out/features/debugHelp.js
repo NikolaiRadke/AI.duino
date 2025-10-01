@@ -8,13 +8,14 @@
 const vscode = require('vscode');
 const shared = require('../shared');
 const featureUtils = require('./featureUtils');
+const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 
 /**
  * Main debugHelp function with dependency injection
  * @param {Object} context - Extension context with dependencies
  */
 async function debugHelp(context) {
-    return featureUtils.executeFeature(
+    const panel = await featureUtils.executeFeature(
         context.executionStates.OPERATIONS.DEBUG,
         async () => {
             const editor = vscode.window.activeTextEditor;
@@ -41,22 +42,40 @@ async function debugHelp(context) {
                 context
             );
             
-            // Create HTML panel for debug help
-            const panel = featureUtils.createHtmlPanel(
-                context.t('panels.debugHelp'),
+            // Process response with event-delegation code blocks
+            const { processedHtml, codeBlocks } = featureUtils.processAiCodeBlocksWithEventDelegation(
                 response,
-                context.currentModel,
-                context.t,
-                context.t('buttons.copy'),
-                'Debug Assistant',
-                '#4CAF50'
+                `🔧 ${context.t('debugHelp.debugSolutionTitle')}`,
+                ['copy', 'insert'],
+                context.t
             );
             
-            // Add the selected option title to the panel
-            enhanceDebugPanelWithTitle(panel, selectedOption.label);
+            // Create WebviewPanel for debug help
+            const panel = vscode.window.createWebviewPanel(
+                'aiDebugHelp',
+                context.t('panels.debugHelp'),
+                vscode.ViewColumn.Beside,
+                { enableScripts: true }
+            );
+            
+            panel.webview.html = createDebugHelpHtml(
+                selectedOption.label,
+                processedHtml,
+                codeBlocks,
+                context.currentModel,
+                context.minimalModelManager,
+                context.t
+            );
+            
+            return panel;
         },
         context
     );
+    
+    // Message Handler
+    if (panel) {
+        featureUtils.setupStandardMessageHandler(panel, context);
+    }
 }
 
 /**
@@ -153,22 +172,69 @@ function getSelectedOrFullCode(editor) {
 }
 
 /**
- * Enhance debug panel with option title
- * @param {vscode.WebviewPanel} panel - The webview panel
- * @param {string} title - Selected option title
+ * Create HTML content for debug help panel with Prism code blocks
+ * @param {string} debugType - Type of debug help requested
+ * @param {string} processedResponse - Already processed HTML with code blocks
+ * @param {Array} codeBlocks - Array of code strings for event delegation
+ * @param {string} modelId - Current AI model ID
+ * @param {Object} minimalModelManager - Model manager instance
+ * @param {Function} t - Translation function
+ * @returns {string} HTML content
  */
-function enhanceDebugPanelWithTitle(panel, title) {
-    // Clean the title by removing VS Code icons
-    const cleanTitle = title.replace(/\$\([^)]+\)\s*/, '');
+function createDebugHelpHtml(debugType, processedResponse, codeBlocks, modelId, minimalModelManager, t) {
+    const model = minimalModelManager.providers[modelId];
+    const modelBadge = `<span style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${t('debugHelp.debugBadge')}</span>`;
     
-    // Get current HTML and update the title
-    const originalHtml = panel.webview.html;
-    const enhancedHtml = originalHtml.replace(
-        /<h1>([^<]+)<\/h1>/,
-        `<h1>${shared.escapeHtml(cleanTitle)}</h1>`
-    );
+    // Clean debug type label (remove VS Code icons)
+    const cleanDebugType = debugType.replace(/\$\([^)]+\)\s*/, '');
     
-    panel.webview.html = enhancedHtml;
+    return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>${t('panels.debugHelp')} - AI.duino</title>
+            ${getSharedCSS()}
+        </head>
+        <body>
+            ${featureUtils.generateActionToolbar(['copy', 'insert', 'close'], t)}
+            
+            <div class="header">
+                <h1>🔍 ${shared.escapeHtml(cleanDebugType)}</h1>
+                ${modelBadge}
+            </div>
+            
+            <div class="info-section">
+                <h3>🤖 AI Debug Analysis:</h3>
+                ${processedResponse}
+            </div>
+            
+            <script>
+                // Code blocks data for button handlers
+                const codeBlocksData = ${JSON.stringify(codeBlocks)};
+                
+                // Code block button handler
+                document.addEventListener('click', (e) => {
+                    const button = e.target.closest('[data-action]');
+                    if (!button) return;
+                    
+                    const action = button.dataset.action;
+                    const index = parseInt(button.dataset.index);
+                    const code = codeBlocksData[index];
+                    
+                    if (action === 'copy') {
+                        vscode.postMessage({ command: 'copyCode', code: code });
+                    } else if (action === 'insert') {
+                        vscode.postMessage({ command: 'insertCode', code: code });
+                    }
+                });
+            </script>
+            
+            ${featureUtils.generateToolbarScript(['copyCode', 'insertCode'], ['copy', 'insert', 'close'])}
+            ${getPrismScripts()}
+        </body>
+        </html>
+    `;
 }
 
 module.exports = {

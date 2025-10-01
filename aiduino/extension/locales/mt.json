@@ -16,7 +16,8 @@
     "askAI": "Staqsi l-AI",
     "askFollowUp": "Staqsi mistoqsija follow-up",
     "editPrompts": "Editja l-prompts",
-    "changePath": "Ibdel il-mogħdija"
+    "changePath": "Ibdel il-mogħdija",
+    "openChatPanel": "Chat AI"
   },
   "messages": {
     "welcome": "👋 Merħba! AI.duino jappoġġa {0}!",
@@ -80,7 +81,11 @@
     "saveChanges": "Ħallas il-bidliet",
     "discard": "Armi",
     "closeWithoutSaving": "Agħlaq mingħajr ma ssalva",
-    "enterPath": "Daħħal il-mogħdija"
+    "enterPath": "Daħħal il-mogħdija",
+    "close": "Agħlaq",
+    "send": "Ibgħat",
+    "newInput": "Input ġdid",
+    "delete": "Ħassar"
   },
   "descriptions": {
     "improveCodeSelected": "Ħassan il-kodiċi magħżul",
@@ -97,7 +102,8 @@
     "askAI": "Staqsi l-AI direttament",
     "askFollowUp": "Kompli konversazzjoni ta' qabel: {0}",
     "noValidContext": "L-ebda konversazzjoni ta' qabel",
-    "editPrompts": "Aġġusta l-prompts tal-AI"
+    "editPrompts": "Aġġusta l-prompts tal-AI",
+    "openChatPanel": "Chat AI b'integrazzjoni tal-kodiċi"
   },
   "language": {
     "autoDetect": "Awtomatikament minn VS Code",
@@ -225,7 +231,23 @@
     "previousQuestion": "Mistoqsija ta' qabel",
     "previousAnswer": "Risposta ta' qabel",
     "followUpQuestion": "Mistoqsija follow-up",
-    "relatedCode": "Kodiċi relatat"
+    "relatedCode": "Kodiċi relatat",
+    "sendCode": "Ibgħat il-kodiċi",
+    "insertCode": "Daħħal",
+    "inputPlaceholder": "Mistoqsija Arduino jew għajnuna bil-kodiċi...",
+    "you": "Inti",
+    "welcomeMessage": "Staqsi mistoqsijiet dwar il-kodiċi Arduino jew ibgħat kodiċi magħżul għall-analiżi.",
+    "suggestedCode": "Kodiċi ssuġġerit",
+    "sentCode": "Kodiċi mibgħut",
+    "newChat": "Chat ġdid",
+    "chats": "Chats",
+    "maxChatsReached": "Numru massimu ta' chats (10) milħuq",
+    "cannotDeleteLastChat": "L-aħħar chat ma jistax jitħassar",
+    "confirmDelete": "Tħassar il-chat?",
+    "noChatsYet": "Għad m'hemm ebda chat",
+    "createFirstChat": "Oħloq l-ewwel chat tiegħek!",
+    "chatsOverview": "Ħarsa ġenerali tal-chats",
+    "messages": "Messaġġi"
   },
   "shortcuts": {
     "askFollowUp": "Mistoqsija follow-up",
@@ -349,5 +371,27 @@
     "minutesAgo": "qabel {0}min",
     "hoursAgo": "qabel {0}h",
     "daysAgo": "qabel {0} ġranet"
+  },
+  "improveCode": {
+    "originalCode": "Kodiċi oriġinali",
+    "customInstructions": "Istruzzjonijiet personalizzati",
+    "aiAnalysis": "Analiżi AI u titjib",
+    "noCodeBlocksTitle": "L-ebda blokk ta' kodiċi ma nstab",
+    "noCodeBlocksText": "It-tweġiba tal-AI fiha suġġerimenti għal titjib iżda l-ebda blokk ta' kodiċi li jista' jiġi estratt.",
+    "noCodeBlocksSuggestion": "L-analiżi hawn fuq fiha s-suġġerimenti għal titjib.",
+    "targetBoard": "Bord fil-mira",
+    "codeBadge": "Titjib tal-kodiċi AI",
+    "improvedCodeTitle": "Kodiċi mtejjeb"
+  },
+  "explainError": {
+    "errorBadge": "Analiżi ta' żball AI",
+    "correctedCodeTitle": "Kodiċiikkoreġut"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "Suġġeriment tal-kodiċi AI"
+  },
+  "debugHelp": {
+    "debugBadge": "Assistent debug AI",
+    "debugSolutionTitle": "Soluzzjoni debug"
   }
 }

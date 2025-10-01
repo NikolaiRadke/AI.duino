@@ -6,6 +6,8 @@
  */
 const vscode = require('vscode');
 const { escapeHtml } = require('../shared');
+const { getSharedCSS } = require('../utils/panels/sharedStyles');
+const featureUtils = require('./featureUtils');
 
 /**
  * Show prompt editor with dependency injection
@@ -31,6 +33,7 @@ async function showPromptEditor(context) {
             saving: t('promptEditor.saving'),
             saved: t('promptEditor.saved'),
             resetSuccess: t('promptEditor.resetSuccess'),
+            resetting: t('promptEditor.resetting'),
             resetText: t('buttons.reset'),
             saveText: t('buttons.save'),
             title: t('commands.editPrompts'),
@@ -108,12 +111,13 @@ async function showPromptEditor(context) {
             }
         });
 
-        panel.webview.html = `
+panel.webview.html = `
             <!DOCTYPE html>
             <html>
             <head>
                 <meta charset="UTF-8">
                 <title>${strings.title}</title>
+                ${getSharedCSS()}
                 <style>
                     * {
                         box-sizing: border-box;
@@ -242,12 +246,9 @@ async function showPromptEditor(context) {
                     }
                     
                     .btn-save, .btn-reset {
+                        /* Extends .btn-secondary from shared */
                         padding: 8px 16px;
-                        border: none;
-                        border-radius: 4px;
-                        cursor: pointer;
                         font-size: 13px;
-                        font-weight: 500;
                         transition: all 0.2s;
                         white-space: nowrap;
                     }
@@ -341,6 +342,8 @@ async function showPromptEditor(context) {
                 </style>
             </head>
             <body>
+                ${featureUtils.generateActionToolbar(['copy', 'insert', 'close'], t)}
+                
                 <div class="header">
                     <h1>${strings.title}</h1>
                     ${t('promptEditor.placeholderWarning')}
@@ -354,6 +357,73 @@ async function showPromptEditor(context) {
                     const vscode = acquireVsCodeApi();
                     const strings = ${JSON.stringify(strings)};
                     
+                    // === TOOLBAR FUNCTIONS (Custom für Prompt Editor) ===
+                    let lastFocusedTextarea = null;
+
+                    // Track last focused textarea
+                    document.querySelectorAll('.prompt-textarea').forEach(textarea => {
+                        textarea.addEventListener('focus', function() {
+                            lastFocusedTextarea = this;
+                        });
+    
+                        textarea.addEventListener('click', function() {
+                            lastFocusedTextarea = this;
+                        });
+                    });
+
+                    function toolbarCopy() {
+                        const selection = window.getSelection().toString();
+                        if (selection && selection.trim()) {
+                            vscode.postMessage({
+                                command: 'copyText',
+                                text: selection.trim()
+                            });
+                        }
+                    }
+
+                    function toolbarInsertSelected() {
+                        // Use last focused textarea, or currently focused element, or first textarea
+                        let targetTextarea = lastFocusedTextarea;
+    
+                        if (!targetTextarea) {
+                            const activeElement = document.activeElement;
+                            if (activeElement && activeElement.classList.contains('prompt-textarea')) {
+                                targetTextarea = activeElement;
+                            } else {
+                                targetTextarea = document.querySelector('.prompt-textarea');
+                            }
+                        }
+                        
+                        if (targetTextarea) {
+                            targetTextarea.focus();
+                            
+                            // Small delay to ensure focus is set
+                            setTimeout(() => {
+                                document.execCommand('paste');
+                            }, 10);
+                        }
+                    }
+                    
+                    function closePanel() {
+                        vscode.postMessage({ command: 'closePanel' });
+                    }
+                    
+                    // === CTRL+C SUPPORT ===
+                    document.addEventListener('keydown', (e) => {
+                        if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+                            const selection = window.getSelection().toString();
+                            // Only intercept if not inside textarea
+                            if (selection && selection.trim() && !document.activeElement.classList.contains('prompt-textarea')) {
+                                e.preventDefault();
+                                vscode.postMessage({
+                                    command: 'copyText',
+                                    text: selection.trim()
+                                });
+                            }
+                        }
+                    });
+                    
+                    // === PROMPT EDITOR LOGIC ===
                     // Store original values for real-time change detection
                     const originalValues = {};
                     document.querySelectorAll('.prompt-textarea').forEach(textarea => {
@@ -412,7 +482,7 @@ async function showPromptEditor(context) {
                         }
                         
                         const status = document.getElementById('status-' + key);
-                        status.textContent = 'Resetting...';
+                        status.textContent = strings.resetting + '...';
                         status.className = 'save-status';
                         
                         vscode.postMessage({
@@ -500,10 +570,9 @@ async function showPromptEditor(context) {
                         }
                     });
                 </script>
-            </body>
+              </body>
             </html>
         `;
-
         // Backend message handler
         panel.webview.onDidReceiveMessage(async (message) => {
             try {
@@ -575,6 +644,31 @@ async function showPromptEditor(context) {
                         if (context.setPromptEditorChanges) {
                             context.setPromptEditorChanges(hasUnsavedChanges);
                         }
+                        break;
+
+                    case 'copyText':
+                        await vscode.env.clipboard.writeText(message.text);
+                        vscode.window.showInformationMessage(t('messages.copiedToClipboard'));
+                        break;
+                    
+                    case 'closePanel':
+                        if (hasUnsavedChanges && !isForceClosing) {
+                            const choice = await vscode.window.showWarningMessage(
+                                t('promptEditor.changesLostDialog'),
+                                t('buttons.saveChanges'),
+                                t('buttons.discard')
+                            );
+                            
+                            if (choice === t('buttons.saveChanges')) {
+                                Object.entries(pendingChanges).forEach(([key, value]) => {
+                                    promptManager.updatePrompt(key, value);
+                                });
+                                vscode.window.showInformationMessage(t('promptEditor.changesSaved'));
+                            }
+                        }
+                        
+                        isForceClosing = true;
+                        panel.dispose();
                         break;
                 }
             } catch (error) {

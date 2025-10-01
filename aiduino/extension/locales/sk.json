@@ -16,7 +16,8 @@
     "askAI": "Otázka pre AI",
     "askFollowUp": "Následná otázka",
     "editPrompts": "Upraviť výzvy",
-    "changePath": "Zmeniť cestu"
+    "changePath": "Zmeniť cestu",
+    "openChatPanel": "AI Chat"
   },
   "messages": {
     "welcome": "Vitajte! AI.duino podporuje {0}!",
@@ -79,7 +80,11 @@
     "saveChanges": "Uložiť zmeny",
     "discard": "Zahodiť",
     "closeWithoutSaving": "Zavrieť bez uloženia",
-    "enterPath": "Zadajte cestu"
+    "enterPath": "Zadajte cestu",
+    "close": "Zavrieť",
+    "send": "Odoslať",
+    "newInput": "Nový vstup",
+    "delete": "Odstrániť"
   },
   "descriptions": {
     "improveCodeSelected": "Optimalizácia označeného kódu",
@@ -96,7 +101,8 @@
     "askAI": "Priama otázka pre AI",
     "askFollowUp": "Pokračovanie predchádzajúceho rozhovoru: {0}",
     "noValidContext": "Žiadny predchádzajúci rozhovor",
-    "editPrompts": "Prispôsobiť a spravovať AI výzvy"
+    "editPrompts": "Prispôsobiť a spravovať AI výzvy",
+    "openChatPanel": "AI chat s integráciou kódu"
   },
   "language": {
     "autoDetect": "Automatické rozpoznanie z VS Code",
@@ -224,7 +230,23 @@
     "previousQuestion": "Predchádzajúca otázka",
     "previousAnswer": "Predchádzajúca odpoveď",
     "followUpQuestion": "Následná otázka",
-    "relatedCode": "Súvisiaci kód"
+    "relatedCode": "Súvisiaci kód",
+    "sendCode": "Odoslať kód",
+    "insertCode": "Vložiť",
+    "inputPlaceholder": "Arduino otázka alebo pomoc s kódom...",
+    "you": "Ty",
+    "welcomeMessage": "Pýtajte sa na Arduino kód alebo pošlite vybraný kód na analýzu.",
+    "suggestedCode": "Navrhovaný kód",
+    "sentCode": "Odoslaný kód",
+    "newChat": "Nový chat",
+    "chats": "Chaty",
+    "maxChatsReached": "Dosiahnutý maximálny počet chatov (10)",
+    "cannotDeleteLastChat": "Posledný chat nemožno odstrániť",
+    "confirmDelete": "Odstrániť chat?",
+    "noChatsYet": "Zatiaľ žiadne chaty",
+    "createFirstChat": "Vytvorte svoj prvý chat!",
+    "chatsOverview": "Prehľad chatov",
+    "messages": "Správy"
   },
   "shortcuts": {
     "askFollowUp": "Následná otázka",
@@ -348,5 +370,27 @@
     "minutesAgo": "pred {0}min",
     "hoursAgo": "pred {0}h",
     "daysAgo": "pred {0}d"
+  },
+  "improveCode": {
+    "originalCode": "Pôvodný kód",
+    "customInstructions": "Vlastné pokyny",
+    "aiAnalysis": "AI analýza a vylepšenia",
+    "noCodeBlocksTitle": "Nenašli sa žiadne bloky kódu",
+    "noCodeBlocksText": "AI odpoveď obsahuje návrhy na vylepšenie, ale žiadne extrahovateľné bloky kódu.",
+    "noCodeBlocksSuggestion": "Analýza vyššie obsahuje návrhy na vylepšenie.",
+    "targetBoard": "Cieľová doska",
+    "codeBadge": "AI vylepšenie kódu",
+    "improvedCodeTitle": "Vylepšený kód"
+  },
+  "explainError": {
+    "errorBadge": "AI analýza chyby",
+    "correctedCodeTitle": "Opravený kód"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI návrh kódu"
+  },
+  "debugHelp": {
+    "debugBadge": "AI asistent ladenia",
+    "debugSolutionTitle": "Riešenie ladenia"
   }
 }

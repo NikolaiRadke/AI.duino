@@ -123,127 +123,6 @@ async function callAIWithProgress(prompt, progressKey, context) {
 }
 
 /**
- * Create HTML panel with standardized styling and copy functionality
- * @param {string} title - Panel title
- * @param {string} content - Main content (will be HTML-escaped)
- * @param {string} modelId - Current model ID for badge
- * @param {Function} t - Translation function
- * @param {string} copyButtonText - Text for copy button
- * @param {string} badgeText - Text for model badge
- * @param {string} badgeColor - Color for model badge
- * @returns {vscode.WebviewPanel} Created panel
- */
-function createHtmlPanel(title, content, modelId, t, copyButtonText, badgeText = 'AI Assistant', badgeColor = '#4CAF50') {
-    const panel = vscode.window.createWebviewPanel(
-        'aiFeaturePanel',
-        title,
-        vscode.ViewColumn.Beside,
-        { enableScripts: true }
-    );
-    
-    const modelBadge = `<span style="background: ${badgeColor}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${badgeText}</span>`;
-    const htmlContent = shared.escapeHtml(content).replace(/\n/g, '<br>');
-    
-    panel.webview.html = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <style>
-                body {
-                    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-                    padding: 20px;
-                    line-height: 1.6;
-                    color: #333;
-                    max-width: 900px;
-                    margin: 0 auto;
-                }
-                .header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    border-bottom: 2px solid #e0e0e0;
-                    padding-bottom: 10px;
-                    margin-bottom: 20px;
-                }
-                h1 {
-                    color: #2196F3;
-                    margin: 0;
-                }
-                .content {
-                    margin: 20px 0;
-                    white-space: pre-wrap;
-                }
-                pre {
-                    background: #f4f4f4;
-                    border: 1px solid #ddd;
-                    border-radius: 4px;
-                    padding: 15px;
-                    overflow-x: auto;
-                }
-                .tip {
-                    background: #fff3cd;
-                    border-left: 4px solid #ffc107;
-                    padding: 15px;
-                    margin: 15px 0;
-                }
-                button {
-                    background: #4CAF50;
-                    color: white;
-                    border: none;
-                    padding: 10px 20px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    margin-right: 10px;
-                    font-size: 14px;
-                }
-                button:hover {
-                    background: #45a049;
-                }
-                .error-box {
-                    background: #ffebee;
-                    border: 1px solid #ef5350;
-                    border-radius: 4px;
-                    padding: 15px;
-                    margin-bottom: 20px;
-                }
-                .error-title {
-                    color: #c62828;
-                    font-weight: bold;
-                    margin-bottom: 5px;
-                }
-                .solution {
-                    background: #e8f5e9;
-                    border-left: 4px solid #4caf50;
-                    padding: 15px;
-                    margin: 15px 0;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="header">
-                <h1>${shared.escapeHtml(title)}</h1>
-                ${modelBadge}
-            </div>
-            <div class="content">${htmlContent}</div>
-            
-            <button onclick="copyToClipboard()">${copyButtonText}</button>
-            
-            <script>
-                function copyToClipboard() {
-                    const text = document.querySelector('.content').innerText;
-                    navigator.clipboard.writeText(text).then(() => {
-                        alert('${t('messages.copiedToClipboard')}');
-                    });
-                }
-            </script>
-        </body>
-        </html>
-    `;
-    
-    return panel;
-}
-
-/**
  * Build content with footer information (custom instructions, AI hints, board info)
  * @param {string} mainContent - Main content (code or text)
  * @param {Object} options - Options object
@@ -364,7 +243,6 @@ async function showInputWithCreateQuickPickHistory(context, promptKey, placehold
 
     const recentItems = context.promptHistory.getRecentPrompts(historyCategory, 5, context.t, context.currentLocale);
 
- 
     // If no history exists, use simple input
     if (recentItems.length === 0) {
         return showSimpleInputBox(context, promptKey, placeholderKey, savedValue);
@@ -379,23 +257,44 @@ async function showInputWithCreateQuickPickHistory(context, promptKey, placehold
     
     return new Promise((resolve) => {
         let currentValue = savedValue || '';
+        let userSelectedHistoryItem = false;
+        let isInitialSelection = true; // NEW: Track initial auto-selection
         
         // Handle typing new values
         quickPick.onDidChangeValue((value) => {
             currentValue = value;
+            userSelectedHistoryItem = false; // User typed → reset history selection flag
+            isInitialSelection = false; // User interaction → no longer initial
         });
         
         // Handle selection from history
         quickPick.onDidChangeSelection((items) => {
             if (items.length > 0 && items[0].value) {
+                // Ignore the automatic initial selection when QuickPick opens
+                if (isInitialSelection) {
+                    isInitialSelection = false;
+                    currentValue = items[0].value; // Store value but don't mark as selected
+                    return;
+                }
+                
+                // User actively navigated/selected
                 quickPick.value = items[0].value;
                 currentValue = items[0].value;
+                userSelectedHistoryItem = true; // User actively selected history item
             }
         });
         
         // Handle accept (Return key)
         quickPick.onDidAccept(() => {
             const finalValue = currentValue.trim();
+        
+            // Check if placeholder was selected
+            if (finalValue === '__PLACEHOLDER__') {
+                quickPick.hide();
+                resolve('');
+                return;
+            }
+    
             quickPick.hide();
             resolve(finalValue || null);
         });
@@ -457,12 +356,450 @@ function saveToHistory(context, category, input, metadata = {}) {
     }
 }
 
+function generateActionToolbar(actions = ['copy', 'insert', 'close'], t) {
+    const buttons = actions.map(action => {
+        switch(action) {
+            case 'copy':
+                return `<button class="toolbar-btn" onclick="toolbarCopy()">
+                    📋 ${t('buttons.copy')}
+                </button>`;
+            case 'insert':
+                return `<button class="toolbar-btn" onclick="toolbarInsertSelected()">
+                    📝 ${t('chat.insertCode')}
+                </button>`;
+            case 'followUp':
+                return `<button class="toolbar-btn" onclick="askFollowUp()">
+                    ↩️ ${t('shortcuts.askFollowUp')}
+                </button>`;
+            case 'close':
+                return `<button class="toolbar-btn" onclick="closePanel()">
+                    ✖ ${t('buttons.close')}
+                </button>`;
+            default:
+                return '';
+        }
+    }).join('');
+    
+    return `
+        <div class="action-toolbar">
+            ${buttons}
+        </div>
+    `;
+}
+
+/**
+ * Generate complete toolbar JavaScript with all functions
+ * @param {Array} codeBlockActions - Actions for code blocks ['copyCode', 'insertCode', 'replaceOriginal']
+ * @param {Array} toolbarActions - Actions for toolbar ['copy', 'insert', 'followUp', 'close']
+ * @returns {string} Complete JavaScript code
+ */
+function generateToolbarScript(codeBlockActions = ['copyCode', 'insertCode'], toolbarActions = ['copy', 'insert', 'close']) {
+    let script = `
+        <script>
+            const vscode = acquireVsCodeApi();
+            
+            // === CODE BLOCK FUNCTIONS ===
+    `;
+    
+    if (codeBlockActions.includes('copyCode')) {
+        script += `
+            function copyCode(code) {
+                vscode.postMessage({
+                    command: 'copyCode',
+                    code: code
+                });
+            }
+        `;
+    }
+    
+    if (codeBlockActions.includes('insertCode')) {
+        script += `
+            function insertCode(code) {
+                vscode.postMessage({
+                    command: 'insertCode',
+                    code: code
+                });
+            }
+        `;
+    }
+    
+    if (codeBlockActions.includes('replaceOriginal')) {
+        script += `
+            function replaceOriginal(code) {
+                vscode.postMessage({
+                    command: 'replaceOriginal',
+                    code: code
+                });
+            }
+        `;
+    }
+    
+    script += `
+            
+            // === TOOLBAR FUNCTIONS ===
+    `;
+    
+    if (toolbarActions.includes('copy')) {
+        script += `
+            function toolbarCopy() {
+                const selection = window.getSelection().toString();
+                if (selection && selection.trim()) {
+                    vscode.postMessage({
+                        command: 'copyCode',
+                        code: selection.trim()
+                    });
+                }
+            }
+        `;
+    }
+    
+    if (toolbarActions.includes('insert')) {
+        script += `
+            function toolbarInsertSelected() {
+                const selection = window.getSelection().toString();
+                if (selection && selection.trim()) {
+                    vscode.postMessage({
+                        command: 'insertCode',
+                        code: selection.trim()
+                    });
+                }
+            }
+        `;
+    }
+    
+    if (toolbarActions.includes('followUp')) {
+        script += `
+            function askFollowUp() {
+                vscode.postMessage({
+                    command: 'askFollowUp'
+                });
+            }
+        `;
+    }
+    
+    if (toolbarActions.includes('close')) {
+        script += `
+            function closePanel() {
+                vscode.postMessage({ command: 'closePanel' });
+            }
+        `;
+    }
+    
+    script += `
+            
+            // === KEYBOARD SHORTCUTS ===
+            document.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+                    const selection = window.getSelection().toString();
+                    if (selection && selection.trim()) {
+                        e.preventDefault();
+                        vscode.postMessage({
+                            command: 'copyCode',
+                            code: selection.trim()
+                        });
+                    }
+                }
+            });
+        </script>
+    `;
+    
+    return script;
+}
+
+/**
+ * Generate action buttons for code blocks (unified approach)
+ * Supports both event delegation (for chatPanel) and direct onclick handlers (for other features)
+ * Uses event delegation when index is provided, otherwise generates inline onclick handlers
+ * @param {Array} actions - Button actions to generate ['copy', 'insert', 'replace']
+ * @param {number|null} index - Code block index for event delegation, or null for direct onclick
+ * @param {string} code - Code content for inline onclick handlers (ignored if using event delegation)
+ * @param {Function} t - Translation function
+ * @returns {string} HTML string with action buttons
+ */
+function generateCodeBlockButtons(actions, index, code, t) {
+    return actions.map(action => {
+        const useEventDelegation = index !== null;
+        
+        const attrs = useEventDelegation 
+            ? `data-action="${action}" data-index="${index}"`
+            : `onclick="${action}Code(\`${(code || '').replace(/`/g, '\\`')}\`)"`; 
+        
+        const btnClass = action === 'replace' ? 'code-btn primary' : 'code-btn';
+        
+        const labels = {
+            copy: `📋 ${t('buttons.copy')}`,
+            insert: `📝 ${t('chat.insertCode')}`,
+            replace: `🔄 ${t('buttons.replaceOriginal')}`
+        };
+        
+        return `<button class="${btnClass}" ${attrs}>${labels[action] || ''}</button>`;
+    }).join('');
+}
+
+/**
+ * Clean HTML-encoded code back to plain text
+ * @param {string} html - HTML-encoded code
+ * @returns {string} Plain text code
+ */
+function cleanHtmlCode(html) {
+    if (!html) return '';
+    
+    return html
+        .replace(/<br>/g, '\n')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'");
+}
+
+/**
+ * Setup standard message handler for panels
+ * @param {vscode.WebviewPanel} panel - The webview panel
+ * @param {Object} context - Extension context with dependencies
+ * @param {Object} customHandlers - Optional custom message handlers
+ */
+function setupStandardMessageHandler(panel, context, customHandlers = {}) {
+    panel.webview.onDidReceiveMessage(async (message) => {
+        try {
+            // Standard: Copy code
+            if (message.command === 'copyCode') {
+                await vscode.env.clipboard.writeText(cleanHtmlCode(message.code));
+                vscode.window.showInformationMessage(context.t('messages.copiedToClipboard'));
+                return;
+            }
+            
+            // Standard: Insert code
+            if (message.command === 'insertCode') {
+                const editor = vscode.window.activeTextEditor;
+                if (!editor) {
+                    vscode.window.showWarningMessage(context.t('messages.noEditor'));
+                    return;
+                }
+                
+                await editor.edit(editBuilder => {
+                    editBuilder.insert(editor.selection.active, cleanHtmlCode(message.code));
+                });
+                
+                vscode.window.showInformationMessage(context.t('messages.codeUpdated'));
+                return;
+            }
+            
+            // Standard: Close panel
+            if (message.command === 'closePanel') {
+                panel.dispose();
+                return;
+            }
+            
+            // Custom handlers
+            if (customHandlers[message.command]) {
+                await customHandlers[message.command](message, panel);
+            }
+            
+        } catch (error) {
+            context.handleApiError(error);
+        }
+    });
+}
+
+/**
+ * Clean code from HTML encoding
+ * @param {string} codeContent - HTML-encoded code
+ * @returns {string} Clean code
+ */
+function cleanCodeContent(codeContent) {
+    return codeContent
+        .replace(/<br>/g, '\n')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&')
+        .trim();
+}
+
+/**
+ * Process and format code blocks in AI response
+ * @param {string} response - AI response text
+ * @param {string} codeBlockTitle - Title for code blocks
+ * @param {Array} buttonActions - Button actions for code blocks
+ * @param {Function} t - Translation function
+ * @returns {string} Processed HTML with formatted code blocks
+ */
+function processAiCodeBlocks(response, codeBlockTitle, buttonActions = ['copy', 'insert'], t) {
+    // Escape HTML first
+    let processed = shared.escapeHtml(response);
+    
+    // Extract and format code blocks
+    processed = processed.replace(/```(?:cpp|c|arduino)?\s*([\s\S]*?)\s*```/g, (match, codeContent) => {
+        const cleanCode = cleanCodeContent(codeContent);  // ← featureUtils. entfernt!
+        return generateCodeBlockHtml(cleanCode, codeBlockTitle, buttonActions, t);
+    });
+    
+    // Convert line breaks to HTML
+    processed = processed.replace(/\n/g, '<br>');
+    
+    return processed;
+}
+
+/**
+ * Generate HTML for a code block with action buttons
+ * @param {string} code - Clean code content
+ * @param {string} title - Code block title
+ * @param {Array} actions - Button actions ['copy', 'insert', 'replace']
+ * @param {Function} t - Translation function
+ * @returns {string} HTML for code block
+ */
+function generateCodeBlockHtml(code, title, actions = ['copy', 'insert'], t) {
+    const buttonsHtml = generateCodeBlockButtons(actions, null, code, t);
+    
+    return `
+        <div class="code-block">
+            <div class="code-header">
+                <span>${title}</span>
+                <div class="code-actions">
+                    ${buttonsHtml}
+                </div>
+            </div>
+            <div class="code-content">
+                <pre><code class="language-cpp">${shared.escapeHtml(code)}</code></pre>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Process AI response with event-delegation-based code blocks
+ * Returns HTML + codeBlocks array for event handling
+ * NEU: Für askAI.js und improveCode.js
+ * @param {string} response - AI response text
+ * @param {string} codeBlockTitle - Title for code blocks
+ * @param {Array} buttonActions - Button actions ['copy', 'insert', 'replace']
+ * @param {Function} t - Translation function
+ * @returns {Object} {processedHtml, codeBlocks}
+ */
+function processAiCodeBlocksWithEventDelegation(response, codeBlockTitle, buttonActions = ['copy', 'insert'], t) {
+    const codeBlocks = [];
+    
+    let processed = response.replace(/```(?:cpp|c|arduino)?\s*\n([\s\S]*?)\n```/g, (match, codeContent) => {
+        codeBlocks.push(codeContent.trim());
+        return `[[CODEBLOCK_${codeBlocks.length - 1}]]`;
+    });
+    
+    processed = shared.escapeHtml(processed);
+    processed = processed.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    processed = processed.replace(/\n/g, '<br>');
+    
+    codeBlocks.forEach((code, index) => {
+        const buttonsHtml = generateCodeBlockButtons(buttonActions, index, null, t);
+        
+        const html = `<div class="code-block" data-code-index="${index}">
+            <div class="code-header">
+                <span>${codeBlockTitle}</span>
+                <div class="code-actions">
+                    ${buttonsHtml}
+                </div>
+            </div>
+            <div class="code-content">
+                <pre><code class="language-cpp">${shared.escapeHtml(code)}</code></pre>
+            </div>
+        </div>`;
+        
+        processed = processed.replace(`[[CODEBLOCK_${index}]]`, html);
+    });
+    
+    return { processedHtml: processed, codeBlocks: codeBlocks };
+}
+
+/**
+ * Process single message with code blocks for chat display
+ * Extracts code blocks, escapes text, formats markdown, and returns HTML with code blocks
+ * Used by chatPanel for message-specific code block handling
+ * @param {string} text - Message text with potential code blocks
+ * @param {string|number} messageId - Unique message identifier for event delegation
+ * @param {Function} t - Translation function
+ * @returns {Object} {html: string, codeBlocks: Array} - Processed HTML and extracted code blocks array
+ */
+function processMessageWithCodeBlocks(text, messageId, t) {
+    const codeBlocks = [];
+    
+    // Extract code blocks BEFORE escaping
+    let processed = text.replace(/```(?:cpp|c|arduino)?\s*\n([\s\S]*?)\n```/g, (match, codeContent) => {
+        codeBlocks.push(codeContent.trim());
+        return `[[CODEBLOCK_${codeBlocks.length - 1}]]`;
+    });
+    
+    // Escape the TEXT (not code blocks)
+    processed = shared.escapeHtml(processed);
+    
+    // Format bold text
+    processed = processed.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    
+    // Convert line breaks
+    processed = processed.replace(/\n/g, '<br>');
+    
+    // Insert code blocks with message-specific IDs
+    codeBlocks.forEach((code, index) => {
+        const html = `<div class="code-block" data-message-id="${messageId}" data-code-index="${index}">
+            <div class="code-header">
+                <span>📝 ${t('chat.suggestedCode')}</span>
+                <div class="code-actions">
+                    <button class="code-btn" data-action="copy" data-message-id="${messageId}" data-index="${index}">
+                        📋 ${t('buttons.copy')}
+                    </button>
+                    <button class="code-btn" data-action="insert" data-message-id="${messageId}" data-index="${index}">
+                        📄 ${t('chat.insertCode')}
+                    </button>
+                </div>
+            </div>
+            <div class="code-content">
+                <pre><code class="language-cpp">${shared.escapeHtml(code)}</code></pre>
+            </div>
+        </div>`;
+        
+        processed = processed.replace(`[[CODEBLOCK_${index}]]`, html);
+    });
+    
+    return { html: processed, codeBlocks };
+}
+
+/**
+ * Generate inline toolbar button functions for webview panels
+ * Returns raw JavaScript function definitions (without script wrapper)
+ * For injection into existing script blocks to avoid duplicate acquireVsCodeApi() calls
+ * @returns {string} JavaScript function definitions for toolbar buttons
+ */
+function getInlineToolbarFunctions() {
+    return `
+        function toolbarCopy() {
+            const selection = window.getSelection().toString();
+            if (selection && selection.trim()) {
+                vscode.postMessage({
+                    command: 'copyCode',
+                    code: selection.trim()
+                });
+            }
+        }
+        
+        function toolbarInsertSelected() {
+            const selection = window.getSelection().toString();
+            if (selection && selection.trim()) {
+                vscode.postMessage({
+                    command: 'insertCode',
+                    code: selection.trim()
+                });
+            }
+        }
+        
+        function closePanel() {
+            vscode.postMessage({ command: 'closePanel' });
+        }
+    `;
+}
+
 module.exports = {
     executeFeature,
     createAndShowDocument,
     extractCodeFromResponse,
     callAIWithProgress,
-    createHtmlPanel,
     buildContentWithFooter,
     showReplaceKeepChoice,
     replaceSelectedText,
@@ -470,5 +807,15 @@ module.exports = {
     getFileExtension,
     showInputWithCreateQuickPickHistory, 
     validateArduinoFile,
-    saveToHistory
+    saveToHistory,
+    generateActionToolbar,
+    generateToolbarScript,
+    cleanHtmlCode,
+    setupStandardMessageHandler,
+    processAiCodeBlocks,
+    cleanCodeContent,
+    generateCodeBlockButtons,
+    processAiCodeBlocksWithEventDelegation,
+    processMessageWithCodeBlocks,  
+    getInlineToolbarFunctions   
 };

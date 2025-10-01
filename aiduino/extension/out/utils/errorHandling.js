@@ -189,7 +189,16 @@ function handleApiError(error, context) {
 }
 
 /**
- * Show firewall help information (moved from network.js to avoid circular imports)
+ * Show firewall help information
+ * 
+ * NOTE: This function was moved from network.js to errorHandling.js to break
+ * a circular dependency:
+ * - network.js imported errorHandling.js (for error handling)
+ * - errorHandling.js imported network.js (for showFirewallHelp)
+ * 
+ * Solution: Move showFirewallHelp here since it's primarily used in error
+ * handling scenarios (API connection failures).
+ * 
  * @param {Object} context - Extension context with dependencies
  */
 function showFirewallHelp(context) {

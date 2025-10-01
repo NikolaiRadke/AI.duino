@@ -16,7 +16,8 @@
     "askAI": "AI kérdezése",
     "askFollowUp": "Követő kérdés feltevése",
     "editPrompts": "Promptok szerkesztése",
-    "changePath": "Útvonal módosítása"
+    "changePath": "Útvonal módosítása",
+    "openChatPanel": "AI Chat"
   },
   "messages": {
     "welcome": "Üdvözöl a {0} támogatásával!",
@@ -79,7 +80,11 @@
     "saveChanges": "Változások mentése",
     "discard": "Elvetés",
     "closeWithoutSaving": "Bezárás mentés nélkül",
-    "enterPath": "Útvonal megadása"
+    "enterPath": "Útvonal megadása",
+    "close": "Bezár",
+    "send": "Küldés",
+    "newInput": "Új bevitel",
+    "delete": "Törlés"
   },
   "descriptions": {
     "improveCodeSelected": "Kijelölt kód optimalizálása",
@@ -96,7 +101,8 @@
     "askAI": "Közvetlen kérdés az AI-nak",
     "askFollowUp": "Előző beszélgetés folytatása: {0}",
     "noValidContext": "Nincs előző beszélgetés",
-    "editPrompts": "AI promptok testreszabása és kezelése"
+    "editPrompts": "AI promptok testreszabása és kezelése",
+    "openChatPanel": "AI chat kódintegrációval"
   },
   "language": {
     "autoDetect": "Automatikus felismerés VS Code-ból",
@@ -224,7 +230,23 @@
     "previousQuestion": "Előző kérdés",
     "previousAnswer": "Előző válasz",
     "followUpQuestion": "Követő kérdés",
-    "relatedCode": "Kapcsolódó kód"
+    "relatedCode": "Kapcsolódó kód",
+    "sendCode": "Kód küldése",
+    "insertCode": "Beszúrás",
+    "inputPlaceholder": "Arduino kérdés vagy kódsegítség...",
+    "you": "Te",
+    "welcomeMessage": "Tegyen fel kérdéseket az Arduino kódról, vagy küldjön kiválasztott kódot elemzésre.",
+    "suggestedCode": "Javasolt kód",
+    "sentCode": "Elküldött kód",
+    "newChat": "Új beszélgetés",
+    "chats": "Beszélgetések",
+    "maxChatsReached": "Maximális beszélgetések száma (10) elérve",
+    "cannotDeleteLastChat": "Az utolsó beszélgetést nem lehet törölni",
+    "confirmDelete": "Beszélgetés törlése?",
+    "noChatsYet": "Még nincsenek beszélgetések",
+    "createFirstChat": "Hozd létre az első beszélgetésedet!",
+    "chatsOverview": "Beszélgetések áttekintése",
+    "messages": "Üzenetek"
   },
   "shortcuts": {
     "askFollowUp": "Követő kérdés",
@@ -348,5 +370,27 @@
     "minutesAgo": "{0}perce",
     "hoursAgo": "{0}órája",
     "daysAgo": "{0}napja"
+  },
+  "improveCode": {
+    "originalCode": "Eredeti kód",
+    "customInstructions": "Egyéni utasítások",
+    "aiAnalysis": "AI elemzés és fejlesztések",
+    "noCodeBlocksTitle": "Nem találhatók kódblokkok",
+    "noCodeBlocksText": "Az AI válasz fejlesztési javaslatokat tartalmaz, de nincsenek kivonható kódblokkok.",
+    "noCodeBlocksSuggestion": "A fenti elemzés tartalmazza a fejlesztési javaslatokat.",
+    "targetBoard": "Célpanel",
+    "codeBadge": "AI kódfejlesztés",
+    "improvedCodeTitle": "Fejlesztett kód"
+  },
+  "explainError": {
+    "errorBadge": "AI hibaelemzés",
+    "correctedCodeTitle": "Javított kód"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI kódjavaslat"
+  },
+  "debugHelp": {
+    "debugBadge": "AI hibakeresési asszisztens",
+    "debugSolutionTitle": "Hibakeresési megoldás"
   }
 }

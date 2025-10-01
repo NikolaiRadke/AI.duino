@@ -16,7 +16,8 @@
     "askAI": "AI에게 질문",
     "askFollowUp": "추가 질문",
     "editPrompts": "프롬프트 편집",
-    "changePath": "경로 변경"
+    "changePath": "경로 변경",
+    "openChatPanel": "AI 채팅"
   },
   "messages": {
     "welcome": "👋 환영합니다! AI.duino {0}을(를) 지원합니다!",
@@ -79,7 +80,11 @@
     "saveChanges": "변경사항 저장",
     "discard": "취소",
     "closeWithoutSaving": "저장하지 않고 닫기",
-    "enterPath": "경로 입력"
+    "enterPath": "경로 입력",
+    "close": "닫기",
+    "send": "보내기",
+    "newInput": "새 입력",
+    "delete": "삭제"
   },
   "descriptions": {
     "improveCodeSelected": "선택한 코드 최적화",
@@ -96,7 +101,8 @@
     "askAI": "AI에게 직접 질문하기",
     "askFollowUp": "이전 대화 계속하기: {0}",
     "noValidContext": "이전 대화 없음",
-    "editPrompts": "AI 프롬프트 사용자 정의 및 관리"
+    "editPrompts": "AI 프롬프트 사용자 정의 및 관리",
+    "openChatPanel": "코드 통합 기능이 있는 AI 채팅"
   },
   "language": {
     "autoDetect": "VS Code에서 자동 감지",
@@ -224,7 +230,23 @@
     "previousQuestion": "이전 질문",
     "previousAnswer": "이전 답변",
     "followUpQuestion": "추가 질문",
-    "relatedCode": "관련 코드"
+    "relatedCode": "관련 코드",
+    "sendCode": "코드 보내기",
+    "insertCode": "삽입",
+    "inputPlaceholder": "Arduino 질문 또는 코드 도움말...",
+    "you": "당신",
+    "welcomeMessage": "Arduino 코드에 대해 질문하거나 선택한 코드를 보내서 분석하세요.",
+    "suggestedCode": "제안된 코드",
+    "sentCode": "전송된 코드",
+    "newChat": "새 채팅",
+    "chats": "채팅",
+    "maxChatsReached": "최대 채팅 수(10)에 도달했습니다",
+    "cannotDeleteLastChat": "마지막 채팅은 삭제할 수 없습니다",
+    "confirmDelete": "채팅을 삭제하시겠습니까?",
+    "noChatsYet": "아직 채팅이 없습니다",
+    "createFirstChat": "첫 채팅을 만드세요!",
+    "chatsOverview": "채팅 개요",
+    "messages": "메시지"
   },
   "shortcuts": {
     "askFollowUp": "추가 질문",
@@ -348,5 +370,27 @@
     "minutesAgo": "{0}분 전",
     "hoursAgo": "{0}시간 전",
     "daysAgo": "{0}일 전"
+  },
+  "improveCode": {
+    "originalCode": "원본 코드",
+    "customInstructions": "사용자 지정 지침",
+    "aiAnalysis": "AI 분석 및 개선",
+    "noCodeBlocksTitle": "코드 블록을 찾을 수 없음",
+    "noCodeBlocksText": "AI 응답에는 개선 제안이 포함되어 있지만 추출 가능한 코드 블록은 없습니다.",
+    "noCodeBlocksSuggestion": "위의 분석에는 개선 제안이 포함되어 있습니다.",
+    "targetBoard": "대상 보드",
+    "codeBadge": "AI 코드 개선",
+    "improvedCodeTitle": "개선된 코드"
+  },
+  "explainError": {
+    "errorBadge": "AI 오류 분석",
+    "correctedCodeTitle": "수정된 코드"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI 코드 제안"
+  },
+  "debugHelp": {
+    "debugBadge": "AI 디버그 도우미",
+    "debugSolutionTitle": "디버그 솔루션"
   }
 }

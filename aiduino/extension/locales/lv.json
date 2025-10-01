@@ -16,7 +16,8 @@
     "askAI": "Jautāt AI",
     "askFollowUp": "Uzdot papildu jautājumu",
     "editPrompts": "Rediģēt uzvednes",
-    "changePath": "Mainīt ceļu"
+    "changePath": "Mainīt ceļu",
+    "openChatPanel": "AI Tērzēšana"
   },
   "messages": {
     "welcome": "👋 Esiet sveicināti! AI.duino atbalsta {0}!",
@@ -80,7 +81,11 @@
     "saveChanges": "Saglabāt izmaiņas",
     "discard": "Atmest",
     "closeWithoutSaving": "Aizvērt nesaglabājot",
-    "enterPath": "Ievadiet ceļu"
+    "enterPath": "Ievadiet ceļu",
+    "close": "Aizvērt",
+    "send": "Sūtīt",
+    "newInput": "Jauns ievads",
+    "delete": "Dzēst"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizēt iezīmēto kodu",
@@ -97,7 +102,8 @@
     "askAI": "Uzdot tiešu jautājumu AI",
     "askFollowUp": "Turpināt iepriekšējo sarunu: {0}",
     "noValidContext": "Nav iepriekšējās sarunas",
-    "editPrompts": "Pielāgot AI uzvednes"
+    "editPrompts": "Pielāgot AI uzvednes",
+    "openChatPanel": "AI tērzēšana ar koda integrāciju"
   },
   "language": {
     "autoDetect": "Automātiski noteikt no VS Code",
@@ -225,7 +231,23 @@
     "previousQuestion": "Iepriekšējais jautājums",
     "previousAnswer": "Iepriekšējā atbilde",
     "followUpQuestion": "Papildu jautājums",
-    "relatedCode": "Saistītais kods"
+    "relatedCode": "Saistītais kods",
+    "sendCode": "Sūtīt kodu",
+    "insertCode": "Ievietot",
+    "inputPlaceholder": "Arduino jautājums vai palīdzība ar kodu...",
+    "you": "Tu",
+    "welcomeMessage": "Uzdodiet jautājumus par Arduino kodu vai sūtiet izvēlēto kodu analīzei.",
+    "suggestedCode": "Ieteiktais kods",
+    "sentCode": "Nosūtītais kods",
+    "newChat": "Jauna saruna",
+    "chats": "Sarunas",
+    "maxChatsReached": "Sasniegts maksimālais sarunu skaits (10)",
+    "cannotDeleteLastChat": "Pēdējo sarunu nevar dzēst",
+    "confirmDelete": "Dzēst sarunu?",
+    "noChatsYet": "Vēl nav sarunu",
+    "createFirstChat": "Izveidojiet savu pirmo sarunu!",
+    "chatsOverview": "Sarunu pārskats",
+    "messages": "Ziņojumi"
   },
   "shortcuts": {
     "askFollowUp": "Papildu jautājums",
@@ -349,5 +371,27 @@
     "minutesAgo": "pirms {0}min",
     "hoursAgo": "pirms {0}h",
     "daysAgo": "pirms {0}d"
+  },
+  "improveCode": {
+    "originalCode": "Oriģinālais kods",
+    "customInstructions": "Pielāgotas instrukcijas",
+    "aiAnalysis": "AI analīze un uzlabojumi",
+    "noCodeBlocksTitle": "Koda bloki nav atrasti",
+    "noCodeBlocksText": "AI atbilde satur uzlabojumu ieteikumus, bet nav izdalāmu koda bloku.",
+    "noCodeBlocksSuggestion": "Iepriekš minētā analīze satur uzlabojumu ieteikumus.",
+    "targetBoard": "Mērķa plate",
+    "codeBadge": "AI koda uzlabošana",
+    "improvedCodeTitle": "Uzlabots kods"
+  },
+  "explainError": {
+    "errorBadge": "AI kļūdas analīze",
+    "correctedCodeTitle": "Labots kods"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI koda ieteikums"
+  },
+  "debugHelp": {
+    "debugBadge": "AI atkļūdošanas asistents",
+    "debugSolutionTitle": "Atkļūdošanas risinājums"
   }
 }

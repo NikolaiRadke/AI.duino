@@ -8,6 +8,7 @@
 const vscode = require('vscode');
 const shared = require('../shared');
 const featureUtils = require('./featureUtils');
+const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 
 /**
  * Main askAI function with follow-up support
@@ -15,7 +16,7 @@ const featureUtils = require('./featureUtils');
  * @param {boolean} isFollowUp - Whether this is a follow-up question
  */
 async function askAI(context, isFollowUp = false) {
-    return featureUtils.executeFeature(
+    const panel = await featureUtils.executeFeature(
         context.executionStates.OPERATIONS.ASK,
         async () => {
             const { apiKeys, currentModel, minimalModelManager, aiConversationContext, setAiConversationContext } = context;
@@ -52,11 +53,38 @@ async function askAI(context, isFollowUp = false) {
                 context.quickMenuTreeProvider.refresh();
             }
 
-            // Show response with follow-up formatting
-            await showAIResponseWithFollowUp(question, response, isFollowUp, newContext, context);
+            // Create interactive WebView Panel
+            const panel = vscode.window.createWebviewPanel(
+                'aiAskAI',
+                context.t('commands.askAI'),
+                vscode.ViewColumn.Two,
+                { enableScripts: true }
+            );
+
+            panel.webview.html = createAskAIHtml(
+                question,
+                response,
+                isFollowUp,
+                newContext,
+                currentCode,
+                context.currentModel,
+                context.minimalModelManager,
+                context.t
+            );
+
+            return panel;
         },
         context
     );
+
+    // Message Handler
+    if (panel) {
+        featureUtils.setupStandardMessageHandler(panel, context, {
+            'askFollowUp': async () => {
+                askAI(context, true);
+            }
+        });
+    }
 }
 
 /**
@@ -77,9 +105,6 @@ async function buildQuestionPrompt(context, isFollowUp) {
     }
 
     // Get question from user
-    const promptText = isFollowUp ? context.promptManager.getPrompt('askFollowUp') : context.promptManager.getPrompt('askAI');
-    const placeholderText = isFollowUp ? context.t('placeholders.askFollowUp') : context.t('placeholders.askAI');
-
     const question = await featureUtils.showInputWithCreateQuickPickHistory(
         context,
         isFollowUp ? 'askFollowUp' : 'askAI',
@@ -178,79 +203,103 @@ function buildFollowUpPrompt(followUpQuestion, aiConversationContext, t, promptM
 }
 
 /**
- * Show AI response with follow-up formatting
+ * Create HTML content for askAI panel with Prism highlighting
  * @param {string} question - User's question
  * @param {string} response - AI's response
  * @param {boolean} isFollowUp - Whether this was a follow-up
  * @param {Object} conversationContext - Conversation context
- * @param {Object} extensionContext - Extension context
+ * @param {string} currentCode - Associated code (if any)
+ * @param {string} modelId - Current AI model
+ * @param {Object} minimalModelManager - Model manager instance
+ * @param {Function} t - Translation function
+ * @returns {string} HTML content
  */
-async function showAIResponseWithFollowUp(question, response, isFollowUp, conversationContext, extensionContext) {
-    const { minimalModelManager, currentModel } = extensionContext;
-    const model = minimalModelManager.providers[currentModel];
-    const modelName = model.name || model;
+function createAskAIHtml(question, response, isFollowUp, conversationContext, currentCode, modelId, minimalModelManager, t) {
+    const model = minimalModelManager.providers[modelId];
+    const modelBadge = `<span style="background: ${model.color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${model.icon} ${model.name}</span>`;
     
-    const lines = [
-        `🤖 ${extensionContext.t('output.responseFrom', modelName.toUpperCase ? modelName.toUpperCase() : modelName)}`,
-        '='.repeat(50),
-        ''
-    ];
-    
-    // Show follow-up context
-    if (isFollowUp && conversationContext.lastQuestion) {
-        lines.push(`🔗 ${extensionContext.t('output.followUpTo')}:`);
-        const wrappedPrevQuestion = shared.wrapText(conversationContext.lastQuestion, 80);
-        wrappedPrevQuestion.split('\n').forEach(line => {
-            lines.push(`   ${line}`);
-        });
-        lines.push('');
-    }
-    
-    // Show code context info
-    if (conversationContext.lastCode) {
-        const lineCount = conversationContext.lastCode.split('\n').length;
-        lines.push(`📄 ${extensionContext.t('output.codeContextYes', lineCount)}`);
-        lines.push('');
-    }
-    
-    // Show board info
-    const board = shared.detectArduinoBoard();
-    if (board) {
-        lines.push(`🎯 ${extensionContext.t('output.boardDetected', board)}`);
-        lines.push('');
-    }
-    
-    // Show question and answer
-    lines.push(`❓ ${extensionContext.t('output.yourQuestion')}:`);
-    const wrappedQuestion = shared.wrapText(question, 80);
-    wrappedQuestion.split('\n').forEach(line => {
-        lines.push(`   ${line}`);
-    });
-    lines.push('');
-    
-    lines.push(`💡 ${extensionContext.t('output.aiAnswer')}:`);
-    lines.push('');
-    
-    // Wrap response
-    const wrappedResponse = response.split('\n').map(line => 
-        line.length > 80 ? shared.wrapText(line, 80) : line
-    ).join('\n');
-    
-    lines.push(wrappedResponse);
-    lines.push('');
-    lines.push('='.repeat(50));
-    lines.push(`💬 ${extensionContext.t('output.followUpHint')}`);
-    lines.push(`   • ${extensionContext.t('shortcuts.askFollowUp')}: Ctrl+Shift+F`);
-    lines.push(`   • ${extensionContext.t('shortcuts.askAI')}: Ctrl+Shift+A`);
-    
-    const formattedContent = lines.join('\n');
-    
-    // Create and show document
-    await featureUtils.createAndShowDocument(
-        formattedContent,
-        'markdown',
-        extensionContext.t('commands.askAI')
+    // Process response with event-delegation code blocks
+    const { processedHtml: processedResponse, codeBlocks } = featureUtils.processAiCodeBlocksWithEventDelegation(
+        response,
+        `💡 ${t('askAI.codeSuggestionTitle')}`,
+        ['copy', 'insert'],
+        t
     );
+
+    // Board and context info
+    const board = shared.detectArduinoBoard();
+    const boardDisplay = board ? shared.getBoardDisplayName(board) : t('output.boardUnknown');
+    const contextAge = isFollowUp ? Math.round((Date.now() - conversationContext.timestamp) / 60000) : null;
+    
+    return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>${t('commands.askAI')} - AI.duino</title>
+            ${getSharedCSS()}
+        </head>
+        <body>
+            ${featureUtils.generateActionToolbar(['copy', 'insert', 'followUp', 'close'], t)}
+            
+            <div class="header">
+                <h1>💬 ${t('commands.askAI')}</h1>
+                ${modelBadge}
+            </div>
+            
+            ${isFollowUp ? `
+            <div class="info-badge">
+                🔗 ${t('output.followUpTo')}: "${conversationContext.lastQuestion}" (${contextAge} min ago)
+            </div>
+            ` : ''}
+            
+            <div class="question-box">
+                <h3>❓ ${t('output.yourQuestion')}:</h3>
+                <p>${shared.escapeHtml(question)}</p>
+            </div>
+            
+            ${currentCode ? `
+            <div class="code-context">
+                <h3>📄 ${t('output.codeContextYes', currentCode.split('\n').length)}:</h3>
+                <pre><code class="language-cpp">${shared.escapeHtml(currentCode)}</code></pre>
+            </div>
+            ` : ''}
+            
+            <div class="board-info">
+                🎯 ${t('output.boardDetected', boardDisplay)}
+            </div>
+            
+            <div class="panel-section">
+                <h3>🤖 ${t('output.aiAnswer')}:</h3>
+                ${processedResponse}
+            </div>
+
+            <script>
+                // Code blocks data for button handlers
+                const codeBlocksData = ${JSON.stringify(codeBlocks)};
+                
+                // Code block button handler
+                document.addEventListener('click', (e) => {
+                    const button = e.target.closest('[data-action]');
+                    if (!button) return;
+                    
+                    const action = button.dataset.action;
+                    const index = parseInt(button.dataset.index);
+                    const code = codeBlocksData[index];
+                    
+                    if (action === 'copy') {
+                        vscode.postMessage({ command: 'copyCode', code: code });
+                    } else if (action === 'insert') {
+                        vscode.postMessage({ command: 'insertCode', code: code });
+                    }
+                });
+            </script>
+            
+            ${featureUtils.generateToolbarScript(['copyCode', 'insertCode'], ['copy', 'insert', 'followUp', 'close'])}
+            ${getPrismScripts()}
+        </body>
+        </html>
+    `;
 }
 
 module.exports = {

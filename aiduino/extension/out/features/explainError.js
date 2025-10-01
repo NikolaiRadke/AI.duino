@@ -9,13 +9,14 @@ const vscode = require('vscode');
 const shared = require('../shared');
 const validation = require('../utils/validation');
 const featureUtils = require('./featureUtils');
+const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 
 /**
  * Main explainError function with dependency injection
  * @param {Object} context - Extension context with dependencies
  */
 async function explainError(context) {
-    return featureUtils.executeFeature(
+    const panel = await featureUtils.executeFeature(
         context.executionStates.OPERATIONS.ERROR,
         async () => {
             // Unified validation
@@ -53,6 +54,14 @@ async function explainError(context) {
                 context
             );
             
+            // Process response with event-delegation code blocks
+            const { processedHtml, codeBlocks } = featureUtils.processAiCodeBlocksWithEventDelegation(
+                response,
+                `🔧 ${context.t('explainError.correctedCodeTitle')}`,
+                ['copy', 'insert'],
+                context.t
+            );
+            
             // Create WebviewPanel for error explanation
             const panel = vscode.window.createWebviewPanel(
                 'aiError',
@@ -64,91 +73,51 @@ async function explainError(context) {
             panel.webview.html = createErrorExplanationHtml(
                 errorInput,
                 line + 1,
-                response,
+                processedHtml,
+                codeBlocks,
                 context.currentModel,
                 context.t
             );
+            
+            return panel;
         },
         context
     );
+    
+    // Message Handler
+    if (panel) {
+        featureUtils.setupStandardMessageHandler(panel, context, {
+            'askFollowUp': async () => {
+                askAI(context, true);
+            }
+        });
+    }
 }
 
 /**
- * Create HTML content for error explanation panel
+ * Create HTML content for error explanation panel with Prism code blocks
  * @param {string} error - The error message
  * @param {number} line - Line number where error occurred
- * @param {string} explanation - AI explanation of the error
+ * @param {string} processedExplanation - Already processed HTML with code blocks
+ * @param {Array} codeBlocks - Array of code strings for event delegation
  * @param {string} modelId - Current AI model ID
  * @param {Function} t - Translation function
  * @returns {string} HTML content
  */
-function createErrorExplanationHtml(error, line, explanation, modelId, t) {
-    const modelBadge = `<span style="background: #6B46C1; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">AI Error Analysis</span>`;
-    const htmlExplanation = shared.escapeHtml(explanation).replace(/\n/g, '<br>');
+function createErrorExplanationHtml(error, line, processedExplanation, codeBlocks, modelId, t) {
+    const modelBadge = `<span style="background: #6B46C1; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${t('explainError.errorBadge')}</span>`;
     
     return `
         <!DOCTYPE html>
         <html>
         <head>
-            <style>
-                body {
-                    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-                    padding: 20px;
-                    line-height: 1.6;
-                    color: #333;
-                }
-                .header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 20px;
-                }
-                .error-box {
-                    background: #ffebee;
-                    border: 1px solid #ef5350;
-                    border-radius: 4px;
-                    padding: 15px;
-                    margin-bottom: 20px;
-                }
-                .error-title {
-                    color: #c62828;
-                    font-weight: bold;
-                    margin-bottom: 5px;
-                }
-                .section {
-                    margin: 20px 0;
-                    padding: 15px;
-                    background: #f5f5f5;
-                    border-radius: 8px;
-                }
-                pre {
-                    background: #1e1e1e;
-                    color: #d4d4d4;
-                    padding: 15px;
-                    border-radius: 4px;
-                    overflow-x: auto;
-                }
-                .solution {
-                    background: #e8f5e9;
-                    border-left: 4px solid #4caf50;
-                    padding: 15px;
-                    margin: 15px 0;
-                }
-                button {
-                    background: #2196F3;
-                    color: white;
-                    border: none;
-                    padding: 10px 20px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    font-size: 14px;
-                }
-                button:hover {
-                    background: #1976D2;
-                }
-            </style>
+            <meta charset="UTF-8">
+            <title>${t('commands.explainError')} - AI.duino</title>
+            ${getSharedCSS()}
         </head>
         <body>
+            ${featureUtils.generateActionToolbar(['copy', 'insert', 'close'], t)}
+            
             <div class="header">
                 <h1>🔧 ${t('html.errorExplanation')}</h1>
                 ${modelBadge}
@@ -160,20 +129,33 @@ function createErrorExplanationHtml(error, line, explanation, modelId, t) {
             </div>
             
             <div class="explanation">
-                ${htmlExplanation}
+                ${processedExplanation}
             </div>
-            
-            <br>
-            <button onclick="copyToClipboard()">📋 ${t('buttons.copySolution')}</button>
-            
+
             <script>
-                function copyToClipboard() {
-                    const text = document.querySelector('.explanation').innerText;
-                    navigator.clipboard.writeText(text).then(() => {
-                        alert('${t('messages.copiedToClipboard')}');
-                    });
-                }
+                // Code blocks data for button handlers
+                const codeBlocksData = ${JSON.stringify(codeBlocks)};
+                
+                // Code block button handler
+                document.addEventListener('click', (e) => {
+                    const button = e.target.closest('[data-action]');
+                    if (!button) return;
+                    
+                    const action = button.dataset.action;
+                    const index = parseInt(button.dataset.index);
+                    const code = codeBlocksData[index];
+                    
+                    if (action === 'copy') {
+                        vscode.postMessage({ command: 'copyCode', code: code });
+                    } else if (action === 'insert') {
+                        vscode.postMessage({ command: 'insertCode', code: code });
+                    }
+                });
             </script>
+
+            ${featureUtils.generateToolbarScript(['copyCode', 'insertCode'], ['copy', 'insert', 'close'])}
+            ${getPrismScripts()}
+            
         </body>
         </html>
     `;

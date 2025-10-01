@@ -53,7 +53,7 @@ function generateAboutHTML(logoDataUrl, modelBadges, modelFeatures, apiKeysList,
 <head>
     ${getSharedCSS()}
 </head>
-<body>
+<body class="centered-panel">
     <div class="logo">
         <img src="${logoDataUrl}" width="96" height="96" alt="AI.duino Logo" />
     </div>

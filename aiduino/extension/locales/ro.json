@@ -16,7 +16,8 @@
     "askAI": "Întreabă AI",
     "askFollowUp": "Întrebare de urmărire",
     "editPrompts": "Editare prompturi",
-    "changePath": "Modificați calea"
+    "changePath": "Modificați calea",
+    "openChatPanel": "Chat AI"
   },
   "messages": {
     "welcome": "👋 Bun venit! AI.duino suportă {0}!",
@@ -79,7 +80,11 @@
     "saveChanges": "Salvează modificările",
     "discard": "Renunță",
     "closeWithoutSaving": "Închide fără salvare",
-    "enterPath": "Introduceți calea"
+    "enterPath": "Introduceți calea",
+    "close": "Închide",
+    "send": "Trimite",
+    "newInput": "Intrare nouă",
+    "delete": "Șterge"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizează codul selectat",
@@ -96,7 +101,8 @@
     "askAI": "Pune o întrebare directă AI",
     "askFollowUp": "Continuă conversația anterioară: {0}",
     "noValidContext": "Fără conversație anterioară",
-    "editPrompts": "Personalizează și gestionează prompturile AI"
+    "editPrompts": "Personalizează și gestionează prompturile AI",
+    "openChatPanel": "Chat AI cu integrare cod"
   },
   "labels": {
     "active": "Activ",
@@ -218,7 +224,23 @@
     "previousQuestion": "Întrebarea anterioară",
     "previousAnswer": "Răspunsul anterior",
     "followUpQuestion": "Întrebare de urmărire",
-    "relatedCode": "Cod relacionat"
+    "relatedCode": "Cod relacionat",
+    "sendCode": "Trimite cod",
+    "insertCode": "Inserează",
+    "inputPlaceholder": "Întrebare Arduino sau ajutor cu codul...",
+    "you": "Tu",
+    "welcomeMessage": "Pune întrebări despre cod Arduino sau trimite codul selectat pentru analiză.",
+    "suggestedCode": "Cod sugerat",
+    "sentCode": "Cod trimis",
+    "newChat": "Chat nou",
+    "chats": "Chat-uri",
+    "maxChatsReached": "Număr maxim de chat-uri (10) atins",
+    "cannotDeleteLastChat": "Ultimul chat nu poate fi șters",
+    "confirmDelete": "Șterge chat-ul?",
+    "noChatsYet": "Încă nu există chat-uri",
+    "createFirstChat": "Creează primul tău chat!",
+    "chatsOverview": "Prezentare generală chat-uri",
+    "messages": "Mesaje"
   },
   "shortcuts": {
     "askFollowUp": "Întrebare de urmărire",
@@ -348,5 +370,27 @@
     "minutesAgo": "acum {0}min",
     "hoursAgo": "acum {0}h",
     "daysAgo": "acum {0}z"
+  },
+  "improveCode": {
+    "originalCode": "Cod original",
+    "customInstructions": "Instrucțiuni personalizate",
+    "aiAnalysis": "Analiză AI și îmbunătățiri",
+    "noCodeBlocksTitle": "Nu s-au găsit blocuri de cod",
+    "noCodeBlocksText": "Răspunsul AI conține sugestii de îmbunătățire, dar nu blocuri de cod extractibile.",
+    "noCodeBlocksSuggestion": "Analiza de mai sus conține sugestiile de îmbunătățire.",
+    "targetBoard": "Placă țintă",
+    "codeBadge": "Îmbunătățire cod AI",
+    "improvedCodeTitle": "Cod îmbunătățit"
+  },
+  "explainError": {
+    "errorBadge": "Analiză eroare AI",
+    "correctedCodeTitle": "Cod corectat"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "Sugestie cod AI"
+  },
+  "debugHelp": {
+    "debugBadge": "Asistent depanare AI",
+    "debugSolutionTitle": "Soluție depanare"
   }
 }

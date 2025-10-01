@@ -16,7 +16,8 @@
     "askAI": "Spør AI",
     "askFollowUp": "Still oppfølgingsspørsmål",
     "editPrompts": "Rediger prompter",
-    "changePath": "Endre bane"
+    "changePath": "Endre bane",
+    "openChatPanel": "AI Chat"
   },
   "messages": {
     "welcome": "👋 Velkommen! AI.duino støtter {0}!",
@@ -79,7 +80,11 @@
     "saveChanges": "Lagre endringer",
     "discard": "Forkast",
     "closeWithoutSaving": "Lukk uten å lagre",
-    "enterPath": "Skriv inn bane"
+    "enterPath": "Skriv inn bane",
+    "close": "Lukk",
+    "send": "Send",
+    "newInput": "Ny inndata",
+    "delete": "Slett"
   },
   "descriptions": {
     "improveCodeSelected": "Optimaliser valgt kode",
@@ -96,7 +101,8 @@
     "askAI": "Still AI et direkte spørsmål",
     "askFollowUp": "Fortsett forrige samtale: {0}",
     "noValidContext": "Ingen forrige samtale",
-    "editPrompts": "Tilpass og administrer AI-prompter"
+    "editPrompts": "Tilpass og administrer AI-prompter",
+    "openChatPanel": "AI-chat med kodeintegrasjon"
   },
   "language": {
     "autoDetect": "Auto-detect fra VS Code",
@@ -224,7 +230,23 @@
     "previousQuestion": "Forrige spørsmål",
     "previousAnswer": "Forrige svar",
     "followUpQuestion": "Oppfølgingsspørsmål",
-    "relatedCode": "Relatert kode"
+    "relatedCode": "Relatert kode",
+    "sendCode": "Send kode",
+    "insertCode": "Sett inn",
+    "inputPlaceholder": "Arduino-spørsmål eller kodehjelp...",
+    "you": "Deg",
+    "welcomeMessage": "Still spørsmål om Arduino-kode eller send valgt kode for analyse.",
+    "suggestedCode": "Foreslått kode",
+    "sentCode": "Sendt kode",
+    "newChat": "Ny chat",
+    "chats": "Chatter",
+    "maxChatsReached": "Maksimalt antall chatter (10) nådd",
+    "cannotDeleteLastChat": "Siste chat kan ikke slettes",
+    "confirmDelete": "Slett chat?",
+    "noChatsYet": "Ingen chatter ennå",
+    "createFirstChat": "Opprett din første chat!",
+    "chatsOverview": "Chat-oversikt",
+    "messages": "Meldinger"
   },
   "shortcuts": {
     "askFollowUp": "Oppfølgingsspørsmål",
@@ -348,5 +370,27 @@
     "minutesAgo": "for {0}min siden",
     "hoursAgo": "for {0}t siden",
     "daysAgo": "for {0}d siden"
+  },
+  "improveCode": {
+    "originalCode": "Original kode",
+    "customInstructions": "Egendefinerte instruksjoner",
+    "aiAnalysis": "AI-analyse og forbedringer",
+    "noCodeBlocksTitle": "Ingen kodeblokker funnet",
+    "noCodeBlocksText": "AI-svaret inneholder forbedringsforslag, men ingen ekstraherbare kodeblokker.",
+    "noCodeBlocksSuggestion": "Analysen ovenfor inneholder forbedringsforslag.",
+    "targetBoard": "Målbrett",
+    "codeBadge": "AI-kodeforbedring",
+    "improvedCodeTitle": "Forbedret kode"
+  },
+  "explainError": {
+    "errorBadge": "AI-feilanalyse",
+    "correctedCodeTitle": "Rettet kode"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI-kodeforslag"
+  },
+  "debugHelp": {
+    "debugBadge": "AI-debug-assistent",
+    "debugSolutionTitle": "Debug-løsning"
   }
 }

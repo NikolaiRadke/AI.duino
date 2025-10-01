@@ -16,7 +16,8 @@
     "askAI": "Vraag AI",
     "askFollowUp": "Vervolgvraag",
     "editPrompts": "Prompts bewerken",
-    "changePath": "Pad wijzigen"
+    "changePath": "Pad wijzigen",
+    "openChatPanel": "AI Chat"
   },
   "messages": {
     "welcome": "👋 Welkom! AI.duino  ondersteunt {0}!",
@@ -79,7 +80,11 @@
     "saveChanges": "Wijzigingen opslaan",
     "discard": "Verwerpen",
     "closeWithoutSaving": "Sluiten zonder opslaan",
-    "enterPath": "Voer pad in"
+    "enterPath": "Voer pad in",
+    "close": "Sluiten",
+    "send": "Verzenden",
+    "newInput": "Nieuwe invoer",
+    "delete": "Verwijderen"
   },
   "descriptions": {
     "improveCodeSelected": "Geselecteerde code optimaliseren",
@@ -96,7 +101,8 @@
     "askAI": "Stel een directe vraag aan AI",
     "askFollowUp": "Vorig gesprek voortzetten: {0}",
     "noValidContext": "Geen vorig gesprek",
-    "editPrompts": "AI-prompts aanpassen en beheren"
+    "editPrompts": "AI-prompts aanpassen en beheren",
+    "openChatPanel": "AI-chat met code-integratie"
   },
   "language": {
     "autoDetect": "Automatisch detecteren vanuit VS Code",
@@ -224,7 +230,23 @@
     "previousQuestion": "Vorige vraag",
     "previousAnswer": "Vorig antwoord",
     "followUpQuestion": "Vervolgvraag",
-    "relatedCode": "Gerelateerde code"
+    "relatedCode": "Gerelateerde code",
+    "sendCode": "Code verzenden",
+    "insertCode": "Invoegen",
+    "inputPlaceholder": "Arduino-vraag of code-hulp...",
+    "you": "Jij",
+    "welcomeMessage": "Stel vragen over Arduino-code of stuur geselecteerde code voor analyse.",
+    "suggestedCode": "Voorgestelde code",
+    "sentCode": "Verzonden code",
+    "newChat": "Nieuwe chat",
+    "chats": "Chats",
+    "maxChatsReached": "Maximum aantal chats (10) bereikt",
+    "cannotDeleteLastChat": "Laatste chat kan niet worden verwijderd",
+    "confirmDelete": "Chat verwijderen?",
+    "noChatsYet": "Nog geen chats",
+    "createFirstChat": "Maak je eerste chat!",
+    "chatsOverview": "Chat-overzicht",
+    "messages": "Berichten"
   },
   "shortcuts": {
     "askFollowUp": "Vervolgvraag",
@@ -348,5 +370,27 @@
     "minutesAgo": "{0}min geleden",
     "hoursAgo": "{0}u geleden",
     "daysAgo": "{0}d geleden"
+  },
+  "improveCode": {
+    "originalCode": "Originele code",
+    "customInstructions": "Aangepaste instructies",
+    "aiAnalysis": "AI-analyse en verbeteringen",
+    "noCodeBlocksTitle": "Geen codeblokken gevonden",
+    "noCodeBlocksText": "Het AI-antwoord bevat verbeteringssuggesties maar geen extraheerbare codeblokken.",
+    "noCodeBlocksSuggestion": "De analyse hierboven bevat de verbeteringssuggesties.",
+    "targetBoard": "Doelbord",
+    "codeBadge": "AI-codeverbetering",
+    "improvedCodeTitle": "Verbeterde code"
+  },
+  "explainError": {
+    "errorBadge": "AI-foutanalyse",
+    "correctedCodeTitle": "Gecorrigeerde code"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI-codesuggestie"
+  },
+  "debugHelp": {
+    "debugBadge": "AI-debug-assistent",
+    "debugSolutionTitle": "Debug-oplossing"
   }
 }

@@ -16,7 +16,8 @@
     "askAI": "Spørg AI",
     "askFollowUp": "Stil Opfølgende Spørgsmål",
     "editPrompts": "Rediger prompts",
-    "changePath": "Skift sti"
+    "changePath": "Skift sti",
+    "openChatPanel": "AI Chat"
   },
   "messages": {
     "welcome": "👋 Velkommen! AI.duino understøtter {0}!",
@@ -79,7 +80,11 @@
     "saveChanges": "Gem ændringer",
     "discard": "Kassér",
     "closeWithoutSaving": "Luk uden at gemme",
-    "enterPath": "Indtast sti"
+    "enterPath": "Indtast sti",
+    "close": "Luk",
+    "send": "Send",
+    "newInput": "Ny indtastning",
+    "delete": "Slet"
   },
   "descriptions": {
     "improveCodeSelected": "Optimere valgte kode",
@@ -96,7 +101,8 @@
     "askAI": "Stil AI et direkte spørgsmål",
     "askFollowUp": "Fortsæt forrige samtale: {0}",
     "noValidContext": "Ingen forrige samtale",
-    "editPrompts": "Tilpas og administrer AI prompts"
+    "editPrompts": "Tilpas og administrer AI prompts",
+    "openChatPanel": "AI-chat med kodeintegration"
   },
   "language": {
     "autoDetect": "Auto-detektér fra VS Code",
@@ -224,7 +230,23 @@
     "previousQuestion": "Forrige spørgsmål",
     "previousAnswer": "Forrige svar",
     "followUpQuestion": "Opfølgende spørgsmål",
-    "relatedCode": "Relateret kode"
+    "relatedCode": "Relateret kode",
+    "sendCode": "Send kode",
+    "insertCode": "Indsæt",
+    "inputPlaceholder": "Arduino-spørgsmål eller kodehjælp...",
+    "you": "Dig",
+    "welcomeMessage": "Stil spørgsmål om Arduino-kode eller send valgt kode til analyse.",
+    "suggestedCode": "Foreslået kode",
+    "sentCode": "Sendt kode",
+    "newChat": "Ny chat",
+    "chats": "Chats",
+    "maxChatsReached": "Maksimalt antal chats (10) nået",
+    "cannotDeleteLastChat": "Sidste chat kan ikke slettes",
+    "confirmDelete": "Slet chat?",
+    "noChatsYet": "Ingen chats endnu",
+    "createFirstChat": "Opret din første chat!",
+    "chatsOverview": "Chat-oversigt",
+    "messages": "Beskeder"
   },
   "shortcuts": {
     "askFollowUp": "Opfølgende spørgsmål",
@@ -348,5 +370,27 @@
     "minutesAgo": "for {0}min siden",
     "hoursAgo": "for {0}t siden",
     "daysAgo": "for {0}d siden"
+  },
+  "improveCode": {
+    "originalCode": "Original kode",
+    "customInstructions": "Brugerdefinerede instruktioner",
+    "aiAnalysis": "AI-analyse og forbedringer",
+    "noCodeBlocksTitle": "Ingen kodeblokke fundet",
+    "noCodeBlocksText": "AI-svaret indeholder forbedringsforslag, men ingen ekstraherbare kodeblokke.",
+    "noCodeBlocksSuggestion": "Analysen ovenfor indeholder forbedringsforslag.",
+    "targetBoard": "Målboard",
+    "codeBadge": "AI-kodeforbedring",
+    "improvedCodeTitle": "Forbedret kode"
+  },
+  "explainError": {
+    "errorBadge": "AI-fejlanalyse",
+    "correctedCodeTitle": "Rettet kode"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI-kodeforslag"
+  },
+  "debugHelp": {
+    "debugBadge": "AI-debug-assistent",
+    "debugSolutionTitle": "Debug-løsning"
   }
 }

@@ -16,9 +16,9 @@
     "askAI": "KI fragen",
     "askFollowUp": "Rückfrage stellen",
     "editPrompts": "Prompts bearbeiten",
-    "changePath": "Pfad ändern"
+    "changePath": "Pfad ändern",
+    "openChatPanel": "KI Chat"
   },
-
   "messages": {
     "welcome": "👋 Willkommen! AI.duino unterstützt {0}!",
     "noApiKey": "🔑 Du brauchst zuerst einen API-Schlüssel für {0}",
@@ -51,7 +51,6 @@
     "noPath": "🔧 Du brauchst zuerst einen Pfad für {0}",
     "pathRequired": "{0} benötigt einen Pfad"
   },
-  
   "buttons": {
     "chooseModel": "KI-Modell wählen",
     "later": "Später",
@@ -82,9 +81,12 @@
     "saveChanges": "Änderungen speichern",
     "discard": "Verwerfen",
     "closeWithoutSaving": "Beenden ohne Speichern",
-    "enterPath": "Pfad eingeben"
+    "enterPath": "Pfad eingeben",
+    "send": "Senden",
+    "close": "Schließen",
+    "newInput": "Neue Eingabe",
+    "delete": "Löschen"
   },
-  
   "descriptions": {
     "improveCodeSelected": "Ausgewählten Code optimieren",
     "explainCodeSelected": "Ausgewählten Code erklären",
@@ -100,21 +102,19 @@
     "askAI": "Direkte Frage an die KI stellen",
     "askFollowUp": "Vorherige Unterhaltung fortsetzen: {0}",
     "noValidContext": "Keine vorherige Unterhaltung",
-    "editPrompts": "AI-Prompts anpassen"
+    "editPrompts": "AI-Prompts anpassen",
+    "openChatPanel": "AI-Chat mit Code-Integration"
   },
-  
   "language": {
     "autoDetect": "Automatisch von VS Code erkennen",
     "selectLanguage": "Sprache für AI.duino wählen",
     "changeLanguage": "Sprache ändern",
     "changed": "Sprache geändert zu {0}"
   },
-  
   "labels": {
     "active": "Aktiv",
     "aiHints": "KI-Hinweise"
   },
-  
   "prompts": {
     "customInstructions": "Eigene Anweisungen für die Code-Verbesserung (optional)",
     "commentInstructions": "Eigene Anweisungen für die Kommentierung (optional)",
@@ -140,7 +140,6 @@
     "followUpContext": "Kontext der vorherigen Unterhaltung:",
     "followUpInstruction": "Antworte auf Deutsch unter Berücksichtigung der vorherigen Unterhaltung."
   },
-  
   "placeholders": {
     "customInstructions": "z.B. \"keine millis() verwenden\", \"optimieren für Arduino Nano\", \"Error-Handling hinzufügen\"",
     "commentInstructions": "z.B. \"sehr ausführlich\", \"nur Funktionen kommentieren\", \"auf Englisch\"",
@@ -149,13 +148,11 @@
     "askAI": "z.B. \"Wie funktioniert PWM?\", \"Warum funktioniert mein Sensor nicht?\"",
     "askFollowUp": "Unterhaltung fortsetzen..."
   },
-  
   "validation": {
     "apiKeyRequired": "API-Schlüssel erforderlich",
     "apiKeyPrefix": "Muss mit \"{0}\" beginnen",
     "apiKeyTooShort": "Schlüssel scheint zu kurz"
   },
-  
   "progress": {
     "retrying": "{0} (Versuch {1}/{2})",
     "explaining": "{0} erklärt den Code...",
@@ -167,7 +164,6 @@
     "askingAI": "{0} bearbeitet deine Frage...",
     "askingFollowUp": "{0} bearbeitet deine Rückfrage..."
   },
-  
   "errors": {
     "quotaExceeded": "Monatliches Kontingent erschöpft",
     "quotaExceededDetail": "{0}: Monatliches Kontingent erschöpft. Bitte warte bis zum Monatsanfang oder wechsle das Modell.",    
@@ -199,7 +195,6 @@
     },
     "unknownProvider": "Unbekannter Anbieter",
     "noApiKeyUrl": "Keine API-Key-URL konfiguriert für {0}",
-    "quotaExceeded": "Kontingent erschöpft", 
     "noDetailsAvailable": "Keine Details verfügbar",
     "processError": "Prozessfehler: {0}",
     "processFailedWithCode": "Prozess mit Fehlercode {0} beendet",
@@ -207,13 +202,11 @@
     "localProviderNotRunning": "läuft nicht. Bitte starten.",
     "localProviderTimeout": "Sitzung abgelaufen"
   },
-  
   "statusBar": {
     "tooltip": "AI.duino : {0}\nHeute: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlick für Menü • Strg+Shift+C • Rechtsklick zum Wechseln",
     "noApiKey": "{0}-API-Schlüssel fehlt! • Klick zum Einrichten",
     "errorsFound": "{0} Fehler gefunden • Klick für Hilfe"
   },
-  
   "output": {
     "codeExplanation": "{0} Erklärung",
     "explanationFrom": "CODE-ERKLÄRUNG VON {0}",
@@ -228,7 +221,6 @@
     "boardDetected": "Board: {0}",
     "boardUnknown": "Unbekanntes Board"
   },
-
   "chat": {
     "includeSelectedCode": "Markierten Code einbeziehen",
     "includeSelectedCodeDesc": "Frage mit aktuell markiertem Code senden",
@@ -238,14 +230,28 @@
     "previousQuestion": "Vorherige Frage",
     "previousAnswer": "Vorherige Antwort",
     "followUpQuestion": "Rückfrage",
-    "relatedCode": "Zugehöriger Code"
+    "relatedCode": "Zugehöriger Code",
+    "sendCode": "Code senden",
+    "insertCode": "Einfügen", 
+    "inputPlaceholder": "Arduino-Frage oder Code-Hilfe...",
+    "you": "Du",
+    "welcomeMessage": "Stelle Fragen zu Arduino-Code oder sende markierten Code für Analyse.",
+    "suggestedCode": "Vorgeschlagener Code",
+    "sentCode": "Gesendeter Code",
+    "newChat": "Neuer Chat",
+    "chats": "Chats",
+    "maxChatsReached": "Maximale Anzahl Chats (10) erreicht",
+    "cannotDeleteLastChat": "Letzter Chat kann nicht gelöscht werden",
+    "confirmDelete": "Chat wirklich löschen?",
+    "noChatsYet": "Noch keine Chats",
+    "createFirstChat": "Erstelle deinen ersten Chat!",
+    "chatsOverview": "Chat-Übersicht",
+    "messages": "Nachrichten"
   },
-
   "shortcuts": {
     "askFollowUp": "Rückfrage",
     "askAI": "Neue Frage"
-  },  
-
+  }, 
   "panels": {
     "errorExplanation": "🔧 Fehler-Erklärung",
     "debugHelp": "🔍 Debug-Hilfe",
@@ -253,12 +259,10 @@
     "tokenStats": "📊 Token-Statistik",
     "about": "Über AI.duino"
   },
-  
   "html": {
     "errorExplanation": "Fehler-Erklärung",
     "errorInLine": "Fehler in Zeile {0}"
   },
-  
   "debug": {
     "analyzeSerial": "Serial-Monitor-Ausgabe analysieren",
     "analyzeSerialDesc": "Hilfe bei der Interpretation von Debug-Ausgaben",
@@ -270,7 +274,6 @@
     "timingProblemsDesc": "Hilfe bei delay(), millis() und Timing-Bugs",
     "selectHelp": "Wobei brauchst du Hilfe?"
   },
-  
   "offline": {
     "title": "Keine Internetverbindung",
     "requiresInternet": "AI.duino benötigt eine Internetverbindung, um mit Claude, ChatGPT, Gemini oder Mistral zu kommunizieren.",
@@ -294,7 +297,6 @@
     "tip": "Tipp",
     "onlineAgain": "Sobald du wieder online bist, kann AI.duino dir bei spezifischen Problemen helfen!"
   },
-  
   "stats": {
     "tokenUsageFor": "Token-Verbrauch für {0}",
     "totalCostToday": "Gesamtkosten heute",
@@ -305,7 +307,6 @@
     "tipDescription": "Die Token-Zählung ist eine Schätzung. Die tatsächlichen Kosten können leicht abweichen.",
     "confirmReset": "Statistik wirklich zurücksetzen?"
   },
-  
   "about": {
     "tagline": "KI-gestützte Arduino-Entwicklung",
     "features": "Funktionen",
@@ -331,7 +332,6 @@
     "reportBugs": "Fehler melden",
     "madeWith": "Entwickelt mit 💙 für die Arduino-Community"
   },
-
   "config": {
     "updateAvailable": "Provider-Config Update verfügbar: {0} → {1}",
     "updateNow": "Jetzt aktualisieren",
@@ -344,16 +344,13 @@
     "modelOutdated": "Modell scheint veraltet zu sein. Konfigurationen aktualisieren?",
     "notNow": "Nicht jetzt"
   },
-
   "settings": {
     "autoUpdateConfigs": "Automatisch nach Provider-Config-Updates suchen"
   },
-
   "extensionUpdate": {
     "available": "AI.duino Extension Update verfügbar: {0} → {1}",
     "download": "Herunterladen"
   },
-
   "promptEditor": {
     "placeholderWarning": "Wichtig: Platzhalter {0}, {1}, {2} nicht löschen - sie werden durch Code und Anweisungen ersetzt!",
     "missingPlaceholder": "Fehler: Platzhalter {0} fehlt!",
@@ -368,11 +365,32 @@
     "changesLostDialog": "Das Panel wurde mit ungespeicherten Änderungen geschlossen. Was möchten Sie tun?",
     "changesSaved": "Änderungen gespeichert!"
   },
-
   "time": {
     "justNow": "gerade eben",
     "minutesAgo": "vor {0}min",
     "hoursAgo": "vor {0}h", 
     "daysAgo": "vor {0}d"
+  },
+  "improveCode": {
+    "originalCode": "Original Code",
+    "customInstructions": "Eigene Anweisungen",
+    "aiAnalysis": "KI-Analyse & Verbesserungen",
+    "noCodeBlocksTitle": "Keine Code-Blöcke gefunden",
+    "noCodeBlocksText": "Die KI-Antwort enthält Verbesserungsvorschläge, aber keine extrahierbaren Code-Blöcke.",
+    "noCodeBlocksSuggestion": "Die Analyse oben enthält die Verbesserungsvorschläge.",
+    "targetBoard": "Ziel-Board",
+    "codeBadge": "KI Code-Verbesserung",
+    "improvedCodeTitle": "Verbesserter Code"
+  },
+  "explainError": {
+    "errorBadge": "KI Fehler-Analyse",
+    "correctedCodeTitle": "Korrigierter Code"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "KI Code-Vorschlag"
+  },
+  "debugHelp": {
+    "debugBadge": "KI Debug-Assistent",
+    "debugSolutionTitle": "Debug-Lösung"
   }
 }

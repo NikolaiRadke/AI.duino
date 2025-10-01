@@ -115,6 +115,18 @@ class ErrorChecker {
     }
 
     /**
+     * Get current error status
+     * @returns {Object} Error status with count and URI
+     */
+    getErrorStatus() {
+        return {
+            lastDiagnosticsCount: this.lastDiagnosticsCount,
+            lastCheckedUri: this.lastCheckedUri,
+            lastErrorCheck: this.lastErrorCheck
+        };
+    }
+
+    /**
      * Cleanup all timers and listeners
      */
     dispose() {

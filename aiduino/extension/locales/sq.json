@@ -16,7 +16,8 @@
     "askAI": "Pyet AI-në",
     "askFollowUp": "Bëj një pyetje shtesë",
     "editPrompts": "Redakto kërkesat",
-    "changePath": "Ndrysho shtegun"
+    "changePath": "Ndrysho shtegun",
+    "openChatPanel": "AI Chat"
   },
   "messages": {
     "welcome": "👋 Mirë se vini! AI.duino mbështet {0}!",
@@ -80,7 +81,11 @@
     "saveChanges": "Ruaj ndryshimet",
     "discard": "Hidh",
     "closeWithoutSaving": "Mbyll pa ruajtur",
-    "enterPath": "Vendosni shtegun"
+    "enterPath": "Vendosni shtegun",
+    "close": "Mbyll",
+    "send": "Dërgo",
+    "newInput": "Hyrje e re",
+    "delete": "Fshi"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizo kodin e zgjedhur",
@@ -97,7 +102,8 @@
     "askAI": "Bëj një pyetje direkte te AI-ja",
     "askFollowUp": "Vazhdo bisedën e mëparshme: {0}",
     "noValidContext": "Nuk ka bisedë të mëparshme",
-    "editPrompts": "Përshtat kërkesat e AI-së"
+    "editPrompts": "Përshtat kërkesat e AI-së",
+    "openChatPanel": "AI chat me integrim kodi"
   },
   "language": {
     "autoDetect": "Zbulo automatikisht nga VS Code",
@@ -225,7 +231,23 @@
     "previousQuestion": "Pyetja e mëparshme",
     "previousAnswer": "Përgjigja e mëparshme",
     "followUpQuestion": "Pyetje shtesë",
-    "relatedCode": "Kodi i lidhur"
+    "relatedCode": "Kodi i lidhur",
+    "sendCode": "Dërgo kodin",
+    "insertCode": "Fut",
+    "inputPlaceholder": "Pyetje Arduino ose ndihmë me kodin...",
+    "you": "Ti",
+    "welcomeMessage": "Bëni pyetje për kodin Arduino ose dërgoni kodin e zgjedhur për analizë.",
+    "suggestedCode": "Kod i sugjeruar",
+    "sentCode": "Kod i dërguar",
+    "newChat": "Bisedë e re",
+    "chats": "Biseda",
+    "maxChatsReached": "Numri maksimal i bisedave (10) u arrit",
+    "cannotDeleteLastChat": "Biseda e fundit nuk mund të fshihet",
+    "confirmDelete": "Fshi bisedën?",
+    "noChatsYet": "Ende pa biseda",
+    "createFirstChat": "Krijo bisedën tënde të parë!",
+    "chatsOverview": "Përmbledhje bisedash",
+    "messages": "Mesazhe"
   },
   "shortcuts": {
     "askFollowUp": "Pyetje shtesë",
@@ -349,5 +371,27 @@
     "minutesAgo": "{0}min më parë",
     "hoursAgo": "{0}orë më parë",
     "daysAgo": "{0}ditë më parë"
+  },
+  "improveCode": {
+    "originalCode": "Kodi origjinal",
+    "customInstructions": "Udhëzime të personalizuara",
+    "aiAnalysis": "Analiza AI dhe përmirësime",
+    "noCodeBlocksTitle": "Nuk u gjetën blloqe kodi",
+    "noCodeBlocksText": "Përgjigjja AI përmban sugjerime për përmirësim, por jo blloqe kodi të nxjerr.",
+    "noCodeBlocksSuggestion": "Analiza më sipër përmban sugjerimet për përmirësim.",
+    "targetBoard": "Bord i synuar",
+    "codeBadge": "Përmirësim kodi AI",
+    "improvedCodeTitle": "Kod i përmirësuar"
+  },
+  "explainError": {
+    "errorBadge": "Analizë gabimi AI",
+    "correctedCodeTitle": "Kod i korrigjuar"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "Sugjerim kodi AI"
+  },
+  "debugHelp": {
+    "debugBadge": "Asistent debug AI",
+    "debugSolutionTitle": "Zgjidhje debug"
   }
 }

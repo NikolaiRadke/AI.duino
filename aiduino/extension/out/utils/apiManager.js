@@ -180,16 +180,6 @@ async function setApiKey(context) {
 }
 
 /**
- * Get provider display name for a model
- * @param {string} modelId - Model identifier
- * @param {Object} minimalModelManager - Model manager instance
- * @returns {string} Provider name or 'Unknown'
- */
-function getProviderName(modelId, minimalModelManager) {
-    return minimalModelManager.providers[modelId]?.name || 'Unknown';
-}
-
-/**
  * Validate API connection for current model
  * @param {Object} context - Extension context with dependencies
  * @returns {Promise<boolean>} True if connection is valid
@@ -267,6 +257,5 @@ module.exports = {
     callAI,
     switchModel,
     setApiKey,
-    getProviderName,
     validateApiConnection
 };

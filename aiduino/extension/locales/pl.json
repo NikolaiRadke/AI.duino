@@ -16,7 +16,8 @@
     "askAI": "Zapytaj AI",
     "askFollowUp": "Pytanie uzupełniające",
     "editPrompts": "Edytuj polecenia",
-    "changePath": "Zmień ścieżkę"
+    "changePath": "Zmień ścieżkę",
+    "openChatPanel": "Czat AI"
   },
   "messages": {
     "welcome": "👋 Witaj! AI.duino  obsługuje {0}!",
@@ -79,7 +80,11 @@
     "saveChanges": "Zapisz zmiany",
     "discard": "Odrzuć",
     "closeWithoutSaving": "Zamknij bez zapisywania",
-    "enterPath": "Wprowadź ścieżkę"
+    "enterPath": "Wprowadź ścieżkę",
+    "close": "Zamknij",
+    "send": "Wyślij",
+    "newInput": "Nowe wprowadzenie",
+    "delete": "Usuń"
   },
   "descriptions": {
     "improveCodeSelected": "Optymalizuj zaznaczony kod",
@@ -96,7 +101,8 @@
     "askAI": "Zadaj bezpośrednie pytanie AI",
     "askFollowUp": "Kontynuuj poprzednią rozmowę: {0}",
     "noValidContext": "Brak poprzedniej rozmowy",
-    "editPrompts": "Dostosuj i zarządzaj poleceniami AI"
+    "editPrompts": "Dostosuj i zarządzaj poleceniami AI",
+    "openChatPanel": "Czat AI z integracją kodu"
   },
   "language": {
     "autoDetect": "Wykryj automatycznie z VS Code",
@@ -224,7 +230,23 @@
     "previousQuestion": "Poprzednie pytanie",
     "previousAnswer": "Poprzednia odpowiedź",
     "followUpQuestion": "Pytanie uzupełniające",
-    "relatedCode": "Powiązany kod"
+    "relatedCode": "Powiązany kod",
+    "sendCode": "Wyślij kod",
+    "insertCode": "Wstaw",
+    "inputPlaceholder": "Pytanie Arduino lub pomoc z kodem...",
+    "you": "Ty",
+    "welcomeMessage": "Zadawaj pytania o kod Arduino lub wyślij wybrany kod do analizy.",
+    "suggestedCode": "Proponowany kod",
+    "sentCode": "Wysłany kod",
+    "newChat": "Nowy czat",
+    "chats": "Czaty",
+    "maxChatsReached": "Osiągnięto maksymalną liczbę czatów (10)",
+    "cannotDeleteLastChat": "Ostatni czat nie może zostać usunięty",
+    "confirmDelete": "Usunąć czat?",
+    "noChatsYet": "Brak czatów",
+    "createFirstChat": "Utwórz swój pierwszy czat!",
+    "chatsOverview": "Przegląd czatów",
+    "messages": "Wiadomości"
   },
   "shortcuts": {
     "askFollowUp": "Pytanie uzupełniające",
@@ -348,5 +370,27 @@
     "minutesAgo": "{0}min temu",
     "hoursAgo": "{0}h temu",
     "daysAgo": "{0}d temu"
+  },
+  "improveCode": {
+    "originalCode": "Oryginalny kod",
+    "customInstructions": "Niestandardowe instrukcje",
+    "aiAnalysis": "Analiza AI i ulepszenia",
+    "noCodeBlocksTitle": "Nie znaleziono bloków kodu",
+    "noCodeBlocksText": "Odpowiedź AI zawiera sugestie ulepszeń, ale brak wyodrębnionych bloków kodu.",
+    "noCodeBlocksSuggestion": "Powyższa analiza zawiera sugestie ulepszeń.",
+    "targetBoard": "Płytka docelowa",
+    "codeBadge": "Ulepszenie kodu AI",
+    "improvedCodeTitle": "Ulepszony kod"
+  },
+  "explainError": {
+    "errorBadge": "Analiza błędu AI",
+    "correctedCodeTitle": "Poprawiony kod"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "Sugestia kodu AI"
+  },
+  "debugHelp": {
+    "debugBadge": "Asystent debugowania AI",
+    "debugSolutionTitle": "Rozwiązanie debugowania"
   }
 }

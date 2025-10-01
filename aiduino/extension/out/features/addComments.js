@@ -27,9 +27,14 @@ async function addComments(context) {
             // Get custom instructions with history 
             const customInstructions = await featureUtils.showInputWithCreateQuickPickHistory(
                 context, 'commentInstructions', 'placeholders.customInstructions', 'addComments',
-                context.globalContext.globalState.get('aiduino.customInstructions', '')
-            );            
-            if (!customInstructions) return;
+                '' 
+            );          
+
+            // User cancelled (pressed Escape) - abort
+            if (customInstructions === null) return;
+
+            // Empty string is OK - means "no special instructions"
+            const instructions = customInstructions.trim();
 
             context.globalContext.globalState.update('aiduino.commentInstructions', customInstructions);
 
@@ -40,9 +45,9 @@ async function addComments(context) {
             let prompt = context.promptManager.getPrompt('addComments', selectedText) + shared.getBoardContext();
             
             // Add custom instructions if provided
-            if (customInstructions && customInstructions.trim()) {
-                const instructions = customInstructions.split(',').map(s => s.trim()).join('\n- ');
-                prompt += '\n\n' + context.promptManager.getPrompt('additionalInstructions', instructions);
+            if (instructions) {
+                const instructionsList = instructions.split(',').map(s => s.trim()).join('\n- ');
+                prompt += '\n\n' + context.promptManager.getPrompt('additionalInstructions', instructionsList);
             }
             
             prompt += '\n\n' + context.promptManager.getPrompt('addCommentsSuffix');

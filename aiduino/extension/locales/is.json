@@ -16,7 +16,8 @@
     "askAI": "Spyrja gervigreind",
     "askFollowUp": "Spyrja framhaldsspurningar",
     "editPrompts": "Breyta fyrirmælum",
-    "changePath": "Breyta slóð"
+    "changePath": "Breyta slóð",
+    "openChatPanel": "AI Spjall"
   },
   "messages": {
     "welcome": "👋 Velkominn! AI.duino styður {0}!",
@@ -80,7 +81,11 @@
     "saveChanges": "Vista breytingar",
     "discard": "Henda",
     "closeWithoutSaving": "Loka án þess að vista",
-    "enterPath": "Sláðu inn slóð"
+    "enterPath": "Sláðu inn slóð",
+    "close": "Loka",
+    "send": "Senda",
+    "newInput": "Ný innsláttur",
+    "delete": "Eyða"
   },
   "descriptions": {
     "improveCodeSelected": "Bæta valinn kóða",
@@ -97,7 +102,8 @@
     "askAI": "Spyrja gervigreind beint",
     "askFollowUp": "Halda áfram fyrri samtali: {0}",
     "noValidContext": "Ekkert fyrra samtal",
-    "editPrompts": "Aðlaga gervigreindafyrirmæli"
+    "editPrompts": "Aðlaga gervigreindafyrirmæli",
+    "openChatPanel": "AI-spjall með kóðasamþættingu"
   },
   "language": {
     "autoDetect": "Greina sjálfkrafa frá VS Code",
@@ -225,7 +231,23 @@
     "previousQuestion": "Fyrri spurning",
     "previousAnswer": "Fyrra svar",
     "followUpQuestion": "Framhaldsspurning",
-    "relatedCode": "Tengdur kóði"
+    "relatedCode": "Tengdur kóði",
+    "sendCode": "Senda kóða",
+    "insertCode": "Setja inn",
+    "inputPlaceholder": "Arduino-spurning eða kóðaaðstoð...",
+    "you": "Þú",
+    "welcomeMessage": "Spyrðu spurninga um Arduino-kóða eða sendu valinn kóða til greiningar.",
+    "suggestedCode": "Tillögur að kóða",
+    "sentCode": "Sendur kóði",
+    "newChat": "Nýtt spjall",
+    "chats": "Spjöll",
+    "maxChatsReached": "Hámarksfjöldi spjalla (10) náð",
+    "cannotDeleteLastChat": "Ekki hægt að eyða síðasta spjalli",
+    "confirmDelete": "Eyða spjalli?",
+    "noChatsYet": "Engin spjöll ennþá",
+    "createFirstChat": "Búðu til þitt fyrsta spjall!",
+    "chatsOverview": "Yfirlit spjalla",
+    "messages": "Skilaboð"
   },
   "shortcuts": {
     "askFollowUp": "Framhaldsspurning",
@@ -349,5 +371,27 @@
     "minutesAgo": "fyrir {0}mín",
     "hoursAgo": "fyrir {0}klst",
     "daysAgo": "fyrir {0}dögum"
+  },
+  "improveCode": {
+    "originalCode": "Upprunalegur kóði",
+    "customInstructions": "Sérsniðnar leiðbeiningar",
+    "aiAnalysis": "AI-greining og endurbætur",
+    "noCodeBlocksTitle": "Engar kóðablokkir fundust",
+    "noCodeBlocksText": "AI-svarið inniheldur tillögur að úrbótum en engar útdraganlegar kóðablokkir.",
+    "noCodeBlocksSuggestion": "Greiningin hér að ofan inniheldur tillögurnar að úrbótum.",
+    "targetBoard": "Marktafla",
+    "codeBadge": "AI-kóðaúrbætur",
+    "improvedCodeTitle": "Endurbættur kóði"
+  },
+  "explainError": {
+    "errorBadge": "AI-villugreining",
+    "correctedCodeTitle": "Leiðréttur kóði"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI-kóðatillaga"
+  },
+  "debugHelp": {
+    "debugBadge": "AI-villuleitaraðstoð",
+    "debugSolutionTitle": "Villuleitarlausn"
   }
 }

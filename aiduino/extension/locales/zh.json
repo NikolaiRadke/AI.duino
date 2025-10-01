@@ -16,7 +16,8 @@
     "askAI": "询问AI",
     "askFollowUp": "追问",
     "editPrompts": "编辑提示词",
-    "changePath": "更改路径"
+    "changePath": "更改路径",
+    "openChatPanel": "AI 聊天"
   },
   "messages": {
     "welcome": "👋 欢迎！AI.duino 支持{0}！",
@@ -79,7 +80,11 @@
     "saveChanges": "保存更改",
     "discard": "放弃",
     "closeWithoutSaving": "不保存关闭",
-    "enterPath": "输入路径"
+    "enterPath": "输入路径",
+    "close": "关闭",
+    "send": "发送",
+    "newInput": "新输入",
+    "delete": "删除"
   },
   "descriptions": {
     "improveCodeSelected": "优化选定的代码",
@@ -96,7 +101,8 @@
     "askAI": "直接向AI提问",
     "askFollowUp": "继续之前的对话: {0}",
     "noValidContext": "没有之前的对话",
-    "editPrompts": "自定义和管理AI提示词"
+    "editPrompts": "自定义和管理AI提示词",
+    "openChatPanel": "带代码集成的AI聊天"
   },
   "language": {
     "autoDetect": "从 VS Code 自动检测",
@@ -224,7 +230,23 @@
     "previousQuestion": "之前的问题",
     "previousAnswer": "之前的回答",
     "followUpQuestion": "追问",
-    "relatedCode": "相关代码"
+    "relatedCode": "相关代码",
+    "sendCode": "发送代码",
+    "insertCode": "插入",
+    "inputPlaceholder": "Arduino问题或代码帮助...",
+    "you": "你",
+    "welcomeMessage": "询问有关Arduino代码的问题或发送选定的代码进行分析。",
+    "suggestedCode": "建议的代码",
+    "sentCode": "已发送的代码",
+    "newChat": "新聊天",
+    "chats": "聊天",
+    "maxChatsReached": "已达到最大聊天数量（10）",
+    "cannotDeleteLastChat": "无法删除最后一个聊天",
+    "confirmDelete": "确定删除聊天？",
+    "noChatsYet": "还没有聊天",
+    "createFirstChat": "创建你的第一个聊天！",
+    "chatsOverview": "聊天概览",
+    "messages": "消息"
   },
   "shortcuts": {
     "askFollowUp": "追问",
@@ -348,5 +370,27 @@
     "minutesAgo": "{0}分钟前",
     "hoursAgo": "{0}小时前",
     "daysAgo": "{0}天前"
+  },
+  "improveCode": {
+    "originalCode": "原始代码",
+    "customInstructions": "自定义说明",
+    "aiAnalysis": "AI分析和改进",
+    "noCodeBlocksTitle": "未找到代码块",
+    "noCodeBlocksText": "AI响应包含改进建议，但没有可提取的代码块。",
+    "noCodeBlocksSuggestion": "上述分析包含改进建议。",
+    "targetBoard": "目标板",
+    "codeBadge": "AI代码改进",
+    "improvedCodeTitle": "改进的代码"
+  },
+  "explainError": {
+    "errorBadge": "AI错误分析",
+    "correctedCodeTitle": "修正的代码"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI代码建议"
+  },
+  "debugHelp": {
+    "debugBadge": "AI调试助手",
+    "debugSolutionTitle": "调试解决方案"
   }
 }

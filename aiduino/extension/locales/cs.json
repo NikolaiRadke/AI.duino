@@ -16,7 +16,8 @@
     "askAI": "Zeptat se AI",
     "askFollowUp": "Navazující otázka",
     "editPrompts": "Upravit výzvy",
-    "changePath": "Změnit cestu"
+    "changePath": "Změnit cestu",
+    "openChatPanel": "AI Chat"
   },
   "messages": {
     "welcome": "👋 Vítejte! AI.duino podporuje {0}!",
@@ -79,7 +80,11 @@
     "saveChanges": "Uložit změny",
     "discard": "Zahodit",
     "closeWithoutSaving": "Zavřít bez uložení",
-    "enterPath": "Zadejte cestu"
+    "enterPath": "Zadejte cestu",
+    "close": "Zavřít",
+    "send": "Odeslat",
+    "newInput": "Nový vstup",
+    "delete": "Smazat"
   },
   "descriptions": {
     "improveCodeSelected": "Optimalizovat vybraný kód",
@@ -96,7 +101,8 @@
     "askAI": "Položit přímou otázku AI",
     "askFollowUp": "Pokračovat v předchozí konverzaci: {0}",
     "noValidContext": "Žádná předchozí konverzace",
-    "editPrompts": "Přizpůsobit a spravovat AI výzvy"
+    "editPrompts": "Přizpůsobit a spravovat AI výzvy",
+    "openChatPanel": "AI chat s integrací kódu"
   },
   "language": {
     "autoDetect": "Automaticky rozpoznat z VS Code",
@@ -224,7 +230,23 @@
     "previousQuestion": "Předchozí otázka",
     "previousAnswer": "Předchozí odpověď",
     "followUpQuestion": "Navazující otázka",
-    "relatedCode": "Související kód"
+    "relatedCode": "Související kód",
+    "sendCode": "Odeslat kód",
+    "insertCode": "Vložit",
+    "inputPlaceholder": "Arduino otázka nebo pomoc s kódem...",
+    "you": "Ty",
+    "welcomeMessage": "Ptejte se na Arduino kód nebo pošlete vybraný kód k analýze.",
+    "suggestedCode": "Navrhovaný kód",
+    "sentCode": "Odeslaný kód",
+    "newChat": "Nový chat",
+    "chats": "Chaty",
+    "maxChatsReached": "Dosažen maximální počet chatů (10)",
+    "cannotDeleteLastChat": "Poslední chat nelze smazat",
+    "confirmDelete": "Opravdu smazat chat?",
+    "noChatsYet": "Zatím žádné chaty",
+    "createFirstChat": "Vytvořte svůj první chat!",
+    "chatsOverview": "Přehled chatů",
+    "messages": "Zprávy"
   },
   "shortcuts": {
     "askFollowUp": "Navazující otázka",
@@ -348,5 +370,27 @@
     "minutesAgo": "před {0}min",
     "hoursAgo": "před {0}h",
     "daysAgo": "před {0}d"
+  },
+  "improveCode": {
+    "originalCode": "Původní kód",
+    "customInstructions": "Vlastní instrukce",
+    "aiAnalysis": "AI analýza a vylepšení",
+    "noCodeBlocksTitle": "Nebyly nalezeny žádné bloky kódu",
+    "noCodeBlocksText": "AI odpověď obsahuje návrhy na vylepšení, ale žádné extrahovatelné bloky kódu.",
+    "noCodeBlocksSuggestion": "Analýza výše obsahuje návrhy na vylepšení.",
+    "targetBoard": "Cílová deska",
+    "codeBadge": "AI vylepšení kódu",
+    "improvedCodeTitle": "Vylepšený kód"
+  },
+  "explainError": {
+    "errorBadge": "AI analýza chyby",
+    "correctedCodeTitle": "Opravený kód"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI návrh kódu"
+  },
+  "debugHelp": {
+    "debugBadge": "AI asistent ladění",
+    "debugSolutionTitle": "Řešení ladění"
   }
 }

@@ -16,7 +16,8 @@
     "askAI": "Kysy AI:lta",
     "askFollowUp": "Esitä Jatkokysymys",
     "editPrompts": "Muokkaa kehotteita",
-    "changePath": "Vaihda polku"
+    "changePath": "Vaihda polku",
+    "openChatPanel": "AI Chat"
   },
   "messages": {
     "welcome": "👋 Tervetuloa! AI.duino tukee {0}:tä!",
@@ -79,7 +80,11 @@
     "saveChanges": "Tallenna muutokset",
     "discard": "Hylkää",
     "closeWithoutSaving": "Sulje tallentamatta",
-    "enterPath": "Syötä polku"
+    "enterPath": "Syötä polku",
+    "close": "Sulje",
+    "send": "Lähetä",
+    "newInput": "Uusi syöte",
+    "delete": "Poista"
   },
   "descriptions": {
     "improveCodeSelected": "Optimoi valittu koodi",
@@ -96,7 +101,8 @@
     "askAI": "Esitä AI:lle suora kysymys",
     "askFollowUp": "Jatka edellistä keskustelua: {0}",
     "noValidContext": "Ei edellistä keskustelua",
-    "editPrompts": "Mukauta ja hallitse AI-kehotteita"
+    "editPrompts": "Mukauta ja hallitse AI-kehotteita",
+    "openChatPanel": "AI-chatti koodin integroinnilla"
   },
   "language": {
     "autoDetect": "Tunnista automaattisesti VS Codesta",
@@ -224,7 +230,23 @@
     "previousQuestion": "Edellinen kysymys",
     "previousAnswer": "Edellinen vastaus",
     "followUpQuestion": "Jatkokysymys",
-    "relatedCode": "Liittyvä koodi"
+    "relatedCode": "Liittyvä koodi",
+    "sendCode": "Lähetä koodi",
+    "insertCode": "Lisää",
+    "inputPlaceholder": "Arduino-kysymys tai koodiapua...",
+    "you": "Sinä",
+    "welcomeMessage": "Kysy kysymyksiä Arduino-koodista tai lähetä valittu koodi analysoitavaksi.",
+    "suggestedCode": "Ehdotettu koodi",
+    "sentCode": "Lähetetty koodi",
+    "newChat": "Uusi keskustelu",
+    "chats": "Keskustelut",
+    "maxChatsReached": "Keskustelujen enimmäismäärä (10) saavutettu",
+    "cannotDeleteLastChat": "Viimeistä keskustelua ei voi poistaa",
+    "confirmDelete": "Poistetaanko keskustelu?",
+    "noChatsYet": "Ei vielä keskusteluja",
+    "createFirstChat": "Luo ensimmäinen keskustelu!",
+    "chatsOverview": "Keskustelujen yleiskatsaus",
+    "messages": "Viestit"
   },
   "shortcuts": {
     "askFollowUp": "Jatkokysymys",
@@ -348,5 +370,27 @@
     "minutesAgo": "{0}min sitten",
     "hoursAgo": "{0}h sitten",
     "daysAgo": "{0}pv sitten"
+  },
+  "improveCode": {
+    "originalCode": "Alkuperäinen koodi",
+    "customInstructions": "Mukautetut ohjeet",
+    "aiAnalysis": "AI-analyysi ja parannukset",
+    "noCodeBlocksTitle": "Koodilohkoja ei löytynyt",
+    "noCodeBlocksText": "AI-vastaus sisältää parannusehdotuksia, mutta ei purettavia koodilohkoja.",
+    "noCodeBlocksSuggestion": "Yllä oleva analyysi sisältää parannusehdotukset.",
+    "targetBoard": "Kohdekortti",
+    "codeBadge": "AI-koodin parannus",
+    "improvedCodeTitle": "Parannettu koodi"
+  },
+  "explainError": {
+    "errorBadge": "AI-virheanalyysi",
+    "correctedCodeTitle": "Korjattu koodi"
+  },
+  "askAI": {
+    "codeSuggestionTitle": "AI-koodiehdotus"
+  },
+  "debugHelp": {
+    "debugBadge": "AI-debug-avustaja",
+    "debugSolutionTitle": "Debug-ratkaisu"
   }
 }

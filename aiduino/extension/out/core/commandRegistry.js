@@ -38,6 +38,7 @@ class CommandRegistry {
             explainErrorFeature,
             debugHelpFeature,
             askAIFeature,
+            chatPanelFeature,
             promptEditorFeature,
             uiTools
         } = deps;
@@ -105,10 +106,10 @@ class CommandRegistry {
                 handler: () => askAIFeature.askAI(deps.getDependencies(), true),
                 description: 'Ask Follow-up Question'
             },
-            { 
-                name: 'aiduino.clearAIContext', 
-                handler: clearAIContext,
-                description: 'Clear AI Conversation Context'
+            {
+                name: 'aiduino.openChatPanel',
+                handler: () => chatPanelFeature.showChatPanel(deps.getDependencies()),
+                description: 'Open AI Chat Panel'
             },
 
             // Utility & Info Commands
@@ -153,14 +154,6 @@ class CommandRegistry {
                     }
                 },
                 description: 'Refresh Quick Menu Tree View'
-            },
-
-            // Debug Commands (normally hidden)
-            { 
-                name: 'aiduino.showModels', 
-                handler: () => deps.minimalModelManager.showCurrentModels(),
-                description: 'Show Current Models (Debug)',
-                debug: true
             }
         ];
     }

@@ -96,7 +96,7 @@ function generateTokenStatsHTML(modelCards, totalCostToday, currentDate, t) {
         }
     </style>
 </head>
-<body>
+<body class="centered-panel">
     <h1>📊 ${t('stats.tokenUsageFor', currentDate)}</h1>
     
     <div class="total">
