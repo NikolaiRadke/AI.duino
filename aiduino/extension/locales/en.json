@@ -17,7 +17,9 @@
     "askFollowUp": "Ask Follow-up",
     "editPrompts": "Edit Prompts",
     "changePath": "Change Path",
-    "openChatPanel": "AI Chat"
+    "openChatPanel": "AI Chat",
+    "toggleInlineCompletion": "Inline Completion",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Welcome! AI.duino  supports {0}!",
@@ -49,7 +51,11 @@
     "contextCleared": "Conversation context cleared",
     "operationAlreadyRunning": "Operation already running! Please wait...",
     "noPath": "🔧 You need a path for {0} first",
-    "pathRequired": "{0} requires a path"
+    "pathRequired": "{0} requires a path",
+    "inlineCompletionActivate": "Activate inline completion with {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} is a paid service - each completion incurs API costs. Activate anyway?",
+    "inlineCompletionEnabled": "✓ Inline completion enabled",
+    "inlineCompletionDisabled": "Inline completion disabled"
   },
   "buttons": {
     "chooseModel": "Choose AI Model",

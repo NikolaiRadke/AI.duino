@@ -1,0 +1,243 @@
+/*
+ * AI.duino - Inline Completion Provider Module
+ * Copyright 2025 Monster Maker
+ * 
+ * Licensed under the Apache License, Version 2.0
+ */
+
+const vscode = require('vscode');
+const { shouldTriggerCompletion, extractContext } = require('./triggerDetector');
+const { getCachedCompletion, cacheCompletion } = require('./completionCache');
+const { buildCompletionPrompt } = require('./completionPrompts');
+
+/**
+ * Inline Completion Provider for Arduino code
+ * Uses Groq API for fast completions
+ */
+class ArduinoCompletionProvider {
+    constructor(context) {
+        this.context = context;
+        this.isEnabled = false;
+        this.lastCompletionTime = 0;
+        this.minDelayMs = 500; // Debounce delay
+        this.disposables = [];
+    }
+
+    /**
+     * Initialize and register the completion provider
+     */
+    async initialize() {
+        const config = vscode.workspace.getConfiguration('aiduino');
+        this.isEnabled = config.get('inlineCompletion.enabled', false);
+
+        if (!this.isEnabled) {
+            return;
+        }
+
+        // Register inline completion provider for Arduino files
+        const provider = vscode.languages.registerInlineCompletionItemProvider(
+            [
+                { language: 'cpp', pattern: '**/*.ino' },
+                { language: 'cpp', pattern: '**/*.cpp' },
+                { language: 'c', pattern: '**/*.c' },
+                { language: 'cpp', pattern: '**/*.h' }
+            ],
+            this
+        );
+
+        this.disposables.push(provider);
+
+        // Listen for config changes
+        const configWatcher = vscode.workspace.onDidChangeConfiguration(e => {
+            if (e.affectsConfiguration('aiduino.inlineCompletion')) {
+                this.updateConfiguration();
+            }
+        });
+
+        this.disposables.push(configWatcher);
+    }
+
+    /**
+     * Update configuration when settings change
+     */
+    updateConfiguration() {
+        const config = vscode.workspace.getConfiguration('aiduino');
+        const newEnabled = config.get('inlineCompletion.enabled', false);
+
+        if (newEnabled !== this.isEnabled) {
+            this.isEnabled = newEnabled;
+            const { t } = this.context;
+            if (newEnabled) {
+                vscode.window.showInformationMessage(t('messages.inlineCompletionEnabled'));
+            } else {
+                vscode.window.showInformationMessage(t('messages.inlineCompletionDisabled'));
+            }
+        }
+    }
+
+    /**
+     * VS Code calls this method to get inline completions
+     * @param {vscode.TextDocument} document 
+     * @param {vscode.Position} position 
+     * @param {vscode.InlineCompletionContext} context 
+     * @param {vscode.CancellationToken} token 
+     */
+    async provideInlineCompletionItems(document, position, context, token) {
+        if (!this.isEnabled) {
+            return [];
+        }
+
+        // Check rate limiting
+        const now = Date.now();
+        if (now - this.lastCompletionTime < this.minDelayMs) {
+            return [];
+        }
+
+        // Check if completion should be triggered
+        const triggerResult = shouldTriggerCompletion(document, position, this.context);
+        if (!triggerResult.shouldTrigger) {
+            return [];
+        }
+
+        // Check cache first
+        const cachedCompletion = getCachedCompletion(triggerResult.cacheKey);
+        if (cachedCompletion) {
+            return [new vscode.InlineCompletionItem(cachedCompletion)];
+        }
+
+        // Get completion from Groq
+        try {
+            this.lastCompletionTime = now;
+            const completion = await this.fetchCompletion(document, position, triggerResult);
+
+            if (completion && !token.isCancellationRequested) {
+                // Cache the result
+                cacheCompletion(triggerResult.cacheKey, completion);
+    
+                // For comment triggers
+                if (triggerResult.triggerType === 'comment') {
+                    return [new vscode.InlineCompletionItem(completion)];
+                }
+    
+                return [new vscode.InlineCompletionItem(completion)];
+            }
+        } catch (error) {
+            // Silent fail for completions - don't annoy user
+            console.error('Completion error:', error.message);
+        }
+
+        return [];
+    }
+
+    /**
+     * Fetch completion from Groq API
+     */
+    async fetchCompletion(document, position, triggerResult) {
+        const { apiClient, minimalModelManager, executionStates } = this.context;
+
+        // Build prompt with context
+        const contextData = extractContext(document, position, triggerResult, this.context);
+        const prompt = buildCompletionPrompt(contextData);
+
+        // Use Groq's fastest model
+        const groqProvider = minimalModelManager.providers['groq'];
+        const modelId = 'llama-3.3-70b-versatile'; // Fast and good quality
+
+        // Make API call
+        const response = await apiClient.callAPI('groq', prompt, this.context);
+
+        // Extract and clean the completion
+        return this.cleanCompletion(response, contextData);
+    }
+
+    /**
+     * Clean and format the completion text
+     */
+    cleanCompletion(response, contextData) {
+        let completion = response.trim();
+
+        // Remove markdown code blocks if present
+        completion = completion.replace(/```(?:cpp|c\+\+|arduino|c)?\s*\n/g, '');
+        completion = completion.replace(/```\s*$/g, '');
+
+        // Only return the next line(s), not full function rewrites
+        const lines = completion.split('\n');
+        
+        // For comment triggers, return complete code block
+        if (contextData.triggerType === 'comment') {
+            // Return all lines, but limit to reasonable size
+            return '\n' + lines.slice(0, 15).join('\n'); // Line break + max 15 lines
+        }
+
+        // For other triggers, return single line
+        return lines[0];
+    }
+
+    /**
+     * Dispose of all resources
+     */
+    dispose() {
+        this.disposables.forEach(d => d.dispose());
+        this.disposables = [];
+    }
+}
+
+/**
+ * Toggle inline completion with cost warning
+ * @param {Object} context - Extension context with dependencies
+ */
+async function toggleInlineCompletion(context) {
+    const { currentModel, minimalModelManager, t } = context;
+    const config = vscode.workspace.getConfiguration('aiduino');
+    const current = config.get('inlineCompletion.enabled', false);
+    
+    // If enabling, show warning first (only for paid providers)
+    if (!current) {
+        const provider = minimalModelManager.providers[currentModel];
+        const providerName = provider.name;
+    
+        // Check if provider has costs
+        const hasCosts = provider.prices && (provider.prices.input > 0 || provider.prices.output > 0);
+    
+        if (hasCosts) {
+            // Show cost warning for paid providers
+            const choice = await vscode.window.showWarningMessage(
+                t('messages.inlineCompletionWarningCosts', providerName),
+                t('buttons.yes'),
+                t('buttons.no')
+            );
+            
+            if (choice !== t('buttons.yes')) {
+                return; // User cancelled
+            }
+        }
+    }   
+    
+    // Toggle the setting
+    await config.update('inlineCompletion.enabled', !current, vscode.ConfigurationTarget.Global);
+    
+    const status = !current ?
+        t('messages.inlineCompletionEnabled') : t('messages.inlineCompletionDisabled');
+    vscode.window.showInformationMessage(status);
+
+    // Refresh tree view to show updated status
+    if (context.quickMenuTreeProvider) {
+        context.quickMenuTreeProvider.refresh();
+    }
+}
+
+/**
+ * Register inline completion feature
+ */
+async function registerInlineCompletion(context) {
+    const provider = new ArduinoCompletionProvider(context);
+    await provider.initialize();
+    context.subscriptions.push(provider);
+    return provider;
+}
+
+module.exports = {
+    ArduinoCompletionProvider,
+    registerInlineCompletion,
+    toggleInlineCompletion
+};

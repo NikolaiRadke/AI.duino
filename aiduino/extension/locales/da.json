@@ -17,7 +17,9 @@
     "askFollowUp": "Stil Opfølgende Spørgsmål",
     "editPrompts": "Rediger prompts",
     "changePath": "Skift sti",
-    "openChatPanel": "AI Chat"
+    "openChatPanel": "AI Chat",
+    "toggleInlineCompletion": "Inline-fuldførelse",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Velkommen! AI.duino understøtter {0}!",
@@ -48,7 +50,11 @@
     "followUpContext": "Fortsætter samtale: \"{0}\" ({1} min siden)",
     "contextCleared": "Samtale kontekst ryddet",
     "noPath": "🔧 Du skal først have en sti til {0}",
-    "pathRequired": "{0} kræver en sti"
+    "pathRequired": "{0} kræver en sti",
+    "inlineCompletionActivate": "Aktiver inline-fuldførelse med {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} er en betalingstjeneste - hver fuldførelse medfører API-omkostninger. Aktiver alligevel?",
+    "inlineCompletionEnabled": "✓ Inline-fuldførelse aktiveret",
+    "inlineCompletionDisabled": "Inline-fuldførelse deaktiveret"
   },
   "buttons": {
     "chooseModel": "Vælg AI Model",

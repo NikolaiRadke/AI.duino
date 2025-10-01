@@ -135,6 +135,12 @@
         "title": "About AI.duino...",
         "category": "AI.duino",
         "icon": "$(info)"
+      },
+      {
+        "command": "aiduino.toggleInlineCompletion",
+        "title": "Toggle Inline Completion",
+        "category": "AI.duino",
+        "icon": "$(wand)"
       }
     ],
     "keybindings": [
@@ -248,6 +254,11 @@
           "type": "boolean",
           "default": true,
           "description": "Automatically check for provider configuration updates"
+        },
+        "aiduino.inlineCompletion.enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable inline code completion (uses current AI provider)"
         }
       }
     }

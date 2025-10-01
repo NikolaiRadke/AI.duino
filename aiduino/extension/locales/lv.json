@@ -17,7 +17,9 @@
     "askFollowUp": "Uzdot papildu jautājumu",
     "editPrompts": "Rediģēt uzvednes",
     "changePath": "Mainīt ceļu",
-    "openChatPanel": "AI Tērzēšana"
+    "openChatPanel": "AI Tērzēšana",
+    "toggleInlineCompletion": "Inline pabeigšana",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Esiet sveicināti! AI.duino atbalsta {0}!",
@@ -49,7 +51,11 @@
     "contextCleared": "Sarunas konteksts dzēsts",
     "operationAlreadyRunning": "Darbība jau notiek! Lūdzu uzgaidiet...",
     "noPath": "🔧 Vispirms jums nepieciešams ceļš uz {0}",
-    "pathRequired": "{0} nepieciešams ceļš"
+    "pathRequired": "{0} nepieciešams ceļš",
+    "inlineCompletionActivate": "Aktivizēt inline pabeigšanu ar {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} ir maksas pakalpojums - katra pabeigšana rada API izmaksas. Tomēr aktivizēt?",
+    "inlineCompletionEnabled": "✓ Inline pabeigšana aktivizēta",
+    "inlineCompletionDisabled": "Inline pabeigšana deaktivizēta"
   },
   "buttons": {
     "chooseModel": "Izvēlēties AI modeli",

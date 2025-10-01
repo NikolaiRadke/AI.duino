@@ -17,7 +17,9 @@
     "askFollowUp": "Domanda di seguito",
     "editPrompts": "Modifica prompt",
     "changePath": "Cambia percorso",
-    "openChatPanel": "Chat IA"
+    "openChatPanel": "Chat IA",
+    "toggleInlineCompletion": "Completamento inline",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Benvenuto! AI.duino  supporta {0}!",
@@ -48,7 +50,11 @@
     "followUpContext": "Continuando conversazione: \"{0}\" ({1} min fa)",
     "contextCleared": "Contesto conversazione cancellato",
     "noPath": "🔧 Hai bisogno prima di un percorso per {0}",
-    "pathRequired": "{0} richiede un percorso"
+    "pathRequired": "{0} richiede un percorso",
+    "inlineCompletionActivate": "Attivare completamento inline con {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} è un servizio a pagamento - ogni completamento comporta costi API. Attivare comunque?",
+    "inlineCompletionEnabled": "✓ Completamento inline attivato",
+    "inlineCompletionDisabled": "Completamento inline disattivato"
   },
   "buttons": {
     "chooseModel": "Scegli modello IA",

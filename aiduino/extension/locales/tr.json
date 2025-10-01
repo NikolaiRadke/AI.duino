@@ -17,7 +17,9 @@
     "askFollowUp": "Takip sorusu",
     "editPrompts": "İstemleri düzenle",
     "changePath": "Yolu değiştir",
-    "openChatPanel": "AI Sohbet"
+    "openChatPanel": "AI Sohbet",
+    "toggleInlineCompletion": "Satır içi tamamlama",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Hoş geldiniz! AI.duino  {0} destekliyor!",
@@ -48,7 +50,11 @@
     "followUpContext": "Konuşma devam ediyor: \"{0}\" ({1} dk önce)",
     "contextCleared": "Konuşma bağlamı temizlendi",
     "noPath": "🔧 Öncelikle {0} için bir yola ihtiyacınız var",
-    "pathRequired": "{0} bir yol gerektirir"
+    "pathRequired": "{0} bir yol gerektirir",
+    "inlineCompletionActivate": "{0} ile satır içi tamamlama etkinleştirilsin mi?",
+    "inlineCompletionWarningCosts": "⚠️ {0} ücretli bir hizmettir - her tamamlama API maliyeti oluşturur. Yine de etkinleştir?",
+    "inlineCompletionEnabled": "✓ Satır içi tamamlama etkinleştirildi",
+    "inlineCompletionDisabled": "Satır içi tamamlama devre dışı bırakıldı"
   },
   "buttons": {
     "chooseModel": "YZ Modeli Seç",

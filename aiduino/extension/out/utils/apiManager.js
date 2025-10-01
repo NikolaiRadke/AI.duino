@@ -74,9 +74,35 @@ async function switchModel(context) {
         });
         
         if (selected) {
+            // Check if inline completion is active - warn about costs with new provider
+            const config = vscode.workspace.getConfiguration('aiduino');
+            const inlineCompletionEnabled = config.get('inlineCompletion.enabled', false);
+
+            if (inlineCompletionEnabled && selected.value !== currentModel) {
+                const newProvider = minimalModelManager.providers[selected.value];
+    
+                // Check if new provider has costs
+                const hasCosts = newProvider.prices && (newProvider.prices.input > 0 || newProvider.prices.output > 0);
+                
+                if (hasCosts) {
+                    const choice = await vscode.window.showWarningMessage(
+                        t('messages.inlineCompletionWarningCosts', newProvider.name),
+                        t('buttons.yes'),
+                        t('buttons.no')
+                    );
+        
+                    if (choice === t('buttons.no')) {
+                        // User wants to switch model but disable inline completion
+                        await config.update('inlineCompletion.enabled', false, vscode.ConfigurationTarget.Global);
+                        vscode.window.showInformationMessage(t('messages.inlineCompletionDisabled'));
+                    }
+                }
+                // If YES, no costs, or undefined: continue with model switch
+            }    
+
             // Update current model
             setCurrentModel(selected.value);
-    
+
             // Create updated context with new model
             const updatedContext = {
                 ...context,

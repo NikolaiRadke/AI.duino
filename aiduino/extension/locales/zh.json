@@ -17,7 +17,9 @@
     "askFollowUp": "追问",
     "editPrompts": "编辑提示词",
     "changePath": "更改路径",
-    "openChatPanel": "AI 聊天"
+    "openChatPanel": "AI 聊天",
+    "toggleInlineCompletion": "内联补全",
+    "toggleInlineCompletionShort": "内联"
   },
   "messages": {
     "welcome": "👋 欢迎！AI.duino 支持{0}！",
@@ -48,7 +50,11 @@
     "followUpContext": "继续对话: \"{0}\" ({1}分钟前)",
     "contextCleared": "对话上下文已清除",
     "noPath": "🔧 您首先需要 {0} 的路径",
-    "pathRequired": "{0} 需要路径"
+    "pathRequired": "{0} 需要路径",
+    "inlineCompletionActivate": "使用 {0} 激活内联补全？",
+    "inlineCompletionWarningCosts": "⚠️ {0} 是付费服务 - 每次补全都会产生 API 费用。仍然激活？",
+    "inlineCompletionEnabled": "✓ 内联补全已激活",
+    "inlineCompletionDisabled": "内联补全已禁用"
   },
   "buttons": {
     "chooseModel": "选择AI模型",

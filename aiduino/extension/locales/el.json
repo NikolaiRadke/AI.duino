@@ -15,9 +15,11 @@
     "switchLanguage": "Αλλαγή γλώσσας",
     "askAI": "Ρώτησε το AI",
     "askFollowUp": "Συνέχεια ερώτησης",
-    "editPrompts": "Editar indicaciones",
+    "editPrompts": "Επεξεργασία εντολών",
     "changePath": "Αλλαγή διαδρομής",
-    "openChatPanel": "AI Chat"
+    "openChatPanel": "AI Chat",
+    "toggleInlineCompletion": "Inline συμπλήρωση",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Καλώς ήρθατε! Το AI.duino  υποστηρίζει {0}!",
@@ -48,7 +50,11 @@
     "followUpContext": "Συνέχεια συνομιλίας: \"{0}\" (πριν {1} λεπτά)",
     "contextCleared": "Το πλαίσιο συνομιλίας διαγράφηκε",
     "noPath": "🔧 Χρειάζεστε πρώτα μια διαδρομή για το {0}",
-    "pathRequired": "{0} απαιτεί διαδρομή"
+    "pathRequired": "{0} απαιτεί διαδρομή",
+    "inlineCompletionActivate": "Ενεργοποίηση inline συμπλήρωσης με {0};",
+    "inlineCompletionWarningCosts": "⚠️ Το {0} είναι επί πληρωμή - κάθε συμπλήρωση δημιουργεί κόστος API. Ενεργοποίηση ούτως ή άλλως;",
+    "inlineCompletionEnabled": "✓ Η inline συμπλήρωση ενεργοποιήθηκε",
+    "inlineCompletionDisabled": "Η inline συμπλήρωση απενεργοποιήθηκε"
   },
   "buttons": {
     "chooseModel": "Επιλογή Μοντέλου AI",
@@ -75,8 +81,8 @@
     "tryAgain": "Προσπάθεια ξανά",
     "checkStatus": "Έλεγχος κατάστασης",
     "checkRouter": "Έλεγχος δρομολογητή",
-    "save": "Guardar",
-    "reset": "Restablecer",
+    "save": "Αποθήκευση",
+    "reset": "Επαναφορά",
     "saveChanges": "Αποθήκευση αλλαγών",
     "discard": "Απόρριψη",
     "closeWithoutSaving": "Κλείσιμο χωρίς αποθήκευση",
@@ -101,7 +107,7 @@
     "askAI": "Κάνε άμεση ερώτηση στο AI",
     "askFollowUp": "Συνέχεια προηγούμενης συνομιλίας: {0}",
     "noValidContext": "Καμία προηγούμενη συνομιλία",
-    "editPrompts": "Personalizar y gestionar indicaciones de IA",
+    "editPrompts": "Προσαρμογή και διαχείριση εντολών AI",
     "openChatPanel": "AI chat με ενσωμάτωση κώδικα"
   },
   "language": {
@@ -217,7 +223,7 @@
     "aiFollowUp": "{0} Απάντηση συνέχειας",
     "followUpTo": "Συνέχεια του",
     "followUpHint": "Συνέχεια συνομιλίας",
-    "codeContextYes": "Code-Kontext: Ja ({0} Zeilen)",
+    "codeContextYes": "Πλαίσιο κώδικα: Ναι ({0} γραμμές)",
     "boardDetected": "Board: {0}",
     "boardUnknown": "Άγνωστη πλακέτα"
   },

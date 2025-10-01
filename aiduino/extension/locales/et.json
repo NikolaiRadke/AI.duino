@@ -17,7 +17,9 @@
     "askFollowUp": "Esita täiendav küsimus",
     "editPrompts": "Redigeeri päringuid",
     "changePath": "Muuda teed",
-    "openChatPanel": "AI Vestlus"
+    "openChatPanel": "AI Vestlus",
+    "toggleInlineCompletion": "Reasisene lõpetamine",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Tere tulemast! AI.duino toetab {0}!",
@@ -49,7 +51,11 @@
     "contextCleared": "Vestluse kontekst kustutatud",
     "operationAlreadyRunning": "Toiming juba käib! Palun oodake...",
     "noPath": "🔧 Vajate esmalt teed {0} jaoks",
-    "pathRequired": "{0} nõuab teed"
+    "pathRequired": "{0} nõuab teed",
+    "inlineCompletionActivate": "Aktiveeri reasisene lõpetamine {0}-ga?",
+    "inlineCompletionWarningCosts": "⚠️ {0} on tasuline teenus - iga lõpetamine tekitab API kulusid. Aktiveeri ikkagi?",
+    "inlineCompletionEnabled": "✓ Reasisene lõpetamine aktiveeritud",
+    "inlineCompletionDisabled": "Reasisene lõpetamine deaktiveeritud"
   },
   "buttons": {
     "chooseModel": "Vali AI mudel",

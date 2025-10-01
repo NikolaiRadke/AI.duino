@@ -17,7 +17,9 @@
     "askFollowUp": "Staqsi mistoqsija follow-up",
     "editPrompts": "Editja l-prompts",
     "changePath": "Ibdel il-mogħdija",
-    "openChatPanel": "Chat AI"
+    "openChatPanel": "Chat AI",
+    "toggleInlineCompletion": "Kompletament inline",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Merħba! AI.duino jappoġġa {0}!",
@@ -49,7 +51,11 @@
     "contextCleared": "Kuntest tal-konversazzjoni mħassar",
     "operationAlreadyRunning": "Operazzjoni diġà qed issir! Jekk jogħġbok stenna...",
     "noPath": "🔧 L-ewwel għandek bżonn mogħdija għal {0}",
-    "pathRequired": "{0} jeħtieġ mogħdija"
+    "pathRequired": "{0} jeħtieġ mogħdija",
+    "inlineCompletionActivate": "Attiva kompletament inline b'{0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} huwa servizz imħallas - kull kompletament iġib spejjeż tal-API. Attiva xorta?",
+    "inlineCompletionEnabled": "✓ Kompletament inline attivat",
+    "inlineCompletionDisabled": "Kompletament inline diżattivat"
   },
   "buttons": {
     "chooseModel": "Agħżel mudell AI",

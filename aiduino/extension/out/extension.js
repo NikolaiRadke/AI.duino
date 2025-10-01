@@ -32,6 +32,7 @@ const chatPanelFeature = require('./features/chatPanel');
 const explainErrorFeature = require('./features/explainError');
 const debugHelpFeature = require('./features/debugHelp');
 const promptEditorFeature = require('./features/promptEditor'); 
+const inlineCompletion = require('./features/inlineCompletion/completionProvider');
 
 // Utility modules
 const uiTools = require('./utils/ui');
@@ -49,6 +50,7 @@ const { checkExtensionUpdate } = require('./utils/updateChecker');
 const { StatusBarManager } = require('./utils/statusBarManager');
 const { PromptHistoryManager } = require('./utils/promptHistory');
 const { buildMenuItems } = require('./utils/menuBuilder');
+const { disposeCache } = require('./features/inlineCompletion/completionCache');
 
 // Configuration modules
 const { LANGUAGE_METADATA, getLanguageInfo } = require('./config/languageMetadata');
@@ -557,6 +559,17 @@ function activate(context) {
 
     // Register all commands
     registerCommands(context);
+
+    // Initialize inline completion (only activates if enabled in settings)
+    inlineCompletion.registerInlineCompletion(getDependencies())
+        .then(() => {
+            // Successful initialization (or disabled in settings)
+        })
+        .catch(err => {
+            // Log error but don't crash extension
+            console.error('Failed to initialize inline completion:', err);
+        }
+    );
     
     // Show welcome message if needed
     if (uiTools.shouldShowWelcome(getDependencies())) {
@@ -592,6 +605,7 @@ function registerCommands(context) {
         askAIFeature,
         chatPanelFeature,
         promptEditorFeature,
+        inlineCompletion,
         setPromptEditorOpen: (isOpen) => { isPromptEditorOpen = isOpen; },
         uiTools,
         
@@ -757,6 +771,9 @@ function deactivate() {
     
     // Clear global references to prevent memory leaks
     globalContext = null;
+
+    // Cleanup inline completion cache
+    disposeCache();
 
     // Cleanup prompt manager
     if (promptManager) {

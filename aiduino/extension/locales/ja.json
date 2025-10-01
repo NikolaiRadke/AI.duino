@@ -17,7 +17,9 @@
     "askFollowUp": "追加質問",
     "editPrompts": "プロンプトを編集",
     "changePath": "パスを変更",
-    "openChatPanel": "AIチャット"
+    "openChatPanel": "AIチャット",
+    "toggleInlineCompletion": "インライン補完",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 ようこそ！AI.duino は{0}をサポートしています！",
@@ -45,7 +47,11 @@
     "connectionOk": "インターネット接続は正常です",
     "noConnection": "インターネット接続が検出されませんでした",
     "noPath": "🔧 まず{0}のパスが必要です",
-    "pathRequired": "{0}にはパスが必要です"
+    "pathRequired": "{0}にはパスが必要です",
+    "inlineCompletionActivate": "{0}でインライン補完を有効にしますか？",
+    "inlineCompletionWarningCosts": "⚠️ {0}は有料サービスです - 補完ごとにAPIコストが発生します。それでも有効にしますか？",
+    "inlineCompletionEnabled": "✓ インライン補完を有効にしました",
+    "inlineCompletionDisabled": "インライン補完を無効にしました"
   },
   "buttons": {
     "chooseModel": "AIモデルを選択",

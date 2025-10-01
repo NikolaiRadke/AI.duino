@@ -17,7 +17,9 @@
     "askFollowUp": "Zastavi dodatno vprašanje",
     "editPrompts": "Uredi pozive",
     "changePath": "Spremeniti pot",
-    "openChatPanel": "AI klepet"
+    "openChatPanel": "AI klepet",
+    "toggleInlineCompletion": "Inline dopolnjevanje",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "Dobrodošli! AI.duino podpira {0}!",
@@ -48,7 +50,11 @@
     "followUpContext": "Nadaljevanje pogovora: \"{0}\" (pred {1} min.)",
     "contextCleared": "Kontekst pogovora izbrisan",
     "noPath": "🔧 Najprej potrebujete pot za {0}",
-    "pathRequired": "{0} zahteva pot"
+    "pathRequired": "{0} zahteva pot",
+    "inlineCompletionActivate": "Aktiviraj inline dopolnjevanje z {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} je plačljiva storitev - vsako dopolnjevanje povzroča API stroške. Vseeno aktiviraj?",
+    "inlineCompletionEnabled": "✓ Inline dopolnjevanje aktivirano",
+    "inlineCompletionDisabled": "Inline dopolnjevanje deaktivirano"
   },
   "buttons": {
     "chooseModel": "Izbira AI modela",

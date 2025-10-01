@@ -17,7 +17,9 @@
     "askFollowUp": "Követő kérdés feltevése",
     "editPrompts": "Promptok szerkesztése",
     "changePath": "Útvonal módosítása",
-    "openChatPanel": "AI Chat"
+    "openChatPanel": "AI Chat",
+    "toggleInlineCompletion": "Inline kiegészítés",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "Üdvözöl a {0} támogatásával!",
@@ -48,7 +50,11 @@
     "followUpContext": "Beszélgetés folytatása: \"{0}\" ({1} perce)",
     "contextCleared": "Beszélgetési kontextus törölve",
     "noPath": "🔧 Először útvonalra van szüksége a {0} számára",
-    "pathRequired": "{0} útvonalat igényel"
+    "pathRequired": "{0} útvonalat igényel",
+    "inlineCompletionActivate": "Inline kiegészítés aktiválása {0}-val?",
+    "inlineCompletionWarningCosts": "⚠️ A {0} fizetős szolgáltatás - minden kiegészítés API költséget okoz. Mégis aktiválja?",
+    "inlineCompletionEnabled": "✓ Inline kiegészítés aktiválva",
+    "inlineCompletionDisabled": "Inline kiegészítés kikapcsolva"
   },
   "buttons": {
     "chooseModel": "AI modell választása",

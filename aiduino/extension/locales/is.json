@@ -17,7 +17,9 @@
     "askFollowUp": "Spyrja framhaldsspurningar",
     "editPrompts": "Breyta fyrirmælum",
     "changePath": "Breyta slóð",
-    "openChatPanel": "AI Spjall"
+    "openChatPanel": "AI Spjall",
+    "toggleInlineCompletion": "Inline klárun",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Velkominn! AI.duino styður {0}!",
@@ -49,7 +51,11 @@
     "contextCleared": "Samtalssandur hreinsaður",
     "operationAlreadyRunning": "Aðgerð þegar í gangi! Vinsamlegast bíddu...",
     "noPath": "🔧 Þú þarft fyrst slóð fyrir {0}",
-    "pathRequired": "{0} krefst slóðar"
+    "pathRequired": "{0} krefst slóðar",
+    "inlineCompletionActivate": "Virkja inline klárun með {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} er greidd þjónusta - hver klárun veldur API kostnaði. Virkja samt?",
+    "inlineCompletionEnabled": "✓ Inline klárun virk",
+    "inlineCompletionDisabled": "Inline klárun óvirk"
   },
   "buttons": {
     "chooseModel": "Veldu gervigreindarlíkan",

@@ -47,47 +47,48 @@ class QuickMenuTreeProvider {
     
     buildTreeItems() {
         if (!this.context) return [];
-    
+
         const menuItems = buildMenuItems(this.context);
         const treeItems = [];
 
         // Block 1: Code Actions
         const codeActions = menuItems.filter(item => 
-            ['improveCode', 'explainCode', 'addComments', 'explainError', 'debugHelp', 'askAI', 'askFollowUp', 'openChatPanel'].some(cmd => 
-                item.command?.includes(cmd)
-            )
+            item.command && [
+                'improveCode', 'explainCode', 'addComments', 
+                'explainError', 'debugHelp', 'askAI', 
+                'askFollowUp', 'openChatPanel'
+            ].some(cmd => item.command.includes(cmd))
         );
         codeActions.forEach(item => treeItems.push(this.createTreeItem(item)));
     
-        // Separator 1
         if (codeActions.length > 0) {
             treeItems.push(this.createSeparator());
         }
     
-        // Block 2: Settings
+        // Block 2: Settings (including toggleInlineCompletion)
         const settings = menuItems.filter(item => 
-            ['switchLanguage', 'switchModel', 'setApiKey', 'editPrompts'].some(cmd => 
-                item.command?.includes(cmd)
-            )
+            item.command && [
+                'switchLanguage', 'switchModel', 'setApiKey', 
+                'editPrompts', 'toggleInlineCompletion'
+            ].some(cmd => item.command.includes(cmd))
         );
         settings.forEach(item => treeItems.push(this.createTreeItem(item)));
     
-        // Separator 2
         if (settings.length > 0) {
             treeItems.push(this.createSeparator());
         }
     
-        // Block 3: Info items
+        // Block 3: Info items (Stats, About - NO Board)
         const infoItems = menuItems.filter(item => 
-            ['showTokenStats', 'about'].some(cmd => 
-                item.command?.includes(cmd)
+            item.command && ['showTokenStats', 'about'].some(cmd => 
+                item.command.includes(cmd)
             )
         );
         infoItems.forEach(item => treeItems.push(this.createTreeItem(item)));
     
         return treeItems;
     }
-
+    
     createSeparator() {
         const separator = new vscode.TreeItem('────────────', vscode.TreeItemCollapsibleState.None);
         separator.contextValue = 'separator';
@@ -96,13 +97,30 @@ class QuickMenuTreeProvider {
     }
     
     createTreeItem(menuItem) {
-        // Extract icon from label (format: "$(icon) Text")
-        const iconMatch = menuItem.label.match(/\$\(([^)]+)\)/);
-        const icon = iconMatch ? iconMatch[1] : 'circle-outline';
-        const cleanLabel = menuItem.label.replace(/\$\([^)]+\)\s*/, '');
-
-        return new QuickMenuTreeItem(cleanLabel, menuItem.command, icon);
+    // Extract icon from label (format: "$(icon) Text")
+    const iconMatch = menuItem.label.match(/\$\(([^)]+)\)/);
+    const icon = iconMatch ? iconMatch[1] : 'circle-outline';
+    let cleanLabel = menuItem.label.replace(/\$\([^)]+\)\s*/, '');
+    
+    // Shorten label for tree view using translation
+    if (menuItem.command?.includes('toggleInlineCompletion') && this.context?.t) {
+        cleanLabel = this.context.t('commands.toggleInlineCompletionShort');
     }
+    
+    // Add description for settings with status
+    if (menuItem.description && menuItem.command?.includes('toggle')) {
+        cleanLabel = `${cleanLabel}: ${menuItem.description}`;
+    }
+    
+    const item = new QuickMenuTreeItem(cleanLabel, menuItem.command, icon);
+    
+    // Add full name as tooltip for inline completion
+    if (menuItem.command?.includes('toggleInlineCompletion') && this.context?.t) {
+        item.tooltip = this.context.t('commands.toggleInlineCompletion');
+    }
+    
+    return item;
+    } 
 }
 
 /**

@@ -17,7 +17,9 @@
     "askFollowUp": "Užduoti papildomą klausimą",
     "editPrompts": "Redaguoti užklausas",
     "changePath": "Keisti kelią",
-    "openChatPanel": "AI Pokalbis"
+    "openChatPanel": "AI Pokalbis",
+    "toggleInlineCompletion": "Inline užbaigimas",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Sveiki! AI.duino palaiko {0}!",
@@ -49,7 +51,11 @@
     "contextCleared": "Pokalbio kontekstas ištrintas",
     "operationAlreadyRunning": "Operacija jau vyksta! Prašome palaukti...",
     "noPath": "🔧 Pirmiausia jums reikia kelio į {0}",
-    "pathRequired": "{0} reikalauja kelio"
+    "pathRequired": "{0} reikalauja kelio",
+    "inlineCompletionActivate": "Aktyvuoti inline užbaigimą su {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} yra mokama paslauga - kiekvienas užbaigimas sukelia API išlaidas. Vis tiek aktyvuoti?",
+    "inlineCompletionEnabled": "✓ Inline užbaigimas aktyvuotas",
+    "inlineCompletionDisabled": "Inline užbaigimas deaktyvuotas"
   },
   "buttons": {
     "chooseModel": "Pasirinkti AI modelį",

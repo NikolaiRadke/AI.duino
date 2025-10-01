@@ -17,7 +17,9 @@
     "askFollowUp": "Vervolgvraag",
     "editPrompts": "Prompts bewerken",
     "changePath": "Pad wijzigen",
-    "openChatPanel": "AI Chat"
+    "openChatPanel": "AI Chat",
+    "toggleInlineCompletion": "Inline aanvulling",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Welkom! AI.duino  ondersteunt {0}!",
@@ -48,7 +50,11 @@
     "followUpContext": "Gesprek voortzetten: \"{0}\" ({1} min geleden)",
     "contextCleared": "Gesprekcontext gewist",
     "noPath": "🔧 Je hebt eerst een pad nodig voor {0}",
-    "pathRequired": "{0} vereist een pad"
+    "pathRequired": "{0} vereist een pad",
+    "inlineCompletionActivate": "Inline aanvulling activeren met {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} is een betaalde dienst - elke aanvulling veroorzaakt API-kosten. Toch activeren?",
+    "inlineCompletionEnabled": "✓ Inline aanvulling geactiveerd",
+    "inlineCompletionDisabled": "Inline aanvulling gedeactiveerd"
   },
   "buttons": {
     "chooseModel": "AI-model kiezen",

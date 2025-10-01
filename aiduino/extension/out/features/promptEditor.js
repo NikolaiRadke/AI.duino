@@ -685,6 +685,30 @@ panel.webview.html = `
     }
 }
 
+/**
+ * Edit prompts with proper setup (wrapper for command)
+ * @param {Object} context - Extension context with dependencies
+ */
+function editPrompts(context) {
+    // Set editor open flag
+    if (context.setPromptEditorOpen) {
+        context.setPromptEditorOpen(true);
+    }
+
+    // Create extended context with close callback
+    const extendedContext = {
+        ...context,
+        onPromptEditorClosed: () => {
+            if (context.setPromptEditorOpen) {
+                context.setPromptEditorOpen(false);
+            }
+        }
+    };
+
+    return showPromptEditor(extendedContext);
+}
+
 module.exports = {
-    showPromptEditor
+    showPromptEditor,
+    editPrompts
 };

@@ -17,7 +17,9 @@
     "askFollowUp": "Pytanie uzupełniające",
     "editPrompts": "Edytuj polecenia",
     "changePath": "Zmień ścieżkę",
-    "openChatPanel": "Czat AI"
+    "openChatPanel": "Czat AI",
+    "toggleInlineCompletion": "Uzupełnianie inline",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Witaj! AI.duino  obsługuje {0}!",
@@ -48,7 +50,11 @@
     "followUpContext": "Kontynuacja rozmowy: \"{0}\" ({1} min temu)",
     "contextCleared": "Kontekst rozmowy wyczyszczony",
     "noPath": "🔧 Najpierw potrzebujesz ścieżki dla {0}",
-    "pathRequired": "{0} wymaga ścieżki"
+    "pathRequired": "{0} wymaga ścieżki",
+    "inlineCompletionActivate": "Aktywować uzupełnianie inline za pomocą {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} to usługa płatna - każde uzupełnienie generuje koszty API. Aktywować mimo to?",
+    "inlineCompletionEnabled": "✓ Uzupełnianie inline aktywowane",
+    "inlineCompletionDisabled": "Uzupełnianie inline wyłączone"
   },
   "buttons": {
     "chooseModel": "Wybierz model AI",

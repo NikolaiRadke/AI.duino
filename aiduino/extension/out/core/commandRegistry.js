@@ -106,11 +106,6 @@ class CommandRegistry {
                 handler: () => askAIFeature.askAI(deps.getDependencies(), true),
                 description: 'Ask Follow-up Question'
             },
-            {
-                name: 'aiduino.openChatPanel',
-                handler: () => chatPanelFeature.showChatPanel(deps.getDependencies()),
-                description: 'Open AI Chat Panel'
-            },
 
             // Utility & Info Commands
             { 
@@ -123,29 +118,22 @@ class CommandRegistry {
                 handler: () => uiTools.showAbout(deps.getDependencies()),
                 description: 'About AI.duino'
             },
+
+            // Inline Completion
+           {
+                name: 'aiduino.toggleInlineCompletion',
+                handler: () => deps.inlineCompletion.toggleInlineCompletion(deps.getDependencies()),
+                description: 'Toggle Inline Code Completion'
+            },
             
             // Prompt Management
             {
                 name: 'aiduino.editPrompts',
-                handler: () => {
-                    if (deps.setPromptEditorOpen) {
-                        deps.setPromptEditorOpen(true);
-                    }
-        
-                    const extendedDeps = {
-                        ...deps.getDependencies(),
-                        onPromptEditorClosed: () => {
-                            if (deps.setPromptEditorOpen) {
-                                deps.setPromptEditorOpen(false);
-                            }
-                        }
-                    };
-        
-                    return promptEditorFeature.showPromptEditor(extendedDeps);
-                },
+                handler: () => deps.promptEditorFeature.editPrompts(deps.getDependencies()),
                 description: 'Edit AI Prompts'
             },
 
+            // Refresh Menu
             { 
                 name: 'aiduino.refreshQuickMenu', 
                 handler: () => {

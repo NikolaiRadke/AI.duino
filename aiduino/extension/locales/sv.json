@@ -17,7 +17,9 @@
     "askFollowUp": "Följdfråga",
     "editPrompts": "Redigera prompter",
     "changePath": "Ändra sökväg",
-    "openChatPanel": "AI Chat"
+    "openChatPanel": "AI Chat",
+    "toggleInlineCompletion": "Inline-komplettering",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Välkommen! AI.duino  stöder {0}!",
@@ -48,7 +50,11 @@
     "followUpContext": "Fortsätter konversation: \"{0}\" ({1} min sedan)",
     "contextCleared": "Konversationskontext rensad",
     "noPath": "🔧 Du behöver först en sökväg för {0}",
-    "pathRequired": "{0} kräver en sökväg"
+    "pathRequired": "{0} kräver en sökväg",
+    "inlineCompletionActivate": "Aktivera inline-komplettering med {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} är en betaltjänst - varje komplettering medför API-kostnader. Aktivera ändå?",
+    "inlineCompletionEnabled": "✓ Inline-komplettering aktiverad",
+    "inlineCompletionDisabled": "Inline-komplettering inaktiverad"
   },
   "buttons": {
     "chooseModel": "Välj AI-modell",

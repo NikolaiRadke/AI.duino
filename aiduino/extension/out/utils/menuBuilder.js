@@ -73,6 +73,11 @@ function buildMenuItems(context) {
             label: `$(edit) ${t('commands.editPrompts')}`,
             description: t('descriptions.editPrompts'),
             command: 'aiduino.editPrompts'
+        },
+        {
+            label: `$(wand) ${t('commands.toggleInlineCompletion')}`,
+            description: getInlineCompletionStatus(context),
+            command: 'aiduino.toggleInlineCompletion'
         }
     ];
     
@@ -152,6 +157,25 @@ function formatQuestionPreview(question, timestamp) {
     const preview = question.length > 40 ? question.substring(0, 40) + '...' : question;
     const contextAge = Math.round((Date.now() - timestamp) / 60000);
     return `"${preview}" (${contextAge}min ago)`;
+}
+
+/**
+ * Get inline completion status for menu display
+ * @param {Object} context - Extension context with dependencies
+ * @returns {string} Status description
+ */
+function getInlineCompletionStatus(context) {
+    const { currentModel, minimalModelManager } = context;
+    const config = vscode.workspace.getConfiguration('aiduino');
+    const enabled = config.get('inlineCompletion.enabled', false);
+    
+    const providerInfo = minimalModelManager.getProviderInfo(currentModel);
+    
+    if (!providerInfo.hasApiKey) {
+        return '○';  // Kein Provider
+    }
+    
+    return enabled ? '✓' : '✗';
 }
 
 module.exports = {

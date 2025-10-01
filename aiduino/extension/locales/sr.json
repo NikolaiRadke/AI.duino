@@ -17,7 +17,9 @@
     "askFollowUp": "Постави додатно питање",
     "editPrompts": "Уреди упите",
     "changePath": "Промените путању",
-    "openChatPanel": "AI Chat"
+    "openChatPanel": "AI Chat",
+    "toggleInlineCompletion": "Inline допуна",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Добродошли! АИ.дуино подржава {0}!",
@@ -49,7 +51,11 @@
     "contextCleared": "Контекст конверзације обрисан",
     "operationAlreadyRunning": "Операција већ траје! Молимо сачекајте...",
     "noPath": "🔧 Прво вам треба путања за {0}",
-    "pathRequired": "{0} захтева путању"
+    "pathRequired": "{0} захтева путању",
+    "inlineCompletionActivate": "Активирај inline допуну са {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} је платна услуга - свака допуна изазива API трошкове. Ипак активирај?",
+    "inlineCompletionEnabled": "✓ Inline допуна активирана",
+    "inlineCompletionDisabled": "Inline допуна деактивирана"
   },
   "buttons": {
     "chooseModel": "Одабери АИ модел",

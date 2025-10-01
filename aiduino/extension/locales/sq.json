@@ -17,7 +17,9 @@
     "askFollowUp": "Bëj një pyetje shtesë",
     "editPrompts": "Redakto kërkesat",
     "changePath": "Ndrysho shtegun",
-    "openChatPanel": "AI Chat"
+    "openChatPanel": "AI Chat",
+    "toggleInlineCompletion": "Plotësim inline",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Mirë se vini! AI.duino mbështet {0}!",
@@ -49,7 +51,11 @@
     "contextCleared": "Konteksti i bisedës u pastrua",
     "operationAlreadyRunning": "Operacioni tashmë po vazhdon! Ju lutemi prisni...",
     "noPath": "🔧 Ju duhet fillimisht një shteg për {0}",
-    "pathRequired": "{0} kërkon një shteg"
+    "pathRequired": "{0} kërkon një shteg",
+    "inlineCompletionActivate": "Aktivizo plotësimin inline me {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} është shërbim me pagesë - çdo plotësim shkakton kosto API. Aktivizo sidoqoftë?",
+    "inlineCompletionEnabled": "✓ Plotësim inline u aktivizua",
+    "inlineCompletionDisabled": "Plotësim inline u çaktivizua"
   },
   "buttons": {
     "chooseModel": "Zgjidh modelin AI",

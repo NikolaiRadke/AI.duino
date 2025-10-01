@@ -17,7 +17,9 @@
     "askFollowUp": "Esitä Jatkokysymys",
     "editPrompts": "Muokkaa kehotteita",
     "changePath": "Vaihda polku",
-    "openChatPanel": "AI Chat"
+    "openChatPanel": "AI Chat",
+    "toggleInlineCompletion": "Inline-täydennys",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Tervetuloa! AI.duino tukee {0}:tä!",
@@ -48,7 +50,11 @@
     "followUpContext": "Jatketaan keskustelua: \"{0}\" ({1} min sitten)",
     "contextCleared": "Keskustelun konteksti tyhjennetty",
     "noPath": "🔧 Tarvitset ensin polun kohteeseen {0}",
-    "pathRequired": "{0} vaatii polun"
+    "pathRequired": "{0} vaatii polun",
+    "inlineCompletionActivate": "Aktivoi inline-täydennys {0}:lla?",
+    "inlineCompletionWarningCosts": "⚠️ {0} on maksullinen palvelu - jokainen täydennys aiheuttaa API-kustannuksia. Aktivoi silti?",
+    "inlineCompletionEnabled": "✓ Inline-täydennys aktivoitu",
+    "inlineCompletionDisabled": "Inline-täydennys poistettu käytöstä"
   },
   "buttons": {
     "chooseModel": "Valitse AI-malli",

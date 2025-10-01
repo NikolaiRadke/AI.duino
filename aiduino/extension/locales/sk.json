@@ -17,7 +17,9 @@
     "askFollowUp": "Následná otázka",
     "editPrompts": "Upraviť výzvy",
     "changePath": "Zmeniť cestu",
-    "openChatPanel": "AI Chat"
+    "openChatPanel": "AI Chat",
+    "toggleInlineCompletion": "Inline dopĺňanie",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "Vitajte! AI.duino podporuje {0}!",
@@ -48,7 +50,11 @@
     "followUpContext": "Pokračovanie rozhovoru: \"{0}\" (pred {1} min.)",
     "contextCleared": "Kontext rozhovoru vymazaný",
     "noPath": "🔧 Najprv potrebujete cestu pre {0}",
-    "pathRequired": "{0} vyžaduje cestu"
+    "pathRequired": "{0} vyžaduje cestu",
+    "inlineCompletionActivate": "Aktivovať inline dopĺňanie s {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} je platená služba - každé dopĺňanie spôsobuje API náklady. Napriek tomu aktivovať?",
+    "inlineCompletionEnabled": "✓ Inline dopĺňanie aktivované",
+    "inlineCompletionDisabled": "Inline dopĺňanie deaktivované"
   },
   "buttons": {
     "chooseModel": "Výber AI modelu",

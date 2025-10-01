@@ -17,7 +17,9 @@
     "askFollowUp": "추가 질문",
     "editPrompts": "프롬프트 편집",
     "changePath": "경로 변경",
-    "openChatPanel": "AI 채팅"
+    "openChatPanel": "AI 채팅",
+    "toggleInlineCompletion": "인라인 자동완성",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 환영합니다! AI.duino {0}을(를) 지원합니다!",
@@ -48,7 +50,11 @@
     "followUpContext": "대화 계속: \"{0}\" ({1}분 전)",
     "contextCleared": "대화 컨텍스트가 지워졌습니다",
     "noPath": "🔧 먼저 {0}에 대한 경로가 필요합니다",
-    "pathRequired": "{0}에는 경로가 필요합니다"
+    "pathRequired": "{0}에는 경로가 필요합니다",
+    "inlineCompletionActivate": "{0}로 인라인 자동완성을 활성화하시겠습니까?",
+    "inlineCompletionWarningCosts": "⚠️ {0}은 유료 서비스입니다 - 각 자동완성마다 API 비용이 발생합니다. 그래도 활성화하시겠습니까?",
+    "inlineCompletionEnabled": "✓ 인라인 자동완성 활성화됨",
+    "inlineCompletionDisabled": "인라인 자동완성 비활성화됨"
   },
   "buttons": {
     "chooseModel": "AI 모델 선택",

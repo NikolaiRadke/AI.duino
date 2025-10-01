@@ -17,7 +17,9 @@
     "askFollowUp": "Întrebare de urmărire",
     "editPrompts": "Editare prompturi",
     "changePath": "Modificați calea",
-    "openChatPanel": "Chat AI"
+    "openChatPanel": "Chat AI",
+    "toggleInlineCompletion": "Completare inline",
+    "toggleInlineCompletionShort": "Inline"
   },
   "messages": {
     "welcome": "👋 Bun venit! AI.duino suportă {0}!",
@@ -48,7 +50,11 @@
     "followUpContext": "Continuând conversația: \"{0}\" (acum {1} min)",
     "contextCleared": "Contextul conversației a fost șters",
     "noPath": "🔧 Ai nevoie mai întâi de o cale pentru {0}",
-    "pathRequired": "{0} necesită o cale"
+    "pathRequired": "{0} necesită o cale",
+    "inlineCompletionActivate": "Activați completarea inline cu {0}?",
+    "inlineCompletionWarningCosts": "⚠️ {0} este un serviciu plătit - fiecare completare generează costuri API. Activați oricum?",
+    "inlineCompletionEnabled": "✓ Completare inline activată",
+    "inlineCompletionDisabled": "Completare inline dezactivată"
   },
   "buttons": {
     "chooseModel": "Alegeți modelul AI",
