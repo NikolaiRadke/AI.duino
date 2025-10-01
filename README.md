@@ -36,6 +36,9 @@ Ask something with or without marked code. You can ask further context-related.
 - Analysis of Serial Monitor output
 - Hardware diagnostics for common problems
 - Timing analysis
+  
+### AI Chat 
+Multiple chats like in the browser but integrated in the IDE. You can change the provider whenever you want. *(>= V2.0.0)*
 
 ### Auto update
 The provider settings will be updated when availabe. They will be generated automatically every week.  
