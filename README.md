@@ -48,7 +48,7 @@ Multiple chats like in the browser but integrated in the IDE. You can change the
 
 ### Inline Completion
 AI will suggest code completion behind common keywords like ``` Serial. ``` and in comments ending with ':'.   
-Example: ``` // Let the LED blink für three times: ```.
+Example: ``` // Let the LED blink für three times: ```. Press *<Tab>* to accept the suggestion.  
 
 
 ## Screenshots
