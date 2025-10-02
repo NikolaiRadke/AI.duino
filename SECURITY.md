@@ -26,6 +26,7 @@ If you discover a security vulnerability in AI.duino, please report it:
 
 ### Network Communication
 
+<<<<<<< HEAD
 AI.duino communicates with the following external services (depending on your selected AI provider):
 
 **Remote AI Providers:**
@@ -38,6 +39,10 @@ AI.duino communicates with the following external services (depending on your se
 - `api.cohere.ai` (Cohere)
 - `us-central1-aiplatform.googleapis.com` (Vertex AI)
 - `api-inference.huggingface.co` (Hugging Face)
+=======
+AI.duino only communicates with the selected provider.
+See providerCondig.js for more.  
+>>>>>>> 1bf0c4cccccc7f8164fa9f418c2b32f7c08442cc
 
 **Local AI Providers:**
 - `localhost:11434` or `127.0.0.1:11434` (Ollama - if installed locally)
