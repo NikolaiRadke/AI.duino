@@ -36,12 +36,20 @@ Ask something with or without marked code. You can ask further context-related.
 - Analysis of Serial Monitor output
 - Hardware diagnostics for common problems
 - Timing analysis
-  
-### AI Chat 
-Multiple chats like in the browser but integrated in the IDE. You can change the provider whenever you want. *(>= V2.0.0)*
 
 ### Auto update
-The provider settings will be updated when availabe. They will be generated automatically every week.  
+The provider settings will be updated when availabe. They will be generated automatically every week.
+The extension is checking itsels and will inform the user for new Version updates.  
+  
+## Beta featrures (>= V2.0.0):
+
+## AI Chat 
+Multiple chats like in the browser but integrated in the IDE. You can change the provider whenever you want. 
+
+## Inline Completion
+AI will suggest code completion behind common keywords like *Serial.* and in Comments ending with ':'. 
+Example: *// Let the LED blink für three times:*.
+
 
 ## Screenshots
 
