@@ -130,25 +130,24 @@ class ArduinoCompletionProvider {
     }
 
     /**
-     * Fetch completion from Groq API
+     * Fetch completion from API using currently selected model
      */
     async fetchCompletion(document, position, triggerResult) {
-        const { apiClient, minimalModelManager, executionStates } = this.context;
+        const { apiClient, minimalModelManager, currentModel } = this.context;
 
         // Build prompt with context
         const contextData = extractContext(document, position, triggerResult, this.context);
         const prompt = buildCompletionPrompt(contextData);
 
-        // Use Groq's fastest model
-        const groqProvider = minimalModelManager.providers['groq'];
-        const modelId = 'llama-3.3-70b-versatile'; // Fast and good quality
-
-        // Make API call
-        const response = await apiClient.callAPI('groq', prompt, this.context);
+        // Use the currently selected model
+        const provider = minimalModelManager.providers[currentModel];
+        
+        // Make API call with user's selected model
+        const response = await apiClient.callAPI(currentModel, prompt, this.context);
 
         // Extract and clean the completion
         return this.cleanCompletion(response, contextData);
-    }
+    }   
 
     /**
      * Clean and format the completion text
