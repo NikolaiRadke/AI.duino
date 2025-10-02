@@ -41,7 +41,7 @@ Ask something with or without marked code. You can ask further context-related.
 The provider settings will be updated when availabe. They will be generated automatically every week.
 The extension is checking itsels and will inform the user for new Version updates.  
   
-## Beta featrures (>= V2.0.0):
+## Beta features (>= V2.0.0):
 
 ### AI Chat 
 Multiple chats like in the browser but integrated in the IDE. You can change the provider whenever you want. 
