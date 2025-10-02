@@ -25,11 +25,8 @@ If you discover a security vulnerability in AI.duino, please report it:
 
 ### Network communication
 
-AI.duino only communicates with:
-- `api.anthropic.com` (Claude)
-- `api.openai.com` (ChatGPT)  
-- `generativelanguage.googleapis.com` (Gemini)
-- `api.mistral.ai` (Mistral)
+AI.duino only communicates with the selected provider.
+See providerCondig.js for more.  
 
 ### Code execution
 
