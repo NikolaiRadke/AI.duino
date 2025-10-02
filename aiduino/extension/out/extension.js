@@ -187,32 +187,36 @@ class MinimalModelManager {
 // ===== LOCALE MANAGEMENT =====
 
 /**
- * Load and initialize locale based on user settings
+ * Load and initialize locale based on user settings (async)
  */
-function loadLocale() {
+async function loadLocaleAsync() {
     const config = vscode.workspace.getConfiguration('aiduino');
     const userLanguageChoice = config.get('language', 'auto');
     
     if (userLanguageChoice !== 'auto') {
         currentLocale = userLanguageChoice;
     } else {
-        // Auto-Detection with LocaleUtils
         const vscodeLocale = vscode.env.language || 'en';
         currentLocale = localeUtils.autoDetectLocale(vscodeLocale);
     }
     
-    // Simplified locale loading with single fallback
     const localeFile = path.join(__dirname, '..', 'locales', `${currentLocale}.json`);
     const fallbackFile = path.join(__dirname, '..', 'locales', 'en.json');
-    
-    // Try current locale first, then fallback to english
     const fileToTry = fs.existsSync(localeFile) ? localeFile : fallbackFile;
     
     if (fs.existsSync(fileToTry)) {
-        const content = fs.readFileSync(fileToTry, 'utf8');
-        i18n = JSON.parse(content);
+        try {
+            const content = await fs.promises.readFile(fileToTry, 'utf8');
+            i18n = JSON.parse(content);
+        } catch {
+            currentLocale = 'en';
+            i18n = {
+                commands: { quickMenu: "Open Quick Menu" },
+                messages: { selectAction: "What would you like to do?" },
+                buttons: { cancel: "Cancel" }
+            };
+        }
     } else {
-        // Emergency fallback
         currentLocale = 'en';
         i18n = {
             commands: { quickMenu: "Open Quick Menu" },
@@ -295,7 +299,7 @@ async function switchLanguage() {
                 currentLocale = selected.value;
             }
             
-            loadLocale();
+            await loadLocaleAsync();
             promptManager.initialize(i18n, currentLocale); 
             statusBarManager.updateFromContext(getDependencies());;
 
@@ -478,9 +482,10 @@ async function checkForErrors(silent = true) {
 
 /**
  * Main activation function - entry point for the extension
+ * 
  * @param {vscode.ExtensionContext} context - VS Code extension context
  */
-function activate(context) {
+async function activate(context) {
     // Initialize config and model manager first
     configData = configUpdater.loadProviderConfigs();
     const { REMOTE_CONFIG_URL: remoteUrl } = require('./config/providerConfigs');
@@ -509,8 +514,19 @@ function activate(context) {
         fileManager.migrateOldFiles(AIDUINO_DIR);
     }
     
-    // Load locale configuration
-    loadLocale();
+    // Async loading
+    await Promise.all([
+        (async () => {
+            const keys = await fileManager.loadAllApiKeysAsync(minimalModelManager.providers);
+            Object.assign(apiKeys, keys);
+        })(),
+        (async () => {
+            const model = await fileManager.loadSelectedModelAsync(minimalModelManager.providers);
+            if (model) currentModel = model;
+        })(),
+        // Load locale configuration
+        loadLocaleAsync()  // ← einfach die Funktion aufrufen!
+    ]);
 
     // Prompt manager
     promptManager = new PromptManager();
@@ -521,19 +537,14 @@ function activate(context) {
 
     // Store context globally
     globalContext = context;
-
-    // Load API keys and model configuration on startup
-    Object.assign(apiKeys, fileManager.loadAllApiKeys(minimalModelManager.providers));
-    const savedModel = fileManager.loadSelectedModel(minimalModelManager.providers);
-    if (savedModel) currentModel = savedModel;
     
-    // Load token statistics (handles initialization internally)
+    // Load token statistics (sync - bleibt wie vorher!)
     loadTokenUsage();
     
     // Initialize and show status bar
     statusBarManager = new StatusBarManager();
     statusBarManager.createStatusBar();
-    statusBarManager.updateFromContext(getDependencies());;
+    statusBarManager.updateFromContext(getDependencies());
 
     // Initialize Quick Menu Tree Provider
     quickMenuTreeProvider = new uiTools.QuickMenuTreeProvider();
@@ -549,8 +560,10 @@ function activate(context) {
     apiKeyManager = new ApiKeyManager();
     executionStates = new ExecutionStateManager();
   
-    // Auto-Update for providers
-    configUpdater.setupAutoUpdates(getDependencies());
+    // Auto-Update for providers 
+    setTimeout(() => {
+        configUpdater.setupAutoUpdates(getDependencies());
+    }, 3000);
 
     // Check for extension updates
     setTimeout(() => {
@@ -575,7 +588,7 @@ function activate(context) {
     if (uiTools.shouldShowWelcome(getDependencies())) {
         setTimeout(async () => {
             await uiTools.showWelcomeMessage(getDependencies());
-        }, 1000);
+        }, 2000);
     }
 }
 

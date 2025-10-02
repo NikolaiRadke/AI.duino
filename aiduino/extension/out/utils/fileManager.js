@@ -8,6 +8,7 @@
 "use strict";
 
 const fs = require("fs");
+const fsPromises = require("fs").promises;
 const os = require("os");
 const path = require("path");
 
@@ -17,7 +18,7 @@ const SECURE_FILE_MODE = 0o600;
 // ===== CORE FILE OPERATIONS =====
 
 /**
- * Safe file existence check
+ * Safe file existence check (sync - fast enough)
  * @param {string} filePath - File path to check
  * @returns {boolean} True if file exists
  */
@@ -30,7 +31,7 @@ function fileExists(filePath) {
 }
 
 /**
- * Safe file read with fallback
+ * Safe sync file read with fallback (for runtime usage)
  * @param {string} filePath - File to read
  * @param {string} fallback - Return value if read fails
  * @returns {string} File content or fallback
@@ -46,7 +47,24 @@ function safeReadFile(filePath, fallback = null) {
 }
 
 /**
- * Cross-platform atomic file write
+ * Safe async file read with fallback (for startup performance)
+ * @param {string} filePath - File to read
+ * @param {string} fallback - Return value if read fails
+ * @returns {Promise<string>} File content or fallback
+ */
+async function safeReadFileAsync(filePath, fallback = null) {
+    if (!fileExists(filePath)) return fallback;
+    
+    try {
+        const content = await fsPromises.readFile(filePath, 'utf8');
+        return content.trim();
+    } catch {
+        return fallback;
+    }
+}
+
+/**
+ * Cross-platform atomic file write (sync is fine for writes)
  * @param {string} filePath - Target file path
  * @param {string} content - Content to write
  * @param {object} options - Write options
@@ -54,7 +72,7 @@ function safeReadFile(filePath, fallback = null) {
  */
 function atomicWrite(filePath, content, options = { mode: SECURE_FILE_MODE }) {
     if (process.platform === 'win32') {
-        // Windows: Backup-Strategie (direkt hier)
+        // Windows: Backup-Strategie
         const backupFile = filePath + '.backup';
         try {
             if (fileExists(filePath)) {
@@ -76,7 +94,7 @@ function atomicWrite(filePath, content, options = { mode: SECURE_FILE_MODE }) {
             return false;
         }
     } else {
-        // Unix: Atomic rename (direkt hier)
+        // Unix: Atomic rename
         const tempFile = filePath + '.tmp';
         try {
             fs.writeFileSync(tempFile, content, options);
@@ -94,7 +112,7 @@ function atomicWrite(filePath, content, options = { mode: SECURE_FILE_MODE }) {
 // ===== API KEY MANAGEMENT =====
 
 /**
- * Save API key securely
+ * Save API key securely (sync is fine)
  * @param {string} modelId - Model identifier
  * @param {string} apiKey - API key to save
  * @param {object} providers - Provider configurations
@@ -109,7 +127,7 @@ function saveApiKey(modelId, apiKey, providers) {
 }
 
 /**
- * Load API key from file
+ * Load API key from file (sync - for runtime usage)
  * @param {string} modelId - Model identifier
  * @param {object} providers - Provider configurations
  * @returns {string|null} API key or null
@@ -123,7 +141,21 @@ function loadApiKey(modelId, providers) {
 }
 
 /**
- * Load all available API keys
+ * Load API key from file (async - for startup performance)
+ * @param {string} modelId - Model identifier
+ * @param {object} providers - Provider configurations
+ * @returns {Promise<string|null>} API key or null
+ */
+async function loadApiKeyAsync(modelId, providers) {
+    const provider = providers[modelId];
+    if (!provider?.keyFile) return null;
+    
+    const keyFile = path.join(AIDUINO_DIR, provider.keyFile);
+    return await safeReadFileAsync(keyFile);
+}
+
+/**
+ * Load all available API keys (sync - for runtime usage)
  * @param {object} providers - Provider configurations
  * @returns {object} Map of modelId -> apiKey
  */
@@ -142,10 +174,34 @@ function loadAllApiKeys(providers) {
     return apiKeys;
 }
 
+/**
+ * Load all available API keys (async with parallel loading - for startup)
+ * @param {object} providers - Provider configurations
+ * @returns {Promise<object>} Map of modelId -> apiKey
+ */
+async function loadAllApiKeysAsync(providers) {
+    const apiKeys = {};
+    
+    // Create array of promises for parallel loading
+    const loadPromises = Object.entries(providers).map(async ([modelId, provider]) => {
+        if (!provider?.keyFile) return;
+        
+        const apiKey = await loadApiKeyAsync(modelId, providers);
+        if (apiKey) {
+            apiKeys[modelId] = apiKey;
+        }
+    });
+    
+    // Wait for all keys to load in parallel
+    await Promise.all(loadPromises);
+    
+    return apiKeys;
+}
+
 // ===== MODEL SELECTION PERSISTENCE =====
 
 /**
- * Save selected model preference
+ * Save selected model preference (sync is fine)
  * @param {string} modelId - Model to save as default
  * @returns {boolean} Success status
  */
@@ -155,7 +211,7 @@ function saveSelectedModel(modelId) {
 }
 
 /**
- * Load saved model selection with validation
+ * Load saved model selection with validation (sync - for runtime usage)
  * @param {object} providers - Available providers for validation
  * @returns {string|null} Valid model ID or null
  */
@@ -171,10 +227,27 @@ function loadSelectedModel(providers) {
     return null;
 }
 
+/**
+ * Load saved model selection with validation (async - for startup)
+ * @param {object} providers - Available providers for validation
+ * @returns {Promise<string|null>} Valid model ID or null
+ */
+async function loadSelectedModelAsync(providers) {
+    const modelFile = path.join(AIDUINO_DIR, '.aiduino-model');
+    const savedModel = await safeReadFileAsync(modelFile);
+    
+    // Validate against available providers
+    if (savedModel && providers?.[savedModel]) {
+        return savedModel;
+    }
+    
+    return null;
+}
+
 // ===== UTILITY FUNCTIONS =====
 
 /**
- * Get extension version from package.json
+ * Get extension version from package.json (sync)
  * @returns {string} Version string
  */
 function getVersionFromPackage() {
@@ -191,10 +264,28 @@ function getVersionFromPackage() {
     }
 }
 
+/**
+ * Get extension version from package.json (async)
+ * @returns {Promise<string>} Version string
+ */
+async function getVersionFromPackageAsync() {
+    const packagePath = path.join(__dirname, '..', '..', 'package.json');
+    const packageContent = await safeReadFileAsync(packagePath);
+    
+    if (!packageContent) return '1.0.0';
+    
+    try {
+        const packageJson = JSON.parse(packageContent);
+        return packageJson.version || '1.0.0';
+    } catch {
+        return '1.0.0';
+    }
+}
+
 // ===== MIGRATION UTILITIES =====
 
 /**
- * Migrate legacy files from home directory
+ * Migrate legacy files from home directory (sync is fine - only runs once)
  * @param {string} targetDir - Target .aiduino directory
  */
 function migrateOldFiles(targetDir) {
@@ -244,20 +335,25 @@ function clearAIContext() {
 module.exports = {
     // Core operations
     fileExists,
-    safeReadFile,
+    safeReadFile,           // sync
+    safeReadFileAsync,      // async
     atomicWrite,
     
     // API key management
     saveApiKey,
-    loadApiKey,
-    loadAllApiKeys,
+    loadApiKey,             // sync - for runtime
+    loadApiKeyAsync,        // async - for startup
+    loadAllApiKeys,         // sync - for runtime
+    loadAllApiKeysAsync,    // async - for startup
     
     // Model selection
     saveSelectedModel,
-    loadSelectedModel,
+    loadSelectedModel,      // sync - for runtime
+    loadSelectedModelAsync, // async - for startup
     
     // Utilities
-    getVersionFromPackage,
+    getVersionFromPackage,       // sync
+    getVersionFromPackageAsync,  // async
     migrateOldFiles,
     clearAIContext
 };
