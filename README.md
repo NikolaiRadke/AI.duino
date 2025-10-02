@@ -43,10 +43,10 @@ The extension is checking itsels and will inform the user for new Version update
   
 ## Beta featrures (>= V2.0.0):
 
-## AI Chat 
+### AI Chat 
 Multiple chats like in the browser but integrated in the IDE. You can change the provider whenever you want. 
 
-## Inline Completion
+### Inline Completion
 AI will suggest code completion behind common keywords like *Serial.* and in Comments ending with ':'. 
 Example: *// Let the LED blink für three times:*.
 
