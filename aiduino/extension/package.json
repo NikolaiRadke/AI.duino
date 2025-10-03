@@ -196,11 +196,6 @@
     "configuration": {
       "title": "AI.duino",
       "properties": {
-        "aiduino.showWelcomeOnStartup": {
-          "type": "boolean",
-          "default": true,
-          "description": "Show welcome message on startup"
-        },
         "aiduino.autoDetectErrors": {
           "type": "boolean",
           "default": true,
@@ -235,33 +230,13 @@
           "default": true,
           "description": "Enable custom instructions for code improvements"
         },
-        "aiduino.saveApiKeysSecurely": {
-          "type": "boolean",
-          "default": true,
-          "description": "Save API keys with restricted file permissions"
-        },
-        "aiduino.tokenTrackingEnabled": {
-          "type": "boolean",
-          "default": true,
-          "description": "Track token usage and costs"
-        },
-        "aiduino.debugMode": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable debug console output"
-        },
-        "aiduino.autoUpdateConfigs": {
-          "type": "boolean",
-          "default": true,
-          "description": "Automatically check for provider configuration updates"
-        },
         "aiduino.inlineCompletion.enabled": {
           "type": "boolean",
           "default": false,
           "description": "Enable inline code completion (uses current AI provider)"
         }
-      }
-    }
+      } 
+    }   
   },
   "author": {
     "name": "Monster Maker"

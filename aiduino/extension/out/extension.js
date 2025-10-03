@@ -67,8 +67,6 @@ let globalContext;
 let currentModel = 'claude';
 let currentLocale = 'en';
 let i18n = {};
-let isPromptEditorOpen = false;
-let promptEditorHasChanges = false;
 
 // Module instances
 let commandRegistry;

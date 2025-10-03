@@ -6,4 +6,10 @@
 * All panel based features now have Webview with Copy&Paste
 * Parallel function loading for faster startup
 * Small bug fixes
+* Updated SECURITY.md
+
+## ToDo:
+
+* All internal Settings in one module config/settings.js
+* An edit settings panel -> In the IDE settings?
 
