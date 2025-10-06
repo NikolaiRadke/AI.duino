@@ -1,7 +1,7 @@
 ![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back.png)
 # 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
-AI.duino integrates **Claude, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq, Vertex, Hugging Face** and **Claude Code and Ollama** directly into the Arduino IDE for intelligent code assistance. It also works with **VS Code**. Please use the newest Version to avoid annoying bugs.       
+AI.duino integrates **Claude, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq, Vertex, Hugging Face** and **Claude Code, Codex CLI and Ollama** directly into the Arduino IDE for intelligent code assistance. It also works with **VS Code**. Please use the newest Version to avoid annoying bugs.       
  
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
@@ -149,21 +149,26 @@ to - *sigh* - buy an additional key for about **5$**. Fortunatly, this really la
 You can try **Groq** and **Gemini**: They have a rate for API keys for **free**.  
   
 Required: An API key from either:
-- Claude: https://console.anthropic.com
+- Claude: https://console.anthropic.com 
 - ChatGPT: https://platform.openai.com
 - Gemini: https://makersuite.google.com
-- Mistral: https://console.mistral.ai
-- Perplexity: https://www.perplexity.ai/settings/api
-- Cohere: https://dashboard.cohere.ai
+- Mistral: https://console.mistral.ai (Untested)
+- Perplexity: https://www.perplexity.ai/settings/api (Untested)
+- Cohere: https://dashboard.cohere.ai (Untested)
 - Croq: https://console.groq.com
-- Vertex: https://console.cloud.google.com/vertex-ai
-- Hugging Face: https://huggingface.co/settings/tokens 
+- Vertex: https://console.cloud.google.com/vertex-ai (Untested)
+- Hugging Face: https://huggingface.co/settings/tokens (Untested)
 
 The keys are stored locally and not transmitted.
 
 **Local providers** don't need an API key. HTTP based providers like **Ollama** get auto detected, process based providers like **Claude Code**
 only needs the path to the binary. Example: Try *which claude* (Linux/macOS) or *where claude* (Windows) and copy the path for the AI.duino 
 input field when selecting Claude Code.  
+
+Supported Provider:
+- Claude Code (Claude Plan Pro): https://www.claude.com/pricing
+- Codex CLI (ChatGPT Plus): https://chatgpt.com/#pricing (Untested)
+- Ollama: https://ollama.com/
 
 ## Content
   
