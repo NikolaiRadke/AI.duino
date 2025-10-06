@@ -176,3 +176,11 @@ Root directory with some explanation files
 └── installer/
     Installer files with plugin VSIX file  
 ```  
+## 💙 Support AI.duino
+
+AI.duino is free and open source. If it saved your day, consider buying me a coffee! ☕
+
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/NikolaiRadke?style=for-the-badge&logo=github&color=ea4aaa)](https://github.com/sponsors/NikolaiRadke)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Buy%20me%20a%20coffee-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/deinname)
+
+Every contribution helps keep this project alive! 🚀
