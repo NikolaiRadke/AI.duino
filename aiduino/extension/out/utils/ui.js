@@ -199,6 +199,57 @@ async function showProgressWithCancel(message, operation, t) {
     });
 }
 
+/**
+ * Show support hint after successful AI requests
+ * @param {Object} context - Extension context
+ */
+async function showSupportHint(context) {
+    // Hole t aus dem context, NICHT via require
+    const t = context.t || ((key, ...args) => key); // Fallback falls t fehlt
+    
+    // Check if user disabled hints
+    const disabled = context.globalState.get('aiduino.supportHintDisabled', false);
+    if (disabled) return;
+    
+    // Increment use counter
+    const useCount = context.globalState.get('aiduino.useCount', 0) + 1;
+    await context.globalState.update('aiduino.useCount', useCount);
+    
+    // Show hint at milestones: 10, 50, 100, 250 uses
+    const milestones = [10, 50, 100, 250];
+    if (!milestones.includes(useCount)) return;
+    
+    // Don't show more than once per 30 days
+    const lastShown = context.globalState.get('aiduino.lastSupportHint', 0);
+    const daysSinceLastHint = (Date.now() - lastShown) / (1000 * 60 * 60 * 24);
+    if (daysSinceLastHint < 30) return;
+    
+    // Show the hint
+    const vscode = require('vscode');
+    const message = t('support.message').replace('{0}', useCount);
+    const selection = await vscode.window.showInformationMessage(
+        message + '\n\n' + t('support.description'),
+        t('support.coffee'),
+        t('support.sponsor'),
+        t('support.later'),
+        t('support.noThanks')
+    );
+    
+    // Handle user choice
+    if (selection === t('support.coffee')) {
+        vscode.env.openExternal(vscode.Uri.parse('https://ko-fi.com/nikolairadke'));
+        vscode.window.showInformationMessage(t('support.thanks'));
+    } else if (selection === t('support.sponsor')) {
+        vscode.env.openExternal(vscode.Uri.parse('https://github.com/sponsors/NikolaiRadke'));
+        vscode.window.showInformationMessage(t('support.thanks'));
+    } else if (selection === t('support.noThanks')) {
+        await context.globalState.update('aiduino.supportHintDisabled', true);
+    }
+    
+    // Update last shown timestamp
+    await context.globalState.update('aiduino.lastSupportHint', Date.now());
+}
+
 module.exports = {
     // Activity Bar TreeView
     QuickMenuTreeProvider,
@@ -209,6 +260,7 @@ module.exports = {
     showTokenStats,
     showOfflineHelp,
     showProgressWithCancel,
+    showSupportHint,
         
     // Welcome functions
     shouldShowWelcome,

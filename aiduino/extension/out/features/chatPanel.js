@@ -8,6 +8,7 @@
 const vscode = require('vscode');
 const shared = require('../shared');
 const featureUtils = require('./featureUtils');
+const contextManager = require('../utils/contextManager');
 const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 const { ChatHistoryManager } = require('../utils/chatHistoryManager');
 
@@ -15,6 +16,8 @@ const { ChatHistoryManager } = require('../utils/chatHistoryManager');
 let activeChatPanel = null;
 let historyManager = null;
 let currentView = 'overview'; // 'overview' or 'chat'
+let attachedContext = null; // Stores attached context for current message
+let lastUsedContext = null; // Store last used context for reuse
 
 /**
  * Show persistent AI chat panel with overview page
@@ -76,6 +79,32 @@ async function showChatPanel(context) {
                     
                 case 'sendSelectedCode':
                     await handleSendSelectedCode(panel, context);
+                    break;
+
+                case 'attachContext':
+                    await handleAttachContext(panel, context);
+                    break;
+
+                case 'reuseLastContext':
+                    if (lastUsedContext) {
+                        attachedContext = lastUsedContext;
+                        updatePanelContent(panel, context);
+        
+                        // Show badge
+                        let badgeHtml = contextManager.getContextBadgeHtml(lastUsedContext, t);
+                        badgeHtml = badgeHtml.replace('</div>', 
+                        '<span onclick="event.stopPropagation(); clearContext()" style="cursor: pointer; margin-left: 5px; font-weight: bold;">×</span></div>');
+        
+                        panel.webview.postMessage({
+                            command: 'contextAttached',
+                            badge: badgeHtml
+                        });
+                    }
+                    break;
+    
+                case 'clearContext':
+                    attachedContext = null;
+                    updatePanelContent(panel, context);
                     break;
                     
                 case 'newChat':
@@ -182,16 +211,54 @@ async function handleDeleteChat(chatId, panel, context) {
  * Handle user message
  */
 async function handleUserMessage(userText, panel, context) {
-    if (!userText?.trim()) return;
+    // Allow empty text if context is attached
+    if (!userText?.trim() && !attachedContext) return;
+
+    // Use actual text or empty string (context speaks for itself)
+    const messageText = userText?.trim() || '';
 
     const fileManager = require('../utils/fileManager');
     const actualCurrentModel = fileManager.loadSelectedModel(context.minimalModelManager.providers) || context.currentModel;
     
-    historyManager.addMessage('user', userText);
+    historyManager.addMessage('user', messageText, attachedContext);
     updatePanelContent(panel, context);
 
     const chatHistory = historyManager.getActiveChat();
-    let prompt = buildChatPrompt(userText, chatHistory);
+    let prompt;
+    
+    // Use persistent context if active, otherwise one-time context
+    const contextToUse = attachedContext;
+
+    // With attached context
+    if (attachedContext) {
+        // Save as last used context
+        lastUsedContext = attachedContext;
+    
+        prompt = contextManager.buildContextAwarePrompt(
+            '', // No selection
+            attachedContext,
+            {
+                selection: null,
+                file: 'askAIFile',
+                sketch: 'askAISketch',
+                suffix: null
+            },
+            context,
+            null,
+            [messageText] // Question first
+        );
+    
+        // Clear context after use
+        attachedContext = null;
+        // Clear badge in UI
+        panel.webview.postMessage({
+            command: 'contextAttached',
+            badge: ''
+        });
+    } else {
+        // Normal chat without context
+        prompt = buildChatPrompt(userText, chatHistory);
+    }
     
     try {
         const freshContext = {
@@ -258,6 +325,47 @@ async function handleSendSelectedCode(panel, context) {
         code: selectedCode
     });
 }
+
+/**
+ * Handle attaching context files
+ */
+async function handleAttachContext(panel, context) {
+    const { t } = context;
+    const editor = vscode.window.activeTextEditor;
+    
+    if (!editor || !context.validation.validateArduinoFile(editor.document.fileName)) {
+        vscode.window.showWarningMessage(t('messages.openInoFile'));
+        return;
+    }
+    
+    // Use contextManager for selection
+    const contextData = await contextManager.selectContextLevel(
+        editor, 
+        '', // No selected text for chat
+        t,
+        { showSelectionOption: false } // No selection option in chat
+    );
+    
+    if (!contextData) return;
+    
+    attachedContext = contextData;
+    updatePanelContent(panel, context);
+
+    // Show info about one-time context
+    vscode.window.showInformationMessage(t('messages.contextAttachedInfo'));
+    
+    // Create custom badge with remove button for chat
+    let badgeHtml = contextManager.getContextBadgeHtml(contextData, t);
+    // Add remove button only for chat panel
+    badgeHtml = badgeHtml.replace('</div>', 
+        '<span onclick="event.stopPropagation(); clearContext()" style="cursor: pointer; margin-left: 5px; font-weight: bold;">×</span></div>');
+
+    // Feedback to webview
+    panel.webview.postMessage({
+        command: 'contextAttached',
+        badge: badgeHtml
+    });
+    }
 
 /**
  * Update panel content based on current view
@@ -520,6 +628,9 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
             const result = featureUtils.processMessageWithCodeBlocks(msg.text, msg.id, t);
             messageContent = result.html;
             allCodeBlocks[msg.id] = result.codeBlocks;
+        } else if (isUser && !msg.text && msg.code) {       
+            // User sent only files without text
+            messageContent = `<em style="opacity: 0.7">[${t('chat.filesSent')}]</em>`;
         } else {
             // Simple text message
             messageContent = shared.escapeHtml(msg.text).replace(/\n/g, '<br>');
@@ -689,6 +800,16 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
                     opacity: 0.5;
                     cursor: not-allowed;
                 }
+
+                .action-btn.active-pin {
+                    background: var(--vscode-inputValidation-warningBackground);
+                    color: var(--vscode-inputValidation-warningForeground);
+                }
+
+                .action-btn:disabled {
+                    opacity: 0.3;
+                    cursor: not-allowed;
+                }
                 
                 .welcome-message {
                     text-align: center;
@@ -731,9 +852,18 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
                     <button class="action-btn" onclick="sendSelectedCode()" ${disabledClass}>
                         📤 ${t('chat.sendCode')}
                     </button>
+                    <button class="action-btn" onclick="attachContext()" title="${t('chat.attachContext')}">
+                        📎 ${t('chat.attachFile')}
+                    </button>
+                    ${lastUsedContext ? `
+                        <button class="action-btn" onclick="reuseLastContext()" title="${t('chat.reuseLastContext')}">
+                            🔄 ${t('chat.useLastContext')}
+                        </button>
+                    ` : ''}
                     <button class="action-btn" onclick="clearChat()">
                         🗑️ ${t('buttons.reset')}
                     </button>
+                    <span class="context-badge-container">${attachedContext ? contextManager.getContextBadgeHtml(attachedContext, t).replace('</div>', '<span onclick="event.stopPropagation(); clearContext()" style="cursor: pointer; margin-left: 5px; font-weight: bold;">×</span></div>') : ''}</span>
                 </div>
                 
                 <div class="input-row">
@@ -801,14 +931,16 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
                 function sendMessage() {
                     const input = document.getElementById('messageInput');
                     const text = input.value.trim();
-            
-                    if (!text) return;
-            
+                    const hasContext = document.querySelector('.context-badge') !== null;
+    
+                    // Allow sending if text OR context is present
+                    if (!text && !hasContext) return;
+    
                     vscode.postMessage({
                         command: 'sendMessage',
-                        text: text
+                        text: text || ''
                     });
-                
+
                     input.value = '';
                 }
                 
@@ -816,6 +948,22 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
                     vscode.postMessage({
                         command: 'sendSelectedCode'
                     });
+                }
+
+                function attachContext() {
+                    vscode.postMessage({ command: 'attachContext' });
+                }
+
+                function clearContext() {
+                    vscode.postMessage({ command: 'clearContext' });
+                }
+
+                function reuseLastContext() {
+                    vscode.postMessage({ command: 'reuseLastContext' });
+                }
+
+                function backToOverview() {
+                    vscode.postMessage({ command: 'backToOverview' });
                 }
                 
                 function clearChat() {
@@ -826,14 +974,21 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
                 
                 window.addEventListener('message', function(event) {
                     const message = event.data;
-                    
+    
                     if (message.command === 'insertCodeIntoInput') {
                         const input = document.getElementById('messageInput');
                         const currentText = input.value;
                         const codeBlock = message.code;
-                        
+        
                         input.value = currentText ? currentText + '\\n\\n' + codeBlock : codeBlock;
                         input.focus();
+                    }
+    
+                    if (message.command === 'contextAttached') {
+                        const badgeContainer = document.querySelector('.context-badge-container');
+                        if (badgeContainer) {
+                            badgeContainer.innerHTML = message.badge;
+                        }
                     }
                 });
     

@@ -584,6 +584,27 @@ function setupStandardMessageHandler(panel, context, customHandlers = {}) {
                 vscode.window.showInformationMessage(context.t('messages.codeUpdated'));
                 return;
             }
+
+            // Standard: Replace original code
+            if (message.command === 'replaceOriginal') {
+                if (!panel.originalEditor) {
+                    vscode.window.showWarningMessage(context.t('messages.noEditor'));
+                    return;
+                }
+    
+                await panel.originalEditor.edit(editBuilder => {
+                    if (panel.originalSelection && !panel.originalSelection.isEmpty) {
+                        // Replace selection
+                        editBuilder.replace(panel.originalSelection, cleanHtmlCode(message.code));
+                    } else {
+                        // Insert at cursor if no selection
+                        editBuilder.insert(panel.originalEditor.selection.active, cleanHtmlCode(message.code));
+                    }
+                });
+    
+                vscode.window.showInformationMessage(context.t('messages.codeUpdated'));
+                return;
+            }
             
             // Standard: Close panel
             if (message.command === 'closePanel') {
@@ -614,56 +635,6 @@ function cleanCodeContent(codeContent) {
         .replace(/&gt;/g, '>')
         .replace(/&amp;/g, '&')
         .trim();
-}
-
-/**
- * Process and format code blocks in AI response
- * @param {string} response - AI response text
- * @param {string} codeBlockTitle - Title for code blocks
- * @param {Array} buttonActions - Button actions for code blocks
- * @param {Function} t - Translation function
- * @returns {string} Processed HTML with formatted code blocks
- */
-function processAiCodeBlocks(response, codeBlockTitle, buttonActions = ['copy', 'insert'], t) {
-    // Escape HTML first
-    let processed = shared.escapeHtml(response);
-    
-    // Extract and format code blocks
-    processed = processed.replace(/```(?:cpp|c|arduino)?\s*([\s\S]*?)\s*```/g, (match, codeContent) => {
-        const cleanCode = cleanCodeContent(codeContent);  // ← featureUtils. entfernt!
-        return generateCodeBlockHtml(cleanCode, codeBlockTitle, buttonActions, t);
-    });
-    
-    // Convert line breaks to HTML
-    processed = processed.replace(/\n/g, '<br>');
-    
-    return processed;
-}
-
-/**
- * Generate HTML for a code block with action buttons
- * @param {string} code - Clean code content
- * @param {string} title - Code block title
- * @param {Array} actions - Button actions ['copy', 'insert', 'replace']
- * @param {Function} t - Translation function
- * @returns {string} HTML for code block
- */
-function generateCodeBlockHtml(code, title, actions = ['copy', 'insert'], t) {
-    const buttonsHtml = generateCodeBlockButtons(actions, null, code, t);
-    
-    return `
-        <div class="code-block">
-            <div class="code-header">
-                <span>${title}</span>
-                <div class="code-actions">
-                    ${buttonsHtml}
-                </div>
-            </div>
-            <div class="code-content">
-                <pre><code class="language-cpp">${shared.escapeHtml(code)}</code></pre>
-            </div>
-        </div>
-    `;
 }
 
 /**
@@ -740,7 +711,7 @@ function processMessageWithCodeBlocks(text, messageId, t) {
     codeBlocks.forEach((code, index) => {
         const html = `<div class="code-block" data-message-id="${messageId}" data-code-index="${index}">
             <div class="code-header">
-                <span>📝 ${t('chat.suggestedCode')}</span>
+                <span>📄 ${t('chat.suggestedCode')}</span>
                 <div class="code-actions">
                     <button class="code-btn" data-action="copy" data-message-id="${messageId}" data-index="${index}">
                         📋 ${t('buttons.copy')}
@@ -748,52 +719,21 @@ function processMessageWithCodeBlocks(text, messageId, t) {
                     <button class="code-btn" data-action="insert" data-message-id="${messageId}" data-index="${index}">
                         📄 ${t('chat.insertCode')}
                     </button>
+                    <button class="code-btn primary" data-action="replace" data-message-id="${messageId}" data-index="${index}">
+                        🔄 ${t('buttons.replaceOriginal')}
+                    </button>
                 </div>
             </div>
             <div class="code-content">
                 <pre><code class="language-cpp">${shared.escapeHtml(code)}</code></pre>
             </div>
         </div>`;
-        
+    
         processed = processed.replace(`[[CODEBLOCK_${index}]]`, html);
     });
-    
-    return { html: processed, codeBlocks };
-}
 
-/**
- * Generate inline toolbar button functions for webview panels
- * Returns raw JavaScript function definitions (without script wrapper)
- * For injection into existing script blocks to avoid duplicate acquireVsCodeApi() calls
- * @returns {string} JavaScript function definitions for toolbar buttons
- */
-function getInlineToolbarFunctions() {
-    return `
-        function toolbarCopy() {
-            const selection = window.getSelection().toString();
-            if (selection && selection.trim()) {
-                vscode.postMessage({
-                    command: 'copyCode',
-                    code: selection.trim()
-                });
-            }
-        }
-        
-        function toolbarInsertSelected() {
-            const selection = window.getSelection().toString();
-            if (selection && selection.trim()) {
-                vscode.postMessage({
-                    command: 'insertCode',
-                    code: selection.trim()
-                });
-            }
-        }
-        
-        function closePanel() {
-            vscode.postMessage({ command: 'closePanel' });
-        }
-    `;
-}
+    return { html: processed, codeBlocks };
+}   
 
 module.exports = {
     executeFeature,
@@ -812,10 +752,8 @@ module.exports = {
     generateToolbarScript,
     cleanHtmlCode,
     setupStandardMessageHandler,
-    processAiCodeBlocks,
     cleanCodeContent,
     generateCodeBlockButtons,
     processAiCodeBlocksWithEventDelegation,
-    processMessageWithCodeBlocks,  
-    getInlineToolbarFunctions   
+    processMessageWithCodeBlocks
 };

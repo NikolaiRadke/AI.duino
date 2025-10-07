@@ -142,8 +142,11 @@ class ArduinoCompletionProvider {
         // Use the currently selected model
         const provider = minimalModelManager.providers[currentModel];
         
+        // Don't count inline completions for support hints
+        const contextWithFlag = { ...this.context, skipSupportHint: true };
+
         // Make API call with user's selected model
-        const response = await apiClient.callAPI(currentModel, prompt, this.context);
+        const response = await apiClient.callAPI('groq', prompt, contextWithFlag);
 
         // Extract and clean the completion
         return this.cleanCompletion(response, contextData);

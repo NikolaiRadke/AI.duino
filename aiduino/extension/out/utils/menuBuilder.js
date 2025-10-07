@@ -40,8 +40,8 @@ function buildMenuItems(context) {
         createMenuItem('$(edit)', 'addComments', hasSelection, t),
         createMenuItem('$(error)', 'explainError', false, t, 'descriptions.noErrors'),
         createMenuItem('$(bug)', 'debugHelp', false, t, 'descriptions.debugHelp'),
-        createMenuItem('$(question)', 'askAI', false, t, 'descriptions.askAI'),
         createMenuItem('$(comment-discussion)', 'openChatPanel', false, t, 'descriptions.openChatPanel'),
+        createMenuItem('$(question)', 'askAI', false, t, 'descriptions.askAI'),
     ];
     
     // Separator 1

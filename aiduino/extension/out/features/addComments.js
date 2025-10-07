@@ -1,56 +1,83 @@
 /*
- * AI.duino - Add Comments Feature Module
+ * AI.duino - Add Comments Feature Module (Enhanced with Context Support)
  * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
  */
+
 const vscode = require('vscode');
 const shared = require('../shared');
 const featureUtils = require('./featureUtils');
+const contextManager = require('../utils/contextManager');
+const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 
 /**
- * Main addComments function with dependency injection
+ * Main addComments function with multi-context support
  * @param {Object} context - Extension context with dependencies
  */
 async function addComments(context) {
-    return featureUtils.executeFeature(
+    const panel = await featureUtils.executeFeature(
         context.executionStates.OPERATIONS.COMMENTS,
         async () => {
-            // Validate editor and selection
-            const validation = featureUtils.validateEditorAndSelection(
-                context.t, 'messages.noEditor', 'messages.selectCodeToComment'
-            );
-            if (!validation) return;
+            // Validate editor (selection optional)
+            const editor = vscode.window.activeTextEditor;
+            if (!editor) {
+                vscode.window.showWarningMessage(context.t('messages.noEditor'));
+                return;
+            }
+
+            // Check if Arduino file
+            if (!context.validation.validateArduinoFile(editor.document.fileName)) {
+                vscode.window.showWarningMessage(context.t('messages.openInoFile'));
+                return;
+            }
+
+            const selection = editor.selection;
             
-            const { editor, selection, selectedText } = validation;
-            
-            // Get custom instructions with history 
+            // Proper selection detection
+            const hasSelection = !selection.start.isEqual(selection.end);
+            const selectedText = hasSelection ? editor.document.getText(selection) : '';
+
+            // Get custom comment instructions with history (optional)
             const customInstructions = await featureUtils.showInputWithCreateQuickPickHistory(
-                context, 'commentInstructions', 'placeholders.customInstructions', 'addComments',
-                '' 
-            );          
+                context, 
+                'commentInstructions', 
+                'placeholders.commentInstructions', 
+                'addComments',
+                context.globalContext.globalState.get('aiduino.commentInstructions', '')
+            );            
 
-            // User cancelled (pressed Escape) - abort
+            // User cancelled
             if (customInstructions === null) return;
-
-            // Empty string is OK - means "no special instructions"
+    
             const instructions = customInstructions.trim();
-
             context.globalContext.globalState.update('aiduino.commentInstructions', customInstructions);
 
-            // Unified history saving
+            // Save to history
             featureUtils.saveToHistory(context, 'addComments', customInstructions);
+
+            // Context Selection
+            const contextData = await contextManager.selectContextLevel(
+                editor, 
+                selectedText, 
+                context.t,
+                { showSelectionOption: hasSelection }
+            );
+            if (!contextData) return; // User cancelled
             
-            // Build prompt with board context
-            let prompt = context.promptManager.getPrompt('addComments', selectedText) + shared.getBoardContext();
-            
-            // Add custom instructions if provided
-            if (instructions) {
-                const instructionsList = instructions.split(',').map(s => s.trim()).join('\n- ');
-                prompt += '\n\n' + context.promptManager.getPrompt('additionalInstructions', instructionsList);
-            }
-            
-            prompt += '\n\n' + context.promptManager.getPrompt('addCommentsSuffix');
+            // Build prompt with selected context
+            const prompt = contextManager.buildContextAwarePrompt(
+                selectedText,
+                contextData,
+                {
+                    selection: 'addCommentsSelected',
+                    file: 'addCommentsFile',
+                    sketch: 'addCommentsSketch',
+                    suffix: 'addCommentsSuffix'
+                },
+                context,
+                instructions 
+            );
             
             // Call AI with progress
             const response = await featureUtils.callAIWithProgress(
@@ -59,41 +86,128 @@ async function addComments(context) {
                 context
             );
             
-            // Extract code from response
-            const { extractedCode } = featureUtils.extractCodeFromResponse(response);
-            
-            // Build content with footer (custom instructions + board info)
-            const boardInfo = shared.detectArduinoBoard();
-            const displayContent = featureUtils.buildContentWithFooter(extractedCode, {
-                customInstructions,
-                boardInfo,
-                t: context.t
-            });
-            
-            // Create and show document
-            await featureUtils.createAndShowDocument(
-                displayContent,
-                'cpp',
-                context.t('commands.addComments')
+            // Create WebviewPanel
+            const panel = vscode.window.createWebviewPanel(
+                'aiAddComments',
+                context.t('commands.addComments'),
+                vscode.ViewColumn.Two,
+                { enableScripts: true }
             );
             
-            // Show choice dialog
-            const choice = await featureUtils.showReplaceKeepChoice(
-                context.t('messages.commentsAdded'),
+            panel.webview.html = createAddCommentsHtml(
+                selectedText,
+                response,
+                customInstructions,
+                contextData,
+                context.currentModel,
                 context.t
             );
             
-            if (choice === context.t('buttons.replaceOriginal')) {
-                await featureUtils.replaceSelectedText(
-                    editor,
-                    selection,
-                    extractedCode,
-                    context.t('messages.codeReplaced')
-                );
-            }
+            // Store original selection for replacement
+            panel.originalEditor = editor;
+            panel.originalSelection = selection;
+            
+            return panel;
         },
         context
     );
+    
+    // Message Handler
+    if (panel) {
+        featureUtils.setupStandardMessageHandler(panel, context, {});
+    }
+}
+
+/**
+ * Create HTML for add comments webview panel
+ * @param {string} originalCode - Original selected code
+ * @param {string} aiResponse - AI response
+ * @param {Object} contextData - Context data structure
+ * @param {string} currentModel - Current AI model
+ * @param {Function} t - Translation function
+ * @returns {string} HTML content
+ */
+function createAddCommentsHtml(originalCode, aiResponse, customInstructions, contextData, currentModel, t) {
+    const codeBlocks = {};
+    const processedHtml = featureUtils.processMessageWithCodeBlocks(aiResponse, 'addComments', t);
+    Object.assign(codeBlocks, processedHtml.codeBlocks);
+    
+    const boardFqbn = shared.detectArduinoBoard();
+    const boardDisplay = boardFqbn ? shared.getBoardDisplayName(boardFqbn) : t('output.boardUnknown');
+    
+    // Context info badge
+    const contextBadge = contextManager.getContextBadgeHtml(contextData, t);
+    
+    return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>${t('commands.addComments')}</title>
+            ${getSharedCSS()}
+            <style>
+                .context-badge {
+                    display: inline-block;
+                    padding: 4px 12px;
+                    background: var(--vscode-badge-background);
+                    color: var(--vscode-badge-foreground);
+                    border-radius: 12px;
+                    font-size: 0.9em;
+                    margin: 8px 0;
+                }
+            </style>
+        </head>
+        <body>
+            ${featureUtils.generateActionToolbar(['copy', 'insert', 'close'], t)}
+            
+            <h1>💬 ${t('commands.addComments')}</h1>
+            
+            ${contextBadge}
+            
+            ${customInstructions ? `
+            <div class="instructions-box">
+                <h3>🎯 ${t('addComments.customInstructions')}:</h3>
+                <p>${shared.escapeHtml(customInstructions)}</p>
+            </div>
+            ` : ''}
+            
+            <div class="info-section">
+                <h3>🤖 ${t('addComments.commentedCode')}:</h3>
+                ${processedHtml.html}
+            </div>
+            
+            <div class="board-info">
+                🎯 ${t('improveCode.targetBoard')}: ${boardDisplay}
+            </div>
+            
+            ${featureUtils.generateToolbarScript(['copyCode', 'insertCode', 'replaceOriginal'], ['copy', 'insert', 'close'])}
+            
+            <script>
+                const codeBlocksData = ${JSON.stringify(codeBlocks)};
+                
+                document.addEventListener('click', (e) => {
+                    const button = e.target.closest('[data-action]');
+                    if (!button) return;
+                    
+                    const action = button.dataset.action;
+                    const index = parseInt(button.dataset.index);
+                    const code = codeBlocksData[index];
+                    
+                    if (action === 'copy') {
+                        vscode.postMessage({ command: 'copyCode', code: code });
+                    } else if (action === 'insert') {
+                        vscode.postMessage({ command: 'insertCode', code: code });
+                    } else if (action === 'replace') {
+                        vscode.postMessage({ command: 'replaceOriginal', code: code });
+                    }
+                });
+            </script>
+            
+            ${getPrismScripts()}
+        </body>
+        </html>
+    `;
 }
 
 module.exports = {

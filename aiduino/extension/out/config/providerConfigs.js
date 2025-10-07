@@ -58,8 +58,7 @@ your_provider: {
 */
 
 // Version
-// Version
-const CONFIG_VERSION = '011025'; 
+const CONFIG_VERSION = '071025'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -476,6 +475,40 @@ const PROVIDER_CONFIGS = {
         }
     },
 
+    codexcli: {
+        name: 'Codex CLI',
+        icon: '🧠',
+        color: '#10A37F',
+        type: 'local',
+        keyFile: '.aiduino-codexcli-path',
+        keyPrefix: '/',  // Path to codex binary, not API key
+        keyMinLength: 5,
+        apiKeyUrl: 'https://github.com/openai/codex',
+        fallback: 'codex-cli-local',
+        processConfig: {
+            command: 'codex',
+            
+            // Build prompt for Codex CLI
+            buildPrompt: (prompt, context) => {
+                // Use same prompt format as API providers
+                return prompt;
+            },
+            
+            // Build command arguments
+            buildArgs: (prompt, context) => {
+                return [
+                    '--suggest',  // Suggest mode (safe, shows changes before applying)
+                    '--non-interactive',  // No interactive prompts
+                    prompt
+                ];
+            }
+        },
+        prices: {
+            input: 0.0,   // Costs depend on ChatGPT plan or OpenAI API usage
+            output: 0.0   // User must authenticate via 'codex' CLI first
+        }
+    },
+    
     ollama: {
         name: 'Ollama',
         icon: '🦙',

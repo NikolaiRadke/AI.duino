@@ -28,6 +28,7 @@ function getHttpProvider(providerName) {
 function getProcessProvider(providerName) {
     const providers = {
         'Claude Code': claudeCode,
+        'Codex CLI': require('./processProviders/codexCli'), 
     };
     
     return providers[providerName] || null;

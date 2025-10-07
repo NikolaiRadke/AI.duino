@@ -42,6 +42,7 @@ AI.duino communicates with the following external services (depending on your se
 **Local AI Providers:**
 - `localhost:11434` or `127.0.0.1:11434` (Ollama - if installed locally)
 - Local Claude Code process (if installed)
+- Local Codex CLI process (if installed)
 
 **Update Checks:**
 - `raw.githubusercontent.com` (provider configuration updates only)

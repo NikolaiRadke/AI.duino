@@ -1,5 +1,5 @@
 /*
- * AI.duino - Ask AI Feature Module
+ * AI.duino - Ask AI Feature Module (Enhanced with Context Support)
  * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
@@ -7,11 +7,13 @@
 
 const vscode = require('vscode');
 const shared = require('../shared');
+const path = require('path');
 const featureUtils = require('./featureUtils');
+const contextManager = require('../utils/contextManager');
 const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 
 /**
- * Main askAI function with follow-up support
+ * Main askAI function with follow-up support and context
  * @param {Object} context - Extension context with dependencies
  * @param {boolean} isFollowUp - Whether this is a follow-up question
  */
@@ -19,7 +21,7 @@ async function askAI(context, isFollowUp = false) {
     const panel = await featureUtils.executeFeature(
         context.executionStates.OPERATIONS.ASK,
         async () => {
-            const { apiKeys, currentModel, minimalModelManager, aiConversationContext, setAiConversationContext } = context;
+            const { aiConversationContext, setAiConversationContext } = context;
             
             // Check if follow-up is possible
             if (isFollowUp && !shared.hasValidContext(aiConversationContext)) {
@@ -28,9 +30,93 @@ async function askAI(context, isFollowUp = false) {
             }
            
             // Get user question
-            const { question, finalPrompt, currentCode } = await buildQuestionPrompt(context, isFollowUp);
-            if (!question) return;
+            const question = await featureUtils.showInputWithCreateQuickPickHistory(
+                context,
+                isFollowUp ? 'askFollowUp' : 'askAI',
+                isFollowUp ? 'placeholders.askFollowUp' : 'placeholders.askAI', 
+                'askAI'
+            );
 
+            if (!question || !question.trim()) {
+                return;
+            }
+
+            // Save to history (only for new questions, not follow-ups)
+            if (!isFollowUp) {
+                featureUtils.saveToHistory(context, 'askAI', question, {
+                    board: shared.detectArduinoBoard() || 'unknown'
+                });
+            }
+
+            let finalPrompt;
+            let contextData;
+            let selectedText = '';
+
+            // Build prompt
+            if (isFollowUp) {
+                // Get editor state for follow-up
+                const editor = vscode.window.activeTextEditor;
+    
+                if (editor && context.validation.validateArduinoFile(editor.document.fileName)) {
+                    const selection = editor.selection;
+                    const hasSelection = !selection.start.isEqual(selection.end);
+                    selectedText = hasSelection ? editor.document.getText(selection) : '';
+            
+                    // Standard Context Selection
+                    contextData = await contextManager.selectContextLevel(
+                        editor, 
+                        selectedText, 
+                        context.t,
+                        { 
+                            showSelectionOption: hasSelection,
+                            showNoContextOption: true
+                        }
+                    );
+                    if (!contextData) return;
+                    if (contextData.level === 'none') {
+                        selectedText = '';
+                    }
+                } else {
+                    contextData = { level: 'none' };
+                }
+                
+                finalPrompt = buildFollowUpPromptWithContext(
+                    question, 
+                    aiConversationContext, 
+                    selectedText, 
+                    contextData, 
+                    context
+                );
+            } else {
+                // Get editor state for new question
+                const editor = vscode.window.activeTextEditor;
+                
+                if (editor && context.validation.validateArduinoFile(editor.document.fileName)) {
+                    const selection = editor.selection;
+                    const hasSelection = !selection.start.isEqual(selection.end);
+                    selectedText = hasSelection ? editor.document.getText(selection) : '';
+            
+                    // Standard Context Selection
+                    contextData = await contextManager.selectContextLevel(
+                        editor, 
+                        selectedText, 
+                        context.t,
+                        { 
+                            showSelectionOption: hasSelection,
+                            showNoContextOption: true
+                        }
+                    );
+                    if (!contextData) return;
+                    if (contextData.level === 'none') {
+                        selectedText = '';
+                    }
+                } else {
+                    contextData = { level: 'none' };
+                }
+                
+                finalPrompt = buildAskAIPrompt(question, selectedText, contextData, context);
+            }
+            
             // Call AI with progress
             const progressKey = isFollowUp ? 'progress.askingFollowUp' : 'progress.askingAI';
             const response = await featureUtils.callAIWithProgress(
@@ -43,7 +129,7 @@ async function askAI(context, isFollowUp = false) {
             const newContext = {
                 lastQuestion: question,
                 lastAnswer: response,
-                lastCode: currentCode,
+                lastCode: selectedText || null,
                 timestamp: Date.now()
             };
             setAiConversationContext(newContext);
@@ -61,12 +147,18 @@ async function askAI(context, isFollowUp = false) {
                 { enableScripts: true }
             );
 
+            // Create context badge
+            const contextBadge = contextData.level !== 'none' 
+                ? contextManager.getContextBadgeHtml(contextData, context.t)
+                : '';
+
             panel.webview.html = createAskAIHtml(
                 question,
                 response,
                 isFollowUp,
                 newContext,
-                currentCode,
+                selectedText,
+                contextBadge,
                 context.currentModel,
                 context.minimalModelManager,
                 context.t
@@ -88,94 +180,33 @@ async function askAI(context, isFollowUp = false) {
 }
 
 /**
- * Build question prompt based on follow-up status and code context
- * @param {Object} context - Extension context
- * @param {boolean} isFollowUp - Whether this is a follow-up
- * @returns {Object} {question, finalPrompt, currentCode}
- */
-async function buildQuestionPrompt(context, isFollowUp) {
-    const { aiConversationContext } = context;
-
-    // Show context info for follow-ups
-    if (isFollowUp) {
-        const contextAge = Math.round((Date.now() - aiConversationContext.timestamp) / 60000);
-        vscode.window.showInformationMessage(
-            context.t('messages.followUpContext', aiConversationContext.lastQuestion, contextAge)
-        );
-    }
-
-    // Get question from user
-    const question = await featureUtils.showInputWithCreateQuickPickHistory(
-        context,
-        isFollowUp ? 'askFollowUp' : 'askAI',
-        isFollowUp ? 'placeholders.askFollowUp' : 'placeholders.askAI', 
-        'askAI'
-    );
-
-    if (!question || !question.trim()) {
-        return { question: null };
-    }
-
-    // Save to history (only for new questions, not follow-ups)
-    if (!isFollowUp) {
-        featureUtils.saveToHistory(context, 'askAI', question, {
-            board: shared.detectArduinoBoard() || 'unknown',
-            hasCodeContext: false
-        });
-    }
-
-    let finalPrompt;
-    let currentCode = null;
-
-    if (isFollowUp) {
-        // Build context-aware follow-up prompt
-        finalPrompt = buildFollowUpPrompt(question, aiConversationContext, context.t, context.promptManager);
-        currentCode = aiConversationContext.lastCode;
-    } else {
-        // Handle new question with optional code context
-        finalPrompt = question;
-        currentCode = await getCodeContextForNewQuestion(context, question);
-        
-        if (currentCode) {
-            finalPrompt = context.promptManager.getPrompt('askAIWithContext', question, currentCode) + shared.getBoardContext();
-        }
-    }
-
-    return { question, finalPrompt, currentCode };
-}
-
-/**
- * Get code context for new questions
- * @param {Object} context - Extension context
+ * Build askAI prompt with context
  * @param {string} question - User question
- * @returns {string|null} Selected code or null
+ * @param {string} selectedText - Selected code
+ * @param {Object} contextData - Context data structure
+ * @param {Object} context - Extension context
+ * @returns {string} Complete AI prompt
  */
-async function getCodeContextForNewQuestion(context, question) {
-    const editor = vscode.window.activeTextEditor;
-    
-    if (!editor || editor.selection.isEmpty) {
-        return null;
+function buildAskAIPrompt(question, selectedText, contextData, context) {
+    // No context - just the question
+    if (contextData.level === 'none') {
+        return context.promptManager.getPrompt('askAIGeneral', question);
     }
 
-    const includeCode = await vscode.window.showQuickPick([
+    // Use buildContextAwarePrompt with question as prefix parameter!
+    return contextManager.buildContextAwarePrompt(
+        selectedText,
+        contextData,
         {
-            label: context.t('chat.includeSelectedCode'),
-            description: context.t('chat.includeSelectedCodeDesc'),
-            value: true
+            selection: 'askAIWithContext',
+            file: 'askAIFile',
+            sketch: 'askAISketch',
+            suffix: null
         },
-        {
-            label: context.t('chat.questionOnly'), 
-            description: context.t('chat.questionOnlyDesc'),
-            value: false
-        }
-    ], {
-        placeHolder: context.t('chat.selectContext'),
-        ignoreFocusOut: true
-    });
-
-    if (includeCode === undefined) return null;
-
-    return includeCode.value ? editor.document.getText(editor.selection) : null;
+        context,
+        null,      // no additional instructions
+        [question] // question comes first in all prompts!
+    );
 }
 
 /**
@@ -203,22 +234,23 @@ function buildFollowUpPrompt(followUpQuestion, aiConversationContext, t, promptM
 }
 
 /**
- * Create HTML content for askAI panel with Prism highlighting
+ * Create HTML content for askAI panel
  * @param {string} question - User's question
  * @param {string} response - AI's response
  * @param {boolean} isFollowUp - Whether this was a follow-up
  * @param {Object} conversationContext - Conversation context
  * @param {string} currentCode - Associated code (if any)
+ * @param {string} contextBadge - Pre-rendered context badge HTML
  * @param {string} modelId - Current AI model
  * @param {Object} minimalModelManager - Model manager instance
  * @param {Function} t - Translation function
  * @returns {string} HTML content
  */
-function createAskAIHtml(question, response, isFollowUp, conversationContext, currentCode, modelId, minimalModelManager, t) {
+function createAskAIHtml(question, response, isFollowUp, conversationContext, currentCode, contextBadge, modelId, minimalModelManager, t) {
     const model = minimalModelManager.providers[modelId];
     const modelBadge = `<span style="background: ${model.color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${model.icon} ${model.name}</span>`;
     
-    // Process response with event-delegation code blocks
+    // Process response with code blocks
     const { processedHtml: processedResponse, codeBlocks } = featureUtils.processAiCodeBlocksWithEventDelegation(
         response,
         `💡 ${t('askAI.codeSuggestionTitle')}`,
@@ -226,7 +258,7 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
         t
     );
 
-    // Board and context info
+    // Board info
     const board = shared.detectArduinoBoard();
     const boardDisplay = board ? shared.getBoardDisplayName(board) : t('output.boardUnknown');
     const contextAge = isFollowUp ? Math.round((Date.now() - conversationContext.timestamp) / 60000) : null;
@@ -238,6 +270,17 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
             <meta charset="UTF-8">
             <title>${t('commands.askAI')} - AI.duino</title>
             ${getSharedCSS()}
+            <style>
+                .context-badge {
+                    display: inline-block;
+                    padding: 4px 12px;
+                    background: var(--vscode-badge-background);
+                    color: var(--vscode-badge-foreground);
+                    border-radius: 12px;
+                    font-size: 0.9em;
+                    margin: 8px 0;
+                }
+            </style>
         </head>
         <body>
             ${featureUtils.generateActionToolbar(['copy', 'insert', 'followUp', 'close'], t)}
@@ -246,6 +289,8 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
                 <h1>💬 ${t('commands.askAI')}</h1>
                 ${modelBadge}
             </div>
+            
+            ${contextBadge}
             
             ${isFollowUp ? `
             <div class="info-badge">
@@ -275,10 +320,8 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
             </div>
 
             <script>
-                // Code blocks data for button handlers
                 const codeBlocksData = ${JSON.stringify(codeBlocks)};
                 
-                // Code block button handler
                 document.addEventListener('click', (e) => {
                     const button = e.target.closest('[data-action]');
                     if (!button) return;
@@ -300,6 +343,85 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
         </body>
         </html>
     `;
+}
+
+/**
+ * Build follow-up prompt with previous conversation context
+ * Then add new code context using existing logic
+ */
+function buildFollowUpPromptWithContext(followUpQuestion, aiConversationContext, selectedText, contextData, context) {
+    // Start with conversation context
+    let prompt = context.promptManager.getPrompt('followUpContext');
+    
+    prompt += `\n\n${context.t('chat.previousQuestion')}: ${aiConversationContext.lastQuestion}`;
+    prompt += `\n\n${context.t('chat.previousAnswer')}: ${aiConversationContext.lastAnswer}`;
+    
+    if (aiConversationContext.lastCode) {
+        prompt += `\n\n${context.t('chat.relatedCode')}:\n\`\`\`cpp\n${aiConversationContext.lastCode}\n\`\`\``;
+    }
+    
+    prompt += `\n\n${context.t('chat.followUpQuestion')}: ${followUpQuestion}`;
+    
+    // Add new code context if provided (no context means question-only)
+    if (contextData.level === 'none') {
+        // Just add instruction and return
+        prompt += `\n\n${context.promptManager.getPrompt('followUpInstruction')}`;
+        return prompt;
+    }
+    
+    // Add new code context marker
+    prompt += `\n\n${context.t('askAI.newCodeContext')}:`;
+    
+    // Use existing buildAskAIPrompt logic for the code context part
+    // But we need to extract just the code context part, not the question
+    const codeContextPrompt = buildCodeContextPart(selectedText, contextData, context);
+    prompt += codeContextPrompt;
+    
+    prompt += `\n\n${context.promptManager.getPrompt('followUpInstruction')}`;
+    return prompt;
+}
+
+/**
+ * Extract just the code context part (reusable)
+ */
+function buildCodeContextPart(selectedText, contextData, context) {
+    const hasSelection = selectedText && selectedText.trim().length > 0;
+    let contextPart = '';
+    
+    if (hasSelection) {
+        contextPart += `\n\`\`\`cpp\n${selectedText}\n\`\`\``;
+        contextPart += shared.getBoardContext();
+        
+        // Add additional context
+        if (contextData.level === 'currentFile' && contextData.contextFiles.length > 0) {
+            contextPart += '\n\n' + context.t('context.additionalContext');
+            const currentFile = contextData.contextFiles.find(f => f.isCurrent);
+            if (currentFile) {
+                contextPart += `\n// ========== ${currentFile.name} ==========\n`;
+                contextPart += `\`\`\`cpp\n${currentFile.content}\n\`\`\``;
+            }
+        } else if (contextData.level === 'fullSketch' && contextData.contextFiles.length > 0) {
+            contextPart += '\n\n' + context.t('context.additionalContext');
+            for (const file of contextData.contextFiles) {
+                contextPart += `\n// ========== ${file.name} ==========\n`;
+                contextPart += `\`\`\`cpp\n${file.content}\n\`\`\``;
+            }
+        }
+    } else {
+        // No selection - full file(s)
+        if (contextData.level === 'currentFile') {
+            const currentFileContent = contextData.contextFiles.find(f => f.isCurrent)?.content || '';
+            contextPart += `\n(${contextData.focusFile}):\n\`\`\`cpp\n${currentFileContent}\n\`\`\``;
+        } else if (contextData.level === 'fullSketch') {
+            for (const file of contextData.contextFiles) {
+                contextPart += `\n// ========== ${file.name} ==========\n`;
+                contextPart += `\`\`\`cpp\n${file.content}\n\`\`\``;
+            }
+        }
+        contextPart += shared.getBoardContext();
+    }
+    
+    return contextPart;
 }
 
 module.exports = {

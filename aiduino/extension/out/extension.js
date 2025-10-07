@@ -67,6 +67,8 @@ let globalContext;
 let currentModel = 'claude';
 let currentLocale = 'en';
 let i18n = {};
+let isPromptEditorOpen = false;
+let promptEditorHasChanges = false;
 
 // Module instances
 let commandRegistry;
@@ -272,8 +274,7 @@ async function switchLanguage() {
             if (choice !== t('buttons.yes')) {
                 return;
             }
-    
-        promptEditorHasChanges = false;
+            promptEditorHasChanges = false;
         }
             
         const config = vscode.workspace.getConfiguration('aiduino');
@@ -523,7 +524,7 @@ async function activate(context) {
             if (model) currentModel = model;
         })(),
         // Load locale configuration
-        loadLocaleAsync()  // ← einfach die Funktion aufrufen!
+        loadLocaleAsync()
     ]);
 
     // Prompt manager
@@ -536,7 +537,7 @@ async function activate(context) {
     // Store context globally
     globalContext = context;
     
-    // Load token statistics (sync - bleibt wie vorher!)
+    // Load token statistics
     loadTokenUsage();
     
     // Initialize and show status bar
@@ -670,6 +671,7 @@ function getDependencies() {
         // UI functions
         updateStatusBar: () => statusBarManager.updateFromContext(getDependencies()),
         setPromptEditorChanges: (hasChanges) => { promptEditorHasChanges = hasChanges; },
+        showSupportHint: () => uiTools.showSupportHint(globalContext), 
         
         // API functions
         switchModel: () => apiManager.switchModel(getDependencies()),

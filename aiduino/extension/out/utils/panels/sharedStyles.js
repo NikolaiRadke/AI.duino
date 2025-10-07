@@ -131,6 +131,47 @@ function getSharedCSS() {
             overflow-x: auto;
         }
 
+        /* === SUPPORT ME DESIGN IN ABOUT === */
+        .support-box {
+            background: linear-gradient(135deg, var(--vscode-textBlockQuote-background), var(--vscode-editor-selectionBackground));
+            border: 2px solid var(--vscode-textLink-foreground);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .support-box h3 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+        .button-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .support-button {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        .support-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+            text-decoration: none;
+        }
+        .support-button.kofi {
+            background: #FF5E5B;
+            color: white;
+        }
+        .support-button.github {
+            background: #ea4aaa;
+            color: white;
+        }
+
         /* === UNIFIED BUTTON SYSTEM === */
         /* Base button - standard actions */
         button, .btn {

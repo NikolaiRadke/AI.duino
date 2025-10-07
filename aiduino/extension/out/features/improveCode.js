@@ -1,5 +1,5 @@
 /*
- * AI.duino - Improve Code Feature Module
+ * AI.duino - Improve Code Feature Module (Enhanced with Context Support)
  * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
@@ -8,23 +8,36 @@
 const vscode = require('vscode');
 const shared = require('../shared');
 const featureUtils = require('./featureUtils');
+const contextManager = require('../utils/contextManager');
 const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 
 /**
- * Main improveCode function with dependency injection
+ * Main improveCode function with multi-context support
  * @param {Object} context - Extension context with dependencies
  */
 async function improveCode(context) {
     const panel = await featureUtils.executeFeature(
         context.executionStates.OPERATIONS.IMPROVE,
         async () => {
-            // Validate editor and selection
-            const validation = featureUtils.validateEditorAndSelection(
-                context.t, 'messages.noEditor', 'messages.selectCodeToImprove'
-            );
-            if (!validation) return;
+            // Validate editor (selection optional)
+            const editor = vscode.window.activeTextEditor;
+            if (!editor) {
+                vscode.window.showWarningMessage(context.t('messages.noEditor'));
+                return;
+            }
 
-            const { editor, selection, selectedText } = validation;
+            // Check if Arduino file
+            if (!context.validation.validateArduinoFile(editor.document.fileName)) {
+                vscode.window.showWarningMessage(context.t('messages.openInoFile'));
+                return;
+            }
+
+            const selection = editor.selection;
+            
+            // CRITICAL: Proper selection detection
+            // A selection is only valid if start and end positions are different
+            const hasSelection = !selection.start.isEqual(selection.end);
+            const selectedText = hasSelection ? editor.document.getText(selection) : '';
 
             // Get custom instructions with history 
             const customInstructions = await featureUtils.showInputWithCreateQuickPickHistory(
@@ -32,26 +45,37 @@ async function improveCode(context) {
                 context.globalContext.globalState.get('aiduino.customInstructions', '')
             );            
 
-            // User cancelled (pressed Escape) - abort
+            // User cancelled
             if (customInstructions === null) return;
 
-            // Empty string is OK - means "no special instructions"
             const instructions = customInstructions.trim();
-
             context.globalContext.globalState.update('aiduino.customInstructions', customInstructions);
 
             // Save to history
             featureUtils.saveToHistory(context, 'improveCode', customInstructions);
             
-            // Build prompt with board context
-            let prompt = context.promptManager.getPrompt('improveCode', selectedText) + shared.getBoardContext();
+            // ===== Context Selection (angepasst an Selektion) =====
+            const contextData = await contextManager.selectContextLevel(
+                editor, 
+                selectedText, 
+                context.t,
+                { showSelectionOption: hasSelection }
+            );
+            if (!contextData) return; // User cancelled
             
-            if (instructions) {
-                const instructionsList = instructions.split(',').map(s => s.trim()).join('\n- ');
-                prompt += '\n\n' + context.promptManager.getPrompt('additionalInstructions', instructionsList);
-            }
-            
-            prompt += '\n\n' + context.promptManager.getPrompt('improveCodeSuffix');
+            // Build prompt with selected context
+            const prompt = contextManager.buildContextAwarePrompt(
+                selectedText,
+                contextData,
+                {
+                    selection: 'improveCode',
+                    file: 'improveCodeFile',
+                    sketch: 'improveCodeSketch',
+                    suffix: 'improveCodeSuffix'
+                },
+                context,
+                instructions  // custom instructions
+            );
             
             // Call AI with progress
             const response = await featureUtils.callAIWithProgress(
@@ -72,6 +96,7 @@ async function improveCode(context) {
                 selectedText,
                 response,
                 customInstructions,
+                contextData,
                 context.currentModel,
                 context.t
             );
@@ -87,67 +112,57 @@ async function improveCode(context) {
     
     // Message Handler
     if (panel) {
-        featureUtils.setupStandardMessageHandler(panel, context, {
-            'replaceOriginal': async (message, panelRef) => {
-                if (panelRef.originalEditor && panelRef.originalSelection) {
-                    await panelRef.originalEditor.edit(editBuilder => {
-                        editBuilder.replace(panelRef.originalSelection, featureUtils.cleanHtmlCode(message.code));
-                    });
-                    
-                    vscode.window.showInformationMessage(context.t('messages.codeReplaced'));
-                    panelRef.dispose();
-                } else {
-                    vscode.window.showWarningMessage(context.t('messages.noEditor'));
-                }
-            }
-        });
+        featureUtils.setupStandardMessageHandler(panel, context, {});
     }
 }
 
 /**
- * Create HTML content for code improvement panel
- * @param {string} originalCode - The original code that was improved
- * @param {string} improvement - AI improvement response
+ * Create HTML for improve code webview panel
+ * @param {string} originalCode - Original selected code
+ * @param {string} aiResponse - AI response
  * @param {string} customInstructions - User's custom instructions
- * @param {string} modelId - Current AI model ID
+ * @param {Object} contextData - Context data structure
+ * @param {string} currentModel - Current AI model
  * @param {Function} t - Translation function
  * @returns {string} HTML content
  */
-function createImproveCodeHtml(originalCode, improvement, customInstructions, modelId, t) {
-    const modelBadge = `<span style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${t('improveCode.codeBadge')}</span>`;
+function createImproveCodeHtml(originalCode, aiResponse, customInstructions, contextData, currentModel, t) {
+    const codeBlocks = {};
+    const processedHtml = featureUtils.processMessageWithCodeBlocks(aiResponse, 'improve', t);
+    Object.assign(codeBlocks, processedHtml.codeBlocks);
     
-    // Process improvement with event-delegation code blocks
-    const { processedHtml, codeBlocks } = featureUtils.processAiCodeBlocksWithEventDelegation(
-        improvement,
-        `⚡ ${t('improveCode.improvedCodeTitle')}`,
-        ['replace', 'copy', 'insert'],
-        t
-    );
+    const boardFqbn = shared.detectArduinoBoard();
+    const boardDisplay = boardFqbn ? shared.getBoardDisplayName(boardFqbn) : t('output.boardUnknown');
     
-    // Board info
-    const boardInfo = shared.detectArduinoBoard();
-    const boardDisplay = boardInfo ? shared.getBoardDisplayName(boardInfo) : t('output.boardUnknown');
+    // Context info badge (using shared function)
+    const contextBadge = contextManager.getContextBadgeHtml(contextData, t);
     
     return `
         <!DOCTYPE html>
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>${t('commands.improveCode')} - AI.duino</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>${t('commands.improveCode')}</title>
             ${getSharedCSS()}
+            <style>
+                .context-badge {
+                    display: inline-block;
+                    padding: 4px 12px;
+                    background: var(--vscode-badge-background);
+                    color: var(--vscode-badge-foreground);
+                    border-radius: 12px;
+                    font-size: 0.9em;
+                    margin: 8px 0;
+                }
+            </style>
         </head>
         <body>
             ${featureUtils.generateActionToolbar(['copy', 'insert', 'close'], t)}
             
-            <div class="header">
-                <h1>⚡ ${t('commands.improveCode')}</h1>
-                ${modelBadge}
-            </div>
+            <h1>🔧 ${t('commands.improveCode')}</h1>
             
-            <div class="original-code">
-                <h3>📄 ${t('improveCode.originalCode')}:</h3>
-                <pre><code class="language-cpp">${shared.escapeHtml(originalCode)}</code></pre>
-            </div>
+            <div class="context-badge">${contextBadge}</div>
             
             ${customInstructions ? `
             <div class="instructions-box">
@@ -158,7 +173,7 @@ function createImproveCodeHtml(originalCode, improvement, customInstructions, mo
             
             <div class="info-section">
                 <h3>🤖 ${t('improveCode.aiAnalysis')}:</h3>
-                ${processedHtml}
+                ${processedHtml.html}
             </div>
             
             <div class="board-info">
@@ -168,10 +183,8 @@ function createImproveCodeHtml(originalCode, improvement, customInstructions, mo
             ${featureUtils.generateToolbarScript(['copyCode', 'insertCode', 'replaceOriginal'], ['copy', 'insert', 'close'])}
             
             <script>
-                // Code blocks data for button handlers
                 const codeBlocksData = ${JSON.stringify(codeBlocks)};
                 
-                // Code block button handler (event delegation)
                 document.addEventListener('click', (e) => {
                     const button = e.target.closest('[data-action]');
                     if (!button) return;

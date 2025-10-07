@@ -97,8 +97,20 @@ function generateAboutHTML(logoDataUrl, modelBadges, modelFeatures, apiKeysList,
         <p><strong>${t('about.publisher')}:</strong> Monster Maker</p>
         <p><strong>${t('about.repository')}:</strong> <a href="https://github.com/NikolaiRadke/AI.duino">GitHub</a></p>
         <p><strong>${t('about.reportBugs')}:</strong> <a href="https://github.com/NikolaiRadke/AI.duino/issues">Issue Tracker</a></p>
-        <br>
         <p><em>${t('about.madeWith')}</em></p>
+        <br>
+    </div>
+    <div class="support-box">
+        <h3>Support</h3>
+        <p>${t('support.description')}</p>
+        <div class="button-container">
+            <a href="https://ko-fi.com/nikolairadke" class="support-button kofi">
+                ${t('support.coffee')}
+            </a>
+            <a href="https://github.com/sponsors/NikolaiRadke" class="support-button github">
+                ${t('support.sponsor')}
+            </a>
+        </div>
     </div>
 </body>
 </html>`;

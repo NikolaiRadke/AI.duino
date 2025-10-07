@@ -46,10 +46,9 @@ class UnifiedAPIClient {
         for (let attempt = 1; attempt <= this.maxRetries; attempt++) {
             try {
                 const response = await this.makeRequest(config);
-                const extractedResponse = this.extractResponse(modelId, response, minimalModelManager);
-                
+                const extractedResponse = this.extractResponse(modelId, response, minimalModelManager);                
                 updateTokenUsage(modelId, prompt, extractedResponse);
-                
+                this._triggerSupportHint(context);
                 return extractedResponse;
             } catch (error) {
                 if (attempt === this.maxRetries || !this.isRetryableError(error)) {
@@ -271,6 +270,7 @@ class UnifiedAPIClient {
         // Make HTTP request to local provider
         const response = await this.makeLocalHttpRequest(baseUrl, selectedModel, prompt, provider, context.t);
         updateTokenUsage(modelId, prompt, response);
+        this._triggerSupportHint(context);
         return response;
     }
 
@@ -306,7 +306,7 @@ class UnifiedAPIClient {
     
         // Update token usage
         updateTokenUsage(modelId, prompt, extractedResponse);
-    
+        this._triggerSupportHint(context);
         return extractedResponse;
     }
 
@@ -438,6 +438,19 @@ class UnifiedAPIClient {
      */
     delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    /**
+     * Trigger support hint after successful API call
+     * @param {Object} context - Extension context
+     * @private
+     */
+    _triggerSupportHint(context) {
+        if (context.globalContext && !context.skipSupportHint) {
+            const uiTools = require('../utils/ui');
+            const contextWithT = { ...context.globalContext, t: context.t };
+            uiTools.showSupportHint(contextWithT).catch(() => {}); // Fehler wieder silent
+        }
     }
 }
 

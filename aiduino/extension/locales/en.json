@@ -55,7 +55,8 @@
     "inlineCompletionActivate": "Activate inline completion with {0}?",
     "inlineCompletionWarningCosts": "⚠️ {0} is a paid service - each completion incurs API costs. Activate anyway?",
     "inlineCompletionEnabled": "✓ Inline completion enabled",
-    "inlineCompletionDisabled": "Inline completion disabled"
+    "inlineCompletionDisabled": "Inline completion disabled",
+    "contextAttachedInfo": "🔎 Context attached - applies only to the next message. Use '🔄 Last Context' to reuse."
   },
   "buttons": {
     "chooseModel": "Choose AI Model",
@@ -145,7 +146,25 @@
     "askAIWithContext": "User question: {0}\n\nCode context:\n```cpp\n{1}\n```\n\nRespond considering the provided Arduino code.",
     "askFollowUp": "Follow-up question:",
     "followUpContext": "Previous conversation context:",
-    "followUpInstruction": "Respond considering the previous conversation."
+    "followUpInstruction": "Respond considering the previous conversation.",
+    "improveCodeFile": "Improve this complete Arduino file ({0}):\n\n```cpp\n{1}\n```\n\nOptimize for:\n- Non-blocking code (millis instead of delay)\n- Memory efficiency\n- Better readability\n- Arduino best practices\n- Robustness",
+    "improveCodeSketch": "Improve all files in this Arduino sketch:\n\n{0}\n\nOptimize the entire sketch for:\n- Non-blocking code (millis instead of delay)\n- Memory efficiency\n- Better readability\n- Arduino best practices\n- Robustness\n- Clean separation between files",
+    "addCommentsFile": "Add helpful comments to this complete Arduino file ({0}):\n\n```cpp\n{1}\n```\n\nRules:\n- Explain what each important line does\n- Comment functions and their parameters\n- Explain hardware interactions\n- Use // for single-line and /* */ for multi-line comments\n- Comments should help beginners",
+    "addCommentsSketch": "Add helpful comments to all files in this Arduino sketch:\n\n{0}\n\nRules:\n- Explain what each important line does\n- Comment functions and their parameters\n- Explain hardware interactions and file relationships\n- Use // for single-line and /* */ for multi-line comments\n- Comments should help beginners",
+    "explainCodeFile": "Explain this complete Arduino file ({0}):\n\n```cpp\n{1}\n```\n\nExplain:\n- What the file does (main purpose)\n- Important functions and their tasks\n- Hardware interactions (pins, sensors, etc.)\n- Algorithms and logic\n- Special features or important details",
+    "explainCodeSketch": "Explain all files in this Arduino sketch:\n\n{0}\n\nExplain:\n- What the entire sketch does (main purpose)\n- How the files work together\n- Important functions in each file\n- Hardware interactions (pins, sensors, etc.)\n- Data flow between files\n- Special features or important details",
+    "explainErrorFile": "Explain this Arduino error in line {1}:\n\nError: {0}\n\nFile ({2}):\n```cpp\n{3}\n```\n\nExplain:\n- What the error means\n- Why it occurs\n- How to fix it\n- Show corrected code",
+    "explainErrorSketch": "Explain this Arduino error in line {1}:\n\nError: {0}\n\nComplete sketch:\n{2}\n\nExplain:\n- What the error means\n- Why it occurs (also in context of other files)\n- How to fix it\n- Show corrected code",
+    "analyzeSerialFile": "Analyze this serial output:\n\n{0}\n\nCode file ({1}):\n```cpp\n{2}\n```\n\nFind out:\n- What the output means\n- If there are problems\n- What code generates this output",
+    "analyzeSerialSketch": "Analyze this serial output:\n\n{0}\n\nComplete sketch:\n{1}\n\nFind out:\n- What the output means\n- If there are problems\n- Which code generates this output",
+    "hardwareDebugFile": "Analyze hardware problems in this file ({0}):\n\n```cpp\n{1}\n```\n\nCheck:\n- Pin configurations\n- Electrical connections\n- Timing issues\n- Common hardware errors",
+    "hardwareDebugSketch": "Analyze hardware problems in the complete sketch:\n\n{0}\n\nCheck:\n- Pin configurations across all files\n- Electrical connections\n- Timing issues\n- Common hardware errors",
+    "addDebugStatementsFile": "Add helpful debug output to this file ({0}):\n\n```cpp\n{1}\n```\n\nAdd Serial.print() statements to:\n- Monitor variable values\n- Track program flow\n- Narrow down error sources",
+    "addDebugStatementsSketch": "Add helpful debug output to this sketch:\n\n{0}\n\nAdd Serial.print() statements to:\n- Monitor variable values\n- Track program flow\n- Narrow down error sources\n- Understand interactions between files",
+    "analyzeTimingFile": "Analyze timing problems in this file ({0}):\n\n```cpp\n{1}\n```\n\nCheck:\n- Use of delay()\n- Blocking vs. non-blocking code\n- millis() implementation\n- Race conditions",
+    "analyzeTimingSketch": "Analyze timing problems in the complete sketch:\n\n{0}\n\nCheck:\n- Use of delay() across all files\n- Blocking vs. non-blocking code\n- millis() implementation\n- Race conditions\n- Timing between different files",
+    "askAIFile": "User question: {0}\n\nCode file ({1}):\n```cpp\n{2}\n```\n\nRespond considering the provided Arduino code.",
+    "askAISketch": "User question: {0}\n\nComplete sketch:\n{1}\n\nRespond considering all files in the sketch."
   },
   "placeholders": {
     "customInstructions": "e.g., \"don't use millis()\", \"optimize for Arduino Nano\", \"add error handling\"",
@@ -253,7 +272,15 @@
     "noChatsYet": "No chats yet",
     "createFirstChat": "Create your first chat!",
     "chatsOverview": "Chat Overview",
-    "messages": "Messages"
+    "messages": "Messages",
+    "attachFile": "Attach File",
+    "attachContext": "Attach Context",
+    "contextAttached": "Context Attached",
+    "clearContext": "Remove Context",
+    "sendSelectedCode": "Send Selected Code",
+    "filesSent": "Files Sent",
+    "useLastContext": "Attach Again",
+    "reuseLastContext": "Reattach last used context"
   },
   "shortcuts": {
     "askFollowUp": "Follow-up question",
@@ -387,17 +414,59 @@
     "noCodeBlocksSuggestion": "The analysis above contains the improvement suggestions.",
     "targetBoard": "Target Board",
     "codeBadge": "AI Code Improvement",
-    "improvedCodeTitle": "Improved Code"
+    "improvedCodeTitle": "Improved Code",
+    "outputFormatSelection": "IMPORTANT: Return the complete improved code section (not truncated). Format: ```cpp\n...\n```",
+    "outputFormatFile": "IMPORTANT: Return the complete improved file. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "IMPORTANT: Return all improved files, each with header. Format:\n```cpp\n// ========== FileName.ino ==========\n...\n```"
+  },
+  "addComments": {
+    "commentedCode": "Commented Code",
+    "customInstructions": "Custom Instructions",
+    "outputFormatSelection": "IMPORTANT: Return the complete code section with comments. Format: ```cpp\n...\n```",
+    "outputFormatFile": "IMPORTANT: Return the complete file with comments. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "IMPORTANT: Return all files with comments, each with header. Format:\n```cpp\n// ========== FileName.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI Error Analysis",
     "correctedCodeTitle": "Corrected Code"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI Code Suggestion"
+    "codeSuggestionTitle": "AI Code Suggestion",
+    "newCodeContext": "New code context for follow-up"
   },
   "debugHelp": {
     "debugBadge": "AI Debug Assistant",
     "debugSolutionTitle": "Debug Solution"
+  },
+  "context": {
+    "noContext": "Without Code Context",
+    "noContextDesc": "Only the question",
+    "noContextDetail": "No code files will be shown to the AI",
+    "selection": "Selection Only",
+    "currentFile": "Current File",
+    "fullSketch": "Full Project",
+    "minimalContext": "Minimal Context",
+    "lines": "Lines",
+    "files": "Files",
+    "selectionDetail": "Only the selected code, without additional context",
+    "currentFileDetailWithSelection": "Selected code + rest of file as additional context",
+    "currentFileDetailNoSelection": "The complete file as context",
+    "fullSketchDetailWithSelection": "Selected code + all files as additional context",
+    "fullSketchDetailNoSelection": "All files in the project as context",
+    "minimalContextDetail": "Only code around the error line",
+    "selectLevel": "How much context should the AI receive?",
+    "additionalContext": "=== ADDITIONAL CONTEXT ===",
+    "explanation": "The following files are part of the project and help with understanding:",
+    "focusReminder": "IMPORTANT: Focus on the selected code, use the rest as context!",
+    "fullFileAsContext": "(Complete file as context)"
+  },
+  "support": {
+    "message": "🎉 AI.duino has helped you {0} times already!",
+    "description": "This project is free and open source. A small donation helps with further development.",
+    "coffee": "☕ Buy me a coffee",
+    "sponsor": "💙 Become a sponsor",
+    "later": "Later",
+    "noThanks": "Don't show again",
+    "thanks": "Thank you for your support! 💙"
   }
 }

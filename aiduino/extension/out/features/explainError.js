@@ -1,5 +1,5 @@
 /*
- * AI.duino - Explain Error Feature Module
+ * AI.duino - Explain Error Feature Module (Enhanced with Context Support)
  * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
@@ -7,19 +7,19 @@
 
 const vscode = require('vscode');
 const shared = require('../shared');
-const validation = require('../utils/validation');
 const featureUtils = require('./featureUtils');
+const contextManager = require('../utils/contextManager');
 const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 
 /**
- * Main explainError function with dependency injection
+ * Main explainError function with multi-context support
  * @param {Object} context - Extension context with dependencies
  */
 async function explainError(context) {
     const panel = await featureUtils.executeFeature(
         context.executionStates.OPERATIONS.ERROR,
         async () => {
-            // Unified validation
+            // Validate Arduino file
             const editorValidation = await featureUtils.validateArduinoFile(context);
             if (!editorValidation) return;
             
@@ -31,21 +31,41 @@ async function explainError(context) {
             );
             if (!errorInput) return;
             
-            // Unified history saving
+            // Save to history
             featureUtils.saveToHistory(context, 'explainError', errorInput, {
                 board: shared.detectArduinoBoard() || 'unknown'
             });
                 
-            // Get code context around current cursor position
+            // Get current cursor position for error context
             const line = editor.selection.active.line;
+            
+            // Get minimal code context (5 lines around cursor) for default context
             const startLine = Math.max(0, line - 5);
             const endLine = Math.min(editor.document.lineCount - 1, line + 5);
-            const codeContext = editor.document.getText(
+            const minimalCodeContext = editor.document.getText(
                 new vscode.Range(startLine, 0, endLine, Number.MAX_VALUE)
             );
             
-            // Build prompt with context
-            const prompt = context.promptManager.getPrompt('explainError', errorInput, line + 1, codeContext) + shared.getBoardContext();
+            // Context Selection with custom "minimal context" option
+            const contextData = await contextManager.selectContextLevel(
+                editor, 
+                minimalCodeContext,
+                context.t,
+                { 
+                    showSelectionOption: true,
+                    customSelectionLabel: true // Custom label
+                }
+            );
+            if (!contextData) return; // User cancelled
+            
+            // Build prompt with error and context
+            const prompt = buildErrorPromptWithContext(
+                errorInput,
+                line + 1,
+                minimalCodeContext,
+                contextData,
+                context
+            );
             
             // Call AI with progress
             const response = await featureUtils.callAIWithProgress(
@@ -54,7 +74,7 @@ async function explainError(context) {
                 context
             );
             
-            // Process response with event-delegation code blocks
+            // Process response with code blocks
             const { processedHtml, codeBlocks } = featureUtils.processAiCodeBlocksWithEventDelegation(
                 response,
                 `🔧 ${context.t('explainError.correctedCodeTitle')}`,
@@ -70,11 +90,15 @@ async function explainError(context) {
                 { enableScripts: true }
             );
             
+            // Create context badge before HTML generation
+            const contextBadge = contextManager.getContextBadgeHtml(contextData, context.t);
+            
             panel.webview.html = createErrorExplanationHtml(
                 errorInput,
                 line + 1,
                 processedHtml,
                 codeBlocks,
+                contextBadge,
                 context.currentModel,
                 context.t
             );
@@ -86,25 +110,55 @@ async function explainError(context) {
     
     // Message Handler
     if (panel) {
-        featureUtils.setupStandardMessageHandler(panel, context, {
-            'askFollowUp': async () => {
-                askAI(context, true);
-            }
-        });
+        featureUtils.setupStandardMessageHandler(panel, context);
     }
 }
 
 /**
- * Create HTML content for error explanation panel with Prism code blocks
+ * Build error explanation prompt with context awareness
+ * @param {string} errorText - The error message
+ * @param {number} lineNumber - Line number where error occurred
+ * @param {string} minimalContext - 5 lines around cursor
+ * @param {Object} contextData - Context data structure
+ * @param {Object} context - Extension context
+ * @returns {string} Complete AI prompt
+ */
+function buildErrorPromptWithContext(errorText, lineNumber, minimalContext, contextData, context) {
+    let prompt = '';
+    
+    if (contextData.level === 'selection') {
+        // Use only minimal context (5 lines around cursor)
+        prompt += context.promptManager.getPrompt('explainError', errorText, lineNumber, minimalContext);
+    } else if (contextData.level === 'currentFile') {
+        // Use entire current file as context
+        const currentFileContent = contextData.contextFiles.find(f => f.isCurrent)?.content || '';
+        prompt += context.promptManager.getPrompt('explainErrorFile', errorText, lineNumber, contextData.focusFile, currentFileContent);
+    } else if (contextData.level === 'fullSketch') {
+        // Use entire sketch as context
+        let allFilesContent = '';
+        for (const file of contextData.contextFiles) {
+            allFilesContent += `// ========== ${file.name} ==========\n`;
+            allFilesContent += `\`\`\`cpp\n${file.content}\n\`\`\`\n\n`;
+        }
+        prompt += context.promptManager.getPrompt('explainErrorSketch', errorText, lineNumber, allFilesContent);
+    }
+    
+    prompt += shared.getBoardContext();
+    return prompt;
+}
+
+/**
+ * Create HTML content for error explanation panel
  * @param {string} error - The error message
  * @param {number} line - Line number where error occurred
  * @param {string} processedExplanation - Already processed HTML with code blocks
- * @param {Array} codeBlocks - Array of code strings for event delegation
+ * @param {Array} codeBlocks - Array of code strings
+ * @param {string} contextBadge - Pre-rendered context badge HTML
  * @param {string} modelId - Current AI model ID
  * @param {Function} t - Translation function
  * @returns {string} HTML content
  */
-function createErrorExplanationHtml(error, line, processedExplanation, codeBlocks, modelId, t) {
+function createErrorExplanationHtml(error, line, processedExplanation, codeBlocks, contextBadge, modelId, t) {
     const modelBadge = `<span style="background: #6B46C1; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${t('explainError.errorBadge')}</span>`;
     
     return `
@@ -114,6 +168,17 @@ function createErrorExplanationHtml(error, line, processedExplanation, codeBlock
             <meta charset="UTF-8">
             <title>${t('commands.explainError')} - AI.duino</title>
             ${getSharedCSS()}
+            <style>
+                .context-badge {
+                    display: inline-block;
+                    padding: 4px 12px;
+                    background: var(--vscode-badge-background);
+                    color: var(--vscode-badge-foreground);
+                    border-radius: 12px;
+                    font-size: 0.9em;
+                    margin: 8px 0;
+                }
+            </style>
         </head>
         <body>
             ${featureUtils.generateActionToolbar(['copy', 'insert', 'close'], t)}
@@ -122,6 +187,8 @@ function createErrorExplanationHtml(error, line, processedExplanation, codeBlock
                 <h1>🔧 ${t('html.errorExplanation')}</h1>
                 ${modelBadge}
             </div>
+            
+            ${contextBadge}
             
             <div class="error-box">
                 <div class="error-title">${t('html.errorInLine', line)}:</div>
@@ -133,10 +200,8 @@ function createErrorExplanationHtml(error, line, processedExplanation, codeBlock
             </div>
 
             <script>
-                // Code blocks data for button handlers
                 const codeBlocksData = ${JSON.stringify(codeBlocks)};
                 
-                // Code block button handler
                 document.addEventListener('click', (e) => {
                     const button = e.target.closest('[data-action]');
                     if (!button) return;
