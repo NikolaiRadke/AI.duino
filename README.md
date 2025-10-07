@@ -1,12 +1,12 @@
 ![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back.png)
 # 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
-AI.duino integrates **Claude, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq, Vertex, Hugging Face** and **Claude Code and Ollama** directly into the Arduino IDE for intelligent code assistance. It also works with **VS Code**. Please use the newest Version to avoid annoying bugs.       
+AI.duino integrates **Claude, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq, Vertex, Hugging Face** and **Claude Code, Codex CLI and Ollama** directly into the Arduino IDE for intelligent code assistance. It also works with **VS Code**. Please use the newest Version to avoid annoying bugs.       
  
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **02.10.2025** Updated SECURITY.md and removed a 'Groq only' bug. Better startup performance.    
+* **06.10.2025** Added sponsorship buttons. API keys for testing are costy. *Sight*    
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
@@ -149,21 +149,27 @@ to - *sigh* - buy an additional key for about **5$**. Fortunatly, this really la
 You can try **Groq** and **Gemini**: They have a rate for API keys for **free**.  
   
 Required: An API key from either:
-- Claude: https://console.anthropic.com
+- Claude: https://console.anthropic.com 
 - ChatGPT: https://platform.openai.com
 - Gemini: https://makersuite.google.com
-- Mistral: https://console.mistral.ai
-- Perplexity: https://www.perplexity.ai/settings/api
-- Cohere: https://dashboard.cohere.ai
+- Mistral: https://console.mistral.ai (Untested)
+- Perplexity: https://www.perplexity.ai/settings/api (Untested)
+- Cohere: https://dashboard.cohere.ai (Untested)
 - Croq: https://console.groq.com
-- Vertex: https://console.cloud.google.com/vertex-ai
-- Hugging Face: https://huggingface.co/settings/tokens 
+- Vertex: https://console.cloud.google.com/vertex-ai (Untested)
+- Hugging Face: https://huggingface.co/settings/tokens (Untested)
 
 The keys are stored locally and not transmitted.
 
-**Local providers** don't need an API key. HTTP based providers like **Ollama** get auto detected, process based providers like **Claude Code**
-only needs the path to the binary. Example: Try *which claude* (Linux/macOS) or *where claude* (Windows) and copy the path for the AI.duino 
+**Local providers** don't need an API key. If you have an account, for example *Pro Plan* with Claude, you can use Claude Cor no extra costs. 
+HTTP based providers like **Ollama** get auto detected, process based providers like **Claude Code** only needs the path to the binary. 
+Example: Try *which claude* (Linux/macOS) or *where claude* (Windows) and copy the path for the AI.duino 
 input field when selecting Claude Code.  
+
+Supported Provider:
+- Claude Code (Claude Plan Pro): https://www.claude.com/pricing
+- Codex CLI (ChatGPT Plus): https://chatgpt.com/#pricing (Untested)
+- Ollama: https://ollama.com/
 
 ## Content
   
@@ -176,3 +182,11 @@ Root directory with some explanation files
 └── installer/
     Installer files with plugin VSIX file  
 ```  
+## 💙 Support AI.duino
+
+AI.duino is free and open source. If it saved your day, consider buying me a coffee! ☕
+
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/NikolaiRadke?style=for-the-badge&logo=github&color=ea4aaa)](https://github.com/sponsors/NikolaiRadke)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Buy%20me%20a%20coffee-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/nikolairadke)
+
+Every contribution helps keep this project alive! 🚀
