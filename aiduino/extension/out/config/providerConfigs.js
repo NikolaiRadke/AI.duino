@@ -58,12 +58,8 @@ your_provider: {
 */
 
 // Version
-<<<<<<< HEAD
-const CONFIG_VERSION = '071025'; 
-=======
 // Version
-const CONFIG_VERSION = '061025'; 
->>>>>>> 9b19383424274b683fdbafd6f130e81fe539797d
+const CONFIG_VERSION = '081025'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
