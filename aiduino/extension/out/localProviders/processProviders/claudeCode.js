@@ -1,19 +1,20 @@
-/**
- * Claude Code Process Provider
- * Handles Claude Code CLI tool execution and response processing
+/*
+ * Claude Code Process Provider mit Session Management
+ * Nutzt Claude Code's native --continue für echte Persistenz
  */
 
 /**
- * Execute Claude Code CLI with prompt and context
+ * Execute Claude Code CLI with session support
  * @param {string} toolPath - Path to claude executable
  * @param {string} prompt - User prompt
  * @param {Object} context - Extension context
- * @returns {Promise<string>} Command output
+ * @param {string|null} sessionId - Optional session ID to continue
+ * @returns {Promise<Object>} {response, sessionId}
  */
-async function executeCommand(toolPath, prompt, context) {
+async function executeCommand(toolPath, prompt, context, sessionId = null) {
     const { spawn } = require('child_process');
     const { t } = context;
-    const args = buildArgs(prompt);
+    const args = buildArgs(prompt, sessionId);
     
     return new Promise((resolve, reject) => {
         const childProcess = spawn(toolPath, args, {
@@ -47,40 +48,65 @@ async function executeCommand(toolPath, prompt, context) {
             }
         });
         
-        // 3 minute timeout
+        // 5 minute timeout (länger für Sessions)
         setTimeout(() => {
             childProcess.kill();
             reject(new Error(t('errors.localProviderTimeout')));
-        }, 180000);
+        }, 300000);
     });
 }
 
 /**
- * Build command arguments for Claude Code CLI
- * @param {string} prompt - Enhanced prompt
- * @param {Object} localContext - Local context
+ * Build command arguments with session support
+ * @param {string} prompt - User prompt
+ * @param {string|null} sessionId - Session ID to continue (or null for new session)
  * @returns {Array} Command arguments
  */
-function buildArgs(prompt) {
-    return [
-        '--print', 
-        '--dangerously-skip-permissions',
-        '--output-format', 'json',
-        prompt
-    ];
+function buildArgs(prompt, sessionId = null) {
+    if (sessionId) {
+        // Continue existing session
+        return [
+            '--continue',
+            '--print',
+            '--dangerously-skip-permissions',
+            '--output-format', 'json',
+            prompt
+        ];
+    } else {
+        // Start new session
+        return [
+            '--print',
+            '--dangerously-skip-permissions',
+            '--output-format', 'json',
+            prompt
+        ];
+    }
 }
 
 /**
- * Extract response from Claude Code output
+ * Extract response and session ID from Claude Code output
  * @param {string} stdout - Command stdout
- * @returns {string} Extracted response
+ * @returns {Object} {response: string, sessionId: string|null}
  */
 function extractResponse(stdout) {
     try {
         const jsonResponse = JSON.parse(stdout);
-        return jsonResponse.result || stdout;
+        
+        // Extract response text
+        const response = jsonResponse.result || jsonResponse.content || stdout;
+        
+        // Extract session ID if present
+        // Claude Code might return session info in metadata
+        const sessionId = jsonResponse.session_id || 
+                         jsonResponse.sessionId || 
+                         jsonResponse.metadata?.session_id ||
+                         null;
+        
+        return { response, sessionId };
+        
     } catch {
-        return stdout; // Fallback to raw text
+        // Not JSON, return as-is without session ID
+        return { response: stdout, sessionId: null };
     }
 }
 
@@ -88,3 +114,4 @@ module.exports = {
     executeCommand,
     extractResponse
 };
+

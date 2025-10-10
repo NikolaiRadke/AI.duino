@@ -28,7 +28,7 @@ function showAbout(context) {
     let modelBadges = '';
     let modelFeatures = '';
     forEachProvider(minimalModelManager.providers, (modelId, provider) => {
-        modelBadges += `<span class="model-badge" style="background: ${provider.color}; margin: 0 5px;">${provider.icon} ${provider.name}</span>`;
+        modelBadges += `<span class="model-badge" style="background: ${provider.color}; margin: 5px 5px;">${provider.icon} ${provider.name}</span>`;
         modelFeatures += `<div class="feature">${provider.icon} ${provider.name} ${t('about.integration')}</div>`;
     });
     

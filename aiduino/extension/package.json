@@ -95,6 +95,11 @@
         "icon": "$(error)"
       },
       {
+        "command": "aiduino.explainCopiedError",
+        "title": "%commands.explainCopiedError%",
+        "category": "Ai.duino"
+      },
+      {
         "command": "aiduino.askAI",
         "title": "Ask AI",
         "category": "AI.duino",
@@ -167,6 +172,12 @@
         "key": "ctrl+shift+d",
         "mac": "cmd+shift+d",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "aiduino.explainCopiedError",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e",
+        "when": "editorTextFocus && resourceExtname == .ino"
       }
     ],
     "menus": {

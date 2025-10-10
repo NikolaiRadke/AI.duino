@@ -6,6 +6,8 @@
 * Added codex CLI support
 * Added support support :-)
 * Added sketch files inclusion into features
+* Added error parsing in explain error
+* Addad explain error from cliboard menu call
 * All panel based features now have Webview with Copy&Paste
 * Parallel function loading for faster startup
 * Updated SECURITY.md

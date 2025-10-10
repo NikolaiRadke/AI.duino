@@ -11,13 +11,17 @@ const featureUtils = require('./featureUtils');
 const contextManager = require('../utils/contextManager');
 const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 const { ChatHistoryManager } = require('../utils/chatHistoryManager');
-
+async function handleUserMessage(userText, panel, context) {
 // Global panel reference to prevent multiple instances
 let activeChatPanel = null;
 let historyManager = null;
 let currentView = 'overview'; // 'overview' or 'chat'
 let attachedContext = null; // Stores attached context for current message
 let lastUsedContext = null; // Store last used context for reuse
+let activeSessions = {}; // Format: { 'chatId-providerId': 'session-abc123' }
+let arduinoMode = true;
+const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+let lastUsedProvider = null;
 
 /**
  * Show persistent AI chat panel with overview page
@@ -106,6 +110,11 @@ async function showChatPanel(context) {
                     attachedContext = null;
                     updatePanelContent(panel, context);
                     break;
+
+                case 'toggleArduinoMode':
+                    arduinoMode = !arduinoMode;
+                    updatePanelContent(panel, context);
+                    break;
                     
                 case 'newChat':
                     await handleNewChat(panel, context);
@@ -136,6 +145,19 @@ async function showChatPanel(context) {
                     });
                     vscode.window.showInformationMessage(context.t('messages.codeUpdated'));
                     break;
+
+                case 'replaceOriginal':
+                    if (!panel.originalEditor || !panel.originalSelection) {
+                        vscode.window.showWarningMessage(context.t('messages.noEditor'));
+                        break;
+                    }
+    
+                    await panel.originalEditor.edit(editBuilder => {
+                        editBuilder.replace(panel.originalSelection, featureUtils.cleanHtmlCode(message.code));
+                    });
+    
+                    vscode.window.showInformationMessage(context.t('messages.codeUpdated'));
+                    break;
                     
                 case 'closePanel':
                     panel.dispose();
@@ -155,6 +177,8 @@ async function showChatPanel(context) {
  */
 async function handleOpenChat(chatId, panel, context) {
     if (historyManager.switchChat(chatId)) {
+        activeSessions = {};
+        
         currentView = 'chat';
         updatePanelContent(panel, context);
     }
@@ -211,70 +235,55 @@ async function handleDeleteChat(chatId, panel, context) {
  * Handle user message
  */
 async function handleUserMessage(userText, panel, context) {
-    // Allow empty text if context is attached
     if (!userText?.trim() && !attachedContext) return;
 
-    // Use actual text or empty string (context speaks for itself)
     const messageText = userText?.trim() || '';
-
     const fileManager = require('../utils/fileManager');
     const actualCurrentModel = fileManager.loadSelectedModel(context.minimalModelManager.providers) || context.currentModel;
     
+    if (lastUsedProvider && lastUsedProvider !== actualCurrentModel) {
+        activeSessions = {}; // Alle Sessions löschen
+    }
+
+    lastUsedProvider = actualCurrentModel;
     historyManager.addMessage('user', messageText, attachedContext);
     updatePanelContent(panel, context);
 
     const chatHistory = historyManager.getActiveChat();
+    const chatId = historyManager.getActiveChatId();
+    const sessionKey = `${chatId}-${actualCurrentModel}`;
+    
     let prompt;
-    
-    // Use persistent context if active, otherwise one-time context
-    const contextToUse = attachedContext;
 
-    // With attached context
     if (attachedContext) {
-        // Save as last used context
         lastUsedContext = attachedContext;
-    
         prompt = contextManager.buildContextAwarePrompt(
-            '', // No selection
-            attachedContext,
-            {
-                selection: null,
-                file: 'askAIFile',
-                sketch: 'askAISketch',
-                suffix: null
-            },
-            context,
-            null,
-            [messageText] // Question first
+            '', attachedContext,
+            { selection: null, file: 'askAIFile', sketch: 'askAISketch', suffix: null },
+            context, null, [messageText]
         );
-    
-        // Clear context after use
         attachedContext = null;
-        // Clear badge in UI
-        panel.webview.postMessage({
-            command: 'contextAttached',
-            badge: ''
-        });
+        panel.webview.postMessage({ command: 'contextAttached', badge: '' });
     } else {
-        // Normal chat without context
-        prompt = buildChatPrompt(userText, chatHistory);
+        prompt = buildChatPrompt(userText, chatHistory, actualCurrentModel, context.minimalModelManager, chatId);
     }
     
     try {
-        const freshContext = {
-            ...context,
-            currentModel: actualCurrentModel
+        const freshContext = { 
+            ...context, 
+            currentModel: actualCurrentModel,
+            sessionId: activeSessions[sessionKey] || null
         };
+        
+        const response = await featureUtils.callAIWithProgress(prompt, 'progress.askingAI', freshContext);
     
-        const response = await featureUtils.callAIWithProgress(
-            prompt,
-            'progress.askingAI',
-            freshContext
-        );
+        const provider = context.minimalModelManager.providers[actualCurrentModel];
+        if (provider?.persistent && freshContext.lastSessionId) {
+            activeSessions[sessionKey] = freshContext.lastSessionId;
+        }
     
         historyManager.addMessage('ai', response, null, actualCurrentModel);
         updatePanelContent(panel, context);
-        
     } catch (error) {
         throw error;
     }
@@ -283,28 +292,50 @@ async function handleUserMessage(userText, panel, context) {
 /**
  * Build chat prompt with history context
  */
-function buildChatPrompt(newMessage, history) {
-    if (history.length === 0) {
-        let prompt = "You are an Arduino programming assistant.\n\n";
-        prompt += `User: ${newMessage}\n\n`;
-        prompt += shared.getBoardContext();
+function buildChatPrompt(newMessage, history, currentModel, minimalModelManager, chatId) {
+    const provider = minimalModelManager.providers[currentModel];
+    const sessionKey = `${chatId}-${currentModel}`;
+    const sessionId = activeSessions[sessionKey];
+    const hasActiveSession = provider?.persistent && sessionId;
+    
+    if (hasActiveSession) {
+        let prompt = `User: ${newMessage}\n\n`;
+        if (arduinoMode) {
+            prompt += shared.getBoardContext();
+        }
         return prompt;
     }
     
-    let prompt = "You are an Arduino programming assistant. Previous conversation:\n\n";
-    const recentHistory = history.slice(-8);
+    if (history.length === 0) {
+        let prompt = arduinoMode ? 
+            "You are an Arduino programming assistant.\n\n" :
+            "You are a helpful AI assistant.\n\n";
+        prompt += `User: ${newMessage}\n\n`;
+        if (arduinoMode) {
+            prompt += shared.getBoardContext();
+        }
+        return prompt;
+    }
     
+    let prompt = arduinoMode ?
+        "You are an Arduino programming assistant. Previous conversation:\n\n" :
+        "You are a helpful AI assistant. Previous conversation:\n\n";
+    
+    const recentHistory = history.slice(-8);
     recentHistory.forEach(msg => {
         const role = msg.sender === 'user' ? 'User' : 'Assistant';
         prompt += `${role}: ${msg.text}\n\n`;
     });
     
     prompt += `User: ${newMessage}\n\n`;
-    prompt += shared.getBoardContext();
-    prompt += "\n\nPlease respond as the Arduino assistant:";
+    if (arduinoMode) {
+        prompt += shared.getBoardContext();
+    }
+    prompt += "\n\nPlease respond as the AI assistant:";
     
     return prompt;
 }
+
 
 /**
  * Handle sending selected code
@@ -319,6 +350,10 @@ async function handleSendSelectedCode(panel, context) {
     }
     
     const selectedCode = editor.document.getText(editor.selection);
+    
+    // 👉 DIESE ZWEI ZEILEN HINZUFÜGEN:
+    panel.originalEditor = editor;
+    panel.originalSelection = editor.selection;
     
     panel.webview.postMessage({
         command: 'insertCodeIntoInput',
@@ -855,6 +890,12 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
                     <button class="action-btn" onclick="attachContext()" title="${t('chat.attachContext')}">
                         📎 ${t('chat.attachFile')}
                     </button>
+                    <button class="action-btn" 
+                        onclick="toggleArduinoMode()" 
+                        title="${t('chat.toggleMode')}"
+                        style="background: ${arduinoMode ? 'var(--vscode-button-background)' : 'var(--vscode-button-secondaryBackground)'}">
+                        ${arduinoMode ? '🎯' : '💬'} ${arduinoMode ? t('chat.arduinoMode') : t('chat.generalMode')}
+                    </button>
                     ${lastUsedContext ? `
                         <button class="action-btn" onclick="reuseLastContext()" title="${t('chat.reuseLastContext')}">
                             🔄 ${t('chat.useLastContext')}
@@ -901,6 +942,8 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
                         vscode.postMessage({ command: 'copyCode', code: code });
                     } else if (action === 'insert') {
                         vscode.postMessage({ command: 'insertCode', code: code });
+                    } else if (action === 'replace') {
+                        vscode.postMessage({ command: 'replaceOriginal', code: code });
                     }
                 });
     
@@ -952,6 +995,10 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
 
                 function attachContext() {
                     vscode.postMessage({ command: 'attachContext' });
+                }
+
+                function toggleArduinoMode() {
+                    vscode.postMessage({ command: 'toggleArduinoMode' });
                 }
 
                 function clearContext() {

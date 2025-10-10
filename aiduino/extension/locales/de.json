@@ -19,7 +19,8 @@
     "changePath": "Pfad ändern",
     "openChatPanel": "KI Chat",
     "toggleInlineCompletion": "Inline Vervollständigung",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ aus Zwischenablage"
   },
   "messages": {
     "welcome": "👋 Willkommen! AI.duino unterstützt {0}!",
@@ -56,7 +57,8 @@
     "inlineCompletionWarningCosts": "⚠️ {0} ist kostenpflichtig - jede Vervollständigung verursacht API-Kosten. Trotzdem aktivieren?",
     "inlineCompletionEnabled": "✓ Inline-Vervollständigung aktiviert",
     "inlineCompletionDisabled": "Inline-Vervollständigung deaktiviert",
-    "contextAttachedInfo": "📎 Kontext angehängt - gilt nur für die nächste Nachricht. Nutze '🔄 Letzten Kontext' zum Wiederverwenden."
+    "contextAttachedInfo": "📎 Kontext angehängt - gilt nur für die nächste Nachricht. Nutze '🔄 Letzten Kontext' zum Wiederverwenden.",
+    "noErrorInClipboard": "Keine Fehlerinformation in der Zwischenablage gefunden."
   },
   "buttons": {
     "chooseModel": "KI-Modell wählen",
@@ -110,7 +112,8 @@
     "askFollowUp": "Vorherige Unterhaltung fortsetzen: {0}",
     "noValidContext": "Keine vorherige Unterhaltung",
     "editPrompts": "AI-Prompts anpassen",
-    "openChatPanel": "AI-Chat mit Code-Integration"
+    "openChatPanel": "AI-Chat mit Code-Integration",
+    "explainCopiedError": "Fehler aus Zwischenablage analysieren"
   },
   "language": {
     "autoDetect": "Automatisch von VS Code erkennen",
@@ -281,7 +284,10 @@
     "sendSelectedCode": "Markierten Code senden",
     "filesSent": "Dateien gesendet",
     "useLastContext": "Nochmal anhängen",
-    "reuseLastContext": "Zuletzt verwendeten Kontext wieder anhängen"
+    "reuseLastContext": "Zuletzt verwendeten Kontext wieder anhängen",
+    "arduinoMode": "Arduino",
+    "generalMode": "Allgemein",
+    "toggleMode": "Modus umschalten"
   },
   "shortcuts": {
     "askFollowUp": "Rückfrage",

@@ -112,14 +112,22 @@ function extractCodeFromResponse(response, fallbackToFullResponse = true) {
  * @returns {Promise<string>} AI response
  */
 async function callAIWithProgress(prompt, progressKey, context) {
-    const { t, callAI, minimalModelManager, currentModel } = context;
+    const { t, minimalModelManager, currentModel } = context;
     const model = minimalModelManager.providers[currentModel];
     
-    return await showProgressWithCancel(
-        t(progressKey, model.name),
-        callAI(prompt),
-        t
-    );
+    return vscode.window.withProgress({
+        location: vscode.ProgressLocation.Notification,
+        title: t(progressKey, model.name),  
+        cancellable: false
+    }, async () => {
+        try {
+            const result = await context.callAI(prompt);
+            return result;
+        } catch (error) {
+            context.handleApiError(error);
+            throw error;
+        }
+    });
 }
 
 /**
@@ -735,6 +743,62 @@ function processMessageWithCodeBlocks(text, messageId, t) {
     return { html: processed, codeBlocks };
 }   
 
+/**
+ * Parse Arduino compiler output - extract only the essentials
+ * @param {string} compilerOutput - Full compiler output
+ * @returns {Object} Parsed error with cleanOutput
+ */
+function parseArduinoCompilerOutput(compilerOutput) {
+    const lines = compilerOutput.split(/\r?\n/);
+    let board = null;
+    let errorLines = [];
+    
+    for (const line of lines) {
+        // Extract board
+        if (line.includes('FQBN:')) {
+            const match = line.match(/FQBN:\s*([^\s]+)/);
+            if (match) board = match[1];
+        }
+        
+        // Keep lines with error: or note: that aren't indented
+        if ((line.includes(': error:') || line.includes(': note:')) && 
+            !line.startsWith(' ') && !line.startsWith('\t')) {
+            
+            // Extract just the relevant part - split at the marker and take first meaningful chunk
+            let cleaned = line;
+            if (line.includes(': error:')) {
+                cleaned = line.split(': error:')[1] || line;
+            } else if (line.includes(': note:')) {
+                cleaned = line.split(': note:')[1] || line;
+            }
+            
+            // Remove code snippets (lines with lots of spaces or special chars)
+            cleaned = cleaned.split(/\s{4,}/)[0].split('\t')[0].trim();
+            
+            if (cleaned && cleaned.length > 5) {
+                errorLines.push(cleaned);
+            }
+        }
+    }
+    
+    // Build compact output
+    let output = '';
+    if (board) output += `Board: ${board}\n\n`;
+    if (errorLines.length > 0) {
+        output += errorLines.join('\n');
+    }
+    
+    return {
+        board: board,
+        cleanOutput: output.trim() || compilerOutput // Fallback to original if nothing found
+    };
+}
+
+module.exports = {
+    // ... existing exports
+    parseArduinoCompilerOutput
+};
+
 module.exports = {
     executeFeature,
     createAndShowDocument,
@@ -755,5 +819,6 @@ module.exports = {
     cleanCodeContent,
     generateCodeBlockButtons,
     processAiCodeBlocksWithEventDelegation,
-    processMessageWithCodeBlocks
+    processMessageWithCodeBlocks,
+    parseArduinoCompilerOutput
 };

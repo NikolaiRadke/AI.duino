@@ -58,8 +58,7 @@ your_provider: {
 */
 
 // Version
-// Version
-const CONFIG_VERSION = '081025'; 
+const CONFIG_VERSION = '091025'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -449,6 +448,7 @@ const PROVIDER_CONFIGS = {
         icon: '🤖',
         color: '#FF6B35',
         type: 'local',
+        persistent: true, // Killer feature!
         keyFile: '.aiduino-claudecode-path',
         keyPrefix: '/', 
         keyMinLength: 5, 

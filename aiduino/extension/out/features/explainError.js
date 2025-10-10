@@ -14,8 +14,9 @@ const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles'
 /**
  * Main explainError function with multi-context support
  * @param {Object} context - Extension context with dependencies
+ * @param {string|null} preProvidedText - Optional: Pre-provided error text from clipboard
  */
-async function explainError(context) {
+async function explainError(context, preProvidedText = null) {
     const panel = await featureUtils.executeFeature(
         context.executionStates.OPERATIONS.ERROR,
         async () => {
@@ -25,15 +26,26 @@ async function explainError(context) {
             
             const { editor } = editorValidation;
             
-            // Get error input with history
-            const errorInput = await featureUtils.showInputWithCreateQuickPickHistory(
-                context, 'pasteError', 'placeholders.errorExample', 'explainError'
-            );
-            if (!errorInput) return;
+            // Get error input - either from parameter or from user input
+            let errorInput;
+            if (preProvidedText) {
+                errorInput = preProvidedText;
+            } else {
+                errorInput = await featureUtils.showInputWithCreateQuickPickHistory(
+                    context, 'pasteError', 'placeholders.errorExample', 'explainError'
+                );
+                if (!errorInput) return;
+            }
             
-            // Save to history
-            featureUtils.saveToHistory(context, 'explainError', errorInput, {
-                board: shared.detectArduinoBoard() || 'unknown'
+            // Parse compiler output to extract relevant info
+            const parsedError = featureUtils.parseArduinoCompilerOutput(errorInput);
+            
+            // Use cleaned output if parsing was successful
+            const processedErrorText = parsedError.cleanOutput || errorInput;
+            
+            // Save to history (with parsed text)
+            featureUtils.saveToHistory(context, 'explainError', processedErrorText, {
+                board: parsedError.board || shared.detectArduinoBoard() || 'unknown'
             });
                 
             // Get current cursor position for error context
@@ -53,14 +65,14 @@ async function explainError(context) {
                 context.t,
                 { 
                     showSelectionOption: true,
-                    customSelectionLabel: true // Custom label
+                    customSelectionLabel: true
                 }
             );
             if (!contextData) return; // User cancelled
             
             // Build prompt with error and context
             const prompt = buildErrorPromptWithContext(
-                errorInput,
+                processedErrorText,
                 line + 1,
                 minimalCodeContext,
                 contextData,
@@ -94,7 +106,7 @@ async function explainError(context) {
             const contextBadge = contextManager.getContextBadgeHtml(contextData, context.t);
             
             panel.webview.html = createErrorExplanationHtml(
-                errorInput,
+                processedErrorText,
                 line + 1,
                 processedHtml,
                 codeBlocks,
@@ -192,7 +204,7 @@ function createErrorExplanationHtml(error, line, processedExplanation, codeBlock
             
             <div class="error-box">
                 <div class="error-title">${t('html.errorInLine', line)}:</div>
-                <code>${shared.escapeHtml(error)}</code>
+                <pre><code>${shared.escapeHtml(error)}</code></pre>
             </div>
             
             <div class="explanation">
@@ -226,6 +238,24 @@ function createErrorExplanationHtml(error, line, processedExplanation, codeBlock
     `;
 }
 
+/**
+ * Explain error from clipboard
+ * @param {Object} context - Extension context with dependencies
+ */
+async function explainCopiedError(context) {
+    // Read clipboard
+    const clipboardText = await vscode.env.clipboard.readText();
+    
+    if (!clipboardText || clipboardText.trim().length === 0) {
+        vscode.window.showWarningMessage(context.t('messages.noErrorInClipboard'));
+        return;
+    }
+    
+    // Call main explainError with clipboard text
+    return explainError(context, clipboardText);
+}
+
 module.exports = {
-    explainError
+    explainError,
+    explainCopiedError
 };

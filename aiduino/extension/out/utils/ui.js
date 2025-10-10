@@ -55,8 +55,8 @@ class QuickMenuTreeProvider {
         const codeActions = menuItems.filter(item => 
             item.command && [
                 'improveCode', 'explainCode', 'addComments', 
-                'explainError', 'debugHelp', 'askAI', 
-                'askFollowUp', 'openChatPanel'
+                'explainError', 'explainCopiedError', 'debugHelp', 
+                'askAI', 'askFollowUp', 'openChatPanel'
             ].some(cmd => item.command.includes(cmd))
         );
         codeActions.forEach(item => treeItems.push(this.createTreeItem(item)));

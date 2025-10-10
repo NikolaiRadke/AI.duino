@@ -19,7 +19,8 @@
     "changePath": "Change Path",
     "openChatPanel": "AI Chat",
     "toggleInlineCompletion": "Inline Completion",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ from Clipboard"
   },
   "messages": {
     "welcome": "👋 Welcome! AI.duino  supports {0}!",
@@ -56,7 +57,8 @@
     "inlineCompletionWarningCosts": "⚠️ {0} is a paid service - each completion incurs API costs. Activate anyway?",
     "inlineCompletionEnabled": "✓ Inline completion enabled",
     "inlineCompletionDisabled": "Inline completion disabled",
-    "contextAttachedInfo": "🔎 Context attached - applies only to the next message. Use '🔄 Last Context' to reuse."
+    "contextAttachedInfo": "🔎 Context attached - applies only to the next message. Use '🔄 Last Context' to reuse.",
+    "noErrorInClipboard": "No error information found in clipboard. Please click 'Copy error message' in Arduino IDE first."
   },
   "buttons": {
     "chooseModel": "Choose AI Model",
@@ -110,7 +112,8 @@
     "askFollowUp": "Continue previous conversation: {0}",
     "noValidContext": "No previous conversation",
     "editPrompts": "Customize and manage AI prompts",
-    "openChatPanel": "AI chat with code integration"
+    "openChatPanel": "AI chat with code integration",
+    "explainCopiedError": "Analyze error from clipboard"
   },
   "language": {
     "autoDetect": "Auto-detect from VS Code",
@@ -280,7 +283,10 @@
     "sendSelectedCode": "Send Selected Code",
     "filesSent": "Files Sent",
     "useLastContext": "Attach Again",
-    "reuseLastContext": "Reattach last used context"
+    "reuseLastContext": "Reattach last used context",
+    "arduinoMode": "Arduino",
+    "generalMode": "General",
+    "toggleMode": "Switch Mode"
   },
   "shortcuts": {
     "askFollowUp": "Follow-up question",

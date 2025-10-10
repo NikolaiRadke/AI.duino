@@ -89,6 +89,11 @@ class CommandRegistry {
                 handler: () => explainErrorFeature.explainError(deps.getDependencies()),
                 description: 'Explain Compiler Error'
             },
+            {
+                name: 'aiduino.explainCopiedError',
+                handler: () => explainErrorFeature.explainCopiedError(deps.getDependencies()),
+                description: 'Explain Copied Compiler Error'
+            },
             { 
                 name: 'aiduino.debugHelp', 
                 handler: () => debugHelpFeature.debugHelp(deps.getDependencies()),

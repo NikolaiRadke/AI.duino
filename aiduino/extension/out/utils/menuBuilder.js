@@ -39,6 +39,7 @@ function buildMenuItems(context) {
         createMenuItem('$(comment-discussion)', 'explainCode', hasSelection, t),
         createMenuItem('$(edit)', 'addComments', hasSelection, t),
         createMenuItem('$(error)', 'explainError', false, t, 'descriptions.noErrors'),
+        createMenuItem('$(error)', 'explainCopiedError', false, t, 'descriptions.explainCopiedError'),
         createMenuItem('$(bug)', 'debugHelp', false, t, 'descriptions.debugHelp'),
         createMenuItem('$(comment-discussion)', 'openChatPanel', false, t, 'descriptions.openChatPanel'),
         createMenuItem('$(question)', 'askAI', false, t, 'descriptions.askAI'),

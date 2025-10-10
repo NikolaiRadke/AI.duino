@@ -281,33 +281,38 @@ class UnifiedAPIClient {
         const { minimalModelManager, updateTokenUsage, apiKeys } = context; 
         const provider = minimalModelManager.providers[modelId];
     
-        // Get process provider handler from router
         const localProviders = require('../localProviders');
         const providerHandler = localProviders.getProcessProvider(provider.name);
     
         if (!providerHandler) {
             throw new Error(`No process handler found for ${provider.name}`);
         }
-    
-        // Get tool path from stored API key or default command
+
         const toolPath = apiKeys[modelId] || provider.processConfig?.command;
     
         if (!toolPath) {
             const { t } = context;
             throw new Error(t('errors.localProviderNotFound', provider.name, 'not configured'));
         }
-    
-        // Execute command using provider handler
-        const response = await providerHandler.executeCommand(toolPath, prompt, context);
-    
-        // Extract and process response
-        const extractedResponse = providerHandler.extractResponse ? 
-            providerHandler.extractResponse(response) : response;
-    
-        // Update token usage
-        updateTokenUsage(modelId, prompt, extractedResponse);
+
+        const sessionId = context.sessionId || null;
+        const output = await providerHandler.executeCommand(toolPath, prompt, context, sessionId);
+
+        const extracted = providerHandler.extractResponse ? 
+            providerHandler.extractResponse(output) : 
+            { response: output, sessionId: null };
+
+        const response = extracted.response || extracted;
+        const newSessionId = extracted.sessionId || null;
+
+        updateTokenUsage(modelId, prompt, response);
         this._triggerSupportHint(context);
-        return extractedResponse;
+    
+        if (newSessionId && provider.persistent) {
+            context.lastSessionId = newSessionId;
+        }
+
+        return response;
     }
 
     /**
