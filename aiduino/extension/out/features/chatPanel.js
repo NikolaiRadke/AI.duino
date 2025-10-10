@@ -11,7 +11,7 @@ const featureUtils = require('./featureUtils');
 const contextManager = require('../utils/contextManager');
 const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 const { ChatHistoryManager } = require('../utils/chatHistoryManager');
-async function handleUserMessage(userText, panel, context) {
+
 // Global panel reference to prevent multiple instances
 let activeChatPanel = null;
 let historyManager = null;
