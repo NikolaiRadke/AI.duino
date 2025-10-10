@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **12.10.2025** Added Claude Code session persitance. This is indeed a killer feature!   
 * **07.10.2025** New V2 beta with much improvements.  
 * **06.10.2025** Added sponsorship buttons. API keys for testing are costy. *Sight*
 * **05.10.2025** Reworking all features for better usability. V2 is getting closer!  
