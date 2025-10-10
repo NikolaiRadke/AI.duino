@@ -1,6 +1,7 @@
 # What's new in the Beta?
 
-* Added new multiple chat feature like in the browser
+* Added new multiple chat feature like in the browser with history persistance
+* Added real Claude Code session persistance
 * Added PRISM syntax highlighting, depending on your IDE settings
 * Added inline completion
 * Added codex CLI support
