@@ -19,7 +19,7 @@ class ArduinoCompletionProvider {
         this.context = context;
         this.isEnabled = false;
         this.lastCompletionTime = 0;
-        this.minDelayMs = 500; // Debounce delay
+        this.minDelayMs = context.settings?.get('inlineCompletionDelay') ?? 500;
         this.disposables = [];
     }
 
@@ -29,12 +29,7 @@ class ArduinoCompletionProvider {
     async initialize() {
         const config = vscode.workspace.getConfiguration('aiduino');
         this.isEnabled = config.get('inlineCompletion.enabled', false);
-
-        if (!this.isEnabled) {
-            return;
-        }
-
-        // Register inline completion provider for Arduino files
+  
         const provider = vscode.languages.registerInlineCompletionItemProvider(
             [
                 { language: 'cpp', pattern: '**/*.ino' },
@@ -46,7 +41,7 @@ class ArduinoCompletionProvider {
         );
 
         this.disposables.push(provider);
-
+    
         // Listen for config changes
         const configWatcher = vscode.workspace.onDidChangeConfiguration(e => {
             if (e.affectsConfiguration('aiduino.inlineCompletion')) {
@@ -123,7 +118,6 @@ class ArduinoCompletionProvider {
             }
         } catch (error) {
             // Silent fail for completions - don't annoy user
-            console.error('Completion error:', error.message);
         }
 
         return [];
@@ -137,7 +131,7 @@ class ArduinoCompletionProvider {
 
         // Build prompt with context
         const contextData = extractContext(document, position, triggerResult, this.context);
-        const prompt = buildCompletionPrompt(contextData);
+        const prompt = buildCompletionPrompt(contextData, this.context.settings);
 
         // Use the currently selected model
         const provider = minimalModelManager.providers[currentModel];
@@ -156,19 +150,20 @@ class ArduinoCompletionProvider {
      * Clean and format the completion text
      */
     cleanCompletion(response, contextData) {
+        const { settings } = this.context;  
         let completion = response.trim();
 
         // Remove markdown code blocks if present
         completion = completion.replace(/```(?:cpp|c\+\+|arduino|c)?\s*\n/g, '');
         completion = completion.replace(/```\s*$/g, '');
-
+    
         // Only return the next line(s), not full function rewrites
         const lines = completion.split('\n');
-        
+    
         // For comment triggers, return complete code block
         if (contextData.triggerType === 'comment') {
-            // Return all lines, but limit to reasonable size
-            return '\n' + lines.slice(0, 15).join('\n'); // Line break + max 15 lines
+            const maxLines = settings?.get('inlineCompletionMaxLinesComment') ?? 15;  
+            return '\n' + lines.slice(0, maxLines).join('\n');
         }
 
         // For other triggers, return single line

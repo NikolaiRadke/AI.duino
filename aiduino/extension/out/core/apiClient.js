@@ -12,9 +12,10 @@ const vscode = require("vscode");
  * Unified API client for all AI providers
  */
 class UnifiedAPIClient {
-    constructor() {
-        this.timeout = 30000;
-        this.maxRetries = 3;
+    constructor(context = null) {
+        this.context = context;
+        this.maxRetries = context?.settings.get('apiMaxRetries') ?? 3;
+        this.timeout = context?.settings.get('apiTimeout') ?? 30000;
     }
 
     /**
@@ -122,17 +123,18 @@ class UnifiedAPIClient {
      * @returns {Object} Request configuration
      */
     getModelConfig(modelId, prompt, context) {
-        const { minimalModelManager, apiKeys } = context;
+        const { minimalModelManager, apiKeys, settings } = context; 
         const provider = minimalModelManager.providers[modelId];
-        
+    
         if (!provider || !provider.apiConfig) {
             throw new Error(`Unknown provider or missing API config: ${modelId}`);
         }
-    
+
         const currentModel = minimalModelManager.getCurrentModel(modelId);
         const apiConfig = provider.apiConfig;
         const apiKey = apiKeys[modelId];
         const systemPrompt = "You are a helpful assistant specialized in Arduino programming and electronics.";
+    
         let apiPath;
         if (typeof apiConfig.apiPath === 'function') {
             apiPath = apiConfig.apiPath(currentModel.id, apiKey);
@@ -140,13 +142,35 @@ class UnifiedAPIClient {
             apiPath = apiConfig.apiPath;
         }
 
+        // Build request body with provider defaults
+        const body = apiConfig.buildRequest(currentModel.id, prompt, systemPrompt);
+        
+        // Override with user settings (if available)
+        if (settings) {
+            if (body.max_tokens !== undefined) {
+                body.max_tokens = settings.get('maxTokensPerRequest');
+            }
+            if (body.max_completion_tokens !== undefined) {  // OpenAI uses this
+                body.max_completion_tokens = settings.get('maxTokensPerRequest');
+            }
+            if (body.temperature !== undefined) {
+                body.temperature = settings.get('temperature');
+            }
+            if (body.generationConfig?.temperature !== undefined) {  // Gemini uses this
+                body.generationConfig.temperature = settings.get('temperature');
+            }
+            if (body.generationConfig?.maxOutputTokens !== undefined) {  // Gemini
+                body.generationConfig.maxOutputTokens = settings.get('maxTokensPerRequest');
+            }
+        }
+
         return {
             hostname: provider.hostname,
             path: apiPath,
             headers: apiConfig.headers(apiKey),
-            body: apiConfig.buildRequest(currentModel.id, prompt, systemPrompt)
+            body: body 
         };
-    } 
+    }
     
     /**
      * Extract response from API data (enhanced for local providers)

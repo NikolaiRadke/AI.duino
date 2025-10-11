@@ -20,7 +20,8 @@
     "openChatPanel": "AI Chat",
     "toggleInlineCompletion": "Inline Completion",
     "toggleInlineCompletionShort": "Inline",
-    "explainCopiedError": "↳ from Clipboard"
+    "explainCopiedError": "↳ from Clipboard",
+    "openSettings": "Settings"
   },
   "messages": {
     "welcome": "👋 Welcome! AI.duino  supports {0}!",
@@ -58,7 +59,9 @@
     "inlineCompletionEnabled": "✓ Inline completion enabled",
     "inlineCompletionDisabled": "Inline completion disabled",
     "contextAttachedInfo": "🔎 Context attached - applies only to the next message. Use '🔄 Last Context' to reuse.",
-    "noErrorInClipboard": "No error information found in clipboard. Please click 'Copy error message' in Arduino IDE first."
+    "noErrorInClipboard": "No error information found in clipboard. Please click 'Copy error message' in Arduino IDE first.",
+    "settingsSaved": "Settings saved",
+    "settingsReset": "Settings reset"
   },
   "buttons": {
     "chooseModel": "Choose AI Model",
@@ -94,7 +97,8 @@
     "close": "Close",
     "send": "Send",
     "newInput": "New input",
-    "delete": "Delete"
+    "delete": "Delete",
+    "resetAll": "Reset All"
   },
   "descriptions": {
     "improveCodeSelected": "Optimize selected code",
@@ -113,7 +117,8 @@
     "noValidContext": "No previous conversation",
     "editPrompts": "Customize and manage AI prompts",
     "openChatPanel": "AI chat with code integration",
-    "explainCopiedError": "Analyze error from clipboard"
+    "explainCopiedError": "Analyze error from clipboard",
+    "openSettings": "Customize settings"
   },
   "language": {
     "autoDetect": "Auto-detect from VS Code",
@@ -384,9 +389,6 @@
     "modelOutdated": "Model appears to be outdated. Update configurations?",
     "notNow": "Not Now"
   },
-  "settings": {
-    "autoUpdateConfigs": "Automatically check for provider configuration updates"
-  },
   "extensionUpdate": {
     "available": "AI.duino Extension update available: {0} → {1}",
     "download": "Download"
@@ -474,5 +476,70 @@
     "later": "Later",
     "noThanks": "Don't show again",
     "thanks": "Thank you for your support! 💙"
+  },
+  "settings": {
+    "title": "Settings",
+    "categories": {
+      "aiBehavior": "AI Behavior",
+      "performance": "Performance",
+      "updates": "Updates",
+      "chat": "Chat",
+      "inlineCompletion": "Inline Completion",
+      "advanced": "Advanced"
+    },
+    "labels": {
+      "temperature": "Creativity (Temperature)",
+      "maxTokensPerRequest": "Max. Tokens per Request",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Max. Retry Attempts",
+      "autoUpdateConfigs": "Auto-Update Provider Configs",
+      "autoCheckExtensionUpdates": "Check Extension Updates",
+      "maxChats": "Maximum Number of Chats",
+      "maxMessagesPerChat": "Max. Messages per Chat",
+      "inlineCompletionDelay": "Rate Limit Delay (ms)",
+      "inlineCompletionContextLines": "Context Lines",
+      "inlineCompletionMinCommentLength": "Min. Comment Length",
+      "inlineCompletionMaxLinesComment": "Max. Lines (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Max. Lines (Simple)",
+      "tokenEstimationMultiplier": "Word Factor",
+      "tokenEstimationCodeBlock": "Code Block Factor",
+      "tokenEstimationSpecialChars": "Special Characters Factor"
+    },
+    "descriptions": {
+      "temperature": "AI creativity (0 = deterministic, 1 = creative)",
+      "maxTokensPerRequest": "Maximum length of AI responses",
+      "apiTimeout": "Timeout for API requests in milliseconds",
+      "apiMaxRetries": "Number of retries on error",
+      "autoUpdateConfigs": "Automatically update provider configurations",
+      "autoCheckExtensionUpdates": "Check for extension updates on startup",
+      "maxChats": "Maximum number of saved chats",
+      "maxMessagesPerChat": "Maximum messages per chat (older ones will be deleted)",
+      "inlineCompletionDelay": "Delay between completions",
+      "inlineCompletionContextLines": "Number of lines before cursor as context",
+      "inlineCompletionMinCommentLength": "Minimum comment length for trigger",
+      "inlineCompletionMaxLinesComment": "Maximum lines for comment-to-code",
+      "inlineCompletionMaxLinesSimple": "Maximum lines for simple completions",
+      "tokenEstimationMultiplier": "Multiplier for word-to-token estimation",
+      "tokenEstimationCodeBlock": "Additional tokens for code blocks",
+      "tokenEstimationSpecialChars": "Multiplier for special characters"
+    }
+  }, 
+  "uninstall": {
+    "button": "Uninstall AI.duino",
+    "warning": "⚠️ WARNING: This will completely remove AI.duino!",
+    "willDelete": "The following data will be deleted",
+    "cannotUndo": "This action CANNOT be undone!",
+    "uninstall": "Uninstall",
+    "finalWarning": "Final warning: Really delete all AI.duino data permanently?",
+    "yesDelete": "Yes, delete permanently",
+    "removing": "AI.duino is being removed...",
+    "deleting": "Deleting",
+    "clearingSettings": "Clearing settings...",
+    "success": "✅ AI.duino successfully uninstalled",
+    "itemsDeleted": "items deleted",
+    "manualStep": "Please manually disable/remove the extension in Arduino IDE under File → Preferences → Extensions",
+    "partialSuccess": "⚠️ Partially uninstalled",
+    "deleted": "Deleted",
+    "failed": "Failed"
   }
 }

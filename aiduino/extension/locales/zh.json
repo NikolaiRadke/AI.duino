@@ -19,7 +19,9 @@
     "changePath": "更改路径",
     "openChatPanel": "AI 聊天",
     "toggleInlineCompletion": "内联补全",
-    "toggleInlineCompletionShort": "内联"
+    "toggleInlineCompletionShort": "内联",
+    "explainCopiedError": "↳ 从剪贴板",
+    "openSettings": "设置"
   },
   "messages": {
     "welcome": "👋 欢迎！AI.duino 支持{0}！",
@@ -54,7 +56,12 @@
     "inlineCompletionActivate": "使用 {0} 激活内联补全？",
     "inlineCompletionWarningCosts": "⚠️ {0} 是付费服务 - 每次补全都会产生 API 费用。仍然激活？",
     "inlineCompletionEnabled": "✓ 内联补全已激活",
-    "inlineCompletionDisabled": "内联补全已禁用"
+    "inlineCompletionDisabled": "内联补全已禁用",
+    "operationAlreadyRunning": "操作已在运行中！请稍候...",
+    "contextAttachedInfo": "🔎 已附加上下文 - 仅对下一条消息有效。使用「🔄 最后的上下文」重复使用。",
+    "noErrorInClipboard": "剪贴板中未找到错误信息。请先在Arduino IDE中点击「复制错误消息」。",
+    "settingsSaved": "设置已保存",
+    "settingsReset": "设置已重置"
   },
   "buttons": {
     "chooseModel": "选择AI模型",
@@ -90,7 +97,8 @@
     "close": "关闭",
     "send": "发送",
     "newInput": "新输入",
-    "delete": "删除"
+    "delete": "删除",
+    "resetAll": "全部重置"
   },
   "descriptions": {
     "improveCodeSelected": "优化选定的代码",
@@ -108,7 +116,9 @@
     "askFollowUp": "继续之前的对话: {0}",
     "noValidContext": "没有之前的对话",
     "editPrompts": "自定义和管理AI提示词",
-    "openChatPanel": "带代码集成的AI聊天"
+    "openChatPanel": "带代码集成的AI聊天",
+    "explainCopiedError": "分析剪贴板中的错误",
+    "openSettings": "自定义设置"
   },
   "language": {
     "autoDetect": "从 VS Code 自动检测",
@@ -144,7 +154,25 @@
     "askAIWithContext": "用户问题：{0}\n\n代码上下文：\n```cpp\n{1}\n```\n\n请用中文回答，并考虑提供的Arduino代码。",
     "askFollowUp": "追问:",
     "followUpContext": "之前对话的上下文:",
-    "followUpInstruction": "请用中文回答，并考虑之前的对话。"
+    "followUpInstruction": "请用中文回答，并考虑之前的对话。",
+    "improveCodeFile": "改进这个完整的Arduino文件 ({0}):\n\n```cpp\n{1}\n```\n\n优化:\n- 非阻塞代码(使用millis而不是delay)\n- 内存效率\n- 更好的可读性\n- Arduino最佳实践\n- 健壮性",
+    "improveCodeSketch": "改进此Arduino草图中的所有文件:\n\n{0}\n\n优化整个草图:\n- 非阻塞代码(使用millis而不是delay)\n- 内存效率\n- 更好的可读性\n- Arduino最佳实践\n- 健壮性\n- 文件之间的清晰分离",
+    "addCommentsFile": "为这个完整的Arduino文件添加有用的中文注释 ({0}):\n\n```cpp\n{1}\n```\n\n规则:\n- 解释每个重要行的作用\n- 注释函数及其参数\n- 解释硬件交互\n- 单行使用//，多行使用/* */\n- 注释应帮助初学者",
+    "addCommentsSketch": "为此Arduino草图中的所有文件添加有用的中文注释:\n\n{0}\n\n规则:\n- 解释每个重要行的作用\n- 注释函数及其参数\n- 解释硬件交互和文件之间的关系\n- 单行使用//，多行使用/* */\n- 注释应帮助初学者",
+    "explainCodeFile": "用中文解释这个完整的Arduino文件 ({0}):\n\n```cpp\n{1}\n```\n\n解释:\n- 文件的作用(主要目的)\n- 重要函数及其任务\n- 硬件交互(引脚、传感器等)\n- 算法和逻辑\n- 特殊功能或重要细节",
+    "explainCodeSketch": "用中文解释此Arduino草图中的所有文件:\n\n{0}\n\n解释:\n- 整个草图的作用(主要目的)\n- 文件如何协同工作\n- 每个文件中的重要函数\n- 硬件交互(引脚、传感器等)\n- 文件之间的数据流\n- 特殊功能或重要细节",
+    "explainErrorFile": "解释第{1}行的Arduino错误:\n\n错误: {0}\n\n文件 ({2}):\n```cpp\n{3}\n```\n\n解释:\n- 错误的含义\n- 为什么会发生\n- 如何修复\n- 显示修正后的代码",
+    "explainErrorSketch": "解释第{1}行的Arduino错误:\n\n错误: {0}\n\n完整草图:\n{2}\n\n解释:\n- 错误的含义\n- 为什么会发生(也考虑其他文件的上下文)\n- 如何修复\n- 显示修正后的代码",
+    "analyzeSerialFile": "分析此串口输出:\n\n{0}\n\n代码文件 ({1}):\n```cpp\n{2}\n```\n\n查明:\n- 输出的含义\n- 是否有问题\n- 哪些代码生成此输出",
+    "analyzeSerialSketch": "分析此串口输出:\n\n{0}\n\n完整草图:\n{1}\n\n查明:\n- 输出的含义\n- 是否有问题\n- 哪些代码生成此输出",
+    "hardwareDebugFile": "分析此文件中的硬件问题 ({0}):\n\n```cpp\n{1}\n```\n\n检查:\n- 引脚配置\n- 电气连接\n- 时序问题\n- 常见硬件错误",
+    "hardwareDebugSketch": "分析完整草图中的硬件问题:\n\n{0}\n\n检查:\n- 所有文件中的引脚配置\n- 电气连接\n- 时序问题\n- 常见硬件错误",
+    "addDebugStatementsFile": "为此文件添加有用的调试输出 ({0}):\n\n```cpp\n{1}\n```\n\n添加Serial.print()语句以:\n- 监控变量值\n- 跟踪程序流程\n- 缩小错误源",
+    "addDebugStatementsSketch": "为此草图添加有用的调试输出:\n\n{0}\n\n添加Serial.print()语句以:\n- 监控变量值\n- 跟踪程序流程\n- 缩小错误源\n- 了解文件之间的交互",
+    "analyzeTimingFile": "分析此文件中的时序问题 ({0}):\n\n```cpp\n{1}\n```\n\n检查:\n- delay()的使用\n- 阻塞代码 vs. 非阻塞代码\n- millis()实现\n- 竞争条件",
+    "analyzeTimingSketch": "分析完整草图中的时序问题:\n\n{0}\n\n检查:\n- 所有文件中delay()的使用\n- 阻塞代码 vs. 非阻塞代码\n- millis()实现\n- 竞争条件\n- 不同文件之间的时序",
+    "askAIFile": "用户问题: {0}\n\n代码文件 ({1}):\n```cpp\n{2}\n```\n\n用中文回答，考虑提供的Arduino代码。",
+    "askAISketch": "用户问题: {0}\n\n完整草图:\n{1}\n\n用中文回答，考虑草图中的所有文件。"
   },
   "placeholders": {
     "customInstructions": "例如：\"不使用millis()\"、\"为Arduino Nano优化\"、\"添加错误处理\"",
@@ -252,7 +280,18 @@
     "noChatsYet": "还没有聊天",
     "createFirstChat": "创建你的第一个聊天！",
     "chatsOverview": "聊天概览",
-    "messages": "消息"
+    "messages": "消息",
+    "attachFile": "附加文件",
+    "attachContext": "附加上下文",
+    "contextAttached": "已附加上下文",
+    "clearContext": "移除上下文",
+    "sendSelectedCode": "发送选定代码",
+    "filesSent": "已发送文件",
+    "useLastContext": "再次附加",
+    "reuseLastContext": "重用最后使用的上下文",
+    "arduinoMode": "Arduino",
+    "generalMode": "通用",
+    "toggleMode": "切换模式"
   },
   "shortcuts": {
     "askFollowUp": "追问",
@@ -351,7 +390,52 @@
     "notNow": "现在不要"
   },
   "settings": {
-    "autoUpdateConfigs": "自动检查提供商配置更新"
+    "autoUpdateConfigs": "自动检查提供商配置更新",
+    "title": "设置",
+    "categories": {
+      "aiBehavior": "AI行为",
+      "performance": "性能",
+      "updates": "更新",
+      "chat": "聊天",
+      "inlineCompletion": "内联补全",
+      "advanced": "高级"
+    },
+    "labels": {
+      "temperature": "创造力 (Temperature)",
+      "maxTokensPerRequest": "每次请求的最大令牌数",
+      "apiTimeout": "API超时 (ms)",
+      "apiMaxRetries": "最大重试次数",
+      "autoUpdateConfigs": "自动更新提供商配置",
+      "autoCheckExtensionUpdates": "检查扩展更新",
+      "maxChats": "最大聊天数",
+      "maxMessagesPerChat": "每个聊天的最大消息数",
+      "inlineCompletionDelay": "速率限制延迟 (ms)",
+      "inlineCompletionContextLines": "上下文行数",
+      "inlineCompletionMinCommentLength": "最小注释长度",
+      "inlineCompletionMaxLinesComment": "最大行数 (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "最大行数 (简单)",
+      "tokenEstimationMultiplier": "单词因子",
+      "tokenEstimationCodeBlock": "代码块因子",
+      "tokenEstimationSpecialChars": "特殊字符因子"
+    },
+    "descriptions": {
+      "temperature": "AI创造力 (0 = 确定性, 1 = 创造性)",
+      "maxTokensPerRequest": "AI响应的最大长度",
+      "apiTimeout": "API请求超时(毫秒)",
+      "apiMaxRetries": "错误时的重试次数",
+      "autoUpdateConfigs": "自动更新提供商配置",
+      "autoCheckExtensionUpdates": "启动时检查扩展更新",
+      "maxChats": "保存的最大聊天数",
+      "maxMessagesPerChat": "每个聊天的最大消息数(旧消息将被删除)",
+      "inlineCompletionDelay": "补全之间的延迟",
+      "inlineCompletionContextLines": "光标前作为上下文的行数",
+      "inlineCompletionMinCommentLength": "触发的最小注释长度",
+      "inlineCompletionMaxLinesComment": "comment-to-code的最大行数",
+      "inlineCompletionMaxLinesSimple": "简单补全的最大行数",
+      "tokenEstimationMultiplier": "单词到令牌估算的乘数",
+      "tokenEstimationCodeBlock": "代码块的额外令牌",
+      "tokenEstimationSpecialChars": "特殊字符的乘数"
+    }
   },
   "extensionUpdate": {
     "available": "AI.duino Extension 更新可用: {0} → {1}",
@@ -386,17 +470,77 @@
     "noCodeBlocksSuggestion": "上述分析包含改进建议。",
     "targetBoard": "目标板",
     "codeBadge": "AI代码改进",
-    "improvedCodeTitle": "改进的代码"
+    "improvedCodeTitle": "改进的代码",
+    "outputFormatSelection": "重要: 返回完整的改进代码部分(不截断)。格式: ```cpp\n...\n```",
+    "outputFormatFile": "重要: 返回完整的改进文件。格式: ```cpp\n...\n```",
+    "outputFormatSketch": "重要: 返回所有改进的文件，每个都带标题。格式:\n```cpp\n// ========== 文件名.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI错误分析",
     "correctedCodeTitle": "修正的代码"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI代码建议"
+    "codeSuggestionTitle": "AI代码建议",
+    "newCodeContext": "后续问题的新代码上下文"
   },
   "debugHelp": {
     "debugBadge": "AI调试助手",
     "debugSolutionTitle": "调试解决方案"
+  },
+  "addComments": {
+    "commentedCode": "已注释代码",
+    "customInstructions": "自定义说明",
+    "outputFormatSelection": "重要: 返回完整的带注释代码部分。格式: ```cpp\n...\n```",
+    "outputFormatFile": "重要: 返回完整的带注释文件。格式: ```cpp\n...\n```",
+    "outputFormatSketch": "重要: 返回所有带注释的文件，每个都带标题。格式:\n```cpp\n// ========== 文件名.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "无代码上下文",
+    "noContextDesc": "仅问题",
+    "noContextDetail": "不向AI显示代码文件",
+    "selection": "仅选择",
+    "currentFile": "当前文件",
+    "fullSketch": "完整项目",
+    "minimalContext": "最小上下文",
+    "lines": "行",
+    "files": "文件",
+    "selectionDetail": "仅选定的代码，无额外上下文",
+    "currentFileDetailWithSelection": "选定代码 + 文件其余部分作为额外上下文",
+    "currentFileDetailNoSelection": "完整文件作为上下文",
+    "fullSketchDetailWithSelection": "选定代码 + 所有文件作为额外上下文",
+    "fullSketchDetailNoSelection": "项目中的所有文件作为上下文",
+    "minimalContextDetail": "仅错误行周围的代码",
+    "selectLevel": "AI应该接收多少上下文?",
+    "additionalContext": "=== 额外上下文 ===",
+    "explanation": "以下文件是项目的一部分，有助于理解:",
+    "focusReminder": "重要: 专注于选定的代码，将其余部分用作上下文!",
+    "fullFileAsContext": "(完整文件作为上下文)"
+  },
+  "support": {
+    "message": "🎉 AI.duino已经帮助你{0}次了!",
+    "description": "此项目是免费和开源的。小额捐赠有助于未来的开发。",
+    "coffee": "☕ 请我喝咖啡",
+    "sponsor": "💙 成为赞助商",
+    "later": "稍后",
+    "noThanks": "不再显示",
+    "thanks": "感谢你的支持! 💙"
+  },
+  "uninstall": {
+    "button": "卸载AI.duino",
+    "warning": "⚠️ 警告: 这将完全删除AI.duino!",
+    "willDelete": "将删除以下数据",
+    "cannotUndo": "此操作无法撤销!",
+    "uninstall": "卸载",
+    "finalWarning": "最后警告: 真的要永久删除所有AI.duino数据吗?",
+    "yesDelete": "是，永久删除",
+    "removing": "正在删除AI.duino...",
+    "deleting": "删除中",
+    "clearingSettings": "清理设置中...",
+    "success": "✅ AI.duino已成功卸载",
+    "itemsDeleted": "项已删除",
+    "manualStep": "请在Arduino IDE中的文件→首选项→扩展下手动禁用/删除扩展",
+    "partialSuccess": "⚠️ 部分卸载",
+    "deleted": "已删除",
+    "failed": "失败"
   }
 }

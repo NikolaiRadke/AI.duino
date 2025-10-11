@@ -13,7 +13,15 @@ const vscode = require("vscode");
  * Centralized event handling with proper cleanup and debouncing
  */
 class EventManager {
-    constructor() {
+    constructor(context = null) {
+        this.context = context;
+        // Debounce delays (ms)
+        this.DEBOUNCE_DELAYS = {
+            CONFIG_CHANGE: context?.settings.get('debounceConfigChange') ?? 300,
+            SAVE_OPERATION: context?.settings.get('debounceSaveOperation') ?? 500,
+            ERROR_CLEAR: context?.settings.get('debounceErrorClear') ?? 5000
+        };
+
         // Event listeners storage
         this.listeners = {
             configListener: null,
@@ -32,13 +40,6 @@ class EventManager {
             onConfigChange: null,
             onDiagnosticsChange: null,
             updateStatusBar: null
-        };
-        
-        // Debounce delays (ms)
-        this.DEBOUNCE_DELAYS = {
-            CONFIG_CHANGE: 300,
-            SAVE_OPERATION: 500,
-            ERROR_CLEAR: 5000
         };
     }
     

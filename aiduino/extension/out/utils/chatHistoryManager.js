@@ -13,15 +13,16 @@ const fileManager = require('./fileManager');
 const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
 const CHATS_DIR = path.join(AIDUINO_DIR, '.aiduino-chats');
 const INDEX_FILE = path.join(AIDUINO_DIR, '.aiduino-chat-index.json');
-const MAX_CHATS = 10;
-const MAX_MESSAGES_PER_CHAT = 100;
 
 /**
  * Multi-Chat History Manager for AI.duino
  * Manages multiple chat sessions with separate files
  */
 class ChatHistoryManager {
-    constructor() {
+    constructor(settings = null) {
+        this.settings = settings;
+        this.MAX_CHATS = settings?.get('maxChats') ?? 10;
+        this.MAX_MESSAGES_PER_CHAT = settings?.get('maxMessagesPerChat') ?? 100;
         this.ensureDirectories();
         this.index = this.loadIndex();
     }
@@ -89,7 +90,7 @@ class ChatHistoryManager {
      */
     createNewChat(firstMessage = '') {
         // Check limit
-        if (this.index.chats.length >= MAX_CHATS) {
+        if (this.index.chats.length >= this.MAX_CHATS) {
             return null;
         }
 
@@ -215,7 +216,7 @@ class ChatHistoryManager {
      * @returns {boolean} True if under limit
      */
     canCreateNewChat() {
-        return this.index.chats.length < MAX_CHATS;
+        return this.index.chats.length < this.MAX_CHATS;
     }
 
     /**
@@ -260,8 +261,8 @@ class ChatHistoryManager {
         }
 
         // Prune if too many messages
-        const prunedMessages = messages.length > MAX_MESSAGES_PER_CHAT 
-            ? messages.slice(-MAX_MESSAGES_PER_CHAT)
+        const prunedMessages = messages.length > this.MAX_MESSAGES_PER_CHAT 
+            ? messages.slice(-this.MAX_MESSAGES_PER_CHAT)
             : messages;
 
         // Save

@@ -121,6 +121,13 @@ function buildMenuItems(context) {
         description: `Version ${EXTENSION_VERSION}`,
         command: 'aiduino.about'
     });
+
+    // Settings (NEU)
+    infoItems.push({
+        label: `$(gear) ${t('commands.openSettings')}`,
+        description: t('descriptions.openSettings') || '',
+        command: 'aiduino.openSettings'
+    });
     
     return [...coreItems, separator1, ...settingsItems, separator2, ...infoItems];
 }

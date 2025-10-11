@@ -10,7 +10,7 @@
  * @param {Object} contextData - Context information from triggerDetector
  * @returns {string} Formatted prompt for Groq API
  */
-function buildCompletionPrompt(contextData) {
+function buildCompletionPrompt(contextData, settings = null) {
     const { triggerType, currentLine, previousLines, boardInfo, libraries } = contextData;
 
     // Base system context
@@ -60,13 +60,14 @@ function buildCompletionPrompt(contextData) {
 /**
  * Prompt for comment-to-code conversion
  */
-function buildCommentTriggerPrompt(basePrompt, currentLine) {
+function buildCommentTriggerPrompt(basePrompt, currentLine, settings = null) {
     const comment = currentLine.replace(/^\/\/\s*/, '');
+    const maxLines = settings?.get('inlineCompletionMaxLinesSimple') ?? 3;
     
     return basePrompt + 
         `Generate Arduino code for the following task:\n` +
         `"${comment}"\n\n` +
-        `Provide ONLY the code (max 3 lines), no comments or explanations.`;
+        `Provide ONLY the code (max ${maxLines} lines), no comments or explanations.`;
 }
 
 /**

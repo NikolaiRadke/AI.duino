@@ -19,7 +19,9 @@
     "changePath": "Changer le chemin",
     "openChatPanel": "Chat IA",
     "toggleInlineCompletion": "Complétion en ligne",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ depuis le presse-papiers",
+    "openSettings": "Paramètres"
   },
   "messages": {
     "welcome": "👋 Bienvenue ! AI.duino  prend en charge {0} !",
@@ -54,7 +56,12 @@
     "inlineCompletionActivate": "Activer la complétion en ligne avec {0} ?",
     "inlineCompletionWarningCosts": "⚠️ {0} est un service payant - chaque complétion entraîne des coûts API. Activer quand même ?",
     "inlineCompletionEnabled": "✓ Complétion en ligne activée",
-    "inlineCompletionDisabled": "Complétion en ligne désactivée"
+    "inlineCompletionDisabled": "Complétion en ligne désactivée",
+    "operationAlreadyRunning": "Opération déjà en cours ! Veuillez patienter...",
+    "contextAttachedInfo": "🔎 Contexte attaché - valable uniquement pour le prochain message. Utilisez '🔄 Dernier contexte' pour réutiliser.",
+    "noErrorInClipboard": "Aucune information d'erreur trouvée dans le presse-papiers. Veuillez d'abord cliquer sur 'Copier le message d'erreur' dans l'IDE Arduino.",
+    "settingsSaved": "Paramètres enregistrés",
+    "settingsReset": "Paramètres réinitialisés"
   },
   "buttons": {
     "chooseModel": "Choisir le modèle IA",
@@ -90,7 +97,8 @@
     "close": "Fermer",
     "send": "Envoyer",
     "newInput": "Nouvelle saisie",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "resetAll": "Tout réinitialiser"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiser le code sélectionné",
@@ -108,7 +116,9 @@
     "askFollowUp": "Continuer la conversation précédente : {0}",
     "noValidContext": "Aucune conversation précédente",
     "editPrompts": "Personnaliser et gérer les invites IA",
-    "openChatPanel": "Chat IA avec intégration de code"
+    "openChatPanel": "Chat IA avec intégration de code",
+    "explainCopiedError": "Analyser l'erreur depuis le presse-papiers",
+    "openSettings": "Personnaliser les paramètres"
   },
   "language": {
     "autoDetect": "Détecter automatiquement depuis VS Code",
@@ -144,7 +154,25 @@
     "askAIWithContext": "Question de l'utilisateur : {0}\n\nContexte du code :\n```cpp\n{1}\n```\n\nRéponds en français en tenant compte du code Arduino fourni.",
     "askFollowUp": "Question de suivi :",
     "followUpContext": "Contexte de conversation précédente :",
-    "followUpInstruction": "Réponds en français en tenant compte de la conversation précédente."
+    "followUpInstruction": "Réponds en français en tenant compte de la conversation précédente.",
+    "improveCodeFile": "Améliore ce fichier Arduino complet ({0}):\n\n```cpp\n{1}\n```\n\nOptimise pour:\n- Code non bloquant (millis au lieu de delay)\n- Efficacité mémoire\n- Meilleure lisibilité\n- Meilleures pratiques Arduino\n- Robustesse",
+    "improveCodeSketch": "Améliore tous les fichiers de ce sketch Arduino:\n\n{0}\n\nOptimise l'ensemble du sketch pour:\n- Code non bloquant (millis au lieu de delay)\n- Efficacité mémoire\n- Meilleure lisibilité\n- Meilleures pratiques Arduino\n- Robustesse\n- Séparation propre entre les fichiers",
+    "addCommentsFile": "Ajoute des commentaires utiles en français à ce fichier Arduino complet ({0}):\n\n```cpp\n{1}\n```\n\nRègles:\n- Explique ce que fait chaque ligne importante\n- Commente les fonctions et leurs paramètres\n- Explique les interactions matérielles\n- Utilise // pour les commentaires sur une ligne et /* */ pour plusieurs lignes\n- Les commentaires doivent aider les débutants",
+    "addCommentsSketch": "Ajoute des commentaires utiles en français à tous les fichiers de ce sketch Arduino:\n\n{0}\n\nRègles:\n- Explique ce que fait chaque ligne importante\n- Commente les fonctions et leurs paramètres\n- Explique les interactions matérielles et les relations entre fichiers\n- Utilise // pour les commentaires sur une ligne et /* */ pour plusieurs lignes\n- Les commentaires doivent aider les débutants",
+    "explainCodeFile": "Explique ce fichier Arduino complet ({0}) en français:\n\n```cpp\n{1}\n```\n\nExplique:\n- Ce que fait le fichier (objectif principal)\n- Les fonctions importantes et leurs tâches\n- Les interactions matérielles (broches, capteurs, etc.)\n- Les algorithmes et la logique\n- Les particularités ou détails importants",
+    "explainCodeSketch": "Explique tous les fichiers de ce sketch Arduino en français:\n\n{0}\n\nExplique:\n- Ce que fait l'ensemble du sketch (objectif principal)\n- Comment les fichiers fonctionnent ensemble\n- Les fonctions importantes dans chaque fichier\n- Les interactions matérielles (broches, capteurs, etc.)\n- Le flux de données entre les fichiers\n- Les particularités ou détails importants",
+    "explainErrorFile": "Explique cette erreur Arduino à la ligne {1}:\n\nErreur: {0}\n\nFichier ({2}):\n```cpp\n{3}\n```\n\nExplique:\n- Ce que signifie l'erreur\n- Pourquoi elle se produit\n- Comment la corriger\n- Montre le code corrigé",
+    "explainErrorSketch": "Explique cette erreur Arduino à la ligne {1}:\n\nErreur: {0}\n\nSketch complet:\n{2}\n\nExplique:\n- Ce que signifie l'erreur\n- Pourquoi elle se produit (aussi dans le contexte d'autres fichiers)\n- Comment la corriger\n- Montre le code corrigé",
+    "analyzeSerialFile": "Analyse cette sortie série:\n\n{0}\n\nFichier de code ({1}):\n```cpp\n{2}\n```\n\nDécouvre:\n- Ce que signifie la sortie\n- S'il y a des problèmes\n- Quel code génère cette sortie",
+    "analyzeSerialSketch": "Analyse cette sortie série:\n\n{0}\n\nSketch complet:\n{1}\n\nDécouvre:\n- Ce que signifie la sortie\n- S'il y a des problèmes\n- Quel code génère cette sortie",
+    "hardwareDebugFile": "Analyse les problèmes matériels dans ce fichier ({0}):\n\n```cpp\n{1}\n```\n\nVérifie:\n- Les configurations de broches\n- Les connexions électriques\n- Les problèmes de temporisation\n- Les erreurs matérielles courantes",
+    "hardwareDebugSketch": "Analyse les problèmes matériels dans le sketch complet:\n\n{0}\n\nVérifie:\n- Les configurations de broches sur tous les fichiers\n- Les connexions électriques\n- Les problèmes de temporisation\n- Les erreurs matérielles courantes",
+    "addDebugStatementsFile": "Ajoute des sorties de débogage utiles à ce fichier ({0}):\n\n```cpp\n{1}\n```\n\nAjoute des instructions Serial.print() pour:\n- Surveiller les valeurs des variables\n- Tracer le flux du programme\n- Circonscrire les sources d'erreur",
+    "addDebugStatementsSketch": "Ajoute des sorties de débogage utiles à ce sketch:\n\n{0}\n\nAjoute des instructions Serial.print() pour:\n- Surveiller les valeurs des variables\n- Tracer le flux du programme\n- Circonscrire les sources d'erreur\n- Comprendre les interactions entre fichiers",
+    "analyzeTimingFile": "Analyse les problèmes de temporisation dans ce fichier ({0}):\n\n```cpp\n{1}\n```\n\nVérifie:\n- L'utilisation de delay()\n- Code bloquant vs. non bloquant\n- Implémentation de millis()\n- Conditions de course",
+    "analyzeTimingSketch": "Analyse les problèmes de temporisation dans le sketch complet:\n\n{0}\n\nVérifie:\n- L'utilisation de delay() sur tous les fichiers\n- Code bloquant vs. non bloquant\n- Implémentation de millis()\n- Conditions de course\n- Temporisation entre différents fichiers",
+    "askAIFile": "Question de l'utilisateur: {0}\n\nFichier de code ({1}):\n```cpp\n{2}\n```\n\nRéponds en français en tenant compte du code Arduino fourni.",
+    "askAISketch": "Question de l'utilisateur: {0}\n\nSketch complet:\n{1}\n\nRéponds en français en tenant compte de tous les fichiers du sketch."
   },
   "placeholders": {
     "customInstructions": "ex. \"n'utilise pas millis()\", \"optimise pour Arduino Nano\", \"ajoute la gestion d'erreurs\"",
@@ -252,7 +280,18 @@
     "noChatsYet": "Pas encore de chats",
     "createFirstChat": "Créez votre premier chat !",
     "chatsOverview": "Aperçu des chats",
-    "messages": "Messages"
+    "messages": "Messages",
+    "attachFile": "Joindre fichier",
+    "attachContext": "Joindre contexte",
+    "contextAttached": "Contexte joint",
+    "clearContext": "Supprimer le contexte",
+    "sendSelectedCode": "Envoyer le code sélectionné",
+    "filesSent": "Fichiers envoyés",
+    "useLastContext": "Joindre à nouveau",
+    "reuseLastContext": "Réutiliser le dernier contexte utilisé",
+    "arduinoMode": "Arduino",
+    "generalMode": "Général",
+    "toggleMode": "Changer de mode"
   },
   "shortcuts": {
     "askFollowUp": "Question de suivi",
@@ -351,7 +390,52 @@
     "notNow": "Pas maintenant"
   },
   "settings": {
-    "autoUpdateConfigs": "Vérifier automatiquement les mises à jour des configurations des fournisseurs"
+    "autoUpdateConfigs": "Vérifier automatiquement les mises à jour des configurations des fournisseurs",
+    "title": "Paramètres",
+    "categories": {
+      "aiBehavior": "Comportement IA",
+      "performance": "Performance",
+      "updates": "Mises à jour",
+      "chat": "Chat",
+      "inlineCompletion": "Complétion en ligne",
+      "advanced": "Avancé"
+    },
+    "labels": {
+      "temperature": "Créativité (Temperature)",
+      "maxTokensPerRequest": "Max. tokens par requête",
+      "apiTimeout": "Timeout API (ms)",
+      "apiMaxRetries": "Max. tentatives de réessai",
+      "autoUpdateConfigs": "Mise à jour auto des configs fournisseur",
+      "autoCheckExtensionUpdates": "Vérifier les mises à jour d'extension",
+      "maxChats": "Nombre maximum de chats",
+      "maxMessagesPerChat": "Max. messages par chat",
+      "inlineCompletionDelay": "Délai limite de fréquence (ms)",
+      "inlineCompletionContextLines": "Lignes de contexte",
+      "inlineCompletionMinCommentLength": "Longueur min. commentaire",
+      "inlineCompletionMaxLinesComment": "Max. lignes (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Max. lignes (simple)",
+      "tokenEstimationMultiplier": "Facteur mot",
+      "tokenEstimationCodeBlock": "Facteur bloc de code",
+      "tokenEstimationSpecialChars": "Facteur caractères spéciaux"
+    },
+    "descriptions": {
+      "temperature": "Créativité de l'IA (0 = déterministe, 1 = créatif)",
+      "maxTokensPerRequest": "Longueur maximale des réponses de l'IA",
+      "apiTimeout": "Timeout pour les requêtes API en millisecondes",
+      "apiMaxRetries": "Nombre de tentatives en cas d'erreur",
+      "autoUpdateConfigs": "Mettre à jour automatiquement les configurations des fournisseurs",
+      "autoCheckExtensionUpdates": "Vérifier les mises à jour d'extension au démarrage",
+      "maxChats": "Nombre maximum de chats sauvegardés",
+      "maxMessagesPerChat": "Messages maximum par chat (les plus anciens seront supprimés)",
+      "inlineCompletionDelay": "Délai entre les complétions",
+      "inlineCompletionContextLines": "Nombre de lignes avant le curseur comme contexte",
+      "inlineCompletionMinCommentLength": "Longueur minimale du commentaire pour le déclenchement",
+      "inlineCompletionMaxLinesComment": "Lignes maximum pour comment-to-code",
+      "inlineCompletionMaxLinesSimple": "Lignes maximum pour complétions simples",
+      "tokenEstimationMultiplier": "Multiplicateur pour l'estimation mot-token",
+      "tokenEstimationCodeBlock": "Tokens supplémentaires pour les blocs de code",
+      "tokenEstimationSpecialChars": "Multiplicateur pour les caractères spéciaux"
+    }
   },
   "extensionUpdate": {
     "available": "Mise à jour AI.duino Extension disponible: {0} → {1}",
@@ -386,17 +470,77 @@
     "noCodeBlocksSuggestion": "L'analyse ci-dessus contient les suggestions d'amélioration.",
     "targetBoard": "Carte cible",
     "codeBadge": "Amélioration du code IA",
-    "improvedCodeTitle": "Code amélioré"
+    "improvedCodeTitle": "Code amélioré",
+    "outputFormatSelection": "IMPORTANT: Retourne la section de code améliorée complète (non tronquée). Format: ```cpp\n...\n```",
+    "outputFormatFile": "IMPORTANT: Retourne le fichier complet amélioré. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "IMPORTANT: Retourne tous les fichiers améliorés, chacun avec un en-tête. Format:\n```cpp\n// ========== NomFichier.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "Analyse d'erreur IA",
     "correctedCodeTitle": "Code corrigé"
   },
   "askAI": {
-    "codeSuggestionTitle": "Suggestion de code IA"
+    "codeSuggestionTitle": "Suggestion de code IA",
+    "newCodeContext": "Nouveau contexte de code pour question de suivi"
   },
   "debugHelp": {
     "debugBadge": "Assistant de débogage IA",
     "debugSolutionTitle": "Solution de débogage"
+  },
+  "addComments": {
+    "commentedCode": "Code commenté",
+    "customInstructions": "Instructions personnalisées",
+    "outputFormatSelection": "IMPORTANT: Retourne la section de code avec commentaires complète. Format: ```cpp\n...\n```",
+    "outputFormatFile": "IMPORTANT: Retourne le fichier complet avec commentaires. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "IMPORTANT: Retourne tous les fichiers avec commentaires, chacun avec un en-tête. Format:\n```cpp\n// ========== NomFichier.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Sans contexte de code",
+    "noContextDesc": "Seulement la question",
+    "noContextDetail": "Aucun fichier de code ne sera montré à l'IA",
+    "selection": "Sélection uniquement",
+    "currentFile": "Fichier actuel",
+    "fullSketch": "Projet complet",
+    "minimalContext": "Contexte minimal",
+    "lines": "Lignes",
+    "files": "Fichiers",
+    "selectionDetail": "Seulement le code sélectionné, sans contexte supplémentaire",
+    "currentFileDetailWithSelection": "Code sélectionné + reste du fichier comme contexte supplémentaire",
+    "currentFileDetailNoSelection": "Le fichier complet comme contexte",
+    "fullSketchDetailWithSelection": "Code sélectionné + tous les fichiers comme contexte supplémentaire",
+    "fullSketchDetailNoSelection": "Tous les fichiers du projet comme contexte",
+    "minimalContextDetail": "Seulement le code autour de la ligne d'erreur",
+    "selectLevel": "Combien de contexte l'IA doit-elle recevoir?",
+    "additionalContext": "=== CONTEXTE SUPPLÉMENTAIRE ===",
+    "explanation": "Les fichiers suivants font partie du projet et aident à la compréhension:",
+    "focusReminder": "IMPORTANT: Concentre-toi sur le code sélectionné, utilise le reste comme contexte!",
+    "fullFileAsContext": "(Fichier complet comme contexte)"
+  },
+  "support": {
+    "message": "🎉 AI.duino t'a déjà aidé {0} fois!",
+    "description": "Ce projet est gratuit et open source. Un petit don aide au développement futur.",
+    "coffee": "☕ Offrir un café",
+    "sponsor": "💙 Devenir sponsor",
+    "later": "Plus tard",
+    "noThanks": "Ne plus afficher",
+    "thanks": "Merci pour ton soutien! 💙"
+  },
+  "uninstall": {
+    "button": "Désinstaller AI.duino",
+    "warning": "⚠️ ATTENTION: Ceci supprimera complètement AI.duino!",
+    "willDelete": "Les données suivantes seront supprimées",
+    "cannotUndo": "Cette action NE peut PAS être annulée!",
+    "uninstall": "Désinstaller",
+    "finalWarning": "Dernier avertissement: Vraiment supprimer toutes les données AI.duino de manière permanente?",
+    "yesDelete": "Oui, supprimer définitivement",
+    "removing": "Suppression de AI.duino en cours...",
+    "deleting": "Suppression",
+    "clearingSettings": "Nettoyage des paramètres...",
+    "success": "✅ AI.duino désinstallé avec succès",
+    "itemsDeleted": "éléments supprimés",
+    "manualStep": "Veuillez désactiver/supprimer manuellement l'extension dans l'IDE Arduino sous Fichier → Préférences → Extensions",
+    "partialSuccess": "⚠️ Partiellement désinstallé",
+    "deleted": "Supprimé",
+    "failed": "Échoué"
   }
 }

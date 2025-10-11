@@ -80,7 +80,7 @@ class QuickMenuTreeProvider {
     
         // Block 3: Info items (Stats, About - NO Board)
         const infoItems = menuItems.filter(item => 
-            item.command && ['showTokenStats', 'about'].some(cmd => 
+            item.command && ['showTokenStats', 'about', 'openSettings'].some(cmd => 
                 item.command.includes(cmd)
             )
         );
@@ -204,25 +204,26 @@ async function showProgressWithCancel(message, operation, t) {
  * @param {Object} context - Extension context
  */
 async function showSupportHint(context) {
-    // Hole t aus dem context, NICHT via require
-    const t = context.t || ((key, ...args) => key); // Fallback falls t fehlt
+    const t = context.t || ((key, ...args) => key);
+    const { settings } = context;
     
     // Check if user disabled hints
-    const disabled = context.globalState.get('aiduino.supportHintDisabled', false);
-    if (disabled) return;
+    const hintsEnabled = settings?.get('supportHintsEnabled') ?? true;  
+    if (!hintsEnabled) return;
     
     // Increment use counter
     const useCount = context.globalState.get('aiduino.useCount', 0) + 1;
     await context.globalState.update('aiduino.useCount', useCount);
     
-    // Show hint at milestones: 10, 50, 100, 250 uses
-    const milestones = [10, 50, 100, 250];
+    // Show hint at milestones
+    const milestones = settings?.get('supportHintMilestones') ?? [10, 50, 100, 250]; 
     if (!milestones.includes(useCount)) return;
     
-    // Don't show more than once per 30 days
+    // Don't show more than once per X days
     const lastShown = context.globalState.get('aiduino.lastSupportHint', 0);
     const daysSinceLastHint = (Date.now() - lastShown) / (1000 * 60 * 60 * 24);
-    if (daysSinceLastHint < 30) return;
+    const hintInterval = settings?.get('supportHintInterval') ?? 30;  
+    if (daysSinceLastHint < hintInterval) return; 
     
     // Show the hint
     const vscode = require('vscode');

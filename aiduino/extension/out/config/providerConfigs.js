@@ -58,7 +58,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '091025'; 
+const CONFIG_VERSION = '111025'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -523,6 +523,34 @@ const PROVIDER_CONFIGS = {
         autoDetectUrls: ['http://127.0.0.1:11434', 'http://localhost:11434'],
         httpConfig: {
             endpoint: '/api/chat'
+        },
+        prices: {
+            input: 0.0,
+            output: 0.0
+        }
+    },
+
+    lmstudio: {
+        name: 'LM Studio',
+        icon: '🖥️',
+        color: '#4A90E2',
+        type: 'local',
+        keyFile: '.aiduino-lmstudio-url',
+        keyPrefix: 'http',
+        keyMinLength: 7,
+        apiKeyUrl: 'https://lmstudio.ai',
+        fallback: 'llama-3-8b',
+        autoDetectUrls: ['http://127.0.0.1:1234', 'http://localhost:1234'],
+        preferredModels: [
+            'llama-3',
+            'codestral',
+            'mistral',
+            'phi-3',
+            'qwen',
+            'deepseek'
+        ],
+        httpConfig: {
+            endpoint: '/v1/chat/completions'
         },
         prices: {
             input: 0.0,

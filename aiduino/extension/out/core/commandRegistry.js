@@ -128,6 +128,11 @@ class CommandRegistry {
                 handler: () => uiTools.showAbout(deps.getDependencies()),
                 description: 'About AI.duino'
             },
+            { 
+                name: 'aiduino.openSettings',
+                handler: deps.showSettings,
+                description: 'Open Settings'
+            },
 
             // Inline Completion
            {

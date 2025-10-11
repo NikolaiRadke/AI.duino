@@ -8,7 +8,9 @@
 * Added support support :-)
 * Added sketch files inclusion into features
 * Added error parsing in explain error
-* Addad explain error from cliboard menu call
+* Added explain error from cliboard menu call
+* Added Settings panel with clean uninstall option
+* Added LM Studio support
 * All panel based features now have Webview with Copy&Paste
 * Parallel function loading for faster startup
 * Updated SECURITY.md

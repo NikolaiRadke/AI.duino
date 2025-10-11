@@ -19,7 +19,9 @@
     "changePath": "パスを変更",
     "openChatPanel": "AIチャット",
     "toggleInlineCompletion": "インライン補完",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ クリップボードから",
+    "openSettings": "設定"
   },
   "messages": {
     "welcome": "👋 ようこそ！AI.duino は{0}をサポートしています！",
@@ -51,7 +53,12 @@
     "inlineCompletionActivate": "{0}でインライン補完を有効にしますか？",
     "inlineCompletionWarningCosts": "⚠️ {0}は有料サービスです - 補完ごとにAPIコストが発生します。それでも有効にしますか？",
     "inlineCompletionEnabled": "✓ インライン補完を有効にしました",
-    "inlineCompletionDisabled": "インライン補完を無効にしました"
+    "inlineCompletionDisabled": "インライン補完を無効にしました",
+    "operationAlreadyRunning": "操作が既に実行中です!お待ちください...",
+    "contextAttachedInfo": "🔎 コンテキストが添付されました - 次のメッセージにのみ有効です。再利用するには「🔄 最後のコンテキスト」を使用してください。",
+    "noErrorInClipboard": "クリップボードにエラー情報が見つかりません。Arduino IDEで最初に「エラーメッセージをコピー」をクリックしてください。",
+    "settingsSaved": "設定を保存しました",
+    "settingsReset": "設定をリセットしました"
   },
   "buttons": {
     "chooseModel": "AIモデルを選択",
@@ -87,7 +94,8 @@
     "close": "閉じる",
     "send": "送信",
     "newInput": "新しい入力",
-    "delete": "削除"
+    "delete": "削除",
+    "resetAll": "すべてリセット"
   },
   "descriptions": {
     "improveCodeSelected": "選択したコードを最適化",
@@ -105,7 +113,9 @@
     "askFollowUp": "前の会話を続ける: {0}",
     "noValidContext": "前の会話がありません",
     "editPrompts": "AIプロンプトのカスタマイズと管理",
-    "openChatPanel": "コード統合機能付きAIチャット"
+    "openChatPanel": "コード統合機能付きAIチャット",
+    "explainCopiedError": "クリップボードからエラーを分析",
+    "openSettings": "設定をカスタマイズ"
   },
   "language": {
     "autoDetect": "VS Codeから自動検出",
@@ -141,7 +151,25 @@
     "askAIWithContext": "ユーザーの質問: {0}\n\nコードのコンテキスト:\n```cpp\n{1}\n```\n\n提供されたArduinoコードを考慮して日本語で回答してください。",
     "askFollowUp": "追加質問:",
     "followUpContext": "前の会話のコンテキスト:",
-    "followUpInstruction": "前の会話を考慮して日本語で回答してください。"
+    "followUpInstruction": "前の会話を考慮して日本語で回答してください。",
+    "improveCodeFile": "このArduinoファイル全体を改善してください ({0}):\n\n```cpp\n{1}\n```\n\n最適化:\n- ノンブロッキングコード(delayの代わりにmillis)\n- メモリ効率\n- 読みやすさの向上\n- Arduinoのベストプラクティス\n- 堅牢性",
+    "improveCodeSketch": "このArduinoスケッチのすべてのファイルを改善してください:\n\n{0}\n\nスケッチ全体を最適化:\n- ノンブロッキングコード(delayの代わりにmillis)\n- メモリ効率\n- 読みやすさの向上\n- Arduinoのベストプラクティス\n- 堅牢性\n- ファイル間のクリーンな分離",
+    "addCommentsFile": "このArduinoファイル全体に役立つ日本語のコメントを追加してください ({0}):\n\n```cpp\n{1}\n```\n\nルール:\n- 各重要な行が何をするかを説明\n- 関数とそのパラメータにコメント\n- ハードウェアの相互作用を説明\n- 単一行には//、複数行には/* */を使用\n- コメントは初心者の助けになるように",
+    "addCommentsSketch": "このArduinoスケッチのすべてのファイルに役立つ日本語のコメントを追加してください:\n\n{0}\n\nルール:\n- 各重要な行が何をするかを説明\n- 関数とそのパラメータにコメント\n- ハードウェアの相互作用とファイル間の関係を説明\n- 単一行には//、複数行には/* */を使用\n- コメントは初心者の助けになるように",
+    "explainCodeFile": "このArduinoファイル全体を日本語で説明してください ({0}):\n\n```cpp\n{1}\n```\n\n説明:\n- ファイルが何をするか(主な目的)\n- 重要な関数とそのタスク\n- ハードウェアの相互作用(ピン、センサーなど)\n- アルゴリズムとロジック\n- 特殊機能や重要な詳細",
+    "explainCodeSketch": "このArduinoスケッチのすべてのファイルを日本語で説明してください:\n\n{0}\n\n説明:\n- スケッチ全体が何をするか(主な目的)\n- ファイルがどのように連携するか\n- 各ファイルの重要な関数\n- ハードウェアの相互作用(ピン、センサーなど)\n- ファイル間のデータフロー\n- 特殊機能や重要な詳細",
+    "explainErrorFile": "{1}行目のこのArduinoエラーを説明してください:\n\nエラー: {0}\n\nファイル ({2}):\n```cpp\n{3}\n```\n\n説明:\n- エラーの意味\n- なぜ発生するか\n- 修正方法\n- 修正されたコードを表示",
+    "explainErrorSketch": "{1}行目のこのArduinoエラーを説明してください:\n\nエラー: {0}\n\n完全なスケッチ:\n{2}\n\n説明:\n- エラーの意味\n- なぜ発生するか(他のファイルのコンテキストも含めて)\n- 修正方法\n- 修正されたコードを表示",
+    "analyzeSerialFile": "このシリアル出力を分析してください:\n\n{0}\n\nコードファイル ({1}):\n```cpp\n{2}\n```\n\n発見:\n- 出力の意味\n- 問題があるか\n- どのコードがこの出力を生成するか",
+    "analyzeSerialSketch": "このシリアル出力を分析してください:\n\n{0}\n\n完全なスケッチ:\n{1}\n\n発見:\n- 出力の意味\n- 問題があるか\n- どのコードがこの出力を生成するか",
+    "hardwareDebugFile": "このファイルのハードウェアの問題を分析してください ({0}):\n\n```cpp\n{1}\n```\n\n確認:\n- ピン設定\n- 電気接続\n- タイミングの問題\n- 一般的なハードウェアエラー",
+    "hardwareDebugSketch": "完全なスケッチのハードウェアの問題を分析してください:\n\n{0}\n\n確認:\n- すべてのファイルのピン設定\n- 電気接続\n- タイミングの問題\n- 一般的なハードウェアエラー",
+    "addDebugStatementsFile": "このファイルに役立つデバッグ出力を追加してください ({0}):\n\n```cpp\n{1}\n```\n\nSerial.print()ステートメントを追加:\n- 変数の値を監視\n- プログラムのフローを追跡\n- エラーソースを特定",
+    "addDebugStatementsSketch": "このスケッチに役立つデバッグ出力を追加してください:\n\n{0}\n\nSerial.print()ステートメントを追加:\n- 変数の値を監視\n- プログラムのフローを追跡\n- エラーソースを特定\n- ファイル間の相互作用を理解",
+    "analyzeTimingFile": "このファイルのタイミング問題を分析してください ({0}):\n\n```cpp\n{1}\n```\n\n確認:\n- delay()の使用\n- ブロッキングコード vs. ノンブロッキングコード\n- millis()の実装\n- 競合状態",
+    "analyzeTimingSketch": "完全なスケッチのタイミング問題を分析してください:\n\n{0}\n\n確認:\n- すべてのファイルでのdelay()の使用\n- ブロッキングコード vs. ノンブロッキングコード\n- millis()の実装\n- 競合状態\n- 異なるファイル間のタイミング",
+    "askAIFile": "ユーザーの質問: {0}\n\nコードファイル ({1}):\n```cpp\n{2}\n```\n\n提供されたArduinoコードを考慮して日本語で回答してください。",
+    "askAISketch": "ユーザーの質問: {0}\n\n完全なスケッチ:\n{1}\n\nスケッチ内のすべてのファイルを考慮して日本語で回答してください。"
   },
   "placeholders": {
     "customInstructions": "例：「millis()を使わない」、「Arduino Nano用に最適化」、「エラー処理を追加」",
@@ -248,7 +276,18 @@
     "noChatsYet": "まだチャットがありません",
     "createFirstChat": "最初のチャットを作成しましょう！",
     "chatsOverview": "チャット概要",
-    "messages": "メッセージ"
+    "messages": "メッセージ",
+    "attachFile": "ファイルを添付",
+    "attachContext": "コンテキストを添付",
+    "contextAttached": "コンテキストが添付されました",
+    "clearContext": "コンテキストを削除",
+    "sendSelectedCode": "選択したコードを送信",
+    "filesSent": "ファイルを送信しました",
+    "useLastContext": "再添付",
+    "reuseLastContext": "最後に使用したコンテキストを再利用",
+    "arduinoMode": "Arduino",
+    "generalMode": "一般",
+    "toggleMode": "モードを切り替え"
   },
   "shortcuts": {
     "askFollowUp": "追加質問",
@@ -347,7 +386,52 @@
     "notNow": "今はしない"
   },
   "settings": {
-    "autoUpdateConfigs": "プロバイダー設定の更新を自動的にチェックする"
+    "autoUpdateConfigs": "プロバイダー設定の更新を自動的にチェックする",
+    "title": "設定",
+    "categories": {
+      "aiBehavior": "AIの動作",
+      "performance": "パフォーマンス",
+      "updates": "アップデート",
+      "chat": "チャット",
+      "inlineCompletion": "インライン補完",
+      "advanced": "詳細設定"
+    },
+    "labels": {
+      "temperature": "創造性 (Temperature)",
+      "maxTokensPerRequest": "リクエストごとの最大トークン数",
+      "apiTimeout": "APIタイムアウト (ms)",
+      "apiMaxRetries": "最大再試行回数",
+      "autoUpdateConfigs": "プロバイダー設定の自動更新",
+      "autoCheckExtensionUpdates": "拡張機能の更新を確認",
+      "maxChats": "最大チャット数",
+      "maxMessagesPerChat": "チャットごとの最大メッセージ数",
+      "inlineCompletionDelay": "レート制限遅延 (ms)",
+      "inlineCompletionContextLines": "コンテキスト行数",
+      "inlineCompletionMinCommentLength": "最小コメント長",
+      "inlineCompletionMaxLinesComment": "最大行数 (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "最大行数 (シンプル)",
+      "tokenEstimationMultiplier": "単語係数",
+      "tokenEstimationCodeBlock": "コードブロック係数",
+      "tokenEstimationSpecialChars": "特殊文字係数"
+    },
+    "descriptions": {
+      "temperature": "AIの創造性 (0 = 決定論的, 1 = 創造的)",
+      "maxTokensPerRequest": "AI応答の最大長",
+      "apiTimeout": "APIリクエストのタイムアウト(ミリ秒)",
+      "apiMaxRetries": "エラー時の再試行回数",
+      "autoUpdateConfigs": "プロバイダー設定を自動的に更新",
+      "autoCheckExtensionUpdates": "起動時に拡張機能の更新を確認",
+      "maxChats": "保存される最大チャット数",
+      "maxMessagesPerChat": "チャットごとの最大メッセージ数(古いものは削除されます)",
+      "inlineCompletionDelay": "補完間の遅延",
+      "inlineCompletionContextLines": "カーソル前のコンテキストとしての行数",
+      "inlineCompletionMinCommentLength": "トリガーの最小コメント長",
+      "inlineCompletionMaxLinesComment": "comment-to-codeの最大行数",
+      "inlineCompletionMaxLinesSimple": "シンプル補完の最大行数",
+      "tokenEstimationMultiplier": "単語からトークンへの推定の乗数",
+      "tokenEstimationCodeBlock": "コードブロックの追加トークン",
+      "tokenEstimationSpecialChars": "特殊文字の乗数"
+    }
   },
   "extensionUpdate": {
     "available": "AI.duino Extension アップデート利用可能: {0} → {1}",
@@ -382,17 +466,77 @@
     "noCodeBlocksSuggestion": "上記の分析には改善の提案が含まれています。",
     "targetBoard": "ターゲットボード",
     "codeBadge": "AIコード改善",
-    "improvedCodeTitle": "改善されたコード"
+    "improvedCodeTitle": "改善されたコード",
+    "outputFormatSelection": "重要: 改善されたコードセクション全体を返してください(切り捨てなし)。形式: ```cpp\n...\n```",
+    "outputFormatFile": "重要: 改善された完全なファイルを返してください。形式: ```cpp\n...\n```",
+    "outputFormatSketch": "重要: すべての改善されたファイルをヘッダー付きで返してください。形式:\n```cpp\n// ========== ファイル名.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AIエラー分析",
     "correctedCodeTitle": "修正されたコード"
   },
   "askAI": {
-    "codeSuggestionTitle": "AIコード提案"
+    "codeSuggestionTitle": "AIコード提案",
+    "newCodeContext": "フォローアップ質問用の新しいコードコンテキスト"
   },
   "debugHelp": {
     "debugBadge": "AIデバッグアシスタント",
     "debugSolutionTitle": "デバッグソリューション"
+  },
+  "addComments": {
+    "commentedCode": "コメント付きコード",
+    "customInstructions": "カスタム指示",
+    "outputFormatSelection": "重要: コメント付きのコードセクション全体を返してください。形式: ```cpp\n...\n```",
+    "outputFormatFile": "重要: コメント付きの完全なファイルを返してください。形式: ```cpp\n...\n```",
+    "outputFormatSketch": "重要: すべてのコメント付きファイルをヘッダー付きで返してください。形式:\n```cpp\n// ========== ファイル名.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "コードコンテキストなし",
+    "noContextDesc": "質問のみ",
+    "noContextDetail": "AIにコードファイルは表示されません",
+    "selection": "選択のみ",
+    "currentFile": "現在のファイル",
+    "fullSketch": "プロジェクト全体",
+    "minimalContext": "最小限のコンテキスト",
+    "lines": "行",
+    "files": "ファイル",
+    "selectionDetail": "選択されたコードのみ、追加のコンテキストなし",
+    "currentFileDetailWithSelection": "選択されたコード + ファイルの残りを追加コンテキストとして",
+    "currentFileDetailNoSelection": "完全なファイルをコンテキストとして",
+    "fullSketchDetailWithSelection": "選択されたコード + すべてのファイルを追加コンテキストとして",
+    "fullSketchDetailNoSelection": "プロジェクト内のすべてのファイルをコンテキストとして",
+    "minimalContextDetail": "エラー行の周辺のコードのみ",
+    "selectLevel": "AIがどのくらいのコンテキストを受け取るべきですか?",
+    "additionalContext": "=== 追加コンテキスト ===",
+    "explanation": "次のファイルはプロジェクトの一部であり、理解の助けになります:",
+    "focusReminder": "重要: 選択されたコードに焦点を当て、残りをコンテキストとして使用してください!",
+    "fullFileAsContext": "(コンテキストとしての完全なファイル)"
+  },
+  "support": {
+    "message": "🎉 AI.duinoは既に{0}回あなたを助けました!",
+    "description": "このプロジェクトは無料でオープンソースです。少額の寄付が今後の開発に役立ちます。",
+    "coffee": "☕ コーヒーをおごる",
+    "sponsor": "💙 スポンサーになる",
+    "later": "後で",
+    "noThanks": "今後表示しない",
+    "thanks": "サポートありがとうございます! 💙"
+  },
+  "uninstall": {
+    "button": "AI.duinoをアンインストール",
+    "warning": "⚠️ 警告: これによりAI.duinoが完全に削除されます!",
+    "willDelete": "次のデータが削除されます",
+    "cannotUndo": "この操作は元に戻すことができません!",
+    "uninstall": "アンインストール",
+    "finalWarning": "最後の警告: 本当にすべてのAI.duinoデータを永久に削除しますか?",
+    "yesDelete": "はい、永久に削除します",
+    "removing": "AI.duinoを削除中...",
+    "deleting": "削除中",
+    "clearingSettings": "設定をクリア中...",
+    "success": "✅ AI.duinoが正常にアンインストールされました",
+    "itemsDeleted": "項目が削除されました",
+    "manualStep": "Arduino IDEの[ファイル]→[環境設定]→[拡張機能]で拡張機能を手動で無効化/削除してください",
+    "partialSuccess": "⚠️ 部分的にアンインストールされました",
+    "deleted": "削除済み",
+    "failed": "失敗"
   }
 }

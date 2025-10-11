@@ -146,6 +146,11 @@
         "title": "Toggle Inline Completion",
         "category": "AI.duino",
         "icon": "$(wand)"
+      },
+      {
+        "command": "aiduino.openSettings",
+        "title": "Open Settings",
+        "category": "AI.duino"
       }
     ],
     "keybindings": [
@@ -178,6 +183,12 @@
         "key": "ctrl+shift+e",
         "mac": "cmd+shift+e",
         "when": "editorTextFocus && resourceExtname == .ino"
+      },
+      {
+        "command": "aiduino.openSettings",
+        "key": "ctrl+shift+,",
+        "mac": "cmd+shift+,",
+        "when": "editorTextFocus"
       }
     ],
     "menus": {
@@ -207,11 +218,6 @@
     "configuration": {
       "title": "AI.duino",
       "properties": {
-        "aiduino.autoDetectErrors": {
-          "type": "boolean",
-          "default": true,
-          "description": "Automatically detect compiler errors"
-        },
         "aiduino.defaultModel": {
           "type": "string",
           "default": "claude",

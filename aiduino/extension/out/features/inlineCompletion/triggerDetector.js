@@ -29,19 +29,24 @@ function shouldTriggerCompletion(document, position, context) {
         return { shouldTrigger: false };
     }
 
-    return detectSmartTrigger(document, position, textBeforeCursor);
+    return detectSmartTrigger(document, position, textBeforeCursor, context);  // ← context hinzufügen
 }
 
 /**
  * Detect smart trigger points
  */
-function detectSmartTrigger(document, position, textBeforeCursor) {
+/**
+ * Detect smart trigger points
+ */
+function detectSmartTrigger(document, position, textBeforeCursor, context) {
+    const { settings } = context;
     const trimmed = textBeforeCursor.trim();
+    const minLength = settings?.get('inlineCompletionMinCommentLength') ?? 4;
 
    // 1. After comment ending with : (generate code from comment)
     if (trimmed.startsWith('//')) {
         // Only trigger if comment ends with colon
-        if (trimmed.endsWith(':') && trimmed.length > 4) {
+        if (trimmed.endsWith(':') && trimmed.length > minLength) {
             return {
                 shouldTrigger: true,
                 triggerType: 'comment',
@@ -178,11 +183,13 @@ function isInsideFunctionBody(document, position) {
  * Extract context around cursor position
  */
 function extractContext(document, position, triggerResult, context) {
+    const { settings } = context;  
     const currentLine = document.lineAt(position.line).text;
     const previousLines = [];
     
-    // Get previous 10 lines for context
-    const startLine = Math.max(0, position.line - 10);
+    // Get previous N lines for context
+    const contextLines = settings?.get('inlineCompletionContextLines') ?? 10;  
+    const startLine = Math.max(0, position.line - contextLines); 
     for (let i = startLine; i < position.line; i++) {
         previousLines.push(document.lineAt(i).text);
     }

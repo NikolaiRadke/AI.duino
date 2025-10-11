@@ -13,7 +13,6 @@ const os = require('os');
 
 // Configuration
 const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
-const UPDATE_CHECK_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours
 const USER_CONFIG_FILE = path.join(AIDUINO_DIR, '.aiduino-provider-configs.js');
 const BACKUP_SUFFIX = '.backup';
 
@@ -243,15 +242,19 @@ function validateConfigContent(configContent) {
  * @param {Object} context - Extension context
  */
 function setupAutoUpdates(context) {
-    // Initial check after extension startup (like Arduino IDE)
+    const { settings } = context; 
+    const updateCheckDelay = settings?.get('updateCheckDelay') ?? 3000;
+    const updateCheckInterval = settings?.get('updateCheckInterval') ?? 86400000;
+    
+    // Initial check after extension startup
     setTimeout(async () => {
         await checkConfigUpdates(context);
-    }, 3000);
+    }, updateCheckDelay);  
     
-    // Periodic checks (daily)
+    // Periodic checks
     const interval = setInterval(async () => {
         await checkConfigUpdates(context);
-    }, UPDATE_CHECK_INTERVAL);
+    }, updateCheckInterval);  
     
     // Store interval for cleanup
     if (context.globalContext && context.globalContext.subscriptions) {

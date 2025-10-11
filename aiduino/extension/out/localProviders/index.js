@@ -4,7 +4,9 @@
  */
 
 const claudeCode = require('./processProviders/claudeCode');
+const codexCli = require('./processProviders/codexCli'); 
 const ollama = require('./httpProviders/ollama');
+const lmstudio = require('./httpProviders/lmstudio');  
 
 /**
  * Get HTTP provider handler
@@ -14,7 +16,7 @@ const ollama = require('./httpProviders/ollama');
 function getHttpProvider(providerName) {
     const providers = {
         'Ollama': ollama,
-        // Future HTTP providers go here
+        'LM Studio': lmstudio,
     };
     
     return providers[providerName] || null;
@@ -28,7 +30,7 @@ function getHttpProvider(providerName) {
 function getProcessProvider(providerName) {
     const providers = {
         'Claude Code': claudeCode,
-        'Codex CLI': require('./processProviders/codexCli'), 
+        Codex CLI': codexCli,
     };
     
     return providers[providerName] || null;

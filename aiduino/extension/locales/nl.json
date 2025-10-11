@@ -19,7 +19,9 @@
     "changePath": "Pad wijzigen",
     "openChatPanel": "AI Chat",
     "toggleInlineCompletion": "Inline aanvulling",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ van klembord",
+    "openSettings": "Instellingen"
   },
   "messages": {
     "welcome": "👋 Welkom! AI.duino  ondersteunt {0}!",
@@ -54,7 +56,12 @@
     "inlineCompletionActivate": "Inline aanvulling activeren met {0}?",
     "inlineCompletionWarningCosts": "⚠️ {0} is een betaalde dienst - elke aanvulling veroorzaakt API-kosten. Toch activeren?",
     "inlineCompletionEnabled": "✓ Inline aanvulling geactiveerd",
-    "inlineCompletionDisabled": "Inline aanvulling gedeactiveerd"
+    "inlineCompletionDisabled": "Inline aanvulling gedeactiveerd",
+    "operationAlreadyRunning": "Bewerking al aan de gang! Even geduld...",
+    "contextAttachedInfo": "🔎 Context bijgevoegd - geldig alleen voor het volgende bericht. Gebruik '🔄 Laatste context' om opnieuw te gebruiken.",
+    "noErrorInClipboard": "Geen foutinformatie gevonden in klembord. Klik eerst op 'Foutmelding kopiëren' in Arduino IDE.",
+    "settingsSaved": "Instellingen opgeslagen",
+    "settingsReset": "Instellingen hersteld"
   },
   "buttons": {
     "chooseModel": "AI-model kiezen",
@@ -90,7 +97,8 @@
     "close": "Sluiten",
     "send": "Verzenden",
     "newInput": "Nieuwe invoer",
-    "delete": "Verwijderen"
+    "delete": "Verwijderen",
+    "resetAll": "Alles herstellen"
   },
   "descriptions": {
     "improveCodeSelected": "Geselecteerde code optimaliseren",
@@ -108,7 +116,9 @@
     "askFollowUp": "Vorig gesprek voortzetten: {0}",
     "noValidContext": "Geen vorig gesprek",
     "editPrompts": "AI-prompts aanpassen en beheren",
-    "openChatPanel": "AI-chat met code-integratie"
+    "openChatPanel": "AI-chat met code-integratie",
+    "explainCopiedError": "Analyseer fout van klembord",
+    "openSettings": "Pas instellingen aan"
   },
   "language": {
     "autoDetect": "Automatisch detecteren vanuit VS Code",
@@ -144,7 +154,25 @@
     "askAIWithContext": "Gebruikersvraag: {0}\n\nCode context:\n```cpp\n{1}\n```\n\nAntwoord in het Nederlands rekening houdend met de verstrekte Arduino code.",
     "askFollowUp": "Vervolgvraag:",
     "followUpContext": "Context van vorig gesprek:",
-    "followUpInstruction": "Antwoord in het Nederlands rekening houdend met het vorige gesprek."
+    "followUpInstruction": "Antwoord in het Nederlands rekening houdend met het vorige gesprek.",
+    "improveCodeFile": "Verbeter dit complete Arduino-bestand ({0}):\n\n```cpp\n{1}\n```\n\nOptimaliseer voor:\n- Niet-blokkerende code (millis in plaats van delay)\n- Geheugenefficiëntie\n- Betere leesbaarheid\n- Arduino best practices\n- Robuustheid",
+    "improveCodeSketch": "Verbeter alle bestanden in deze Arduino-sketch:\n\n{0}\n\nOptimaliseer de hele sketch voor:\n- Niet-blokkerende code (millis in plaats van delay)\n- Geheugenefficiëntie\n- Betere leesbaarheid\n- Arduino best practices\n- Robuustheid\n- Duidelijke scheiding tussen bestanden",
+    "addCommentsFile": "Voeg nuttige Nederlandse commentaren toe aan dit complete Arduino-bestand ({0}):\n\n```cpp\n{1}\n```\n\nRegels:\n- Leg uit wat elke belangrijke regel doet\n- Commentaar bij functies en hun parameters\n- Leg hardware-interacties uit\n- Gebruik // voor enkele regels en /* */ voor meerdere regels\n- Commentaren moeten beginners helpen",
+    "addCommentsSketch": "Voeg nuttige Nederlandse commentaren toe aan alle bestanden in deze Arduino-sketch:\n\n{0}\n\nRegels:\n- Leg uit wat elke belangrijke regel doet\n- Commentaar bij functies en hun parameters\n- Leg hardware-interacties en relaties tussen bestanden uit\n- Gebruik // voor enkele regels en /* */ voor meerdere regels\n- Commentaren moeten beginners helpen",
+    "explainCodeFile": "Leg dit complete Arduino-bestand uit in het Nederlands ({0}):\n\n```cpp\n{1}\n```\n\nLeg uit:\n- Wat het bestand doet (hoofddoel)\n- Belangrijke functies en hun taken\n- Hardware-interacties (pins, sensoren, etc.)\n- Algoritmen en logica\n- Speciale functies of belangrijke details",
+    "explainCodeSketch": "Leg alle bestanden in deze Arduino-sketch uit in het Nederlands:\n\n{0}\n\nLeg uit:\n- Wat de hele sketch doet (hoofddoel)\n- Hoe de bestanden samenwerken\n- Belangrijke functies in elk bestand\n- Hardware-interacties (pins, sensoren, etc.)\n- Gegevensstroom tussen de bestanden\n- Speciale functies of belangrijke details",
+    "explainErrorFile": "Leg deze Arduino-fout uit op regel {1}:\n\nFout: {0}\n\nBestand ({2}):\n```cpp\n{3}\n```\n\nLeg uit:\n- Wat de fout betekent\n- Waarom het optreedt\n- Hoe het te verhelpen\n- Toon de gecorrigeerde code",
+    "explainErrorSketch": "Leg deze Arduino-fout uit op regel {1}:\n\nFout: {0}\n\nComplete sketch:\n{2}\n\nLeg uit:\n- Wat de fout betekent\n- Waarom het optreedt (ook in de context van andere bestanden)\n- Hoe het te verhelpen\n- Toon de gecorrigeerde code",
+    "analyzeSerialFile": "Analyseer deze seriële uitvoer:\n\n{0}\n\nCodebestand ({1}):\n```cpp\n{2}\n```\n\nOntdek:\n- Wat de uitvoer betekent\n- Of er problemen zijn\n- Welke code deze uitvoer genereert",
+    "analyzeSerialSketch": "Analyseer deze seriële uitvoer:\n\n{0}\n\nComplete sketch:\n{1}\n\nOntdek:\n- Wat de uitvoer betekent\n- Of er problemen zijn\n- Welke code deze uitvoer genereert",
+    "hardwareDebugFile": "Analyseer hardwareproblemen in dit bestand ({0}):\n\n```cpp\n{1}\n```\n\nControleer:\n- Pin-configuraties\n- Elektrische verbindingen\n- Timingproblemen\n- Veelvoorkomende hardwarefouten",
+    "hardwareDebugSketch": "Analyseer hardwareproblemen in de complete sketch:\n\n{0}\n\nControleer:\n- Pin-configuraties over alle bestanden\n- Elektrische verbindingen\n- Timingproblemen\n- Veelvoorkomende hardwarefouten",
+    "addDebugStatementsFile": "Voeg nuttige debug-uitvoer toe aan dit bestand ({0}):\n\n```cpp\n{1}\n```\n\nVoeg Serial.print()-instructies toe om:\n- Variabele waarden te monitoren\n- Programmaverloop te traceren\n- Foutbronnen in te perken",
+    "addDebugStatementsSketch": "Voeg nuttige debug-uitvoer toe aan deze sketch:\n\n{0}\n\nVoeg Serial.print()-instructies toe om:\n- Variabele waarden te monitoren\n- Programmaverloop te traceren\n- Foutbronnen in te perken\n- Interacties tussen bestanden te begrijpen",
+    "analyzeTimingFile": "Analyseer timingproblemen in dit bestand ({0}):\n\n```cpp\n{1}\n```\n\nControleer:\n- Gebruik van delay()\n- Blokkerende vs. niet-blokkerende code\n- millis() implementatie\n- Race conditions",
+    "analyzeTimingSketch": "Analyseer timingproblemen in de complete sketch:\n\n{0}\n\nControleer:\n- Gebruik van delay() over alle bestanden\n- Blokkerende vs. niet-blokkerende code\n- millis() implementatie\n- Race conditions\n- Timing tussen verschillende bestanden",
+    "askAIFile": "Gebruikersvraag: {0}\n\nCodebestand ({1}):\n```cpp\n{2}\n```\n\nBeantwoord in het Nederlands met inachtneming van de verstrekte Arduino-code.",
+    "askAISketch": "Gebruikersvraag: {0}\n\nComplete sketch:\n{1}\n\nBeantwoord in het Nederlands met inachtneming van alle bestanden in de sketch."
   },
   "placeholders": {
     "customInstructions": "bijv. \"gebruik geen millis()\", \"optimaliseer voor Arduino Nano\", \"voeg foutafhandeling toe\"",
@@ -252,7 +280,18 @@
     "noChatsYet": "Nog geen chats",
     "createFirstChat": "Maak je eerste chat!",
     "chatsOverview": "Chat-overzicht",
-    "messages": "Berichten"
+    "messages": "Berichten",
+    "attachFile": "Bestand bijvoegen",
+    "attachContext": "Context bijvoegen",
+    "contextAttached": "Context bijgevoegd",
+    "clearContext": "Context verwijderen",
+    "sendSelectedCode": "Geselecteerde code verzenden",
+    "filesSent": "Bestanden verzonden",
+    "useLastContext": "Opnieuw bijvoegen",
+    "reuseLastContext": "Laatst gebruikte context hergebruiken",
+    "arduinoMode": "Arduino",
+    "generalMode": "Algemeen",
+    "toggleMode": "Modus wisselen"
   },
   "shortcuts": {
     "askFollowUp": "Vervolgvraag",
@@ -351,7 +390,52 @@
     "notNow": "Niet nu"
   },
   "settings": {
-    "autoUpdateConfigs": "Automatisch controleren op provider configuratie updates"
+    "autoUpdateConfigs": "Automatisch controleren op provider configuratie updates",
+    "title": "Instellingen",
+    "categories": {
+      "aiBehavior": "AI-gedrag",
+      "performance": "Prestaties",
+      "updates": "Updates",
+      "chat": "Chat",
+      "inlineCompletion": "Inline-aanvulling",
+      "advanced": "Geavanceerd"
+    },
+    "labels": {
+      "temperature": "Creativiteit (Temperature)",
+      "maxTokensPerRequest": "Max. tokens per verzoek",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Max. herhaalpogingen",
+      "autoUpdateConfigs": "Auto-update provider configuraties",
+      "autoCheckExtensionUpdates": "Controleer extensie-updates",
+      "maxChats": "Maximaal aantal chats",
+      "maxMessagesPerChat": "Max. berichten per chat",
+      "inlineCompletionDelay": "Rate limit vertraging (ms)",
+      "inlineCompletionContextLines": "Context regels",
+      "inlineCompletionMinCommentLength": "Min. commentaarlengte",
+      "inlineCompletionMaxLinesComment": "Max. regels (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Max. regels (Eenvoudig)",
+      "tokenEstimationMultiplier": "Woordfactor",
+      "tokenEstimationCodeBlock": "Codeblok factor",
+      "tokenEstimationSpecialChars": "Speciale tekens factor"
+    },
+    "descriptions": {
+      "temperature": "AI-creativiteit (0 = deterministisch, 1 = creatief)",
+      "maxTokensPerRequest": "Maximale lengte van AI-antwoorden",
+      "apiTimeout": "Timeout voor API-verzoeken in milliseconden",
+      "apiMaxRetries": "Aantal herhaalpogingen bij fout",
+      "autoUpdateConfigs": "Update provider configuraties automatisch",
+      "autoCheckExtensionUpdates": "Controleer extensie-updates bij opstarten",
+      "maxChats": "Maximaal aantal opgeslagen chats",
+      "maxMessagesPerChat": "Maximaal aantal berichten per chat (oudere worden verwijderd)",
+      "inlineCompletionDelay": "Vertraging tussen aanvullingen",
+      "inlineCompletionContextLines": "Aantal regels voor cursor als context",
+      "inlineCompletionMinCommentLength": "Minimale commentaarlengte voor activering",
+      "inlineCompletionMaxLinesComment": "Maximaal aantal regels voor comment-to-code",
+      "inlineCompletionMaxLinesSimple": "Maximaal aantal regels voor eenvoudige aanvullingen",
+      "tokenEstimationMultiplier": "Vermenigvuldiger voor woord-naar-token schatting",
+      "tokenEstimationCodeBlock": "Extra tokens voor codeblokken",
+      "tokenEstimationSpecialChars": "Vermenigvuldiger voor speciale tekens"
+    }
   },
   "extensionUpdate": {
     "available": "AI.duino Extension update beschikbaar: {0} → {1}",
@@ -386,17 +470,77 @@
     "noCodeBlocksSuggestion": "De analyse hierboven bevat de verbeteringssuggesties.",
     "targetBoard": "Doelbord",
     "codeBadge": "AI-codeverbetering",
-    "improvedCodeTitle": "Verbeterde code"
+    "improvedCodeTitle": "Verbeterde code",
+    "outputFormatSelection": "BELANGRIJK: Geef het complete verbeterde codesectie terug (niet ingekort). Formaat: ```cpp\n...\n```",
+    "outputFormatFile": "BELANGRIJK: Geef het complete verbeterde bestand terug. Formaat: ```cpp\n...\n```",
+    "outputFormatSketch": "BELANGRIJK: Geef alle verbeterde bestanden terug, elk met koptekst. Formaat:\n```cpp\n// ========== Bestandsnaam.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI-foutanalyse",
     "correctedCodeTitle": "Gecorrigeerde code"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI-codesuggestie"
+    "codeSuggestionTitle": "AI-codesuggestie",
+    "newCodeContext": "Nieuwe code context voor vervolgvraag"
   },
   "debugHelp": {
     "debugBadge": "AI-debug-assistent",
     "debugSolutionTitle": "Debug-oplossing"
+  },
+  "addComments": {
+    "commentedCode": "Code met commentaar",
+    "customInstructions": "Aangepaste instructies",
+    "outputFormatSelection": "BELANGRIJK: Geef het complete codesectie met commentaar terug. Formaat: ```cpp\n...\n```",
+    "outputFormatFile": "BELANGRIJK: Geef het complete bestand met commentaar terug. Formaat: ```cpp\n...\n```",
+    "outputFormatSketch": "BELANGRIJK: Geef alle bestanden met commentaar terug, elk met koptekst. Formaat:\n```cpp\n// ========== Bestandsnaam.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Zonder code context",
+    "noContextDesc": "Alleen de vraag",
+    "noContextDetail": "Geen codebestanden worden aan AI getoond",
+    "selection": "Alleen selectie",
+    "currentFile": "Huidig bestand",
+    "fullSketch": "Volledig project",
+    "minimalContext": "Minimale context",
+    "lines": "Regels",
+    "files": "Bestanden",
+    "selectionDetail": "Alleen de geselecteerde code, zonder extra context",
+    "currentFileDetailWithSelection": "Geselecteerde code + rest van bestand als extra context",
+    "currentFileDetailNoSelection": "Het complete bestand als context",
+    "fullSketchDetailWithSelection": "Geselecteerde code + alle bestanden als extra context",
+    "fullSketchDetailNoSelection": "Alle bestanden in het project als context",
+    "minimalContextDetail": "Alleen code rond de foutregel",
+    "selectLevel": "Hoeveel context moet de AI ontvangen?",
+    "additionalContext": "=== EXTRA CONTEXT ===",
+    "explanation": "De volgende bestanden maken deel uit van het project en helpen met begrip:",
+    "focusReminder": "BELANGRIJK: Focus op de geselecteerde code, gebruik de rest als context!",
+    "fullFileAsContext": "(Volledig bestand als context)"
+  },
+  "support": {
+    "message": "🎉 AI.duino heeft je al {0} keer geholpen!",
+    "description": "Dit project is gratis en open source. Een kleine donatie helpt bij toekomstige ontwikkeling.",
+    "coffee": "☕ Trakteer op een koffie",
+    "sponsor": "💙 Word sponsor",
+    "later": "Later",
+    "noThanks": "Niet meer tonen",
+    "thanks": "Bedankt voor je steun! 💙"
+  },
+  "uninstall": {
+    "button": "AI.duino verwijderen",
+    "warning": "⚠️ WAARSCHUWING: Dit zal AI.duino volledig verwijderen!",
+    "willDelete": "De volgende gegevens worden verwijderd",
+    "cannotUndo": "Deze actie kan NIET ongedaan worden gemaakt!",
+    "uninstall": "Verwijderen",
+    "finalWarning": "Laatste waarschuwing: Echt alle AI.duino gegevens permanent verwijderen?",
+    "yesDelete": "Ja, permanent verwijderen",
+    "removing": "AI.duino wordt verwijderd...",
+    "deleting": "Verwijderen",
+    "clearingSettings": "Instellingen wissen...",
+    "success": "✅ AI.duino succesvol verwijderd",
+    "itemsDeleted": "items verwijderd",
+    "manualStep": "Schakel de extensie handmatig uit/verwijder deze in Arduino IDE onder Bestand → Voorkeuren → Extensies",
+    "partialSuccess": "⚠️ Gedeeltelijk verwijderd",
+    "deleted": "Verwijderd",
+    "failed": "Mislukt"
   }
 }

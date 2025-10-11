@@ -51,9 +51,11 @@ const { StatusBarManager } = require('./utils/statusBarManager');
 const { PromptHistoryManager } = require('./utils/promptHistory');
 const { buildMenuItems } = require('./utils/menuBuilder');
 const { disposeCache } = require('./features/inlineCompletion/completionCache');
+const { showSettings } = require('./utils/panels/settingsPanel');
 
 // Configuration modules
 const { LANGUAGE_METADATA, getLanguageInfo } = require('./config/languageMetadata');
+const { SettingsManager } = require('./config/settings');
 
 // ===== CONSTANTS =====
 const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
@@ -81,7 +83,8 @@ let quickMenuTreeProvider;
 let executionStates;
 let eventManager;
 let promptHistory;
-const apiClient = new UnifiedAPIClient();
+let settingsManager;
+let apiClient; 
 
 // Single instance of model manager
 let configData;
@@ -411,10 +414,15 @@ function estimateTokens(text) {
     const codeBlocks = (text.match(/```/g) || []).length / 2;
     const specialChars = (text.match(/[{}()\[\];,.<>]/g) || []).length;
     
+    // Get estimation factors from settings
+    const multiplier = settingsManager?.get('tokenEstimationMultiplier') ?? 0.75;
+    const codeBlockFactor = settingsManager?.get('tokenEstimationCodeBlock') ?? 10;
+    const specialCharFactor = settingsManager?.get('tokenEstimationSpecialChars') ?? 0.2;
+    
     // Base: ~0.75 words per token (more accurate than character count)
-    let tokens = words * 0.75;
-    tokens += codeBlocks * 10;   // Code blocks need more tokens
-    tokens += specialChars * 0.2; // Syntax characters
+    let tokens = words * multiplier;
+    tokens += codeBlocks * codeBlockFactor;
+    tokens += specialChars * specialCharFactor;
     
     return Math.ceil(tokens);
 }
@@ -484,21 +492,31 @@ async function checkForErrors(silent = true) {
  * 
  * @param {vscode.ExtensionContext} context - VS Code extension context
  */
-async function activate(context) {
-    // Initialize config and model manager first
-    configData = configUpdater.loadProviderConfigs();
-    const { REMOTE_CONFIG_URL: remoteUrl } = require('./config/providerConfigs');
-    REMOTE_CONFIG_URL = remoteUrl;
-    minimalModelManager = new MinimalModelManager(configData.providers);
-    
+async function activate(context) {        
     // Ensure clean state on activation
     if (globalContext) {
         // Extension was somehow already active - cleanup first
         deactivate();
-    }    
+    }  
+
+    // Store context globally
+    globalContext = context;
+    settingsManager = new SettingsManager(context);
+    apiClient = new UnifiedAPIClient({ settings: settingsManager }); 
+
+    // Generate AI.duino folder and migrate files
+    if (!fs.existsSync(AIDUINO_DIR)) {
+        fs.mkdirSync(AIDUINO_DIR, { mode: 0o700 });
+        fileManager.migrateOldFiles(AIDUINO_DIR);
+    }
+    // Initialize config and model manager first
+    configData = configUpdater.loadProviderConfigs();
+    const { REMOTE_CONFIG_URL: remoteUrl } = require('./config/providerConfigs');
+    REMOTE_CONFIG_URL = remoteUrl;
+    minimalModelManager = new MinimalModelManager(configData.providers);  
 
     // Initialize EventManager FIRST - before anything else
-    eventManager = new EventManager();
+    eventManager = new EventManager({ settings: settingsManager });
     eventManager.initialize({
         updateStatusBar: () => statusBarManager.updateFromContext(getDependencies()),
         onConfigChange: () => {}
@@ -506,12 +524,6 @@ async function activate(context) {
 
     // Initialize Locale Utils first
     localeUtils = new LocaleUtils();
-
-    // Generate AI.duino folder and migrate files
-    if (!fs.existsSync(AIDUINO_DIR)) {
-        fs.mkdirSync(AIDUINO_DIR, { mode: 0o700 });
-        fileManager.migrateOldFiles(AIDUINO_DIR);
-    }
     
     // Async loading
     await Promise.all([
@@ -533,9 +545,6 @@ async function activate(context) {
 
     // Initialize Prompt History Manager
     promptHistory = new PromptHistoryManager();
-
-    // Store context globally
-    globalContext = context;
     
     // Load token statistics
     loadTokenUsage();
@@ -565,9 +574,11 @@ async function activate(context) {
     }, 3000);
 
     // Check for extension updates
-    setTimeout(() => {
-        checkExtensionUpdate(EXTENSION_VERSION, t);
-    }, 5000);
+    if (settingsManager.get('autoCheckExtensionUpdates')) {
+        setTimeout(() => {
+            checkExtensionUpdate(EXTENSION_VERSION, t);
+        }, 5000);
+    }
 
     // Register all commands
     registerCommands(context);
@@ -607,6 +618,7 @@ function registerCommands(context) {
         setApiKey: () => apiManager.setApiKey(getDependencies()),
         switchLanguage,
         clearAIContext,
+        showSettings: () => showSettings(getDependencies()),
         
         // Feature modules  
         explainCodeFeature,
@@ -646,6 +658,7 @@ function getDependencies() {
         currentModel,
         currentLocale,
         globalContext,
+        settings: settingsManager, 
         EXTENSION_VERSION,
         REMOTE_CONFIG_URL,
         

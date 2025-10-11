@@ -37,7 +37,7 @@ async function showChatPanel(context) {
     }
     
     // Initialize ChatHistoryManager
-    historyManager = new ChatHistoryManager();
+    historyManager = new ChatHistoryManager(context.settings);
     
     // Start with overview
     currentView = 'overview';
@@ -425,7 +425,7 @@ function updatePanelContent(panel, context) {
  * Generate overview page HTML
  */
 function generateOverviewHTML(allChats, minimalModelManager, hasApiKey, t) {
-    const canCreateNew = allChats.length < 10;
+    const canCreateNew = historyManager.canCreateNewChat();
     
     // Generate chat cards
     let chatsHTML = '';

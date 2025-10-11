@@ -19,7 +19,9 @@
     "changePath": "Ändra sökväg",
     "openChatPanel": "AI Chat",
     "toggleInlineCompletion": "Inline-komplettering",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ från urklipp",
+    "openSettings": "Inställningar"
   },
   "messages": {
     "welcome": "👋 Välkommen! AI.duino  stöder {0}!",
@@ -54,7 +56,12 @@
     "inlineCompletionActivate": "Aktivera inline-komplettering med {0}?",
     "inlineCompletionWarningCosts": "⚠️ {0} är en betaltjänst - varje komplettering medför API-kostnader. Aktivera ändå?",
     "inlineCompletionEnabled": "✓ Inline-komplettering aktiverad",
-    "inlineCompletionDisabled": "Inline-komplettering inaktiverad"
+    "inlineCompletionDisabled": "Inline-komplettering inaktiverad",
+    "operationAlreadyRunning": "Operation pågår redan! Vänligen vänta...",
+    "contextAttachedInfo": "🔎 Kontext bifogad - gäller endast för nästa meddelande. Använd '🔄 Senaste kontext' för att återanvända.",
+    "noErrorInClipboard": "Ingen felinformation hittades i urklipp. Klicka först på 'Kopiera felmeddelande' i Arduino IDE.",
+    "settingsSaved": "Inställningar sparade",
+    "settingsReset": "Inställningar återställda"
   },
   "buttons": {
     "chooseModel": "Välj AI-modell",
@@ -90,7 +97,8 @@
     "close": "Stäng",
     "send": "Skicka",
     "newInput": "Ny inmatning",
-    "delete": "Ta bort"
+    "delete": "Ta bort",
+    "resetAll": "Återställ allt"
   },
   "descriptions": {
     "improveCodeSelected": "Optimera vald kod",
@@ -108,7 +116,9 @@
     "askFollowUp": "Fortsätt föregående konversation: {0}",
     "noValidContext": "Ingen föregående konversation",
     "editPrompts": "Anpassa och hantera AI-prompter",
-    "openChatPanel": "AI-chatt med kodintegrering"
+    "openChatPanel": "AI-chatt med kodintegrering",
+    "explainCopiedError": "Analysera fel från urklipp",
+    "openSettings": "Anpassa inställningar"
   },
   "language": {
     "autoDetect": "Upptäck automatiskt från VS Code",
@@ -144,7 +154,25 @@
     "askAIWithContext": "Användarfråga: {0}\n\nKodkontext:\n```cpp\n{1}\n```\n\nSvara på svenska med hänsyn till den tillhandahållna Arduino-koden.",
     "askFollowUp": "Följdfråga:",
     "followUpContext": "Kontext från föregående konversation:",
-    "followUpInstruction": "Svara på svenska med hänsyn till föregående konversation."
+    "followUpInstruction": "Svara på svenska med hänsyn till föregående konversation.",
+    "improveCodeFile": "Förbättra denna kompletta Arduino-fil ({0}):\n\n```cpp\n{1}\n```\n\nOptimera för:\n- Icke-blockerande kod (millis istället för delay)\n- Minneseffektivitet\n- Bättre läsbarhet\n- Arduino bästa praxis\n- Robusthet",
+    "improveCodeSketch": "Förbättra alla filer i denna Arduino-sketch:\n\n{0}\n\nOptimera hela sketchen för:\n- Icke-blockerande kod (millis istället för delay)\n- Minneseffektivitet\n- Bättre läsbarhet\n- Arduino bästa praxis\n- Robusthet\n- Ren separation mellan filer",
+    "addCommentsFile": "Lägg till hjälpsamma kommentarer på svenska till denna kompletta Arduino-fil ({0}):\n\n```cpp\n{1}\n```\n\nRegler:\n- Förklara vad varje viktig rad gör\n- Kommentera funktioner och deras parametrar\n- Förklara hårdvaruinteraktioner\n- Använd // för enradskommentarer och /* */ för flerradskommentarer\n- Kommentarer ska hjälpa nybörjare",
+    "addCommentsSketch": "Lägg till hjälpsamma kommentarer på svenska till alla filer i denna Arduino-sketch:\n\n{0}\n\nRegler:\n- Förklara vad varje viktig rad gör\n- Kommentera funktioner och deras parametrar\n- Förklara hårdvaruinteraktioner och relationer mellan filer\n- Använd // för enradskommentarer och /* */ för flerradskommentarer\n- Kommentarer ska hjälpa nybörjare",
+    "explainCodeFile": "Förklara denna kompletta Arduino-fil ({0}) på svenska:\n\n```cpp\n{1}\n```\n\nFörklara:\n- Vad filen gör (huvudsyfte)\n- Viktiga funktioner och deras uppgifter\n- Hårdvaruinteraktioner (pins, sensorer, etc.)\n- Algoritmer och logik\n- Speciella funktioner eller viktiga detaljer",
+    "explainCodeSketch": "Förklara alla filer i denna Arduino-sketch på svenska:\n\n{0}\n\nFörklara:\n- Vad hela sketchen gör (huvudsyfte)\n- Hur filerna arbetar tillsammans\n- Viktiga funktioner i varje fil\n- Hårdvaruinteraktioner (pins, sensorer, etc.)\n- Dataflöde mellan filerna\n- Speciella funktioner eller viktiga detaljer",
+    "explainErrorFile": "Förklara detta Arduino-fel på rad {1}:\n\nFel: {0}\n\nFil ({2}):\n```cpp\n{3}\n```\n\nFörklara:\n- Vad felet betyder\n- Varför det uppstår\n- Hur man åtgärdar det\n- Visa korrigerad kod",
+    "explainErrorSketch": "Förklara detta Arduino-fel på rad {1}:\n\nFel: {0}\n\nKomplett sketch:\n{2}\n\nFörklara:\n- Vad felet betyder\n- Varför det uppstår (även i samband med andra filer)\n- Hur man åtgärdar det\n- Visa korrigerad kod",
+    "analyzeSerialFile": "Analysera denna serieutdata:\n\n{0}\n\nKodfil ({1}):\n```cpp\n{2}\n```\n\nTa reda på:\n- Vad utdata betyder\n- Om det finns problem\n- Vilken kod som genererar denna utdata",
+    "analyzeSerialSketch": "Analysera denna serieutdata:\n\n{0}\n\nKomplett sketch:\n{1}\n\nTa reda på:\n- Vad utdata betyder\n- Om det finns problem\n- Vilken kod som genererar denna utdata",
+    "hardwareDebugFile": "Analysera hårdvaruproblem i denna fil ({0}):\n\n```cpp\n{1}\n```\n\nKontrollera:\n- Pin-konfigurationer\n- Elektriska anslutningar\n- Timingproblem\n- Vanliga hårdvarufel",
+    "hardwareDebugSketch": "Analysera hårdvaruproblem i kompletta sketchen:\n\n{0}\n\nKontrollera:\n- Pin-konfigurationer över alla filer\n- Elektriska anslutningar\n- Timingproblem\n- Vanliga hårdvarufel",
+    "addDebugStatementsFile": "Lägg till hjälpsamma debugutskrifter till denna fil ({0}):\n\n```cpp\n{1}\n```\n\nLägg till Serial.print()-instruktioner för att:\n- Övervaka variabelvärden\n- Spåra programflöde\n- Begränsa felkällor",
+    "addDebugStatementsSketch": "Lägg till hjälpsamma debugutskrifter till denna sketch:\n\n{0}\n\nLägg till Serial.print()-instruktioner för att:\n- Övervaka variabelvärden\n- Spåra programflöde\n- Begränsa felkällor\n- Förstå interaktioner mellan filer",
+    "analyzeTimingFile": "Analysera timingproblem i denna fil ({0}):\n\n```cpp\n{1}\n```\n\nKontrollera:\n- Användning av delay()\n- Blockerande vs. icke-blockerande kod\n- millis() implementation\n- Race conditions",
+    "analyzeTimingSketch": "Analysera timingproblem i kompletta sketchen:\n\n{0}\n\nKontrollera:\n- Användning av delay() över alla filer\n- Blockerande vs. icke-blockerande kod\n- millis() implementation\n- Race conditions\n- Timing mellan olika filer",
+    "askAIFile": "Användarfråga: {0}\n\nKodfil ({1}):\n```cpp\n{2}\n```\n\nSvara på svenska med hänsyn till den tillhandahållna Arduino-koden.",
+    "askAISketch": "Användarfråga: {0}\n\nKomplett sketch:\n{1}\n\nSvara på svenska med hänsyn till alla filer i sketchen."
   },
   "placeholders": {
     "customInstructions": "t.ex. \"använd inte millis()\", \"optimera för Arduino Nano\", \"lägg till felhantering\"",
@@ -252,7 +280,18 @@
     "noChatsYet": "Inga chattar ännu",
     "createFirstChat": "Skapa din första chatt!",
     "chatsOverview": "Chattöversikt",
-    "messages": "Meddelanden"
+    "messages": "Meddelanden",
+    "attachFile": "Bifoga fil",
+    "attachContext": "Bifoga kontext",
+    "contextAttached": "Kontext bifogad",
+    "clearContext": "Ta bort kontext",
+    "sendSelectedCode": "Skicka vald kod",
+    "filesSent": "Filer skickade",
+    "useLastContext": "Bifoga igen",
+    "reuseLastContext": "Återanvänd senast använda kontext",
+    "arduinoMode": "Arduino",
+    "generalMode": "Allmän",
+    "toggleMode": "Växla läge"
   },
   "shortcuts": {
     "askFollowUp": "Följdfråga",
@@ -351,7 +390,52 @@
     "notNow": "Inte nu"
   },
   "settings": {
-    "autoUpdateConfigs": "Kontrollera automatiskt för leverantörskonfigurationsuppdateringar"
+    "autoUpdateConfigs": "Kontrollera automatiskt för leverantörskonfigurationsuppdateringar",
+    "title": "Inställningar",
+    "categories": {
+      "aiBehavior": "AI-beteende",
+      "performance": "Prestanda",
+      "updates": "Uppdateringar",
+      "chat": "Chatt",
+      "inlineCompletion": "Inline-komplettering",
+      "advanced": "Avancerat"
+    },
+    "labels": {
+      "temperature": "Kreativitet (Temperature)",
+      "maxTokensPerRequest": "Max. tokens per förfrågan",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Max. återförsök",
+      "autoUpdateConfigs": "Auto-uppdatera leverantörskonfigurationer",
+      "autoCheckExtensionUpdates": "Kontrollera tilläggsuppdateringar",
+      "maxChats": "Maximalt antal chattar",
+      "maxMessagesPerChat": "Max. meddelanden per chatt",
+      "inlineCompletionDelay": "Rate limit-fördröjning (ms)",
+      "inlineCompletionContextLines": "Kontextrader",
+      "inlineCompletionMinCommentLength": "Min. kommentarlängd",
+      "inlineCompletionMaxLinesComment": "Max. rader (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Max. rader (Enkel)",
+      "tokenEstimationMultiplier": "Ordfaktor",
+      "tokenEstimationCodeBlock": "Kodblocksfaktor",
+      "tokenEstimationSpecialChars": "Specialtecken-faktor"
+    },
+    "descriptions": {
+      "temperature": "AI-kreativitet (0 = deterministisk, 1 = kreativ)",
+      "maxTokensPerRequest": "Maximal längd på AI-svar",
+      "apiTimeout": "Timeout för API-förfrågningar i millisekunder",
+      "apiMaxRetries": "Antal återförsök vid fel",
+      "autoUpdateConfigs": "Uppdatera leverantörskonfigurationer automatiskt",
+      "autoCheckExtensionUpdates": "Kontrollera tilläggsuppdateringar vid start",
+      "maxChats": "Maximalt antal sparade chattar",
+      "maxMessagesPerChat": "Maximalt antal meddelanden per chatt (äldre kommer att raderas)",
+      "inlineCompletionDelay": "Fördröjning mellan kompletteringar",
+      "inlineCompletionContextLines": "Antal rader före markören som kontext",
+      "inlineCompletionMinCommentLength": "Minimal kommentarlängd för aktivering",
+      "inlineCompletionMaxLinesComment": "Maximalt antal rader för comment-to-code",
+      "inlineCompletionMaxLinesSimple": "Maximalt antal rader för enkla kompletteringar",
+      "tokenEstimationMultiplier": "Multiplikator för ord-till-token-uppskattning",
+      "tokenEstimationCodeBlock": "Extra tokens för kodblock",
+      "tokenEstimationSpecialChars": "Multiplikator för specialtecken"
+    }
   },
   "extensionUpdate": {
     "available": "AI.duino Extension uppdatering tillgänglig: {0} → {1}",
@@ -386,17 +470,77 @@
     "noCodeBlocksSuggestion": "Analysen ovan innehåller förbättringsförslagen.",
     "targetBoard": "Målkort",
     "codeBadge": "AI-kodförbättring",
-    "improvedCodeTitle": "Förbättrad kod"
+    "improvedCodeTitle": "Förbättrad kod",
+    "outputFormatSelection": "VIKTIGT: Returnera hela den förbättrade kodsektionen (inte trunkerad). Format: ```cpp\n...\n```",
+    "outputFormatFile": "VIKTIGT: Returnera hela den förbättrade filen. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "VIKTIGT: Returnera alla förbättrade filer, var och en med rubrik. Format:\n```cpp\n// ========== Filnamn.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI-felanalys",
     "correctedCodeTitle": "Korrigerad kod"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI-kodförslag"
+    "codeSuggestionTitle": "AI-kodförslag",
+    "newCodeContext": "Nytt kodkontext för uppföljningsfråga"
   },
   "debugHelp": {
     "debugBadge": "AI-debug-assistent",
     "debugSolutionTitle": "Debug-lösning"
+  },
+  "addComments": {
+    "commentedCode": "Kommenterad kod",
+    "customInstructions": "Anpassade instruktioner",
+    "outputFormatSelection": "VIKTIGT: Returnera hela kodsektionen med kommentarer. Format: ```cpp\n...\n```",
+    "outputFormatFile": "VIKTIGT: Returnera hela filen med kommentarer. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "VIKTIGT: Returnera alla filer med kommentarer, var och en med rubrik. Format:\n```cpp\n// ========== Filnamn.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Utan kodkontext",
+    "noContextDesc": "Endast frågan",
+    "noContextDetail": "Inga kodfiler kommer att visas för AI",
+    "selection": "Endast markering",
+    "currentFile": "Aktuell fil",
+    "fullSketch": "Hela projektet",
+    "minimalContext": "Minimalt kontext",
+    "lines": "Rader",
+    "files": "Filer",
+    "selectionDetail": "Endast den markerade koden, utan ytterligare kontext",
+    "currentFileDetailWithSelection": "Markerad kod + resten av filen som ytterligare kontext",
+    "currentFileDetailNoSelection": "Hela filen som kontext",
+    "fullSketchDetailWithSelection": "Markerad kod + alla filer som ytterligare kontext",
+    "fullSketchDetailNoSelection": "Alla filer i projektet som kontext",
+    "minimalContextDetail": "Endast kod runt felraden",
+    "selectLevel": "Hur mycket kontext ska AI få?",
+    "additionalContext": "=== YTTERLIGARE KONTEXT ===",
+    "explanation": "Följande filer är en del av projektet och hjälper till att förstå:",
+    "focusReminder": "VIKTIGT: Fokusera på den markerade koden, använd resten som kontext!",
+    "fullFileAsContext": "(Komplett fil som kontext)"
+  },
+  "support": {
+    "message": "🎉 AI.duino har redan hjälpt dig {0} gånger!",
+    "description": "Detta projekt är gratis och öppen källkod. En liten donation hjälper framtida utveckling.",
+    "coffee": "☕ Bjud på en kaffe",
+    "sponsor": "💙 Bli sponsor",
+    "later": "Senare",
+    "noThanks": "Visa inte mer",
+    "thanks": "Tack för ditt stöd! 💙"
+  },
+  "uninstall": {
+    "button": "Avinstallera AI.duino",
+    "warning": "⚠️ VARNING: Detta kommer att ta bort AI.duino helt!",
+    "willDelete": "Följande data kommer att raderas",
+    "cannotUndo": "Denna åtgärd kan INTE ångras!",
+    "uninstall": "Avinstallera",
+    "finalWarning": "Sista varningen: Verkligen ta bort all AI.duino-data permanent?",
+    "yesDelete": "Ja, radera permanent",
+    "removing": "Tar bort AI.duino...",
+    "deleting": "Raderar",
+    "clearingSettings": "Rensar inställningar...",
+    "success": "✅ AI.duino avinstallerades framgångsrikt",
+    "itemsDeleted": "objekt raderade",
+    "manualStep": "Vänligen inaktivera/ta bort tillägget manuellt i Arduino IDE under Arkiv → Inställningar → Tillägg",
+    "partialSuccess": "⚠️ Delvis avinstallerad",
+    "deleted": "Raderad",
+    "failed": "Misslyckades"
   }
 }

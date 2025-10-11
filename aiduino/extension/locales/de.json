@@ -20,7 +20,8 @@
     "openChatPanel": "KI Chat",
     "toggleInlineCompletion": "Inline Vervollständigung",
     "toggleInlineCompletionShort": "Inline",
-    "explainCopiedError": "↳ aus Zwischenablage"
+    "explainCopiedError": "↳ aus Zwischenablage",
+    "openSettings": "Einstellungen"
   },
   "messages": {
     "welcome": "👋 Willkommen! AI.duino unterstützt {0}!",
@@ -58,7 +59,9 @@
     "inlineCompletionEnabled": "✓ Inline-Vervollständigung aktiviert",
     "inlineCompletionDisabled": "Inline-Vervollständigung deaktiviert",
     "contextAttachedInfo": "📎 Kontext angehängt - gilt nur für die nächste Nachricht. Nutze '🔄 Letzten Kontext' zum Wiederverwenden.",
-    "noErrorInClipboard": "Keine Fehlerinformation in der Zwischenablage gefunden."
+    "noErrorInClipboard": "Keine Fehlerinformation in der Zwischenablage gefunden.",
+    "settingsSaved": "Einstellungen gespeichert",
+    "settingsReset": "Einstellungen zurückgesetzt"
   },
   "buttons": {
     "chooseModel": "KI-Modell wählen",
@@ -94,7 +97,8 @@
     "send": "Senden",
     "close": "Schließen",
     "newInput": "Neue Eingabe",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "resetAll": "Alle zurücksetzen"
   },
   "descriptions": {
     "improveCodeSelected": "Ausgewählten Code optimieren",
@@ -113,7 +117,8 @@
     "noValidContext": "Keine vorherige Unterhaltung",
     "editPrompts": "AI-Prompts anpassen",
     "openChatPanel": "AI-Chat mit Code-Integration",
-    "explainCopiedError": "Fehler aus Zwischenablage analysieren"
+    "explainCopiedError": "Fehler aus Zwischenablage analysieren",
+    "openSettings": "Einstellungen anpassen"
   },
   "language": {
     "autoDetect": "Automatisch von VS Code erkennen",
@@ -168,7 +173,7 @@
     "analyzeTimingFile": "Analysiere Timing-Probleme in dieser Datei ({0}):\n\n```cpp\n{1}\n```\n\nPrüfe:\n- Verwendung von delay()\n- Blocking vs. non-blocking Code\n- millis() Implementierung\n- Race Conditions",
     "analyzeTimingSketch": "Analysiere Timing-Probleme im gesamten Sketch:\n\n{0}\n\nPrüfe:\n- Verwendung von delay() über alle Dateien\n- Blocking vs. non-blocking Code\n- millis() Implementierung\n- Race Conditions\n- Timing zwischen verschiedenen Dateien",
     "askAIFile": "Nutzerfrage: {0}\n\nCode-Datei ({1}):\n```cpp\n{2}\n```\n\nAntworte auf Deutsch unter Berücksichtigung des bereitgestellten Arduino-Codes.",
-    "askAISketch": "Nutzerfrage: {0}\n\nGesamter Sketch:\n{1}\n\nAntworte auf Deutsch unter Berücksichtigung aller Dateien im Sketch."  
+    "askAISketch": "Nutzerfrage: {0}\n\nGesamter Sketch:\n{1}\n\nAntworte auf Deutsch unter Berücksichtigung aller Dateien im Sketch."
   },
   "placeholders": {
     "customInstructions": "z.B. \"keine millis() verwenden\", \"optimieren für Arduino Nano\", \"Error-Handling hinzufügen\"",
@@ -385,9 +390,6 @@
     "modelOutdated": "Modell scheint veraltet zu sein. Konfigurationen aktualisieren?",
     "notNow": "Nicht jetzt"
   },
-  "settings": {
-    "autoUpdateConfigs": "Automatisch nach Provider-Config-Updates suchen"
-  },
   "extensionUpdate": {
     "available": "AI.duino Extension Update verfügbar: {0} → {1}",
     "download": "Herunterladen"
@@ -475,5 +477,70 @@
     "later": "Später",
     "noThanks": "Nicht mehr anzeigen",
     "thanks": "Vielen Dank für deine Unterstützung! 💙"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "categories": {
+      "aiBehavior": "KI-Verhalten",
+      "performance": "Performance",
+      "updates": "Updates",
+      "chat": "Chat",
+      "inlineCompletion": "Inline-Vervollständigung",
+      "advanced": "Erweitert"
+    },
+    "labels": {
+      "temperature": "Kreativität (Temperature)",
+      "maxTokensPerRequest": "Max. Tokens pro Anfrage",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Max. Wiederholungsversuche",
+      "autoUpdateConfigs": "Auto-Update Provider Configs",
+      "autoCheckExtensionUpdates": "Extension Updates prüfen",
+      "maxChats": "Maximale Anzahl Chats",
+      "maxMessagesPerChat": "Max. Nachrichten pro Chat",
+      "inlineCompletionDelay": "Rate Limit Delay (ms)",
+      "inlineCompletionContextLines": "Kontext-Zeilen",
+      "inlineCompletionMinCommentLength": "Min. Kommentarlänge",
+      "inlineCompletionMaxLinesComment": "Max. Zeilen (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Max. Zeilen (Einfach)",
+      "tokenEstimationMultiplier": "Wörter-Faktor",
+      "tokenEstimationCodeBlock": "Code-Block-Faktor",
+      "tokenEstimationSpecialChars": "Sonderzeichen-Faktor"
+    },
+    "descriptions": {
+      "temperature": "Kreativität der KI (0 = deterministisch, 1 = kreativ)",
+      "maxTokensPerRequest": "Maximale Länge der KI-Antworten",
+      "apiTimeout": "Timeout für API-Anfragen in Millisekunden",
+      "apiMaxRetries": "Anzahl der Wiederholungen bei Fehler",
+      "autoUpdateConfigs": "Provider-Konfigurationen automatisch aktualisieren",
+      "autoCheckExtensionUpdates": "Beim Start nach Extension-Updates suchen",
+      "maxChats": "Maximale Anzahl gespeicherter Chats",
+      "maxMessagesPerChat": "Maximale Nachrichten pro Chat (ältere werden gelöscht)",
+      "inlineCompletionDelay": "Verzögerung zwischen Vervollständigungen",
+      "inlineCompletionContextLines": "Anzahl der Zeilen vor Cursor als Kontext",
+      "inlineCompletionMinCommentLength": "Minimale Kommentarlänge für Trigger",
+      "inlineCompletionMaxLinesComment": "Maximale Zeilen bei Comment-to-Code",
+      "inlineCompletionMaxLinesSimple": "Maximale Zeilen bei einfachen Completions",
+      "tokenEstimationMultiplier": "Multiplikator für Wort-zu-Token-Schätzung",
+      "tokenEstimationCodeBlock": "Zusätzliche Tokens für Code-Blöcke",
+      "tokenEstimationSpecialChars": "Multiplikator für Sonderzeichen"
+    }
+  },
+  "uninstall": {
+    "button": "AI.duino deinstallieren",
+    "warning": "⚠️ WARNUNG: Dies wird AI.duino vollständig entfernen!",
+    "willDelete": "Folgende Daten werden gelöscht",
+    "cannotUndo": "Diese Aktion kann NICHT rückgängig gemacht werden!",
+    "uninstall": "Deinstallieren",
+    "finalWarning": "Letzte Warnung: Wirklich alle AI.duino Daten unwiderruflich löschen?",
+    "yesDelete": "Ja, unwiderruflich löschen",
+    "removing": "AI.duino wird entfernt...",
+    "deleting": "Lösche",
+    "clearingSettings": "Bereinige Einstellungen...",
+    "success": "✅ AI.duino erfolgreich deinstalliert",
+    "itemsDeleted": "Elemente gelöscht",
+    "manualStep": "Bitte deaktiviere/entferne die Extension manuell in der Arduino IDE unter Datei → Einstellungen → Erweiterungen",
+    "partialSuccess": "⚠️ Teilweise deinstalliert",
+    "deleted": "Gelöscht",
+    "failed": "Fehlgeschlagen"
   }
 }
