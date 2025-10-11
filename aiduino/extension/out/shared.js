@@ -337,6 +337,17 @@ function getBoardDetails() {
 }
 
 /**
+ * Dispose board context singleton and cleanup all resources
+ * Should be called during extension deactivation to prevent resource leaks
+ */
+function disposeBoardContext() {
+    if (globalBoardContext) {
+        globalBoardContext.dispose();
+        globalBoardContext = null;
+    }
+}
+
+/**
  * Get display-friendly board name from FQBN
  * @param {string} fqbn - Fully Qualified Board Name
  * @returns {string} Human-readable board name
@@ -466,6 +477,7 @@ module.exports = {
     getBoardDisplayName,
     getBoardDetails,
     onBoardChange,
+    disposeBoardContext,
     
     // Text utilities
     escapeHtml,

@@ -19,7 +19,9 @@
     "changePath": "Mainīt ceļu",
     "openChatPanel": "AI Tērzēšana",
     "toggleInlineCompletion": "Inline pabeigšana",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ no starpliktuves",
+    "openSettings": "Iestatījumi"
   },
   "messages": {
     "welcome": "👋 Esiet sveicināti! AI.duino atbalsta {0}!",
@@ -49,13 +51,17 @@
     "noValidContext": "Nav pašreizējās sarunas turpināšanai (maks. 30 min.)",
     "followUpContext": "Sarunas turpinājums: \"{0}\" (pirms {1} min.)",
     "contextCleared": "Sarunas konteksts dzēsts",
-    "operationAlreadyRunning": "Darbība jau notiek! Lūdzu uzgaidiet...",
+    "operationAlreadyRunning": "Operācija jau darbojas! Lūdzu, uzgaidi...",
     "noPath": "🔧 Vispirms jums nepieciešams ceļš uz {0}",
     "pathRequired": "{0} nepieciešams ceļš",
     "inlineCompletionActivate": "Aktivizēt inline pabeigšanu ar {0}?",
     "inlineCompletionWarningCosts": "⚠️ {0} ir maksas pakalpojums - katra pabeigšana rada API izmaksas. Tomēr aktivizēt?",
     "inlineCompletionEnabled": "✓ Inline pabeigšana aktivizēta",
-    "inlineCompletionDisabled": "Inline pabeigšana deaktivizēta"
+    "inlineCompletionDisabled": "Inline pabeigšana deaktivizēta",
+    "contextAttachedInfo": "🔎 Konteksts pievienots - attiecas tikai uz nākamo ziņojumu. Izmanto '🔄 Pēdējais konteksts' atkārtotai izmantošanai.",
+    "noErrorInClipboard": "Starpliktuves neizdevās atrast kļūdas informāciju. Lūdzu, vispirms noklikšķini Arduino IDE uz 'Kopēt kļūdas ziņojumu'.",
+    "settingsSaved": "Iestatījumi saglabāti",
+    "settingsReset": "Iestatījumi atiestatīti"
   },
   "buttons": {
     "chooseModel": "Izvēlēties AI modeli",
@@ -91,7 +97,8 @@
     "close": "Aizvērt",
     "send": "Sūtīt",
     "newInput": "Jauns ievads",
-    "delete": "Dzēst"
+    "delete": "Dzēst",
+    "resetAll": "Atiestatīt visu"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizēt iezīmēto kodu",
@@ -109,7 +116,9 @@
     "askFollowUp": "Turpināt iepriekšējo sarunu: {0}",
     "noValidContext": "Nav iepriekšējās sarunas",
     "editPrompts": "Pielāgot AI uzvednes",
-    "openChatPanel": "AI tērzēšana ar koda integrāciju"
+    "openChatPanel": "AI tērzēšana ar koda integrāciju",
+    "explainCopiedError": "Analizēt kļūdu no starpliktuves",
+    "openSettings": "Pielāgot iestatījumus"
   },
   "language": {
     "autoDetect": "Automātiski noteikt no VS Code",
@@ -145,7 +154,25 @@
     "askAIWithContext": "Lietotāja jautājums: {0}\n\nKoda konteksts:\n```cpp\n{1}\n```\n\nAtbildiet latviešu valodā, ņemot vērā pievienoto Arduino kodu.",
     "askFollowUp": "Papildu jautājums:",
     "followUpContext": "Iepriekšējās sarunas konteksts:",
-    "followUpInstruction": "Atbildiet latviešu valodā, ņemot vērā iepriekšējo sarunu."
+    "followUpInstruction": "Atbildiet latviešu valodā, ņemot vērā iepriekšējo sarunu.",
+    "improveCodeFile": "Uzlabo šo pilnu Arduino failu ({0}):\n\n```cpp\n{1}\n```\n\nOptimizē:\n- Nebloķējošu kodu (millis delay vietā)\n- Atmiņas efektivitāti\n- Labāku lasāmību\n- Arduino labākās prakses\n- Izturību",
+    "improveCodeSketch": "Uzlabo visus failus šajā Arduino skečā:\n\n{0}\n\nOptimizē visu skeču:\n- Nebloķējošu kodu (millis delay vietā)\n- Atmiņas efektivitāti\n- Labāku lasāmību\n- Arduino labākās prakses\n- Izturību\n- Skaidru nodalījumu starp failiem",
+    "addCommentsFile": "Pievieno noderīgus latviešu komentārus šim pilnajam Arduino failam ({0}):\n\n```cpp\n{1}\n```\n\nNoteikumi:\n- Izskaidro, ko dara katra svarīgā rinda\n- Komentē funkcijas un to parametrus\n- Izskaidro aparatūras mijiedarbību\n- Izmanto // vienai rindai un /* */ vairākām rindām\n- Komentāriem jāpalīdz iesācējiem",
+    "addCommentsSketch": "Pievieno noderīgus latviešu komentārus visiem failiem šajā Arduino skečā:\n\n{0}\n\nNoteikumi:\n- Izskaidro, ko dara katra svarīgā rinda\n- Komentē funkcijas un to parametrus\n- Izskaidro aparatūras mijiedarbību un attiecības starp failiem\n- Izmanto // vienai rindai un /* */ vairākām rindām\n- Komentāriem jāpalīdz iesācējiem",
+    "explainCodeFile": "Izskaidro šo pilno Arduino failu ({0}) latviski:\n\n```cpp\n{1}\n```\n\nIzskaidro:\n- Ko fails dara (galvenais mērķis)\n- Svarīgas funkcijas un to uzdevumus\n- Aparatūras mijiedarbību (tapi, sensori utt.)\n- Algoritmus un loģiku\n- Īpatnības vai svarīgas detaļas",
+    "explainCodeSketch": "Izskaidro visus failus šajā Arduino skečā latviski:\n\n{0}\n\nIzskaidro:\n- Ko viss skečs dara (galvenais mērķis)\n- Kā faili darbojas kopā\n- Svarīgas funkcijas katrā failā\n- Aparatūras mijiedarbību (tapi, sensori utt.)\n- Datu plūsmu starp failiem\n- Īpatnības vai svarīgas detaļas",
+    "explainErrorFile": "Izskaidro šo Arduino kļūdu {1}. rindā:\n\nKļūda: {0}\n\nFails ({2}):\n```cpp\n{3}\n```\n\nIzskaidro:\n- Ko kļūda nozīmē\n- Kāpēc tā rodas\n- Kā to labot\n- Parādi laboto kodu",
+    "explainErrorSketch": "Izskaidro šo Arduino kļūdu {1}. rindā:\n\nKļūda: {0}\n\nPilns skečs:\n{2}\n\nIzskaidro:\n- Ko kļūda nozīmē\n- Kāpēc tā rodas (arī citu failu kontekstā)\n- Kā to labot\n- Parādi laboto kodu",
+    "analyzeSerialFile": "Analizē šo Serial izvadi:\n\n{0}\n\nKoda fails ({1}):\n```cpp\n{2}\n```\n\nNoskaidro:\n- Ko izvade nozīmē\n- Vai ir problēmas\n- Ko kods, kas ģenerē šo izvadi, dara",
+    "analyzeSerialSketch": "Analizē šo Serial izvadi:\n\n{0}\n\nPilns skečs:\n{1}\n\nNoskaidro:\n- Ko izvade nozīmē\n- Vai ir problēmas\n- Kurš kods ģenerē šo izvadi",
+    "hardwareDebugFile": "Analizē aparatūras problēmas šajā failā ({0}):\n\n```cpp\n{1}\n```\n\nPārbaudi:\n- Tapu konfigurācijas\n- Elektriskos savienojumus\n- Laika problēmas\n- Tipiskās aparatūras kļūdas",
+    "hardwareDebugSketch": "Analizē aparatūras problēmas visā skečā:\n\n{0}\n\nPārbaudi:\n- Tapu konfigurācijas visos failos\n- Elektriskos savienojumus\n- Laika problēmas\n- Tipiskās aparatūras kļūdas",
+    "addDebugStatementsFile": "Pievieno noderīgas debug izvades šim failam ({0}):\n\n```cpp\n{1}\n```\n\nPievieno Serial.print() komandas, lai:\n- Sekotu mainīgo vērtībām\n- Izsekotu programmas gaitu\n- Sašaurinātu kļūdu avotus",
+    "addDebugStatementsSketch": "Pievieno noderīgas debug izvades šim skečam:\n\n{0}\n\nPievieno Serial.print() komandas, lai:\n- Sekotu mainīgo vērtībām\n- Izsekotu programmas gaitu\n- Sašaurinātu kļūdu avotus\n- Saprastu mijiedarbību starp failiem",
+    "analyzeTimingFile": "Analizē laika problēmas šajā failā ({0}):\n\n```cpp\n{1}\n```\n\nPārbaudi:\n- delay() izmantošanu\n- Bloķējošs vs. nebloķējošs kods\n- millis() ieviešanu\n- Race Conditions",
+    "analyzeTimingSketch": "Analizē laika problēmas visā skečā:\n\n{0}\n\nPārbaudi:\n- delay() izmantošanu visos failos\n- Bloķējošs vs. nebloķējošs kods\n- millis() ieviešanu\n- Race Conditions\n- Laiku starp dažādiem failiem",
+    "askAIFile": "Lietotāja jautājums: {0}\n\nKoda fails ({1}):\n```cpp\n{2}\n```\n\nAtbildi latviski, ņemot vērā sniegto Arduino kodu.",
+    "askAISketch": "Lietotāja jautājums: {0}\n\nPilns skečs:\n{1}\n\nAtbildi latviski, ņemot vērā visus skeča failus."
   },
   "placeholders": {
     "customInstructions": "piemēram, \"neizmantot millis()\", \"optimizēt Arduino Nano\", \"pievienot kļūdu apstrādi\"",
@@ -253,7 +280,18 @@
     "noChatsYet": "Vēl nav sarunu",
     "createFirstChat": "Izveidojiet savu pirmo sarunu!",
     "chatsOverview": "Sarunu pārskats",
-    "messages": "Ziņojumi"
+    "messages": "Ziņojumi",
+    "attachFile": "Pievienot failu",
+    "attachContext": "Pievienot kontekstu",
+    "contextAttached": "Konteksts pievienots",
+    "clearContext": "Noņemt kontekstu",
+    "sendSelectedCode": "Nosūtīt iezīmēto kodu",
+    "filesSent": "Faili nosūtīti",
+    "useLastContext": "Pievienot vēlreiz",
+    "reuseLastContext": "Atkārtoti izmantot pēdējo kontekstu",
+    "arduinoMode": "Arduino",
+    "generalMode": "Vispārīgi",
+    "toggleMode": "Pārslēgt režīmu"
   },
   "shortcuts": {
     "askFollowUp": "Papildu jautājums",
@@ -352,7 +390,52 @@
     "notNow": "Ne tagad"
   },
   "settings": {
-    "autoUpdateConfigs": "Automātiski meklēt pakalpojumu sniedzēju konfigurācijas atjauninājumus"
+    "autoUpdateConfigs": "Automātiski meklēt pakalpojumu sniedzēju konfigurācijas atjauninājumus",
+    "title": "Iestatījumi",
+    "categories": {
+      "aiBehavior": "AI uzvedība",
+      "performance": "Veiktspēja",
+      "updates": "Atjauninājumi",
+      "chat": "Čats",
+      "inlineCompletion": "Inline pabeigšana",
+      "advanced": "Papildu"
+    },
+    "labels": {
+      "temperature": "Radošums (Temperature)",
+      "maxTokensPerRequest": "Maks. marķieri uz pieprasījumu",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Maks.atkārtoti mēģinājumi",
+      "autoUpdateConfigs": "Automātiska Provider konfigurāciju atjaunināšana",
+      "autoCheckExtensionUpdates": "Pārbaudīt paplašinājuma atjauninājumus",
+      "maxChats": "Maksimālais čatu skaits",
+      "maxMessagesPerChat": "Maks. ziņojumi uz čatu",
+      "inlineCompletionDelay": "Rate Limit aizkave (ms)",
+      "inlineCompletionContextLines": "Konteksta rindas",
+      "inlineCompletionMinCommentLength": "Min. komentāra garums",
+      "inlineCompletionMaxLinesComment": "Maks. rindas (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Maks. rindas (Vienkāršs)",
+      "tokenEstimationMultiplier": "Vārdu faktors",
+      "tokenEstimationCodeBlock": "Koda bloka faktors",
+      "tokenEstimationSpecialChars": "Speciālo rakstzīmju faktors"
+    },
+    "descriptions": {
+      "temperature": "AI radošums (0 = deterministisks, 1 = radošs)",
+      "maxTokensPerRequest": "Maksimālais AI atbilžu garums",
+      "apiTimeout": "API pieprasījumu noildze milisekundēs",
+      "apiMaxRetries": "Atkārtotu mēģinājumu skaits kļūdas gadījumā",
+      "autoUpdateConfigs": "Automātiski atjaunināt provider konfigurācijas",
+      "autoCheckExtensionUpdates": "Pārbaudīt paplašinājuma atjauninājumus palaižot",
+      "maxChats": "Maksimālais saglabāto čatu skaits",
+      "maxMessagesPerChat": "Maksimālais ziņojumu skaits uz čatu (vecākie tiek dzēsti)",
+      "inlineCompletionDelay": "Aizkave starp pabeigšanām",
+      "inlineCompletionContextLines": "Rindu skaits pirms kursora kā konteksts",
+      "inlineCompletionMinCommentLength": "Minimālais komentāra garums aktivizēšanai",
+      "inlineCompletionMaxLinesComment": "Maksimālās rindas Comment-to-Code gadījumā",
+      "inlineCompletionMaxLinesSimple": "Maksimālās rindas vienkāršām pabeigšanām",
+      "tokenEstimationMultiplier": "Reizinātājs vārds-uz-marķieri novērtējumam",
+      "tokenEstimationCodeBlock": "Papildu marķieri koda blokiem",
+      "tokenEstimationSpecialChars": "Reizinātājs speciālajām rakstzīmēm"
+    }
   },
   "extensionUpdate": {
     "available": "Pieejams AI.duino paplašinājuma atjauninājums: {0} → {1}",
@@ -387,17 +470,77 @@
     "noCodeBlocksSuggestion": "Iepriekš minētā analīze satur uzlabojumu ieteikumus.",
     "targetBoard": "Mērķa plate",
     "codeBadge": "AI koda uzlabošana",
-    "improvedCodeTitle": "Uzlabots kods"
+    "improvedCodeTitle": "Uzlabots kods",
+    "outputFormatSelection": "SVARĪGI: Atgrieziet uzlaboto koda sadaļu pilnībā (nesaīsinātu). Formāts: ```cpp\n...\n```",
+    "outputFormatFile": "SVARĪGI: Atgrieziet pilnu uzlaboto failu. Formāts: ```cpp\n...\n```",
+    "outputFormatSketch": "SVARĪGI: Atgrieziet visus uzlabotos failus, katru ar galveni. Formāts:\n```cpp\n// ========== FailaNosaukums.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI kļūdas analīze",
     "correctedCodeTitle": "Labots kods"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI koda ieteikums"
+    "codeSuggestionTitle": "AI koda ieteikums",
+    "newCodeContext": "Jauns koda konteksts vaicājumam"
   },
   "debugHelp": {
     "debugBadge": "AI atkļūdošanas asistents",
     "debugSolutionTitle": "Atkļūdošanas risinājums"
+  },
+  "addComments": {
+    "commentedCode": "Komentēts kods",
+    "customInstructions": "Pielāgotas instrukcijas",
+    "outputFormatSelection": "SVARĪGI: Atgrieziet koda sadaļu ar komentāriem pilnībā. Formāts: ```cpp\n...\n```",
+    "outputFormatFile": "SVARĪGI: Atgrieziet pilnu failu ar komentāriem. Formāts: ```cpp\n...\n```",
+    "outputFormatSketch": "SVARĪGI: Atgrieziet visus failus ar komentāriem, katru ar galveni. Formāts:\n```cpp\n// ========== FailaNosaukums.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Bez koda konteksta",
+    "noContextDesc": "Tikai jautājums",
+    "noContextDetail": "AI netiek rādīti nekādi koda faili",
+    "selection": "Tikai izvēle",
+    "currentFile": "Pašreizējais fails",
+    "fullSketch": "Viss projekts",
+    "minimalContext": "Minimālais konteksts",
+    "lines": "Rindas",
+    "files": "Faili",
+    "selectionDetail": "Tikai iezīmētais kods, bez papildu konteksta",
+    "currentFileDetailWithSelection": "Iezīmētais kods + faila atlikušā daļa kā papildu konteksts",
+    "currentFileDetailNoSelection": "Viss fails kā konteksts",
+    "fullSketchDetailWithSelection": "Iezīmētais kods + visi faili kā papildu konteksts",
+    "fullSketchDetailNoSelection": "Visi projekta faili kā konteksts",
+    "minimalContextDetail": "Tikai kods ap kļūdas rindu",
+    "selectLevel": "Cik daudz konteksta vajadzētu saņemt AI?",
+    "additionalContext": "=== PAPILDU KONTEKSTS ===",
+    "explanation": "Šie faili ir projekta daļa un palīdz izprast:",
+    "focusReminder": "SVARĪGI: Koncentrējies uz iezīmēto kodu, izmanto pārējo kā kontekstu!",
+    "fullFileAsContext": "(Pilns fails kā konteksts)"
+  },
+  "support": {
+    "message": "🎉 AI.duino tev jau ir palīdzējis {0} reizes!",
+    "description": "Šis projekts ir bezmaksas un atvērtā koda. Neliels ziedojums palīdz turpmākai attīstībai.",
+    "coffee": "☕ Nopērc kafiju",
+    "sponsor": "💙 Kļūsti par sponsoru",
+    "later": "Vēlāk",
+    "noThanks": "Vairs nerādīt",
+    "thanks": "Liels paldies par atbalstu! 💙"
+  },
+  "uninstall": {
+    "button": "Atinstalēt AI.duino",
+    "warning": "⚠️ BRĪDINĀJUMS: Tas pilnībā noņems AI.duino!",
+    "willDelete": "Šie dati tiks dzēsti",
+    "cannotUndo": "Šo darbību NEVAR atsaukt!",
+    "uninstall": "Atinstalēt",
+    "finalWarning": "Pēdējais brīdinājums: Vai tiešām neatgriezeniski dzēst visus AI.duino datus?",
+    "yesDelete": "Jā, dzēst neatgriezeniski",
+    "removing": "AI.duino tiek noņemts...",
+    "deleting": "Dzēšana",
+    "clearingSettings": "Iestatījumu tīrīšana...",
+    "success": "✅ AI.duino veiksmīgi atinstalēts",
+    "itemsDeleted": "Vienumi dzēsti",
+    "manualStep": "Lūdzu, manuāli deaktivizē/noņem paplašinājumu Arduino IDE sadaļā Fails → Iestatījumi → Paplašinājumi",
+    "partialSuccess": "⚠️ Daļēji atinstalēts",
+    "deleted": "Dzēsts",
+    "failed": "Neizdevās"
   }
 }

@@ -19,7 +19,9 @@
     "changePath": "Endre bane",
     "openChatPanel": "AI Chat",
     "toggleInlineCompletion": "Inline fullføring",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ fra utklippstavle",
+    "openSettings": "Innstillinger"
   },
   "messages": {
     "welcome": "👋 Velkommen! AI.duino støtter {0}!",
@@ -54,7 +56,12 @@
     "inlineCompletionActivate": "Aktiver inline fullføring med {0}?",
     "inlineCompletionWarningCosts": "⚠️ {0} er en betalt tjeneste - hver fullføring medfører API-kostnader. Aktiver likevel?",
     "inlineCompletionEnabled": "✓ Inline fullføring aktivert",
-    "inlineCompletionDisabled": "Inline fullføring deaktivert"
+    "inlineCompletionDisabled": "Inline fullføring deaktivert",
+    "operationAlreadyRunning": "Operasjonen kjører allerede! Vennligst vent...",
+    "contextAttachedInfo": "🔎 Kontekst lagt til - gjelder kun for neste melding. Bruk '🔄 Siste kontekst' for å gjenbruke.",
+    "noErrorInClipboard": "Ingen feilinformasjon funnet i utklippstavlen. Vennligst klikk først på 'Kopier feilmelding' i Arduino IDE.",
+    "settingsSaved": "Innstillinger lagret",
+    "settingsReset": "Innstillinger tilbakestilt"
   },
   "buttons": {
     "chooseModel": "Velg AI-modell",
@@ -90,7 +97,8 @@
     "close": "Lukk",
     "send": "Send",
     "newInput": "Ny inndata",
-    "delete": "Slett"
+    "delete": "Slett",
+    "resetAll": "Tilbakestill alle"
   },
   "descriptions": {
     "improveCodeSelected": "Optimaliser valgt kode",
@@ -108,7 +116,9 @@
     "askFollowUp": "Fortsett forrige samtale: {0}",
     "noValidContext": "Ingen forrige samtale",
     "editPrompts": "Tilpass og administrer AI-prompter",
-    "openChatPanel": "AI-chat med kodeintegrasjon"
+    "openChatPanel": "AI-chat med kodeintegrasjon",
+    "explainCopiedError": "Analyser feil fra utklippstavle",
+    "openSettings": "Tilpass innstillinger"
   },
   "language": {
     "autoDetect": "Auto-detect fra VS Code",
@@ -144,7 +154,25 @@
     "askAIWithContext": "Brukerspørsmål: {0}\n\nKode-kontekst:\n```cpp\n{1}\n```\n\nSvar med hensyn til den oppgitte Arduino-koden.",
     "askFollowUp": "Oppfølgingsspørsmål:",
     "followUpContext": "Forrige samtale-kontekst:",
-    "followUpInstruction": "Svar med hensyn til den forrige samtalen."
+    "followUpInstruction": "Svar med hensyn til den forrige samtalen.",
+    "improveCodeFile": "Forbedre denne komplette Arduino-filen ({0}):\n\n```cpp\n{1}\n```\n\nOptimaliser for:\n- Ikke-blokkerende kode (millis i stedet for delay)\n- Minneeffektivitet\n- Bedre lesbarhet\n- Arduino beste praksis\n- Robusthet",
+    "improveCodeSketch": "Forbedre alle filer i denne Arduino-sketchen:\n\n{0}\n\nOptimaliser hele sketchen for:\n- Ikke-blokkerende kode (millis i stedet for delay)\n- Minneeffektivitet\n- Bedre lesbarhet\n- Arduino beste praksis\n- Robusthet\n- Tydelig separasjon mellom filer",
+    "addCommentsFile": "Legg til nyttige norske kommentarer til denne komplette Arduino-filen ({0}):\n\n```cpp\n{1}\n```\n\nRegler:\n- Forklar hva hver viktige linje gjør\n- Kommenter funksjoner og parametrene deres\n- Forklar maskinvareinteraksjoner\n- Bruk // for enkeltlinjer og /* */ for flere linjer\n- Kommentarer skal hjelpe nybegynnere",
+    "addCommentsSketch": "Legg til nyttige norske kommentarer til alle filer i denne Arduino-sketchen:\n\n{0}\n\nRegler:\n- Forklar hva hver viktige linje gjør\n- Kommenter funksjoner og parametrene deres\n- Forklar maskinvareinteraksjoner og relasjoner mellom filer\n- Bruk // for enkeltlinjer og /* */ for flere linjer\n- Kommentarer skal hjelpe nybegynnere",
+    "explainCodeFile": "Forklar denne komplette Arduino-filen ({0}) på norsk:\n\n```cpp\n{1}\n```\n\nForklar:\n- Hva filen gjør (hovedformål)\n- Viktige funksjoner og deres oppgaver\n- Maskinvareinteraksjoner (pins, sensorer, osv.)\n- Algoritmer og logikk\n- Særegenheter eller viktige detaljer",
+    "explainCodeSketch": "Forklar alle filer i denne Arduino-sketchen på norsk:\n\n{0}\n\nForklar:\n- Hva hele sketchen gjør (hovedformål)\n- Hvordan filene jobber sammen\n- Viktige funksjoner i hver fil\n- Maskinvareinteraksjoner (pins, sensorer, osv.)\n- Dataflyt mellom filene\n- Særegenheter eller viktige detaljer",
+    "explainErrorFile": "Forklar denne Arduino-feilen på linje {1}:\n\nFeil: {0}\n\nFil ({2}):\n```cpp\n{3}\n```\n\nForklar:\n- Hva feilen betyr\n- Hvorfor den oppstår\n- Hvordan man fikser den\n- Vis den rettede koden",
+    "explainErrorSketch": "Forklar denne Arduino-feilen på linje {1}:\n\nFeil: {0}\n\nHele sketchen:\n{2}\n\nForklar:\n- Hva feilen betyr\n- Hvorfor den oppstår (også i kontekst av de andre filene)\n- Hvordan man fikser den\n- Vis den rettede koden",
+    "analyzeSerialFile": "Analyser denne Serial-utskriften:\n\n{0}\n\nKodefil ({1}):\n```cpp\n{2}\n```\n\nFinn ut:\n- Hva utskriften betyr\n- Om det er problemer\n- Hva koden som genererer denne utskriften gjør",
+    "analyzeSerialSketch": "Analyser denne Serial-utskriften:\n\n{0}\n\nHele sketchen:\n{1}\n\nFinn ut:\n- Hva utskriften betyr\n- Om det er problemer\n- Hvilken kode som genererer denne utskriften",
+    "hardwareDebugFile": "Analyser maskinvareproblemer i denne filen ({0}):\n\n```cpp\n{1}\n```\n\nSjekk:\n- Pin-konfigurasjoner\n- Elektriske forbindelser\n- Timingproblemer\n- Typiske maskinvarefeil",
+    "hardwareDebugSketch": "Analyser maskinvareproblemer i hele sketchen:\n\n{0}\n\nSjekk:\n- Pin-konfigurasjoner på tvers av alle filer\n- Elektriske forbindelser\n- Timingproblemer\n- Typiske maskinvarefeil",
+    "addDebugStatementsFile": "Legg til nyttige debug-utskrifter til denne filen ({0}):\n\n```cpp\n{1}\n```\n\nLegg til Serial.print() setninger for å:\n- Overvåke variabelverdier\n- Spore programflyt\n- Innsnevre feilkilder",
+    "addDebugStatementsSketch": "Legg til nyttige debug-utskrifter til denne sketchen:\n\n{0}\n\nLegg til Serial.print() setninger for å:\n- Overvåke variabelverdier\n- Spore programflyt\n- Innsnevre feilkilder\n- Forstå interaksjoner mellom filer",
+    "analyzeTimingFile": "Analyser timingproblemer i denne filen ({0}):\n\n```cpp\n{1}\n```\n\nSjekk:\n- Bruk av delay()\n- Blokkerende vs. ikke-blokkerende kode\n- millis() implementering\n- Race Conditions",
+    "analyzeTimingSketch": "Analyser timingproblemer i hele sketchen:\n\n{0}\n\nSjekk:\n- Bruk av delay() på tvers av alle filer\n- Blokkerende vs. ikke-blokkerende kode\n- millis() implementering\n- Race Conditions\n- Timing mellom forskjellige filer",
+    "askAIFile": "Brukerspørsmål: {0}\n\nKodefil ({1}):\n```cpp\n{2}\n```\n\nSvar på norsk med hensyn til den oppgitte Arduino-koden.",
+    "askAISketch": "Brukerspørsmål: {0}\n\nHele sketchen:\n{1}\n\nSvar på norsk med hensyn til alle filene i sketchen."
   },
   "placeholders": {
     "customInstructions": "f.eks. \"ikke bruk millis()\", \"optimaliser for Arduino Nano\", \"legg til feilhåndtering\"",
@@ -252,7 +280,18 @@
     "noChatsYet": "Ingen chatter ennå",
     "createFirstChat": "Opprett din første chat!",
     "chatsOverview": "Chat-oversikt",
-    "messages": "Meldinger"
+    "messages": "Meldinger",
+    "attachFile": "Legg ved fil",
+    "attachContext": "Legg til kontekst",
+    "contextAttached": "Kontekst lagt til",
+    "clearContext": "Fjern kontekst",
+    "sendSelectedCode": "Send merket kode",
+    "filesSent": "Filer sendt",
+    "useLastContext": "Legg til igjen",
+    "reuseLastContext": "Gjenbruk siste kontekst",
+    "arduinoMode": "Arduino",
+    "generalMode": "Generelt",
+    "toggleMode": "Bytt modus"
   },
   "shortcuts": {
     "askFollowUp": "Oppfølgingsspørsmål",
@@ -351,7 +390,52 @@
     "notNow": "Ikke nå"
   },
   "settings": {
-    "autoUpdateConfigs": "Automatisk sjekk for oppdateringer av leverandørkonfigurasjoner"
+    "autoUpdateConfigs": "Automatisk sjekk for oppdateringer av leverandørkonfigurasjoner",
+    "title": "Innstillinger",
+    "categories": {
+      "aiBehavior": "AI-oppførsel",
+      "performance": "Ytelse",
+      "updates": "Oppdateringer",
+      "chat": "Chat",
+      "inlineCompletion": "Inline-fullføring",
+      "advanced": "Avansert"
+    },
+    "labels": {
+      "temperature": "Kreativitet (Temperature)",
+      "maxTokensPerRequest": "Maks. tokens per forespørsel",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Maks. gjentaksforsøk",
+      "autoUpdateConfigs": "Automatisk oppdatering av Provider-konfigurasjoner",
+      "autoCheckExtensionUpdates": "Sjekk utvidelsesoppdateringer",
+      "maxChats": "Maksimalt antall chatter",
+      "maxMessagesPerChat": "Maks. meldinger per chat",
+      "inlineCompletionDelay": "Rate Limit forsinkelse (ms)",
+      "inlineCompletionContextLines": "Kontekstlinjer",
+      "inlineCompletionMinCommentLength": "Min. kommentarlengde",
+      "inlineCompletionMaxLinesComment": "Maks. linjer (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Maks. linjer (Enkel)",
+      "tokenEstimationMultiplier": "Ordfaktor",
+      "tokenEstimationCodeBlock": "Kodeblokk-faktor",
+      "tokenEstimationSpecialChars": "Spesialtegn-faktor"
+    },
+    "descriptions": {
+      "temperature": "AI-kreativitet (0 = deterministisk, 1 = kreativ)",
+      "maxTokensPerRequest": "Maksimal lengde på AI-svar",
+      "apiTimeout": "Tidsavbrudd for API-forespørsler i millisekunder",
+      "apiMaxRetries": "Antall gjentakelser ved feil",
+      "autoUpdateConfigs": "Oppdater provider-konfigurasjoner automatisk",
+      "autoCheckExtensionUpdates": "Sjekk for utvidelsesoppdateringer ved oppstart",
+      "maxChats": "Maksimalt antall lagrede chatter",
+      "maxMessagesPerChat": "Maksimum meldinger per chat (eldre slettes)",
+      "inlineCompletionDelay": "Forsinkelse mellom fullføringer",
+      "inlineCompletionContextLines": "Antall linjer før markør som kontekst",
+      "inlineCompletionMinCommentLength": "Minimal kommentarlengde for aktivering",
+      "inlineCompletionMaxLinesComment": "Maksimale linjer ved Comment-to-Code",
+      "inlineCompletionMaxLinesSimple": "Maksimale linjer ved enkle fullføringer",
+      "tokenEstimationMultiplier": "Multiplikator for ord-til-token estimering",
+      "tokenEstimationCodeBlock": "Ekstra tokens for kodeblokker",
+      "tokenEstimationSpecialChars": "Multiplikator for spesialtegn"
+    }
   },
   "extensionUpdate": {
     "available": "AI.duino Extension oppdatering tilgjengelig: {0} → {1}",
@@ -386,17 +470,77 @@
     "noCodeBlocksSuggestion": "Analysen ovenfor inneholder forbedringsforslag.",
     "targetBoard": "Målbrett",
     "codeBadge": "AI-kodeforbedring",
-    "improvedCodeTitle": "Forbedret kode"
+    "improvedCodeTitle": "Forbedret kode",
+    "outputFormatSelection": "VIKTIG: Returner den forbedrede kodeseksjonen fullstendig (ikke forkortet). Format: ```cpp\n...\n```",
+    "outputFormatFile": "VIKTIG: Returner den komplette forbedrede filen. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "VIKTIG: Returner alle forbedrede filer, hver med overskrift. Format:\n```cpp\n// ========== Filnavn.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI-feilanalyse",
     "correctedCodeTitle": "Rettet kode"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI-kodeforslag"
+    "codeSuggestionTitle": "AI-kodeforslag",
+    "newCodeContext": "Ny kodekontekst for spørring"
   },
   "debugHelp": {
     "debugBadge": "AI-debug-assistent",
     "debugSolutionTitle": "Debug-løsning"
+  },
+  "addComments": {
+    "commentedCode": "Kommentert kode",
+    "customInstructions": "Egendefinerte instruksjoner",
+    "outputFormatSelection": "VIKTIG: Returner kodeseksjonen med kommentarer fullstendig. Format: ```cpp\n...\n```",
+    "outputFormatFile": "VIKTIG: Returner hele filen med kommentarer. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "VIKTIG: Returner alle filer med kommentarer, hver med overskrift. Format:\n```cpp\n// ========== Filnavn.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Uten kodekontekst",
+    "noContextDesc": "Kun spørsmålet",
+    "noContextDetail": "Ingen kodefiler vises til AI",
+    "selection": "Kun valg",
+    "currentFile": "Gjeldende fil",
+    "fullSketch": "Hele prosjektet",
+    "minimalContext": "Minimal kontekst",
+    "lines": "Linjer",
+    "files": "Filer",
+    "selectionDetail": "Kun den merkede koden, uten ekstra kontekst",
+    "currentFileDetailWithSelection": "Merket kode + resten av filen som ekstra kontekst",
+    "currentFileDetailNoSelection": "Hele filen som kontekst",
+    "fullSketchDetailWithSelection": "Merket kode + alle filer som ekstra kontekst",
+    "fullSketchDetailNoSelection": "Alle filer i prosjektet som kontekst",
+    "minimalContextDetail": "Kun kode rundt feillinjen",
+    "selectLevel": "Hvor mye kontekst skal AI få?",
+    "additionalContext": "=== EKSTRA KONTEKST ===",
+    "explanation": "Følgende filer er en del av prosjektet og hjelper med forståelsen:",
+    "focusReminder": "VIKTIG: Fokuser på den merkede koden, bruk resten som kontekst!",
+    "fullFileAsContext": "(Hele filen som kontekst)"
+  },
+  "support": {
+    "message": "🎉 AI.duino har allerede hjulpet deg {0} ganger!",
+    "description": "Dette prosjektet er gratis og åpen kildekode. En liten donasjon hjelper med videreutvikling.",
+    "coffee": "☕ Kjøp en kaffe",
+    "sponsor": "💙 Bli sponsor",
+    "later": "Senere",
+    "noThanks": "Ikke vis igjen",
+    "thanks": "Tusen takk for støtten din! 💙"
+  },
+  "uninstall": {
+    "button": "Avinstaller AI.duino",
+    "warning": "⚠️ ADVARSEL: Dette vil fjerne AI.duino fullstendig!",
+    "willDelete": "Følgende data vil bli slettet",
+    "cannotUndo": "Denne handlingen kan IKKE angres!",
+    "uninstall": "Avinstaller",
+    "finalWarning": "Siste advarsel: Vil du virkelig slette alle AI.duino-data permanent?",
+    "yesDelete": "Ja, slett permanent",
+    "removing": "AI.duino fjernes...",
+    "deleting": "Sletter",
+    "clearingSettings": "Rydder innstillinger...",
+    "success": "✅ AI.duino ble avinstallert vellykket",
+    "itemsDeleted": "Elementer slettet",
+    "manualStep": "Vennligst deaktiver/fjern utvidelsen manuelt i Arduino IDE under Fil → Innstillinger → Utvidelser",
+    "partialSuccess": "⚠️ Delvis avinstallert",
+    "deleted": "Slettet",
+    "failed": "Mislyktes"
   }
 }

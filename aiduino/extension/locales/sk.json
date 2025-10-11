@@ -19,7 +19,9 @@
     "changePath": "Zmeniť cestu",
     "openChatPanel": "AI Chat",
     "toggleInlineCompletion": "Inline dopĺňanie",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ zo schránky",
+    "openSettings": "Nastavenia"
   },
   "messages": {
     "welcome": "Vitajte! AI.duino podporuje {0}!",
@@ -54,7 +56,12 @@
     "inlineCompletionActivate": "Aktivovať inline dopĺňanie s {0}?",
     "inlineCompletionWarningCosts": "⚠️ {0} je platená služba - každé dopĺňanie spôsobuje API náklady. Napriek tomu aktivovať?",
     "inlineCompletionEnabled": "✓ Inline dopĺňanie aktivované",
-    "inlineCompletionDisabled": "Inline dopĺňanie deaktivované"
+    "inlineCompletionDisabled": "Inline dopĺňanie deaktivované",
+    "operationAlreadyRunning": "Operácia už beží! Prosím počkaj...",
+    "contextAttachedInfo": "🔎 Kontext pridaný - platí len pre ďalšiu správu. Použi '🔄 Posledný kontext' na opätovné použitie.",
+    "noErrorInClipboard": "V schránke neboli nájdené žiadne informácie o chybe. Prosím najprv klikni v Arduino IDE na 'Kopírovať chybovú správu'.",
+    "settingsSaved": "Nastavenia uložené",
+    "settingsReset": "Nastavenia resetované"
   },
   "buttons": {
     "chooseModel": "Výber AI modelu",
@@ -90,7 +97,8 @@
     "close": "Zavrieť",
     "send": "Odoslať",
     "newInput": "Nový vstup",
-    "delete": "Odstrániť"
+    "delete": "Odstrániť",
+    "resetAll": "Resetovať všetko"
   },
   "descriptions": {
     "improveCodeSelected": "Optimalizácia označeného kódu",
@@ -108,7 +116,9 @@
     "askFollowUp": "Pokračovanie predchádzajúceho rozhovoru: {0}",
     "noValidContext": "Žiadny predchádzajúci rozhovor",
     "editPrompts": "Prispôsobiť a spravovať AI výzvy",
-    "openChatPanel": "AI chat s integráciou kódu"
+    "openChatPanel": "AI chat s integráciou kódu",
+    "explainCopiedError": "Analyzovať chybu zo schránky",
+    "openSettings": "Upraviť nastavenia"
   },
   "language": {
     "autoDetect": "Automatické rozpoznanie z VS Code",
@@ -144,7 +154,25 @@
     "askAIWithContext": "Otázka používateľa: {0}\n\nKód kontext:\n```cpp\n{1}\n```\n\nOdpovedzte po slovensky s ohľadom na poskytnutý Arduino kód.",
     "askFollowUp": "Následná otázka:",
     "followUpContext": "Kontext z predchádzajúceho rozhovoru:",
-    "followUpInstruction": "Odpovedzte po slovensky s ohľadom na predchádzajúci rozhovor."
+    "followUpInstruction": "Odpovedzte po slovensky s ohľadom na predchádzajúci rozhovor.",
+    "improveCodeFile": "Vylepši tento kompletný Arduino súbor ({0}):\n\n```cpp\n{1}\n```\n\nOptimalizuj pre:\n- Neblokujúci kód (millis namiesto delay)\n- Efektivitu pamäte\n- Lepšiu čitateľnosť\n- Arduino najlepšie postupy\n- Robustnosť",
+    "improveCodeSketch": "Vylepši všetky súbory v tomto Arduino sketchi:\n\n{0}\n\nOptimalizuj celý sketch pre:\n- Neblokujúci kód (millis namiesto delay)\n- Efektivitu pamäte\n- Lepšiu čitateľnosť\n- Arduino najlepšie postupy\n- Robustnosť\n- Jasné oddelenie medzi súbormi",
+    "addCommentsFile": "Pridaj užitočné slovenské komentáre k tomuto kompletnému Arduino súboru ({0}):\n\n```cpp\n{1}\n```\n\nPravidlá:\n- Vysvetli, čo robí každý dôležitý riadok\n- Okomentuj funkcie a ich parametre\n- Vysvetli interakcie s hardvérom\n- Používaj // pre jednoriadkové a /* */ pre viacriadkové komentáre\n- Komentáre by mali pomáhať začiatočníkom",
+    "addCommentsSketch": "Pridaj užitočné slovenské komentáre ku všetkým súborom v tomto Arduino sketchi:\n\n{0}\n\nPravidlá:\n- Vysvetli, čo robí každý dôležitý riadok\n- Okomentuj funkcie a ich parametre\n- Vysvetli interakcie s hardvérom a vzťahy medzi súbormi\n- Používaj // pre jednoriadkové a /* */ pre viacriadkové komentáre\n- Komentáre by mali pomáhať začiatočníkom",
+    "explainCodeFile": "Vysvetli tento kompletný Arduino súbor ({0}) po slovensky:\n\n```cpp\n{1}\n```\n\nVysvetli:\n- Čo súbor robí (hlavný účel)\n- Dôležité funkcie a ich úlohy\n- Interakcie s hardvérom (piny, senzory atď.)\n- Algoritmy a logiku\n- Zvláštnosti alebo dôležité detaily",
+    "explainCodeSketch": "Vysvetli všetky súbory v tomto Arduino sketchi po slovensky:\n\n{0}\n\nVysvetli:\n- Čo celý sketch robí (hlavný účel)\n- Ako súbory spolupracujú\n- Dôležité funkcie v každom súbore\n- Interakcie s hardvérom (piny, senzory atď.)\n- Tok dát medzi súbormi\n- Zvláštnosti alebo dôležité detaily",
+    "explainErrorFile": "Vysvetli túto Arduino chybu na riadku {1}:\n\nChyba: {0}\n\nSúbor ({2}):\n```cpp\n{3}\n```\n\nVysvetli:\n- Čo chyba znamená\n- Prečo nastáva\n- Ako ju opraviť\n- Ukáž opravený kód",
+    "explainErrorSketch": "Vysvetli túto Arduino chybu na riadku {1}:\n\nChyba: {0}\n\nCelý sketch:\n{2}\n\nVysvetli:\n- Čo chyba znamená\n- Prečo nastáva (aj v kontexte ostatných súborov)\n- Ako ju opraviť\n- Ukáž opravený kód",
+    "analyzeSerialFile": "Analyzuj tento Serial výstup:\n\n{0}\n\nSúbor s kódom ({1}):\n```cpp\n{2}\n```\n\nZisti:\n- Čo výstup znamená\n- Či existujú problémy\n- Čo robí kód, ktorý generuje tento výstup",
+    "analyzeSerialSketch": "Analyzuj tento Serial výstup:\n\n{0}\n\nCelý sketch:\n{1}\n\nZisti:\n- Čo výstup znamená\n- Či existujú problémy\n- Ktorý kód generuje tento výstup",
+    "hardwareDebugFile": "Analyzuj hardvérové problémy v tomto súbore ({0}):\n\n```cpp\n{1}\n```\n\nSkontroluj:\n- Konfigurácie pinov\n- Elektrické pripojenia\n- Problémy s časovaním\n- Typické hardvérové chyby",
+    "hardwareDebugSketch": "Analyzuj hardvérové problémy v celom sketchi:\n\n{0}\n\nSkontroluj:\n- Konfigurácie pinov vo všetkých súboroch\n- Elektrické pripojenia\n- Problémy s časovaním\n- Typické hardvérové chyby",
+    "addDebugStatementsFile": "Pridaj užitočné debug výstupy k tomuto súboru ({0}):\n\n```cpp\n{1}\n```\n\nPridaj Serial.print() príkazy na:\n- Sledovanie hodnôt premenných\n- Trasovanie toku programu\n- Zúženie zdrojov chýb",
+    "addDebugStatementsSketch": "Pridaj užitočné debug výstupy k tomuto sketchu:\n\n{0}\n\nPridaj Serial.print() príkazy na:\n- Sledovanie hodnôt premenných\n- Trasovanie toku programu\n- Zúženie zdrojov chýb\n- Pochopenie interakcií medzi súbormi",
+    "analyzeTimingFile": "Analyzuj problémy s časovaním v tomto súbore ({0}):\n\n```cpp\n{1}\n```\n\nSkontroluj:\n- Použitie delay()\n- Blokujúci vs. neblokujúci kód\n- Implementáciu millis()\n- Race Conditions",
+    "analyzeTimingSketch": "Analyzuj problémy s časovaním v celom sketchi:\n\n{0}\n\nSkontroluj:\n- Použitie delay() vo všetkých súboroch\n- Blokujúci vs. neblokujúci kód\n- Implementáciu millis()\n- Race Conditions\n- Časovanie medzi rôznymi súbormi",
+    "askAIFile": "Používateľská otázka: {0}\n\nSúbor s kódom ({1}):\n```cpp\n{2}\n```\n\nOdpovedz po slovensky s ohľadom na poskytnutý Arduino kód.",
+    "askAISketch": "Používateľská otázka: {0}\n\nCelý sketch:\n{1}\n\nOdpovedz po slovensky s ohľadom na všetky súbory v sketchi."
   },
   "placeholders": {
     "customInstructions": "napr. \"nepoužívaj millis()\", \"optimalizuj pre Arduino Nano\", \"pridaj spracovanie chýb\"",
@@ -252,7 +280,18 @@
     "noChatsYet": "Zatiaľ žiadne chaty",
     "createFirstChat": "Vytvorte svoj prvý chat!",
     "chatsOverview": "Prehľad chatov",
-    "messages": "Správy"
+    "messages": "Správy",
+    "attachFile": "Pripojiť súbor",
+    "attachContext": "Pridať kontext",
+    "contextAttached": "Kontext pridaný",
+    "clearContext": "Odstrániť kontext",
+    "sendSelectedCode": "Poslať označený kód",
+    "filesSent": "Súbory odoslané",
+    "useLastContext": "Pridať znova",
+    "reuseLastContext": "Znovu použiť posledný kontext",
+    "arduinoMode": "Arduino",
+    "generalMode": "Všeobecný",
+    "toggleMode": "Prepnúť režim"
   },
   "shortcuts": {
     "askFollowUp": "Následná otázka",
@@ -351,7 +390,52 @@
     "notNow": "Nie teraz"
   },
   "settings": {
-    "autoUpdateConfigs": "Automatické hľadanie aktualizácií provider config-ov"
+    "autoUpdateConfigs": "Automatické hľadanie aktualizácií provider config-ov",
+    "title": "Nastavenia",
+    "categories": {
+      "aiBehavior": "Správanie AI",
+      "performance": "Výkon",
+      "updates": "Aktualizácie",
+      "chat": "Chat",
+      "inlineCompletion": "Inline dopĺňanie",
+      "advanced": "Pokročilé"
+    },
+    "labels": {
+      "temperature": "Kreativita (Temperature)",
+      "maxTokensPerRequest": "Max. tokenov na požiadavku",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Max. počet opakovaní",
+      "autoUpdateConfigs": "Auto-aktualizácia Provider konfigurácií",
+      "autoCheckExtensionUpdates": "Kontrolovať aktualizácie rozšírenia",
+      "maxChats": "Maximálny počet chatov",
+      "maxMessagesPerChat": "Max. správ na chat",
+      "inlineCompletionDelay": "Rate Limit oneskorenie (ms)",
+      "inlineCompletionContextLines": "Kontextové riadky",
+      "inlineCompletionMinCommentLength": "Min. dĺžka komentára",
+      "inlineCompletionMaxLinesComment": "Max. riadkov (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Max. riadkov (Jednoduché)",
+      "tokenEstimationMultiplier": "Slovný faktor",
+      "tokenEstimationCodeBlock": "Faktor bloku kódu",
+      "tokenEstimationSpecialChars": "Faktor špeciálnych znakov"
+    },
+    "descriptions": {
+      "temperature": "Kreativita AI (0 = deterministické, 1 = kreatívne)",
+      "maxTokensPerRequest": "Maximálna dĺžka odpovedí AI",
+      "apiTimeout": "Timeout pre API požiadavky v milisekundách",
+      "apiMaxRetries": "Počet opakovaní pri chybe",
+      "autoUpdateConfigs": "Automaticky aktualizovať konfigurácie providerov",
+      "autoCheckExtensionUpdates": "Kontrolovať aktualizácie rozšírenia pri spustení",
+      "maxChats": "Maximálny počet uložených chatov",
+      "maxMessagesPerChat": "Maximum správ na chat (staršie sa mažú)",
+      "inlineCompletionDelay": "Oneskorenie medzi dopĺňaniami",
+      "inlineCompletionContextLines": "Počet riadkov pred kurzorom ako kontext",
+      "inlineCompletionMinCommentLength": "Minimálna dĺžka komentára pre spustenie",
+      "inlineCompletionMaxLinesComment": "Maximálne riadky pri Comment-to-Code",
+      "inlineCompletionMaxLinesSimple": "Maximálne riadky pri jednoduchých dopĺňaniach",
+      "tokenEstimationMultiplier": "Násobiteľ pre odhad slov-na-tokeny",
+      "tokenEstimationCodeBlock": "Dodatočné tokeny pre bloky kódu",
+      "tokenEstimationSpecialChars": "Násobiteľ pre špeciálne znaky"
+    }
   },
   "extensionUpdate": {
     "available": "AI.duino Extension aktualizácia dostupná: {0} → {1}",
@@ -386,17 +470,77 @@
     "noCodeBlocksSuggestion": "Analýza vyššie obsahuje návrhy na vylepšenie.",
     "targetBoard": "Cieľová doska",
     "codeBadge": "AI vylepšenie kódu",
-    "improvedCodeTitle": "Vylepšený kód"
+    "improvedCodeTitle": "Vylepšený kód",
+    "outputFormatSelection": "DÔLEŽITÉ: Vráť vylepšenú sekciu kódu kompletne (neskrátene). Formát: ```cpp\n...\n```",
+    "outputFormatFile": "DÔLEŽITÉ: Vráť kompletný vylepšený súbor. Formát: ```cpp\n...\n```",
+    "outputFormatSketch": "DÔLEŽITÉ: Vráť všetky vylepšené súbory, každý s hlavičkou. Formát:\n```cpp\n// ========== NázovSúboru.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI analýza chyby",
     "correctedCodeTitle": "Opravený kód"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI návrh kódu"
+    "codeSuggestionTitle": "AI návrh kódu",
+    "newCodeContext": "Nový kontext kódu pre dotaz"
   },
   "debugHelp": {
     "debugBadge": "AI asistent ladenia",
     "debugSolutionTitle": "Riešenie ladenia"
+  },
+  "addComments": {
+    "commentedCode": "Okomentovaný kód",
+    "customInstructions": "Vlastné inštrukcie",
+    "outputFormatSelection": "DÔLEŽITÉ: Vráť sekciu kódu s komentármi kompletne. Formát: ```cpp\n...\n```",
+    "outputFormatFile": "DÔLEŽITÉ: Vráť kompletný súbor s komentármi. Formát: ```cpp\n...\n```",
+    "outputFormatSketch": "DÔLEŽITÉ: Vráť všetky súbory s komentármi, každý s hlavičkou. Formát:\n```cpp\n// ========== NázovSúboru.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Bez kontextu kódu",
+    "noContextDesc": "Len otázka",
+    "noContextDetail": "AI sa nezobrazujú žiadne súbory s kódom",
+    "selection": "Len výber",
+    "currentFile": "Aktuálny súbor",
+    "fullSketch": "Celý projekt",
+    "minimalContext": "Minimálny kontext",
+    "lines": "Riadkov",
+    "files": "Súborov",
+    "selectionDetail": "Len označený kód, bez dodatočného kontextu",
+    "currentFileDetailWithSelection": "Označený kód + zvyšok súboru ako dodatočný kontext",
+    "currentFileDetailNoSelection": "Celý súbor ako kontext",
+    "fullSketchDetailWithSelection": "Označený kód + všetky súbory ako dodatočný kontext",
+    "fullSketchDetailNoSelection": "Všetky súbory v projekte ako kontext",
+    "minimalContextDetail": "Len kód okolo riadku s chybou",
+    "selectLevel": "Koľko kontextu by mala AI dostať?",
+    "additionalContext": "=== DODATOČNÝ KONTEXT ===",
+    "explanation": "Nasledujúce súbory sú súčasťou projektu a pomáhajú pri pochopení:",
+    "focusReminder": "DÔLEŽITÉ: Sústreď sa na označený kód, zvyšok použi ako kontext!",
+    "fullFileAsContext": "(Celý súbor ako kontext)"
+  },
+  "support": {
+    "message": "🎉 AI.duino ti už pomohol {0}krát!",
+    "description": "Tento projekt je zadarmo a Open Source. Malý príspevok pomáha pri ďalšom vývoji.",
+    "coffee": "☕ Kúp mi kávu",
+    "sponsor": "💙 Staň sa sponzorom",
+    "later": "Neskôr",
+    "noThanks": "Už nezobrazovať",
+    "thanks": "Veľmi ti ďakujem za tvoju podporu! 💙"
+  },
+  "uninstall": {
+    "button": "Odinštalovať AI.duino",
+    "warning": "⚠️ VAROVANIE: Toto kompletne odstráni AI.duino!",
+    "willDelete": "Nasledujúce dáta budú vymazané",
+    "cannotUndo": "Túto akciu NIE JE možné vrátiť späť!",
+    "uninstall": "Odinštalovať",
+    "finalWarning": "Posledné varovanie: Naozaj natrvalo vymazať všetky AI.duino dáta?",
+    "yesDelete": "Áno, vymazať natrvalo",
+    "removing": "AI.duino sa odstraňuje...",
+    "deleting": "Mazanie",
+    "clearingSettings": "Čistenie nastavení...",
+    "success": "✅ AI.duino bol úspešne odinštalovaný",
+    "itemsDeleted": "Položiek vymazaných",
+    "manualStep": "Prosím deaktivuj/odstráň rozšírenie manuálne v Arduino IDE pod Súbor → Predvoľby → Rozšírenia",
+    "partialSuccess": "⚠️ Čiastočne odinštalované",
+    "deleted": "Vymazané",
+    "failed": "Zlyhalo"
   }
 }

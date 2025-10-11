@@ -493,10 +493,9 @@ async function checkForErrors(silent = true) {
  * @param {vscode.ExtensionContext} context - VS Code extension context
  */
 async function activate(context) {        
-    // Ensure clean state on activation
+    // Prevent multiple simultaneous activations
     if (globalContext) {
-        // Extension was somehow already active - cleanup first
-        deactivate();
+        return;
     }  
 
     // Store context globally
@@ -794,6 +793,9 @@ function deactivate() {
 
     // Cleanup tree provider
     quickMenuTreeProvider = null;
+
+    // Cleanup Arduino Board Context
+    shared.disposeBoardContext(); 
     
     // Clear global references to prevent memory leaks
     globalContext = null;

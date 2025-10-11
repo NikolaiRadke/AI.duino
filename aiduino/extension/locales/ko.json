@@ -19,7 +19,9 @@
     "changePath": "경로 변경",
     "openChatPanel": "AI 채팅",
     "toggleInlineCompletion": "인라인 자동완성",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ 클립보드에서",
+    "openSettings": "설정"
   },
   "messages": {
     "welcome": "👋 환영합니다! AI.duino {0}을(를) 지원합니다!",
@@ -54,7 +56,12 @@
     "inlineCompletionActivate": "{0}로 인라인 자동완성을 활성화하시겠습니까?",
     "inlineCompletionWarningCosts": "⚠️ {0}은 유료 서비스입니다 - 각 자동완성마다 API 비용이 발생합니다. 그래도 활성화하시겠습니까?",
     "inlineCompletionEnabled": "✓ 인라인 자동완성 활성화됨",
-    "inlineCompletionDisabled": "인라인 자동완성 비활성화됨"
+    "inlineCompletionDisabled": "인라인 자동완성 비활성화됨",
+    "operationAlreadyRunning": "작업이 이미 실행 중입니다! 잠시 기다려주세요...",
+    "contextAttachedInfo": "🔎 컨텍스트가 추가되었습니다 - 다음 메시지에만 적용됩니다. 재사용하려면 '🔄 마지막 컨텍스트'를 사용하세요.",
+    "noErrorInClipboard": "클립보드에서 오류 정보를 찾을 수 없습니다. Arduino IDE에서 먼저 '오류 메시지 복사'를 클릭해주세요.",
+    "settingsSaved": "설정이 저장되었습니다",
+    "settingsReset": "설정이 초기화되었습니다"
   },
   "buttons": {
     "chooseModel": "AI 모델 선택",
@@ -90,7 +97,8 @@
     "close": "닫기",
     "send": "보내기",
     "newInput": "새 입력",
-    "delete": "삭제"
+    "delete": "삭제",
+    "resetAll": "모두 초기화"
   },
   "descriptions": {
     "improveCodeSelected": "선택한 코드 최적화",
@@ -108,7 +116,9 @@
     "askFollowUp": "이전 대화 계속하기: {0}",
     "noValidContext": "이전 대화 없음",
     "editPrompts": "AI 프롬프트 사용자 정의 및 관리",
-    "openChatPanel": "코드 통합 기능이 있는 AI 채팅"
+    "openChatPanel": "코드 통합 기능이 있는 AI 채팅",
+    "explainCopiedError": "클립보드의 오류 분석",
+    "openSettings": "설정 조정"
   },
   "language": {
     "autoDetect": "VS Code에서 자동 감지",
@@ -144,7 +154,25 @@
     "askAIWithContext": "사용자 질문: {0}\n\n코드 컨텍스트:\n```cpp\n{1}\n```\n\n제공된 Arduino 코드를 고려하여 한국어로 답변해주세요.",
     "askFollowUp": "추가 질문:",
     "followUpContext": "이전 대화 컨텍스트:",
-    "followUpInstruction": "이전 대화를 고려하여 한국어로 답변해주세요."
+    "followUpInstruction": "이전 대화를 고려하여 한국어로 답변해주세요.",
+    "improveCodeFile": "이 Arduino 파일을 개선해주세요 ({0}):\n\n```cpp\n{1}\n```\n\n다음을 최적화:\n- 논블로킹 코드 (delay 대신 millis)\n- 메모리 효율성\n- 가독성 향상\n- Arduino 모범 사례\n- 안정성",
+    "improveCodeSketch": "이 Arduino 스케치의 모든 파일을 개선해주세요:\n\n{0}\n\n전체 스케치를 다음과 같이 최적화:\n- 논블로킹 코드 (delay 대신 millis)\n- 메모리 효율성\n- 가독성 향상\n- Arduino 모범 사례\n- 안정성\n- 파일 간 명확한 분리",
+    "addCommentsFile": "이 Arduino 파일에 유용한 한국어 주석을 추가해주세요 ({0}):\n\n```cpp\n{1}\n```\n\n규칙:\n- 각 중요한 줄이 무엇을 하는지 설명\n- 함수와 매개변수에 주석 추가\n- 하드웨어 상호작용 설명\n- 한 줄은 //, 여러 줄은 /* */ 사용\n- 초보자에게 도움이 되는 주석",
+    "addCommentsSketch": "이 Arduino 스케치의 모든 파일에 유용한 한국어 주석을 추가해주세요:\n\n{0}\n\n규칙:\n- 각 중요한 줄이 무엇을 하는지 설명\n- 함수와 매개변수에 주석 추가\n- 하드웨어 상호작용과 파일 관계 설명\n- 한 줄은 //, 여러 줄은 /* */ 사용\n- 초보자에게 도움이 되는 주석",
+    "explainCodeFile": "이 Arduino 파일을 한국어로 설명해주세요 ({0}):\n\n```cpp\n{1}\n```\n\n설명 내용:\n- 파일이 하는 일 (주요 목적)\n- 중요한 함수와 역할\n- 하드웨어 상호작용 (핀, 센서 등)\n- 알고리즘과 로직\n- 특이사항 또는 중요한 세부사항",
+    "explainCodeSketch": "이 Arduino 스케치의 모든 파일을 한국어로 설명해주세요:\n\n{0}\n\n설명 내용:\n- 전체 스케치가 하는 일 (주요 목적)\n- 파일들이 어떻게 함께 작동하는지\n- 각 파일의 중요한 함수\n- 하드웨어 상호작용 (핀, 센서 등)\n- 파일 간 데이터 흐름\n- 특이사항 또는 중요한 세부사항",
+    "explainErrorFile": "{1}번째 줄의 Arduino 오류를 설명해주세요:\n\n오류: {0}\n\n파일 ({2}):\n```cpp\n{3}\n```\n\n설명 내용:\n- 오류의 의미\n- 발생 원인\n- 수정 방법\n- 수정된 코드 표시",
+    "explainErrorSketch": "{1}번째 줄의 Arduino 오류를 설명해주세요:\n\n오류: {0}\n\n전체 스케치:\n{2}\n\n설명 내용:\n- 오류의 의미\n- 발생 원인 (다른 파일과의 관계 포함)\n- 수정 방법\n- 수정된 코드 표시",
+    "analyzeSerialFile": "이 Serial 출력을 분석해주세요:\n\n{0}\n\n코드 파일 ({1}):\n```cpp\n{2}\n```\n\n확인 사항:\n- 출력의 의미\n- 문제가 있는지 여부\n- 이 출력을 생성하는 코드가 하는 일",
+    "analyzeSerialSketch": "이 Serial 출력을 분석해주세요:\n\n{0}\n\n전체 스케치:\n{1}\n\n확인 사항:\n- 출력의 의미\n- 문제가 있는지 여부\n- 어떤 코드가 이 출력을 생성하는지",
+    "hardwareDebugFile": "이 파일의 하드웨어 문제를 분석해주세요 ({0}):\n\n```cpp\n{1}\n```\n\n확인 사항:\n- 핀 구성\n- 전기 연결\n- 타이밍 문제\n- 일반적인 하드웨어 오류",
+    "hardwareDebugSketch": "전체 스케치의 하드웨어 문제를 분석해주세요:\n\n{0}\n\n확인 사항:\n- 모든 파일의 핀 구성\n- 전기 연결\n- 타이밍 문제\n- 일반적인 하드웨어 오류",
+    "addDebugStatementsFile": "이 파일에 유용한 디버그 출력을 추가해주세요 ({0}):\n\n```cpp\n{1}\n```\n\n다음을 위해 Serial.print() 문 추가:\n- 변수 값 모니터링\n- 프로그램 흐름 추적\n- 오류 원인 좁히기",
+    "addDebugStatementsSketch": "이 스케치에 유용한 디버그 출력을 추가해주세요:\n\n{0}\n\n다음을 위해 Serial.print() 문 추가:\n- 변수 값 모니터링\n- 프로그램 흐름 추적\n- 오류 원인 좁히기\n- 파일 간 상호작용 이해",
+    "analyzeTimingFile": "이 파일의 타이밍 문제를 분석해주세요 ({0}):\n\n```cpp\n{1}\n```\n\n확인 사항:\n- delay() 사용\n- 블로킹 vs 논블로킹 코드\n- millis() 구현\n- Race Condition",
+    "analyzeTimingSketch": "전체 스케치의 타이밍 문제를 분석해주세요:\n\n{0}\n\n확인 사항:\n- 모든 파일의 delay() 사용\n- 블로킹 vs 논블로킹 코드\n- millis() 구현\n- Race Condition\n- 다른 파일 간 타이밍",
+    "askAIFile": "사용자 질문: {0}\n\n코드 파일 ({1}):\n```cpp\n{2}\n```\n\n제공된 Arduino 코드를 고려하여 한국어로 답변해주세요.",
+    "askAISketch": "사용자 질문: {0}\n\n전체 스케치:\n{1}\n\n스케치의 모든 파일을 고려하여 한국어로 답변해주세요."
   },
   "placeholders": {
     "customInstructions": "예: \"millis() 사용 안 함\", \"Arduino Nano용 최적화\", \"오류 처리 추가\"",
@@ -252,7 +280,18 @@
     "noChatsYet": "아직 채팅이 없습니다",
     "createFirstChat": "첫 채팅을 만드세요!",
     "chatsOverview": "채팅 개요",
-    "messages": "메시지"
+    "messages": "메시지",
+    "attachFile": "파일 첨부",
+    "attachContext": "컨텍스트 추가",
+    "contextAttached": "컨텍스트 추가됨",
+    "clearContext": "컨텍스트 제거",
+    "sendSelectedCode": "선택한 코드 전송",
+    "filesSent": "파일 전송됨",
+    "useLastContext": "다시 추가",
+    "reuseLastContext": "마지막 사용한 컨텍스트 재사용",
+    "arduinoMode": "Arduino",
+    "generalMode": "일반",
+    "toggleMode": "모드 전환"
   },
   "shortcuts": {
     "askFollowUp": "추가 질문",
@@ -351,7 +390,52 @@
     "notNow": "지금은 아님"
   },
   "settings": {
-    "autoUpdateConfigs": "프로바이더 설정 업데이트를 자동으로 확인"
+    "autoUpdateConfigs": "프로바이더 설정 업데이트를 자동으로 확인",
+    "title": "설정",
+    "categories": {
+      "aiBehavior": "AI 동작",
+      "performance": "성능",
+      "updates": "업데이트",
+      "chat": "채팅",
+      "inlineCompletion": "인라인 자동완성",
+      "advanced": "고급"
+    },
+    "labels": {
+      "temperature": "창의성 (Temperature)",
+      "maxTokensPerRequest": "요청당 최대 토큰",
+      "apiTimeout": "API 타임아웃 (ms)",
+      "apiMaxRetries": "최대 재시도 횟수",
+      "autoUpdateConfigs": "Provider 구성 자동 업데이트",
+      "autoCheckExtensionUpdates": "확장 업데이트 확인",
+      "maxChats": "최대 채팅 수",
+      "maxMessagesPerChat": "채팅당 최대 메시지",
+      "inlineCompletionDelay": "Rate Limit 지연 (ms)",
+      "inlineCompletionContextLines": "컨텍스트 줄",
+      "inlineCompletionMinCommentLength": "최소 주석 길이",
+      "inlineCompletionMaxLinesComment": "최대 줄 (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "최대 줄 (간단)",
+      "tokenEstimationMultiplier": "단어 계수",
+      "tokenEstimationCodeBlock": "코드 블록 계수",
+      "tokenEstimationSpecialChars": "특수 문자 계수"
+    },
+    "descriptions": {
+      "temperature": "AI 창의성 (0 = 결정적, 1 = 창의적)",
+      "maxTokensPerRequest": "AI 응답의 최대 길이",
+      "apiTimeout": "밀리초 단위 API 요청 타임아웃",
+      "apiMaxRetries": "오류 시 재시도 횟수",
+      "autoUpdateConfigs": "Provider 구성 자동 업데이트",
+      "autoCheckExtensionUpdates": "시작 시 확장 업데이트 확인",
+      "maxChats": "저장된 최대 채팅 수",
+      "maxMessagesPerChat": "채팅당 최대 메시지 (오래된 것 삭제됨)",
+      "inlineCompletionDelay": "자동완성 사이 지연",
+      "inlineCompletionContextLines": "커서 앞 컨텍스트로 줄 수",
+      "inlineCompletionMinCommentLength": "트리거를 위한 최소 주석 길이",
+      "inlineCompletionMaxLinesComment": "Comment-to-Code에서 최대 줄",
+      "inlineCompletionMaxLinesSimple": "간단한 자동완성에서 최대 줄",
+      "tokenEstimationMultiplier": "단어-토큰 추정 승수",
+      "tokenEstimationCodeBlock": "코드 블록에 대한 추가 토큰",
+      "tokenEstimationSpecialChars": "특수 문자 승수"
+    }
   },
   "extensionUpdate": {
     "available": "AI.duino Extension 업데이트 사용 가능: {0} → {1}",
@@ -386,17 +470,77 @@
     "noCodeBlocksSuggestion": "위의 분석에는 개선 제안이 포함되어 있습니다.",
     "targetBoard": "대상 보드",
     "codeBadge": "AI 코드 개선",
-    "improvedCodeTitle": "개선된 코드"
+    "improvedCodeTitle": "개선된 코드",
+    "outputFormatSelection": "중요: 개선된 코드 섹션을 완전히 반환 (축약 없이). 형식: ```cpp\n...\n```",
+    "outputFormatFile": "중요: 완전히 개선된 파일을 반환. 형식: ```cpp\n...\n```",
+    "outputFormatSketch": "중요: 모든 개선된 파일을 헤더와 함께 반환. 형식:\n```cpp\n// ========== 파일이름.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI 오류 분석",
     "correctedCodeTitle": "수정된 코드"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI 코드 제안"
+    "codeSuggestionTitle": "AI 코드 제안",
+    "newCodeContext": "질문을 위한 새 코드 컨텍스트"
   },
   "debugHelp": {
     "debugBadge": "AI 디버그 도우미",
     "debugSolutionTitle": "디버그 솔루션"
+  },
+  "addComments": {
+    "commentedCode": "주석이 추가된 코드",
+    "customInstructions": "사용자 지정 지침",
+    "outputFormatSelection": "중요: 주석이 포함된 코드 섹션을 완전히 반환. 형식: ```cpp\n...\n```",
+    "outputFormatFile": "중요: 주석이 포함된 전체 파일을 반환. 형식: ```cpp\n...\n```",
+    "outputFormatSketch": "중요: 주석이 포함된 모든 파일을 헤더와 함께 반환. 형식:\n```cpp\n// ========== 파일이름.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "코드 컨텍스트 없음",
+    "noContextDesc": "질문만",
+    "noContextDetail": "AI에 코드 파일이 표시되지 않음",
+    "selection": "선택 영역만",
+    "currentFile": "현재 파일",
+    "fullSketch": "전체 프로젝트",
+    "minimalContext": "최소 컨텍스트",
+    "lines": "줄",
+    "files": "파일",
+    "selectionDetail": "선택한 코드만, 추가 컨텍스트 없음",
+    "currentFileDetailWithSelection": "선택한 코드 + 파일의 나머지 부분을 추가 컨텍스트로",
+    "currentFileDetailNoSelection": "전체 파일을 컨텍스트로",
+    "fullSketchDetailWithSelection": "선택한 코드 + 모든 파일을 추가 컨텍스트로",
+    "fullSketchDetailNoSelection": "프로젝트의 모든 파일을 컨텍스트로",
+    "minimalContextDetail": "오류 줄 주변의 코드만",
+    "selectLevel": "AI가 얼마나 많은 컨텍스트를 받아야 할까요?",
+    "additionalContext": "=== 추가 컨텍스트 ===",
+    "explanation": "다음 파일은 프로젝트의 일부이며 이해에 도움이 됩니다:",
+    "focusReminder": "중요: 선택한 코드에 집중하고 나머지는 컨텍스트로 사용하세요!",
+    "fullFileAsContext": "(컨텍스트로 전체 파일)"
+  },
+  "support": {
+    "message": "🎉 AI.duino가 지금까지 {0}번 도움을 주었습니다!",
+    "description": "이 프로젝트는 무료 오픈소스입니다. 작은 기부가 개발에 도움이 됩니다.",
+    "coffee": "☕ 커피 사주기",
+    "sponsor": "💙 후원하기",
+    "later": "나중에",
+    "noThanks": "다시 표시 안 함",
+    "thanks": "후원해 주셔서 감사합니다! 💙"
+  },
+  "uninstall": {
+    "button": "AI.duino 제거",
+    "warning": "⚠️ 경고: AI.duino를 완전히 제거합니다!",
+    "willDelete": "다음 데이터가 삭제됩니다",
+    "cannotUndo": "이 작업은 되돌릴 수 없습니다!",
+    "uninstall": "제거",
+    "finalWarning": "최종 경고: 모든 AI.duino 데이터를 영구적으로 삭제하시겠습니까?",
+    "yesDelete": "예, 영구적으로 삭제",
+    "removing": "AI.duino 제거 중...",
+    "deleting": "삭제 중",
+    "clearingSettings": "설정 정리 중...",
+    "success": "✅ AI.duino가 성공적으로 제거되었습니다",
+    "itemsDeleted": "항목 삭제됨",
+    "manualStep": "Arduino IDE의 파일 → 환경설정 → 확장에서 확장을 수동으로 비활성화/제거하십시오",
+    "partialSuccess": "⚠️ 부분적으로 제거됨",
+    "deleted": "삭제됨",
+    "failed": "실패"
   }
 }

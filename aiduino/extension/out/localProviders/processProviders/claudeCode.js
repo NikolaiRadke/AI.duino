@@ -36,7 +36,27 @@ async function executeCommand(toolPath, prompt, context, sessionId = null) {
             if (code === 0 && stdout.trim()) {
                 resolve(stdout.trim());
             } else {
-                reject(new Error(stderr || t('errors.processFailedWithCode', code)));
+                const errorMessage = stderr || t('errors.processFailedWithCode', code);
+                
+                // Check for rate limit errors
+                if (errorMessage.toLowerCase().includes('rate limit') || 
+                    errorMessage.toLowerCase().includes('too many requests') ||
+                    errorMessage.toLowerCase().includes('429')) {
+                    const rateLimitError = new Error(t('errors.rateLimit', 'Claude Code'));
+                    rateLimitError.type = 'RATE_LIMIT_ERROR';
+                    reject(rateLimitError);
+                    return;
+                }
+                
+                // Check for quota errors
+                if (errorMessage.toLowerCase().includes('quota')) {
+                    const quotaError = new Error(t('errors.quotaExceeded'));
+                    quotaError.type = 'QUOTA_ERROR';
+                    reject(quotaError);
+                    return;
+                }
+                
+                reject(new Error(errorMessage));
             }
         });
         

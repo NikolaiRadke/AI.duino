@@ -19,7 +19,9 @@
     "changePath": "Ibdel il-mogħdija",
     "openChatPanel": "Chat AI",
     "toggleInlineCompletion": "Kompletament inline",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ mill-clipboard",
+    "openSettings": "Settings"
   },
   "messages": {
     "welcome": "👋 Merħba! AI.duino jappoġġa {0}!",
@@ -49,13 +51,17 @@
     "noValidContext": "L-ebda konversazzjoni kurrenti biex tkompli (massimu 30 min.)",
     "followUpContext": "Kontinwazzjoni tal-konversazzjoni: \"{0}\" (qabel {1} min.)",
     "contextCleared": "Kuntest tal-konversazzjoni mħassar",
-    "operationAlreadyRunning": "Operazzjoni diġà qed issir! Jekk jogħġbok stenna...",
+    "operationAlreadyRunning": "L-operazzjoni diġà qed taħdem! Jekk jogħġbok stenna...",
     "noPath": "🔧 L-ewwel għandek bżonn mogħdija għal {0}",
     "pathRequired": "{0} jeħtieġ mogħdija",
     "inlineCompletionActivate": "Attiva kompletament inline b'{0}?",
     "inlineCompletionWarningCosts": "⚠️ {0} huwa servizz imħallas - kull kompletament iġib spejjeż tal-API. Attiva xorta?",
     "inlineCompletionEnabled": "✓ Kompletament inline attivat",
-    "inlineCompletionDisabled": "Kompletament inline diżattivat"
+    "inlineCompletionDisabled": "Kompletament inline diżattivat",
+    "contextAttachedInfo": "🔎 Il-kuntest miżjud - japplika biss għall-messaġġ li jmiss. Uża '🔄 L-aħħar kuntest' biex terġa' tuża.",
+    "noErrorInClipboard": "Ma nstabx informazzjoni dwar żball fil-clipboard. Jekk jogħġbok ikklikkja l-ewwel fuq 'Ikkopja messaġġ ta' żball' fl-Arduino IDE.",
+    "settingsSaved": "Is-settings ġew salvati",
+    "settingsReset": "Is-settings ġew irristjati"
   },
   "buttons": {
     "chooseModel": "Agħżel mudell AI",
@@ -91,7 +97,8 @@
     "close": "Agħlaq",
     "send": "Ibgħat",
     "newInput": "Input ġdid",
-    "delete": "Ħassar"
+    "delete": "Ħassar",
+    "resetAll": "Irristja kollox"
   },
   "descriptions": {
     "improveCodeSelected": "Ħassan il-kodiċi magħżul",
@@ -109,7 +116,9 @@
     "askFollowUp": "Kompli konversazzjoni ta' qabel: {0}",
     "noValidContext": "L-ebda konversazzjoni ta' qabel",
     "editPrompts": "Aġġusta l-prompts tal-AI",
-    "openChatPanel": "Chat AI b'integrazzjoni tal-kodiċi"
+    "openChatPanel": "Chat AI b'integrazzjoni tal-kodiċi",
+    "explainCopiedError": "Analizza żball mill-clipboard",
+    "openSettings": "Aġġusta s-settings"
   },
   "language": {
     "autoDetect": "Awtomatikament minn VS Code",
@@ -145,7 +154,25 @@
     "askAIWithContext": "Mistoqsija tal-utent: {0}\n\nKuntest tal-kodiċi:\n```cpp\n{1}\n```\n\nWieġeb bil-Malti b'kunsiderazzjoni tal-kodiċi tal-Arduino mogħti.",
     "askFollowUp": "Mistoqsija follow-up:",
     "followUpContext": "Kuntest tal-konversazzjoni ta' qabel:",
-    "followUpInstruction": "Wieġeb bil-Malti b'kunsiderazzjoni tal-konversazzjoni ta' qabel."
+    "followUpInstruction": "Wieġeb bil-Malti b'kunsiderazzjoni tal-konversazzjoni ta' qabel.",
+    "improveCodeFile": "Ittejjeb dan il-fajl Arduino sħiħ ({0}):\n\n```cpp\n{1}\n```\n\nOttimizza għal:\n- Kodiċi mhux imblukkat (millis minflok delay)\n- Effiċjenza tal-memorja\n- Leġġibbiltà aħjar\n- L-aħjar prattiki Arduino\n- Robustezza",
+    "improveCodeSketch": "Ittejjeb il-fajls kollha f'dan l-Arduino sketch:\n\n{0}\n\nOttimizza l-sketch kollu għal:\n- Kodiċi mhux imblukkat (millis minflok delay)\n- Effiċjenza tal-memorja\n- Leġġibbiltà aħjar\n- L-aħjar prattiki Arduino\n- Robustezza\n- Separazzjoni ċara bejn il-fajls",
+    "addCommentsFile": "Żid kummenti Maltin utli għal dan il-fajl Arduino sħiħ ({0}):\n\n```cpp\n{1}\n```\n\nRegoli:\n- Spjega x'jagħmel kull linja importanti\n- Ikkummenta l-funzjonijiet u l-parametri tagħhom\n- Spjega l-interazzjonijiet mal-hardware\n- Uża // għal linja waħda u /* */ għal linji multipli\n- Il-kummenti għandhom jgħinu lill-prinċipjanti",
+    "addCommentsSketch": "Żid kummenti Maltin utli għall-fajls kollha f'dan l-Arduino sketch:\n\n{0}\n\nRegoli:\n- Spjega x'jagħmel kull linja importanti\n- Ikkummenta l-funzjonijiet u l-parametri tagħhom\n- Spjega l-interazzjonijiet mal-hardware u r-relazzjonijiet bejn il-fajls\n- Uża // għal linja waħda u /* */ għal linji multipli\n- Il-kummenti għandhom jgħinu lill-prinċipjanti",
+    "explainCodeFile": "Spjega dan il-fajl Arduino sħiħ ({0}) bil-Malti:\n\n```cpp\n{1}\n```\n\nSpjega:\n- X'jagħmel il-fajl (skop prinċipali)\n- Funzjonijiet importanti u l-kompiti tagħhom\n- Interazzjonijiet mal-hardware (pins, sensors, eċċ.)\n- Algoritmi u loġika\n- Speċjalitajiet jew dettalji importanti",
+    "explainCodeSketch": "Spjega l-fajls kollha f'dan l-Arduino sketch bil-Malti:\n\n{0}\n\nSpjega:\n- X'jagħmel l-isketch kollu (skop prinċipali)\n- Kif il-fajls jaħdmu flimkien\n- Funzjonijiet importanti f'kull fajl\n- Interazzjonijiet mal-hardware (pins, sensors, eċċ.)\n- Fluss tad-data bejn il-fajls\n- Speċjalitajiet jew dettalji importanti",
+    "explainErrorFile": "Spjega dan iż-żball Arduino fil-linja {1}:\n\nŻball: {0}\n\nFajl ({2}):\n```cpp\n{3}\n```\n\nSpjega:\n- X'ifisser iż-żball\n- Għaliex qed iseħħ\n- Kif issewwih\n- Uri l-kodiċi ssewwi",
+    "explainErrorSketch": "Spjega dan iż-żball Arduino fil-linja {1}:\n\nŻball: {0}\n\nL-isketch kollu:\n{2}\n\nSpjega:\n- X'ifisser iż-żball\n- Għaliex qed iseħħ (ukoll fil-kuntest tal-fajls l-oħra)\n- Kif issewwih\n- Uri l-kodiċi ssewwi",
+    "analyzeSerialFile": "Analizza dan l-output Serial:\n\n{0}\n\nFajl tal-kodiċi ({1}):\n```cpp\n{2}\n```\n\nSib:\n- X'ifisser l-output\n- Jekk hemmx problemi\n- X'jagħmel il-kodiċi li jipproduċi dan l-output",
+    "analyzeSerialSketch": "Analizza dan l-output Serial:\n\n{0}\n\nL-isketch kollu:\n{1}\n\nSib:\n- X'ifisser l-output\n- Jekk hemmx problemi\n- Liema kodiċi jipproduċi dan l-output",
+    "hardwareDebugFile": "Analizza problemi tal-hardware f'dan il-fajl ({0}):\n\n```cpp\n{1}\n```\n\nIċċekkja:\n- Konfigurazzjonijiet tal-pins\n- Konnessjonijiet elettriċi\n- Problemi ta' timing\n- Żbalji tipiċi tal-hardware",
+    "hardwareDebugSketch": "Analizza problemi tal-hardware fl-isketch kollu:\n\n{0}\n\nIċċekkja:\n- Konfigurazzjonijiet tal-pins fil-fajls kollha\n- Konnessjonijiet elettriċi\n- Problemi ta' timing\n- Żbalji tipiċi tal-hardware",
+    "addDebugStatementsFile": "Żid outputs ta' debug utli f'dan il-fajl ({0}):\n\n```cpp\n{1}\n```\n\nŻid stqarrijiet Serial.print() biex:\n- Issorvelja l-valuri tal-varjabbli\n- Traċċa l-fluss tal-programm\n- Inaqqas is-sorsi ta' żbalji",
+    "addDebugStatementsSketch": "Żid outputs ta' debug utli f'dan l-isketch:\n\n{0}\n\nŻid stqarrijiet Serial.print() biex:\n- Issorvelja l-valuri tal-varjabbli\n- Traċċa l-fluss tal-programm\n- Inaqqas is-sorsi ta' żbalji\n- Tifhem l-interazzjonijiet bejn il-fajls",
+    "analyzeTimingFile": "Analizza problemi ta' timing f'dan il-fajl ({0}):\n\n```cpp\n{1}\n```\n\nIċċekkja:\n- Użu ta' delay()\n- Kodiċi li jimblokka vs kodiċi li ma jimblokka x\n- Implimentazzjoni ta' millis()\n- Race Conditions",
+    "analyzeTimingSketch": "Analizza problemi ta' timing fl-isketch kollu:\n\n{0}\n\nIċċekkja:\n- Użu ta' delay() fil-fajls kollha\n- Kodiċi li jimblokka vs kodiċi li ma jimblokka x\n- Implimentazzjoni ta' millis()\n- Race Conditions\n- Timing bejn fajls differenti",
+    "askAIFile": "Mistoqsija tal-utent: {0}\n\nFajl tal-kodiċi ({1}):\n```cpp\n{2}\n```\n\nWieġeb bil-Malti filwaqt li tqis il-kodiċi Arduino pprovdut.",
+    "askAISketch": "Mistoqsija tal-utent: {0}\n\nL-isketch kollu:\n{1}\n\nWieġeb bil-Malti filwaqt li tqis il-fajls kollha fl-isketch."
   },
   "placeholders": {
     "customInstructions": "eż. \"ma tużax millis()\", \"ottimizza għal Arduino Nano\", \"żid error handling\"",
@@ -253,7 +280,18 @@
     "noChatsYet": "Għad m'hemm ebda chat",
     "createFirstChat": "Oħloq l-ewwel chat tiegħek!",
     "chatsOverview": "Ħarsa ġenerali tal-chats",
-    "messages": "Messaġġi"
+    "messages": "Messaġġi",
+    "attachFile": "Waħħal fajl",
+    "attachContext": "Żid kuntest",
+    "contextAttached": "Kuntest miżjud",
+    "clearContext": "Neħħi l-kuntest",
+    "sendSelectedCode": "Ibgħat il-kodiċi magħżul",
+    "filesSent": "Il-fajls intbagħtu",
+    "useLastContext": "Żid mill-ġdid",
+    "reuseLastContext": "Erġa' uża l-aħħar kuntest",
+    "arduinoMode": "Arduino",
+    "generalMode": "Ġenerali",
+    "toggleMode": "Ibdel il-modalità"
   },
   "shortcuts": {
     "askFollowUp": "Mistoqsija follow-up",
@@ -352,7 +390,52 @@
     "notNow": "Mhux issa"
   },
   "settings": {
-    "autoUpdateConfigs": "Fittex aġġornamenti tal-Provider-Config awtomatikament"
+    "autoUpdateConfigs": "Fittex aġġornamenti tal-Provider-Config awtomatikament",
+    "title": "Settings",
+    "categories": {
+      "aiBehavior": "Mġiba tal-AI",
+      "performance": "Prestazzjoni",
+      "updates": "Aġġornamenti",
+      "chat": "Chat",
+      "inlineCompletion": "Inline completion",
+      "advanced": "Avvanzat"
+    },
+    "labels": {
+      "temperature": "Kreattività (Temperature)",
+      "maxTokensPerRequest": "Massimu ta' tokens kull talba",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Massimu ta' tentattivi mill-ġdid",
+      "autoUpdateConfigs": "Aġġornament awtomatiku tal-konfigurazzjonijiet Provider",
+      "autoCheckExtensionUpdates": "Iċċekkja aġġornamenti tal-estensjoni",
+      "maxChats": "Numru massimu ta' chats",
+      "maxMessagesPerChat": "Massimu ta' messaġġi kull chat",
+      "inlineCompletionDelay": "Dewmien Rate Limit (ms)",
+      "inlineCompletionContextLines": "Linji tal-kuntest",
+      "inlineCompletionMinCommentLength": "Tul minimu tal-kumment",
+      "inlineCompletionMaxLinesComment": "Massimu ta' linji (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Massimu ta' linji (Sempliċi)",
+      "tokenEstimationMultiplier": "Fattur tal-kliem",
+      "tokenEstimationCodeBlock": "Fattur tal-blokk tal-kodiċi",
+      "tokenEstimationSpecialChars": "Fattur tal-karattri speċjali"
+    },
+    "descriptions": {
+      "temperature": "Kreattività tal-AI (0 = deterministiku, 1 = kreattiv)",
+      "maxTokensPerRequest": "Tul massimu tar-risposti tal-AI",
+      "apiTimeout": "Timeout għal talbiet API f'millisekondi",
+      "apiMaxRetries": "Numru ta' tentattivi mill-ġdid f'każ ta' żball",
+      "autoUpdateConfigs": "Aġġorna l-konfigurazzjonijiet tal-provider awtomatikament",
+      "autoCheckExtensionUpdates": "Iċċekkja għal aġġornamenti tal-estensjoni meta tibda",
+      "maxChats": "Numru massimu ta' chats issalvati",
+      "maxMessagesPerChat": "Massimu ta' messaġġi kull chat (l-antiki jitħassru)",
+      "inlineCompletionDelay": "Dewmien bejn il-kompletamenti",
+      "inlineCompletionContextLines": "Numru ta' linji qabel il-cursor bħala kuntest",
+      "inlineCompletionMinCommentLength": "Tul minimu tal-kumment għall-attivazzjoni",
+      "inlineCompletionMaxLinesComment": "Linji massimi fil-Comment-to-Code",
+      "inlineCompletionMaxLinesSimple": "Linji massimi fil-kompletamenti sempliċi",
+      "tokenEstimationMultiplier": "Multiplikatur għall-istima kliem-għal-token",
+      "tokenEstimationCodeBlock": "Tokens addizzjonali għal blokki tal-kodiċi",
+      "tokenEstimationSpecialChars": "Multiplikatur għal karattri speċjali"
+    }
   },
   "extensionUpdate": {
     "available": "Aġġornament tal-AI.duino extension disponibbli: {0} → {1}",
@@ -387,17 +470,77 @@
     "noCodeBlocksSuggestion": "L-analiżi hawn fuq fiha s-suġġerimenti għal titjib.",
     "targetBoard": "Bord fil-mira",
     "codeBadge": "Titjib tal-kodiċi AI",
-    "improvedCodeTitle": "Kodiċi mtejjeb"
+    "improvedCodeTitle": "Kodiċi mtejjeb",
+    "outputFormatSelection": "IMPORTANTI: Irritorna s-sezzjoni tal-kodiċi mtejba għalkollox (mhux imqassar). Format: ```cpp\n...\n```",
+    "outputFormatFile": "IMPORTANTI: Irritorna l-fajl kollu mtejjeb. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "IMPORTANTI: Irritorna l-fajls kollha mtejba, kull wieħed b'intestatura. Format:\n```cpp\n// ========== IsmilFajl.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "Analiżi ta' żball AI",
     "correctedCodeTitle": "Kodiċiikkoreġut"
   },
   "askAI": {
-    "codeSuggestionTitle": "Suġġeriment tal-kodiċi AI"
+    "codeSuggestionTitle": "Suġġeriment tal-kodiċi AI",
+    "newCodeContext": "Kuntest ġdid tal-kodiċi għall-mistoqsija"
   },
   "debugHelp": {
     "debugBadge": "Assistent debug AI",
     "debugSolutionTitle": "Soluzzjoni debug"
+  },
+  "addComments": {
+    "commentedCode": "Kodiċi kkummentat",
+    "customInstructions": "Istruzzjonijiet personalizzati",
+    "outputFormatSelection": "IMPORTANTI: Irritorna s-sezzjoni tal-kodiċi bil-kummenti għalkollox. Format: ```cpp\n...\n```",
+    "outputFormatFile": "IMPORTANTI: Irritorna l-fajl kollu bil-kummenti. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "IMPORTANTI: Irritorna l-fajls kollha bil-kummenti, kull wieħed b'intestatura. Format:\n```cpp\n// ========== IsmilFajl.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Mingħajr kuntest tal-kodiċi",
+    "noContextDesc": "Il-mistoqsija biss",
+    "noContextDetail": "L-ebda fajl tal-kodiċi ma jiġi murija lill-AI",
+    "selection": "Għażla biss",
+    "currentFile": "Fajl kurrenti",
+    "fullSketch": "Proġett sħiħ",
+    "minimalContext": "Kuntest minimu",
+    "lines": "Linji",
+    "files": "Fajls",
+    "selectionDetail": "Il-kodiċi magħżul biss, mingħajr kuntest addizzjonali",
+    "currentFileDetailWithSelection": "Kodiċi magħżul + il-bqija tal-fajl bħala kuntest addizzjonali",
+    "currentFileDetailNoSelection": "Il-fajl kollu bħala kuntest",
+    "fullSketchDetailWithSelection": "Kodiċi magħżul + il-fajls kollha bħala kuntest addizzjonali",
+    "fullSketchDetailNoSelection": "Il-fajls kollha fil-proġett bħala kuntest",
+    "minimalContextDetail": "Il-kodiċi biss madwar il-linja ta' żball",
+    "selectLevel": "Kemm kuntest għandu jirċievi l-AI?",
+    "additionalContext": "=== KUNTEST ADDIZZJONALI ===",
+    "explanation": "Dawn il-fajls huma parti mill-proġett u jgħinu biex tifhem:",
+    "focusReminder": "IMPORTANTI: Iffoka fuq il-kodiċi magħżul, uża l-bqija bħala kuntest!",
+    "fullFileAsContext": "(Fajl sħiħ bħala kuntest)"
+  },
+  "support": {
+    "message": "🎉 AI.duino diġà għenek {0} darbiet!",
+    "description": "Dan il-proġett huwa b'xejn u open source. Donazzjoni żgħira tgħin fl-iżvilupp kontinwu.",
+    "coffee": "☕ Ixtri kafè",
+    "sponsor": "💙 Kun sponsor",
+    "later": "Aktar tard",
+    "noThanks": "Tħallix turi aktar",
+    "thanks": "Grazzi ħafna għall-appoġġ tiegħek! 💙"
+  },
+  "uninstall": {
+    "button": "Żinstalla AI.duino",
+    "warning": "⚠️ TWISSIJA: Dan se jneħħi AI.duino għalkollox!",
+    "willDelete": "Id-data li ġejja se titħassar",
+    "cannotUndo": "Din l-azzjoni MA TISTAX tiġi annullata!",
+    "uninstall": "Żinstalla",
+    "finalWarning": "Twissija finali: Tassew trid tħassar id-data kollha ta' AI.duino b'mod permanenti?",
+    "yesDelete": "Iva, ħassar b'mod permanenti",
+    "removing": "AI.duino qed jitneħħa...",
+    "deleting": "Qed jitħassar",
+    "clearingSettings": "Qed jinħassru s-settings...",
+    "success": "✅ AI.duino ġie żinstallat b'suċċess",
+    "itemsDeleted": "Oġġetti mħassra",
+    "manualStep": "Jekk jogħġbok diżattiva/neħħi l-estensjoni manwalment fl-Arduino IDE taħt File → Preferenzi → Estenżjonijiet",
+    "partialSuccess": "⚠️ Żinstallat parzjalment",
+    "deleted": "Imħassar",
+    "failed": "Falliet"
   }
 }

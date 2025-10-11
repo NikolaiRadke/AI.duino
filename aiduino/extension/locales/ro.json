@@ -19,7 +19,9 @@
     "changePath": "Modificați calea",
     "openChatPanel": "Chat AI",
     "toggleInlineCompletion": "Completare inline",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ din clipboard",
+    "openSettings": "Setări"
   },
   "messages": {
     "welcome": "👋 Bun venit! AI.duino suportă {0}!",
@@ -54,7 +56,12 @@
     "inlineCompletionActivate": "Activați completarea inline cu {0}?",
     "inlineCompletionWarningCosts": "⚠️ {0} este un serviciu plătit - fiecare completare generează costuri API. Activați oricum?",
     "inlineCompletionEnabled": "✓ Completare inline activată",
-    "inlineCompletionDisabled": "Completare inline dezactivată"
+    "inlineCompletionDisabled": "Completare inline dezactivată",
+    "operationAlreadyRunning": "Operațiunea rulează deja! Te rog așteaptă...",
+    "contextAttachedInfo": "🔎 Context atașat - valabil doar pentru următorul mesaj. Folosește '🔄 Ultimul context' pentru a refolosi.",
+    "noErrorInClipboard": "Nu s-a găsit nicio informație despre eroare în clipboard. Te rog dă click mai întâi pe 'Copiază mesajul de eroare' în Arduino IDE.",
+    "settingsSaved": "Setările au fost salvate",
+    "settingsReset": "Setările au fost resetate"
   },
   "buttons": {
     "chooseModel": "Alegeți modelul AI",
@@ -90,7 +97,8 @@
     "close": "Închide",
     "send": "Trimite",
     "newInput": "Intrare nouă",
-    "delete": "Șterge"
+    "delete": "Șterge",
+    "resetAll": "Resetează tot"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizează codul selectat",
@@ -108,7 +116,9 @@
     "askFollowUp": "Continuă conversația anterioară: {0}",
     "noValidContext": "Fără conversație anterioară",
     "editPrompts": "Personalizează și gestionează prompturile AI",
-    "openChatPanel": "Chat AI cu integrare cod"
+    "openChatPanel": "Chat AI cu integrare cod",
+    "explainCopiedError": "Analizează eroarea din clipboard",
+    "openSettings": "Ajustează setările"
   },
   "labels": {
     "active": "Activ",
@@ -138,7 +148,25 @@
     "askAIWithContext": "Întrebarea utilizatorului: {0}\n\nContextul codului:\n```cpp\n{1}\n```\n\nRăspunde în română ținând cont de codul Arduino furnizat.",
     "askFollowUp": "Întrebare de urmărire:",
     "followUpContext": "Contextul conversației anterioare:",
-    "followUpInstruction": "Răspunde în română ținând cont de conversația anterioară."
+    "followUpInstruction": "Răspunde în română ținând cont de conversația anterioară.",
+    "improveCodeFile": "Îmbunătățește acest fișier Arduino complet ({0}):\n\n```cpp\n{1}\n```\n\nOptimizează pentru:\n- Cod neblocant (millis în loc de delay)\n- Eficiența memoriei\n- Lizibilitate mai bună\n- Cele mai bune practici Arduino\n- Robustețe",
+    "improveCodeSketch": "Îmbunătățește toate fișierele din acest sketch Arduino:\n\n{0}\n\nOptimizează întregul sketch pentru:\n- Cod neblocant (millis în loc de delay)\n- Eficiența memoriei\n- Lizibilitate mai bună\n- Cele mai bune practici Arduino\n- Robustețe\n- Separare clară între fișiere",
+    "addCommentsFile": "Adaugă comentarii utile în română la acest fișier Arduino complet ({0}):\n\n```cpp\n{1}\n```\n\nReguli:\n- Explică ce face fiecare linie importantă\n- Comentează funcțiile și parametrii lor\n- Explică interacțiunile cu hardware-ul\n- Folosește // pentru o singură linie și /* */ pentru mai multe linii\n- Comentariile trebuie să ajute începătorii",
+    "addCommentsSketch": "Adaugă comentarii utile în română la toate fișierele din acest sketch Arduino:\n\n{0}\n\nReguli:\n- Explică ce face fiecare linie importantă\n- Comentează funcțiile și parametrii lor\n- Explică interacțiunile cu hardware-ul și relațiile dintre fișiere\n- Folosește // pentru o singură linie și /* */ pentru mai multe linii\n- Comentariile trebuie să ajute începătorii",
+    "explainCodeFile": "Explică acest fișier Arduino complet ({0}) în română:\n\n```cpp\n{1}\n```\n\nExplică:\n- Ce face fișierul (scopul principal)\n- Funcții importante și sarcinile lor\n- Interacțiuni cu hardware-ul (pini, senzori, etc.)\n- Algoritmi și logică\n- Particularități sau detalii importante",
+    "explainCodeSketch": "Explică toate fișierele din acest sketch Arduino în română:\n\n{0}\n\nExplică:\n- Ce face întregul sketch (scopul principal)\n- Cum lucrează fișierele împreună\n- Funcții importante în fiecare fișier\n- Interacțiuni cu hardware-ul (pini, senzori, etc.)\n- Fluxul de date între fișiere\n- Particularități sau detalii importante",
+    "explainErrorFile": "Explică această eroare Arduino la linia {1}:\n\nEroare: {0}\n\nFișier ({2}):\n```cpp\n{3}\n```\n\nExplică:\n- Ce înseamnă eroarea\n- De ce apare\n- Cum să o corectezi\n- Arată codul corectat",
+    "explainErrorSketch": "Explică această eroare Arduino la linia {1}:\n\nEroare: {0}\n\nÎntregul sketch:\n{2}\n\nExplică:\n- Ce înseamnă eroarea\n- De ce apare (și în contextul celorlalte fișiere)\n- Cum să o corectezi\n- Arată codul corectat",
+    "analyzeSerialFile": "Analizează această ieșire Serial:\n\n{0}\n\nFișier cod ({1}):\n```cpp\n{2}\n```\n\nAflă:\n- Ce înseamnă ieșirea\n- Dacă există probleme\n- Ce face codul care generează această ieșire",
+    "analyzeSerialSketch": "Analizează această ieșire Serial:\n\n{0}\n\nÎntregul sketch:\n{1}\n\nAflă:\n- Ce înseamnă ieșirea\n- Dacă există probleme\n- Ce cod generează această ieșire",
+    "hardwareDebugFile": "Analizează problemele hardware în acest fișier ({0}):\n\n```cpp\n{1}\n```\n\nVerifică:\n- Configurații ale pinilor\n- Conexiuni electrice\n- Probleme de sincronizare\n- Erori hardware tipice",
+    "hardwareDebugSketch": "Analizează problemele hardware în întregul sketch:\n\n{0}\n\nVerifică:\n- Configurații ale pinilor în toate fișierele\n- Conexiuni electrice\n- Probleme de sincronizare\n- Erori hardware tipice",
+    "addDebugStatementsFile": "Adaugă ieșiri debug utile la acest fișier ({0}):\n\n```cpp\n{1}\n```\n\nAdaugă instrucțiuni Serial.print() pentru a:\n- Monitoriza valorile variabilelor\n- Urmări fluxul programului\n- Restrânge sursele de erori",
+    "addDebugStatementsSketch": "Adaugă ieșiri debug utile la acest sketch:\n\n{0}\n\nAdaugă instrucțiuni Serial.print() pentru a:\n- Monitoriza valorile variabilelor\n- Urmări fluxul programului\n- Restrânge sursele de erori\n- Înțelege interacțiunile dintre fișiere",
+    "analyzeTimingFile": "Analizează problemele de sincronizare în acest fișier ({0}):\n\n```cpp\n{1}\n```\n\nVerifică:\n- Utilizarea delay()\n- Cod blocant vs. neblocant\n- Implementarea millis()\n- Race Conditions",
+    "analyzeTimingSketch": "Analizează problemele de sincronizare în întregul sketch:\n\n{0}\n\nVerifică:\n- Utilizarea delay() în toate fișierele\n- Cod blocant vs. neblocant\n- Implementarea millis()\n- Race Conditions\n- Sincronizarea între diferite fișiere",
+    "askAIFile": "Întrebare utilizator: {0}\n\nFișier cod ({1}):\n```cpp\n{2}\n```\n\nRăspunde în română ținând cont de codul Arduino furnizat.",
+    "askAISketch": "Întrebare utilizator: {0}\n\nÎntregul sketch:\n{1}\n\nRăspunde în română ținând cont de toate fișierele din sketch."
   },
   "placeholders": {
     "customInstructions": "de ex. \"nu folosi millis()\", \"optimizează pentru Arduino Nano\", \"adaugă gestionarea erorilor\"",
@@ -246,7 +274,18 @@
     "noChatsYet": "Încă nu există chat-uri",
     "createFirstChat": "Creează primul tău chat!",
     "chatsOverview": "Prezentare generală chat-uri",
-    "messages": "Mesaje"
+    "messages": "Mesaje",
+    "attachFile": "Atașează fișier",
+    "attachContext": "Adaugă context",
+    "contextAttached": "Context atașat",
+    "clearContext": "Elimină contextul",
+    "sendSelectedCode": "Trimite codul selectat",
+    "filesSent": "Fișiere trimise",
+    "useLastContext": "Adaugă din nou",
+    "reuseLastContext": "Refolosește ultimul context",
+    "arduinoMode": "Arduino",
+    "generalMode": "General",
+    "toggleMode": "Schimbă modul"
   },
   "shortcuts": {
     "askFollowUp": "Întrebare de urmărire",
@@ -351,7 +390,52 @@
     "notNow": "Nu acum"
   },
   "settings": {
-    "autoUpdateConfigs": "Verifică automat actualizări de configurații furnizori"
+    "autoUpdateConfigs": "Verifică automat actualizări de configurații furnizori",
+    "title": "Setări",
+    "categories": {
+      "aiBehavior": "Comportament AI",
+      "performance": "Performanță",
+      "updates": "Actualizări",
+      "chat": "Chat",
+      "inlineCompletion": "Completare inline",
+      "advanced": "Avansat"
+    },
+    "labels": {
+      "temperature": "Creativitate (Temperature)",
+      "maxTokensPerRequest": "Max. tokeni per cerere",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Max. încercări de reluare",
+      "autoUpdateConfigs": "Actualizare automată configurații Provider",
+      "autoCheckExtensionUpdates": "Verifică actualizări extensie",
+      "maxChats": "Număr maxim de chat-uri",
+      "maxMessagesPerChat": "Max. mesaje per chat",
+      "inlineCompletionDelay": "Întârziere Rate Limit (ms)",
+      "inlineCompletionContextLines": "Linii de context",
+      "inlineCompletionMinCommentLength": "Lungime min. comentariu",
+      "inlineCompletionMaxLinesComment": "Max. linii (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Max. linii (Simplu)",
+      "tokenEstimationMultiplier": "Factor cuvinte",
+      "tokenEstimationCodeBlock": "Factor bloc cod",
+      "tokenEstimationSpecialChars": "Factor caractere speciale"
+    },
+    "descriptions": {
+      "temperature": "Creativitatea AI (0 = determinist, 1 = creativ)",
+      "maxTokensPerRequest": "Lungimea maximă a răspunsurilor AI",
+      "apiTimeout": "Timeout pentru cereri API în milisecunde",
+      "apiMaxRetries": "Număr de reîncercări la eroare",
+      "autoUpdateConfigs": "Actualizează automat configurațiile provider",
+      "autoCheckExtensionUpdates": "Verifică actualizări extensie la pornire",
+      "maxChats": "Număr maxim de chat-uri salvate",
+      "maxMessagesPerChat": "Maxim de mesaje per chat (cele vechi se șterg)",
+      "inlineCompletionDelay": "Întârziere între completări",
+      "inlineCompletionContextLines": "Număr de linii înainte de cursor ca context",
+      "inlineCompletionMinCommentLength": "Lungime minimă comentariu pentru activare",
+      "inlineCompletionMaxLinesComment": "Linii maxime la Comment-to-Code",
+      "inlineCompletionMaxLinesSimple": "Linii maxime la completări simple",
+      "tokenEstimationMultiplier": "Multiplicator pentru estimare cuvânt-în-token",
+      "tokenEstimationCodeBlock": "Tokeni suplimentari pentru blocuri de cod",
+      "tokenEstimationSpecialChars": "Multiplicator pentru caractere speciale"
+    }
   },
   "extensionUpdate": {
     "available": "Actualizare AI.duino Extension disponibilă: {0} → {1}",
@@ -386,17 +470,77 @@
     "noCodeBlocksSuggestion": "Analiza de mai sus conține sugestiile de îmbunătățire.",
     "targetBoard": "Placă țintă",
     "codeBadge": "Îmbunătățire cod AI",
-    "improvedCodeTitle": "Cod îmbunătățit"
+    "improvedCodeTitle": "Cod îmbunătățit",
+    "outputFormatSelection": "IMPORTANT: Returnează secțiunea de cod îmbunătățită complet (nescurtată). Format: ```cpp\n...\n```",
+    "outputFormatFile": "IMPORTANT: Returnează fișierul complet îmbunătățit. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "IMPORTANT: Returnează toate fișierele îmbunătățite, fiecare cu antet. Format:\n```cpp\n// ========== NumeFișier.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "Analiză eroare AI",
     "correctedCodeTitle": "Cod corectat"
   },
   "askAI": {
-    "codeSuggestionTitle": "Sugestie cod AI"
+    "codeSuggestionTitle": "Sugestie cod AI",
+    "newCodeContext": "Context nou de cod pentru interogare"
   },
   "debugHelp": {
     "debugBadge": "Asistent depanare AI",
     "debugSolutionTitle": "Soluție depanare"
+  },
+  "addComments": {
+    "commentedCode": "Cod comentat",
+    "customInstructions": "Instrucțiuni personalizate",
+    "outputFormatSelection": "IMPORTANT: Returnează secțiunea de cod cu comentarii complet. Format: ```cpp\n...\n```",
+    "outputFormatFile": "IMPORTANT: Returnează fișierul complet cu comentarii. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "IMPORTANT: Returnează toate fișierele cu comentarii, fiecare cu antet. Format:\n```cpp\n// ========== NumeFișier.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Fără context de cod",
+    "noContextDesc": "Doar întrebarea",
+    "noContextDetail": "Nu se arată niciun fișier de cod AI-ului",
+    "selection": "Doar selecția",
+    "currentFile": "Fișierul curent",
+    "fullSketch": "Întreg proiectul",
+    "minimalContext": "Context minimal",
+    "lines": "Linii",
+    "files": "Fișiere",
+    "selectionDetail": "Doar codul selectat, fără context suplimentar",
+    "currentFileDetailWithSelection": "Cod selectat + restul fișierului ca context suplimentar",
+    "currentFileDetailNoSelection": "Întregul fișier ca context",
+    "fullSketchDetailWithSelection": "Cod selectat + toate fișierele ca context suplimentar",
+    "fullSketchDetailNoSelection": "Toate fișierele din proiect ca context",
+    "minimalContextDetail": "Doar cod în jurul liniei cu eroare",
+    "selectLevel": "Cât context ar trebui să primească AI-ul?",
+    "additionalContext": "=== CONTEXT SUPLIMENTAR ===",
+    "explanation": "Următoarele fișiere fac parte din proiect și ajută la înțelegere:",
+    "focusReminder": "IMPORTANT: Concentrează-te pe codul selectat, folosește restul ca context!",
+    "fullFileAsContext": "(Fișier complet ca context)"
+  },
+  "support": {
+    "message": "🎉 AI.duino te-a ajutat deja de {0} ori!",
+    "description": "Acest proiect este gratuit și cu sursă deschisă. O mică donație ajută la dezvoltarea ulterioară.",
+    "coffee": "☕ Cumpără-mi o cafea",
+    "sponsor": "💙 Devino sponsor",
+    "later": "Mai târziu",
+    "noThanks": "Nu mai afișa",
+    "thanks": "Îți mulțumesc mult pentru sprijin! 💙"
+  },
+  "uninstall": {
+    "button": "Dezinstalează AI.duino",
+    "warning": "⚠️ AVERTISMENT: Aceasta va elimina complet AI.duino!",
+    "willDelete": "Următoarele date vor fi șterse",
+    "cannotUndo": "Această acțiune NU POATE fi anulată!",
+    "uninstall": "Dezinstalează",
+    "finalWarning": "Ultimul avertisment: Chiar vrei să ștergi definitiv toate datele AI.duino?",
+    "yesDelete": "Da, șterge definitiv",
+    "removing": "AI.duino se elimină...",
+    "deleting": "Se șterge",
+    "clearingSettings": "Se curăță setările...",
+    "success": "✅ AI.duino a fost dezinstalat cu succes",
+    "itemsDeleted": "Elemente șterse",
+    "manualStep": "Te rog dezactivează/elimină manual extensia în Arduino IDE la Fișier → Preferințe → Extensii",
+    "partialSuccess": "⚠️ Dezinstalat parțial",
+    "deleted": "Șters",
+    "failed": "Eșuat"
   }
 }

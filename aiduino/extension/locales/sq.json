@@ -19,7 +19,9 @@
     "changePath": "Ndrysho shtegun",
     "openChatPanel": "AI Chat",
     "toggleInlineCompletion": "Plotësim inline",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ nga clipboard",
+    "openSettings": "Cilësimet"
   },
   "messages": {
     "welcome": "👋 Mirë se vini! AI.duino mbështet {0}!",
@@ -49,13 +51,17 @@
     "noValidContext": "Nuk ka bisedë aktuale për të vazhduar (maks. 30 min.)",
     "followUpContext": "Vazhdim i bisedës: \"{0}\" ({1} min. më parë)",
     "contextCleared": "Konteksti i bisedës u pastrua",
-    "operationAlreadyRunning": "Operacioni tashmë po vazhdon! Ju lutemi prisni...",
+    "operationAlreadyRunning": "Operacioni është duke u ekzekutuar! Ju lutemi prisni...",
     "noPath": "🔧 Ju duhet fillimisht një shteg për {0}",
     "pathRequired": "{0} kërkon një shteg",
     "inlineCompletionActivate": "Aktivizo plotësimin inline me {0}?",
     "inlineCompletionWarningCosts": "⚠️ {0} është shërbim me pagesë - çdo plotësim shkakton kosto API. Aktivizo sidoqoftë?",
     "inlineCompletionEnabled": "✓ Plotësim inline u aktivizua",
-    "inlineCompletionDisabled": "Plotësim inline u çaktivizua"
+    "inlineCompletionDisabled": "Plotësim inline u çaktivizua",
+    "contextAttachedInfo": "🔎 Konteksti u shtua - vlen vetëm për mesazhin tjetër. Përdor '🔄 Konteksti i fundit' për ta ripërdorur.",
+    "noErrorInClipboard": "Nuk u gjet informacion gabimi në clipboard. Ju lutemi kliko fillimisht 'Kopjo mesazhin e gabimit' në Arduino IDE.",
+    "settingsSaved": "Cilësimet u ruajtën",
+    "settingsReset": "Cilësimet u rivendosën"
   },
   "buttons": {
     "chooseModel": "Zgjidh modelin AI",
@@ -91,7 +97,8 @@
     "close": "Mbyll",
     "send": "Dërgo",
     "newInput": "Hyrje e re",
-    "delete": "Fshi"
+    "delete": "Fshi",
+    "resetAll": "Rivendos të gjitha"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizo kodin e zgjedhur",
@@ -109,7 +116,9 @@
     "askFollowUp": "Vazhdo bisedën e mëparshme: {0}",
     "noValidContext": "Nuk ka bisedë të mëparshme",
     "editPrompts": "Përshtat kërkesat e AI-së",
-    "openChatPanel": "AI chat me integrim kodi"
+    "openChatPanel": "AI chat me integrim kodi",
+    "explainCopiedError": "Analizo gabimin nga clipboard",
+    "openSettings": "Përshtat cilësimet"
   },
   "language": {
     "autoDetect": "Zbulo automatikisht nga VS Code",
@@ -145,7 +154,25 @@
     "askAIWithContext": "Pyetja e përdoruesit: {0}\n\nKonteksti i kodit:\n```cpp\n{1}\n```\n\nPërgjigjuni në gjuhën shqipe duke marrë parasysh kodin Arduino të dhënë.",
     "askFollowUp": "Pyetje shtesë:",
     "followUpContext": "Konteksti i bisedës së mëparshme:",
-    "followUpInstruction": "Përgjigjuni në gjuhën shqipe duke marrë parasysh bisedën e mëparshme."
+    "followUpInstruction": "Përgjigjuni në gjuhën shqipe duke marrë parasysh bisedën e mëparshme.",
+    "improveCodeFile": "Përmirëso këtë skedar të plotë Arduino ({0}):\n\n```cpp\n{1}\n```\n\nOptimizo për:\n- Kod jobllokues (millis në vend të delay)\n- Efikasitet të memories\n- Lexueshmëri më të mirë\n- Praktikat më të mira Arduino\n- Robustësi",
+    "improveCodeSketch": "Përmirëso të gjithë skedarët në këtë sketch Arduino:\n\n{0}\n\nOptimizo të gjithë sketch-in për:\n- Kod jobllokues (millis në vend të delay)\n- Efikasitet të memories\n- Lexueshmëri më të mirë\n- Praktikat më të mira Arduino\n- Robustësi\n- Ndarje të qartë midis skedarëve",
+    "addCommentsFile": "Shto komente të dobishme në shqip në këtë skedar të plotë Arduino ({0}):\n\n```cpp\n{1}\n```\n\nRregullat:\n- Shpjego çfarë bën çdo rresht i rëndësishëm\n- Komento funksionet dhe parametrat e tyre\n- Shpjego ndërveprimet me hardware\n- Përdor // për një rresht dhe /* */ për shumë rreshta\n- Komentet duhet të ndihmojnë fillestarët",
+    "addCommentsSketch": "Shto komente të dobishme në shqip në të gjithë skedarët në këtë sketch Arduino:\n\n{0}\n\nRregullat:\n- Shpjego çfarë bën çdo rresht i rëndësishëm\n- Komento funksionet dhe parametrat e tyre\n- Shpjego ndërveprimet me hardware dhe lidhjet midis skedarëve\n- Përdor // për një rresht dhe /* */ për shumë rreshta\n- Komentet duhet të ndihmojnë fillestarët",
+    "explainCodeFile": "Shpjego këtë skedar të plotë Arduino ({0}) në shqip:\n\n```cpp\n{1}\n```\n\nShpjego:\n- Çfarë bën skedari (qëllimi kryesor)\n- Funksione të rëndësishme dhe detyrat e tyre\n- Ndërveprimet me hardware (pine, sensorë, etj.)\n- Algoritme dhe logjikë\n- Veçori ose detaje të rëndësishme",
+    "explainCodeSketch": "Shpjego të gjithë skedarët në këtë sketch Arduino në shqip:\n\n{0}\n\nShpjego:\n- Çfarë bën i gjithë sketch-i (qëllimi kryesor)\n- Si punojnë skedarët së bashku\n- Funksione të rëndësishme në çdo skedar\n- Ndërveprimet me hardware (pine, sensorë, etj.)\n- Rrjedhja e të dhënave midis skedarëve\n- Veçori ose detaje të rëndësishme",
+    "explainErrorFile": "Shpjego këtë gabim Arduino në rreshtin {1}:\n\nGabimi: {0}\n\nSkedari ({2}):\n```cpp\n{3}\n```\n\nShpjego:\n- Çfarë do të thotë gabimi\n- Pse ndodh\n- Si ta korrigjosh\n- Trego kodin e korrigjuar",
+    "explainErrorSketch": "Shpjego këtë gabim Arduino në rreshtin {1}:\n\nGabimi: {0}\n\nI gjithë sketch-i:\n{2}\n\nShpjego:\n- Çfarë do të thotë gabimi\n- Pse ndodh (edhe në kontekstin e skedarëve të tjerë)\n- Si ta korrigjosh\n- Trego kodin e korrigjuar",
+    "analyzeSerialFile": "Analizo këtë dalje Serial:\n\n{0}\n\nSkedari i kodit ({1}):\n```cpp\n{2}\n```\n\nZbulo:\n- Çfarë do të thotë dalja\n- Nëse ka probleme\n- Çfarë bën kodi që gjeneron këtë dalje",
+    "analyzeSerialSketch": "Analizo këtë dalje Serial:\n\n{0}\n\nI gjithë sketch-i:\n{1}\n\nZbulo:\n- Çfarë do të thotë dalja\n- Nëse ka probleme\n- Cili kod gjeneron këtë dalje",
+    "hardwareDebugFile": "Analizo problemet e hardware në këtë skedar ({0}):\n\n```cpp\n{1}\n```\n\nKontrollo:\n- Konfigurimet e pinave\n- Lidhjet elektrike\n- Problemet e kohëzimit\n- Gabimet tipike të hardware",
+    "hardwareDebugSketch": "Analizo problemet e hardware në të gjithë sketch-in:\n\n{0}\n\nKontrollo:\n- Konfigurimet e pinave në të gjithë skedarët\n- Lidhjet elektrike\n- Problemet e kohëzimit\n- Gabimet tipike të hardware",
+    "addDebugStatementsFile": "Shto dalje debug të dobishme në këtë skedar ({0}):\n\n```cpp\n{1}\n```\n\nShto deklarata Serial.print() për të:\n- Monitoruar vlerat e variablave\n- Gjurmuar rrjedhën e programit\n- Ngushtuar burimet e gabimeve",
+    "addDebugStatementsSketch": "Shto dalje debug të dobishme në këtë sketch:\n\n{0}\n\nShto deklarata Serial.print() për të:\n- Monitoruar vlerat e variablave\n- Gjurmuar rrjedhën e programit\n- Ngushtuar burimet e gabimeve\n- Kuptuar ndërveprimet midis skedarëve",
+    "analyzeTimingFile": "Analizo problemet e kohëzimit në këtë skedar ({0}):\n\n```cpp\n{1}\n```\n\nKontrollo:\n- Përdorimi i delay()\n- Kod bllokues vs jobllokues\n- Zbatimi i millis()\n- Race Conditions",
+    "analyzeTimingSketch": "Analizo problemet e kohëzimit në të gjithë sketch-in:\n\n{0}\n\nKontrollo:\n- Përdorimi i delay() në të gjithë skedarët\n- Kod bllokues vs jobllokues\n- Zbatimi i millis()\n- Race Conditions\n- Kohëzimi midis skedarëve të ndryshëm",
+    "askAIFile": "Pyetja e përdoruesit: {0}\n\nSkedari i kodit ({1}):\n```cpp\n{2}\n```\n\nPërgjigju në shqip duke marrë parasysh kodin Arduino të dhënë.",
+    "askAISketch": "Pyetja e përdoruesit: {0}\n\nI gjithë sketch-i:\n{1}\n\nPërgjigju në shqip duke marrë parasysh të gjithë skedarët në sketch."
   },
   "placeholders": {
     "customInstructions": "p.sh. \"mos përdor millis()\", \"optimizo për Arduino Nano\", \"shto trajtimin e gabimeve\"",
@@ -253,7 +280,18 @@
     "noChatsYet": "Ende pa biseda",
     "createFirstChat": "Krijo bisedën tënde të parë!",
     "chatsOverview": "Përmbledhje bisedash",
-    "messages": "Mesazhe"
+    "messages": "Mesazhe",
+    "attachFile": "Bashkangjit skedar",
+    "attachContext": "Shto kontekst",
+    "contextAttached": "Konteksti u shtua",
+    "clearContext": "Hiq kontekstin",
+    "sendSelectedCode": "Dërgo kodin e zgjedhur",
+    "filesSent": "Skedarët u dërguan",
+    "useLastContext": "Shto përsëri",
+    "reuseLastContext": "Ripërdor kontekstin e fundit",
+    "arduinoMode": "Arduino",
+    "generalMode": "I përgjithshëm",
+    "toggleMode": "Ndrysho mënyrën"
   },
   "shortcuts": {
     "askFollowUp": "Pyetje shtesë",
@@ -352,7 +390,52 @@
     "notNow": "Jo tani"
   },
   "settings": {
-    "autoUpdateConfigs": "Kërko automatikisht përditësime të konfigurimit të ofruesve"
+    "autoUpdateConfigs": "Kërko automatikisht përditësime të konfigurimit të ofruesve",
+    "title": "Cilësimet",
+    "categories": {
+      "aiBehavior": "Sjellja e AI",
+      "performance": "Performanca",
+      "updates": "Përditësimet",
+      "chat": "Chat",
+      "inlineCompletion": "Plotësimi inline",
+      "advanced": "Të avancuara"
+    },
+    "labels": {
+      "temperature": "Kreativiteti (Temperature)",
+      "maxTokensPerRequest": "Maks. tokens për kërkesë",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Maks. përpjekje ripërsëritjeje",
+      "autoUpdateConfigs": "Përditësim automatik i konfigurimeve Provider",
+      "autoCheckExtensionUpdates": "Kontrollo përditësimet e ekstensionit",
+      "maxChats": "Numri maksimal i chat-eve",
+      "maxMessagesPerChat": "Maks. mesazhe për chat",
+      "inlineCompletionDelay": "Vonesë Rate Limit (ms)",
+      "inlineCompletionContextLines": "Rreshtat e kontekstit",
+      "inlineCompletionMinCommentLength": "Gjatësia min. e komentit",
+      "inlineCompletionMaxLinesComment": "Maks. rreshta (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Maks. rreshta (I thjeshtë)",
+      "tokenEstimationMultiplier": "Faktori i fjalëve",
+      "tokenEstimationCodeBlock": "Faktori i bllokut të kodit",
+      "tokenEstimationSpecialChars": "Faktori i karaktereve speciale"
+    },
+    "descriptions": {
+      "temperature": "Kreativiteti i AI (0 = deterministik, 1 = kreativ)",
+      "maxTokensPerRequest": "Gjatësia maksimale e përgjigjeve të AI",
+      "apiTimeout": "Koha e skadimit për kërkesat API në milisekonda",
+      "apiMaxRetries": "Numri i ripërsëritjeve në rast gabimi",
+      "autoUpdateConfigs": "Përditëso automatikisht konfiguracionet e provider",
+      "autoCheckExtensionUpdates": "Kontrollo përditësimet e ekstensionit në fillim",
+      "maxChats": "Numri maksimal i chat-eve të ruajtura",
+      "maxMessagesPerChat": "Maksimumi i mesazheve për chat (më të vjetrit fshihen)",
+      "inlineCompletionDelay": "Vonesë midis plotësimeve",
+      "inlineCompletionContextLines": "Numri i rreshtave para kursorit si kontekst",
+      "inlineCompletionMinCommentLength": "Gjatësia minimale e komentit për aktivizim",
+      "inlineCompletionMaxLinesComment": "Rreshtat maksimalë në Comment-to-Code",
+      "inlineCompletionMaxLinesSimple": "Rreshtat maksimalë në plotësime të thjeshta",
+      "tokenEstimationMultiplier": "Shumëzuesi për vlerësimin fjalë-në-token",
+      "tokenEstimationCodeBlock": "Tokens shtesë për blloqet e kodit",
+      "tokenEstimationSpecialChars": "Shumëzuesi për karakteret speciale"
+    }
   },
   "extensionUpdate": {
     "available": "Përditësim i disponueshëm i shtojcës AI.duino: {0} → {1}",
@@ -387,17 +470,77 @@
     "noCodeBlocksSuggestion": "Analiza më sipër përmban sugjerimet për përmirësim.",
     "targetBoard": "Bord i synuar",
     "codeBadge": "Përmirësim kodi AI",
-    "improvedCodeTitle": "Kod i përmirësuar"
+    "improvedCodeTitle": "Kod i përmirësuar",
+    "outputFormatSelection": "E RËNDËSISHME: Kthe seksionin e përmirësuar të kodit plotësisht (të pakurtuar). Formati: ```cpp\n...\n```",
+    "outputFormatFile": "E RËNDËSISHME: Kthe skedarin e plotë të përmirësuar. Formati: ```cpp\n...\n```",
+    "outputFormatSketch": "E RËNDËSISHME: Kthe të gjithë skedarët e përmirësuar, secili me titull. Formati:\n```cpp\n// ========== EmriSkedarit.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "Analizë gabimi AI",
     "correctedCodeTitle": "Kod i korrigjuar"
   },
   "askAI": {
-    "codeSuggestionTitle": "Sugjerim kodi AI"
+    "codeSuggestionTitle": "Sugjerim kodi AI",
+    "newCodeContext": "Kontekst i ri i kodit për pyetjen"
   },
   "debugHelp": {
     "debugBadge": "Asistent debug AI",
     "debugSolutionTitle": "Zgjidhje debug"
+  },
+  "addComments": {
+    "commentedCode": "Kod i komentuar",
+    "customInstructions": "Udhëzime të personalizuara",
+    "outputFormatSelection": "E RËNDËSISHME: Kthe seksionin e kodit me komente plotësisht. Formati: ```cpp\n...\n```",
+    "outputFormatFile": "E RËNDËSISHME: Kthe skedarin e plotë me komente. Formati: ```cpp\n...\n```",
+    "outputFormatSketch": "E RËNDËSISHME: Kthe të gjithë skedarët me komente, secili me titull. Formati:\n```cpp\n// ========== EmriSkedarit.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Pa kontekst kodi",
+    "noContextDesc": "Vetëm pyetja",
+    "noContextDetail": "Asnjë skedar kodi nuk i shfaqet AI-së",
+    "selection": "Vetëm zgjedhja",
+    "currentFile": "Skedari aktual",
+    "fullSketch": "I gjithë projekti",
+    "minimalContext": "Kontekst minimal",
+    "lines": "Rreshta",
+    "files": "Skedarë",
+    "selectionDetail": "Vetëm kodi i zgjedhur, pa kontekst shtesë",
+    "currentFileDetailWithSelection": "Kodi i zgjedhur + pjesa tjetër e skedarit si kontekst shtesë",
+    "currentFileDetailNoSelection": "I gjithë skedari si kontekst",
+    "fullSketchDetailWithSelection": "Kodi i zgjedhur + të gjithë skedarët si kontekst shtesë",
+    "fullSketchDetailNoSelection": "Të gjithë skedarët në projekt si kontekst",
+    "minimalContextDetail": "Vetëm kodi rreth rreshtit me gabim",
+    "selectLevel": "Sa kontekst duhet të marrë AI?",
+    "additionalContext": "=== KONTEKST SHTESË ===",
+    "explanation": "Skedarët e mëposhtëm janë pjesë e projektit dhe ndihmojnë në kuptim:",
+    "focusReminder": "E RËNDËSISHME: Fokusohu në kodin e zgjedhur, përdor të tjerët si kontekst!",
+    "fullFileAsContext": "(Skedari i plotë si kontekst)"
+  },
+  "support": {
+    "message": "🎉 AI.duino të ka ndihmuar tashmë {0} herë!",
+    "description": "Ky projekt është falas dhe me burim të hapur. Një dhuratë e vogël ndihmon në zhvillimin e mëtejshëm.",
+    "coffee": "☕ Blej një kafe",
+    "sponsor": "💙 Bëhu sponsor",
+    "later": "Më vonë",
+    "noThanks": "Mos e shfaq më",
+    "thanks": "Faleminderit shumë për mbështetjen! 💙"
+  },
+  "uninstall": {
+    "button": "Çinstalo AI.duino",
+    "warning": "⚠️ PARALAJMËRIM: Kjo do të heqë plotësisht AI.duino!",
+    "willDelete": "Të dhënat e mëposhtme do të fshihen",
+    "cannotUndo": "Ky veprim NUK mund të zhbëhet!",
+    "uninstall": "Çinstalo",
+    "finalWarning": "Paralajmërim i fundit: Me të vërtetë të fshihen përgjithmonë të gjitha të dhënat e AI.duino?",
+    "yesDelete": "Po, fshij përgjithmonë",
+    "removing": "AI.duino po hiqet...",
+    "deleting": "Po fshihet",
+    "clearingSettings": "Po pastrohen cilësimet...",
+    "success": "✅ AI.duino u çinstalua me sukses",
+    "itemsDeleted": "Artikujt u fshinë",
+    "manualStep": "Ju lutemi çaktivizo/hiq manualisht ekstensionin në Arduino IDE nën File → Preferences → Extensions",
+    "partialSuccess": "⚠️ Çinstaluar pjesërisht",
+    "deleted": "U fshi",
+    "failed": "Dështoi"
   }
 }

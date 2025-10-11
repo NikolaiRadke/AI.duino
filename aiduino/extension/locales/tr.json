@@ -19,7 +19,9 @@
     "changePath": "Yolu değiştir",
     "openChatPanel": "AI Sohbet",
     "toggleInlineCompletion": "Satır içi tamamlama",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ panodan",
+    "openSettings": "Ayarlar"
   },
   "messages": {
     "welcome": "👋 Hoş geldiniz! AI.duino  {0} destekliyor!",
@@ -54,7 +56,12 @@
     "inlineCompletionActivate": "{0} ile satır içi tamamlama etkinleştirilsin mi?",
     "inlineCompletionWarningCosts": "⚠️ {0} ücretli bir hizmettir - her tamamlama API maliyeti oluşturur. Yine de etkinleştir?",
     "inlineCompletionEnabled": "✓ Satır içi tamamlama etkinleştirildi",
-    "inlineCompletionDisabled": "Satır içi tamamlama devre dışı bırakıldı"
+    "inlineCompletionDisabled": "Satır içi tamamlama devre dışı bırakıldı",
+    "operationAlreadyRunning": "İşlem zaten çalışıyor! Lütfen bekleyin...",
+    "contextAttachedInfo": "🔎 Bağlam eklendi - yalnızca bir sonraki mesaj için geçerli. Tekrar kullanmak için '🔄 Son Bağlamı' kullan.",
+    "noErrorInClipboard": "Panoda hata bilgisi bulunamadı. Lütfen önce Arduino IDE'de 'Hata mesajını kopyala'ya tıklayın.",
+    "settingsSaved": "Ayarlar kaydedildi",
+    "settingsReset": "Ayarlar sıfırlandı"
   },
   "buttons": {
     "chooseModel": "YZ Modeli Seç",
@@ -90,7 +97,8 @@
     "close": "Kapat",
     "send": "Gönder",
     "newInput": "Yeni giriş",
-    "delete": "Sil"
+    "delete": "Sil",
+    "resetAll": "Tümünü sıfırla"
   },
   "descriptions": {
     "improveCodeSelected": "Seçili kodu optimize et",
@@ -108,7 +116,9 @@
     "askFollowUp": "Önceki konuşmayı devam ettir: {0}",
     "noValidContext": "Önceki konuşma yok",
     "editPrompts": "AI istemlerini özelleştir ve yönet",
-    "openChatPanel": "Kod entegrasyonlu AI sohbet"
+    "openChatPanel": "Kod entegrasyonlu AI sohbet",
+    "explainCopiedError": "Panodaki hatayı analiz et",
+    "openSettings": "Ayarları düzenle"
   },
   "language": {
     "autoDetect": "VS Code'dan otomatik algıla",
@@ -144,7 +154,25 @@
     "askAIWithContext": "Kullanıcı sorusu: {0}\n\nKod bağlamı:\n```cpp\n{1}\n```\n\nSağlanan Arduino kodunu dikkate alarak Türkçe yanıtla.",
     "askFollowUp": "Takip sorusu:",
     "followUpContext": "Önceki konuşma bağlamı:",
-    "followUpInstruction": "Önceki konuşmayı dikkate alarak Türkçe yanıtla."
+    "followUpInstruction": "Önceki konuşmayı dikkate alarak Türkçe yanıtla.",
+    "improveCodeFile": "Bu Arduino dosyasını iyileştir ({0}):\n\n```cpp\n{1}\n```\n\nŞunlar için optimize et:\n- Bloklamayan kod (delay yerine millis)\n- Bellek verimliliği\n- Daha iyi okunabilirlik\n- Arduino en iyi uygulamaları\n- Sağlamlık",
+    "improveCodeSketch": "Bu Arduino sketch'indeki tüm dosyaları iyileştir:\n\n{0}\n\nTüm sketch'i şunlar için optimize et:\n- Bloklamayan kod (delay yerine millis)\n- Bellek verimliliği\n- Daha iyi okunabilirlik\n- Arduino en iyi uygulamaları\n- Sağlamlık\n- Dosyalar arasında temiz ayrım",
+    "addCommentsFile": "Bu Arduino dosyasına yardımcı Türkçe yorumlar ekle ({0}):\n\n```cpp\n{1}\n```\n\nKurallar:\n- Her önemli satırın ne yaptığını açıkla\n- Fonksiyonları ve parametrelerini yorumla\n- Donanım etkileşimlerini açıkla\n- Tek satır için // ve çok satır için /* */ kullan\n- Yorumlar yeni başlayanlar için yardımcı olmalı",
+    "addCommentsSketch": "Bu Arduino sketch'indeki tüm dosyalara yardımcı Türkçe yorumlar ekle:\n\n{0}\n\nKurallar:\n- Her önemli satırın ne yaptığını açıkla\n- Fonksiyonları ve parametrelerini yorumla\n- Donanım etkileşimlerini ve dosya ilişkilerini açıkla\n- Tek satır için // ve çok satır için /* */ kullan\n- Yorumlar yeni başlayanlar için yardımcı olmalı",
+    "explainCodeFile": "Bu Arduino dosyasını Türkçe açıkla ({0}):\n\n```cpp\n{1}\n```\n\nŞunları açıkla:\n- Dosyanın ne yaptığı (ana amaç)\n- Önemli fonksiyonlar ve görevleri\n- Donanım etkileşimleri (pinler, sensörler vb.)\n- Algoritmalar ve mantık\n- Özellikler veya önemli detaylar",
+    "explainCodeSketch": "Bu Arduino sketch'indeki tüm dosyaları Türkçe açıkla:\n\n{0}\n\nŞunları açıkla:\n- Tüm sketch'in ne yaptığı (ana amaç)\n- Dosyaların nasıl birlikte çalıştığı\n- Her dosyadaki önemli fonksiyonlar\n- Donanım etkileşimleri (pinler, sensörler vb.)\n- Dosyalar arasındaki veri akışı\n- Özellikler veya önemli detaylar",
+    "explainErrorFile": "Bu Arduino hatasını {1}. satırda açıkla:\n\nHata: {0}\n\nDosya ({2}):\n```cpp\n{3}\n```\n\nŞunları açıkla:\n- Hatanın ne anlama geldiği\n- Neden oluştuğu\n- Nasıl düzeltileceği\n- Düzeltilmiş kodu göster",
+    "explainErrorSketch": "Bu Arduino hatasını {1}. satırda açıkla:\n\nHata: {0}\n\nTüm sketch:\n{2}\n\nŞunları açıkla:\n- Hatanın ne anlama geldiği\n- Neden oluştuğu (diğer dosyalar bağlamında da)\n- Nasıl düzeltileceği\n- Düzeltilmiş kodu göster",
+    "analyzeSerialFile": "Bu Serial çıktısını analiz et:\n\n{0}\n\nKod dosyası ({1}):\n```cpp\n{2}\n```\n\nBul:\n- Çıktının ne anlama geldiği\n- Sorun olup olmadığı\n- Bu çıktıyı üreten kodun ne yaptığı",
+    "analyzeSerialSketch": "Bu Serial çıktısını analiz et:\n\n{0}\n\nTüm sketch:\n{1}\n\nBul:\n- Çıktının ne anlama geldiği\n- Sorun olup olmadığı\n- Bu çıktıyı hangi kodun ürettiği",
+    "hardwareDebugFile": "Bu dosyadaki donanım sorunlarını analiz et ({0}):\n\n```cpp\n{1}\n```\n\nKontrol et:\n- Pin konfigürasyonları\n- Elektrik bağlantıları\n- Zamanlama sorunları\n- Tipik donanım hataları",
+    "hardwareDebugSketch": "Tüm sketch'teki donanım sorunlarını analiz et:\n\n{0}\n\nKontrol et:\n- Tüm dosyalardaki pin konfigürasyonları\n- Elektrik bağlantıları\n- Zamanlama sorunları\n- Tipik donanım hataları",
+    "addDebugStatementsFile": "Bu dosyaya yardımcı debug çıktıları ekle ({0}):\n\n```cpp\n{1}\n```\n\nŞunlar için Serial.print() ifadeleri ekle:\n- Değişken değerlerini izlemek\n- Program akışını takip etmek\n- Hata kaynaklarını daraltmak",
+    "addDebugStatementsSketch": "Bu sketch'e yardımcı debug çıktıları ekle:\n\n{0}\n\nŞunlar için Serial.print() ifadeleri ekle:\n- Değişken değerlerini izlemek\n- Program akışını takip etmek\n- Hata kaynaklarını daraltmak\n- Dosyalar arası etkileşimleri anlamak",
+    "analyzeTimingFile": "Bu dosyadaki zamanlama sorunlarını analiz et ({0}):\n\n```cpp\n{1}\n```\n\nKontrol et:\n- delay() kullanımı\n- Bloklamayan vs bloklayan kod\n- millis() uygulaması\n- Race Condition'lar",
+    "analyzeTimingSketch": "Tüm sketch'teki zamanlama sorunlarını analiz et:\n\n{0}\n\nKontrol et:\n- Tüm dosyalardaki delay() kullanımı\n- Bloklamayan vs bloklayan kod\n- millis() uygulaması\n- Race Condition'lar\n- Farklı dosyalar arasındaki zamanlama",
+    "askAIFile": "Kullanıcı sorusu: {0}\n\nKod dosyası ({1}):\n```cpp\n{2}\n```\n\nSağlanan Arduino kodunu dikkate alarak Türkçe cevap ver.",
+    "askAISketch": "Kullanıcı sorusu: {0}\n\nTüm sketch:\n{1}\n\nSketch'teki tüm dosyaları dikkate alarak Türkçe cevap ver."
   },
   "placeholders": {
     "customInstructions": "örn. \"millis() kullanma\", \"Arduino Nano için optimize et\", \"hata işleme ekle\"",
@@ -252,7 +280,18 @@
     "noChatsYet": "Henüz sohbet yok",
     "createFirstChat": "İlk sohbetini oluştur!",
     "chatsOverview": "Sohbet Özeti",
-    "messages": "Mesajlar"
+    "messages": "Mesajlar",
+    "attachFile": "Dosya ekle",
+    "attachContext": "Bağlam ekle",
+    "contextAttached": "Bağlam eklendi",
+    "clearContext": "Bağlamı kaldır",
+    "sendSelectedCode": "Seçili kodu gönder",
+    "filesSent": "Dosyalar gönderildi",
+    "useLastContext": "Tekrar ekle",
+    "reuseLastContext": "Son kullanılan bağlamı tekrar ekle",
+    "arduinoMode": "Arduino",
+    "generalMode": "Genel",
+    "toggleMode": "Modu değiştir"
   },
   "shortcuts": {
     "askFollowUp": "Takip sorusu",
@@ -351,7 +390,52 @@
     "notNow": "Şimdi değil"
   },
   "settings": {
-    "autoUpdateConfigs": "Sağlayıcı yapılandırma güncellemelerini otomatik kontrol et"
+    "autoUpdateConfigs": "Sağlayıcı yapılandırma güncellemelerini otomatik kontrol et",
+    "title": "Ayarlar",
+    "categories": {
+      "aiBehavior": "AI Davranışı",
+      "performance": "Performans",
+      "updates": "Güncellemeler",
+      "chat": "Sohbet",
+      "inlineCompletion": "Satır İçi Tamamlama",
+      "advanced": "Gelişmiş"
+    },
+    "labels": {
+      "temperature": "Yaratıcılık (Temperature)",
+      "maxTokensPerRequest": "İstek başına maks. token",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Maks. yeniden deneme",
+      "autoUpdateConfigs": "Provider yapılandırmalarını otomatik güncelle",
+      "autoCheckExtensionUpdates": "Extension güncellemelerini kontrol et",
+      "maxChats": "Maksimum sohbet sayısı",
+      "maxMessagesPerChat": "Sohbet başına maks. mesaj",
+      "inlineCompletionDelay": "Rate Limit gecikmesi (ms)",
+      "inlineCompletionContextLines": "Bağlam satırları",
+      "inlineCompletionMinCommentLength": "Min. yorum uzunluğu",
+      "inlineCompletionMaxLinesComment": "Maks. satırlar (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Maks. satırlar (Basit)",
+      "tokenEstimationMultiplier": "Kelime faktörü",
+      "tokenEstimationCodeBlock": "Kod bloğu faktörü",
+      "tokenEstimationSpecialChars": "Özel karakter faktörü"
+    },
+    "descriptions": {
+      "temperature": "AI yaratıcılığı (0 = deterministik, 1 = yaratıcı)",
+      "maxTokensPerRequest": "AI yanıtlarının maksimum uzunluğu",
+      "apiTimeout": "Milisaniye cinsinden API istekleri için timeout",
+      "apiMaxRetries": "Hata durumunda yeniden deneme sayısı",
+      "autoUpdateConfigs": "Provider yapılandırmalarını otomatik güncelle",
+      "autoCheckExtensionUpdates": "Başlangıçta extension güncellemelerini kontrol et",
+      "maxChats": "Kaydedilen maksimum sohbet sayısı",
+      "maxMessagesPerChat": "Sohbet başına maksimum mesaj (eskiler silinir)",
+      "inlineCompletionDelay": "Tamamlamalar arası gecikme",
+      "inlineCompletionContextLines": "İmleç öncesi bağlam olarak satır sayısı",
+      "inlineCompletionMinCommentLength": "Tetikleme için minimum yorum uzunluğu",
+      "inlineCompletionMaxLinesComment": "Comment-to-Code'da maksimum satır",
+      "inlineCompletionMaxLinesSimple": "Basit tamamlamalarda maksimum satır",
+      "tokenEstimationMultiplier": "Kelime-token tahmini için çarpan",
+      "tokenEstimationCodeBlock": "Kod blokları için ek tokenlar",
+      "tokenEstimationSpecialChars": "Özel karakterler için çarpan"
+    }
   },
   "extensionUpdate": {
     "available": "AI.duino Extension güncellemesi mevcut: {0} → {1}",
@@ -386,17 +470,77 @@
     "noCodeBlocksSuggestion": "Yukarıdaki analiz iyileştirme önerilerini içerir.",
     "targetBoard": "Hedef kart",
     "codeBadge": "AI kod iyileştirmesi",
-    "improvedCodeTitle": "İyileştirilmiş kod"
+    "improvedCodeTitle": "İyileştirilmiş kod",
+    "outputFormatSelection": "ÖNEMLİ: İyileştirilmiş kod bölümünü tamamen geri döndür (kısaltılmamış). Format: ```cpp\n...\n```",
+    "outputFormatFile": "ÖNEMLİ: Tamamen iyileştirilmiş dosyayı geri döndür. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "ÖNEMLİ: Tüm iyileştirilmiş dosyaları başlıklarıyla birlikte geri döndür. Format:\n```cpp\n// ========== DosyaAdı.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI hata analizi",
     "correctedCodeTitle": "Düzeltilmiş kod"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI kod önerisi"
+    "codeSuggestionTitle": "AI kod önerisi",
+    "newCodeContext": "Soru için yeni kod bağlamı"
   },
   "debugHelp": {
     "debugBadge": "AI hata ayıklama asistanı",
     "debugSolutionTitle": "Hata ayıklama çözümü"
+  },
+  "addComments": {
+    "commentedCode": "Yorumlanmış kod",
+    "customInstructions": "Özel talimatlar",
+    "outputFormatSelection": "ÖNEMLİ: Kod bölümünü yorumlarıyla birlikte tamamen geri döndür. Format: ```cpp\n...\n```",
+    "outputFormatFile": "ÖNEMLİ: Dosyanın tamamını yorumlarıyla birlikte geri döndür. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "ÖNEMLİ: Tüm dosyaları yorumlarıyla birlikte başlıklarıyla geri döndür. Format:\n```cpp\n// ========== DosyaAdı.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Kod bağlamı olmadan",
+    "noContextDesc": "Sadece soru",
+    "noContextDetail": "AI'ya hiçbir kod dosyası gösterilmez",
+    "selection": "Sadece seçim",
+    "currentFile": "Geçerli dosya",
+    "fullSketch": "Tüm proje",
+    "minimalContext": "Minimum bağlam",
+    "lines": "Satırlar",
+    "files": "Dosyalar",
+    "selectionDetail": "Sadece seçili kod, ek bağlam olmadan",
+    "currentFileDetailWithSelection": "Seçili kod + dosyanın geri kalanı ek bağlam olarak",
+    "currentFileDetailNoSelection": "Tüm dosya bağlam olarak",
+    "fullSketchDetailWithSelection": "Seçili kod + tüm dosyalar ek bağlam olarak",
+    "fullSketchDetailNoSelection": "Projedeki tüm dosyalar bağlam olarak",
+    "minimalContextDetail": "Sadece hata satırı etrafındaki kod",
+    "selectLevel": "AI ne kadar bağlam almalı?",
+    "additionalContext": "=== EK BAĞLAM ===",
+    "explanation": "Aşağıdaki dosyalar projenin parçasıdır ve anlamaya yardımcı olur:",
+    "focusReminder": "ÖNEMLİ: Seçili koda odaklan, geri kalanını bağlam olarak kullan!",
+    "fullFileAsContext": "(Bağlam olarak tam dosya)"
+  },
+  "support": {
+    "message": "🎉 AI.duino şimdiye kadar sana {0} kez yardımcı oldu!",
+    "description": "Bu proje ücretsiz ve Açık Kaynak'tır. Küçük bir bağış geliştirmeye yardımcı olur.",
+    "coffee": "☕ Kahve ısmarla",
+    "sponsor": "💙 Sponsor ol",
+    "later": "Sonra",
+    "noThanks": "Bir daha gösterme",
+    "thanks": "Desteğin için çok teşekkürler! 💙"
+  },
+  "uninstall": {
+    "button": "AI.duino'yu kaldır",
+    "warning": "⚠️ UYARI: Bu AI.duino'yu tamamen kaldıracak!",
+    "willDelete": "Aşağıdaki veriler silinecek",
+    "cannotUndo": "Bu işlem GERİ ALINAMAZ!",
+    "uninstall": "Kaldır",
+    "finalWarning": "Son uyarı: Tüm AI.duino verilerini kalıcı olarak silmek istiyor musun?",
+    "yesDelete": "Evet, kalıcı olarak sil",
+    "removing": "AI.duino kaldırılıyor...",
+    "deleting": "Siliniyor",
+    "clearingSettings": "Ayarlar temizleniyor...",
+    "success": "✅ AI.duino başarıyla kaldırıldı",
+    "itemsDeleted": "Öğeler silindi",
+    "manualStep": "Lütfen Arduino IDE'de Dosya → Ayarlar → Uzantılar altından extension'ı manuel olarak devre dışı bırak/kaldır",
+    "partialSuccess": "⚠️ Kısmen kaldırıldı",
+    "deleted": "Silindi",
+    "failed": "Başarısız"
   }
 }

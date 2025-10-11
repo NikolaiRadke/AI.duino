@@ -19,7 +19,9 @@
     "changePath": "Muuda teed",
     "openChatPanel": "AI Vestlus",
     "toggleInlineCompletion": "Reasisene lõpetamine",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ lõikelauale",
+    "openSettings": "Seaded"
   },
   "messages": {
     "welcome": "👋 Tere tulemast! AI.duino toetab {0}!",
@@ -49,13 +51,17 @@
     "noValidContext": "Pole praegust vestlust jätkamiseks (max 30 min)",
     "followUpContext": "Vestluse jätk: \"{0}\" ({1} min tagasi)",
     "contextCleared": "Vestluse kontekst kustutatud",
-    "operationAlreadyRunning": "Toiming juba käib! Palun oodake...",
+    "operationAlreadyRunning": "Toiming juba käib! Palun oota...",
     "noPath": "🔧 Vajate esmalt teed {0} jaoks",
     "pathRequired": "{0} nõuab teed",
     "inlineCompletionActivate": "Aktiveeri reasisene lõpetamine {0}-ga?",
     "inlineCompletionWarningCosts": "⚠️ {0} on tasuline teenus - iga lõpetamine tekitab API kulusid. Aktiveeri ikkagi?",
     "inlineCompletionEnabled": "✓ Reasisene lõpetamine aktiveeritud",
-    "inlineCompletionDisabled": "Reasisene lõpetamine deaktiveeritud"
+    "inlineCompletionDisabled": "Reasisene lõpetamine deaktiveeritud",
+    "contextAttachedInfo": "🔎 Kontekst lisatud - kehtib ainult järgmise sõnumi jaoks. Kasuta '🔄 Viimane kontekst' uuesti kasutamiseks.",
+    "noErrorInClipboard": "Lõikelaual ei leitud veateadet. Palun klõpsa esmalt Arduino IDE-s 'Kopeeri veateade'.",
+    "settingsSaved": "Seaded salvestatud",
+    "settingsReset": "Seaded lähtestatud"
   },
   "buttons": {
     "chooseModel": "Vali AI mudel",
@@ -91,7 +97,8 @@
     "close": "Sulge",
     "send": "Saada",
     "newInput": "Uus sisend",
-    "delete": "Kustuta"
+    "delete": "Kustuta",
+    "resetAll": "Lähtesta kõik"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiseeri märgitud kood",
@@ -109,7 +116,9 @@
     "askFollowUp": "Jätka eelmist vestlust: {0}",
     "noValidContext": "Pole eelmist vestlust",
     "editPrompts": "Kohanda AI päringuid",
-    "openChatPanel": "AI vestlus koodi integratsiooniga"
+    "openChatPanel": "AI vestlus koodi integratsiooniga",
+    "explainCopiedError": "Analüüsi viga lõikelaual",
+    "openSettings": "Kohanda seadeid"
   },
   "language": {
     "autoDetect": "Tuvasta automaatselt VS Code-st",
@@ -145,7 +154,25 @@
     "askAIWithContext": "Kasutaja küsimus: {0}\n\nKoodi kontekst:\n```cpp\n{1}\n```\n\nVastake eesti keeles, arvestades lisatud Arduino koodi.",
     "askFollowUp": "Täiendav küsimus:",
     "followUpContext": "Eelmise vestluse kontekst:",
-    "followUpInstruction": "Vastake eesti keeles, arvestades eelmist vestlust."
+    "followUpInstruction": "Vastake eesti keeles, arvestades eelmist vestlust.",
+    "improveCodeFile": "Paranda seda täielikku Arduino faili ({0}):\n\n```cpp\n{1}\n```\n\nOptimeeri:\n- Mitteblokeerivaaks koodiks (millis delay asemel)\n- Mälu efektiivsuseks\n- Parema loetavuse jaoks\n- Arduino parimad tavad\n- Tugevus",
+    "improveCodeSketch": "Paranda kõiki faile selles Arduino sketches:\n\n{0}\n\nOptimeeri kogu sketch:\n- Mitteblokeerivaaks koodiks (millis delay asemel)\n- Mälu efektiivsuseks\n- Parema loetavuse jaoks\n- Arduino parimad tavad\n- Tugevus\n- Selge eraldus failide vahel",
+    "addCommentsFile": "Lisa kasulikud eestikeelsed kommentaarid sellele täielikule Arduino failile ({0}):\n\n```cpp\n{1}\n```\n\nReeglid:\n- Selgita, mida iga oluline rida teeb\n- Kommenteeri funktsioone ja nende parameetreid\n- Selgita riistvara interaktsioone\n- Kasuta // üheridalistele ja /* */ mitmerealistele kommentaaridele\n- Kommentaarid peavad aitama algajaid",
+    "addCommentsSketch": "Lisa kasulikud eestikeelsed kommentaarid kõigile failidele selles Arduino sketches:\n\n{0}\n\nReeglid:\n- Selgita, mida iga oluline rida teeb\n- Kommenteeri funktsioone ja nende parameetreid\n- Selgita riistvara interaktsioone ja failide vahelisi suhteid\n- Kasuta // üheridalistele ja /* */ mitmerealistele kommentaaridele\n- Kommentaarid peavad aitama algajaid",
+    "explainCodeFile": "Selgita seda täielikku Arduino faili ({0}) eesti keeles:\n\n```cpp\n{1}\n```\n\nSelgita:\n- Mida fail teeb (peamine eesmärk)\n- Olulised funktsioonid ja nende ülesanded\n- Riistvara interaktsioonid (pinnid, andurid jne)\n- Algoritmid ja loogika\n- Eripärad või olulised detailid",
+    "explainCodeSketch": "Selgita kõiki faile selles Arduino sketches eesti keeles:\n\n{0}\n\nSelgita:\n- Mida kogu sketch teeb (peamine eesmärk)\n- Kuidas failid koos töötavad\n- Olulised funktsioonid igas failis\n- Riistvara interaktsioonid (pinnid, andurid jne)\n- Andmevoog failide vahel\n- Eripärad või olulised detailid",
+    "explainErrorFile": "Selgita seda Arduino viga real {1}:\n\nViga: {0}\n\nFail ({2}):\n```cpp\n{3}\n```\n\nSelgita:\n- Mida viga tähendab\n- Miks see ilmneb\n- Kuidas seda parandada\n- Näita parandatud koodi",
+    "explainErrorSketch": "Selgita seda Arduino viga real {1}:\n\nViga: {0}\n\nKogu sketch:\n{2}\n\nSelgita:\n- Mida viga tähendab\n- Miks see ilmneb (ka teiste failide kontekstis)\n- Kuidas seda parandada\n- Näita parandatud koodi",
+    "analyzeSerialFile": "Analüüsi seda Serial väljundit:\n\n{0}\n\nKoodifail ({1}):\n```cpp\n{2}\n```\n\nSelgita välja:\n- Mida väljund tähendab\n- Kas on probleeme\n- Mida kood, mis selle väljundi genereerib, teeb",
+    "analyzeSerialSketch": "Analüüsi seda Serial väljundit:\n\n{0}\n\nKogu sketch:\n{1}\n\nSelgita välja:\n- Mida väljund tähendab\n- Kas on probleeme\n- Milline kood selle väljundi genereerib",
+    "hardwareDebugFile": "Analüüsi riistvara probleeme selles failis ({0}):\n\n```cpp\n{1}\n```\n\nKontrolli:\n- Pinnide konfiguratsioonid\n- Elektrilised ühendused\n- Ajastuse probleemid\n- Tüüpilised riistvara vead",
+    "hardwareDebugSketch": "Analüüsi riistvara probleeme kogu sketches:\n\n{0}\n\nKontrolli:\n- Pinnide konfiguratsioonid kõigis failides\n- Elektrilised ühendused\n- Ajastuse probleemid\n- Tüüpilised riistvara vead",
+    "addDebugStatementsFile": "Lisa kasulikud debug väljundid sellele failile ({0}):\n\n```cpp\n{1}\n```\n\nLisa Serial.print() laused, et:\n- Jälgida muutujate väärtusi\n- Jälitada programmi kulgu\n- Kitsendada vigade allikaid",
+    "addDebugStatementsSketch": "Lisa kasulikud debug väljundid sellele sketchile:\n\n{0}\n\nLisa Serial.print() laused, et:\n- Jälgida muutujate väärtusi\n- Jälitada programmi kulgu\n- Kitsendada vigade allikaid\n- Mõista failidevahelisi interaktsioone",
+    "analyzeTimingFile": "Analüüsi ajastuse probleeme selles failis ({0}):\n\n```cpp\n{1}\n```\n\nKontrolli:\n- delay() kasutamine\n- Blokeeriv vs mitteblokeeriav kood\n- millis() implementatsioon\n- Race Conditions",
+    "analyzeTimingSketch": "Analüüsi ajastuse probleeme kogu sketches:\n\n{0}\n\nKontrolli:\n- delay() kasutamine kõigis failides\n- Blokeeriv vs mitteblokeeriav kood\n- millis() implementatsioon\n- Race Conditions\n- Ajastus erinevate failide vahel",
+    "askAIFile": "Kasutaja küsimus: {0}\n\nKoodifail ({1}):\n```cpp\n{2}\n```\n\nVasta eesti keeles, arvestades esitatud Arduino koodi.",
+    "askAISketch": "Kasutaja küsimus: {0}\n\nKogu sketch:\n{1}\n\nVasta eesti keeles, arvestades kõiki sketchi faile."
   },
   "placeholders": {
     "customInstructions": "nt \"ära kasuta millis()\", \"optimeeri Arduino Nano jaoks\", \"lisa vigade käsitlemine\"",
@@ -253,7 +280,18 @@
     "noChatsYet": "Vestlusi pole veel",
     "createFirstChat": "Loo oma esimene vestlus!",
     "chatsOverview": "Vestluste ülevaade",
-    "messages": "Sõnumid"
+    "messages": "Sõnumid",
+    "attachFile": "Manusta fail",
+    "attachContext": "Lisa kontekst",
+    "contextAttached": "Kontekst lisatud",
+    "clearContext": "Eemalda kontekst",
+    "sendSelectedCode": "Saada valitud kood",
+    "filesSent": "Failid saadetud",
+    "useLastContext": "Lisa uuesti",
+    "reuseLastContext": "Kasuta viimast konteksti uuesti",
+    "arduinoMode": "Arduino",
+    "generalMode": "Üldine",
+    "toggleMode": "Vaheta režiimi"
   },
   "shortcuts": {
     "askFollowUp": "Täiendav küsimus",
@@ -352,7 +390,52 @@
     "notNow": "Mitte nüüd"
   },
   "settings": {
-    "autoUpdateConfigs": "Otsi automaatselt teenusepakkujate konfiguratsiooni uuendusi"
+    "autoUpdateConfigs": "Otsi automaatselt teenusepakkujate konfiguratsiooni uuendusi",
+    "title": "Seaded",
+    "categories": {
+      "aiBehavior": "AI käitumine",
+      "performance": "Jõudlus",
+      "updates": "Uuendused",
+      "chat": "Vestlus",
+      "inlineCompletion": "Inline täiendamine",
+      "advanced": "Täpsem"
+    },
+    "labels": {
+      "temperature": "Loovus (Temperature)",
+      "maxTokensPerRequest": "Maks. tokeneid päringu kohta",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Maks. korduskatseid",
+      "autoUpdateConfigs": "Automaatne Provider konfiguratsioonide uuendamine",
+      "autoCheckExtensionUpdates": "Kontrolli laienduse uuendusi",
+      "maxChats": "Maksimaalne vestluste arv",
+      "maxMessagesPerChat": "Maks. sõnumeid vestluse kohta",
+      "inlineCompletionDelay": "Rate Limit viivitus (ms)",
+      "inlineCompletionContextLines": "Konteksti read",
+      "inlineCompletionMinCommentLength": "Min. kommentaari pikkus",
+      "inlineCompletionMaxLinesComment": "Maks. ridu (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Maks. ridu (Lihtne)",
+      "tokenEstimationMultiplier": "Sõnade tegur",
+      "tokenEstimationCodeBlock": "Koodiploki tegur",
+      "tokenEstimationSpecialChars": "Erimärkide tegur"
+    },
+    "descriptions": {
+      "temperature": "AI loovus (0 = deterministlik, 1 = loov)",
+      "maxTokensPerRequest": "AI vastuste maksimaalne pikkus",
+      "apiTimeout": "API päringute ajalõpp millisekundites",
+      "apiMaxRetries": "Korduste arv vea korral",
+      "autoUpdateConfigs": "Uuenda automaatselt provider konfiguratsioone",
+      "autoCheckExtensionUpdates": "Kontrolli laienduse uuendusi käivitamisel",
+      "maxChats": "Maksimaalne salvestatud vestluste arv",
+      "maxMessagesPerChat": "Maksimaalne sõnumite arv vestluse kohta (vanad kustutatakse)",
+      "inlineCompletionDelay": "Viivitus täienduste vahel",
+      "inlineCompletionContextLines": "Ridade arv enne kursorit kontekstina",
+      "inlineCompletionMinCommentLength": "Minimaalne kommentaari pikkus käivitamiseks",
+      "inlineCompletionMaxLinesComment": "Maksimaalsed read Comment-to-Code puhul",
+      "inlineCompletionMaxLinesSimple": "Maksimaalsed read lihtsate täienduste puhul",
+      "tokenEstimationMultiplier": "Korrutaja sõna-tokeniks hinnangule",
+      "tokenEstimationCodeBlock": "Lisakokeneid koodi plokkide jaoks",
+      "tokenEstimationSpecialChars": "Korrutaja erimärkide jaoks"
+    }
   },
   "extensionUpdate": {
     "available": "Saadaval AI.duino laienduse uuendus: {0} → {1}",
@@ -387,17 +470,77 @@
     "noCodeBlocksSuggestion": "Ülaltoodud analüüs sisaldab täiustusettepanekuid.",
     "targetBoard": "Sihtplaat",
     "codeBadge": "AI koodi täiustus",
-    "improvedCodeTitle": "Täiustatud kood"
+    "improvedCodeTitle": "Täiustatud kood",
+    "outputFormatSelection": "OLULINE: Tagasta täiustatud koodilõik täielikult (lühendamata). Formaat: ```cpp\n...\n```",
+    "outputFormatFile": "OLULINE: Tagasta täielik täiustatud fail. Formaat: ```cpp\n...\n```",
+    "outputFormatSketch": "OLULINE: Tagasta kõik täiustatud failid, igaüks päisega. Formaat:\n```cpp\n// ========== FailiNimi.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI vea analüüs",
     "correctedCodeTitle": "Parandatud kood"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI koodi soovitus"
+    "codeSuggestionTitle": "AI koodi soovitus",
+    "newCodeContext": "Uus koodi kontekst päringule"
   },
   "debugHelp": {
     "debugBadge": "AI silumise abiline",
     "debugSolutionTitle": "Silumise lahendus"
+  },
+  "addComments": {
+    "commentedCode": "Kommenteeritud kood",
+    "customInstructions": "Kohandatud juhised",
+    "outputFormatSelection": "OLULINE: Tagasta koodilõik kommentaaridega täielikult. Formaat: ```cpp\n...\n```",
+    "outputFormatFile": "OLULINE: Tagasta täielik fail kommentaaridega. Formaat: ```cpp\n...\n```",
+    "outputFormatSketch": "OLULINE: Tagasta kõik failid kommentaaridega, igaüks päisega. Formaat:\n```cpp\n// ========== FailiNimi.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Ilma koodi kontekstita",
+    "noContextDesc": "Ainult küsimus",
+    "noContextDetail": "AI-le ei näidata ühtegi koodi faili",
+    "selection": "Ainult valik",
+    "currentFile": "Praegune fail",
+    "fullSketch": "Kogu projekt",
+    "minimalContext": "Minimaalne kontekst",
+    "lines": "Rida",
+    "files": "Faili",
+    "selectionDetail": "Ainult valitud kood, ilma lisateabeta",
+    "currentFileDetailWithSelection": "Valitud kood + ülejäänud fail lisateabena",
+    "currentFileDetailNoSelection": "Kogu fail kontekstina",
+    "fullSketchDetailWithSelection": "Valitud kood + kõik failid lisateabena",
+    "fullSketchDetailNoSelection": "Kõik projekti failid kontekstina",
+    "minimalContextDetail": "Ainult kood vearida ümber",
+    "selectLevel": "Kui palju konteksti peaks AI saama?",
+    "additionalContext": "=== LISATEAVE ===",
+    "explanation": "Järgmised failid on projekti osa ja aitavad mõista:",
+    "focusReminder": "OLULINE: Keskendu valitud koodile, kasuta ülejäänut kontekstina!",
+    "fullFileAsContext": "(Täielik fail kontekstina)"
+  },
+  "support": {
+    "message": "🎉 AI.duino on sind juba {0} korda aidanud!",
+    "description": "See projekt on tasuta ja avatud lähtekoodiga. Väike annetus aitab edasist arendust.",
+    "coffee": "☕ Osta mulle kohvi",
+    "sponsor": "💙 Hakka sponsoriks",
+    "later": "Hiljem",
+    "noThanks": "Ära näita enam",
+    "thanks": "Tänan sind väga toetuse eest! 💙"
+  },
+  "uninstall": {
+    "button": "Desinstalli AI.duino",
+    "warning": "⚠️ HOIATUS: See eemaldab AI.duino täielikult!",
+    "willDelete": "Järgmised andmed kustutatakse",
+    "cannotUndo": "Seda tegevust EI SAA tagasi võtta!",
+    "uninstall": "Desinstalli",
+    "finalWarning": "Viimane hoiatus: Kas tõesti kustutada kõik AI.duino andmed püsivalt?",
+    "yesDelete": "Jah, kustuta püsivalt",
+    "removing": "AI.duino eemaldatakse...",
+    "deleting": "Kustutamine",
+    "clearingSettings": "Seadete puhastamine...",
+    "success": "✅ AI.duino desinstalliti edukalt",
+    "itemsDeleted": "Kirjed kustutatud",
+    "manualStep": "Palun deaktiveeri/eemalda laiendus käsitsi Arduino IDE-s menüüst Fail → Eelistused → Laiendused",
+    "partialSuccess": "⚠️ Osaliselt desinstallitud",
+    "deleted": "Kustutatud",
+    "failed": "Ebaõnnestus"
   }
 }

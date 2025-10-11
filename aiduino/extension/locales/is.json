@@ -19,7 +19,9 @@
     "changePath": "Breyta slóð",
     "openChatPanel": "AI Spjall",
     "toggleInlineCompletion": "Inline klárun",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ úr klemmuspjaldi",
+    "openSettings": "Stillingar"
   },
   "messages": {
     "welcome": "👋 Velkominn! AI.duino styður {0}!",
@@ -49,13 +51,17 @@
     "noValidContext": "Ekkert núverandi samtal til að halda áfram (hámark 30 mín.)",
     "followUpContext": "Framhald samtalsins: \"{0}\" (fyrir {1} mín.)",
     "contextCleared": "Samtalssandur hreinsaður",
-    "operationAlreadyRunning": "Aðgerð þegar í gangi! Vinsamlegast bíddu...",
+    "operationAlreadyRunning": "Aðgerð er þegar í gangi! Vinsamlegast bíðið...",
     "noPath": "🔧 Þú þarft fyrst slóð fyrir {0}",
     "pathRequired": "{0} krefst slóðar",
     "inlineCompletionActivate": "Virkja inline klárun með {0}?",
     "inlineCompletionWarningCosts": "⚠️ {0} er greidd þjónusta - hver klárun veldur API kostnaði. Virkja samt?",
     "inlineCompletionEnabled": "✓ Inline klárun virk",
-    "inlineCompletionDisabled": "Inline klárun óvirk"
+    "inlineCompletionDisabled": "Inline klárun óvirk",
+    "contextAttachedInfo": "🔎 Samhengi bætt við - gildir aðeins fyrir næsta skilaboð. Notaðu '🔄 Síðasta samhengi' til að endurnota.",
+    "noErrorInClipboard": "Engar villuupplýsingar fundust í klemmuspjaldi. Vinsamlegast smelltu fyrst á 'Afrita villuskilaboð' í Arduino IDE.",
+    "settingsSaved": "Stillingar vistaðar",
+    "settingsReset": "Stillingar endurstilltar"
   },
   "buttons": {
     "chooseModel": "Veldu gervigreindarlíkan",
@@ -91,7 +97,8 @@
     "close": "Loka",
     "send": "Senda",
     "newInput": "Ný innsláttur",
-    "delete": "Eyða"
+    "delete": "Eyða",
+    "resetAll": "Endurstilla allt"
   },
   "descriptions": {
     "improveCodeSelected": "Bæta valinn kóða",
@@ -109,7 +116,9 @@
     "askFollowUp": "Halda áfram fyrri samtali: {0}",
     "noValidContext": "Ekkert fyrra samtal",
     "editPrompts": "Aðlaga gervigreindafyrirmæli",
-    "openChatPanel": "AI-spjall með kóðasamþættingu"
+    "openChatPanel": "AI-spjall með kóðasamþættingu",
+    "explainCopiedError": "Greina villu úr klemmuspjaldi",
+    "openSettings": "Aðlaga stillingar"
   },
   "language": {
     "autoDetect": "Greina sjálfkrafa frá VS Code",
@@ -145,7 +154,25 @@
     "askAIWithContext": "Notandaspurning: {0}\n\nKóðasamhengi:\n```cpp\n{1}\n```\n\nSvaraðu á íslensku með tilliti til uppgefins Arduino kóða.",
     "askFollowUp": "Framhaldsspurning:",
     "followUpContext": "Samhengi fyrri samtalsins:",
-    "followUpInstruction": "Svaraðu á íslensku með tilliti til fyrri samtalsins."
+    "followUpInstruction": "Svaraðu á íslensku með tilliti til fyrri samtalsins.",
+    "improveCodeFile": "Bættu þessa heildar Arduino skrá ({0}):\n\n```cpp\n{1}\n```\n\nBættu fyrir:\n- Óblokkerandi kóða (millis í stað delay)\n- Minniseffektiviteti\n- Betri læsileika\n- Arduino bestu starfsvenjur\n- Stöðugleika",
+    "improveCodeSketch": "Bættu allar skrár í þessum Arduino sketch:\n\n{0}\n\nBættu allan sketchinn fyrir:\n- Óblokkerandi kóða (millis í stað delay)\n- Minniseffektiviteti\n- Betri læsileika\n- Arduino bestu starfsvenjur\n- Stöðugleika\n- Skýra aðgreiningu milli skráa",
+    "addCommentsFile": "Bættu hjálplegum íslenskum athugasemdum við þessa heildar Arduino skrá ({0}):\n\n```cpp\n{1}\n```\n\nReglur:\n- Útskýrðu hvað hver mikilvæg lína gerir\n- Athugaðu föll og færibreytur þeirra\n- Útskýrðu vélbúnaðarsamskipti\n- Notaðu // fyrir einnar línu og /* */ fyrir margra lína athugasemdir\n- Athugasemdir ættu að hjálpa byrjendum",
+    "addCommentsSketch": "Bættu hjálplegum íslenskum athugasemdum við allar skrár í þessum Arduino sketch:\n\n{0}\n\nReglur:\n- Útskýrðu hvað hver mikilvæg lína gerir\n- Athugaðu föll og færibreytur þeirra\n- Útskýrðu vélbúnaðarsamskipti og tengsl milli skráa\n- Notaðu // fyrir einnar línu og /* */ fyrir margra lína athugasemdir\n- Athugasemdir ættu að hjálpa byrjendum",
+    "explainCodeFile": "Útskýrðu þessa heildar Arduino skrá ({0}) á íslensku:\n\n```cpp\n{1}\n```\n\nÚtskýrðu:\n- Hvað skráin gerir (aðal tilgangur)\n- Mikilvæg föll og verkefni þeirra\n- Vélbúnaðarsamskipti (pinnar, skynjarar, o.s.frv.)\n- Reiknirit og rökfræði\n- Sérkennileikar eða mikilvægar upplýsingar",
+    "explainCodeSketch": "Útskýrðu allar skrár í þessum Arduino sketch á íslensku:\n\n{0}\n\nÚtskýrðu:\n- Hvað allur sketchinn gerir (aðal tilgangur)\n- Hvernig skrárnar vinna saman\n- Mikilvæg föll í hverri skrá\n- Vélbúnaðarsamskipti (pinnar, skynjarar, o.s.frv.)\n- Gagnaflæði milli skráa\n- Sérkennileikar eða mikilvægar upplýsingar",
+    "explainErrorFile": "Útskýrðu þessa Arduino villu í línu {1}:\n\nVilla: {0}\n\nSkrá ({2}):\n```cpp\n{3}\n```\n\nÚtskýrðu:\n- Hvað villan þýðir\n- Hvers vegna hún kemur upp\n- Hvernig á að laga hana\n- Sýndu lagaðan kóða",
+    "explainErrorSketch": "Útskýrðu þessa Arduino villu í línu {1}:\n\nVilla: {0}\n\nAllur sketchinn:\n{2}\n\nÚtskýrðu:\n- Hvað villan þýðir\n- Hvers vegna hún kemur upp (einnig í samhengi við aðrar skrár)\n- Hvernig á að laga hana\n- Sýndu lagaðan kóða",
+    "analyzeSerialFile": "Greindu þetta Serial úttak:\n\n{0}\n\nKóðaskrá ({1}):\n```cpp\n{2}\n```\n\nKomstu að:\n- Hvað úttakið þýðir\n- Hvort það séu vandamál\n- Hvað kóðinn sem býr til þetta úttak gerir",
+    "analyzeSerialSketch": "Greindu þetta Serial úttak:\n\n{0}\n\nAllur sketchinn:\n{1}\n\nKomstu að:\n- Hvað úttakið þýðir\n- Hvort það séu vandamál\n- Hvaða kóði býr til þetta úttak",
+    "hardwareDebugFile": "Greindu vélbúnaðarvandamál í þessari skrá ({0}):\n\n```cpp\n{1}\n```\n\nAthugaðu:\n- Pin stillingar\n- Rafmagnstengingar\n- Tímasetningarvandamál\n- Dæmigerðar vélbúnaðarvillur",
+    "hardwareDebugSketch": "Greindu vélbúnaðarvandamál í öllum sketchinum:\n\n{0}\n\nAthugaðu:\n- Pin stillingar í öllum skrám\n- Rafmagnstengingar\n- Tímasetningarvandamál\n- Dæmigerðar vélbúnaðarvillur",
+    "addDebugStatementsFile": "Bættu hjálplegum debug úttökum við þessa skrá ({0}):\n\n```cpp\n{1}\n```\n\nBættu við Serial.print() skipunum til að:\n- Fylgjast með gildum breytna\n- Rekja flæði forrits\n- Þrengja heimildir villna",
+    "addDebugStatementsSketch": "Bættu hjálplegum debug úttökum við þennan sketch:\n\n{0}\n\nBættu við Serial.print() skipunum til að:\n- Fylgjast með gildum breytna\n- Rekja flæði forrits\n- Þrengja heimildir villna\n- Skilja samskipti milli skráa",
+    "analyzeTimingFile": "Greindu tímasetningarvandamál í þessari skrá ({0}):\n\n```cpp\n{1}\n```\n\nAthugaðu:\n- Notkun á delay()\n- Blokkerandi vs. óblokkerandi kóði\n- millis() útfærsla\n- Race Conditions",
+    "analyzeTimingSketch": "Greindu tímasetningarvandamál í öllum sketchinum:\n\n{0}\n\nAthugaðu:\n- Notkun á delay() í öllum skrám\n- Blokkerandi vs. óblokkerandi kóði\n- millis() útfærsla\n- Race Conditions\n- Tímasetning milli mismunandi skráa",
+    "askAIFile": "Notandaspurning: {0}\n\nKóðaskrá ({1}):\n```cpp\n{2}\n```\n\nSvaraðu á íslensku með hliðsjón af uppgefnum Arduino kóða.",
+    "askAISketch": "Notandaspurning: {0}\n\nAllur sketchinn:\n{1}\n\nSvaraðu á íslensku með hliðsjón af öllum skrám í sketchinum."
   },
   "placeholders": {
     "customInstructions": "t.d. \"ekki nota millis()\", \"bæta fyrir Arduino Nano\", \"bæta við villumeðferð\"",
@@ -253,7 +280,18 @@
     "noChatsYet": "Engin spjöll ennþá",
     "createFirstChat": "Búðu til þitt fyrsta spjall!",
     "chatsOverview": "Yfirlit spjalla",
-    "messages": "Skilaboð"
+    "messages": "Skilaboð",
+    "attachFile": "Hengja við skrá",
+    "attachContext": "Bæta við samhengi",
+    "contextAttached": "Samhengi bætt við",
+    "clearContext": "Fjarlægja samhengi",
+    "sendSelectedCode": "Senda valinn kóða",
+    "filesSent": "Skrár sendar",
+    "useLastContext": "Bæta við aftur",
+    "reuseLastContext": "Endurnota síðasta samhengi",
+    "arduinoMode": "Arduino",
+    "generalMode": "Almennt",
+    "toggleMode": "Skipta um ham"
   },
   "shortcuts": {
     "askFollowUp": "Framhaldsspurning",
@@ -352,7 +390,52 @@
     "notNow": "Ekki núna"
   },
   "settings": {
-    "autoUpdateConfigs": "Leita sjálfkrafa að Provider-Config uppfærslum"
+    "autoUpdateConfigs": "Leita sjálfkrafa að Provider-Config uppfærslum",
+    "title": "Stillingar",
+    "categories": {
+      "aiBehavior": "AI hegðun",
+      "performance": "Afköst",
+      "updates": "Uppfærslur",
+      "chat": "Spjall",
+      "inlineCompletion": "Inline klárgerð",
+      "advanced": "Ítarlegt"
+    },
+    "labels": {
+      "temperature": "Sköpunargáfa (Temperature)",
+      "maxTokensPerRequest": "Hámarks token á beiðni",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Hámarks endurtilraunir",
+      "autoUpdateConfigs": "Sjálfvirk uppfærsla Provider stillinga",
+      "autoCheckExtensionUpdates": "Athuga uppfærslur viðbótar",
+      "maxChats": "Hámarks fjöldi spjalla",
+      "maxMessagesPerChat": "Hámarks skilaboð á spjall",
+      "inlineCompletionDelay": "Rate Limit töf (ms)",
+      "inlineCompletionContextLines": "Samhengislínur",
+      "inlineCompletionMinCommentLength": "Lágmarks athugasemdarlengd",
+      "inlineCompletionMaxLinesComment": "Hámarks línur (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Hámarks línur (Einfalt)",
+      "tokenEstimationMultiplier": "Orðastuðull",
+      "tokenEstimationCodeBlock": "Kóðablokk stuðull",
+      "tokenEstimationSpecialChars": "Sérstakra stafa stuðull"
+    },
+    "descriptions": {
+      "temperature": "AI sköpunargáfa (0 = ákveðið, 1 = skapandi)",
+      "maxTokensPerRequest": "Hámarkslengd AI svara",
+      "apiTimeout": "Tímamörk fyrir API beiðnir í millisekúndum",
+      "apiMaxRetries": "Fjöldi endurtilrauna við villu",
+      "autoUpdateConfigs": "Uppfæra provider stillingar sjálfkrafa",
+      "autoCheckExtensionUpdates": "Athuga uppfærslur viðbótar við ræsingu",
+      "maxChats": "Hámarksfjöldi vistaðra spjalla",
+      "maxMessagesPerChat": "Hámarks skilaboð á spjall (eldri eru eytt)",
+      "inlineCompletionDelay": "Töf milli klárgerða",
+      "inlineCompletionContextLines": "Fjöldi lína fyrir bendil sem samhengi",
+      "inlineCompletionMinCommentLength": "Lágmarks athugasemdarlengd fyrir virkjun",
+      "inlineCompletionMaxLinesComment": "Hámarkslínur við Comment-to-Code",
+      "inlineCompletionMaxLinesSimple": "Hámarkslínur við einfaldar klárgerðir",
+      "tokenEstimationMultiplier": "Margfaldari fyrir orð-í-token mat",
+      "tokenEstimationCodeBlock": "Auka token fyrir kóðablokkir",
+      "tokenEstimationSpecialChars": "Margfaldari fyrir sérstafi"
+    }
   },
   "extensionUpdate": {
     "available": "AI.duino viðbótaruppfærsla tiltæk: {0} → {1}",
@@ -387,17 +470,77 @@
     "noCodeBlocksSuggestion": "Greiningin hér að ofan inniheldur tillögurnar að úrbótum.",
     "targetBoard": "Marktafla",
     "codeBadge": "AI-kóðaúrbætur",
-    "improvedCodeTitle": "Endurbættur kóði"
+    "improvedCodeTitle": "Endurbættur kóði",
+    "outputFormatSelection": "MIKILVÆGT: Skilaðu bættum kóðahluta að fullu (ekki stytt). Snið: ```cpp\n...\n```",
+    "outputFormatFile": "MIKILVÆGT: Skilaðu fullkominni bættri skrá. Snið: ```cpp\n...\n```",
+    "outputFormatSketch": "MIKILVÆGT: Skilaðu öllum bættum skrám, hverri með haus. Snið:\n```cpp\n// ========== SkráNafn.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI-villugreining",
     "correctedCodeTitle": "Leiðréttur kóði"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI-kóðatillaga"
+    "codeSuggestionTitle": "AI-kóðatillaga",
+    "newCodeContext": "Nýtt kóðasamhengi fyrir fyrirspurn"
   },
   "debugHelp": {
     "debugBadge": "AI-villuleitaraðstoð",
     "debugSolutionTitle": "Villuleitarlausn"
+  },
+  "addComments": {
+    "commentedCode": "Athugasemdaður kóði",
+    "customInstructions": "Sérsniðnar leiðbeiningar",
+    "outputFormatSelection": "MIKILVÆGT: Skilaðu kóðahlutanum með athugasemdum að fullu. Snið: ```cpp\n...\n```",
+    "outputFormatFile": "MIKILVÆGT: Skilaðu fullkominni skrá með athugasemdum. Snið: ```cpp\n...\n```",
+    "outputFormatSketch": "MIKILVÆGT: Skilaðu öllum skrám með athugasemdum, hverri með haus. Snið:\n```cpp\n// ========== SkráNafn.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Án kóðasamhengis",
+    "noContextDesc": "Aðeins spurningin",
+    "noContextDetail": "Engar kóðaskrár sýndar AI",
+    "selection": "Aðeins val",
+    "currentFile": "Núverandi skrá",
+    "fullSketch": "Allt verkefnið",
+    "minimalContext": "Lágmarks samhengi",
+    "lines": "Línur",
+    "files": "Skrár",
+    "selectionDetail": "Aðeins valinn kóði, án viðbótarsamhengis",
+    "currentFileDetailWithSelection": "Valinn kóði + restin af skránni sem viðbótarsamhengi",
+    "currentFileDetailNoSelection": "Öll skráin sem samhengi",
+    "fullSketchDetailWithSelection": "Valinn kóði + allar skrár sem viðbótarsamhengi",
+    "fullSketchDetailNoSelection": "Allar skrár í verkefninu sem samhengi",
+    "minimalContextDetail": "Aðeins kóði í kringum villulínu",
+    "selectLevel": "Hversu mikið samhengi ætti AI að fá?",
+    "additionalContext": "=== VIÐBÓTARSAMHENGI ===",
+    "explanation": "Eftirfarandi skrár eru hluti af verkefninu og hjálpa við skilning:",
+    "focusReminder": "MIKILVÆGT: Einbeittu þér að völdum kóða, notaðu restina sem samhengi!",
+    "fullFileAsContext": "(Full skrá sem samhengi)"
+  },
+  "support": {
+    "message": "🎉 AI.duino hefur þegar hjálpað þér {0} sinnum!",
+    "description": "Þetta verkefni er ókeypis og opinn hugbúnaður. Lítil gjöf hjálpar við frekari þróun.",
+    "coffee": "☕ Keyptu mér kaffi",
+    "sponsor": "💙 Vertu styrktaraðili",
+    "later": "Seinna",
+    "noThanks": "Ekki sýna aftur",
+    "thanks": "Þakka þér kærlega fyrir stuðninginn! 💙"
+  },
+  "uninstall": {
+    "button": "Fjarlægja AI.duino",
+    "warning": "⚠️ VIÐVÖRUN: Þetta mun fjarlægja AI.duino að fullu!",
+    "willDelete": "Eftirfarandi gögn verða eytt",
+    "cannotUndo": "Þessa aðgerð er EKKI hægt að afturkalla!",
+    "uninstall": "Fjarlægja",
+    "finalWarning": "Síðasta viðvörun: Viltu virkilega eyða öllum AI.duino gögnum varanlega?",
+    "yesDelete": "Já, eyða varanlega",
+    "removing": "AI.duino er fjarlægt...",
+    "deleting": "Eyði",
+    "clearingSettings": "Hreinsa stillingar...",
+    "success": "✅ AI.duino var fjarlægt með góðum árangri",
+    "itemsDeleted": "Atriðum eytt",
+    "manualStep": "Vinsamlegast afvirkjaðu/fjarlægðu viðbótina handvirkt í Arduino IDE undir Skrá → Kjörstillingar → Viðbætur",
+    "partialSuccess": "⚠️ Að hluta fjarlægt",
+    "deleted": "Eytt",
+    "failed": "Mistókst"
   }
 }

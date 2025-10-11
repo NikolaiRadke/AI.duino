@@ -38,13 +38,39 @@ async function executeCommand(toolPath, prompt, context) {
             if (code === 0 && stdout.trim()) {
                 resolve(stdout.trim());
             } else {
-                // Codex CLI might output to stderr for non-errors
-                const output = stdout.trim() || stderr.trim();
-                if (output) {
-                    resolve(output);
-                } else {
-                    reject(new Error(t('errors.processFailedWithCode', code)));
+                // Get error message from stderr or stdout
+                const errorMessage = stderr.trim() || stdout.trim() || t('errors.processFailedWithCode', code);
+                
+                // Check for rate limit errors
+                if (errorMessage.toLowerCase().includes('rate limit') || 
+                    errorMessage.toLowerCase().includes('too many requests') ||
+                    errorMessage.toLowerCase().includes('429')) {
+                    const rateLimitError = new Error(t('errors.rateLimit', 'Codex CLI'));
+                    rateLimitError.type = 'RATE_LIMIT_ERROR';
+                    reject(rateLimitError);
+                    return;
                 }
+        
+                // Check for quota errors
+                if (errorMessage.toLowerCase().includes('quota') ||
+                    errorMessage.toLowerCase().includes('exceeded your current quota')) {
+                    const quotaError = new Error(t('errors.quotaExceeded'));
+                    quotaError.type = 'QUOTA_ERROR';
+                    reject(quotaError);
+                    return;
+                }
+                
+                // Check for authentication errors
+                if (errorMessage.toLowerCase().includes('not authenticated') ||
+                    errorMessage.toLowerCase().includes('sign in') ||
+                    errorMessage.toLowerCase().includes('login required')) {
+                    const authError = new Error(t('errors.localProviderNotAuthenticated', 'Codex CLI'));
+                    authError.type = 'API_KEY_ERROR';
+                    reject(authError);
+                    return;
+                }
+                
+                reject(new Error(errorMessage));
             }
         });
         

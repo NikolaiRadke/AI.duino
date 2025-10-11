@@ -19,7 +19,9 @@
     "changePath": "Vaihda polku",
     "openChatPanel": "AI Chat",
     "toggleInlineCompletion": "Inline-täydennys",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ leikepöydältä",
+    "openSettings": "Asetukset"
   },
   "messages": {
     "welcome": "👋 Tervetuloa! AI.duino tukee {0}:tä!",
@@ -54,7 +56,12 @@
     "inlineCompletionActivate": "Aktivoi inline-täydennys {0}:lla?",
     "inlineCompletionWarningCosts": "⚠️ {0} on maksullinen palvelu - jokainen täydennys aiheuttaa API-kustannuksia. Aktivoi silti?",
     "inlineCompletionEnabled": "✓ Inline-täydennys aktivoitu",
-    "inlineCompletionDisabled": "Inline-täydennys poistettu käytöstä"
+    "inlineCompletionDisabled": "Inline-täydennys poistettu käytöstä",
+    "operationAlreadyRunning": "Toiminto on jo käynnissä! Odota hetki...",
+    "contextAttachedInfo": "🔎 Konteksti lisätty - koskee vain seuraavaa viestiä. Käytä '🔄 Viimeisin konteksti' uudelleenkäyttöön.",
+    "noErrorInClipboard": "Leikepöydältä ei löytynyt virhetietoja. Klikkaa ensin Arduino IDE:ssä 'Kopioi virheilmoitus'.",
+    "settingsSaved": "Asetukset tallennettu",
+    "settingsReset": "Asetukset palautettu"
   },
   "buttons": {
     "chooseModel": "Valitse AI-malli",
@@ -90,7 +97,8 @@
     "close": "Sulje",
     "send": "Lähetä",
     "newInput": "Uusi syöte",
-    "delete": "Poista"
+    "delete": "Poista",
+    "resetAll": "Palauta kaikki"
   },
   "descriptions": {
     "improveCodeSelected": "Optimoi valittu koodi",
@@ -108,7 +116,9 @@
     "askFollowUp": "Jatka edellistä keskustelua: {0}",
     "noValidContext": "Ei edellistä keskustelua",
     "editPrompts": "Mukauta ja hallitse AI-kehotteita",
-    "openChatPanel": "AI-chatti koodin integroinnilla"
+    "openChatPanel": "AI-chatti koodin integroinnilla",
+    "explainCopiedError": "Analysoi virhe leikepöydältä",
+    "openSettings": "Muokkaa asetuksia"
   },
   "language": {
     "autoDetect": "Tunnista automaattisesti VS Codesta",
@@ -144,7 +154,25 @@
     "askAIWithContext": "Käyttäjän kysymys: {0}\n\nKoodin konteksti:\n```cpp\n{1}\n```\n\nVastaa ottaen huomioon annettu Arduino-koodi.",
     "askFollowUp": "Jatkokysymys:",
     "followUpContext": "Edellisen keskustelun konteksti:",
-    "followUpInstruction": "Vastaa ottaen huomioon edellinen keskustelu."
+    "followUpInstruction": "Vastaa ottaen huomioon edellinen keskustelu.",
+    "improveCodeFile": "Paranna tämä kokonainen Arduino-tiedosto ({0}):\n\n```cpp\n{1}\n```\n\nOptimoi:\n- Ei-estävä koodi (millis delayn sijaan)\n- Muistin tehokkuus\n- Parempi luettavuus\n- Arduino parhaat käytännöt\n- Kestävyys",
+    "improveCodeSketch": "Paranna kaikki tiedostot tässä Arduino sketchissä:\n\n{0}\n\nOptimoi koko sketchi:\n- Ei-estävä koodi (millis delayn sijaan)\n- Muistin tehokkuus\n- Parempi luettavuus\n- Arduino parhaat käytännöt\n- Kestävyys\n- Selkeä erottelu tiedostojen välillä",
+    "addCommentsFile": "Lisää hyödyllisiä suomenkielisiä kommentteja tähän kokonaiseen Arduino-tiedostoon ({0}):\n\n```cpp\n{1}\n```\n\nSäännöt:\n- Selitä, mitä jokainen tärkeä rivi tekee\n- Kommentoi funktiot ja niiden parametrit\n- Selitä laitteistovuorovaikutukset\n- Käytä // yksirivisille ja /* */ monirivisille kommenteille\n- Kommenttien tulee auttaa aloittelijoita",
+    "addCommentsSketch": "Lisää hyödyllisiä suomenkielisiä kommentteja kaikkiin tiedostoihin tässä Arduino sketchissä:\n\n{0}\n\nSäännöt:\n- Selitä, mitä jokainen tärkeä rivi tekee\n- Kommentoi funktiot ja niiden parametrit\n- Selitä laitteistovuorovaikutukset ja tiedostojen väliset suhteet\n- Käytä // yksirivisille ja /* */ monirivisille kommenteille\n- Kommenttien tulee auttaa aloittelijoita",
+    "explainCodeFile": "Selitä tämä kokonainen Arduino-tiedosto ({0}) suomeksi:\n\n```cpp\n{1}\n```\n\nSelitä:\n- Mitä tiedosto tekee (päätarkoitus)\n- Tärkeät funktiot ja niiden tehtävät\n- Laitteistovuorovaikutukset (pinnit, anturit jne.)\n- Algoritmit ja logiikka\n- Erikoisuudet tai tärkeät yksityiskohdat",
+    "explainCodeSketch": "Selitä kaikki tiedostot tässä Arduino sketchissä suomeksi:\n\n{0}\n\nSelitä:\n- Mitä koko sketchi tekee (päätarkoitus)\n- Miten tiedostot toimivat yhdessä\n- Tärkeät funktiot kussakin tiedostossa\n- Laitteistovuorovaikutukset (pinnit, anturit jne.)\n- Tietovirta tiedostojen välillä\n- Erikoisuudet tai tärkeät yksityiskohdat",
+    "explainErrorFile": "Selitä tämä Arduino-virhe rivillä {1}:\n\nVirhe: {0}\n\nTiedosto ({2}):\n```cpp\n{3}\n```\n\nSelitä:\n- Mitä virhe tarkoittaa\n- Miksi se ilmenee\n- Miten se korjataan\n- Näytä korjattu koodi",
+    "explainErrorSketch": "Selitä tämä Arduino-virhe rivillä {1}:\n\nVirhe: {0}\n\nKoko sketchi:\n{2}\n\nSelitä:\n- Mitä virhe tarkoittaa\n- Miksi se ilmenee (myös muiden tiedostojen yhteydessä)\n- Miten se korjataan\n- Näytä korjattu koodi",
+    "analyzeSerialFile": "Analysoi tämä Serial-tuloste:\n\n{0}\n\nKooditiedosto ({1}):\n```cpp\n{2}\n```\n\nSelvitä:\n- Mitä tuloste tarkoittaa\n- Onko ongelmia\n- Mitä koodi, joka tuottaa tämän tulosteen, tekee",
+    "analyzeSerialSketch": "Analysoi tämä Serial-tuloste:\n\n{0}\n\nKoko sketchi:\n{1}\n\nSelvitä:\n- Mitä tuloste tarkoittaa\n- Onko ongelmia\n- Mikä koodi tuottaa tämän tulosteen",
+    "hardwareDebugFile": "Analysoi laitteisto-ongelmat tässä tiedostossa ({0}):\n\n```cpp\n{1}\n```\n\nTarkista:\n- Pinnien konfiguraatiot\n- Sähköiset liitännät\n- Ajoitusongelmat\n- Tyypilliset laitteistovirheet",
+    "hardwareDebugSketch": "Analysoi laitteisto-ongelmat koko sketchissä:\n\n{0}\n\nTarkista:\n- Pinnien konfiguraatiot kaikissa tiedostoissa\n- Sähköiset liitännät\n- Ajoitusongelmat\n- Tyypilliset laitteistovirheet",
+    "addDebugStatementsFile": "Lisää hyödyllisiä debug-tulosteita tähän tiedostoon ({0}):\n\n```cpp\n{1}\n```\n\nLisää Serial.print() lauseita:\n- Muuttujien arvojen seuraamiseksi\n- Ohjelman kulun jäljittämiseksi\n- Virhelähteiden rajaamiseksi",
+    "addDebugStatementsSketch": "Lisää hyödyllisiä debug-tulosteita tähän sketchiin:\n\n{0}\n\nLisää Serial.print() lauseita:\n- Muuttujien arvojen seuraamiseksi\n- Ohjelman kulun jäljittämiseksi\n- Virhelähteiden rajaamiseksi\n- Tiedostojen välisten vuorovaikutusten ymmärtämiseksi",
+    "analyzeTimingFile": "Analysoi ajoitusongelmat tässä tiedostossa ({0}):\n\n```cpp\n{1}\n```\n\nTarkista:\n- delay() käyttö\n- Estävä vs. ei-estävä koodi\n- millis() toteutus\n- Race Conditions",
+    "analyzeTimingSketch": "Analysoi ajoitusongelmat koko sketchissä:\n\n{0}\n\nTarkista:\n- delay() käyttö kaikissa tiedostoissa\n- Estävä vs. ei-estävä koodi\n- millis() toteutus\n- Race Conditions\n- Ajoitus eri tiedostojen välillä",
+    "askAIFile": "Käyttäjän kysymys: {0}\n\nKooditiedosto ({1}):\n```cpp\n{2}\n```\n\nVastaa suomeksi ottaen huomioon annettu Arduino-koodi.",
+    "askAISketch": "Käyttäjän kysymys: {0}\n\nKoko sketchi:\n{1}\n\nVastaa suomeksi ottaen huomioon kaikki skethin tiedostot."
   },
   "placeholders": {
     "customInstructions": "esim. \"älä käytä millis()\", \"optimoi Arduino Nanolle\", \"lisää virheenkäsittely\"",
@@ -252,7 +280,18 @@
     "noChatsYet": "Ei vielä keskusteluja",
     "createFirstChat": "Luo ensimmäinen keskustelu!",
     "chatsOverview": "Keskustelujen yleiskatsaus",
-    "messages": "Viestit"
+    "messages": "Viestit",
+    "attachFile": "Liitä tiedosto",
+    "attachContext": "Lisää konteksti",
+    "contextAttached": "Konteksti lisätty",
+    "clearContext": "Poista konteksti",
+    "sendSelectedCode": "Lähetä valittu koodi",
+    "filesSent": "Tiedostot lähetetty",
+    "useLastContext": "Lisää uudelleen",
+    "reuseLastContext": "Käytä viimeisintä kontekstia uudelleen",
+    "arduinoMode": "Arduino",
+    "generalMode": "Yleinen",
+    "toggleMode": "Vaihda tilaa"
   },
   "shortcuts": {
     "askFollowUp": "Jatkokysymys",
@@ -351,7 +390,52 @@
     "notNow": "Ei nyt"
   },
   "settings": {
-    "autoUpdateConfigs": "Tarkista automaattisesti palveluntarjoajien asetusten päivitykset"
+    "autoUpdateConfigs": "Tarkista automaattisesti palveluntarjoajien asetusten päivitykset",
+    "title": "Asetukset",
+    "categories": {
+      "aiBehavior": "AI:n käyttäytyminen",
+      "performance": "Suorituskyky",
+      "updates": "Päivitykset",
+      "chat": "Chat",
+      "inlineCompletion": "Inline-täydennys",
+      "advanced": "Lisäasetukset"
+    },
+    "labels": {
+      "temperature": "Luovuus (Temperature)",
+      "maxTokensPerRequest": "Maks. tokenia per pyyntö",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Maks. uudelleenyrityksiä",
+      "autoUpdateConfigs": "Automaattinen Provider-asetusten päivitys",
+      "autoCheckExtensionUpdates": "Tarkista laajennuksen päivitykset",
+      "maxChats": "Maksimi chat-määrä",
+      "maxMessagesPerChat": "Maks. viestejä per chat",
+      "inlineCompletionDelay": "Rate Limit viive (ms)",
+      "inlineCompletionContextLines": "Kontekstirivit",
+      "inlineCompletionMinCommentLength": "Min. kommentin pituus",
+      "inlineCompletionMaxLinesComment": "Maks. rivit (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Maks. rivit (Yksinkertainen)",
+      "tokenEstimationMultiplier": "Sanojen kerroin",
+      "tokenEstimationCodeBlock": "Koodilohkon kerroin",
+      "tokenEstimationSpecialChars": "Erikoismerkkien kerroin"
+    },
+    "descriptions": {
+      "temperature": "AI:n luovuus (0 = deterministinen, 1 = luova)",
+      "maxTokensPerRequest": "AI-vastausten maksimipituus",
+      "apiTimeout": "API-pyyntöjen aikakatkaisu millisekunneissa",
+      "apiMaxRetries": "Uudelleenyritysten määrä virheen sattuessa",
+      "autoUpdateConfigs": "Päivitä provider-asetukset automaattisesti",
+      "autoCheckExtensionUpdates": "Tarkista laajennuksen päivitykset käynnistettäessä",
+      "maxChats": "Maksimimäärä tallennettuja chatteja",
+      "maxMessagesPerChat": "Maksimi viestimäärä per chat (vanhemmat poistetaan)",
+      "inlineCompletionDelay": "Viive täydennysten välillä",
+      "inlineCompletionContextLines": "Rivien määrä ennen kursoria kontekstina",
+      "inlineCompletionMinCommentLength": "Minimaalinen kommentin pituus käynnistykseen",
+      "inlineCompletionMaxLinesComment": "Maksimirivit Comment-to-Code:ssa",
+      "inlineCompletionMaxLinesSimple": "Maksimirivit yksinkertaisissa täydennyksissä",
+      "tokenEstimationMultiplier": "Kerroin sana-token-arviolle",
+      "tokenEstimationCodeBlock": "Lisätokenit koodilohkoille",
+      "tokenEstimationSpecialChars": "Kerroin erikoismerkeille"
+    }
   },
   "extensionUpdate": {
     "available": "AI.duino Extension päivitys saatavilla: {0} → {1}",
@@ -386,17 +470,77 @@
     "noCodeBlocksSuggestion": "Yllä oleva analyysi sisältää parannusehdotukset.",
     "targetBoard": "Kohdekortti",
     "codeBadge": "AI-koodin parannus",
-    "improvedCodeTitle": "Parannettu koodi"
+    "improvedCodeTitle": "Parannettu koodi",
+    "outputFormatSelection": "TÄRKEÄÄ: Palauta parannettu koodiosio kokonaan (lyhentämättä). Muoto: ```cpp\n...\n```",
+    "outputFormatFile": "TÄRKEÄÄ: Palauta kokonainen parannettu tiedosto. Muoto: ```cpp\n...\n```",
+    "outputFormatSketch": "TÄRKEÄÄ: Palauta kaikki parannetut tiedostot, kukin otsikolla. Muoto:\n```cpp\n// ========== TiedostoNimi.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI-virheanalyysi",
     "correctedCodeTitle": "Korjattu koodi"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI-koodiehdotus"
+    "codeSuggestionTitle": "AI-koodiehdotus",
+    "newCodeContext": "Uusi koodikonteksti kyselylle"
   },
   "debugHelp": {
     "debugBadge": "AI-debug-avustaja",
     "debugSolutionTitle": "Debug-ratkaisu"
+  },
+  "addComments": {
+    "commentedCode": "Kommentoitu koodi",
+    "customInstructions": "Mukautetut ohjeet",
+    "outputFormatSelection": "TÄRKEÄÄ: Palauta koodiosio kommenteilla kokonaan. Muoto: ```cpp\n...\n```",
+    "outputFormatFile": "TÄRKEÄÄ: Palauta kokonainen tiedosto kommenteilla. Muoto: ```cpp\n...\n```",
+    "outputFormatSketch": "TÄRKEÄÄ: Palauta kaikki tiedostot kommenteilla, kukin otsikolla. Muoto:\n```cpp\n// ========== TiedostoNimi.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Ilman koodikontekstia",
+    "noContextDesc": "Vain kysymys",
+    "noContextDetail": "AI:lle ei näytetä kooditiedostoja",
+    "selection": "Vain valinta",
+    "currentFile": "Nykyinen tiedosto",
+    "fullSketch": "Koko projekti",
+    "minimalContext": "Minimaalinen konteksti",
+    "lines": "Riviä",
+    "files": "Tiedostoa",
+    "selectionDetail": "Vain valittu koodi, ilman lisäkontekstia",
+    "currentFileDetailWithSelection": "Valittu koodi + tiedoston loput lisäkontekstina",
+    "currentFileDetailNoSelection": "Koko tiedosto kontekstina",
+    "fullSketchDetailWithSelection": "Valittu koodi + kaikki tiedostot lisäkontekstina",
+    "fullSketchDetailNoSelection": "Kaikki projektin tiedostot kontekstina",
+    "minimalContextDetail": "Vain koodi virherivin ympäriltä",
+    "selectLevel": "Kuinka paljon kontekstia AI:n tulisi saada?",
+    "additionalContext": "=== LISÄKONTEKSTI ===",
+    "explanation": "Seuraavat tiedostot ovat osa projektia ja auttavat ymmärtämisessä:",
+    "focusReminder": "TÄRKEÄÄ: Keskity valittuun koodiin, käytä loppua kontekstina!",
+    "fullFileAsContext": "(Koko tiedosto kontekstina)"
+  },
+  "support": {
+    "message": "🎉 AI.duino on auttanut sinua jo {0} kertaa!",
+    "description": "Tämä projekti on ilmainen ja avoimen lähdekoodin. Pieni lahjoitus auttaa jatkokehityksessä.",
+    "coffee": "☕ Tarjoa kahvi",
+    "sponsor": "💙 Ryhdy sponsoriksi",
+    "later": "Myöhemmin",
+    "noThanks": "Älä näytä enää",
+    "thanks": "Kiitos paljon tuestasi! 💙"
+  },
+  "uninstall": {
+    "button": "Poista AI.duino",
+    "warning": "⚠️ VAROITUS: Tämä poistaa AI.duinon kokonaan!",
+    "willDelete": "Seuraavat tiedot poistetaan",
+    "cannotUndo": "Tätä toimintoa EI VOI perua!",
+    "uninstall": "Poista",
+    "finalWarning": "Viimeinen varoitus: Poistetaanko todella kaikki AI.duino-tiedot pysyvästi?",
+    "yesDelete": "Kyllä, poista pysyvästi",
+    "removing": "AI.duinoa poistetaan...",
+    "deleting": "Poistetaan",
+    "clearingSettings": "Tyhjennetään asetukset...",
+    "success": "✅ AI.duino poistettiin onnistuneesti",
+    "itemsDeleted": "Kohdetta poistettu",
+    "manualStep": "Poista tai deaktivoi laajennus manuaalisesti Arduino IDE:ssä kohdasta Tiedosto → Asetukset → Laajennukset",
+    "partialSuccess": "⚠️ Osittain poistettu",
+    "deleted": "Poistettu",
+    "failed": "Epäonnistui"
   }
 }

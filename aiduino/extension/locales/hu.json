@@ -19,7 +19,9 @@
     "changePath": "Útvonal módosítása",
     "openChatPanel": "AI Chat",
     "toggleInlineCompletion": "Inline kiegészítés",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ vágólapról",
+    "openSettings": "Beállítások"
   },
   "messages": {
     "welcome": "Üdvözöl a {0} támogatásával!",
@@ -54,7 +56,12 @@
     "inlineCompletionActivate": "Inline kiegészítés aktiválása {0}-val?",
     "inlineCompletionWarningCosts": "⚠️ A {0} fizetős szolgáltatás - minden kiegészítés API költséget okoz. Mégis aktiválja?",
     "inlineCompletionEnabled": "✓ Inline kiegészítés aktiválva",
-    "inlineCompletionDisabled": "Inline kiegészítés kikapcsolva"
+    "inlineCompletionDisabled": "Inline kiegészítés kikapcsolva",
+    "operationAlreadyRunning": "A művelet már fut! Kérlek várj...",
+    "contextAttachedInfo": "🔎 Kontextus hozzáadva - csak a következő üzenetre vonatkozik. Használd a '🔄 Utolsó kontextus' lehetőséget az újrafelhasználáshoz.",
+    "noErrorInClipboard": "Nem található hibaüzenet a vágólapon. Kérlek, először kattints az Arduino IDE-ben a 'Hibaüzenet másolása' gombra.",
+    "settingsSaved": "Beállítások mentve",
+    "settingsReset": "Beállítások visszaállítva"
   },
   "buttons": {
     "chooseModel": "AI modell választása",
@@ -90,7 +97,8 @@
     "close": "Bezár",
     "send": "Küldés",
     "newInput": "Új bevitel",
-    "delete": "Törlés"
+    "delete": "Törlés",
+    "resetAll": "Összes visszaállítása"
   },
   "descriptions": {
     "improveCodeSelected": "Kijelölt kód optimalizálása",
@@ -108,7 +116,9 @@
     "askFollowUp": "Előző beszélgetés folytatása: {0}",
     "noValidContext": "Nincs előző beszélgetés",
     "editPrompts": "AI promptok testreszabása és kezelése",
-    "openChatPanel": "AI chat kódintegrációval"
+    "openChatPanel": "AI chat kódintegrációval",
+    "explainCopiedError": "Hiba elemzése a vágólapról",
+    "openSettings": "Beállítások módosítása"
   },
   "language": {
     "autoDetect": "Automatikus felismerés VS Code-ból",
@@ -144,7 +154,25 @@
     "askAIWithContext": "Felhasználó kérdése: {0}\n\nKód kontextus:\n```cpp\n{1}\n```\n\nVálaszolj magyarul a megadott Arduino kód figyelembevételével.",
     "askFollowUp": "Követő kérdés:",
     "followUpContext": "Előző beszélgetés kontextusa:",
-    "followUpInstruction": "Válaszolj magyarul az előző beszélgetés figyelembevételével."
+    "followUpInstruction": "Válaszolj magyarul az előző beszélgetés figyelembevételével.",
+    "improveCodeFile": "Javítsd ezt a teljes Arduino fájlt ({0}):\n\n```cpp\n{1}\n```\n\nOptimalizáld:\n- Nem blokkoló kód (millis delay helyett)\n- Memória hatékonyság\n- Jobb olvashatóság\n- Arduino legjobb gyakorlatok\n- Robusztusság",
+    "improveCodeSketch": "Javítsd az összes fájlt ebben az Arduino sketchben:\n\n{0}\n\nOptimalizáld a teljes sketcht:\n- Nem blokkoló kód (millis delay helyett)\n- Memória hatékonyság\n- Jobb olvashatóság\n- Arduino legjobb gyakorlatok\n- Robusztusság\n- Tiszta elválasztás a fájlok között",
+    "addCommentsFile": "Adj hasznos magyar megjegyzéseket ehhez a teljes Arduino fájlhoz ({0}):\n\n```cpp\n{1}\n```\n\nSzabályok:\n- Magyarázd el, mit csinál minden fontos sor\n- Kommenteld a függvényeket és paramétereiket\n- Magyarázd el a hardver interakciókat\n- Használj // egysoros és /* */ többsoros megjegyzésekhez\n- A megjegyzések segítsék a kezdőket",
+    "addCommentsSketch": "Adj hasznos magyar megjegyzéseket az összes fájlhoz ebben az Arduino sketchben:\n\n{0}\n\nSzabályok:\n- Magyarázd el, mit csinál minden fontos sor\n- Kommenteld a függvényeket és paramétereiket\n- Magyarázd el a hardver interakciókat és a fájlok közötti kapcsolatokat\n- Használj // egysoros és /* */ többsoros megjegyzésekhez\n- A megjegyzések segítsék a kezdőket",
+    "explainCodeFile": "Magyarázd el ezt a teljes Arduino fájlt ({0}) magyarul:\n\n```cpp\n{1}\n```\n\nMagyarázd el:\n- Mit csinál a fájl (fő cél)\n- Fontos függvények és feladataik\n- Hardver interakciók (pinok, érzékelők, stb.)\n- Algoritmusok és logika\n- Különlegességek vagy fontos részletek",
+    "explainCodeSketch": "Magyarázd el az összes fájlt ebben az Arduino sketchben magyarul:\n\n{0}\n\nMagyarázd el:\n- Mit csinál a teljes sketch (fő cél)\n- Hogyan működnek együtt a fájlok\n- Fontos függvények minden fájlban\n- Hardver interakciók (pinok, érzékelők, stb.)\n- Adatáramlás a fájlok között\n- Különlegességek vagy fontos részletek",
+    "explainErrorFile": "Magyarázd el ezt az Arduino hibát a {1}. sorban:\n\nHiba: {0}\n\nFájl ({2}):\n```cpp\n{3}\n```\n\nMagyarázd el:\n- Mit jelent a hiba\n- Miért lép fel\n- Hogyan javítható\n- Mutasd a javított kódot",
+    "explainErrorSketch": "Magyarázd el ezt az Arduino hibát a {1}. sorban:\n\nHiba: {0}\n\nTeljes sketch:\n{2}\n\nMagyarázd el:\n- Mit jelent a hiba\n- Miért lép fel (más fájlok kontextusában is)\n- Hogyan javítható\n- Mutasd a javított kódot",
+    "analyzeSerialFile": "Elemezd ezt a Serial kimenetet:\n\n{0}\n\nKódfájl ({1}):\n```cpp\n{2}\n```\n\nDeríts ki:\n- Mit jelent a kimenet\n- Vannak-e problémák\n- Mit csinál a kód, ami ezt a kimenetet generálja",
+    "analyzeSerialSketch": "Elemezd ezt a Serial kimenetet:\n\n{0}\n\nTeljes sketch:\n{1}\n\nDeríts ki:\n- Mit jelent a kimenet\n- Vannak-e problémák\n- Melyik kód generálja ezt a kimenetet",
+    "hardwareDebugFile": "Elemezd a hardver problémákat ebben a fájlban ({0}):\n\n```cpp\n{1}\n```\n\nEllenőrizd:\n- Pin konfigurációk\n- Elektromos kapcsolatok\n- Időzítési problémák\n- Tipikus hardver hibák",
+    "hardwareDebugSketch": "Elemezd a hardver problémákat a teljes sketchben:\n\n{0}\n\nEllenőrizd:\n- Pin konfigurációk az összes fájlban\n- Elektromos kapcsolatok\n- Időzítési problémák\n- Tipikus hardver hibák",
+    "addDebugStatementsFile": "Adj hasznos debug kimeneteket ehhez a fájlhoz ({0}):\n\n```cpp\n{1}\n```\n\nAdj hozzá Serial.print() utasításokat:\n- Változók értékeinek nyomon követéséhez\n- Program folyam követéséhez\n- Hibaforrárok szűkítéséhez",
+    "addDebugStatementsSketch": "Adj hasznos debug kimeneteket ehhez a sketchhez:\n\n{0}\n\nAdj hozzá Serial.print() utasításokat:\n- Változók értékeinek nyomon követéséhez\n- Program folyam követéséhez\n- Hibaforrárok szűkítéséhez\n- Fájlok közötti interakciók megértéséhez",
+    "analyzeTimingFile": "Elemezd az időzítési problémákat ebben a fájlban ({0}):\n\n```cpp\n{1}\n```\n\nEllenőrizd:\n- delay() használat\n- Blokkoló vs. nem blokkoló kód\n- millis() implementáció\n- Race Conditions",
+    "analyzeTimingSketch": "Elemezd az időzítési problémákat a teljes sketchben:\n\n{0}\n\nEllenőrizd:\n- delay() használat az összes fájlban\n- Blokkoló vs. nem blokkoló kód\n- millis() implementáció\n- Race Conditions\n- Időzítés különböző fájlok között",
+    "askAIFile": "Felhasználói kérdés: {0}\n\nKódfájl ({1}):\n```cpp\n{2}\n```\n\nVálaszolj magyarul, figyelembe véve a megadott Arduino kódot.",
+    "askAISketch": "Felhasználói kérdés: {0}\n\nTeljes sketch:\n{1}\n\nVálaszolj magyarul, figyelembe véve a sketch összes fájlját."
   },
   "placeholders": {
     "customInstructions": "pl. \"ne használj millis()-t\", \"Arduino Nano-ra optimalizáld\", \"adj hozzá hibakezelést\"",
@@ -252,7 +280,18 @@
     "noChatsYet": "Még nincsenek beszélgetések",
     "createFirstChat": "Hozd létre az első beszélgetésedet!",
     "chatsOverview": "Beszélgetések áttekintése",
-    "messages": "Üzenetek"
+    "messages": "Üzenetek",
+    "attachFile": "Fájl csatolása",
+    "attachContext": "Kontextus hozzáadása",
+    "contextAttached": "Kontextus hozzáadva",
+    "clearContext": "Kontextus eltávolítása",
+    "sendSelectedCode": "Kijelölt kód küldése",
+    "filesSent": "Fájlok elküldve",
+    "useLastContext": "Újra hozzáadás",
+    "reuseLastContext": "Utolsó kontextus újrafelhasználása",
+    "arduinoMode": "Arduino",
+    "generalMode": "Általános",
+    "toggleMode": "Mód váltása"
   },
   "shortcuts": {
     "askFollowUp": "Követő kérdés",
@@ -351,7 +390,52 @@
     "notNow": "Most nem"
   },
   "settings": {
-    "autoUpdateConfigs": "Automatikus keresés provider config frissítésekhez"
+    "autoUpdateConfigs": "Automatikus keresés provider config frissítésekhez",
+    "title": "Beállítások",
+    "categories": {
+      "aiBehavior": "AI viselkedés",
+      "performance": "Teljesítmény",
+      "updates": "Frissítések",
+      "chat": "Chat",
+      "inlineCompletion": "Inline kiegészítés",
+      "advanced": "Speciális"
+    },
+    "labels": {
+      "temperature": "Kreativitás (Temperature)",
+      "maxTokensPerRequest": "Max. token kérésenként",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Max. újrapróbálkozások",
+      "autoUpdateConfigs": "Provider konfigurációk automatikus frissítése",
+      "autoCheckExtensionUpdates": "Bővítmény frissítések ellenőrzése",
+      "maxChats": "Maximális chat szám",
+      "maxMessagesPerChat": "Max. üzenet chatenkénti",
+      "inlineCompletionDelay": "Rate Limit késleltetés (ms)",
+      "inlineCompletionContextLines": "Kontextus sorok",
+      "inlineCompletionMinCommentLength": "Min. megjegyzés hossz",
+      "inlineCompletionMaxLinesComment": "Max. sorok (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Max. sorok (Egyszerű)",
+      "tokenEstimationMultiplier": "Szó faktor",
+      "tokenEstimationCodeBlock": "Kódblokk faktor",
+      "tokenEstimationSpecialChars": "Speciális karakterek faktora"
+    },
+    "descriptions": {
+      "temperature": "AI kreativitás (0 = determinisztikus, 1 = kreatív)",
+      "maxTokensPerRequest": "AI válaszok maximális hossza",
+      "apiTimeout": "API kérések időkorlátja milliszekundumokban",
+      "apiMaxRetries": "Újrapróbálkozások száma hiba esetén",
+      "autoUpdateConfigs": "Provider konfigurációk automatikus frissítése",
+      "autoCheckExtensionUpdates": "Bővítmény frissítések ellenőrzése indításkor",
+      "maxChats": "Maximális mentett chatek száma",
+      "maxMessagesPerChat": "Maximális üzenetek chatenkénti (régebbiek törlődnek)",
+      "inlineCompletionDelay": "Késleltetés a kiegészítések között",
+      "inlineCompletionContextLines": "Sorok száma a kurzor előtt kontextusként",
+      "inlineCompletionMinCommentLength": "Minimális megjegyzés hossz az aktiváláshoz",
+      "inlineCompletionMaxLinesComment": "Maximális sorok Comment-to-Code esetén",
+      "inlineCompletionMaxLinesSimple": "Maximális sorok egyszerű kiegészítéseknél",
+      "tokenEstimationMultiplier": "Szorzó a szó-token becsléshez",
+      "tokenEstimationCodeBlock": "Extra tokenek kódblokkokhoz",
+      "tokenEstimationSpecialChars": "Szorzó speciális karakterekhez"
+    }
   },
   "extensionUpdate": {
     "available": "AI.duino Extension frissítés elérhető: {0} → {1}",
@@ -386,17 +470,77 @@
     "noCodeBlocksSuggestion": "A fenti elemzés tartalmazza a fejlesztési javaslatokat.",
     "targetBoard": "Célpanel",
     "codeBadge": "AI kódfejlesztés",
-    "improvedCodeTitle": "Fejlesztett kód"
+    "improvedCodeTitle": "Fejlesztett kód",
+    "outputFormatSelection": "FONTOS: Add vissza a javított kódrészletet teljes egészében (rövidítés nélkül). Formátum: ```cpp\n...\n```",
+    "outputFormatFile": "FONTOS: Add vissza a teljes javított fájlt. Formátum: ```cpp\n...\n```",
+    "outputFormatSketch": "FONTOS: Add vissza az összes javított fájlt, mindegyiket fejléccel. Formátum:\n```cpp\n// ========== FájlNév.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI hibaelemzés",
     "correctedCodeTitle": "Javított kód"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI kódjavaslat"
+    "codeSuggestionTitle": "AI kódjavaslat",
+    "newCodeContext": "Új kód kontextus a lekérdezéshez"
   },
   "debugHelp": {
     "debugBadge": "AI hibakeresési asszisztens",
     "debugSolutionTitle": "Hibakeresési megoldás"
+  },
+  "addComments": {
+    "commentedCode": "Kommentált kód",
+    "customInstructions": "Egyéni utasítások",
+    "outputFormatSelection": "FONTOS: Add vissza a kódrészletet megjegyzésekkel teljes egészében. Formátum: ```cpp\n...\n```",
+    "outputFormatFile": "FONTOS: Add vissza a teljes fájlt megjegyzésekkel. Formátum: ```cpp\n...\n```",
+    "outputFormatSketch": "FONTOS: Add vissza az összes fájlt megjegyzésekkel, mindegyiket fejléccel. Formátum:\n```cpp\n// ========== FájlNév.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Kód kontextus nélkül",
+    "noContextDesc": "Csak a kérdés",
+    "noContextDetail": "Nem jelennek meg kódfájlok az AI számára",
+    "selection": "Csak kijelölés",
+    "currentFile": "Aktuális fájl",
+    "fullSketch": "Teljes projekt",
+    "minimalContext": "Minimális kontextus",
+    "lines": "Sor",
+    "files": "Fájl",
+    "selectionDetail": "Csak a kijelölt kód, további kontextus nélkül",
+    "currentFileDetailWithSelection": "Kijelölt kód + a fájl többi része további kontextusként",
+    "currentFileDetailNoSelection": "A teljes fájl kontextusként",
+    "fullSketchDetailWithSelection": "Kijelölt kód + az összes fájl további kontextusként",
+    "fullSketchDetailNoSelection": "A projekt összes fájlja kontextusként",
+    "minimalContextDetail": "Csak a hibasor körüli kód",
+    "selectLevel": "Mennyi kontextust kapjon az AI?",
+    "additionalContext": "=== TOVÁBBI KONTEXTUS ===",
+    "explanation": "A következő fájlok a projekt részei és segítenek a megértésben:",
+    "focusReminder": "FONTOS: Koncentrálj a kijelölt kódra, a többit használd kontextusként!",
+    "fullFileAsContext": "(Teljes fájl kontextusként)"
+  },
+  "support": {
+    "message": "🎉 Az AI.duino már {0} alkalommal segített neked!",
+    "description": "Ez a projekt ingyenes és nyílt forráskódú. Egy kis adomány segíti a fejlesztést.",
+    "coffee": "☕ Vegyél egy kávét",
+    "sponsor": "💙 Legyél szponzor",
+    "later": "Később",
+    "noThanks": "Ne jelenjen meg többé",
+    "thanks": "Nagyon köszönöm a támogatásodat! 💙"
+  },
+  "uninstall": {
+    "button": "AI.duino eltávolítása",
+    "warning": "⚠️ FIGYELMEZTETÉS: Ez teljesen eltávolítja az AI.duinot!",
+    "willDelete": "A következő adatok törlésre kerülnek",
+    "cannotUndo": "Ez a művelet NEM vonható vissza!",
+    "uninstall": "Eltávolítás",
+    "finalWarning": "Utolsó figyelmeztetés: Valóban véglegesen törölni szeretnéd az összes AI.duino adatot?",
+    "yesDelete": "Igen, végleges törlés",
+    "removing": "AI.duino eltávolítása...",
+    "deleting": "Törlés",
+    "clearingSettings": "Beállítások törlése...",
+    "success": "✅ Az AI.duino sikeresen eltávolítva",
+    "itemsDeleted": "Elem törölve",
+    "manualStep": "Kérlek, inaktiváld/távolítsd el manuálisan a bővítményt az Arduino IDE-ben a Fájl → Beállítások → Bővítmények alatt",
+    "partialSuccess": "⚠️ Részlegesen eltávolítva",
+    "deleted": "Törölve",
+    "failed": "Sikertelen"
   }
 }

@@ -19,7 +19,9 @@
     "changePath": "Promijeniti putanju",
     "openChatPanel": "AI Chat",
     "toggleInlineCompletion": "Inline dopuna",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ iz međuspremnika",
+    "openSettings": "Postavke"
   },
   "messages": {
     "welcome": "👋 Dobrodošli! AI.duino podržava {0}!",
@@ -49,13 +51,17 @@
     "noValidContext": "Nema trenutnog razgovora za nastavak (max. 30 min.)",
     "followUpContext": "Nastavak razgovora: \"{0}\" (prije {1} min.)",
     "contextCleared": "Kontekst razgovora je obrisan",
-    "operationAlreadyRunning": "Operacija već traje! Molimo sačekajte...",
+    "operationAlreadyRunning": "Operacija je već u toku! Molimo sačekaj...",
     "noPath": "🔧 Prvo trebate putanju za {0}",
     "pathRequired": "{0} zahtijeva putanju",
     "inlineCompletionActivate": "Aktivirati inline dopunu s {0}?",
     "inlineCompletionWarningCosts": "⚠️ {0} je platni servis - svaka dopuna uzrokuje API troškove. Ipak aktivirati?",
     "inlineCompletionEnabled": "✓ Inline dopuna aktivirana",
-    "inlineCompletionDisabled": "Inline dopuna deaktivirana"
+    "inlineCompletionDisabled": "Inline dopuna deaktivirana",
+    "contextAttachedInfo": "🔎 Kontekst dodan - vrijedi samo za sljedeću poruku. Koristi '🔄 Posljednji kontekst' za ponovno korištenje.",
+    "noErrorInClipboard": "Nije pronađena informacija o grešci u međuspremniku. Molimo prvo klikni na 'Kopiraj poruku o grešci' u Arduino IDE.",
+    "settingsSaved": "Postavke su sačuvane",
+    "settingsReset": "Postavke su vraćene na početne vrijednosti"
   },
   "buttons": {
     "chooseModel": "Odaberi AI model",
@@ -91,7 +97,8 @@
     "close": "Zatvori",
     "send": "Pošalji",
     "newInput": "Novi unos",
-    "delete": "Obriši"
+    "delete": "Obriši",
+    "resetAll": "Resetuj sve"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiziraj označeni kod",
@@ -109,7 +116,9 @@
     "askFollowUp": "Nastavite prethodnji razgovor: {0}",
     "noValidContext": "Nema prethodnog razgovora",
     "editPrompts": "Prilagodite AI upite",
-    "openChatPanel": "AI chat sa integracijom koda"
+    "openChatPanel": "AI chat sa integracijom koda",
+    "explainCopiedError": "Analiziraj grešku iz međuspremnika",
+    "openSettings": "Prilagodi postavke"
   },
   "language": {
     "autoDetect": "Automatski prepoznaj iz VS Code",
@@ -145,7 +154,25 @@
     "askAIWithContext": "Korisničko pitanje: {0}\n\nKontekst koda:\n```cpp\n{1}\n```\n\nOdgovorite na bosanskom jeziku uzimajući u obzir priloženi Arduino kod.",
     "askFollowUp": "Dodatno pitanje:",
     "followUpContext": "Kontekst prethodnog razgovora:",
-    "followUpInstruction": "Odgovorite na bosanskom jeziku uzimajući u obzir prethodnji razgovor."
+    "followUpInstruction": "Odgovorite na bosanskom jeziku uzimajući u obzir prethodnji razgovor.",
+    "improveCodeFile": "Poboljšaj ovu kompletnu Arduino datoteku ({0}):\n\n```cpp\n{1}\n```\n\nOptimiziraj za:\n- Neblokiranje koda (millis umjesto delay)\n- Efikasnost memorije\n- Bolju čitljivost\n- Arduino najbolje prakse\n- Robusnost",
+    "improveCodeSketch": "Poboljšaj sve datoteke u ovom Arduino sketchu:\n\n{0}\n\nOptimiziraj cijeli sketch za:\n- Neblokiranje koda (millis umjesto delay)\n- Efikasnost memorije\n- Bolju čitljivost\n- Arduino najbolje prakse\n- Robusnost\n- Čisto razdvajanje između datoteka",
+    "addCommentsFile": "Dodaj korisne komentare na bosanskom jeziku ovoj kompletnoj Arduino datoteci ({0}):\n\n```cpp\n{1}\n```\n\nPravila:\n- Objasni šta svaki važan red radi\n- Komentiraj funkcije i njihove parametre\n- Objasni interakcije sa hardverom\n- Koristi // za jednolinijske i /* */ za višelinijske komentare\n- Komentari trebaju pomoći početnicima",
+    "addCommentsSketch": "Dodaj korisne komentare na bosanskom jeziku svim datotekama u ovom Arduino sketchu:\n\n{0}\n\nPravila:\n- Objasni šta svaki važan red radi\n- Komentiraj funkcije i njihove parametre\n- Objasni interakcije sa hardverom i veze između datoteka\n- Koristi // za jednolinijske i /* */ za višelinijske komentare\n- Komentari trebaju pomoći početnicima",
+    "explainCodeFile": "Objasni ovu kompletnu Arduino datoteku ({0}) na bosanskom:\n\n```cpp\n{1}\n```\n\nObjasni:\n- Šta datoteka radi (glavna svrha)\n- Važne funkcije i njihove zadatke\n- Interakcije sa hardverom (pinovi, senzori, itd.)\n- Algoritmi i logika\n- Posebnosti ili važni detalji",
+    "explainCodeSketch": "Objasni sve datoteke u ovom Arduino sketchu na bosanskom:\n\n{0}\n\nObjasni:\n- Šta cijeli sketch radi (glavna svrha)\n- Kako datoteke rade zajedno\n- Važne funkcije u svakoj datoteci\n- Interakcije sa hardverom (pinovi, senzori, itd.)\n- Tok podataka između datoteka\n- Posebnosti ili važni detalji",
+    "explainErrorFile": "Objasni ovu Arduino grešku u redu {1}:\n\nGreška: {0}\n\nDatoteka ({2}):\n```cpp\n{3}\n```\n\nObjasni:\n- Šta greška znači\n- Zašto se javlja\n- Kako je popraviti\n- Prikaži ispravljeni kod",
+    "explainErrorSketch": "Objasni ovu Arduino grešku u redu {1}:\n\nGreška: {0}\n\nCijeli sketch:\n{2}\n\nObjasni:\n- Šta greška znači\n- Zašto se javlja (također u kontekstu drugih datoteka)\n- Kako je popraviti\n- Prikaži ispravljeni kod",
+    "analyzeSerialFile": "Analiziraj ovaj Serial izlaz:\n\n{0}\n\nKod datoteka ({1}):\n```cpp\n{2}\n```\n\nSaznaj:\n- Šta izlaz znači\n- Da li postoje problemi\n- Šta kod koji generira ovaj izlaz radi",
+    "analyzeSerialSketch": "Analiziraj ovaj Serial izlaz:\n\n{0}\n\nCijeli sketch:\n{1}\n\nSaznaj:\n- Šta izlaz znači\n- Da li postoje problemi\n- Koji kod generira ovaj izlaz",
+    "hardwareDebugFile": "Analiziraj hardverske probleme u ovoj datoteci ({0}):\n\n```cpp\n{1}\n```\n\nProvjeri:\n- Konfiguracije pinova\n- Električne veze\n- Probleme sa tajmingom\n- Tipične hardverske greške",
+    "hardwareDebugSketch": "Analiziraj hardverske probleme u cijelom sketchu:\n\n{0}\n\nProvjeri:\n- Konfiguracije pinova u svim datotekama\n- Električne veze\n- Probleme sa tajmingom\n- Tipične hardverske greške",
+    "addDebugStatementsFile": "Dodaj korisne debug izlaze ovoj datoteci ({0}):\n\n```cpp\n{1}\n```\n\nDodaj Serial.print() naredbe da:\n- Pratiš vrijednosti varijabli\n- Pratiš tok programa\n- Suzuziš izvore grešaka",
+    "addDebugStatementsSketch": "Dodaj korisne debug izlaze ovom sketchu:\n\n{0}\n\nDodaj Serial.print() naredbe da:\n- Pratiš vrijednosti varijabli\n- Pratiš tok programa\n- Suzuziš izvore grešaka\n- Razumiješ interakcije između datoteka",
+    "analyzeTimingFile": "Analiziraj probleme sa tajmingom u ovoj datoteci ({0}):\n\n```cpp\n{1}\n```\n\nProvjeri:\n- Korištenje delay()\n- Blokiranje vs. neblokiranje koda\n- Implementaciju millis()\n- Race Conditions",
+    "analyzeTimingSketch": "Analiziraj probleme sa tajmingom u cijelom sketchu:\n\n{0}\n\nProvjeri:\n- Korištenje delay() u svim datotekama\n- Blokiranje vs. neblokiranje koda\n- Implementaciju millis()\n- Race Conditions\n- Tajming između različitih datoteka",
+    "askAIFile": "Korisničko pitanje: {0}\n\nKod datoteka ({1}):\n```cpp\n{2}\n```\n\nOdgovori na bosanskom uzimajući u obzir dostavljeni Arduino kod.",
+    "askAISketch": "Korisničko pitanje: {0}\n\nCijeli sketch:\n{1}\n\nOdgovori na bosanskom uzimajući u obzir sve datoteke u sketchu."
   },
   "placeholders": {
     "customInstructions": "npr. \"ne koristiti millis()\", \"optimizirati za Arduino Nano\", \"dodati error handling\"",
@@ -253,7 +280,18 @@
     "noChatsYet": "Još nema chatova",
     "createFirstChat": "Kreiraj svoj prvi chat!",
     "chatsOverview": "Pregled chatova",
-    "messages": "Poruke"
+    "messages": "Poruke",
+    "attachFile": "Priloži datoteku",
+    "attachContext": "Dodaj kontekst",
+    "contextAttached": "Kontekst dodan",
+    "clearContext": "Ukloni kontekst",
+    "sendSelectedCode": "Pošalji označeni kod",
+    "filesSent": "Datoteke poslane",
+    "useLastContext": "Ponovo dodaj",
+    "reuseLastContext": "Ponovo koristi posljednji kontekst",
+    "arduinoMode": "Arduino",
+    "generalMode": "Opšte",
+    "toggleMode": "Prebaci mod"
   },
   "shortcuts": {
     "askFollowUp": "Dodatno pitanje",
@@ -352,7 +390,52 @@
     "notNow": "Ne sada"
   },
   "settings": {
-    "autoUpdateConfigs": "Automatski tražiti update-e konfiguracije provider-a"
+    "autoUpdateConfigs": "Automatski tražiti update-e konfiguracije provider-a",
+    "title": "Postavke",
+    "categories": {
+      "aiBehavior": "Ponašanje AI-a",
+      "performance": "Performanse",
+      "updates": "Ažuriranja",
+      "chat": "Chat",
+      "inlineCompletion": "Inline dovršavanje",
+      "advanced": "Napredno"
+    },
+    "labels": {
+      "temperature": "Kreativnost (Temperature)",
+      "maxTokensPerRequest": "Maks. tokena po zahjevu",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Maks. pokušaja ponovnog poziva",
+      "autoUpdateConfigs": "Auto-ažuriranje Provider konfiguracija",
+      "autoCheckExtensionUpdates": "Provjeri ažuriranja ekstenzije",
+      "maxChats": "Maksimalan broj chatova",
+      "maxMessagesPerChat": "Maks. poruka po chatu",
+      "inlineCompletionDelay": "Rate Limit kašnjenje (ms)",
+      "inlineCompletionContextLines": "Kontekst redova",
+      "inlineCompletionMinCommentLength": "Min. dužina komentara",
+      "inlineCompletionMaxLinesComment": "Maks. redova (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Maks. redova (Jednostavno)",
+      "tokenEstimationMultiplier": "Faktor riječi",
+      "tokenEstimationCodeBlock": "Faktor bloka koda",
+      "tokenEstimationSpecialChars": "Faktor specijalnih karaktera"
+    },
+    "descriptions": {
+      "temperature": "Kreativnost AI-a (0 = deterministički, 1 = kreativan)",
+      "maxTokensPerRequest": "Maksimalna dužina AI odgovora",
+      "apiTimeout": "Timeout za API zahtjeve u milisekundama",
+      "apiMaxRetries": "Broj ponavljanja kod greške",
+      "autoUpdateConfigs": "Automatski ažuriraj provider konfiguracije",
+      "autoCheckExtensionUpdates": "Provjeri ažuriranja ekstenzije pri pokretanju",
+      "maxChats": "Maksimalan broj sačuvanih chatova",
+      "maxMessagesPerChat": "Maksimum poruka po chatu (starije se brišu)",
+      "inlineCompletionDelay": "Kašnjenje između dovršavanja",
+      "inlineCompletionContextLines": "Broj redova prije kursora kao kontekst",
+      "inlineCompletionMinCommentLength": "Minimalna dužina komentara za aktivaciju",
+      "inlineCompletionMaxLinesComment": "Maksimalni redovi kod Comment-to-Code",
+      "inlineCompletionMaxLinesSimple": "Maksimalni redovi kod jednostavnih dovršavanja",
+      "tokenEstimationMultiplier": "Množitelj za procjenu riječi-tokeni",
+      "tokenEstimationCodeBlock": "Dodatni tokeni za blokove koda",
+      "tokenEstimationSpecialChars": "Množitelj za specijalne karaktere"
+    }
   },
   "extensionUpdate": {
     "available": "Dostupan AI.duino ekstenzija update: {0} → {1}",
@@ -387,17 +470,77 @@
     "noCodeBlocksSuggestion": "Gornja analiza sadrži prijedloge za poboljšanje.",
     "targetBoard": "Ciljna ploča",
     "codeBadge": "AI poboljšanje koda",
-    "improvedCodeTitle": "Poboljšani kod"
+    "improvedCodeTitle": "Poboljšani kod",
+    "outputFormatSelection": "VAŽNO: Vrati poboljšanu sekciju koda u potpunosti (neskraćeno). Format: ```cpp\n...\n```",
+    "outputFormatFile": "VAŽNO: Vrati kompletnu poboljšanu datoteku. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "VAŽNO: Vrati sve poboljšane datoteke, svaku sa zaglavljem. Format:\n```cpp\n// ========== ImeDatoteke.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI analiza greške",
     "correctedCodeTitle": "Ispravljeni kod"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI prijedlog koda"
+    "codeSuggestionTitle": "AI prijedlog koda",
+    "newCodeContext": "Novi kontekst koda za upit"
   },
   "debugHelp": {
     "debugBadge": "AI asistent za otklanjanje grešaka",
     "debugSolutionTitle": "Rješenje za otklanjanje grešaka"
+  },
+  "addComments": {
+    "commentedCode": "Komentiran kod",
+    "customInstructions": "Prilagođene instrukcije",
+    "outputFormatSelection": "VAŽNO: Vrati sekciju koda sa komentarima u potpunosti. Format: ```cpp\n...\n```",
+    "outputFormatFile": "VAŽNO: Vrati kompletnu datoteku sa komentarima. Format: ```cpp\n...\n```",
+    "outputFormatSketch": "VAŽNO: Vrati sve datoteke sa komentarima, svaku sa zaglavljem. Format:\n```cpp\n// ========== ImeDatoteke.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Bez konteksta koda",
+    "noContextDesc": "Samo pitanje",
+    "noContextDetail": "AI-u se ne pokazuju datoteke sa kodom",
+    "selection": "Samo selekcija",
+    "currentFile": "Trenutna datoteka",
+    "fullSketch": "Cijeli projekat",
+    "minimalContext": "Minimalni kontekst",
+    "lines": "Redova",
+    "files": "Datoteka",
+    "selectionDetail": "Samo označeni kod, bez dodatnog konteksta",
+    "currentFileDetailWithSelection": "Označeni kod + ostatak datoteke kao dodatni kontekst",
+    "currentFileDetailNoSelection": "Cijela datoteka kao kontekst",
+    "fullSketchDetailWithSelection": "Označeni kod + sve datoteke kao dodatni kontekst",
+    "fullSketchDetailNoSelection": "Sve datoteke u projektu kao kontekst",
+    "minimalContextDetail": "Samo kod oko reda sa greškom",
+    "selectLevel": "Koliko konteksta treba da dobije AI?",
+    "additionalContext": "=== DODATNI KONTEKST ===",
+    "explanation": "Sljedeće datoteke su dio projekta i pomažu u razumijevanju:",
+    "focusReminder": "VAŽNO: Fokusiraj se na označeni kod, koristi ostatak kao kontekst!",
+    "fullFileAsContext": "(Cijela datoteka kao kontekst)"
+  },
+  "support": {
+    "message": "🎉 AI.duino ti je već pomogao {0} puta!",
+    "description": "Ovaj projekat je besplatan i otvorenog koda. Mala donacija pomaže u razvoju.",
+    "coffee": "☕ Kupi mi kafu",
+    "sponsor": "💙 Postani sponzor",
+    "later": "Kasnije",
+    "noThanks": "Ne prikazuj više",
+    "thanks": "Hvala ti puno na podršci! 💙"
+  },
+  "uninstall": {
+    "button": "Deinstaliraj AI.duino",
+    "warning": "⚠️ UPOZORENJE: Ovo će kompletno ukloniti AI.duino!",
+    "willDelete": "Sljedeći podaci će biti obrisani",
+    "cannotUndo": "Ova akcija se NE MOŽE poništiti!",
+    "uninstall": "Deinstaliraj",
+    "finalWarning": "Posljednje upozorenje: Zaista trajno obrisati sve AI.duino podatke?",
+    "yesDelete": "Da, trajno obriši",
+    "removing": "AI.duino se uklanja...",
+    "deleting": "Brisanje",
+    "clearingSettings": "Čišćenje postavki...",
+    "success": "✅ AI.duino je uspješno deinstaliran",
+    "itemsDeleted": "Stavki obrisano",
+    "manualStep": "Molimo ručno deaktiviraj/ukloni ekstenziju u Arduino IDE-u pod Datoteka → Postavke → Ekstenzije",
+    "partialSuccess": "⚠️ Djelimično deinstalirano",
+    "deleted": "Obrisano",
+    "failed": "Neuspješno"
   }
 }

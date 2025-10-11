@@ -19,7 +19,9 @@
     "changePath": "Keisti kelią",
     "openChatPanel": "AI Pokalbis",
     "toggleInlineCompletion": "Inline užbaigimas",
-    "toggleInlineCompletionShort": "Inline"
+    "toggleInlineCompletionShort": "Inline",
+    "explainCopiedError": "↳ iš mainų srities",
+    "openSettings": "Nustatymai"
   },
   "messages": {
     "welcome": "👋 Sveiki! AI.duino palaiko {0}!",
@@ -49,13 +51,17 @@
     "noValidContext": "Nėra dabartinio pokalbio tęsimui (maks. 30 min.)",
     "followUpContext": "Pokalbio tęsinys: \"{0}\" (prieš {1} min.)",
     "contextCleared": "Pokalbio kontekstas ištrintas",
-    "operationAlreadyRunning": "Operacija jau vyksta! Prašome palaukti...",
+    "operationAlreadyRunning": "Operacija jau vykdoma! Prašome palaukti...",
     "noPath": "🔧 Pirmiausia jums reikia kelio į {0}",
     "pathRequired": "{0} reikalauja kelio",
     "inlineCompletionActivate": "Aktyvuoti inline užbaigimą su {0}?",
     "inlineCompletionWarningCosts": "⚠️ {0} yra mokama paslauga - kiekvienas užbaigimas sukelia API išlaidas. Vis tiek aktyvuoti?",
     "inlineCompletionEnabled": "✓ Inline užbaigimas aktyvuotas",
-    "inlineCompletionDisabled": "Inline užbaigimas deaktyvuotas"
+    "inlineCompletionDisabled": "Inline užbaigimas deaktyvuotas",
+    "contextAttachedInfo": "🔎 Kontekstas pridėtas - galioja tik kitai žinutei. Naudok '🔄 Paskutinis kontekstas' pakartotinai naudoti.",
+    "noErrorInClipboard": "Mainų srityje nerasta klaidos informacijos. Pirmiausia spustelėk 'Kopijuoti klaidos pranešimą' Arduino IDE.",
+    "settingsSaved": "Nustatymai išsaugoti",
+    "settingsReset": "Nustatymai atstatyti"
   },
   "buttons": {
     "chooseModel": "Pasirinkti AI modelį",
@@ -91,7 +97,8 @@
     "close": "Uždaryti",
     "send": "Siųsti",
     "newInput": "Naujas įvedimas",
-    "delete": "Ištrinti"
+    "delete": "Ištrinti",
+    "resetAll": "Atstatyti viską"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizuoti pažymėtą kodą",
@@ -109,7 +116,9 @@
     "askFollowUp": "Tęsti ankstesnį pokalbį: {0}",
     "noValidContext": "Nėra ankstesnio pokalbio",
     "editPrompts": "Pritaikyti AI užklausas",
-    "openChatPanel": "AI pokalbis su kodo integracija"
+    "openChatPanel": "AI pokalbis su kodo integracija",
+    "explainCopiedError": "Analizuoti klaidą iš mainų srities",
+    "openSettings": "Pritaikyti nustatymus"
   },
   "language": {
     "autoDetect": "Automatiškai nustatyti iš VS Code",
@@ -145,7 +154,25 @@
     "askAIWithContext": "Vartotojo klausimas: {0}\n\nKodo kontekstas:\n```cpp\n{1}\n```\n\nAtsakykite lietuvių kalba, atsižvelgdami į pridėtą Arduino kodą.",
     "askFollowUp": "Papildomas klausimas:",
     "followUpContext": "Ankstesnio pokalbio kontekstas:",
-    "followUpInstruction": "Atsakykite lietuvių kalba, atsižvelgdami į ankstesnį pokalbį."
+    "followUpInstruction": "Atsakykite lietuvių kalba, atsižvelgdami į ankstesnį pokalbį.",
+    "improveCodeFile": "Patobulink šį visą Arduino failą ({0}):\n\n```cpp\n{1}\n```\n\nOptimizuok:\n- Neblokuojantį kodą (millis vietoj delay)\n- Atminties efektyvumą\n- Geresnį skaitomumą\n- Arduino geriausias praktikas\n- Patvarumą",
+    "improveCodeSketch": "Patobulink visus failus šiame Arduino sketch'e:\n\n{0}\n\nOptimizuok visą sketch'ą:\n- Neblokuojantį kodą (millis vietoj delay)\n- Atminties efektyvumą\n- Geresnį skaitomumą\n- Arduino geriausias praktikas\n- Patvarumą\n- Aiškų atskyrimą tarp failų",
+    "addCommentsFile": "Pridėk naudingus lietuviškus komentarus prie šio viso Arduino failo ({0}):\n\n```cpp\n{1}\n```\n\nTaisyklės:\n- Paaiškink, ką daro kiekviena svarbi eilutė\n- Komentuok funkcijas ir jų parametrus\n- Paaiškink aparatinės įrangos sąveiką\n- Naudok // vienos eilutės ir /* */ kelių eilučių komentarams\n- Komentarai turėtų padėti pradedantiesiems",
+    "addCommentsSketch": "Pridėk naudingus lietuviškus komentarus visiems failams šiame Arduino sketch'e:\n\n{0}\n\nTaisyklės:\n- Paaiškink, ką daro kiekviena svarbi eilutė\n- Komentuok funkcijas ir jų parametrus\n- Paaiškink aparatinės įrangos sąveiką ir ryšius tarp failų\n- Naudok // vienos eilutės ir /* */ kelių eilučių komentarams\n- Komentarai turėtų padėti pradedantiesiems",
+    "explainCodeFile": "Paaiškink šį visą Arduino failą ({0}) lietuviškai:\n\n```cpp\n{1}\n```\n\nPaaiškink:\n- Ką failas daro (pagrindinis tikslas)\n- Svarbias funkcijas ir jų užduotis\n- Aparatinės įrangos sąveiką (kontaktai, jutikliai ir kt.)\n- Algoritmus ir logiką\n- Ypatumus ar svarbias detales",
+    "explainCodeSketch": "Paaiškink visus failus šiame Arduino sketch'e lietuviškai:\n\n{0}\n\nPaaiškink:\n- Ką visas sketch'as daro (pagrindinis tikslas)\n- Kaip failai veikia kartu\n- Svarbias funkcijas kiekviename faile\n- Aparatinės įrangos sąveiką (kontaktai, jutikliai ir kt.)\n- Duomenų srautą tarp failų\n- Ypatumus ar svarbias detales",
+    "explainErrorFile": "Paaiškink šią Arduino klaidą {1} eilutėje:\n\nKlaida: {0}\n\nFailas ({2}):\n```cpp\n{3}\n```\n\nPaaiškink:\n- Ką klaida reiškia\n- Kodėl ji atsiranda\n- Kaip ją pataisyti\n- Parodyk pataisytą kodą",
+    "explainErrorSketch": "Paaiškink šią Arduino klaidą {1} eilutėje:\n\nKlaida: {0}\n\nVisas sketch'as:\n{2}\n\nPaaiškink:\n- Ką klaida reiškia\n- Kodėl ji atsiranda (taip pat kitų failų kontekste)\n- Kaip ją pataisyti\n- Parodyk pataisytą kodą",
+    "analyzeSerialFile": "Analizuok šį Serial išvestį:\n\n{0}\n\nKodo failas ({1}):\n```cpp\n{2}\n```\n\nSužinok:\n- Ką išvestis reiškia\n- Ar yra problemų\n- Ką kodas, kuris generuoja šią išvestį, daro",
+    "analyzeSerialSketch": "Analizuok šį Serial išvestį:\n\n{0}\n\nVisas sketch'as:\n{1}\n\nSužinok:\n- Ką išvestis reiškia\n- Ar yra problemų\n- Kuris kodas generuoja šią išvestį",
+    "hardwareDebugFile": "Analizuok aparatinės įrangos problemas šiame faile ({0}):\n\n```cpp\n{1}\n```\n\nPatikrink:\n- Kontaktų konfigūracijas\n- Elektrines jungtis\n- Sinchronizavimo problemas\n- Tipines aparatinės įrangos klaidas",
+    "hardwareDebugSketch": "Analizuok aparatinės įrangos problemas visame sketch'e:\n\n{0}\n\nPatikrink:\n- Kontaktų konfigūracijas visuose failuose\n- Elektrines jungtis\n- Sinchronizavimo problemas\n- Tipines aparatinės įrangos klaidas",
+    "addDebugStatementsFile": "Pridėk naudingų debug išvesčių prie šio failo ({0}):\n\n```cpp\n{1}\n```\n\nPridėk Serial.print() komandas, kad:\n- Stebėtum kintamųjų reikšmes\n- Sektum programos eigą\n- Susiaurintum klaidų šaltinius",
+    "addDebugStatementsSketch": "Pridėk naudingų debug išvesčių prie šio sketch'o:\n\n{0}\n\nPridėk Serial.print() komandas, kad:\n- Stebėtum kintamųjų reikšmes\n- Sektum programos eigą\n- Susiaurintum klaidų šaltinius\n- Suprastum sąveiką tarp failų",
+    "analyzeTimingFile": "Analizuok sinchronizavimo problemas šiame faile ({0}):\n\n```cpp\n{1}\n```\n\nPatikrink:\n- delay() naudojimą\n- Blokuojantį vs. neblokuojantį kodą\n- millis() įgyvendinimą\n- Race Conditions",
+    "analyzeTimingSketch": "Analizuok sinchronizavimo problemas visame sketch'e:\n\n{0}\n\nPatikrink:\n- delay() naudojimą visuose failuose\n- Blokuojantį vs. neblokuojantį kodą\n- millis() įgyvendinimą\n- Race Conditions\n- Sinchronizavimą tarp skirtingų failų",
+    "askAIFile": "Vartotojo klausimas: {0}\n\nKodo failas ({1}):\n```cpp\n{2}\n```\n\nAtsakyk lietuviškai, atsižvelgdamas į pateiktą Arduino kodą.",
+    "askAISketch": "Vartotojo klausimas: {0}\n\nVisas sketch'as:\n{1}\n\nAtsakyk lietuviškai, atsižvelgdamas į visus sketch'o failus."
   },
   "placeholders": {
     "customInstructions": "pvz., \"nenaudoti millis()\", \"optimizuoti Arduino Nano\", \"pridėti klaidų tvarkymą\"",
@@ -253,7 +280,18 @@
     "noChatsYet": "Dar nėra pokalbių",
     "createFirstChat": "Sukurkite savo pirmą pokalbį!",
     "chatsOverview": "Pokalbių apžvalga",
-    "messages": "Pranešimai"
+    "messages": "Pranešimai",
+    "attachFile": "Pridėti failą",
+    "attachContext": "Pridėti kontekstą",
+    "contextAttached": "Kontekstas pridėtas",
+    "clearContext": "Pašalinti kontekstą",
+    "sendSelectedCode": "Siųsti pasirinktą kodą",
+    "filesSent": "Failai išsiųsti",
+    "useLastContext": "Pridėti vėl",
+    "reuseLastContext": "Pakartotinai naudoti paskutinį kontekstą",
+    "arduinoMode": "Arduino",
+    "generalMode": "Bendras",
+    "toggleMode": "Perjungti režimą"
   },
   "shortcuts": {
     "askFollowUp": "Papildomas klausimas",
@@ -352,7 +390,52 @@
     "notNow": "Ne dabar"
   },
   "settings": {
-    "autoUpdateConfigs": "Automatiškai ieškoti paslaugų teikėjų konfigūracijos naujinimų"
+    "autoUpdateConfigs": "Automatiškai ieškoti paslaugų teikėjų konfigūracijos naujinimų",
+    "title": "Nustatymai",
+    "categories": {
+      "aiBehavior": "AI elgesys",
+      "performance": "Našumas",
+      "updates": "Atnaujinimai",
+      "chat": "Pokalbis",
+      "inlineCompletion": "Inline užbaigimas",
+      "advanced": "Išplėstiniai"
+    },
+    "labels": {
+      "temperature": "Kūrybiškumas (Temperature)",
+      "maxTokensPerRequest": "Maks. tokenų vienai užklausai",
+      "apiTimeout": "API Timeout (ms)",
+      "apiMaxRetries": "Maks. bandymų pakartoti",
+      "autoUpdateConfigs": "Automatinis Provider konfigūracijų atnaujinimas",
+      "autoCheckExtensionUpdates": "Tikrinti plėtinio atnaujinimus",
+      "maxChats": "Maksimalus pokalbių skaičius",
+      "maxMessagesPerChat": "Maks. žinučių pokalbyje",
+      "inlineCompletionDelay": "Rate Limit delsa (ms)",
+      "inlineCompletionContextLines": "Konteksto eilutės",
+      "inlineCompletionMinCommentLength": "Min. komentaro ilgis",
+      "inlineCompletionMaxLinesComment": "Maks. eilučių (Comment-to-Code)",
+      "inlineCompletionMaxLinesSimple": "Maks. eilučių (Paprastas)",
+      "tokenEstimationMultiplier": "Žodžių faktorius",
+      "tokenEstimationCodeBlock": "Kodo bloko faktorius",
+      "tokenEstimationSpecialChars": "Specialių simbolių faktorius"
+    },
+    "descriptions": {
+      "temperature": "AI kūrybiškumas (0 = deterministinis, 1 = kūrybingas)",
+      "maxTokensPerRequest": "Maksimalus AI atsakymų ilgis",
+      "apiTimeout": "API užklausų laiko limitas milisekundėmis",
+      "apiMaxRetries": "Bandymų pakartoti skaičius klaidos atveju",
+      "autoUpdateConfigs": "Automatiškai atnaujinti provider konfigūracijas",
+      "autoCheckExtensionUpdates": "Tikrinti plėtinio atnaujinimus paleidžiant",
+      "maxChats": "Maksimalus išsaugotų pokalbių skaičius",
+      "maxMessagesPerChat": "Maksimalus žinučių skaičius pokalbyje (senesni trinami)",
+      "inlineCompletionDelay": "Delsa tarp užbagimų",
+      "inlineCompletionContextLines": "Eilučių skaičius prieš žymeklį kaip kontekstas",
+      "inlineCompletionMinCommentLength": "Minimalus komentaro ilgis aktyvavimui",
+      "inlineCompletionMaxLinesComment": "Maksimalios eilutės Comment-to-Code atveju",
+      "inlineCompletionMaxLinesSimple": "Maksimalios eilutės paprastų užbagimų atveju",
+      "tokenEstimationMultiplier": "Daugiklis žodis-į-tokeną įvertinimui",
+      "tokenEstimationCodeBlock": "Papildomi tokenai kodo blokams",
+      "tokenEstimationSpecialChars": "Daugiklis specialiems simboliams"
+    }
   },
   "extensionUpdate": {
     "available": "Prieinamas AI.duino plėtinio naujinimas: {0} → {1}",
@@ -387,17 +470,77 @@
     "noCodeBlocksSuggestion": "Aukščiau pateiktoje analizėje yra patobulinimo pasiūlymai.",
     "targetBoard": "Tikslinė plokštė",
     "codeBadge": "AI kodo patobulinimas",
-    "improvedCodeTitle": "Patobulinta kodas"
+    "improvedCodeTitle": "Patobulinta kodas",
+    "outputFormatSelection": "SVARBU: Grąžink patobulintą kodo dalį visiškai (nesutrumpintą). Formatas: ```cpp\n...\n```",
+    "outputFormatFile": "SVARBU: Grąžink visą patobulintą failą. Formatas: ```cpp\n...\n```",
+    "outputFormatSketch": "SVARBU: Grąžink visus patobulintas failus, kiekvieną su antrašte. Formatas:\n```cpp\n// ========== FailoPavadinimas.ino ==========\n...\n```"
   },
   "explainError": {
     "errorBadge": "AI klaidos analizė",
     "correctedCodeTitle": "Pataisytas kodas"
   },
   "askAI": {
-    "codeSuggestionTitle": "AI kodo pasiūlymas"
+    "codeSuggestionTitle": "AI kodo pasiūlymas",
+    "newCodeContext": "Naujas kodo kontekstas užklausai"
   },
   "debugHelp": {
     "debugBadge": "AI derinimo asistentas",
     "debugSolutionTitle": "Derinimo sprendimas"
+  },
+  "addComments": {
+    "commentedCode": "Komentuotas kodas",
+    "customInstructions": "Pritaikytos instrukcijos",
+    "outputFormatSelection": "SVARBU: Grąžink kodo dalį su komentarais visiškai. Formatas: ```cpp\n...\n```",
+    "outputFormatFile": "SVARBU: Grąžink visą failą su komentarais. Formatas: ```cpp\n...\n```",
+    "outputFormatSketch": "SVARBU: Grąžink visus failus su komentarais, kiekvieną su antrašte. Formatas:\n```cpp\n// ========== FailoPavadinimas.ino ==========\n...\n```"
+  },
+  "context": {
+    "noContext": "Be kodo konteksto",
+    "noContextDesc": "Tik klausimas",
+    "noContextDetail": "AI nerodomi jokie kodo failai",
+    "selection": "Tik pasirinkimas",
+    "currentFile": "Dabartinis failas",
+    "fullSketch": "Visas projektas",
+    "minimalContext": "Minimalus kontekstas",
+    "lines": "Eilučių",
+    "files": "Failų",
+    "selectionDetail": "Tik pasirinktas kodas, be papildomo konteksto",
+    "currentFileDetailWithSelection": "Pasirinktas kodas + likusi failo dalis kaip papildomas kontekstas",
+    "currentFileDetailNoSelection": "Visas failas kaip kontekstas",
+    "fullSketchDetailWithSelection": "Pasirinktas kodas + visi failai kaip papildomas kontekstas",
+    "fullSketchDetailNoSelection": "Visi projekto failai kaip kontekstas",
+    "minimalContextDetail": "Tik kodas aplink klaidos eilutę",
+    "selectLevel": "Kiek konteksto turėtų gauti AI?",
+    "additionalContext": "=== PAPILDOMAS KONTEKSTAS ===",
+    "explanation": "Šie failai yra projekto dalis ir padeda suprasti:",
+    "focusReminder": "SVARBU: Sutelk dėmesį į pasirinktą kodą, naudok likusį kaip kontekstą!",
+    "fullFileAsContext": "(Visas failas kaip kontekstas)"
+  },
+  "support": {
+    "message": "🎉 AI.duino jau tau padėjo {0} kartų!",
+    "description": "Šis projektas yra nemokamas ir atvirojo kodo. Nedidelė parama padeda tolesnei plėtrai.",
+    "coffee": "☕ Nupirk kavos",
+    "sponsor": "💙 Tapk rėmėju",
+    "later": "Vėliau",
+    "noThanks": "Daugiau nerodyti",
+    "thanks": "Labai ačiū už palaikymą! 💙"
+  },
+  "uninstall": {
+    "button": "Pašalinti AI.duino",
+    "warning": "⚠️ ĮSPĖJIMAS: Tai visiškai pašalins AI.duino!",
+    "willDelete": "Bus ištrinti šie duomenys",
+    "cannotUndo": "Šio veiksmo NEGALIMA atšaukti!",
+    "uninstall": "Pašalinti",
+    "finalWarning": "Paskutinis įspėjimas: Ar tikrai norite negrįžtamai ištrinti visus AI.duino duomenis?",
+    "yesDelete": "Taip, ištrinti negrįžtamai",
+    "removing": "AI.duino šalinamas...",
+    "deleting": "Trinamas",
+    "clearingSettings": "Valomi nustatymai...",
+    "success": "✅ AI.duino sėkmingai pašalintas",
+    "itemsDeleted": "Elementų ištrinta",
+    "manualStep": "Prašome rankiniu būdu išjungti/pašalinti plėtinį Arduino IDE per Failas → Nustatymai → Plėtiniai",
+    "partialSuccess": "⚠️ Iš dalies pašalinta",
+    "deleted": "Ištrinta",
+    "failed": "Nepavyko"
   }
 }

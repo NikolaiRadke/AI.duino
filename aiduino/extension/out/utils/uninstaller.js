@@ -139,26 +139,32 @@ async function performUninstall(paths, globalContext, t) {
 }
 
 /**
- * Clear all GlobalState settings
- * @param {Object} context - VS Code context
+ * Clear all GlobalState settings from global-state.json
+ * @param {Object} globalContext - VS Code context
  */
-async function clearGlobalState(context) {
-    const keysToRemove = [
-        'aiduino.useCount',
-        'aiduino.lastSupportHint',
-        'aiduino.supportHintDisabled',
-        'aiduino.commentInstructions',
-        'aiduino.customInstructions',
-        'aiduino.autoUpdateConfigs',
-        'aiduino.autoCheckExtensionUpdates'
-    ];
+async function clearGlobalState(globalContext) {
+    const platform = process.platform;
+    const homeDir = os.homedir();
     
-    for (const key of keysToRemove) {
-        try {
-            await context.globalState.update(key, undefined);
-        } catch (error) {
-            // Continue even if one fails
+    let arduinoIdeDir;
+    if (platform === 'win32') {
+        arduinoIdeDir = path.join(homeDir, 'AppData', 'Roaming', 'Arduino IDE');
+    } else if (platform === 'darwin') {
+        arduinoIdeDir = path.join(homeDir, 'Library', 'Application Support', 'Arduino IDE');
+    } else {
+        arduinoIdeDir = path.join(homeDir, '.arduinoIDE');
+    }
+    
+    const globalStateFile = path.join(arduinoIdeDir, 'plugin-storage', 'global-state.json');
+    
+    try {
+        if (fs.existsSync(globalStateFile)) {
+            const data = JSON.parse(fs.readFileSync(globalStateFile, 'utf8'));
+            delete data['monstermaker.aiduino'];
+            fs.writeFileSync(globalStateFile, JSON.stringify(data), 'utf8');
         }
+    } catch (error) {
+        // Silent fail - can't do anything if file doesn't exist or is locked
     }
 }
 
@@ -173,15 +179,21 @@ function showUninstallResults(results, t) {
     
     if (failedCount === 0) {
         vscode.window.showInformationMessage(
-            `${t('uninstall.success')} (${deletedCount} ${t('uninstall.itemsDeleted')})\n\n${t('uninstall.manualStep')}`,
+            `${t('uninstall.success')} (${deletedCount} ${t('uninstall.itemsDeleted')})`,
             t('buttons.close')
-        );
+        ).then(() => {
+            // Auto-restart after successful uninstall
+            vscode.commands.executeCommand('workbench.action.reloadWindow');
+        });
     } else {
         const failedList = results.failed.map(f => `  • ${f.path}: ${f.error}`).join('\n');
         vscode.window.showWarningMessage(
             `${t('uninstall.partialSuccess')}\n\n${t('uninstall.deleted')}: ${deletedCount}\n${t('uninstall.failed')}: ${failedCount}\n\n${failedList}`,
             t('buttons.close')
-        );
+        ).then(() => {
+            // Also restart on partial success
+            vscode.commands.executeCommand('workbench.action.reloadWindow');
+        });
     }
 }
 

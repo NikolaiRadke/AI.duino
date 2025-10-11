@@ -14,7 +14,7 @@
 * All panel based features now have Webview with Copy&Paste
 * Parallel function loading for faster startup
 * Updated SECURITY.md
-* Small bug fixes
+* Fixed some bugs
 * Code refactoring
 * Code cleanup
 
