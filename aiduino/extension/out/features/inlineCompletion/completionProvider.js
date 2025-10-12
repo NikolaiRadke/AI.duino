@@ -28,8 +28,7 @@ class ArduinoCompletionProvider {
      */
     async initialize() {
         const config = vscode.workspace.getConfiguration('aiduino');
-        this.isEnabled = config.get('inlineCompletion.enabled', false);
-  
+        this.isEnabled = config.get('inlineCompletionEnabled', false);
         const provider = vscode.languages.registerInlineCompletionItemProvider(
             [
                 { language: 'cpp', pattern: '**/*.ino' },
@@ -44,7 +43,7 @@ class ArduinoCompletionProvider {
     
         // Listen for config changes
         const configWatcher = vscode.workspace.onDidChangeConfiguration(e => {
-            if (e.affectsConfiguration('aiduino.inlineCompletion')) {
+            if (e.affectsConfiguration('aiduino.inlineCompletionEnabled')) {
                 this.updateConfiguration();
             }
         });
@@ -57,7 +56,7 @@ class ArduinoCompletionProvider {
      */
     updateConfiguration() {
         const config = vscode.workspace.getConfiguration('aiduino');
-        const newEnabled = config.get('inlineCompletion.enabled', false);
+        const newEnabled = config.get('inlineCompletionEnabled', false);
 
         if (newEnabled !== this.isEnabled) {
             this.isEnabled = newEnabled;
@@ -127,14 +126,17 @@ class ArduinoCompletionProvider {
      * Fetch completion from API using currently selected model
      */
     async fetchCompletion(document, position, triggerResult) {
-        const { apiClient, minimalModelManager, currentModel } = this.context;
+        const { apiClient, minimalModelManager, settings } = this.context;
 
         // Build prompt with context
         const contextData = extractContext(document, position, triggerResult, this.context);
-        const prompt = buildCompletionPrompt(contextData, this.context.settings);
+        const prompt = buildCompletionPrompt(contextData, settings);
 
-        // Use the currently selected model
-        const provider = minimalModelManager.providers[currentModel];
+        // Get inline completion provider from settings
+        const config = vscode.workspace.getConfiguration('aiduino');
+        const inlineProvider = config.get('inlineCompletionProvider', 'groq');
+    
+        const provider = minimalModelManager.providers[inlineProvider];
         
         // Don't count inline completions for support hints
         const contextWithFlag = { ...this.context, skipSupportHint: true };
@@ -184,43 +186,9 @@ class ArduinoCompletionProvider {
  * @param {Object} context - Extension context with dependencies
  */
 async function toggleInlineCompletion(context) {
-    const { currentModel, minimalModelManager, t } = context;
-    const config = vscode.workspace.getConfiguration('aiduino');
-    const current = config.get('inlineCompletion.enabled', false);
-    
-    // If enabling, show warning first (only for paid providers)
-    if (!current) {
-        const provider = minimalModelManager.providers[currentModel];
-        const providerName = provider.name;
-    
-        // Check if provider has costs
-        const hasCosts = provider.prices && (provider.prices.input > 0 || provider.prices.output > 0);
-    
-        if (hasCosts) {
-            // Show cost warning for paid providers
-            const choice = await vscode.window.showWarningMessage(
-                t('messages.inlineCompletionWarningCosts', providerName),
-                t('buttons.yes'),
-                t('buttons.no')
-            );
-            
-            if (choice !== t('buttons.yes')) {
-                return; // User cancelled
-            }
-        }
-    }   
-    
-    // Toggle the setting
-    await config.update('inlineCompletion.enabled', !current, vscode.ConfigurationTarget.Global);
-    
-    const status = !current ?
-        t('messages.inlineCompletionEnabled') : t('messages.inlineCompletionDisabled');
-    vscode.window.showInformationMessage(status);
-
-    // Refresh tree view to show updated status
-    if (context.quickMenuTreeProvider) {
-        context.quickMenuTreeProvider.refresh();
-    }
+    // Open settings panel and jump to inline completion section
+    const { showSettings } = require('../../utils/panels/settingsPanel');
+    showSettings(context, 'inlineCompletion');
 }
 
 /**

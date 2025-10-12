@@ -166,8 +166,54 @@ async function clearGlobalState(globalContext) {
     } catch (error) {
         // Silent fail - can't do anything if file doesn't exist or is locked
     }
+
+    // Also clear VS Code workspace configuration settings
+    await clearVSCodeSettings();
 }
 
+
+/**
+ * Clear all aiduino.* settings from VS Code workspace configuration
+ */
+async function clearVSCodeSettings() {
+    const config = vscode.workspace.getConfiguration('aiduino');
+    
+    // List of all VS Code configuration keys used by aiduino
+    const configKeys = [
+        'language',
+        'autoDetectErrors',
+        'defaultModel',
+        'maxTokensPerRequest',
+        'temperature',
+        'customInstructionsEnabled',
+        'inlineCompletionEnabled',
+        'inlineCompletionProvider',
+        'apiTimeout',
+        'apiMaxRetries',
+        'autoUpdateConfigs',
+        'autoCheckExtensionUpdates',
+        'maxChats',
+        'maxMessagesPerChat',
+        'inlineCompletionDelay',
+        'inlineCompletionContextLines',
+        'inlineCompletionMinCommentLength',
+        'inlineCompletionMaxLinesComment',
+        'inlineCompletionMaxLinesSimple',
+        'tokenEstimationMultiplier',
+        'tokenEstimationCodeBlock',
+        'tokenEstimationSpecialChars'
+    ];
+    
+    // Remove all settings from both User and Workspace
+    for (const key of configKeys) {
+        try {
+            await config.update(key, undefined, vscode.ConfigurationTarget.Global);
+            await config.update(key, undefined, vscode.ConfigurationTarget.Workspace);
+        } catch (error) {
+            // Silent fail - setting might not exist
+        }
+    }
+}
 /**
  * Show uninstall results to user
  * @param {Object} results - Results from uninstall operation

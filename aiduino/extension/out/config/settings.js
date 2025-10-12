@@ -30,7 +30,6 @@ class SettingsManager {
             // ===== UI PREFERENCES =====
             language: 'auto',
             defaultModel: 'claude',
-            inlineCompletionEnabled: false,
 
             // ===== INLINE COMPLETION =====
             inlineCompletionDelay: 500,             // Rate limiting delay (ms)
@@ -157,13 +156,24 @@ class SettingsManager {
                 debounceConfigChange: this.get('debounceConfigChange'),
                 debounceSaveOperation: this.get('debounceSaveOperation'),
                 debounceErrorClear: this.get('debounceErrorClear'),
-                inlineCompletionDelay: this.get('inlineCompletionDelay')
+            },
+            chatPanel: {
+                maxChats: this.get('maxChats'),
+                maxMessagesPerChat: this.get('maxMessagesPerChat')
+            },
+            inlineCompletion: {
+                inlineCompletionEnabled: this.get('inlineCompletionEnabled'),
+                inlineCompletionProvider: this.get('inlineCompletionProvider'),
+                inlineCompletionDelay: this.get('inlineCompletionDelay'),
+                inlineCompletionContextLines: this.get('inlineCompletionContextLines'),
+                inlineCompletionMinCommentLength: this.get('inlineCompletionMinCommentLength'),
+                inlineCompletionMaxLinesComment: this.get('inlineCompletionMaxLinesComment'),
+                inlineCompletionMaxLinesSimple: this.get('inlineCompletionMaxLinesSimple')
             },
             uiPreferences: {
                 language: this.get('language'),
                 autoDetectErrors: this.get('autoDetectErrors'),
                 defaultModel: this.get('defaultModel'),
-                inlineCompletionEnabled: this.get('inlineCompletionEnabled')
             },
             updates: {
                 autoUpdateConfigs: this.get('autoUpdateConfigs'),

@@ -13,7 +13,7 @@ const { uninstallAiduino } = require('../uninstaller');
  * Show settings panel with all configurable options
  * @param {Object} context - Extension context with dependencies
  */
-function showSettings(context) {
+function showSettings(context, openCategory = null) {
     const { t, settings } = context;
     
     const panel = vscode.window.createWebviewPanel(
@@ -26,16 +26,65 @@ function showSettings(context) {
     // Get all current settings
     const currentSettings = settings.getAll();
     
-    panel.webview.html = generateSettingsHTML(currentSettings, t);
+    panel.webview.html = generateSettingsHTML(currentSettings, t, context, openCategory);
     
     // Handle messages from webview
     panel.webview.onDidReceiveMessage(
         async message => {
             switch (message.command) {
                 case 'updateSetting':
+                // Special handling for inline completion settings - save to VS Code Config
+                if (message.key === 'inlineCompletionEnabled' || message.key === 'inlineCompletionProvider') {
+                    const config = vscode.workspace.getConfiguration('aiduino');
+        
+                    // Warn about costs when changing provider with inline completion enabled
+                    if (message.key === 'inlineCompletionProvider') {
+                        const isEnabled = config.get('inlineCompletionEnabled', false);
+    
+                        if (isEnabled) {
+                            const { minimalModelManager } = context;
+                            const newProvider = minimalModelManager.providers[message.value];
+        
+                            if (newProvider) {
+                                // Check if new provider has costs
+                                const hasCosts = newProvider.prices && (newProvider.prices.input > 0 || newProvider.prices.output > 0);
+            
+                                if (hasCosts) {
+                                    const choice = await vscode.window.showWarningMessage(
+                                        t('messages.inlineCompletionWarningCosts', newProvider.name),
+                                        t('buttons.yes'),
+                                        t('buttons.no')
+                                    );
+                
+                                    if (choice !== t('buttons.yes')) {
+                                        // User cancelled - reset dropdown to current value
+                                        const currentProvider = config.get('inlineCompletionProvider', 'groq');
+                                        panel.webview.postMessage({
+                                            command: 'settingReset',
+                                            key: message.key,
+                                            value: currentProvider
+                                        });
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+        
+                    await config.update(message.key, message.value, vscode.ConfigurationTarget.Global);
+        
+                    // Force tree refresh for inline completion toggle
+                    if (message.key === 'inlineCompletionEnabled' && context.quickMenuTreeProvider) {
+                        // Small delay to ensure config is persisted
+                        setTimeout(() => {
+                            context.quickMenuTreeProvider.refresh();
+                        }, 200);
+                    }
+                } else {
                     await settings.set(message.key, message.value);
-                    vscode.window.showInformationMessage(t('messages.settingsSaved'));
-                    break;
+                }
+                vscode.window.showInformationMessage(t('messages.settingsSaved'));
+                break;
                 
                 case 'resetSetting':
                     await settings.reset(message.key);
@@ -52,7 +101,7 @@ function showSettings(context) {
                     vscode.window.showInformationMessage(t('messages.settingsReset'));
                     // Refresh panel
                     const updatedSettings = settings.getAll();
-                    panel.webview.html = generateSettingsHTML(updatedSettings, t);
+                    panel.webview.html = generateSettingsHTML(updatedSettings, t, context, openCategory);
                     break;
 
                 case 'uninstall':
@@ -68,7 +117,7 @@ function showSettings(context) {
 /**
  * Generate HTML for settings panel
  */
-function generateSettingsHTML(currentSettings, t) {
+function generateSettingsHTML(currentSettings, t, context, openCategory = null) {
     const categories = [
         {
             id: 'aiBehavior',
@@ -106,6 +155,8 @@ function generateSettingsHTML(currentSettings, t) {
             id: 'inlineCompletion',
             icon: '⚡',
             settings: [
+                { key: 'inlineCompletionEnabled', type: 'boolean' },
+                { key: 'inlineCompletionProvider', type: 'dropdown', providers: true },
                 { key: 'inlineCompletionDelay', type: 'number', min: 100, max: 2000, step: 100 },
                 { key: 'inlineCompletionContextLines', type: 'number', min: 5, max: 50, step: 1 },
                 { key: 'inlineCompletionMinCommentLength', type: 'number', min: 2, max: 20, step: 1 },
@@ -128,7 +179,7 @@ function generateSettingsHTML(currentSettings, t) {
     
     categories.forEach((category, index) => {
         const categoryData = getCategoryData(category.id, currentSettings);
-        const isOpen = index === 0; // First category open by default
+        const isOpen = openCategory === category.id;
         
         categoriesHTML += `
             <div class="category">
@@ -139,7 +190,7 @@ function generateSettingsHTML(currentSettings, t) {
                     <span class="category-arrow ${isOpen ? 'open' : ''}">▼</span>
                 </div>
                 <div class="category-content" id="category-${category.id}" style="display: ${isOpen ? 'block' : 'none'}">
-                    ${generateSettingsForCategory(category, categoryData, t)}
+                    ${generateSettingsForCategory(category, categoryData, t, context)}
                 </div>
             </div>
         `;
@@ -408,14 +459,32 @@ function generateSettingsHTML(currentSettings, t) {
         window.addEventListener('message', event => {
             const message = event.data;
             
-            if (message.command === 'settingReset') {
+            if (message.command === 'settingReset') {   
                 const input = document.getElementById('input-' + message.key);
                 if (input) {
                     if (input.type === 'checkbox') {
                         input.checked = message.value;
+                    } else if (input.tagName === 'SELECT') {
+                        input.value = message.value;
+                        // Also update data attribute
+                        input.setAttribute('data-original-value', message.value);
                     } else {
                         input.value = message.value;
                     }
+                }   
+            }
+        });
+
+        // Auto-scroll to opened category on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const openCategory = '${openCategory || ''}';
+            if (openCategory) {
+                const categoryElement = document.getElementById('category-' + openCategory);
+                if (categoryElement) {
+                    // Scroll to category with smooth animation
+                    setTimeout(() => {
+                        categoryElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
                 }
             }
         });
@@ -442,11 +511,53 @@ function getCategoryData(categoryId, currentSettings) {
 /**
  * Generate settings HTML for a category
  */
-function generateSettingsForCategory(category, categoryData, t) {
+function generateSettingsForCategory(category, categoryData, t, context) {
     return category.settings.map(setting => {
         const key = setting.key;
         const value = categoryData[key];
-        const label = t(`settings.labels.${key}`);
+        
+        // Special handling for provider dropdown
+        if (setting.type === 'dropdown' && setting.providers) {
+            const currentProvider = categoryData['inlineCompletionProvider'] || 'groq';
+            const { minimalModelManager } = context;
+            
+            let options = '';
+            Object.keys(minimalModelManager.providers).forEach(modelId => {
+                const provider = minimalModelManager.providers[modelId];
+                const selected = modelId === currentProvider ? 'selected' : '';
+                options += `<option value="${modelId}" ${selected}>${provider.icon} ${provider.name}</option>`;
+            });
+            
+            const inputHTML = `
+                <select id="input-${key}" 
+                        class="setting-input"
+                        onchange="updateSetting('${key}', this.value, 'string')">
+                    ${options}
+                </select>
+            `;
+            
+            return `
+                <div class="setting-item">
+                    <div class="setting-header">
+                        <span class="setting-label">${t('commands.switchModel').replace('Modell wechseln', 'Modell')}</span>
+                    </div>
+                    <div class="setting-description">${t('descriptions.currentModel', '').replace('Aktuell: ', 'Provider für Inline Completion')}</div>
+                    <div class="setting-control">
+                        ${inputHTML}
+                        <button class="reset-button" onclick="resetSetting('${key}')">
+                            ${t('buttons.reset')}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Special label for inlineCompletionEnabled
+        let label = t(`settings.labels.${key}`);
+        if (key === 'inlineCompletionEnabled') {
+            label = t('labels.active');
+        }
+        
         const description = t(`settings.descriptions.${key}`);
         
         let inputHTML;

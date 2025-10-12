@@ -175,7 +175,7 @@ function formatQuestionPreview(question, timestamp) {
 function getInlineCompletionStatus(context) {
     const { currentModel, minimalModelManager } = context;
     const config = vscode.workspace.getConfiguration('aiduino');
-    const enabled = config.get('inlineCompletion.enabled', false);
+    const enabled = config.get('inlineCompletionEnabled', false);  // ← KORRIGIERT!
     
     const providerInfo = minimalModelManager.getProviderInfo(currentModel);
     

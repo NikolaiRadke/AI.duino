@@ -251,6 +251,16 @@
           "type": "boolean",
           "default": false,
           "description": "Enable inline code completion (uses current AI provider)"
+        },
+        "aiduino.inlineCompletionEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable inline code completion"
+        },
+        "aiduino.inlineCompletionProvider": {
+          "type": "string",
+          "default": "groq",
+          "description": "Provider for inline completion"
         }
       } 
     }   
