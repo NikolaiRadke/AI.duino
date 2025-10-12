@@ -77,7 +77,7 @@ class PromptHistoryManager {
             fs.writeFileSync(tempFile, data, { mode: 0o600 });
             fs.renameSync(tempFile, this.historyFile);
         } catch (error) {
-            console.error('Failed to save prompt history:', error);
+            // Silent catch
         }
     }
 

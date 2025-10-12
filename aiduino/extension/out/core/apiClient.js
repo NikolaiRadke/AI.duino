@@ -7,6 +7,7 @@
 const https = require('https');
 const { spawn } = require('child_process'); 
 const vscode = require("vscode");
+const { handleNetworkError } = require('../utils/network');
 
 /**
  * Unified API client for all AI providers
@@ -107,7 +108,7 @@ class UnifiedAPIClient {
     
             req.on('error', (e) => {
                 clearTimeout(timeout);
-                reject(this.handleNetworkError(e));
+                reject(this.handleNetworkError(e, t));
             });
     
             req.write(data);
@@ -395,26 +396,6 @@ class UnifiedAPIClient {
             req.end();
         });
     }   
-    
-    /**
-     * Handle network errors
-     * @param {Error} error - Network error
-     * @returns {Error} Enhanced error
-     */
-    handleNetworkError(error) {
-        const errorMessages = {
-            'ENOTFOUND': 'DNS resolution failed',
-            'ETIMEDOUT': 'Connection timeout',
-            'ECONNREFUSED': 'Connection refused',
-            'ECONNRESET': 'Connection reset',
-            'EHOSTUNREACH': 'Host unreachable',
-            'ENETUNREACH': 'Network unreachable',
-            'ECONNABORTED': 'Connection aborted'
-        };
-        
-        const message = errorMessages[error.code] || `Network error: ${error.message}`;
-        return new Error(message);
-    }
 
     /**
      * Enhance error with model context

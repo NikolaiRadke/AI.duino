@@ -588,8 +588,7 @@ async function activate(context) {
             // Successful initialization (or disabled in settings)
         })
         .catch(err => {
-            // Log error but don't crash extension
-            console.error('Failed to initialize inline completion:', err);
+            // Silent catch
         }
     );
     
