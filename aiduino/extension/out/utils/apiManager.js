@@ -36,7 +36,7 @@ async function switchModel(context) {
     } = context;
     
     if (!executionStates.start(executionStates.OPERATIONS.SWITCH_MODEL)) {
-        vscode.window.showInformationMessage("Model switch is already running! Please wait...");
+        vscode.window.showInformationMessage(t('messages.operationAlreadyRunning'));
         return;
     }
     
@@ -159,11 +159,6 @@ async function setApiKey(context) {
         apiKeys, 
         updateStatusBar 
     } = context;
-    
-    if (!apiKeyManager) {
-        vscode.window.showErrorMessage("API Key Manager not initialized");
-        return false;
-    }
     
     // Prepare dependencies for ApiKeyManager
     const deps = {

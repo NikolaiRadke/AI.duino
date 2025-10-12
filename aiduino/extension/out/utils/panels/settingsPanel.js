@@ -539,9 +539,8 @@ function generateSettingsForCategory(category, categoryData, t, context) {
             return `
                 <div class="setting-item">
                     <div class="setting-header">
-                        <span class="setting-label">${t('commands.switchModel').replace('Modell wechseln', 'Modell')}</span>
+                        <span class="setting-label">${t('commands.switchModel').replace(' wechseln', '')}</span>
                     </div>
-                    <div class="setting-description">${t('descriptions.currentModel', '').replace('Aktuell: ', 'Provider für Inline Completion')}</div>
                     <div class="setting-control">
                         ${inputHTML}
                         <button class="reset-button" onclick="resetSetting('${key}')">
@@ -552,13 +551,13 @@ function generateSettingsForCategory(category, categoryData, t, context) {
             `;
         }
         
-        // Special label for inlineCompletionEnabled
         let label = t(`settings.labels.${key}`);
+        let description = t(`settings.descriptions.${key}`);
+
         if (key === 'inlineCompletionEnabled') {
             label = t('labels.active');
+            description = t('settings.categories.inlineCompletion'); 
         }
-        
-        const description = t(`settings.descriptions.${key}`);
         
         let inputHTML;
         

@@ -29,7 +29,7 @@ class ApiKeyManager {
         
         // Prevent multiple simultaneous API key setups
         if (this.isSettingKey) {
-            vscode.window.showInformationMessage("API Key setup is already running! Please wait...");
+            vscode.window.showInformationMessage(t('messages.operationAlreadyRunning'));
             return false;
         }
         
@@ -38,7 +38,7 @@ class ApiKeyManager {
         try {
             const provider = providers[currentModel];
             if (!provider) {
-                vscode.window.showErrorMessage(`Unknown provider: ${currentModel}`);
+                vscode.window.showErrorMessage(t('errors.unknownProvider') + `: ${currentModel}`);
                 return false;
             }
             
