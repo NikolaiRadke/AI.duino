@@ -30,7 +30,7 @@ function getHttpProvider(providerName) {
 function getProcessProvider(providerName) {
     const providers = {
         'Claude Code': claudeCode,
-        Codex CLI': codexCli,
+        'Codex CLI': codexCli,
     };
     
     return providers[providerName] || null;

@@ -6,11 +6,12 @@
 * Added inline completion
 * Added codex CLI support
 * Added support support :-)
-* Added sketch files inclusion into features
+* Added context inclusion into features
 * Added error parsing in explain error
 * Added explain error from cliboard menu call
-* Added Settings panel with clean uninstall option
+* Added settings panel with clean uninstall option
 * Added LM Studio support
+* REMOVED uninstaller files
 * All panel based features now have Webview with Copy&Paste
 * Parallel function loading for faster startup
 * Updated SECURITY.md
