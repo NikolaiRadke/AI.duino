@@ -93,8 +93,6 @@ chmod +x install_aiduino_macos.sh
 ## Manual installation
 
 Add read permissions to each folder and file. Copy the prepared `aiduino` folder to the Arduino IDE plugin directory. 
-**Note:** If you have installed another verison of the plugin into the Arduino IDE programm directory before, you need to delete it first.  
-
 The `aiduino` folder must have the following structure:
 ```
 aiduino/
