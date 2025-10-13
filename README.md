@@ -44,13 +44,13 @@ Ask something with or without marked code. You can ask further context-related.
 Multiple chats like in the browser but integrated in the IDE with history based persistance. You can add files content.
 
 ### Inline Completion
-AI will suggest code completion behind common keywords like ``` Serial. ``` and in comments ending with ':'. Example: ``` // Let the LED blink 
-for three times: ```. Press *<Tab>* to accept the suggestion. You can select a different provider, **Gork** is fast, free and recommended for 
-inline completion.
+AI will suggest code completion behind common keywords like ``` Serial. ``` and in comments ending with ':'.   
+Example: ``` // Let the LED blink for three times: ```. Press *<Tab>* to accept the suggestion. 
+You can select a different provider, **Gork** is fast, free and recommended for inline completion.
 
 ### Auto update
-The provider settings will be updated when availabe. They will be generated automatically every week. The extension is checking itsels and will 
-inform the user for new Version updates.  
+The provider settings will be updated when availabe. They will be generated automatically every week. The extension is checking itsels 
+and will inform the user for new Version updates.  
 
 
 ## Screenshots
@@ -64,12 +64,9 @@ inform the user for new Version updates.
 
 ### Automatic (recommended)
 
-You need the VSIX file *aiduino.vsix* in the same folder with the installer. The installer will install the plugin
-in your home folder. If you want to install it into the Arduino programm directory, see *Manual installation*. 
+You need the VSIX file *aiduino.vsix* in the same folder with the installer. The installer will install the plugin in your home folder. 
+If you want to install it into the Arduino programm directory, see *Manual installation*. 
   
-**Note:** If you have installed another Verison of the plugin into the Arduino IDE programm directory before, you 
-need to delete it first.  
-
 #### Windows
 ```
 Run install_aiduino_windows.bat as administrator
@@ -86,9 +83,10 @@ chmod +x install_aiduino_macos.sh
 ./install_aiduino_Install_macos.sh
 ```
 
-### Manual installation
+## Manual installation
 
-Add read permissions to each folder and file. Copy the prepared `aiduino` folder to the Arduino IDE plugin directory:
+Add read permissions to each folder and file. Copy the prepared `aiduino` folder to the Arduino IDE plugin directory. 
+**Note:** If you have installed another verison of the plugin into the Arduino IDE programm directory before, you need to delete it first.  
 
 #### Windows
 ```
@@ -107,25 +105,22 @@ C:\Program Files\Arduino IDE\resources\app\plugins\
 ~/.local/share/arduino-ide/resources/app/plugins/
 ```
 
-The `aiduino` folder must have the following structure (>= V1.8.0):
+The `aiduino` folder must have the following structure:
 ```
 aiduino/
-├── icons/ 
-├── extension/
-│   ├── out/
-│   │   ├── extension.js
-│   │   ├── core/
-│   │   ├── utils/
-│   │   ├── features/
-│   │   ├── localProviders/
-|   |   |   ├── httpProviders/
-|   |   |   └── processProviders/
-│   │   ├── config/
-|   |   |   └── panels/
-│   ├── locales/
-|   └── package.json
-└── extension.vsixmanifest
-
+└── extension/
+    ├── icons/ 
+    ├── locales/
+    └── out/
+        ├── config/
+        ├── core/
+        ├── features/
+        |   ├── inlineCompletion/
+        ├── localProviders/
+        |   ├── httpProviders/
+        |   └── processProviders/
+        └── utils/
+            └── panels/
 ```
 
 ## Usage
@@ -134,13 +129,7 @@ aiduino/
 2. Right-click → `AI.duino` → Choose function in the menu above
 * `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac)
 * Press the `AI.duino` button below  
-* Enter Ai.duino menu through the side bar
-
-### Explain error
-1. Compile code and find error message in output window
-2. Place cursor near the error
-3. Run "Explain error"
-4. Copy error message (red line with "error:") into input field
+* Enter Ai.duino menu through the side tree bar
 
 ## API keys
 
@@ -172,6 +161,7 @@ Supported Provider:
 - Claude Code (Claude Plan Pro): https://www.claude.com/pricing
 - Codex CLI (ChatGPT Plus): https://chatgpt.com/#pricing (Untested)
 - Ollama: https://ollama.com/
+- LM Studio: https://lmstudio.ai
 
 ## Content
   
