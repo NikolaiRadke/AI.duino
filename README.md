@@ -59,6 +59,13 @@ and will inform the user for new Version updates.
 ![Screenshot 2](http://www.nikolairadke.de/aiduino/screenshot2_800.png)
 ![Screenshot 3](http://www.nikolairadke.de/aiduino/screenshot3_800.png)
 
+## Usage
+
+1. Select code in Arduino IDE
+2. Right-click → `AI.duino` → Choose function in the menu above
+* `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac)
+* Press the `AI.duino` button below  
+* Enter Ai.duino menu through the side tree bar
 
 ## Installation
 
@@ -88,23 +95,6 @@ chmod +x install_aiduino_macos.sh
 Add read permissions to each folder and file. Copy the prepared `aiduino` folder to the Arduino IDE plugin directory. 
 **Note:** If you have installed another verison of the plugin into the Arduino IDE programm directory before, you need to delete it first.  
 
-#### Windows
-```
-C:\Program Files\Arduino IDE\resources\app\plugins\
-```
-
-#### macOS
-```
-/Applications/Arduino IDE.app/Contents/Resources/app/plugins/
-```
-
-#### Linux
-```
-/usr/share/arduino/resources/app/plugins/
-# or
-~/.local/share/arduino-ide/resources/app/plugins/
-```
-
 The `aiduino` folder must have the following structure:
 ```
 aiduino/
@@ -123,13 +113,27 @@ aiduino/
             └── panels/
 ```
 
-## Usage
+#### Windows
+```
+C:\Program Files\Arduino IDE\resources\app\plugins\
+```
 
-1. Select code in Arduino IDE
-2. Right-click → `AI.duino` → Choose function in the menu above
-* `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac)
-* Press the `AI.duino` button below  
-* Enter Ai.duino menu through the side tree bar
+#### macOS
+```
+/Applications/Arduino IDE.app/Contents/Resources/app/plugins/
+```
+
+#### Linux
+```
+/usr/share/arduino/resources/app/plugins/
+# or
+~/.local/share/arduino-ide/resources/app/plugins/
+```
+
+## Deinstallation
+
+You can completly remove the extension in the AI.duino settings panel bei clickung the uninstall button.  Are you sure? 
+Are you really REALLY sure?   
 
 ## API keys
 
