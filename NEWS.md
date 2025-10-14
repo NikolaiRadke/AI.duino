@@ -2,8 +2,8 @@
 
 ## 2025
 
-* **14.10.2025** Removed old, useless und buggy releases.  
-* **13.10.2025** Release **V2.0**. Finaly.    
+* **14.10.2025** Release **V2.0.1**: Yes, bugfixes. But small - added proper Windows installer.  
+* **13.10.2025** Release **V2.0**. Finaly. Removed old, useless und buggy releases.      
 * **12.10.2025** **V2.0 Beta** is ready for final testing!  
 * **11.10.2025** A lot of work has been done. V2.0 will be released next week, stay tuned.  
 * **10.10.2025** Added Claude Code session persitance. This is indeed a killer feature!   
