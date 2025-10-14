@@ -658,7 +658,7 @@ function cleanCodeContent(codeContent) {
 function processAiCodeBlocksWithEventDelegation(response, codeBlockTitle, buttonActions = ['copy', 'insert'], t) {
     const codeBlocks = [];
     
-    let processed = response.replace(/```(?:cpp|c|arduino)?\s*\n([\s\S]*?)\n?```/g, (match, codeContent) => {
+    let processed = response.replace(/```(?:cpp|c|arduino)?\s*\n([\s\S]*?)\n```/g, (match, codeContent) => {
         codeBlocks.push(codeContent.trim());
         return `[[CODEBLOCK_${codeBlocks.length - 1}]]`;
     });
@@ -701,7 +701,7 @@ function processMessageWithCodeBlocks(text, messageId, t) {
     const codeBlocks = [];
     
     // Extract code blocks BEFORE escaping
-    let processed = text.replace(/```(?:cpp|c|arduino)?\s*\n([\s\S]*?)\n?```/g, (match, codeContent) => {
+    let processed = text.replace(/```(?:cpp|c|arduino)?\s*\n([\s\S]*?)\n```/g, (match, codeContent) => {
         codeBlocks.push(codeContent.trim());
         return `[[CODEBLOCK_${codeBlocks.length - 1}]]`;
     });
