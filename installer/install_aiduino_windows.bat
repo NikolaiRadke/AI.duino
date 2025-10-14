@@ -2,59 +2,46 @@
 setlocal enabledelayedexpansion
 chcp 65001 >nul 2>&1
 
-REM Configuration
+echo ================================
+echo AI.duino Extension Installer
+echo ================================
+echo.
+
 set "EXTENSIONS_DIR=%USERPROFILE%\.arduinoIDE\extensions"
 set "DEPLOYED_DIR=%USERPROFILE%\.arduinoIDE\deployedPlugins"
 set "VSIX_FILE=%~dp0aiduino.vsix"
 
-REM Colors
-set "GREEN=[92m"
-set "BLUE=[94m"
-set "RED=[91m"
-set "YELLOW=[93m"
-set "NC=[0m"
-
-echo %BLUE%AI.duino Extension Installer%NC%
-echo ================================
-echo.
-
-REM Check if VSIX exists
+REM Pr�fen, ob die VSIX-Datei vorhanden ist
 if not exist "%VSIX_FILE%" (
-    echo %RED%Error: aiduino.vsix not found%NC%
+    echo [Fehler] aiduino.vsix wurde nicht gefunden im Ordner:
+    echo %~dp0
+    echo Bitte stelle sicher, dass die Datei im gleichen Ordner wie dieses Installationsprogramm liegt.
+    echo.
     pause
     exit /b 1
 )
 
-REM Create extensions directory
+REM Ordner erstellen, falls nicht vorhanden
 if not exist "%EXTENSIONS_DIR%" (
-    echo Creating extensions directory...
+    echo Erstelle Erweiterungsverzeichnis...
     mkdir "%EXTENSIONS_DIR%"
 )
 
-REM Clean up old installations
+REM Alte Version entfernen
 if exist "%EXTENSIONS_DIR%\aiduino.vsix" (
-    echo %YELLOW%Removing old VSIX...%NC%
+    echo Entferne alte Erweiterung...
     del "%EXTENSIONS_DIR%\aiduino.vsix"
 )
 
 if exist "%DEPLOYED_DIR%\aiduino" (
-    echo %YELLOW%Removing old deployed extension...%NC%
+    echo Entferne alte Installation...
     rmdir /s /q "%DEPLOYED_DIR%\aiduino"
 )
 
-REM Copy new VSIX
-echo Installing AI.duino extension...
+REM Neue Datei kopieren
+echo Installiere neue Erweiterung...
 copy "%VSIX_FILE%" "%EXTENSIONS_DIR%\" >nul
 
-if %ERRORLEVEL% equ 0 (
-    echo %GREEN%✓ Extension installed successfully!%NC%
-    echo.
-    echo Location: %EXTENSIONS_DIR%\aiduino.vsix
-    echo.
-    echo Restart Arduino IDE to use the extension.
-) else (
-    echo %RED%✗ Installation failed%NC%
-)
+if %ERRORLEVEL% EQU 0 (
+    echo
 
-echo.
-pause
