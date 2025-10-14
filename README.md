@@ -116,7 +116,7 @@ aiduino/
 C:\Program Files\Arduino IDE\resources\app\plugins\
 ```
 
-#### macOS
+#### macOS (Untested)
 ```
 /Applications/Arduino IDE.app/Contents/Resources/app/plugins/
 ```
@@ -163,7 +163,7 @@ Supported Provider:
 - Claude Code (Claude Plan Pro): https://www.claude.com/pricing
 - Codex CLI (ChatGPT Plus): https://chatgpt.com/#pricing (Untested)
 - Ollama: https://ollama.com/
-- LM Studio: https://lmstudio.ai
+- LM Studio: https://lmstudio.ai (Untested)
 
 ## Content
   
