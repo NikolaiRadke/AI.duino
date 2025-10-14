@@ -46,7 +46,7 @@ Multiple chats like in the browser but integrated in the IDE with history based 
 ### Inline Completion
 AI will suggest code completion behind common keywords like ``` Serial. ``` and in comments ending with ':'.   
 Example: ``` // Let the LED blink for three times: ```. Press *<Tab>* to accept the suggestion. 
-You can select a different provider, **Gork** is fast, free and recommended for inline completion.
+You can select a different provider, **Groq** is fast, free and recommended for inline completion.
 
 ### Auto update
 The provider settings will be updated when availabe. They will be generated automatically every week. The extension is checking itsels 
