@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **14.10.2025** Release **V2.1.0**: Yes! Fixed the last annoying issue: Changed the toolbar with a context menu!  
 * **14.10.2025** Release **V2.0.1**: Yes, bugfixes. But small - added proper Windows installer.  
 * **13.10.2025** Release **V2.0**. Finaly. Removed old, useless und buggy releases.      
 * **12.10.2025** **V2.0 Beta** is ready for final testing!  
