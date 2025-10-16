@@ -80,10 +80,6 @@ async function showChatPanel(context) {
                 case 'sendMessage':
                     await handleUserMessage(message.text, panel, context);
                     break;
-                    
-                case 'sendSelectedCode':
-                    await handleSendSelectedCode(panel, context);
-                    break;
 
                 case 'attachContext':
                     await handleAttachContext(panel, context);
@@ -127,6 +123,14 @@ async function showChatPanel(context) {
                 case 'clearChat':
                     historyManager.clearActiveChat();
                     updatePanelContent(panel, context);
+                    break;
+
+                case 'pasteFromClipboard':
+                    const clipboardText = await vscode.env.clipboard.readText();
+                    panel.webview.postMessage({
+                        command: 'pasteText',
+                        text: clipboardText
+                    });
                     break;
                     
                 case 'copyCode':
@@ -334,31 +338,6 @@ function buildChatPrompt(newMessage, history, currentModel, minimalModelManager,
     prompt += "\n\nPlease respond as the AI assistant:";
     
     return prompt;
-}
-
-
-/**
- * Handle sending selected code
- */
-async function handleSendSelectedCode(panel, context) {
-    const { t } = context;
-    const editor = vscode.window.activeTextEditor;
-    
-    if (!editor || editor.selection.isEmpty) {
-        vscode.window.showWarningMessage(t('messages.selectCodeToExplain'));
-        return;
-    }
-    
-    const selectedCode = editor.document.getText(editor.selection);
-    
-    // 👉 DIESE ZWEI ZEILEN HINZUFÜGEN:
-    panel.originalEditor = editor;
-    panel.originalSelection = editor.selection;
-    
-    panel.webview.postMessage({
-        command: 'insertCodeIntoInput',
-        code: selectedCode
-    });
 }
 
 /**
@@ -713,27 +692,6 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
                     padding: 0;
                 }
                 
-                .action-toolbar {
-                    display: flex;
-                    gap: 10px;
-                }
-                
-                .back-btn {
-                    background: var(--vscode-button-secondaryBackground);
-                    color: var(--vscode-button-secondaryForeground);
-                    border: 1px solid var(--vscode-panel-border);
-                    padding: 8px 12px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    font-weight: bold;
-                    transition: background 0.2s;
-                }
-                
-                .back-btn:hover {
-                    background: var(--vscode-button-secondaryHoverBackground);
-                }
-                
                 .chat-container {
                     flex: 1;
                     overflow-y: auto;
@@ -863,18 +821,7 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
             </style>
         </head>
         <body>
-            <div class="action-toolbar">
-                <button class="back-btn" onclick="backToOverview()">←</button>
-                <button class="toolbar-btn" onclick="toolbarCopy()">
-                    📋 ${t('buttons.copy')}
-                </button>
-                <button class="toolbar-btn" onclick="toolbarInsertSelected()">
-                    📝 ${t('chat.insertCode')}
-                </button>
-                <button class="toolbar-btn" onclick="closePanel()">
-                    ✖ ${t('buttons.close')}
-                </button>
-            </div>
+            ${featureUtils.generateContextMenu(t, { showPaste: true }).html}
             
             <div class="chat-container" id="chatContainer">
                 ${messagesHTML}
@@ -883,10 +830,8 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
             <div class="input-container">
                 ${hasApiKey ? '' : `<div class="warning">⚠️ ${t('messages.noApiKey', 'AI Provider')}</div>`}
                 
-                <div class="input-actions">
-                    <button class="action-btn" onclick="sendSelectedCode()" ${disabledClass}>
-                        📤 ${t('chat.sendCode')}
-                    </button>
+               <div class="input-actions">
+                    <button class="action-btn" onclick="backToOverview()" title="${t('chat.backToOverview') || 'Zurück zur Übersicht'}">←</button>
                     <button class="action-btn" onclick="attachContext()" title="${t('chat.attachContext')}">
                         📎 ${t('chat.attachFile')}
                     </button>
@@ -946,21 +891,25 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
                         vscode.postMessage({ command: 'replaceOriginal', code: code });
                     }
                 });
-    
-                // Toolbar functions (from featureUtils)
-                function toolbarCopy() {
-                    const selection = window.getSelection().toString();
-                    if (selection && selection.trim()) {
-                        vscode.postMessage({ command: 'copyCode', code: selection.trim() });
+
+                // Context menu
+                ${featureUtils.generateContextMenu(t, { showPaste: true }).script}
+                
+                // Handle paste from backend
+                window.addEventListener('message', (event) => {
+                    const message = event.data;
+                    if (message.command === 'pasteText') {
+                        const textarea = document.getElementById('messageInput');
+                        if (textarea) {
+                            const cursorPos = textarea.selectionStart;
+                            const textBefore = textarea.value.substring(0, cursorPos);
+                            const textAfter = textarea.value.substring(textarea.selectionEnd);
+                            textarea.value = textBefore + message.text + textAfter;
+                            textarea.focus();
+                            textarea.selectionStart = textarea.selectionEnd = cursorPos + message.text.length;
+                        }
                     }
-                }
-    
-                function toolbarInsertSelected() {
-                    const selection = window.getSelection().toString();
-                    if (selection && selection.trim()) {
-                        vscode.postMessage({ command: 'insertCode', code: selection.trim() });
-                    }
-                }
+                });
     
                 function closePanel() {
                     vscode.postMessage({ command: 'closePanel' });
@@ -985,12 +934,6 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
                     });
 
                     input.value = '';
-                }
-                
-                function sendSelectedCode() {
-                    vscode.postMessage({
-                        command: 'sendSelectedCode'
-                    });
                 }
 
                 function attachContext() {

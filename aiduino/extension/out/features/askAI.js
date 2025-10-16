@@ -283,7 +283,7 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
             </style>
         </head>
         <body>
-            ${featureUtils.generateActionToolbar(['copy', 'insert', 'followUp', 'close'], t)}
+            ${featureUtils.generateContextMenu(t, { showFollowUp: true }).html}
             
             <div class="header">
                 <h1>💬 ${t('commands.askAI')}</h1>
@@ -320,6 +320,7 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
             </div>
 
             <script>
+                const vscode = acquireVsCodeApi();
                 const codeBlocksData = ${JSON.stringify(codeBlocks)};
                 
                 document.addEventListener('click', (e) => {
@@ -336,9 +337,11 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
                         vscode.postMessage({ command: 'insertCode', code: code });
                     }
                 });
+
+                // Context menu
+                ${featureUtils.generateContextMenu(t, { showFollowUp: true }).script}
             </script>
             
-            ${featureUtils.generateToolbarScript(['copyCode', 'insertCode'], ['copy', 'insert', 'followUp', 'close'])}
             ${getPrismScripts()}
         </body>
         </html>

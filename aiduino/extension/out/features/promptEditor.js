@@ -342,7 +342,7 @@ panel.webview.html = `
                 </style>
             </head>
             <body>
-                ${featureUtils.generateActionToolbar(['copy', 'insert', 'close'], t)}
+                ${featureUtils.generateContextMenu(t, { showPaste: true }).html}
                 
                 <div class="header">
                     <h1>${strings.title}</h1>
@@ -357,7 +357,7 @@ panel.webview.html = `
                     const vscode = acquireVsCodeApi();
                     const strings = ${JSON.stringify(strings)};
                     
-                    // === TOOLBAR FUNCTIONS (Custom für Prompt Editor) ===
+                    // === TEXTAREA FOCUS TRACKING ===
                     let lastFocusedTextarea = null;
 
                     // Track last focused textarea
@@ -370,58 +370,37 @@ panel.webview.html = `
                             lastFocusedTextarea = this;
                         });
                     });
-
-                    function toolbarCopy() {
-                        const selection = window.getSelection().toString();
-                        if (selection && selection.trim()) {
-                            vscode.postMessage({
-                                command: 'copyText',
-                                text: selection.trim()
-                            });
-                        }
-                    }
-
-                    function toolbarInsertSelected() {
-                        // Use last focused textarea, or currently focused element, or first textarea
-                        let targetTextarea = lastFocusedTextarea;
-    
-                        if (!targetTextarea) {
-                            const activeElement = document.activeElement;
-                            if (activeElement && activeElement.classList.contains('prompt-textarea')) {
-                                targetTextarea = activeElement;
-                            } else {
-                                targetTextarea = document.querySelector('.prompt-textarea');
-                            }
-                        }
-                        
-                        if (targetTextarea) {
-                            targetTextarea.focus();
+                    
+                    // Context menu with special paste handling for textareas
+                    ${featureUtils.generateContextMenu(t, { showPaste: true }).script}
+                    
+                    // Override paste handler for textareas
+                    const originalPasteHandler = document.querySelector('.context-menu-item[data-action="paste"]');
+                    if (originalPasteHandler) {
+                        originalPasteHandler.addEventListener('click', (e) => {
+                            e.stopPropagation();
                             
-                            // Small delay to ensure focus is set
-                            setTimeout(() => {
-                                document.execCommand('paste');
-                            }, 10);
-                        }
-                    }
-                    
-                    function closePanel() {
-                        vscode.postMessage({ command: 'closePanel' });
-                    }
-                    
-                    // === CTRL+C SUPPORT ===
-                    document.addEventListener('keydown', (e) => {
-                        if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
-                            const selection = window.getSelection().toString();
-                            // Only intercept if not inside textarea
-                            if (selection && selection.trim() && !document.activeElement.classList.contains('prompt-textarea')) {
-                                e.preventDefault();
-                                vscode.postMessage({
-                                    command: 'copyText',
-                                    text: selection.trim()
-                                });
+                            // Find target textarea
+                            let targetTextarea = lastFocusedTextarea;
+                            if (!targetTextarea) {
+                                const activeElement = document.activeElement;
+                                if (activeElement && activeElement.classList.contains('prompt-textarea')) {
+                                    targetTextarea = activeElement;
+                                } else {
+                                    targetTextarea = document.querySelector('.prompt-textarea');
+                                }
                             }
-                        }
-                    });
+                            
+                            if (targetTextarea) {
+                                targetTextarea.focus();
+                                setTimeout(() => {
+                                    document.execCommand('paste');
+                                }, 10);
+                            }
+                            
+                            document.getElementById('ctxMenu').style.display = 'none';
+                        });
+                    }
                     
                     // === PROMPT EDITOR LOGIC ===
                     // Store original values for real-time change detection
@@ -646,8 +625,8 @@ panel.webview.html = `
                         }
                         break;
 
-                    case 'copyText':
-                        await vscode.env.clipboard.writeText(message.text);
+                    case 'copyCode':
+                        await vscode.env.clipboard.writeText(message.code);
                         vscode.window.showInformationMessage(t('messages.copiedToClipboard'));
                         break;
                     

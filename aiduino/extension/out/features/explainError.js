@@ -193,7 +193,7 @@ function createErrorExplanationHtml(error, line, processedExplanation, codeBlock
             </style>
         </head>
         <body>
-            ${featureUtils.generateActionToolbar(['copy', 'insert', 'close'], t)}
+            ${featureUtils.generateContextMenu(t).html}
             
             <div class="header">
                 <h1>🔧 ${t('html.errorExplanation')}</h1>
@@ -212,6 +212,7 @@ function createErrorExplanationHtml(error, line, processedExplanation, codeBlock
             </div>
 
             <script>
+                const vscode = acquireVsCodeApi();
                 const codeBlocksData = ${JSON.stringify(codeBlocks)};
                 
                 document.addEventListener('click', (e) => {
@@ -228,9 +229,11 @@ function createErrorExplanationHtml(error, line, processedExplanation, codeBlock
                         vscode.postMessage({ command: 'insertCode', code: code });
                     }
                 });
+
+                // Context menu
+                ${featureUtils.generateContextMenu(t).script}
             </script>
 
-            ${featureUtils.generateToolbarScript(['copyCode', 'insertCode'], ['copy', 'insert', 'close'])}
             ${getPrismScripts()}
             
         </body>

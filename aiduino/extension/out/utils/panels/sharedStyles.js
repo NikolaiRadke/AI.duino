@@ -412,43 +412,42 @@ function getSharedCSS() {
             text-align: left;
         }
 
-        /* === ACTION TOOLBAR === */
-        .action-toolbar {
-            position: sticky;
-            top: 0;
-            background: var(--vscode-editor-background);
-            border-bottom: 2px solid var(--vscode-panel-border);
-            padding: 12px 20px;
-            margin: -20px -20px 20px -20px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 10px;
-            z-index: 100;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .toolbar-btn {
-            background: var(--vscode-button-background);
-            color: var(--vscode-button-foreground);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: background 0.2s;
-            white-space: nowrap;
-        }
-
-        .toolbar-btn:hover {
-            background: var(--vscode-button-hoverBackground);
+        /* === CONTEXT MENU === */
+        .context-menu {
+            position: fixed;
+            background: var(--vscode-menu-background);
+            border: 1px solid var(--vscode-menu-border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            z-index: 10000;
+            min-width: 180px;
+            border-radius: 6px;
+            overflow: hidden;
+            display: none;
         }
         
-        @media (max-width: 768px) {
-            .action-toolbar {
-                flex-wrap: wrap;
-            }
+        .context-menu-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            color: var(--vscode-menu-foreground);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .context-menu-item:hover {
+            background: var(--vscode-menu-selectionBackground);
+            color: var(--vscode-menu-selectionForeground);
+        }
+
+        .context-menu-item.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .context-menu-item.disabled:hover {
+            background: var(--vscode-menu-background);
+            color: var(--vscode-menu-foreground);
         }
                 
         /* === RESPONSIVE DESIGN === */
@@ -484,13 +483,6 @@ function getSharedCSS() {
             -webkit-context-menu: none;
         }
     </style> 
-    <script>
-        // Block empty context menu
-        document.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            return false;
-        });
-    </script>
     `;
 
 }

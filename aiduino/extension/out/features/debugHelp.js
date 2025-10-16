@@ -323,7 +323,7 @@ function createDebugHelpHtml(debugType, processedResponse, codeBlocks, contextBa
             </style>
         </head>
         <body>
-            ${featureUtils.generateActionToolbar(['copy', 'insert', 'close'], t)}
+            ${featureUtils.generateContextMenu(t).html}
             
             <div class="header">
                 <h1>🔍 ${shared.escapeHtml(cleanDebugType)}</h1>
@@ -338,6 +338,7 @@ function createDebugHelpHtml(debugType, processedResponse, codeBlocks, contextBa
             </div>
             
             <script>
+                const vscode = acquireVsCodeApi();
                 const codeBlocksData = ${JSON.stringify(codeBlocks)};
                 
                 document.addEventListener('click', (e) => {
@@ -354,9 +355,11 @@ function createDebugHelpHtml(debugType, processedResponse, codeBlocks, contextBa
                         vscode.postMessage({ command: 'insertCode', code: code });
                     }
                 });
+
+                // Context menu
+                ${featureUtils.generateContextMenu(t).script}
             </script>
             
-            ${featureUtils.generateToolbarScript(['copyCode', 'insertCode'], ['copy', 'insert', 'close'])}
             ${getPrismScripts()}
         </body>
         </html>

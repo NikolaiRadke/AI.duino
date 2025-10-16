@@ -133,9 +133,9 @@ function createAddCommentsHtml(originalCode, aiResponse, customInstructions, con
     Object.assign(codeBlocks, processedHtml.codeBlocks);
     
     const boardFqbn = shared.detectArduinoBoard();
-    const boardDisplay = boardFqbn ? shared.getBoardDisplayName(boardFqbn) : t('output.boardUnknown');
+    const boardDisplay = boardFqbn ? 
+        shared.getBoardDisplayName(boardFqbn) : t('output.boardUnknown');
     
-    // Context info badge
     const contextBadge = contextManager.getContextBadgeHtml(contextData, t);
     
     return `
@@ -159,8 +159,8 @@ function createAddCommentsHtml(originalCode, aiResponse, customInstructions, con
             </style>
         </head>
         <body>
-            ${featureUtils.generateActionToolbar(['copy', 'insert', 'close'], t)}
-            
+        <body>
+            ${featureUtils.generateContextMenu(t).html}
             <h1>💬 ${t('commands.addComments')}</h1>
             
             ${contextBadge}
@@ -181,11 +181,11 @@ function createAddCommentsHtml(originalCode, aiResponse, customInstructions, con
                 🎯 ${t('improveCode.targetBoard')}: ${boardDisplay}
             </div>
             
-            ${featureUtils.generateToolbarScript(['copyCode', 'insertCode', 'replaceOriginal'], ['copy', 'insert', 'close'])}
-            
             <script>
+                const vscode = acquireVsCodeApi();
                 const codeBlocksData = ${JSON.stringify(codeBlocks)};
                 
+                // Code block buttons
                 document.addEventListener('click', (e) => {
                     const button = e.target.closest('[data-action]');
                     if (!button) return;
@@ -202,6 +202,9 @@ function createAddCommentsHtml(originalCode, aiResponse, customInstructions, con
                         vscode.postMessage({ command: 'replaceOriginal', code: code });
                     }
                 });
+                
+                // Context menu
+                ${featureUtils.generateContextMenu(t).script}
             </script>
             
             ${getPrismScripts()}
@@ -209,7 +212,6 @@ function createAddCommentsHtml(originalCode, aiResponse, customInstructions, con
         </html>
     `;
 }
-
 module.exports = {
     addComments
 };

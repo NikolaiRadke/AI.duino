@@ -364,156 +364,6 @@ function saveToHistory(context, category, input, metadata = {}) {
     }
 }
 
-function generateActionToolbar(actions = ['copy', 'insert', 'close'], t) {
-    const buttons = actions.map(action => {
-        switch(action) {
-            case 'copy':
-                return `<button class="toolbar-btn" onclick="toolbarCopy()">
-                    📋 ${t('buttons.copy')}
-                </button>`;
-            case 'insert':
-                return `<button class="toolbar-btn" onclick="toolbarInsertSelected()">
-                    📝 ${t('chat.insertCode')}
-                </button>`;
-            case 'followUp':
-                return `<button class="toolbar-btn" onclick="askFollowUp()">
-                    ↩️ ${t('shortcuts.askFollowUp')}
-                </button>`;
-            case 'close':
-                return `<button class="toolbar-btn" onclick="closePanel()">
-                    ✖ ${t('buttons.close')}
-                </button>`;
-            default:
-                return '';
-        }
-    }).join('');
-    
-    return `
-        <div class="action-toolbar">
-            ${buttons}
-        </div>
-    `;
-}
-
-/**
- * Generate complete toolbar JavaScript with all functions
- * @param {Array} codeBlockActions - Actions for code blocks ['copyCode', 'insertCode', 'replaceOriginal']
- * @param {Array} toolbarActions - Actions for toolbar ['copy', 'insert', 'followUp', 'close']
- * @returns {string} Complete JavaScript code
- */
-function generateToolbarScript(codeBlockActions = ['copyCode', 'insertCode'], toolbarActions = ['copy', 'insert', 'close']) {
-    let script = `
-        <script>
-            const vscode = acquireVsCodeApi();
-            
-            // === CODE BLOCK FUNCTIONS ===
-    `;
-    
-    if (codeBlockActions.includes('copyCode')) {
-        script += `
-            function copyCode(code) {
-                vscode.postMessage({
-                    command: 'copyCode',
-                    code: code
-                });
-            }
-        `;
-    }
-    
-    if (codeBlockActions.includes('insertCode')) {
-        script += `
-            function insertCode(code) {
-                vscode.postMessage({
-                    command: 'insertCode',
-                    code: code
-                });
-            }
-        `;
-    }
-    
-    if (codeBlockActions.includes('replaceOriginal')) {
-        script += `
-            function replaceOriginal(code) {
-                vscode.postMessage({
-                    command: 'replaceOriginal',
-                    code: code
-                });
-            }
-        `;
-    }
-    
-    script += `
-            
-            // === TOOLBAR FUNCTIONS ===
-    `;
-    
-    if (toolbarActions.includes('copy')) {
-        script += `
-            function toolbarCopy() {
-                const selection = window.getSelection().toString();
-                if (selection && selection.trim()) {
-                    vscode.postMessage({
-                        command: 'copyCode',
-                        code: selection.trim()
-                    });
-                }
-            }
-        `;
-    }
-    
-    if (toolbarActions.includes('insert')) {
-        script += `
-            function toolbarInsertSelected() {
-                const selection = window.getSelection().toString();
-                if (selection && selection.trim()) {
-                    vscode.postMessage({
-                        command: 'insertCode',
-                        code: selection.trim()
-                    });
-                }
-            }
-        `;
-    }
-    
-    if (toolbarActions.includes('followUp')) {
-        script += `
-            function askFollowUp() {
-                vscode.postMessage({
-                    command: 'askFollowUp'
-                });
-            }
-        `;
-    }
-    
-    if (toolbarActions.includes('close')) {
-        script += `
-            function closePanel() {
-                vscode.postMessage({ command: 'closePanel' });
-            }
-        `;
-    }
-    
-    script += `
-            
-            // === KEYBOARD SHORTCUTS ===
-            document.addEventListener('keydown', (e) => {
-                if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
-                    const selection = window.getSelection().toString();
-                    if (selection && selection.trim()) {
-                        e.preventDefault();
-                        vscode.postMessage({
-                            command: 'copyCode',
-                            code: selection.trim()
-                        });
-                    }
-                }
-            });
-        </script>
-    `;
-    
-    return script;
-}
-
 /**
  * Generate action buttons for code blocks (unified approach)
  * Supports both event delegation (for chatPanel) and direct onclick handlers (for other features)
@@ -794,10 +644,93 @@ function parseArduinoCompilerOutput(compilerOutput) {
     };
 }
 
-module.exports = {
-    // ... existing exports
-    parseArduinoCompilerOutput
-};
+/**
+ * Generate context menu HTML and JavaScript
+ * @param {Function} t - Translation function
+ * @returns {object} Object with html and script properties
+ */
+function generateContextMenu(t, options = {}) {
+    const showPaste = options.showPaste || false;
+    const showClose = options.showClose !== false;
+    const showFollowUp = options.showFollowUp || false;
+    
+    const html = `
+        <div id="ctxMenuOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:9998;"></div>
+        <div id="ctxMenu" class="context-menu" style="display:none;">
+            <div class="context-menu-item" data-action="copy" id="ctxMenuCopy">📋 ${t('buttons.copy')}</div>
+            ${showPaste ? `<div class="context-menu-item" data-action="paste">📄 ${t('chat.insertCode')}</div>` : ''}
+            ${showFollowUp ? `<div class="context-menu-item" data-action="followup">↩️ ${t('shortcuts.askFollowUp')}</div>` : ''}
+            ${showClose ? `<div class="context-menu-item" data-action="close">✖ ${t('buttons.close')}</div>` : ''}
+        </div>
+    `;
+    
+    const script = `
+        let ctxSavedSelection = '';
+        
+        document.getElementById('ctxMenuOverlay').addEventListener('click', () => {
+            document.getElementById('ctxMenu').style.display = 'none';
+            document.getElementById('ctxMenuOverlay').style.display = 'none';
+        });
+        
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            
+            const menu = document.getElementById('ctxMenu');
+            const overlay = document.getElementById('ctxMenuOverlay');
+            const copyItem = document.getElementById('ctxMenuCopy');
+            
+            ctxSavedSelection = window.getSelection().toString().trim();
+            
+            if (ctxSavedSelection) {
+                copyItem.classList.remove('disabled');
+            } else {
+                copyItem.classList.add('disabled');
+            }
+            
+            let x = e.clientX;
+            let y = e.clientY;
+            
+            overlay.style.display = 'block';
+            menu.style.display = 'block';
+            
+            const menuRect = menu.getBoundingClientRect();
+            if (y + menuRect.height > window.innerHeight) {
+                y = window.innerHeight - menuRect.height - 10;
+            }
+            if (x + menuRect.width > window.innerWidth) {
+                x = window.innerWidth - menuRect.width - 10;
+            }
+            
+            menu.style.left = x + 'px';
+            menu.style.top = y + 'px';
+        });
+        
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('ctxMenu');
+            const overlay = document.getElementById('ctxMenuOverlay');
+            const menuItem = e.target.closest('.context-menu-item');
+            
+            if (menuItem && menu.style.display === 'block' && !menuItem.classList.contains('disabled')) {
+                const action = menuItem.getAttribute('data-action');
+                
+                if (action === 'copy') {
+                    vscode.postMessage({ command: 'copyCode', code: ctxSavedSelection });
+                } else if (action === 'paste') {
+                    vscode.postMessage({ command: 'pasteFromClipboard' });
+                } else if (action === 'followup') {
+                    vscode.postMessage({ command: 'askFollowUp' });
+                } else if (action === 'close') {
+                    vscode.postMessage({ command: 'closePanel' });
+                }
+                
+                menu.style.display = 'none';
+                overlay.style.display = 'none';
+            }
+        });
+    `;
+    
+    return { html, script };
+}
 
 module.exports = {
     executeFeature,
@@ -812,13 +745,12 @@ module.exports = {
     showInputWithCreateQuickPickHistory, 
     validateArduinoFile,
     saveToHistory,
-    generateActionToolbar,
-    generateToolbarScript,
     cleanHtmlCode,
     setupStandardMessageHandler,
     cleanCodeContent,
     generateCodeBlockButtons,
     processAiCodeBlocksWithEventDelegation,
     processMessageWithCodeBlocks,
-    parseArduinoCompilerOutput
+    parseArduinoCompilerOutput,
+    generateContextMenu
 };

@@ -158,7 +158,7 @@ function createImproveCodeHtml(originalCode, aiResponse, customInstructions, con
             </style>
         </head>
         <body>
-            ${featureUtils.generateActionToolbar(['copy', 'insert', 'close'], t)}
+            ${featureUtils.generateContextMenu(t).html}
             
             <h1>🔧 ${t('commands.improveCode')}</h1>
             
@@ -180,9 +180,8 @@ function createImproveCodeHtml(originalCode, aiResponse, customInstructions, con
                 🎯 ${t('improveCode.targetBoard')}: ${boardDisplay}
             </div>
             
-            ${featureUtils.generateToolbarScript(['copyCode', 'insertCode', 'replaceOriginal'], ['copy', 'insert', 'close'])}
-            
             <script>
+                const vscode = acquireVsCodeApi();
                 const codeBlocksData = ${JSON.stringify(codeBlocks)};
                 
                 document.addEventListener('click', (e) => {
@@ -201,6 +200,9 @@ function createImproveCodeHtml(originalCode, aiResponse, customInstructions, con
                         vscode.postMessage({ command: 'replaceOriginal', code: code });
                     }
                 });
+
+                // Context menu
+                ${featureUtils.generateContextMenu(t).script}
             </script>
             
             ${getPrismScripts()}
