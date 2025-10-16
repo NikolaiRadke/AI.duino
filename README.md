@@ -55,9 +55,9 @@ and will inform the user for new Version updates.
 
 ## Screenshots
 
-![Screenshot 1](http://www.nikolairadke.de/aiduino/screenshot1_800.png)
-![Screenshot 2](http://www.nikolairadke.de/aiduino/screenshot2_800.png)
-![Screenshot 3](http://www.nikolairadke.de/aiduino/screenshot3_800.png)
+![Screenshot 1](http://www.nikolairadke.de/aiduino/screenshot_1.png)
+![Screenshot 2](http://www.nikolairadke.de/aiduino/screenshot_2.png)
+![Screenshot 3](http://www.nikolairadke.de/aiduino/screenshot_3.png)
 
 ## Usage
 
