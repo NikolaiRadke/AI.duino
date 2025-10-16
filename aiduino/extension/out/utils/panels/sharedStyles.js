@@ -483,10 +483,14 @@ function getSharedCSS() {
             -webkit-context-menu: none;
         }
     </style> 
+    <script>
+        // Block native context menu in panels without custom menu
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+    </script>
     `;
-
 }
-
 /**
  * Get Prism.js scripts for syntax highlighting
  * Must be placed before closing </body> tag
