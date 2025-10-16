@@ -8,7 +8,7 @@ the newest Version to avoid annoying bugs.
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **14.10.2025** Release **V2.0.1**: Yes, bugfixes. But small - added proper Windows installer.  
+* **16.10.2025** Release **V2.1.0**: Yes! Fixed the last annoying issue: Changed the toolbar with a context menu!  
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
