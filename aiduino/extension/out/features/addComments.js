@@ -128,9 +128,8 @@ async function addComments(context) {
  * @returns {string} HTML content
  */
 function createAddCommentsHtml(originalCode, aiResponse, customInstructions, contextData, currentModel, t) {
-    const codeBlocks = {};
-    const processedHtml = featureUtils.processMessageWithCodeBlocks(aiResponse, 'addComments', t);
-    Object.assign(codeBlocks, processedHtml.codeBlocks);
+    const processedHtml = featureUtils.processMessageWithCodeBlocks(aiResponse, 'addComments', t, ['copy', 'insert', 'replace']);
+    const codeBlocks = processedHtml.codeBlocks;
     
     const boardFqbn = shared.detectArduinoBoard();
     const boardDisplay = boardFqbn ? 

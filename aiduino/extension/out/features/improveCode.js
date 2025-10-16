@@ -127,9 +127,8 @@ async function improveCode(context) {
  * @returns {string} HTML content
  */
 function createImproveCodeHtml(originalCode, aiResponse, customInstructions, contextData, currentModel, t) {
-    const codeBlocks = {};
-    const processedHtml = featureUtils.processMessageWithCodeBlocks(aiResponse, 'improve', t);
-    Object.assign(codeBlocks, processedHtml.codeBlocks);
+    const processedHtml = featureUtils.processMessageWithCodeBlocks(aiResponse, 'improve', t, ['copy', 'insert', 'replace']);
+    const codeBlocks = processedHtml.codeBlocks;
     
     const boardFqbn = shared.detectArduinoBoard();
     const boardDisplay = boardFqbn ? shared.getBoardDisplayName(boardFqbn) : t('output.boardUnknown');

@@ -547,39 +547,36 @@ function processAiCodeBlocksWithEventDelegation(response, codeBlockTitle, button
  * @param {Function} t - Translation function
  * @returns {Object} {html: string, codeBlocks: Array} - Processed HTML and extracted code blocks array
  */
-function processMessageWithCodeBlocks(text, messageId, t) {
+function processMessageWithCodeBlocks(text, messageId, t, buttonActions = ['copy', 'insert', 'replace']) {
     const codeBlocks = [];
     
-    // Extract code blocks BEFORE escaping
-    let processed = text.replace(/```(?:cpp|c|arduino)?\s*\n([\s\S]*?)\n```/g, (match, codeContent) => {
+    let processed = text.replace(/```(?:cpp|c|arduino)?\s*\n([\s\S]*?)```/g, (match, codeContent) => {
         codeBlocks.push(codeContent.trim());
         return `[[CODEBLOCK_${codeBlocks.length - 1}]]`;
     });
     
-    // Escape the TEXT (not code blocks)
     processed = shared.escapeHtml(processed);
-    
-    // Format bold text
     processed = processed.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    
-    // Convert line breaks
     processed = processed.replace(/\n/g, '<br>');
     
-    // Insert code blocks with message-specific IDs
     codeBlocks.forEach((code, index) => {
+        const buttons = buttonActions.map(action => {
+            const btnClass = action === 'replace' ? 'code-btn primary' : 'code-btn';
+            const labels = {
+                copy: `📋 ${t('buttons.copy')}`,
+                insert: `📄 ${t('chat.insertCode')}`,
+                replace: `🔄 ${t('buttons.replaceOriginal')}`
+            };
+            return `<button class="${btnClass}" data-action="${action}" data-message-id="${messageId}" data-index="${index}">
+                ${labels[action]}
+            </button>`;
+        }).join('');
+        
         const html = `<div class="code-block" data-message-id="${messageId}" data-code-index="${index}">
             <div class="code-header">
                 <span>📄 ${t('chat.suggestedCode')}</span>
                 <div class="code-actions">
-                    <button class="code-btn" data-action="copy" data-message-id="${messageId}" data-index="${index}">
-                        📋 ${t('buttons.copy')}
-                    </button>
-                    <button class="code-btn" data-action="insert" data-message-id="${messageId}" data-index="${index}">
-                        📄 ${t('chat.insertCode')}
-                    </button>
-                    <button class="code-btn primary" data-action="replace" data-message-id="${messageId}" data-index="${index}">
-                        🔄 ${t('buttons.replaceOriginal')}
-                    </button>
+                    ${buttons}
                 </div>
             </div>
             <div class="code-content">
@@ -591,7 +588,7 @@ function processMessageWithCodeBlocks(text, messageId, t) {
     });
 
     return { html: processed, codeBlocks };
-}   
+}
 
 /**
  * Parse Arduino compiler output - extract only the essentials

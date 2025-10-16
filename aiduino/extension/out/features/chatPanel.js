@@ -639,7 +639,7 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
         let messageContent;
         if (!isUser && msg.text.includes('```')) {
             // AI message with code blocks - process like improveCode.js
-            const result = featureUtils.processMessageWithCodeBlocks(msg.text, msg.id, t);
+            const result = featureUtils.processMessageWithCodeBlocks(msg.text, msg.id, t, ['copy', 'insert']);
             messageContent = result.html;
             allCodeBlocks[msg.id] = result.codeBlocks;
         } else if (isUser && !msg.text && msg.code) {       
