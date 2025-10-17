@@ -56,7 +56,7 @@ class QuickMenuTreeProvider {
             item.command && [
                 'improveCode', 'explainCode', 'addComments', 
                 'explainError', 'explainCopiedError', 'debugHelp', 
-                'askAI', 'askFollowUp', 'openChatPanel'
+                'askAI', 'askFollowUp', 'openChatPanel', 'runCustomAgent'
             ].some(cmd => item.command.includes(cmd))
         );
         codeActions.forEach(item => treeItems.push(this.createTreeItem(item)));
@@ -69,7 +69,7 @@ class QuickMenuTreeProvider {
         const settings = menuItems.filter(item => 
             item.command && [
                 'switchLanguage', 'switchModel', 'setApiKey', 
-                'editPrompts', 'toggleInlineCompletion'
+                'manageCustomAgents', 'editPrompts', 'toggleInlineCompletion'
             ].some(cmd => item.command.includes(cmd))
         );
         settings.forEach(item => treeItems.push(this.createTreeItem(item)));

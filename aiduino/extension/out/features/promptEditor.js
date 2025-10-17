@@ -9,6 +9,8 @@ const { escapeHtml } = require('../shared');
 const { getSharedCSS } = require('../utils/panels/sharedStyles');
 const featureUtils = require('./featureUtils');
 
+let activePromptEditorPanel = null;
+
 /**
  * Show prompt editor with dependency injection
  * @param {Object} context - Extension context with dependencies
@@ -16,6 +18,12 @@ const featureUtils = require('./featureUtils');
 async function showPromptEditor(context) {
     try {
         const { t, promptManager } = context;
+        
+        // If panel already exists, reveal it
+        if (activePromptEditorPanel) {
+            activePromptEditorPanel.reveal(vscode.ViewColumn.One);
+            return;
+        }
 
         // Variables for close protection - RIGHT HERE AT THE TOP
         let hasUnsavedChanges = false;
@@ -49,7 +57,12 @@ async function showPromptEditor(context) {
             { enableScripts: true }
         );
 
+        // Store panel reference
+        activePromptEditorPanel = panel;
+
         panel.onDidDispose(() => {
+            // Clear reference
+            activePromptEditorPanel = null;
             if (hasUnsavedChanges && !isForceClosing) {
                 vscode.window.showWarningMessage(
                     t('promptEditor.changesLostDialog'),
@@ -357,50 +370,8 @@ panel.webview.html = `
                     const vscode = acquireVsCodeApi();
                     const strings = ${JSON.stringify(strings)};
                     
-                    // === TEXTAREA FOCUS TRACKING ===
-                    let lastFocusedTextarea = null;
-
-                    // Track last focused textarea
-                    document.querySelectorAll('.prompt-textarea').forEach(textarea => {
-                        textarea.addEventListener('focus', function() {
-                            lastFocusedTextarea = this;
-                        });
-    
-                        textarea.addEventListener('click', function() {
-                            lastFocusedTextarea = this;
-                        });
-                    });
-                    
-                    // Context menu with special paste handling for textareas
+                    // Context menu
                     ${featureUtils.generateContextMenu(t, { showPaste: true }).script}
-                    
-                    // Override paste handler for textareas
-                    const originalPasteHandler = document.querySelector('.context-menu-item[data-action="paste"]');
-                    if (originalPasteHandler) {
-                        originalPasteHandler.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            
-                            // Find target textarea
-                            let targetTextarea = lastFocusedTextarea;
-                            if (!targetTextarea) {
-                                const activeElement = document.activeElement;
-                                if (activeElement && activeElement.classList.contains('prompt-textarea')) {
-                                    targetTextarea = activeElement;
-                                } else {
-                                    targetTextarea = document.querySelector('.prompt-textarea');
-                                }
-                            }
-                            
-                            if (targetTextarea) {
-                                targetTextarea.focus();
-                                setTimeout(() => {
-                                    document.execCommand('paste');
-                                }, 10);
-                            }
-                            
-                            document.getElementById('ctxMenu').style.display = 'none';
-                        });
-                    }
                     
                     // === PROMPT EDITOR LOGIC ===
                     // Store original values for real-time change detection
@@ -628,6 +599,14 @@ panel.webview.html = `
                     case 'copyCode':
                         await vscode.env.clipboard.writeText(message.code);
                         vscode.window.showInformationMessage(t('messages.copiedToClipboard'));
+                        break;
+
+                    case 'pasteFromClipboard':
+                        const clipboardText = await vscode.env.clipboard.readText();
+                        panel.webview.postMessage({
+                            command: 'pasteText',
+                            text: clipboardText
+                        });
                         break;
                     
                     case 'closePanel':

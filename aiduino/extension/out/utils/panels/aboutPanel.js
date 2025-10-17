@@ -9,6 +9,8 @@ const vscode = require('vscode');
 const { getSharedCSS } = require('./sharedStyles');
 const { forEachProvider } = require('../../shared');
 
+let activeAboutPanel = null;
+
 /**
  * Show About dialog with extension information
  * @param {Object} context - Extension context with dependencies
@@ -16,6 +18,12 @@ const { forEachProvider } = require('../../shared');
 function showAbout(context) {
     const logoData = require('../../../icons/aiduino-logo');
     const { t, minimalModelManager, EXTENSION_VERSION } = context;
+
+    // If panel already exists, reveal it
+    if (activeAboutPanel) {
+        activeAboutPanel.reveal(vscode.ViewColumn.One);
+        return;
+    }
     
     const panel = vscode.window.createWebviewPanel(
         'aiduinoAbout',
@@ -23,6 +31,14 @@ function showAbout(context) {
         vscode.ViewColumn.One,
         { enableScripts: true }
     );
+
+    // Store panel reference
+    activeAboutPanel = panel;
+    
+    // Clear reference when panel is disposed
+    panel.onDidDispose(() => {
+        activeAboutPanel = null;
+    });
     
     // Generate model badges and features
     let modelBadges = '';

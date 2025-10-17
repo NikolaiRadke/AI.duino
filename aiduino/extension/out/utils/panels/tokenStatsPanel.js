@@ -9,12 +9,20 @@ const vscode = require('vscode');
 const { getSharedCSS } = require('./sharedStyles');
 const { forEachProvider, calculateTotalCost } = require('../../shared');
 
+let activeTokenStatsPanel = null;
+
 /**
  * Show token usage statistics
  * @param {Object} context - Extension context with dependencies
  */
 function showTokenStats(context) {
     const { t, minimalModelManager, tokenUsage, currentLocale } = context;
+
+    // If panel already exists, reveal it
+    if (activeTokenStatsPanel) {
+        activeTokenStatsPanel.reveal(vscode.ViewColumn.One);
+        return;
+    }
     
     const totalCostToday = calculateTotalCost(tokenUsage, minimalModelManager.providers);
     
@@ -24,6 +32,14 @@ function showTokenStats(context) {
         vscode.ViewColumn.One,
         { enableScripts: true }
     );
+
+    // Store panel reference
+    activeTokenStatsPanel = panel;
+    
+    // Clear reference when panel is disposed
+    panel.onDidDispose(() => {
+        activeTokenStatsPanel = null;
+    });
     
     // Generate statistics cards
     let modelCards = '';

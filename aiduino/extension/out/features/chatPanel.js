@@ -894,22 +894,6 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
 
                 // Context menu
                 ${featureUtils.generateContextMenu(t, { showPaste: true }).script}
-                
-                // Handle paste from backend
-                window.addEventListener('message', (event) => {
-                    const message = event.data;
-                    if (message.command === 'pasteText') {
-                        const textarea = document.getElementById('messageInput');
-                        if (textarea) {
-                            const cursorPos = textarea.selectionStart;
-                            const textBefore = textarea.value.substring(0, cursorPos);
-                            const textAfter = textarea.value.substring(textarea.selectionEnd);
-                            textarea.value = textBefore + message.text + textAfter;
-                            textarea.focus();
-                            textarea.selectionStart = textarea.selectionEnd = cursorPos + message.text.length;
-                        }
-                    }
-                });
     
                 function closePanel() {
                     vscode.postMessage({ command: 'closePanel' });

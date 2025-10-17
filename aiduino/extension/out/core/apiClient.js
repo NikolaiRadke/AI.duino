@@ -47,7 +47,7 @@ class UnifiedAPIClient {
         
         for (let attempt = 1; attempt <= this.maxRetries; attempt++) {
             try {
-                const response = await this.makeRequest(config);
+                const response = await this.makeRequest(config, t);
                 const extractedResponse = this.extractResponse(modelId, response, minimalModelManager);                
                 updateTokenUsage(modelId, prompt, extractedResponse);
                 this._triggerSupportHint(context);
@@ -61,13 +61,14 @@ class UnifiedAPIClient {
             }
         }
     }
-    
+
     /**
      * Make HTTP request
      * @param {Object} config - Request configuration
+     * @param {Function} t - Translation function
      * @returns {Promise<Object>} Response data
      */
-    async makeRequest(config) {
+    async makeRequest(config, t) {  // t als Parameter hinzufügen
         return new Promise((resolve, reject) => {
             const data = JSON.stringify(config.body);
         
@@ -82,11 +83,6 @@ class UnifiedAPIClient {
                 }
             };
     
-            const timeout = setTimeout(() => {
-                req.destroy();
-                reject(new Error(t('errors.timeout')));
-            }, this.timeout);
-    
             const req = https.request(options, (res) => {
                 clearTimeout(timeout);
                 let responseData = '';
@@ -96,26 +92,38 @@ class UnifiedAPIClient {
                 });
     
                 res.on('end', () => {
-                    const parsedData = JSON.parse(responseData);
-                    
-                    if (res.statusCode === 200) {
-                        resolve(parsedData);
-                    } else {
-                        reject(this.createHttpError(res.statusCode, parsedData));
+                    try {
+                        const parsedData = JSON.parse(responseData);
+                        
+                        if (res.statusCode === 200) {
+                            resolve(parsedData);
+                        } else {
+                            reject(this.createHttpError(res.statusCode, parsedData));
+                        }
+                    } catch (e) {
+                        reject(new Error('Invalid JSON response'));
                     }
                 });
             });
     
             req.on('error', (e) => {
                 clearTimeout(timeout);
-                reject(this.handleNetworkError(e, t));
+                reject(handleNetworkError(e, t)); 
             });
+
+            const timeout = setTimeout(() => {
+                req.destroy();
+                const timeoutError = new Error(t('errors.timeout'));
+                timeoutError.type = 'NETWORK_ERROR';   // NEU: Type setzen
+                timeoutError.code = 'ETIMEDOUT';       // NEU: Code setzen
+                reject(timeoutError);
+            }, this.timeout);
     
             req.write(data);
             req.end();
         });
-    }   
-
+    }
+    
     /**
      * Get model configuration for API request
      * @param {string} modelId - Model identifier
@@ -407,23 +415,50 @@ class UnifiedAPIClient {
      */
     enhanceError(modelId, error, minimalModelManager, t) {
         const modelName = minimalModelManager.providers[modelId]?.name || t('errors.unknownProvider');
-    
-        // Add model context to error WITH error types
+
+        // Network errors - preserve type and code WITHOUT adding model name
+        if (error.type === 'NETWORK_ERROR' || 
+            error.code === 'ENOTFOUND' || 
+            error.code === 'ETIMEDOUT' || 
+            error.code === 'ECONNREFUSED' ||
+            error.code === 'ECONNRESET' ||
+            error.code === 'EHOSTUNREACH' ||
+            error.code === 'ENETUNREACH' ||
+            error.code === 'ECONNABORTED') {
+            // Keep original error with type and code intact
+            if (!error.type) error.type = 'NETWORK_ERROR';
+            return error;
+        }
+
+        // API Key errors
         if (error.message.includes('Invalid API Key')) {
             const enhancedError = new Error(t('errors.invalidApiKey', modelName));
             enhancedError.type = 'API_KEY_ERROR';  
             return enhancedError;
-        } else if (error.message.includes('Rate Limit')) {
+        }
+        
+        // Rate Limit errors
+        if (error.message.includes('Rate Limit')) {
             const enhancedError = new Error(t('errors.rateLimit', modelName));
             enhancedError.type = 'RATE_LIMIT_ERROR'; 
             return enhancedError;
-        } else if (error.message.includes('Server Error') || error.message.includes('Service Unavailable')) {
+        }
+        
+        // Server errors
+        if (error.message.includes('Server Error') || error.message.includes('Service Unavailable')) {
             const enhancedError = new Error(t('errors.serverUnavailable', modelName));
             enhancedError.type = 'SERVER_ERROR';  
             return enhancedError;
         }
         
-        return new Error(`${modelName}: ${error.message}`);
+        // Generic errors - add model name and preserve properties
+        const enhancedError = new Error(`${modelName}: ${error.message}`);
+        
+        // Copy type and code if they exist
+        if (error.type) enhancedError.type = error.type;
+        if (error.code) enhancedError.code = error.code;
+        
+        return enhancedError;
     }   
 
     /**

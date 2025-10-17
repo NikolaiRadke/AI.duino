@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Inline Vervollständigung",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ aus Zwischenablage",
-    "openSettings": "Einstellungen"
+    "openSettings": "Einstellungen",
+    "runCustomAgent": "Agent ausführen",
+    "manageCustomAgents": "Agenten verwalten"
   },
   "messages": {
     "welcome": "👋 Willkommen! AI.duino unterstützt {0}!",
@@ -115,10 +117,12 @@
     "askAI": "Direkte Frage an die KI stellen",
     "askFollowUp": "Vorherige Unterhaltung fortsetzen: {0}",
     "noValidContext": "Keine vorherige Unterhaltung",
-    "editPrompts": "AI-Prompts anpassen",
-    "openChatPanel": "AI-Chat mit Code-Integration",
+    "editPrompts": "KI-Prompts anpassen",
+    "openChatPanel": "KI-Chat mit Code-Integration",
     "explainCopiedError": "Fehler aus Zwischenablage analysieren",
-    "openSettings": "Einstellungen anpassen"
+    "openSettings": "Einstellungen anpassen",
+    "runCustomAgent": "Agent auswählen und ausführen",
+    "manageCustomAgents": "Eigene KI-Agenten erstellen und verwalten"
   },
   "language": {
     "autoDetect": "Automatisch von VS Code erkennen",
@@ -197,7 +201,8 @@
     "analyzingProblem": "{0} analysiert das Problem...",
     "testingConnection": "Verbindung wird getestet...",
     "askingAI": "{0} bearbeitet deine Frage...",
-    "askingFollowUp": "{0} bearbeitet deine Rückfrage..."
+    "askingFollowUp": "{0} bearbeitet deine Rückfrage...",
+    "processing": "Verarbeite..."
   },
   "errors": {
     "quotaExceeded": "Monatliches Kontingent erschöpft",
@@ -542,5 +547,40 @@
     "partialSuccess": "⚠️ Teilweise deinstalliert",
     "deleted": "Gelöscht",
     "failed": "Fehlgeschlagen"
+  },
+  "customAgent": {
+    "title": "Custom KI Agenten",
+    "myAgents": "Meine Agenten",
+    "noAgentsYet": "Noch keine Agenten",
+    "createFirstAgent": "Erstelle deinen ersten Custom Agent",
+    "newAgent": "Neuer Agent",
+    "editAgent": "Agent bearbeiten",
+    "agentName": "Agent Name",
+    "agentNamePlaceholder": "z.B. Power Optimizer",
+    "promptLabel": "Agent Prompt",
+    "promptPlaceholder": "Beschreibe was der Agent tun soll...",
+    "codeContext": "Code Kontext",
+    "hardwareContext": "Hardware Kontext",
+    "currentSelection": "Aktuelle Auswahl",
+    "currentFileFull": "Aktuelle Datei (vollständig)",
+    "currentFileFunctions": "Aktuelle Datei (nur Funktionen)",
+    "allSketchFiles": "Alle Sketch-Dateien",
+    "boardInfo": "Board-Informationen",
+    "usedLibraries": "Verwendete Bibliotheken",
+    "pinConfiguration": "Pin-Konfiguration",
+    "memoryUsage": "Speichernutzung",
+    "output": "Ergebnis",
+    "lastUsed": "Zuletzt verwendet",
+    "neverUsed": "Noch nie verwendet",
+    "runAgent": "Agent ausführen",
+    "maxAgentsReached": "Maximale Anzahl erreicht (20)",
+    "agentCreated": "Agent erstellt",
+    "agentUpdated": "Agent aktualisiert",
+    "agentDeleted": "Agent gelöscht",
+    "agentNotFound": "Agent nicht gefunden",
+    "deleteConfirm": "Agent wirklich löschen?",
+    "backToAgents": "Zurück zu Agenten",
+    "selectAgent": "Agent auswählen",
+    "createFirst": "Agent erstellen"
   }
 }

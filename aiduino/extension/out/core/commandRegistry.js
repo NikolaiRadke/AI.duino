@@ -40,6 +40,7 @@ class CommandRegistry {
             askAIFeature,
             chatPanelFeature,
             promptEditorFeature,
+            customAgentsFeature,
             uiTools
         } = deps;
 
@@ -81,6 +82,11 @@ class CommandRegistry {
                 name: 'aiduino.addComments', 
                 handler: () => addCommentsFeature.addComments(deps.getDependencies()),
                 description: 'Add Comments to Code'
+            },
+            { 
+                name: 'aiduino.runCustomAgent', 
+                handler: () => customAgentsFeature.runCustomAgent(deps.getDependencies()),
+                description: 'Run Custom AI Agent'
             },
 
             // Error & Debug Features
@@ -146,6 +152,11 @@ class CommandRegistry {
                 name: 'aiduino.editPrompts',
                 handler: () => deps.promptEditorFeature.editPrompts(deps.getDependencies()),
                 description: 'Edit AI Prompts'
+            },
+            { 
+                name: 'aiduino.manageCustomAgents', 
+                handler: () => deps.customAgentsFeature.showCustomAgentPanel(deps.getDependencies()),
+                description: 'Manage Custom AI Agents'
             },
 
             // Refresh Menu

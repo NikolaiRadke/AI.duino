@@ -33,6 +33,7 @@ const explainErrorFeature = require('./features/explainError');
 const debugHelpFeature = require('./features/debugHelp');
 const promptEditorFeature = require('./features/promptEditor'); 
 const inlineCompletion = require('./features/inlineCompletion/completionProvider');
+const customAgentsFeature = require('./features/customAgents');
 
 // Utility modules
 const uiTools = require('./utils/ui');
@@ -627,7 +628,10 @@ function registerCommands(context) {
         askAIFeature,
         chatPanelFeature,
         promptEditorFeature,
+        customAgentsFeature,
         inlineCompletion,
+        explainCodeFeature,
+
         setPromptEditorOpen: (isOpen) => { isPromptEditorOpen = isOpen; },
         uiTools,
         

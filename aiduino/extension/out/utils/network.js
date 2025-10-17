@@ -28,7 +28,13 @@ function handleNetworkError(error, t) {
     };
     
     const message = errorMessages[error.code] || t('errors.network.general', error.message);
-    return new Error(message);
+    
+    // NEU: Error-Objekt mit Type erstellen
+    const enhancedError = new Error(message);
+    enhancedError.type = 'NETWORK_ERROR';  // Type setzen
+    enhancedError.code = error.code;       // Original-Code behalten
+    
+    return enhancedError;
 }
 
 /**

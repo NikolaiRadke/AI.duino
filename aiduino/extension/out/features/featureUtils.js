@@ -644,6 +644,7 @@ function parseArduinoCompilerOutput(compilerOutput) {
 /**
  * Generate context menu HTML and JavaScript
  * @param {Function} t - Translation function
+ * @param {Object} options - Configuration options
  * @returns {object} Object with html and script properties
  */
 function generateContextMenu(t, options = {}) {
@@ -655,7 +656,7 @@ function generateContextMenu(t, options = {}) {
         <div id="ctxMenuOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:9998;"></div>
         <div id="ctxMenu" class="context-menu" style="display:none;">
             <div class="context-menu-item" data-action="copy" id="ctxMenuCopy">📋 ${t('buttons.copy')}</div>
-            ${showPaste ? `<div class="context-menu-item" data-action="paste">📄 ${t('chat.insertCode')}</div>` : ''}
+            ${showPaste ? `<div class="context-menu-item" data-action="paste" id="ctxMenuPaste">📄 ${t('chat.insertCode')}</div>` : ''}
             ${showFollowUp ? `<div class="context-menu-item" data-action="followup">↩️ ${t('shortcuts.askFollowUp')}</div>` : ''}
             ${showClose ? `<div class="context-menu-item" data-action="close">✖ ${t('buttons.close')}</div>` : ''}
         </div>
@@ -663,6 +664,28 @@ function generateContextMenu(t, options = {}) {
     
     const script = `
         let ctxSavedSelection = '';
+        let ctxLastFocusedInput = null;
+        let ctxRightClickedElement = null;
+        
+        // Track focused input/textarea elements
+        document.addEventListener('focusin', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                ctxLastFocusedInput = e.target;
+            }
+        });
+        
+        // Allow native keyboard shortcuts in input fields
+        document.addEventListener('keydown', (e) => {
+            const target = e.target;
+            const isInputField = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
+            
+            if (isInputField && (e.ctrlKey || e.metaKey)) {
+                const allowedKeys = ['c', 'v', 'x', 'a', 'z', 'y'];
+                if (allowedKeys.includes(e.key.toLowerCase())) {
+                    return;
+                }
+            }
+        });
         
         document.getElementById('ctxMenuOverlay').addEventListener('click', () => {
             document.getElementById('ctxMenu').style.display = 'none';
@@ -675,13 +698,36 @@ function generateContextMenu(t, options = {}) {
             const menu = document.getElementById('ctxMenu');
             const overlay = document.getElementById('ctxMenuOverlay');
             const copyItem = document.getElementById('ctxMenuCopy');
+            const pasteItem = document.getElementById('ctxMenuPaste');
             
-            ctxSavedSelection = window.getSelection().toString().trim();
+            ctxRightClickedElement = e.target;
             
-            if (ctxSavedSelection) {
-                copyItem.classList.remove('disabled');
+            const isInputField = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA';
+            
+            if (isInputField) {
+                ctxLastFocusedInput = e.target;
+                const hasSelection = e.target.selectionStart !== e.target.selectionEnd;
+                if (hasSelection) {
+                    copyItem.classList.remove('disabled');
+                } else {
+                    copyItem.classList.add('disabled');
+                }
+                
+                if (pasteItem) {
+                    pasteItem.classList.remove('disabled');
+                }
             } else {
-                copyItem.classList.add('disabled');
+                ctxSavedSelection = window.getSelection().toString().trim();
+                
+                if (ctxSavedSelection) {
+                    copyItem.classList.remove('disabled');
+                } else {
+                    copyItem.classList.add('disabled');
+                }
+                
+                if (pasteItem) {
+                    pasteItem.classList.add('disabled');
+                }
             }
             
             let x = e.clientX;
@@ -711,7 +757,16 @@ function generateContextMenu(t, options = {}) {
                 const action = menuItem.getAttribute('data-action');
                 
                 if (action === 'copy') {
-                    vscode.postMessage({ command: 'copyCode', code: ctxSavedSelection });
+                    if (ctxRightClickedElement && (ctxRightClickedElement.tagName === 'INPUT' || ctxRightClickedElement.tagName === 'TEXTAREA')) {
+                        const start = ctxRightClickedElement.selectionStart;
+                        const end = ctxRightClickedElement.selectionEnd;
+                        const selectedText = ctxRightClickedElement.value.substring(start, end);
+                        if (selectedText) {
+                            vscode.postMessage({ command: 'copyCode', code: selectedText });
+                        }
+                    } else if (ctxSavedSelection) {
+                        vscode.postMessage({ command: 'copyCode', code: ctxSavedSelection });
+                    }
                 } else if (action === 'paste') {
                     vscode.postMessage({ command: 'pasteFromClipboard' });
                 } else if (action === 'followup') {
@@ -724,7 +779,30 @@ function generateContextMenu(t, options = {}) {
                 overlay.style.display = 'none';
             }
         });
-    `;
+    ` + (showPaste ? `
+        
+        // Handle paste from backend
+        window.addEventListener('message', (event) => {
+            const message = event.data;
+            if (message.command === 'pasteText') {
+                const target = ctxLastFocusedInput || document.activeElement;
+                if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
+                    // Save scroll position
+                    const scrollTop = target.scrollTop;
+                    
+                    const cursorPos = target.selectionStart;
+                    const textBefore = target.value.substring(0, cursorPos);
+                    const textAfter = target.value.substring(target.selectionEnd);
+                    target.value = textBefore + message.text + textAfter;
+                    target.focus();
+                    target.selectionStart = target.selectionEnd = cursorPos + message.text.length;
+                    
+                    // Restore scroll position
+                    target.scrollTop = scrollTop;
+                }
+            }
+        });
+    ` : '');
     
     return { html, script };
 }

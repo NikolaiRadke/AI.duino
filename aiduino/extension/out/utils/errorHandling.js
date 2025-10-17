@@ -19,15 +19,15 @@ function handleApiError(error, context) {
     const { t, minimalModelManager, currentModel } = context;
     const model = minimalModelManager.providers[currentModel];
 
-    // DNS/Network Errors - Handle FIRST before adding model context
-    if (error.message.includes('DNS resolution failed') || 
-        error.message.includes('ENOTFOUND') || 
-        error.message.includes('ETIMEDOUT') || 
-        error.message.includes('ECONNREFUSED') || 
-        error.message.includes('ECONNRESET') ||
-        error.message.includes('EHOSTUNREACH') || 
-        error.message.includes('ENETUNREACH') ||
-        error.message.includes('ECONNABORTED')) {
+    // Check by error.type
+    if (error.type === 'NETWORK_ERROR' || 
+        error.code === 'ENOTFOUND' || 
+        error.code === 'ETIMEDOUT' || 
+        error.code === 'ECONNREFUSED' || 
+        error.code === 'ECONNRESET' ||
+        error.code === 'EHOSTUNREACH' || 
+        error.code === 'ENETUNREACH' ||
+        error.code === 'ECONNABORTED') {
         
         vscode.window.showErrorMessage(
             error.message,
@@ -46,7 +46,7 @@ function handleApiError(error, context) {
         return;
     }
 
-    // Add model context to all other errors
+    // Add model context to all other errors (nur wenn noch nicht vorhanden)
     if (!error.message.includes(model.name)) {
         error.message = `${model.name}: ${error.message}`;
     }

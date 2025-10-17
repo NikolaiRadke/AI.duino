@@ -8,12 +8,20 @@
 const vscode = require('vscode');
 const { getSharedCSS } = require('./sharedStyles');
 
+let activeOfflineHelpPanel = null;
+
 /**
  * Show offline help panel
  * @param {Object} context - Extension context with dependencies
  */
 function showOfflineHelp(context) {
     const { t, minimalModelManager } = context;
+
+    // If panel already exists, reveal it
+    if (activeOfflineHelpPanel) {
+        activeOfflineHelpPanel.reveal(vscode.ViewColumn.One);
+        return;
+    }
     
     // Generate dynamic hostname list from all providers  
     const firewallList = Object.entries(minimalModelManager.providers)
@@ -26,6 +34,14 @@ function showOfflineHelp(context) {
         vscode.ViewColumn.One,
         {}
     );
+
+    // Store panel reference
+    activeOfflineHelpPanel = panel;
+    
+    // Clear reference when panel is disposed
+    panel.onDidDispose(() => {
+        activeOfflineHelpPanel = null;
+    });
     
     panel.webview.html = generateOfflineHelpHTML(firewallList, t);
 }

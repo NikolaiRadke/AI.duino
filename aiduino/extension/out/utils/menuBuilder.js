@@ -43,6 +43,7 @@ function buildMenuItems(context) {
         createMenuItem('$(bug)', 'debugHelp', false, t, 'descriptions.debugHelp'),
         createMenuItem('$(comment-discussion)', 'openChatPanel', false, t, 'descriptions.openChatPanel'),
         createMenuItem('$(question)', 'askAI', false, t, 'descriptions.askAI'),
+        createMenuItem('$(play)', 'runCustomAgent', false, t, 'descriptions.runCustomAgent'),
     ];
     
     // Separator 1
@@ -69,6 +70,11 @@ function buildMenuItems(context) {
             label: `$(key) ${model.type === 'local' ? t('commands.changePath') : t('commands.changeApiKey')}`,
             description: `${model.name} ${model.type === 'local' ? 'Path' : 'Key'}`,
             command: 'aiduino.setApiKey'
+        },
+        {
+            label: `$(robot) ${t('commands.manageCustomAgents')}`,
+            description: t('descriptions.manageCustomAgents'),
+            command: 'aiduino.manageCustomAgents'
         },
         {
             label: `$(edit) ${t('commands.editPrompts')}`,
