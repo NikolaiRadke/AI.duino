@@ -1,6 +1,6 @@
 # Changelog
 
-**V2.2.0**
+**V2.2.0** beta
 
 ## Features
 
