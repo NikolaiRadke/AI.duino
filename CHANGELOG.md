@@ -5,7 +5,6 @@
 ## Features
 
 * Added Custom AI Agents
-* Added Context menu for Copy&Paste
 * Removed tool panels
 
 ## Bugfixes
