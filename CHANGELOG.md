@@ -1,11 +1,10 @@
 # Changelog
 
-**V2.2.0**
+**V2.2.0** beta
 
 ## Features
 
 * Added Custom AI Agents
-* Added Context menu for Copy&Paste
 * Removed tool panels
 
 ## Bugfixes
