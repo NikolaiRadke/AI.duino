@@ -135,7 +135,7 @@ async function runCustomAgent(context) {
     // Build QuickPick items
     const items = agents.map(agent => ({
         label: `🤖 ${agent.name}`,
-        description: agent.prompt.substring(0, 60) + (agent.prompt.length > 60 ? '...' : ''),
+        description: (agent.prompt || '').substring(0, 60) + ((agent.prompt || '').length > 60 ? '...' : ''),
         agentId: agent.id
     }));
     
@@ -174,7 +174,7 @@ async function executeAgent(agentId, context) {
                        agent.context.pinConfiguration;
     
     if (needsEditor && !editor) {
-        vscode.window.showWarningMessage(t('messages.noFileOpen'));
+        vscode.window.showWarningMessage(t('messages.openInoFile'));
         return;
     }
     
@@ -287,7 +287,7 @@ function generateOverviewHTML(agents, context) {
                         </div>
                     </div>
                     <div class="agent-card-info">
-                        <div class="agent-prompt-preview">${shared.escapeHtml(agent.prompt.substring(0, 100))}${agent.prompt.length > 100 ? '...' : ''}</div>
+                        <div class="agent-prompt-preview">${shared.escapeHtml((agent.prompt || '').substring(0, 100))}${(agent.prompt || '').length > 100 ? '...' : ''}</div>
                         <div class="agent-meta">${t('customAgent.lastUsed')}: ${lastUsed}</div>
                     </div>
                 </div>
@@ -295,7 +295,8 @@ function generateOverviewHTML(agents, context) {
         }).join('');
     }
     
-    const canCreateMore = agents.length < 20;
+    const maxAgents = context.settings.get('maxCustomAgents');
+    const canCreateMore = agents.length < maxAgents;
     
     return `
         <!DOCTYPE html>
@@ -425,13 +426,13 @@ function generateOverviewHTML(agents, context) {
             <div class="overview-header">
                 <div>
                     <span class="overview-title">🤖 ${t('customAgent.myAgents')}</span>
-                    <span class="agent-counter">${agents.length}/20</span>
+                    <span class="agent-counter">${agents.length}/${maxAgents}</span>
                 </div>
                 <button 
                     class="new-agent-btn ${canCreateMore ? '' : 'disabled'}" 
                     onclick="createNewAgent()"
                     ${canCreateMore ? '' : 'disabled'}
-                    title="${canCreateMore ? '' : t('customAgent.maxAgentsReached')}"
+                    title="${canCreateMore ? '' : t('customAgent.maxAgentsReached', maxAgents)}"
                 >
                     + ${t('customAgent.newAgent')}
                 </button>
@@ -485,17 +486,20 @@ function generateEditorHTML(agent, context) {
     const isEdit = agent !== null;
     
     const defaultContext = {
-        currentSelection: true,
-        currentFileFull: true,
+        currentSelection: false,
+        currentFileFull: false,
         currentFileFunctions: false,
         allSketchFiles: false,
-        boardInfo: true,
+        boardInfo: false,
         usedLibraries: false,
         pinConfiguration: false,
-        memoryUsage: false
+        memoryUsage: false,
+        compilerErrors: false,
+        compilerWarnings: false,
+        buildInfo: false
     };
-    
-    const agentContext = agent ? agent.context : defaultContext;
+
+    const agentContext = agent ? { ...defaultContext, ...agent.context } : defaultContext;
     
     return `
         <!DOCTYPE html>
@@ -659,9 +663,28 @@ function generateEditorHTML(agent, context) {
                     <input type="checkbox" id="ctx_pinConfiguration" ${agentContext.pinConfiguration ? 'checked' : ''}>
                     <label for="ctx_pinConfiguration">${t('customAgent.pinConfiguration')}</label>
                 </div>
+            </div>
+            
+            <div class="context-group">
+                <h3>🔨 ${t('customAgent.buildContext')}</h3>
+                <p style="color: var(--vscode-descriptionForeground); font-size: 12px; margin-top: 0;">
+                    ⚠️ ${t('customAgent.buildWarning')}
+                </p>
                 <div class="checkbox-item">
                     <input type="checkbox" id="ctx_memoryUsage" ${agentContext.memoryUsage ? 'checked' : ''}>
                     <label for="ctx_memoryUsage">${t('customAgent.memoryUsage')}</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="ctx_compilerErrors" ${agentContext.compilerErrors ? 'checked' : ''}>
+                    <label for="ctx_compilerErrors">${t('customAgent.compilerErrors')}</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="ctx_compilerWarnings" ${agentContext.compilerWarnings ? 'checked' : ''}>
+                    <label for="ctx_compilerWarnings">${t('customAgent.compilerWarnings')}</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="ctx_buildInfo" ${agentContext.buildInfo ? 'checked' : ''}>
+                    <label for="ctx_buildInfo">${t('customAgent.buildInfo')}</label>
                 </div>
             </div>
             
@@ -696,7 +719,10 @@ function generateEditorHTML(agent, context) {
                             boardInfo: document.getElementById('ctx_boardInfo').checked,
                             usedLibraries: document.getElementById('ctx_usedLibraries').checked,
                             pinConfiguration: document.getElementById('ctx_pinConfiguration').checked,
-                            memoryUsage: document.getElementById('ctx_memoryUsage').checked
+                            memoryUsage: document.getElementById('ctx_memoryUsage').checked,
+                            compilerErrors: document.getElementById('ctx_compilerErrors').checked,
+                            compilerWarnings: document.getElementById('ctx_compilerWarnings').checked,
+                            buildInfo: document.getElementById('ctx_buildInfo').checked
                         }
                     };
                     
@@ -759,10 +785,10 @@ async function handleRunAgent(agentId, panel, context) {
     
     // Validate context requirements
     const needsEditor = agent.context.currentSelection || 
-                       agent.context.currentFileFull || 
-                       agent.context.currentFileFunctions ||
-                       agent.context.usedLibraries ||
-                       agent.context.pinConfiguration;
+                        agent.context.currentFileFull || 
+                        agent.context.currentFileFunctions ||
+                        agent.context.usedLibraries ||
+                        agent.context.pinConfiguration;
     
     if (needsEditor && !editor) {
         vscode.window.showWarningMessage(t('messages.noEditor'));
@@ -773,13 +799,19 @@ async function handleRunAgent(agentId, panel, context) {
         vscode.window.showWarningMessage(t('messages.selectCodeFirst'));
         return;
     }
-    
-    // Build context
-    const contextData = await agentManager.buildContext(agent, editor, context);
-    
-    // Build final prompt
-    const fullPrompt = `${agent.prompt}\n\n${contextData}`;
-    
+
+// Build context
+const contextData = await agentManager.buildContext(agent, editor, context);
+
+// DEBUG - in File schreiben
+const fs = require('fs');
+const os = require('os');
+fs.writeFileSync(os.homedir() + '/.aiduino/debug.txt', 
+    `contextData Länge: ${contextData.length}\n\n${contextData}\n\n---\n\nfullPrompt:\n${fullPrompt}`);
+
+// Build final prompt
+const fullPrompt = `${agent.prompt}\n\n${contextData}`;
+
     // Call AI
     const response = await featureUtils.callAIWithProgress(
         fullPrompt,

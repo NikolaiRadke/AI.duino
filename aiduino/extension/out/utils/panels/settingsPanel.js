@@ -98,8 +98,8 @@ function showSettings(context, openCategory = null) {
                     }
                 } else {
                     await settings.set(message.key, message.value);
+                    vscode.window.showInformationMessage(t('messages.settingsSaved'));
                 }
-                vscode.window.showInformationMessage(t('messages.settingsSaved'));
                 break;
                 
                 case 'resetSetting':
@@ -178,6 +178,13 @@ function generateSettingsHTML(currentSettings, t, context, openCategory = null) 
                 { key: 'inlineCompletionMinCommentLength', type: 'number', min: 2, max: 20, step: 1 },
                 { key: 'inlineCompletionMaxLinesComment', type: 'number', min: 5, max: 50, step: 1 },
                 { key: 'inlineCompletionMaxLinesSimple', type: 'number', min: 1, max: 10, step: 1 }
+            ]
+        },
+        {
+            id: 'customAgents',
+            icon: '🤖',
+            settings: [
+                { key: 'maxCustomAgents', type: 'number', min: 1, max: 100, step: 1 }
             ]
         },
         {
@@ -519,7 +526,8 @@ function getCategoryData(categoryId, currentSettings) {
         updates: currentSettings.updates,
         chat: currentSettings.chatPanel,
         inlineCompletion: currentSettings.inlineCompletion,
-        advanced: currentSettings.advanced
+        advanced: currentSettings.advanced,
+        customAgents: currentSettings.customAgents
     };
     return mapping[categoryId] || {};
 }
@@ -594,7 +602,7 @@ function generateSettingsForCategory(category, categoryData, t, context) {
                        min="${setting.min}"
                        max="${setting.max}"
                        step="${setting.step}"
-                       onchange="updateSetting('${key}', this.value, 'number')">
+                       onchange="updateSetting('${key}', Math.min(Math.max(parseInt(this.value), ${setting.min}), ${setting.max}), 'number')">
             `;
         }
         

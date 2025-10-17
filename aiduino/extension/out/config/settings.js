@@ -56,7 +56,10 @@ class SettingsManager {
             // ===== ADVANCED =====
             tokenEstimationMultiplier: 0.75,
             tokenEstimationCodeBlock: 10,
-            tokenEstimationSpecialChars: 0.2
+            tokenEstimationSpecialChars: 0.2,
+
+            // ===== CUSTOM AGENTS =====
+            maxCustomAgents: 20
         };
         
         // Mapping: Which settings come from VS Code Config vs GlobalState
@@ -67,7 +70,24 @@ class SettingsManager {
             'maxTokensPerRequest',
             'temperature',
             'customInstructionsEnabled',
-            'inlineCompletionEnabled'
+            'inlineCompletionEnabled',
+            'maxCustomAgents',
+            // Token
+            'tokenEstimationMultiplier',
+            'tokenEstimationCodeBlock',
+            'tokenEstimationSpecialChars',
+            // Performance
+            'apiTimeout',
+            'apiMaxRetries',
+            // Chat
+            'maxChats',
+            'maxMessagesPerChat',
+            // Inline Completion Details
+            'inlineCompletionDelay',
+            'inlineCompletionContextLines',
+            'inlineCompletionMinCommentLength',
+            'inlineCompletionMaxLinesComment',
+            'inlineCompletionMaxLinesSimple'
         ];
         
         this.globalStateSettings = [
@@ -187,6 +207,9 @@ class SettingsManager {
                 useCount: this.get('useCount') || 0,
                 lastShown: this.get('lastSupportHint') || 0
             },
+            customAgents: {
+                maxCustomAgents: this.get('maxCustomAgents')
+            },
             advanced: {
                 tokenEstimationMultiplier: this.get('tokenEstimationMultiplier'),
                 tokenEstimationCodeBlock: this.get('tokenEstimationCodeBlock'),
@@ -237,6 +260,9 @@ class SettingsManager {
             
             case 'supportHintInterval':
                 return typeof value === 'number' && value >= 0 && value <= 365;
+
+            case 'maxCustomAgents':
+                return typeof value === 'number' && value >= 1 && value <= 100;
             
             case 'language':
                 return typeof value === 'string';

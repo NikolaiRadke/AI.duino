@@ -491,7 +491,8 @@
       "updates": "Updates",
       "chat": "Chat",
       "inlineCompletion": "Inline-Vervollständigung",
-      "advanced": "Erweitert"
+      "advanced": "Erweitert",
+      "customAgents": "Custom Agents"
     },
     "labels": {
       "temperature": "Kreativität (Temperature)",
@@ -509,7 +510,8 @@
       "inlineCompletionMaxLinesSimple": "Max. Zeilen (Einfach)",
       "tokenEstimationMultiplier": "Wörter-Faktor",
       "tokenEstimationCodeBlock": "Code-Block-Faktor",
-      "tokenEstimationSpecialChars": "Sonderzeichen-Faktor"
+      "tokenEstimationSpecialChars": "Sonderzeichen-Faktor",
+      "maxCustomAgents": "Maximale Anzahl Custom Agents"
     },
     "descriptions": {
       "temperature": "Kreativität der KI (0 = deterministisch, 1 = kreativ)",
@@ -527,7 +529,8 @@
       "inlineCompletionMaxLinesSimple": "Maximale Zeilen bei einfachen Completions",
       "tokenEstimationMultiplier": "Multiplikator für Wort-zu-Token-Schätzung",
       "tokenEstimationCodeBlock": "Zusätzliche Tokens für Code-Blöcke",
-      "tokenEstimationSpecialChars": "Multiplikator für Sonderzeichen"
+      "tokenEstimationSpecialChars": "Multiplikator für Sonderzeichen",
+      "maxCustomAgents": "Maximale Anzahl speicherbarer Custom Agents (1-100)"
     }
   },
   "uninstall": {
@@ -549,7 +552,7 @@
     "failed": "Fehlgeschlagen"
   },
   "customAgent": {
-    "title": "Custom KI Agenten",
+    "title": "Eigene KI Agenten",
     "myAgents": "Meine Agenten",
     "noAgentsYet": "Noch keine Agenten",
     "createFirstAgent": "Erstelle deinen ersten Custom Agent",
@@ -568,7 +571,15 @@
     "boardInfo": "Board-Informationen",
     "usedLibraries": "Verwendete Bibliotheken",
     "pinConfiguration": "Pin-Konfiguration",
+    "buildContext": "Build & Analyse",
+    "buildWarning": "Diese Optionen erfordern einen Build-Vorgang (kann einige Sekunden dauern)",
     "memoryUsage": "Speichernutzung",
+    "compilerErrors": "Compiler-Fehler (falls vorhanden)",
+    "compilerWarnings": "Compiler-Warnungen",
+    "buildInfo": "Build-Informationen",
+    "buildingSketch": "Sketch wird kompiliert...",
+    "buildFailed": "Build fehlgeschlagen",
+    "buildSuccess": "Build erfolgreich",
     "output": "Ergebnis",
     "lastUsed": "Zuletzt verwendet",
     "neverUsed": "Noch nie verwendet",
@@ -581,6 +592,14 @@
     "deleteConfirm": "Agent wirklich löschen?",
     "backToAgents": "Zurück zu Agenten",
     "selectAgent": "Agent auswählen",
-    "createFirst": "Agent erstellen"
+    "createFirst": "Agent erstellen",
+    "memoryNotAvailable": "Speicherinformationen nicht verfügbar - prüfe Arduino IDE Output-Console",
+    "line": "Zeile",
+    "noErrors": "Keine Fehler",
+    "noWarnings": "Keine Warnungen",
+    "buildSuccessful": "Build erfolgreich",
+    "timestamp": "Zeitstempel",
+    "customAgents": "Agenten",
+    "maxCustomAgents": "Maximale Anzahl Agenten"
   }
 }

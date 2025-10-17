@@ -254,6 +254,34 @@
           "maximum": 1,
           "description": "AI creativity level (0 = deterministic, 1 = creative)"
         },
+        "aiduino.maxCustomAgents": {
+          "type": "number",
+          "default": 20,
+          "minimum": 1,
+          "maximum": 100,
+          "description": "Maximum number of custom agents (1-100)"
+        },
+        "aiduino.tokenEstimationMultiplier": {
+          "type": "number",
+          "default": 0.75,
+          "minimum": 0.1,
+          "maximum": 2,
+          "description": "Multiplier for word-to-token estimation"
+        },
+        "aiduino.tokenEstimationCodeBlock": {
+          "type": "number",
+          "default": 10,
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Additional tokens per code block"
+        },
+        "aiduino.tokenEstimationSpecialChars": {
+          "type": "number",
+          "default": 0.2,
+          "minimum": 0.1,
+          "maximum": 1,
+          "description": "Multiplier for special characters"
+        },
         "aiduino.customInstructionsEnabled": {
           "type": "boolean",
           "default": true,
@@ -273,6 +301,69 @@
           "type": "string",
           "default": "groq",
           "description": "Provider for inline completion"
+        },
+        "aiduino.apiTimeout": {
+          "type": "number",
+          "default": 30000,
+          "minimum": 5000,
+          "maximum": 120000,
+          "description": "API request timeout in milliseconds"
+        },
+        "aiduino.apiMaxRetries": {
+          "type": "number",
+          "default": 3,
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Maximum number of retry attempts on API errors"
+        },
+        "aiduino.maxChats": {
+          "type": "number",
+          "default": 10,
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Maximum number of stored chat conversations"
+        },
+        "aiduino.maxMessagesPerChat": {
+          "type": "number",
+          "default": 100,
+          "minimum": 10,
+          "maximum": 1000,
+          "description": "Maximum messages per chat (older messages are deleted)"
+        },
+        "aiduino.inlineCompletionDelay": {
+          "type": "number",
+          "default": 500,
+          "minimum": 100,
+          "maximum": 2000,
+          "description": "Delay between inline completions in milliseconds"
+        },
+        "aiduino.inlineCompletionContextLines": {
+          "type": "number",
+          "default": 20,
+          "minimum": 5,
+          "maximum": 50,
+          "description": "Number of lines before cursor to use as context"
+        },
+        "aiduino.inlineCompletionMinCommentLength": {
+          "type": "number",
+          "default": 10,
+          "minimum": 2,
+          "maximum": 20,
+          "description": "Minimum comment length to trigger completion"
+        },
+        "aiduino.inlineCompletionMaxLinesComment": {
+          "type": "number",
+          "default": 15,
+          "minimum": 5,
+          "maximum": 50,
+          "description": "Maximum lines for comment-to-code completions"
+        },
+        "aiduino.inlineCompletionMaxLinesSimple": {
+          "type": "number",
+          "default": 1,
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Maximum lines for simple completions"
         }
       } 
     }   

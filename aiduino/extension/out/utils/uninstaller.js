@@ -181,27 +181,29 @@ async function clearVSCodeSettings() {
     // List of all VS Code configuration keys used by aiduino
     const configKeys = [
         'language',
-        'autoDetectErrors',
+        'autoDetectErrors', 
         'defaultModel',
         'maxTokensPerRequest',
         'temperature',
         'customInstructionsEnabled',
         'inlineCompletionEnabled',
-        'inlineCompletionProvider',
+        'maxCustomAgents',
+        // Token
+        'tokenEstimationMultiplier',
+        'tokenEstimationCodeBlock',
+        'tokenEstimationSpecialChars',
+        // Performance
         'apiTimeout',
         'apiMaxRetries',
-        'autoUpdateConfigs',
-        'autoCheckExtensionUpdates',
+        // Chat
         'maxChats',
         'maxMessagesPerChat',
+        // Inline Completion Details
         'inlineCompletionDelay',
         'inlineCompletionContextLines',
         'inlineCompletionMinCommentLength',
         'inlineCompletionMaxLinesComment',
-        'inlineCompletionMaxLinesSimple',
-        'tokenEstimationMultiplier',
-        'tokenEstimationCodeBlock',
-        'tokenEstimationSpecialChars'
+        'inlineCompletionMaxLinesSimple'
     ];
     
     // Remove all settings from both User and Workspace
