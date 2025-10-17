@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Inline συμπλήρωση",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ από το πρόχειρο",
-    "openSettings": "Ρυθμίσεις"
+    "openSettings": "Ρυθμίσεις",
+    "runCustomAgent": "Εκτέλεση παράγοντα",
+    "manageCustomAgents": "Διαχείριση παραγόντων"
   },
   "messages": {
     "welcome": "👋 Καλώς ήρθατε! Το AI.duino  υποστηρίζει {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Προσαρμογή και διαχείριση εντολών AI",
     "openChatPanel": "AI chat με ενσωμάτωση κώδικα",
     "explainCopiedError": "Ανάλυση σφάλματος από το πρόχειρο",
-    "openSettings": "Προσαρμογή ρυθμίσεων"
+    "openSettings": "Προσαρμογή ρυθμίσεων",
+    "runCustomAgent": "Επιλογή και εκτέλεση παράγοντα",
+    "manageCustomAgents": "Δημιουργία και διαχείριση προσαρμοσμένων AI παραγόντων"
   },
   "language": {
     "autoDetect": "Αυτόματη ανίχνευση από VS Code",
@@ -196,7 +200,8 @@
     "analyzingProblem": "Το {0} αναλύει το πρόβλημα...",
     "testingConnection": "Έλεγχος σύνδεσης...",
     "askingAI": "Το {0} επεξεργάζεται την ερώτησή σας...",
-    "askingFollowUp": "Το {0} επεξεργάζεται τη συνέχεια της ερώτησής σας..."
+    "askingFollowUp": "Το {0} επεξεργάζεται τη συνέχεια της ερώτησής σας...",
+    "processing": "Επεξεργασία..."
   },
   "errors": {
     "quotaExceeded": "Το μηνιαίο όριο ξεπεράστηκε",
@@ -398,7 +403,8 @@
       "updates": "Ενημερώσεις",
       "chat": "Chat",
       "inlineCompletion": "Inline συμπλήρωση",
-      "advanced": "Προχωρημένα"
+      "advanced": "Προχωρημένα",
+      "customAgents": "Προσαρμοσμένοι παράγοντες"
     },
     "labels": {
       "temperature": "Δημιουργικότητα (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Μέγ. γραμμές (Απλό)",
       "tokenEstimationMultiplier": "Συντελεστής λέξεων",
       "tokenEstimationCodeBlock": "Συντελεστής μπλοκ κώδικα",
-      "tokenEstimationSpecialChars": "Συντελεστής ειδικών χαρακτήρων"
+      "tokenEstimationSpecialChars": "Συντελεστής ειδικών χαρακτήρων",
+      "maxCustomAgents": "Μέγιστος αριθμός παραγόντων"
     },
     "descriptions": {
       "temperature": "Δημιουργικότητα AI (0 = ντετερμινιστική, 1 = δημιουργική)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Μέγιστες γραμμές σε απλές συμπληρώσεις",
       "tokenEstimationMultiplier": "Πολλαπλασιαστής για εκτίμηση λέξεων-σε-tokens",
       "tokenEstimationCodeBlock": "Πρόσθετα tokens για μπλοκ κώδικα",
-      "tokenEstimationSpecialChars": "Πολλαπλασιαστής για ειδικούς χαρακτήρες"
+      "tokenEstimationSpecialChars": "Πολλαπλασιαστής για ειδικούς χαρακτήρες",
+      "maxCustomAgents": "Μέγιστος αριθμός αποθηκευμένων προσαρμοσμένων παραγόντων (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Μερικώς απεγκατεστημένο",
     "deleted": "Διαγράφηκε",
     "failed": "Απέτυχε"
+  },
+  "customAgent": {
+    "title": "Προσαρμοσμένοι AI παράγοντες",
+    "myAgents": "Οι παράγοντές μου",
+    "noAgentsYet": "Δεν υπάρχουν ακόμα παράγοντες",
+    "createFirstAgent": "Δημιουργήστε τον πρώτο σας προσαρμοσμένο παράγοντα",
+    "newAgent": "Νέος παράγοντας",
+    "editAgent": "Επεξεργασία παράγοντα",
+    "agentName": "Όνομα παράγοντα",
+    "agentNamePlaceholder": "π.χ. Βελτιστοποιητής ισχύος",
+    "promptLabel": "Prompt παράγοντα",
+    "promptPlaceholder": "Περιγράψτε τι πρέπει να κάνει ο παράγοντας...",
+    "codeContext": "Πλαίσιο κώδικα",
+    "hardwareContext": "Πλαίσιο υλικού",
+    "currentSelection": "Τρέχουσα επιλογή",
+    "currentFileFull": "Τρέχον αρχείο (πλήρες)",
+    "currentFileFunctions": "Τρέχον αρχείο (μόνο συναρτήσεις)",
+    "allSketchFiles": "Όλα τα αρχεία sketch",
+    "boardInfo": "Πληροφορίες πλακέτας",
+    "usedLibraries": "Βιβλιοθήκες που χρησιμοποιούνται",
+    "pinConfiguration": "Διαμόρφωση pin",
+    "buildContext": "Build και ανάλυση",
+    "buildWarning": "Αυτές οι επιλογές απαιτούν διαδικασία μεταγλώττισης (μπορεί να διαρκέσει μερικά δευτερόλεπτα)",
+    "memoryUsage": "Χρήση μνήμης",
+    "compilerErrors": "Σφάλματα μεταγλωττιστή (αν υπάρχουν)",
+    "compilerWarnings": "Προειδοποιήσεις μεταγλωττιστή",
+    "buildInfo": "Πληροφορίες build",
+    "buildingSketch": "Μεταγλώττιση sketch...",
+    "buildFailed": "Η μεταγλώττιση απέτυχε",
+    "buildSuccess": "Επιτυχής μεταγλώττιση",
+    "output": "Αποτέλεσμα",
+    "lastUsed": "Τελευταία χρήση",
+    "neverUsed": "Ποτέ δεν χρησιμοποιήθηκε",
+    "runAgent": "Εκτέλεση παράγοντα",
+    "maxAgentsReached": "Επιτεύχθηκε ο μέγιστος αριθμός (20)",
+    "agentCreated": "Ο παράγοντας δημιουργήθηκε",
+    "agentUpdated": "Ο παράγοντας ενημερώθηκε",
+    "agentDeleted": "Ο παράγοντας διαγράφηκε",
+    "agentNotFound": "Ο παράγοντας δεν βρέθηκε",
+    "deleteConfirm": "Να διαγραφεί ο παράγοντας;",
+    "backToAgents": "Επιστροφή στους παράγοντες",
+    "selectAgent": "Επιλογή παράγοντα",
+    "createFirst": "Δημιουργία παράγοντα",
+    "memoryNotAvailable": "Οι πληροφορίες μνήμης δεν είναι διαθέσιμες - ελέγξτε την κονσόλα εξόδου του Arduino IDE",
+    "line": "Γραμμή",
+    "noErrors": "Χωρίς σφάλματα",
+    "noWarnings": "Χωρίς προειδοποιήσεις",
+    "buildSuccessful": "Επιτυχής μεταγλώττιση",
+    "timestamp": "Χρονική σήμανση",
+    "customAgents": "Παράγοντες",
+    "maxCustomAgents": "Μέγιστος αριθμός παραγόντων"
   }
 }

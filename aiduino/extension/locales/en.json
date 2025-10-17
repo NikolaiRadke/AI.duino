@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Inline Completion",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ from Clipboard",
-    "openSettings": "Settings"
+    "openSettings": "Settings",
+    "runCustomAgent": "Run Agent",
+    "manageCustomAgents": "Manage Agents"
   },
   "messages": {
     "welcome": "👋 Welcome! AI.duino  supports {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Customize and manage AI prompts",
     "openChatPanel": "AI chat with code integration",
     "explainCopiedError": "Analyze error from clipboard",
-    "openSettings": "Customize settings"
+    "openSettings": "Customize settings",
+    "runCustomAgent": "Select and run agent",
+    "manageCustomAgents": "Create and manage custom AI agents"
   },
   "language": {
     "autoDetect": "Auto-detect from VS Code",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} is analyzing the problem...",
     "testingConnection": "Testing connection...",
     "askingAI": "{0} is answering your question...",
-    "askingFollowUp": "{0} is processing your follow-up..."
+    "askingFollowUp": "{0} is processing your follow-up...",
+    "processing": "Processing..."
   },
   "errors": {
     "quotaExceeded": "Monthly quota exceeded",
@@ -485,7 +490,8 @@
       "updates": "Updates",
       "chat": "Chat",
       "inlineCompletion": "Inline Completion",
-      "advanced": "Advanced"
+      "advanced": "Advanced",
+      "customAgents": "Custom Agents"
     },
     "labels": {
       "temperature": "Creativity (Temperature)",
@@ -503,7 +509,8 @@
       "inlineCompletionMaxLinesSimple": "Max. Lines (Simple)",
       "tokenEstimationMultiplier": "Word Factor",
       "tokenEstimationCodeBlock": "Code Block Factor",
-      "tokenEstimationSpecialChars": "Special Characters Factor"
+      "tokenEstimationSpecialChars": "Special Characters Factor",
+      "maxCustomAgents": "Maximum Number of Agents"
     },
     "descriptions": {
       "temperature": "AI creativity (0 = deterministic, 1 = creative)",
@@ -521,9 +528,10 @@
       "inlineCompletionMaxLinesSimple": "Maximum lines for simple completions",
       "tokenEstimationMultiplier": "Multiplier for word-to-token estimation",
       "tokenEstimationCodeBlock": "Additional tokens for code blocks",
-      "tokenEstimationSpecialChars": "Multiplier for special characters"
+      "tokenEstimationSpecialChars": "Multiplier for special characters",
+      "maxCustomAgents": "Maximum number of storable custom agents (1-100)"
     }
-  }, 
+  },
   "uninstall": {
     "button": "Uninstall AI.duino",
     "warning": "⚠️ WARNING: This will completely remove AI.duino!",
@@ -541,5 +549,56 @@
     "partialSuccess": "⚠️ Partially uninstalled",
     "deleted": "Deleted",
     "failed": "Failed"
+  },
+  "customAgent": {
+    "title": "Custom AI Agents",
+    "myAgents": "My Agents",
+    "noAgentsYet": "No agents yet",
+    "createFirstAgent": "Create your first custom agent",
+    "newAgent": "New Agent",
+    "editAgent": "Edit Agent",
+    "agentName": "Agent Name",
+    "agentNamePlaceholder": "e.g. Power Optimizer",
+    "promptLabel": "Agent Prompt",
+    "promptPlaceholder": "Describe what the agent should do...",
+    "codeContext": "Code Context",
+    "hardwareContext": "Hardware Context",
+    "currentSelection": "Current Selection",
+    "currentFileFull": "Current File (complete)",
+    "currentFileFunctions": "Current File (functions only)",
+    "allSketchFiles": "All Sketch Files",
+    "boardInfo": "Board Information",
+    "usedLibraries": "Used Libraries",
+    "pinConfiguration": "Pin Configuration",
+    "buildContext": "Build & Analysis",
+    "buildWarning": "These options require a build process (may take a few seconds)",
+    "memoryUsage": "Memory Usage",
+    "compilerErrors": "Compiler Errors (if any)",
+    "compilerWarnings": "Compiler Warnings",
+    "buildInfo": "Build Information",
+    "buildingSketch": "Compiling sketch...",
+    "buildFailed": "Build failed",
+    "buildSuccess": "Build successful",
+    "output": "Result",
+    "lastUsed": "Last used",
+    "neverUsed": "Never used",
+    "runAgent": "Run Agent",
+    "maxAgentsReached": "Maximum number reached (20)",
+    "agentCreated": "Agent created",
+    "agentUpdated": "Agent updated",
+    "agentDeleted": "Agent deleted",
+    "agentNotFound": "Agent not found",
+    "deleteConfirm": "Really delete agent?",
+    "backToAgents": "Back to Agents",
+    "selectAgent": "Select Agent",
+    "createFirst": "Create Agent",
+    "memoryNotAvailable": "Memory information not available - check Arduino IDE Output Console",
+    "line": "Line",
+    "noErrors": "No errors",
+    "noWarnings": "No warnings",
+    "buildSuccessful": "Build successful",
+    "timestamp": "Timestamp",
+    "customAgents": "Agents",
+    "maxCustomAgents": "Maximum Number of Agents"
   }
 }

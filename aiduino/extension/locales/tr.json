@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Satır içi tamamlama",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ panodan",
-    "openSettings": "Ayarlar"
+    "openSettings": "Ayarlar",
+    "runCustomAgent": "Ajanı Çalıştır",
+    "manageCustomAgents": "Ajanları Yönet"
   },
   "messages": {
     "welcome": "👋 Hoş geldiniz! AI.duino  {0} destekliyor!",
@@ -118,7 +120,9 @@
     "editPrompts": "AI istemlerini özelleştir ve yönet",
     "openChatPanel": "Kod entegrasyonlu AI sohbet",
     "explainCopiedError": "Panodaki hatayı analiz et",
-    "openSettings": "Ayarları düzenle"
+    "openSettings": "Ayarları düzenle",
+    "runCustomAgent": "Ajan seç ve çalıştır",
+    "manageCustomAgents": "Özel AI ajanları oluştur ve yönet"
   },
   "language": {
     "autoDetect": "VS Code'dan otomatik algıla",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} sorunu analiz ediyor...",
     "testingConnection": "Bağlantı test ediliyor...",
     "askingAI": "{0} sorunuzu işliyor...",
-    "askingFollowUp": "{0} takip sorunuzu işliyor..."
+    "askingFollowUp": "{0} takip sorunuzu işliyor...",
+    "processing": "İşleniyor..."
   },
   "errors": {
     "quotaExceeded": "Aylık kota aşıldı",
@@ -398,7 +403,8 @@
       "updates": "Güncellemeler",
       "chat": "Sohbet",
       "inlineCompletion": "Satır İçi Tamamlama",
-      "advanced": "Gelişmiş"
+      "advanced": "Gelişmiş",
+      "customAgents": "Özel Ajanlar"
     },
     "labels": {
       "temperature": "Yaratıcılık (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Maks. satırlar (Basit)",
       "tokenEstimationMultiplier": "Kelime faktörü",
       "tokenEstimationCodeBlock": "Kod bloğu faktörü",
-      "tokenEstimationSpecialChars": "Özel karakter faktörü"
+      "tokenEstimationSpecialChars": "Özel karakter faktörü",
+      "maxCustomAgents": "Maksimum Ajan Sayısı"
     },
     "descriptions": {
       "temperature": "AI yaratıcılığı (0 = deterministik, 1 = yaratıcı)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Basit tamamlamalarda maksimum satır",
       "tokenEstimationMultiplier": "Kelime-token tahmini için çarpan",
       "tokenEstimationCodeBlock": "Kod blokları için ek tokenlar",
-      "tokenEstimationSpecialChars": "Özel karakterler için çarpan"
+      "tokenEstimationSpecialChars": "Özel karakterler için çarpan",
+      "maxCustomAgents": "Saklanabilecek maksimum özel ajan sayısı (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Kısmen kaldırıldı",
     "deleted": "Silindi",
     "failed": "Başarısız"
+  },
+  "customAgent": {
+    "title": "Özel AI Ajanları",
+    "myAgents": "Ajanlarım",
+    "noAgentsYet": "Henüz ajan yok",
+    "createFirstAgent": "İlk özel ajanını oluştur",
+    "newAgent": "Yeni Ajan",
+    "editAgent": "Ajanı Düzenle",
+    "agentName": "Ajan Adı",
+    "agentNamePlaceholder": "örn. Güç Optimize Edici",
+    "promptLabel": "Ajan İstemi",
+    "promptPlaceholder": "Ajanın ne yapması gerektiğini açıkla...",
+    "codeContext": "Kod Bağlamı",
+    "hardwareContext": "Donanım Bağlamı",
+    "currentSelection": "Geçerli Seçim",
+    "currentFileFull": "Geçerli Dosya (tam)",
+    "currentFileFunctions": "Geçerli Dosya (sadece fonksiyonlar)",
+    "allSketchFiles": "Tüm Sketch Dosyaları",
+    "boardInfo": "Kart Bilgisi",
+    "usedLibraries": "Kullanılan Kütüphaneler",
+    "pinConfiguration": "Pin Yapılandırması",
+    "buildContext": "Derleme ve Analiz",
+    "buildWarning": "Bu seçenekler derleme işlemi gerektirir (birkaç saniye sürebilir)",
+    "memoryUsage": "Bellek Kullanımı",
+    "compilerErrors": "Derleyici Hataları (varsa)",
+    "compilerWarnings": "Derleyici Uyarıları",
+    "buildInfo": "Derleme Bilgisi",
+    "buildingSketch": "Sketch derleniyor...",
+    "buildFailed": "Derleme başarısız",
+    "buildSuccess": "Derleme başarılı",
+    "output": "Sonuç",
+    "lastUsed": "Son kullanım",
+    "neverUsed": "Hiç kullanılmadı",
+    "runAgent": "Ajanı Çalıştır",
+    "maxAgentsReached": "Maksimum sayıya ulaşıldı (20)",
+    "agentCreated": "Ajan oluşturuldu",
+    "agentUpdated": "Ajan güncellendi",
+    "agentDeleted": "Ajan silindi",
+    "agentNotFound": "Ajan bulunamadı",
+    "deleteConfirm": "Ajan gerçekten silinsin mi?",
+    "backToAgents": "Ajanlara geri dön",
+    "selectAgent": "Ajan Seç",
+    "createFirst": "Ajan Oluştur",
+    "memoryNotAvailable": "Bellek bilgisi mevcut değil - Arduino IDE çıktı konsolunu kontrol edin",
+    "line": "Satır",
+    "noErrors": "Hata yok",
+    "noWarnings": "Uyarı yok",
+    "buildSuccessful": "Derleme başarılı",
+    "timestamp": "Zaman damgası",
+    "customAgents": "Ajanlar",
+    "maxCustomAgents": "Maksimum Ajan Sayısı"
   }
 }

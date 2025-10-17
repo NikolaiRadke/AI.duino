@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "インライン補完",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ クリップボードから",
-    "openSettings": "設定"
+    "openSettings": "設定",
+    "runCustomAgent": "エージェントを実行",
+    "manageCustomAgents": "エージェントを管理"
   },
   "messages": {
     "welcome": "👋 ようこそ！AI.duino は{0}をサポートしています！",
@@ -115,7 +117,9 @@
     "editPrompts": "AIプロンプトのカスタマイズと管理",
     "openChatPanel": "コード統合機能付きAIチャット",
     "explainCopiedError": "クリップボードからエラーを分析",
-    "openSettings": "設定をカスタマイズ"
+    "openSettings": "設定をカスタマイズ",
+    "runCustomAgent": "エージェントを選択して実行",
+    "manageCustomAgents": "カスタムAIエージェントを作成・管理"
   },
   "language": {
     "autoDetect": "VS Codeから自動検出",
@@ -192,7 +196,8 @@
     "analyzingProblem": "{0}が問題を分析しています...",
     "testingConnection": "接続をテスト中...",
     "askingAI": "{0}があなたの質問を処理中...",
-    "askingFollowUp": "{0}があなたの追加質問を処理中..."
+    "askingFollowUp": "{0}があなたの追加質問を処理中...",
+    "processing": "処理中..."
   },
   "errors": {
     "quotaExceeded": "月間クォータを超過しました",
@@ -394,7 +399,8 @@
       "updates": "アップデート",
       "chat": "チャット",
       "inlineCompletion": "インライン補完",
-      "advanced": "詳細設定"
+      "advanced": "詳細設定",
+      "customAgents": "カスタムエージェント"
     },
     "labels": {
       "temperature": "創造性 (Temperature)",
@@ -412,7 +418,8 @@
       "inlineCompletionMaxLinesSimple": "最大行数 (シンプル)",
       "tokenEstimationMultiplier": "単語係数",
       "tokenEstimationCodeBlock": "コードブロック係数",
-      "tokenEstimationSpecialChars": "特殊文字係数"
+      "tokenEstimationSpecialChars": "特殊文字係数",
+      "maxCustomAgents": "最大エージェント数"
     },
     "descriptions": {
       "temperature": "AIの創造性 (0 = 決定論的, 1 = 創造的)",
@@ -430,7 +437,8 @@
       "inlineCompletionMaxLinesSimple": "シンプル補完の最大行数",
       "tokenEstimationMultiplier": "単語からトークンへの推定の乗数",
       "tokenEstimationCodeBlock": "コードブロックの追加トークン",
-      "tokenEstimationSpecialChars": "特殊文字の乗数"
+      "tokenEstimationSpecialChars": "特殊文字の乗数",
+      "maxCustomAgents": "保存可能なカスタムエージェントの最大数 (1-100)"
     }
   },
   "extensionUpdate": {
@@ -538,5 +546,56 @@
     "partialSuccess": "⚠️ 部分的にアンインストールされました",
     "deleted": "削除済み",
     "failed": "失敗"
+  },
+  "customAgent": {
+    "title": "カスタムAIエージェント",
+    "myAgents": "マイエージェント",
+    "noAgentsYet": "まだエージェントがありません",
+    "createFirstAgent": "最初のカスタムエージェントを作成",
+    "newAgent": "新規エージェント",
+    "editAgent": "エージェントを編集",
+    "agentName": "エージェント名",
+    "agentNamePlaceholder": "例: 電力オプティマイザー",
+    "promptLabel": "エージェントプロンプト",
+    "promptPlaceholder": "エージェントが何をすべきか説明してください...",
+    "codeContext": "コードコンテキスト",
+    "hardwareContext": "ハードウェアコンテキスト",
+    "currentSelection": "現在の選択",
+    "currentFileFull": "現在のファイル (完全)",
+    "currentFileFunctions": "現在のファイル (関数のみ)",
+    "allSketchFiles": "すべてのスケッチファイル",
+    "boardInfo": "ボード情報",
+    "usedLibraries": "使用ライブラリ",
+    "pinConfiguration": "ピン設定",
+    "buildContext": "ビルドと解析",
+    "buildWarning": "これらのオプションにはビルドプロセスが必要です (数秒かかる場合があります)",
+    "memoryUsage": "メモリ使用量",
+    "compilerErrors": "コンパイラエラー (存在する場合)",
+    "compilerWarnings": "コンパイラ警告",
+    "buildInfo": "ビルド情報",
+    "buildingSketch": "スケッチをコンパイル中...",
+    "buildFailed": "ビルド失敗",
+    "buildSuccess": "ビルド成功",
+    "output": "結果",
+    "lastUsed": "最終使用",
+    "neverUsed": "未使用",
+    "runAgent": "エージェントを実行",
+    "maxAgentsReached": "最大数に達しました (20)",
+    "agentCreated": "エージェントを作成しました",
+    "agentUpdated": "エージェントを更新しました",
+    "agentDeleted": "エージェントを削除しました",
+    "agentNotFound": "エージェントが見つかりません",
+    "deleteConfirm": "エージェントを削除しますか?",
+    "backToAgents": "エージェントに戻る",
+    "selectAgent": "エージェントを選択",
+    "createFirst": "エージェントを作成",
+    "memoryNotAvailable": "メモリ情報が利用できません - Arduino IDE出力コンソールを確認してください",
+    "line": "行",
+    "noErrors": "エラーなし",
+    "noWarnings": "警告なし",
+    "buildSuccessful": "ビルド成功",
+    "timestamp": "タイムスタンプ",
+    "customAgents": "エージェント",
+    "maxCustomAgents": "最大エージェント数"
   }
 }

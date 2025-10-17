@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Conclusão inline",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ da área de transferência",
-    "openSettings": "Configurações"
+    "openSettings": "Configurações",
+    "runCustomAgent": "Executar agente",
+    "manageCustomAgents": "Gerir agentes"
   },
   "messages": {
     "welcome": "👋 Bem-vindo! AI.duino  suporta {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Personalizar e gerenciar prompts de IA",
     "openChatPanel": "Chat IA com integração de código",
     "explainCopiedError": "Analisar erro da área de transferência",
-    "openSettings": "Personalizar configurações"
+    "openSettings": "Personalizar configurações",
+    "runCustomAgent": "Selecionar e executar agente",
+    "manageCustomAgents": "Criar e gerir agentes de IA personalizados"
   },
   "language": {
     "autoDetect": "Detectar automaticamente do VS Code",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} está analisando o problema...",
     "testingConnection": "Testez conexiunea...",
     "askingAI": "{0} está processando sua pergunta...",
-    "askingFollowUp": "{0} está processando sua pergunta de acompanhamento..."
+    "askingFollowUp": "{0} está processando sua pergunta de acompanhamento...",
+    "processing": "A processar..."
   },
   "errors": {
     "quotaExceeded": "Cota mensal excedida",
@@ -398,7 +403,8 @@
       "updates": "Atualizações",
       "chat": "Chat",
       "inlineCompletion": "Conclusão inline",
-      "advanced": "Avançado"
+      "advanced": "Avançado",
+      "customAgents": "Agentes personalizados"
     },
     "labels": {
       "temperature": "Criatividade (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Máx. linhas (simples)",
       "tokenEstimationMultiplier": "Fator de palavra",
       "tokenEstimationCodeBlock": "Fator de bloco de código",
-      "tokenEstimationSpecialChars": "Fator de caracteres especiais"
+      "tokenEstimationSpecialChars": "Fator de caracteres especiais",
+      "maxCustomAgents": "Número máximo de agentes"
     },
     "descriptions": {
       "temperature": "Criatividade da IA (0 = determinístico, 1 = criativo)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Máximo de linhas para conclusões simples",
       "tokenEstimationMultiplier": "Multiplicador para estimativa palavra-para-token",
       "tokenEstimationCodeBlock": "Tokens adicionais para blocos de código",
-      "tokenEstimationSpecialChars": "Multiplicador para caracteres especiais"
+      "tokenEstimationSpecialChars": "Multiplicador para caracteres especiais",
+      "maxCustomAgents": "Número máximo de agentes personalizados armazenáveis (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Parcialmente desinstalado",
     "deleted": "Excluído",
     "failed": "Falhou"
+  },
+  "customAgent": {
+    "title": "Agentes de IA personalizados",
+    "myAgents": "Os meus agentes",
+    "noAgentsYet": "Ainda não há agentes",
+    "createFirstAgent": "Crie o seu primeiro agente personalizado",
+    "newAgent": "Novo agente",
+    "editAgent": "Editar agente",
+    "agentName": "Nome do agente",
+    "agentNamePlaceholder": "ex. Otimizador de potência",
+    "promptLabel": "Prompt do agente",
+    "promptPlaceholder": "Descreva o que o agente deve fazer...",
+    "codeContext": "Contexto de código",
+    "hardwareContext": "Contexto de hardware",
+    "currentSelection": "Seleção atual",
+    "currentFileFull": "Ficheiro atual (completo)",
+    "currentFileFunctions": "Ficheiro atual (apenas funções)",
+    "allSketchFiles": "Todos os ficheiros do sketch",
+    "boardInfo": "Informações da placa",
+    "usedLibraries": "Bibliotecas utilizadas",
+    "pinConfiguration": "Configuração dos pinos",
+    "buildContext": "Compilação e análise",
+    "buildWarning": "Estas opções requerem um processo de compilação (pode demorar alguns segundos)",
+    "memoryUsage": "Utilização de memória",
+    "compilerErrors": "Erros do compilador (se existirem)",
+    "compilerWarnings": "Avisos do compilador",
+    "buildInfo": "Informações de compilação",
+    "buildingSketch": "A compilar o sketch...",
+    "buildFailed": "Compilação falhou",
+    "buildSuccess": "Compilação bem-sucedida",
+    "output": "Resultado",
+    "lastUsed": "Última utilização",
+    "neverUsed": "Nunca utilizado",
+    "runAgent": "Executar agente",
+    "maxAgentsReached": "Número máximo atingido (20)",
+    "agentCreated": "Agente criado",
+    "agentUpdated": "Agente atualizado",
+    "agentDeleted": "Agente eliminado",
+    "agentNotFound": "Agente não encontrado",
+    "deleteConfirm": "Eliminar agente realmente?",
+    "backToAgents": "Voltar aos agentes",
+    "selectAgent": "Selecionar agente",
+    "createFirst": "Criar agente",
+    "memoryNotAvailable": "Informações de memória não disponíveis - verifique a consola de saída do Arduino IDE",
+    "line": "Linha",
+    "noErrors": "Sem erros",
+    "noWarnings": "Sem avisos",
+    "buildSuccessful": "Compilação bem-sucedida",
+    "timestamp": "Carimbo de data/hora",
+    "customAgents": "Agentes",
+    "maxCustomAgents": "Número máximo de agentes"
   }
 }

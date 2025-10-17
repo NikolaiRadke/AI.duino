@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Inline aanvulling",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ van klembord",
-    "openSettings": "Instellingen"
+    "openSettings": "Instellingen",
+    "runCustomAgent": "Voer agent uit",
+    "manageCustomAgents": "Beheer agents"
   },
   "messages": {
     "welcome": "👋 Welkom! AI.duino  ondersteunt {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "AI-prompts aanpassen en beheren",
     "openChatPanel": "AI-chat met code-integratie",
     "explainCopiedError": "Analyseer fout van klembord",
-    "openSettings": "Pas instellingen aan"
+    "openSettings": "Pas instellingen aan",
+    "runCustomAgent": "Selecteer en voer agent uit",
+    "manageCustomAgents": "Maak en beheer aangepaste AI-agents"
   },
   "language": {
     "autoDetect": "Automatisch detecteren vanuit VS Code",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} analyseert het probleem...",
     "testingConnection": "Testowanie połączenia...",
     "askingAI": "{0} verwerkt uw vraag...",
-    "askingFollowUp": "{0} verwerkt uw vervolgvraag..."
+    "askingFollowUp": "{0} verwerkt uw vervolgvraag...",
+    "processing": "Verwerken..."
   },
   "errors": {
     "quotaExceeded": "Maandelijkse quota overschreden",
@@ -398,7 +403,8 @@
       "updates": "Updates",
       "chat": "Chat",
       "inlineCompletion": "Inline-aanvulling",
-      "advanced": "Geavanceerd"
+      "advanced": "Geavanceerd",
+      "customAgents": "Aangepaste agents"
     },
     "labels": {
       "temperature": "Creativiteit (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Max. regels (Eenvoudig)",
       "tokenEstimationMultiplier": "Woordfactor",
       "tokenEstimationCodeBlock": "Codeblok factor",
-      "tokenEstimationSpecialChars": "Speciale tekens factor"
+      "tokenEstimationSpecialChars": "Speciale tekens factor",
+      "maxCustomAgents": "Maximum aantal agents"
     },
     "descriptions": {
       "temperature": "AI-creativiteit (0 = deterministisch, 1 = creatief)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Maximaal aantal regels voor eenvoudige aanvullingen",
       "tokenEstimationMultiplier": "Vermenigvuldiger voor woord-naar-token schatting",
       "tokenEstimationCodeBlock": "Extra tokens voor codeblokken",
-      "tokenEstimationSpecialChars": "Vermenigvuldiger voor speciale tekens"
+      "tokenEstimationSpecialChars": "Vermenigvuldiger voor speciale tekens",
+      "maxCustomAgents": "Maximum aantal opgeslagen aangepaste agents (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Gedeeltelijk verwijderd",
     "deleted": "Verwijderd",
     "failed": "Mislukt"
+  },
+  "customAgent": {
+    "title": "Aangepaste AI-agents",
+    "myAgents": "Mijn agents",
+    "noAgentsYet": "Nog geen agents",
+    "createFirstAgent": "Maak je eerste aangepaste agent",
+    "newAgent": "Nieuwe agent",
+    "editAgent": "Agent bewerken",
+    "agentName": "Agent naam",
+    "agentNamePlaceholder": "bijv. Vermogen optimalisator",
+    "promptLabel": "Agent prompt",
+    "promptPlaceholder": "Beschrijf wat de agent moet doen...",
+    "codeContext": "Code context",
+    "hardwareContext": "Hardware context",
+    "currentSelection": "Huidige selectie",
+    "currentFileFull": "Huidig bestand (compleet)",
+    "currentFileFunctions": "Huidig bestand (alleen functies)",
+    "allSketchFiles": "Alle sketch-bestanden",
+    "boardInfo": "Board informatie",
+    "usedLibraries": "Gebruikte bibliotheken",
+    "pinConfiguration": "Pin configuratie",
+    "buildContext": "Build en analyse",
+    "buildWarning": "Deze opties vereisen een buildproces (kan enkele seconden duren)",
+    "memoryUsage": "Geheugengebruik",
+    "compilerErrors": "Compiler fouten (indien aanwezig)",
+    "compilerWarnings": "Compiler waarschuwingen",
+    "buildInfo": "Build informatie",
+    "buildingSketch": "Sketch compileren...",
+    "buildFailed": "Build mislukt",
+    "buildSuccess": "Build succesvol",
+    "output": "Resultaat",
+    "lastUsed": "Laatst gebruikt",
+    "neverUsed": "Nooit gebruikt",
+    "runAgent": "Voer agent uit",
+    "maxAgentsReached": "Maximum aantal bereikt (20)",
+    "agentCreated": "Agent aangemaakt",
+    "agentUpdated": "Agent bijgewerkt",
+    "agentDeleted": "Agent verwijderd",
+    "agentNotFound": "Agent niet gevonden",
+    "deleteConfirm": "Agent echt verwijderen?",
+    "backToAgents": "Terug naar agents",
+    "selectAgent": "Selecteer agent",
+    "createFirst": "Agent aanmaken",
+    "memoryNotAvailable": "Geheugeninformatie niet beschikbaar - controleer Arduino IDE output console",
+    "line": "Regel",
+    "noErrors": "Geen fouten",
+    "noWarnings": "Geen waarschuwingen",
+    "buildSuccessful": "Build succesvol",
+    "timestamp": "Tijdstempel",
+    "customAgents": "Agents",
+    "maxCustomAgents": "Maximum aantal agents"
   }
 }

@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "인라인 자동완성",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ 클립보드에서",
-    "openSettings": "설정"
+    "openSettings": "설정",
+    "runCustomAgent": "에이전트 실행",
+    "manageCustomAgents": "에이전트 관리"
   },
   "messages": {
     "welcome": "👋 환영합니다! AI.duino {0}을(를) 지원합니다!",
@@ -118,7 +120,9 @@
     "editPrompts": "AI 프롬프트 사용자 정의 및 관리",
     "openChatPanel": "코드 통합 기능이 있는 AI 채팅",
     "explainCopiedError": "클립보드의 오류 분석",
-    "openSettings": "설정 조정"
+    "openSettings": "설정 조정",
+    "runCustomAgent": "에이전트 선택 및 실행",
+    "manageCustomAgents": "맞춤형 AI 에이전트 생성 및 관리"
   },
   "language": {
     "autoDetect": "VS Code에서 자동 감지",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0}이(가) 문제를 분석하는 중...",
     "testingConnection": "연결 테스트 중...",
     "askingAI": "{0}이(가) 질문을 처리 중...",
-    "askingFollowUp": "{0}이(가) 추가 질문을 처리 중..."
+    "askingFollowUp": "{0}이(가) 추가 질문을 처리 중...",
+    "processing": "처리 중..."
   },
   "errors": {
     "quotaExceeded": "월간 할당량 초과",
@@ -398,7 +403,8 @@
       "updates": "업데이트",
       "chat": "채팅",
       "inlineCompletion": "인라인 자동완성",
-      "advanced": "고급"
+      "advanced": "고급",
+      "customAgents": "맞춤형 에이전트"
     },
     "labels": {
       "temperature": "창의성 (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "최대 줄 (간단)",
       "tokenEstimationMultiplier": "단어 계수",
       "tokenEstimationCodeBlock": "코드 블록 계수",
-      "tokenEstimationSpecialChars": "특수 문자 계수"
+      "tokenEstimationSpecialChars": "특수 문자 계수",
+      "maxCustomAgents": "최대 에이전트 수"
     },
     "descriptions": {
       "temperature": "AI 창의성 (0 = 결정적, 1 = 창의적)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "간단한 자동완성에서 최대 줄",
       "tokenEstimationMultiplier": "단어-토큰 추정 승수",
       "tokenEstimationCodeBlock": "코드 블록에 대한 추가 토큰",
-      "tokenEstimationSpecialChars": "특수 문자 승수"
+      "tokenEstimationSpecialChars": "특수 문자 승수",
+      "maxCustomAgents": "저장 가능한 맞춤형 에이전트의 최대 개수 (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ 부분적으로 제거됨",
     "deleted": "삭제됨",
     "failed": "실패"
+  },
+  "customAgent": {
+    "title": "맞춤형 AI 에이전트",
+    "myAgents": "내 에이전트",
+    "noAgentsYet": "아직 에이전트가 없습니다",
+    "createFirstAgent": "첫 번째 맞춤형 에이전트를 만드세요",
+    "newAgent": "새 에이전트",
+    "editAgent": "에이전트 편집",
+    "agentName": "에이전트 이름",
+    "agentNamePlaceholder": "예: 전력 최적화 도구",
+    "promptLabel": "에이전트 프롬프트",
+    "promptPlaceholder": "에이전트가 수행할 작업을 설명하세요...",
+    "codeContext": "코드 컨텍스트",
+    "hardwareContext": "하드웨어 컨텍스트",
+    "currentSelection": "현재 선택",
+    "currentFileFull": "현재 파일 (전체)",
+    "currentFileFunctions": "현재 파일 (함수만)",
+    "allSketchFiles": "모든 스케치 파일",
+    "boardInfo": "보드 정보",
+    "usedLibraries": "사용된 라이브러리",
+    "pinConfiguration": "핀 구성",
+    "buildContext": "빌드 및 분석",
+    "buildWarning": "이 옵션들은 빌드 프로세스가 필요합니다 (몇 초 소요될 수 있음)",
+    "memoryUsage": "메모리 사용량",
+    "compilerErrors": "컴파일러 오류 (있는 경우)",
+    "compilerWarnings": "컴파일러 경고",
+    "buildInfo": "빌드 정보",
+    "buildingSketch": "스케치 컴파일 중...",
+    "buildFailed": "빌드 실패",
+    "buildSuccess": "빌드 성공",
+    "output": "결과",
+    "lastUsed": "마지막 사용",
+    "neverUsed": "사용 안 함",
+    "runAgent": "에이전트 실행",
+    "maxAgentsReached": "최대 개수 도달 (20)",
+    "agentCreated": "에이전트 생성됨",
+    "agentUpdated": "에이전트 업데이트됨",
+    "agentDeleted": "에이전트 삭제됨",
+    "agentNotFound": "에이전트를 찾을 수 없음",
+    "deleteConfirm": "정말 에이전트를 삭제하시겠습니까?",
+    "backToAgents": "에이전트로 돌아가기",
+    "selectAgent": "에이전트 선택",
+    "createFirst": "에이전트 생성",
+    "memoryNotAvailable": "메모리 정보를 사용할 수 없음 - Arduino IDE 출력 콘솔을 확인하세요",
+    "line": "라인",
+    "noErrors": "오류 없음",
+    "noWarnings": "경고 없음",
+    "buildSuccessful": "빌드 성공",
+    "timestamp": "타임스탬프",
+    "customAgents": "에이전트",
+    "maxCustomAgents": "최대 에이전트 수"
   }
 }

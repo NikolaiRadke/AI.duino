@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Inline-täydennys",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ leikepöydältä",
-    "openSettings": "Asetukset"
+    "openSettings": "Asetukset",
+    "runCustomAgent": "Suorita agentti",
+    "manageCustomAgents": "Hallitse agentteja"
   },
   "messages": {
     "welcome": "👋 Tervetuloa! AI.duino tukee {0}:tä!",
@@ -118,7 +120,9 @@
     "editPrompts": "Mukauta ja hallitse AI-kehotteita",
     "openChatPanel": "AI-chatti koodin integroinnilla",
     "explainCopiedError": "Analysoi virhe leikepöydältä",
-    "openSettings": "Muokkaa asetuksia"
+    "openSettings": "Muokkaa asetuksia",
+    "runCustomAgent": "Valitse ja suorita agentti",
+    "manageCustomAgents": "Luo ja hallitse mukautettuja AI-agentteja"
   },
   "language": {
     "autoDetect": "Tunnista automaattisesti VS Codesta",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} analysoi ongelmaa...",
     "testingConnection": "Testataan yhteyttä...",
     "askingAI": "{0} käsittelee kysymystäsi...",
-    "askingFollowUp": "{0} käsittelee jatkokysymystäsi..."
+    "askingFollowUp": "{0} käsittelee jatkokysymystäsi...",
+    "processing": "Käsitellään..."
   },
   "errors": {
     "quotaExceeded": "Kuukausikiintiö ylitetty",
@@ -398,7 +403,8 @@
       "updates": "Päivitykset",
       "chat": "Chat",
       "inlineCompletion": "Inline-täydennys",
-      "advanced": "Lisäasetukset"
+      "advanced": "Lisäasetukset",
+      "customAgents": "Mukautetut agentit"
     },
     "labels": {
       "temperature": "Luovuus (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Maks. rivit (Yksinkertainen)",
       "tokenEstimationMultiplier": "Sanojen kerroin",
       "tokenEstimationCodeBlock": "Koodilohkon kerroin",
-      "tokenEstimationSpecialChars": "Erikoismerkkien kerroin"
+      "tokenEstimationSpecialChars": "Erikoismerkkien kerroin",
+      "maxCustomAgents": "Agenttien enimmäismäärä"
     },
     "descriptions": {
       "temperature": "AI:n luovuus (0 = deterministinen, 1 = luova)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Maksimirivit yksinkertaisissa täydennyksissä",
       "tokenEstimationMultiplier": "Kerroin sana-token-arviolle",
       "tokenEstimationCodeBlock": "Lisätokenit koodilohkoille",
-      "tokenEstimationSpecialChars": "Kerroin erikoismerkeille"
+      "tokenEstimationSpecialChars": "Kerroin erikoismerkeille",
+      "maxCustomAgents": "Tallennettavien mukautettujen agenttien enimmäismäärä (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Osittain poistettu",
     "deleted": "Poistettu",
     "failed": "Epäonnistui"
+  },
+  "customAgent": {
+    "title": "Mukautetut AI-agentit",
+    "myAgents": "Omat agentit",
+    "noAgentsYet": "Ei vielä agentteja",
+    "createFirstAgent": "Luo ensimmäinen mukautettu agentti",
+    "newAgent": "Uusi agentti",
+    "editAgent": "Muokkaa agenttia",
+    "agentName": "Agentin nimi",
+    "agentNamePlaceholder": "esim. Teho-optimoija",
+    "promptLabel": "Agentin kehote",
+    "promptPlaceholder": "Kuvaile mitä agentin tulisi tehdä...",
+    "codeContext": "Koodikonteksti",
+    "hardwareContext": "Laitteistokonteksti",
+    "currentSelection": "Nykyinen valinta",
+    "currentFileFull": "Nykyinen tiedosto (kokonainen)",
+    "currentFileFunctions": "Nykyinen tiedosto (vain funktiot)",
+    "allSketchFiles": "Kaikki luonnoksen tiedostot",
+    "boardInfo": "Kortin tiedot",
+    "usedLibraries": "Käytetyt kirjastot",
+    "pinConfiguration": "Pin-määritykset",
+    "buildContext": "Käännös ja analyysi",
+    "buildWarning": "Nämä vaihtoehdot vaativat käännösprosessin (voi kestää muutaman sekunnin)",
+    "memoryUsage": "Muistin käyttö",
+    "compilerErrors": "Kääntäjän virheet (jos on)",
+    "compilerWarnings": "Kääntäjän varoitukset",
+    "buildInfo": "Käännöstiedot",
+    "buildingSketch": "Käännetään luonnosta...",
+    "buildFailed": "Käännös epäonnistui",
+    "buildSuccess": "Käännös onnistui",
+    "output": "Tulos",
+    "lastUsed": "Viimeksi käytetty",
+    "neverUsed": "Ei koskaan käytetty",
+    "runAgent": "Suorita agentti",
+    "maxAgentsReached": "Enimmäismäärä saavutettu (20)",
+    "agentCreated": "Agentti luotu",
+    "agentUpdated": "Agentti päivitetty",
+    "agentDeleted": "Agentti poistettu",
+    "agentNotFound": "Agenttia ei löytynyt",
+    "deleteConfirm": "Poistetaanko agentti?",
+    "backToAgents": "Takaisin agentteihin",
+    "selectAgent": "Valitse agentti",
+    "createFirst": "Luo agentti",
+    "memoryNotAvailable": "Muistitiedot eivät ole saatavilla - tarkista Arduino IDE:n tulosteikkuna",
+    "line": "Rivi",
+    "noErrors": "Ei virheitä",
+    "noWarnings": "Ei varoituksia",
+    "buildSuccessful": "Käännös onnistui",
+    "timestamp": "Aikaleima",
+    "customAgents": "Agentit",
+    "maxCustomAgents": "Agenttien enimmäismäärä"
   }
 }

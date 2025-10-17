@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Inline užbaigimas",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ iš mainų srities",
-    "openSettings": "Nustatymai"
+    "openSettings": "Nustatymai",
+    "runCustomAgent": "Paleisti agentą",
+    "manageCustomAgents": "Valdyti agentus"
   },
   "messages": {
     "welcome": "👋 Sveiki! AI.duino palaiko {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Pritaikyti AI užklausas",
     "openChatPanel": "AI pokalbis su kodo integracija",
     "explainCopiedError": "Analizuoti klaidą iš mainų srities",
-    "openSettings": "Pritaikyti nustatymus"
+    "openSettings": "Pritaikyti nustatymus",
+    "runCustomAgent": "Pasirinkti ir paleisti agentą",
+    "manageCustomAgents": "Kurti ir valdyti pasirinktinius AI agentus"
   },
   "language": {
     "autoDetect": "Automatiškai nustatyti iš VS Code",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} analizuoja problemą...",
     "testingConnection": "Ryšio tikrinimas...",
     "askingAI": "{0} apdoroja jūsų klausimą...",
-    "askingFollowUp": "{0} apdoroja jūsų papildomą klausimą..."
+    "askingFollowUp": "{0} apdoroja jūsų papildomą klausimą...",
+    "processing": "Apdorojama..."
   },
   "errors": {
     "quotaExceeded": "Mėnesio kvota išsemta",
@@ -398,7 +403,8 @@
       "updates": "Atnaujinimai",
       "chat": "Pokalbis",
       "inlineCompletion": "Inline užbaigimas",
-      "advanced": "Išplėstiniai"
+      "advanced": "Išplėstiniai",
+      "customAgents": "Pasirinktiniai agentai"
     },
     "labels": {
       "temperature": "Kūrybiškumas (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Maks. eilučių (Paprastas)",
       "tokenEstimationMultiplier": "Žodžių faktorius",
       "tokenEstimationCodeBlock": "Kodo bloko faktorius",
-      "tokenEstimationSpecialChars": "Specialių simbolių faktorius"
+      "tokenEstimationSpecialChars": "Specialių simbolių faktorius",
+      "maxCustomAgents": "Maksimalus agentų skaičius"
     },
     "descriptions": {
       "temperature": "AI kūrybiškumas (0 = deterministinis, 1 = kūrybingas)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Maksimalios eilutės paprastų užbagimų atveju",
       "tokenEstimationMultiplier": "Daugiklis žodis-į-tokeną įvertinimui",
       "tokenEstimationCodeBlock": "Papildomi tokenai kodo blokams",
-      "tokenEstimationSpecialChars": "Daugiklis specialiems simboliams"
+      "tokenEstimationSpecialChars": "Daugiklis specialiems simboliams",
+      "maxCustomAgents": "Maksimalus saugomų pasirinktinių agentų skaičius (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Iš dalies pašalinta",
     "deleted": "Ištrinta",
     "failed": "Nepavyko"
+  },
+  "customAgent": {
+    "title": "Pasirinktiniai AI agentai",
+    "myAgents": "Mano agentai",
+    "noAgentsYet": "Kol kas nėra agentų",
+    "createFirstAgent": "Sukurkite savo pirmą pasirinktinį agentą",
+    "newAgent": "Naujas agentas",
+    "editAgent": "Redaguoti agentą",
+    "agentName": "Agento pavadinimas",
+    "agentNamePlaceholder": "pvz. Galios optimizatorius",
+    "promptLabel": "Agento užklausa",
+    "promptPlaceholder": "Apibūdinkite, ką agentas turėtų daryti...",
+    "codeContext": "Kodo kontekstas",
+    "hardwareContext": "Aparatinės įrangos kontekstas",
+    "currentSelection": "Dabartinis pasirinkimas",
+    "currentFileFull": "Dabartinis failas (visas)",
+    "currentFileFunctions": "Dabartinis failas (tik funkcijos)",
+    "allSketchFiles": "Visi eskizo failai",
+    "boardInfo": "Plokštės informacija",
+    "usedLibraries": "Naudojamos bibliotekos",
+    "pinConfiguration": "Kontaktų konfigūracija",
+    "buildContext": "Kompiliavimas ir analizė",
+    "buildWarning": "Šie parinktys reikalauja kompiliavimo proceso (gali užtrukti kelias sekundes)",
+    "memoryUsage": "Atminties naudojimas",
+    "compilerErrors": "Kompiliatoriaus klaidos (jei yra)",
+    "compilerWarnings": "Kompiliatoriaus įspėjimai",
+    "buildInfo": "Kompiliavimo informacija",
+    "buildingSketch": "Kompiliuojamas eskizas...",
+    "buildFailed": "Kompiliavimas nepavyko",
+    "buildSuccess": "Kompiliavimas sėkmingas",
+    "output": "Rezultatas",
+    "lastUsed": "Paskutinį kartą naudotas",
+    "neverUsed": "Niekada nenaudotas",
+    "runAgent": "Paleisti agentą",
+    "maxAgentsReached": "Pasiektas maksimalus skaičius (20)",
+    "agentCreated": "Agentas sukurtas",
+    "agentUpdated": "Agentas atnaujintas",
+    "agentDeleted": "Agentas ištrintas",
+    "agentNotFound": "Agentas nerastas",
+    "deleteConfirm": "Tikrai ištrinti agentą?",
+    "backToAgents": "Atgal į agentus",
+    "selectAgent": "Pasirinkti agentą",
+    "createFirst": "Sukurti agentą",
+    "memoryNotAvailable": "Atminties informacija nepasiekiama - patikrinkite Arduino IDE išvesties konsolę",
+    "line": "Eilutė",
+    "noErrors": "Nėra klaidų",
+    "noWarnings": "Nėra įspėjimų",
+    "buildSuccessful": "Kompiliavimas sėkmingas",
+    "timestamp": "Laiko žyma",
+    "customAgents": "Agentai",
+    "maxCustomAgents": "Maksimalus agentų skaičius"
   }
 }

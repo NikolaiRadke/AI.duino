@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Inline kiegészítés",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ vágólapról",
-    "openSettings": "Beállítások"
+    "openSettings": "Beállítások",
+    "runCustomAgent": "Ügynök futtatása",
+    "manageCustomAgents": "Ügynökök kezelése"
   },
   "messages": {
     "welcome": "Üdvözöl a {0} támogatásával!",
@@ -118,7 +120,9 @@
     "editPrompts": "AI promptok testreszabása és kezelése",
     "openChatPanel": "AI chat kódintegrációval",
     "explainCopiedError": "Hiba elemzése a vágólapról",
-    "openSettings": "Beállítások módosítása"
+    "openSettings": "Beállítások módosítása",
+    "runCustomAgent": "Ügynök kiválasztása és futtatása",
+    "manageCustomAgents": "Egyéni AI ügynökök létrehozása és kezelése"
   },
   "language": {
     "autoDetect": "Automatikus felismerés VS Code-ból",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} elemzi a problémát...",
     "testingConnection": "Kapcsolat tesztelése...",
     "askingAI": "{0} feldolgozza a kérdésed...",
-    "askingFollowUp": "{0} feldolgozza a követő kérdésed..."
+    "askingFollowUp": "{0} feldolgozza a követő kérdésed...",
+    "processing": "Feldolgozás..."
   },
   "errors": {
     "quotaExceeded": "Havi kvóta kimerült",
@@ -398,7 +403,8 @@
       "updates": "Frissítések",
       "chat": "Chat",
       "inlineCompletion": "Inline kiegészítés",
-      "advanced": "Speciális"
+      "advanced": "Speciális",
+      "customAgents": "Egyéni ügynökök"
     },
     "labels": {
       "temperature": "Kreativitás (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Max. sorok (Egyszerű)",
       "tokenEstimationMultiplier": "Szó faktor",
       "tokenEstimationCodeBlock": "Kódblokk faktor",
-      "tokenEstimationSpecialChars": "Speciális karakterek faktora"
+      "tokenEstimationSpecialChars": "Speciális karakterek faktora",
+      "maxCustomAgents": "Ügynökök maximális száma"
     },
     "descriptions": {
       "temperature": "AI kreativitás (0 = determinisztikus, 1 = kreatív)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Maximális sorok egyszerű kiegészítéseknél",
       "tokenEstimationMultiplier": "Szorzó a szó-token becsléshez",
       "tokenEstimationCodeBlock": "Extra tokenek kódblokkokhoz",
-      "tokenEstimationSpecialChars": "Szorzó speciális karakterekhez"
+      "tokenEstimationSpecialChars": "Szorzó speciális karakterekhez",
+      "maxCustomAgents": "Tárolható egyéni ügynökök maximális száma (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Részlegesen eltávolítva",
     "deleted": "Törölve",
     "failed": "Sikertelen"
+  },
+  "customAgent": {
+    "title": "Egyéni AI ügynökök",
+    "myAgents": "Ügynökeim",
+    "noAgentsYet": "Még nincsenek ügynökök",
+    "createFirstAgent": "Hozd létre az első egyéni ügynöködet",
+    "newAgent": "Új ügynök",
+    "editAgent": "Ügynök szerkesztése",
+    "agentName": "Ügynök neve",
+    "agentNamePlaceholder": "pl. Teljesítmény optimalizáló",
+    "promptLabel": "Ügynök prompt",
+    "promptPlaceholder": "Írd le, mit kell tennie az ügynöknek...",
+    "codeContext": "Kód kontextus",
+    "hardwareContext": "Hardver kontextus",
+    "currentSelection": "Jelenlegi kiválasztás",
+    "currentFileFull": "Jelenlegi fájl (teljes)",
+    "currentFileFunctions": "Jelenlegi fájl (csak függvények)",
+    "allSketchFiles": "Összes sketch fájl",
+    "boardInfo": "Kártya információk",
+    "usedLibraries": "Használt könyvtárak",
+    "pinConfiguration": "Pin konfiguráció",
+    "buildContext": "Build és elemzés",
+    "buildWarning": "Ezek az opciók fordítási folyamatot igényelnek (eltarthat néhány másodpercig)",
+    "memoryUsage": "Memóriahasználat",
+    "compilerErrors": "Fordítási hibák (ha vannak)",
+    "compilerWarnings": "Fordítási figyelmeztetések",
+    "buildInfo": "Build információk",
+    "buildingSketch": "Sketch fordítása...",
+    "buildFailed": "Fordítás sikertelen",
+    "buildSuccess": "Fordítás sikeres",
+    "output": "Eredmény",
+    "lastUsed": "Utoljára használva",
+    "neverUsed": "Soha nem használt",
+    "runAgent": "Ügynök futtatása",
+    "maxAgentsReached": "Maximális szám elérve (20)",
+    "agentCreated": "Ügynök létrehozva",
+    "agentUpdated": "Ügynök frissítve",
+    "agentDeleted": "Ügynök törölve",
+    "agentNotFound": "Ügynök nem található",
+    "deleteConfirm": "Valóban törölni szeretnéd az ügynököt?",
+    "backToAgents": "Vissza az ügynökökhöz",
+    "selectAgent": "Ügynök kiválasztása",
+    "createFirst": "Ügynök létrehozása",
+    "memoryNotAvailable": "Memória információ nem elérhető - ellenőrizd az Arduino IDE kimeneti konzolt",
+    "line": "Sor",
+    "noErrors": "Nincsenek hibák",
+    "noWarnings": "Nincsenek figyelmeztetések",
+    "buildSuccessful": "Fordítás sikeres",
+    "timestamp": "Időbélyeg",
+    "customAgents": "Ügynökök",
+    "maxCustomAgents": "Ügynökök maximális száma"
   }
 }

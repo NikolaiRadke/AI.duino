@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Kompletament inline",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ mill-clipboard",
-    "openSettings": "Settings"
+    "openSettings": "Settings",
+    "runCustomAgent": "Mexxi l-Aġent",
+    "manageCustomAgents": "Immexxi l-Aġenti"
   },
   "messages": {
     "welcome": "👋 Merħba! AI.duino jappoġġa {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Aġġusta l-prompts tal-AI",
     "openChatPanel": "Chat AI b'integrazzjoni tal-kodiċi",
     "explainCopiedError": "Analizza żball mill-clipboard",
-    "openSettings": "Aġġusta s-settings"
+    "openSettings": "Aġġusta s-settings",
+    "runCustomAgent": "Agħżel u mexxi l-aġent",
+    "manageCustomAgents": "Oħloq u mmexxi aġenti AI personalizzati"
   },
   "language": {
     "autoDetect": "Awtomatikament minn VS Code",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} qed janalizza l-problema...",
     "testingConnection": "Konnessjoni qed tiġi testjata...",
     "askingAI": "{0} qed jaħdem fuq il-mistoqsija tiegħek...",
-    "askingFollowUp": "{0} qed jaħdem fuq il-mistoqsijiet follow-up tiegħek..."
+    "askingFollowUp": "{0} qed jaħdem fuq il-mistoqsijiet follow-up tiegħek...",
+    "processing": "Qed jiġi pproċessat..."
   },
   "errors": {
     "quotaExceeded": "Kwota ta' xahar tmiem",
@@ -398,7 +403,8 @@
       "updates": "Aġġornamenti",
       "chat": "Chat",
       "inlineCompletion": "Inline completion",
-      "advanced": "Avvanzat"
+      "advanced": "Avvanzat",
+      "customAgents": "Aġenti Personalizzati"
     },
     "labels": {
       "temperature": "Kreattività (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Massimu ta' linji (Sempliċi)",
       "tokenEstimationMultiplier": "Fattur tal-kliem",
       "tokenEstimationCodeBlock": "Fattur tal-blokk tal-kodiċi",
-      "tokenEstimationSpecialChars": "Fattur tal-karattri speċjali"
+      "tokenEstimationSpecialChars": "Fattur tal-karattri speċjali",
+      "maxCustomAgents": "Numru Massimu ta' Aġenti"
     },
     "descriptions": {
       "temperature": "Kreattività tal-AI (0 = deterministiku, 1 = kreattiv)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Linji massimi fil-kompletamenti sempliċi",
       "tokenEstimationMultiplier": "Multiplikatur għall-istima kliem-għal-token",
       "tokenEstimationCodeBlock": "Tokens addizzjonali għal blokki tal-kodiċi",
-      "tokenEstimationSpecialChars": "Multiplikatur għal karattri speċjali"
+      "tokenEstimationSpecialChars": "Multiplikatur għal karattri speċjali",
+      "maxCustomAgents": "Numru massimu ta' aġenti personalizzati li jistgħu jinħażnu (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Żinstallat parzjalment",
     "deleted": "Imħassar",
     "failed": "Falliet"
+  },
+  "customAgent": {
+    "title": "Aġenti AI Personalizzati",
+    "myAgents": "L-Aġenti Tiegħi",
+    "noAgentsYet": "Għad m'hemm l-ebda aġent",
+    "createFirstAgent": "Oħloq l-ewwel aġent personalizzat tiegħek",
+    "newAgent": "Aġent Ġdid",
+    "editAgent": "Editja l-Aġent",
+    "agentName": "Isem tal-Aġent",
+    "agentNamePlaceholder": "eż. Ottimizzatur tal-Enerġija",
+    "promptLabel": "Prompt tal-Aġent",
+    "promptPlaceholder": "Iddeskrivi x'għandu jagħmel l-aġent...",
+    "codeContext": "Kuntest tal-Kodiċi",
+    "hardwareContext": "Kuntest tal-Hardware",
+    "currentSelection": "Għażla Kurrenti",
+    "currentFileFull": "Fajl Kurrenti (sħiħ)",
+    "currentFileFunctions": "Fajl Kurrenti (funzjonijiet biss)",
+    "allSketchFiles": "Il-Fajls Kollha tal-Sketch",
+    "boardInfo": "Informazzjoni dwar il-Bord",
+    "usedLibraries": "Libreriji Użati",
+    "pinConfiguration": "Konfigurazzjoni tal-Pins",
+    "buildContext": "Build u Analiżi",
+    "buildWarning": "Dawn l-għażliet jeħtieġu proċess ta' kompilazzjoni (jista' jieħu ftit sekondi)",
+    "memoryUsage": "Użu tal-Memorja",
+    "compilerErrors": "Żbalji tal-Compiler (jekk hemm)",
+    "compilerWarnings": "Twissijiet tal-Compiler",
+    "buildInfo": "Informazzjoni dwar il-Build",
+    "buildingSketch": "Qed jikkompila l-sketch...",
+    "buildFailed": "Il-build falliet",
+    "buildSuccess": "Build suċċess",
+    "output": "Riżultat",
+    "lastUsed": "L-aħħar użat",
+    "neverUsed": "Qatt ma ntuża",
+    "runAgent": "Mexxi l-Aġent",
+    "maxAgentsReached": "Intlaħaq in-numru massimu (20)",
+    "agentCreated": "Aġent maħluq",
+    "agentUpdated": "Aġent aġġornat",
+    "agentDeleted": "Aġent imħassar",
+    "agentNotFound": "Aġent ma nstabx",
+    "deleteConfirm": "Trid tħassar l-aġent tassew?",
+    "backToAgents": "Lura għall-Aġenti",
+    "selectAgent": "Agħżel Aġent",
+    "createFirst": "Oħloq Aġent",
+    "memoryNotAvailable": "Informazzjoni dwar il-memorja mhix disponibbli - iċċekkja l-console tal-output ta' Arduino IDE",
+    "line": "Linja",
+    "noErrors": "Ebda żball",
+    "noWarnings": "Ebda twissija",
+    "buildSuccessful": "Build suċċess",
+    "timestamp": "Timestamp",
+    "customAgents": "Aġenti",
+    "maxCustomAgents": "Numru Massimu ta' Aġenti"
   }
 }

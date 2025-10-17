@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Inline klárun",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ úr klemmuspjaldi",
-    "openSettings": "Stillingar"
+    "openSettings": "Stillingar",
+    "runCustomAgent": "Keyra umboðsmann",
+    "manageCustomAgents": "Stjórna umboðsmönnum"
   },
   "messages": {
     "welcome": "👋 Velkominn! AI.duino styður {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Aðlaga gervigreindafyrirmæli",
     "openChatPanel": "AI-spjall með kóðasamþættingu",
     "explainCopiedError": "Greina villu úr klemmuspjaldi",
-    "openSettings": "Aðlaga stillingar"
+    "openSettings": "Aðlaga stillingar",
+    "runCustomAgent": "Velja og keyra umboðsmann",
+    "manageCustomAgents": "Búa til og stjórna sérsniðnum gervigreind umboðsmönnum"
   },
   "language": {
     "autoDetect": "Greina sjálfkrafa frá VS Code",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} greinir vandamálið...",
     "testingConnection": "Tenging prófuð...",
     "askingAI": "{0} vinnur úr spurningunni þinni...",
-    "askingFollowUp": "{0} vinnur úr framhaldsspurningunum þínum..."
+    "askingFollowUp": "{0} vinnur úr framhaldsspurningunum þínum...",
+    "processing": "Í vinnslu..."
   },
   "errors": {
     "quotaExceeded": "Mánaðarlega kvóta uppurin",
@@ -398,7 +403,8 @@
       "updates": "Uppfærslur",
       "chat": "Spjall",
       "inlineCompletion": "Inline klárgerð",
-      "advanced": "Ítarlegt"
+      "advanced": "Ítarlegt",
+      "customAgents": "Sérsniðnir umboðsmenn"
     },
     "labels": {
       "temperature": "Sköpunargáfa (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Hámarks línur (Einfalt)",
       "tokenEstimationMultiplier": "Orðastuðull",
       "tokenEstimationCodeBlock": "Kóðablokk stuðull",
-      "tokenEstimationSpecialChars": "Sérstakra stafa stuðull"
+      "tokenEstimationSpecialChars": "Sérstakra stafa stuðull",
+      "maxCustomAgents": "Hámarksfjöldi umboðsmanna"
     },
     "descriptions": {
       "temperature": "AI sköpunargáfa (0 = ákveðið, 1 = skapandi)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Hámarkslínur við einfaldar klárgerðir",
       "tokenEstimationMultiplier": "Margfaldari fyrir orð-í-token mat",
       "tokenEstimationCodeBlock": "Auka token fyrir kóðablokkir",
-      "tokenEstimationSpecialChars": "Margfaldari fyrir sérstafi"
+      "tokenEstimationSpecialChars": "Margfaldari fyrir sérstafi",
+      "maxCustomAgents": "Hámarksfjöldi geymanlegra sérsniðinna umboðsmanna (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Að hluta fjarlægt",
     "deleted": "Eytt",
     "failed": "Mistókst"
+  },
+  "customAgent": {
+    "title": "Sérsniðnir gervigreind umboðsmenn",
+    "myAgents": "Umboðsmenn mínir",
+    "noAgentsYet": "Engir umboðsmenn ennþá",
+    "createFirstAgent": "Búðu til þinn fyrsta sérsniðna umboðsmann",
+    "newAgent": "Nýr umboðsmaður",
+    "editAgent": "Breyta umboðsmanni",
+    "agentName": "Heiti umboðsmanns",
+    "agentNamePlaceholder": "t.d. Afkastabætir",
+    "promptLabel": "Umboðsmanns fyrirspurn",
+    "promptPlaceholder": "Lýstu því sem umboðsmaðurinn á að gera...",
+    "codeContext": "Kóða samhengi",
+    "hardwareContext": "Vélbúnaðar samhengi",
+    "currentSelection": "Núverandi val",
+    "currentFileFull": "Núverandi skrá (heild)",
+    "currentFileFunctions": "Núverandi skrá (aðeins föll)",
+    "allSketchFiles": "Allar teikningar skrár",
+    "boardInfo": "Upplýsingar um borð",
+    "usedLibraries": "Notuð safn",
+    "pinConfiguration": "Pinna stillingar",
+    "buildContext": "Bygging og greining",
+    "buildWarning": "Þessir valkostir krefjast þýðingarferlis (getur tekið nokkrar sekúndur)",
+    "memoryUsage": "Minnisnotkun",
+    "compilerErrors": "Þýðingarskekkjur (ef einhverjar)",
+    "compilerWarnings": "Þýðingarviðvaranir",
+    "buildInfo": "Byggingarupplýsingar",
+    "buildingSketch": "Þýði teikningu...",
+    "buildFailed": "Bygging mistókst",
+    "buildSuccess": "Bygging tókst",
+    "output": "Niðurstaða",
+    "lastUsed": "Síðast notað",
+    "neverUsed": "Aldrei notað",
+    "runAgent": "Keyra umboðsmann",
+    "maxAgentsReached": "Hámarksfjölda náð (20)",
+    "agentCreated": "Umboðsmaður búinn til",
+    "agentUpdated": "Umboðsmaður uppfærður",
+    "agentDeleted": "Umboðsmanni eytt",
+    "agentNotFound": "Umboðsmaður fannst ekki",
+    "deleteConfirm": "Eyða umboðsmanni í raun?",
+    "backToAgents": "Til baka í umboðsmenn",
+    "selectAgent": "Velja umboðsmann",
+    "createFirst": "Búa til umboðsmann",
+    "memoryNotAvailable": "Minnisupplýsingar ekki tiltækar - athugaðu Arduino IDE úttaksgluggann",
+    "line": "Lína",
+    "noErrors": "Engar villur",
+    "noWarnings": "Engar viðvaranir",
+    "buildSuccessful": "Bygging tókst",
+    "timestamp": "Tímamerki",
+    "customAgents": "Umboðsmenn",
+    "maxCustomAgents": "Hámarksfjöldi umboðsmanna"
   }
 }

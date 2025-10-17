@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Reasisene lõpetamine",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ lõikelauale",
-    "openSettings": "Seaded"
+    "openSettings": "Seaded",
+    "runCustomAgent": "Käivita agent",
+    "manageCustomAgents": "Halda agente"
   },
   "messages": {
     "welcome": "👋 Tere tulemast! AI.duino toetab {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Kohanda AI päringuid",
     "openChatPanel": "AI vestlus koodi integratsiooniga",
     "explainCopiedError": "Analüüsi viga lõikelaual",
-    "openSettings": "Kohanda seadeid"
+    "openSettings": "Kohanda seadeid",
+    "runCustomAgent": "Vali ja käivita agent",
+    "manageCustomAgents": "Loo ja halda kohandatud AI agente"
   },
   "language": {
     "autoDetect": "Tuvasta automaatselt VS Code-st",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} analüüsib probleemi...",
     "testingConnection": "Ühenduse testimine...",
     "askingAI": "{0} töötleb teie küsimust...",
-    "askingFollowUp": "{0} töötleb teie täiendavat küsimust..."
+    "askingFollowUp": "{0} töötleb teie täiendavat küsimust...",
+    "processing": "Töötlemine..."
   },
   "errors": {
     "quotaExceeded": "Kuu kvoot ammendatud",
@@ -398,7 +403,8 @@
       "updates": "Uuendused",
       "chat": "Vestlus",
       "inlineCompletion": "Inline täiendamine",
-      "advanced": "Täpsem"
+      "advanced": "Täpsem",
+      "customAgents": "Kohandatud agendid"
     },
     "labels": {
       "temperature": "Loovus (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Maks. ridu (Lihtne)",
       "tokenEstimationMultiplier": "Sõnade tegur",
       "tokenEstimationCodeBlock": "Koodiploki tegur",
-      "tokenEstimationSpecialChars": "Erimärkide tegur"
+      "tokenEstimationSpecialChars": "Erimärkide tegur",
+      "maxCustomAgents": "Maksimaalne agentide arv"
     },
     "descriptions": {
       "temperature": "AI loovus (0 = deterministlik, 1 = loov)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Maksimaalsed read lihtsate täienduste puhul",
       "tokenEstimationMultiplier": "Korrutaja sõna-tokeniks hinnangule",
       "tokenEstimationCodeBlock": "Lisakokeneid koodi plokkide jaoks",
-      "tokenEstimationSpecialChars": "Korrutaja erimärkide jaoks"
+      "tokenEstimationSpecialChars": "Korrutaja erimärkide jaoks",
+      "maxCustomAgents": "Maksimaalne salvestatavate kohandatud agentide arv (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Osaliselt desinstallitud",
     "deleted": "Kustutatud",
     "failed": "Ebaõnnestus"
+  },
+  "customAgent": {
+    "title": "Kohandatud AI agendid",
+    "myAgents": "Minu agendid",
+    "noAgentsYet": "Agente pole veel",
+    "createFirstAgent": "Loo oma esimene kohandatud agent",
+    "newAgent": "Uus agent",
+    "editAgent": "Muuda agenti",
+    "agentName": "Agendi nimi",
+    "agentNamePlaceholder": "nt Võimsuse optimeerija",
+    "promptLabel": "Agendi viip",
+    "promptPlaceholder": "Kirjelda, mida agent peaks tegema...",
+    "codeContext": "Koodi kontekst",
+    "hardwareContext": "Riistvara kontekst",
+    "currentSelection": "Praegune valik",
+    "currentFileFull": "Praegune fail (täielik)",
+    "currentFileFunctions": "Praegune fail (ainult funktsioonid)",
+    "allSketchFiles": "Kõik visandi failid",
+    "boardInfo": "Plaadi informatsioon",
+    "usedLibraries": "Kasutatud teegid",
+    "pinConfiguration": "Viikide konfiguratsioon",
+    "buildContext": "Koostamine ja analüüs",
+    "buildWarning": "Need valikud nõuavad koostamisprotsessi (võib võtta mõned sekundid)",
+    "memoryUsage": "Mälu kasutus",
+    "compilerErrors": "Kompilaatori vead (kui on)",
+    "compilerWarnings": "Kompilaatori hoiatused",
+    "buildInfo": "Koostamise informatsioon",
+    "buildingSketch": "Visandi koostamine...",
+    "buildFailed": "Koostamine ebaõnnestus",
+    "buildSuccess": "Koostamine õnnestus",
+    "output": "Tulemus",
+    "lastUsed": "Viimati kasutatud",
+    "neverUsed": "Pole kunagi kasutatud",
+    "runAgent": "Käivita agent",
+    "maxAgentsReached": "Maksimaalne arv saavutatud (20)",
+    "agentCreated": "Agent loodud",
+    "agentUpdated": "Agent uuendatud",
+    "agentDeleted": "Agent kustutatud",
+    "agentNotFound": "Agenti ei leitud",
+    "deleteConfirm": "Kas tõesti kustutada agent?",
+    "backToAgents": "Tagasi agentide juurde",
+    "selectAgent": "Vali agent",
+    "createFirst": "Loo agent",
+    "memoryNotAvailable": "Mälu informatsioon pole saadaval - kontrolli Arduino IDE väljundi konsooli",
+    "line": "Rida",
+    "noErrors": "Vigu pole",
+    "noWarnings": "Hoiatusi pole",
+    "buildSuccessful": "Koostamine õnnestus",
+    "timestamp": "Ajatempel",
+    "customAgents": "Agendid",
+    "maxCustomAgents": "Maksimaalne agentide arv"
   }
 }

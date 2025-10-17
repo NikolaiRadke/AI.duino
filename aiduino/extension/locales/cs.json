@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Inline doplňování",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ ze schránky",
-    "openSettings": "Nastavení"
+    "openSettings": "Nastavení",
+    "runCustomAgent": "Spustit agenta",
+    "manageCustomAgents": "Správa agentů"
   },
   "messages": {
     "welcome": "👋 Vítejte! AI.duino podporuje {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Přizpůsobit a spravovat AI výzvy",
     "openChatPanel": "AI chat s integrací kódu",
     "explainCopiedError": "Analyzovat chybu ze schránky",
-    "openSettings": "Upravit nastavení"
+    "openSettings": "Upravit nastavení",
+    "runCustomAgent": "Vybrat a spustit agenta",
+    "manageCustomAgents": "Vytvářet a spravovat vlastní AI agenty"
   },
   "language": {
     "autoDetect": "Automaticky rozpoznat z VS Code",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} analyzuje problém...",
     "testingConnection": "Testuji připojení...",
     "askingAI": "{0} zpracovává vaši otázku...",
-    "askingFollowUp": "{0} zpracovává vaši navazující otázku..."
+    "askingFollowUp": "{0} zpracovává vaši navazující otázku...",
+    "processing": "Zpracování..."
   },
   "errors": {
     "quotaExceeded": "Měsíční kvóta překročena",
@@ -398,7 +403,8 @@
       "updates": "Aktualizace",
       "chat": "Chat",
       "inlineCompletion": "Inline doplňování",
-      "advanced": "Pokročilé"
+      "advanced": "Pokročilé",
+      "customAgents": "Vlastní agenti"
     },
     "labels": {
       "temperature": "Kreativita (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Max. řádků (Jednoduché)",
       "tokenEstimationMultiplier": "Slovní faktor",
       "tokenEstimationCodeBlock": "Faktor bloku kódu",
-      "tokenEstimationSpecialChars": "Faktor speciálních znaků"
+      "tokenEstimationSpecialChars": "Faktor speciálních znaků",
+      "maxCustomAgents": "Maximální počet agentů"
     },
     "descriptions": {
       "temperature": "Kreativita AI (0 = deterministické, 1 = kreativní)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Maximální řádky při jednoduchých doplněních",
       "tokenEstimationMultiplier": "Násobitel pro odhad slov-na-tokeny",
       "tokenEstimationCodeBlock": "Dodatečné tokeny pro bloky kódu",
-      "tokenEstimationSpecialChars": "Násobitel pro speciální znaky"
+      "tokenEstimationSpecialChars": "Násobitel pro speciální znaky",
+      "maxCustomAgents": "Maximální počet uložitelných vlastních agentů (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Částečně odinstalováno",
     "deleted": "Smazáno",
     "failed": "Selhalo"
+  },
+  "customAgent": {
+    "title": "Vlastní AI agenti",
+    "myAgents": "Moji agenti",
+    "noAgentsYet": "Zatím žádní agenti",
+    "createFirstAgent": "Vytvořte svého prvního vlastního agenta",
+    "newAgent": "Nový agent",
+    "editAgent": "Upravit agenta",
+    "agentName": "Název agenta",
+    "agentNamePlaceholder": "např. Optimalizátor výkonu",
+    "promptLabel": "Prompt agenta",
+    "promptPlaceholder": "Popište, co má agent dělat...",
+    "codeContext": "Kontext kódu",
+    "hardwareContext": "Kontext hardwaru",
+    "currentSelection": "Aktuální výběr",
+    "currentFileFull": "Aktuální soubor (kompletní)",
+    "currentFileFunctions": "Aktuální soubor (pouze funkce)",
+    "allSketchFiles": "Všechny soubory sketche",
+    "boardInfo": "Informace o desce",
+    "usedLibraries": "Použité knihovny",
+    "pinConfiguration": "Konfigurace pinů",
+    "buildContext": "Build a analýza",
+    "buildWarning": "Tyto možnosti vyžadují proces sestavení (může trvat několik sekund)",
+    "memoryUsage": "Využití paměti",
+    "compilerErrors": "Chyby kompilátoru (pokud existují)",
+    "compilerWarnings": "Varování kompilátoru",
+    "buildInfo": "Informace o sestavení",
+    "buildingSketch": "Kompilace sketche...",
+    "buildFailed": "Sestavení selhalo",
+    "buildSuccess": "Sestavení úspěšné",
+    "output": "Výsledek",
+    "lastUsed": "Naposledy použito",
+    "neverUsed": "Nikdy nepoužito",
+    "runAgent": "Spustit agenta",
+    "maxAgentsReached": "Dosažen maximální počet (20)",
+    "agentCreated": "Agent vytvořen",
+    "agentUpdated": "Agent aktualizován",
+    "agentDeleted": "Agent smazán",
+    "agentNotFound": "Agent nenalezen",
+    "deleteConfirm": "Opravdu smazat agenta?",
+    "backToAgents": "Zpět na agenty",
+    "selectAgent": "Vybrat agenta",
+    "createFirst": "Vytvořit agenta",
+    "memoryNotAvailable": "Informace o paměti nejsou k dispozici - zkontrolujte výstupní konzoli Arduino IDE",
+    "line": "Řádek",
+    "noErrors": "Žádné chyby",
+    "noWarnings": "Žádná varování",
+    "buildSuccessful": "Sestavení úspěšné",
+    "timestamp": "Časová značka",
+    "customAgents": "Agenti",
+    "maxCustomAgents": "Maximální počet agentů"
   }
 }

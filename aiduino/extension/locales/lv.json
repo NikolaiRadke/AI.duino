@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Inline pabeigšana",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ no starpliktuves",
-    "openSettings": "Iestatījumi"
+    "openSettings": "Iestatījumi",
+    "runCustomAgent": "Palaist aģentu",
+    "manageCustomAgents": "Pārvaldīt aģentus"
   },
   "messages": {
     "welcome": "👋 Esiet sveicināti! AI.duino atbalsta {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Pielāgot AI uzvednes",
     "openChatPanel": "AI tērzēšana ar koda integrāciju",
     "explainCopiedError": "Analizēt kļūdu no starpliktuves",
-    "openSettings": "Pielāgot iestatījumus"
+    "openSettings": "Pielāgot iestatījumus",
+    "runCustomAgent": "Izvēlēties un palaist aģentu",
+    "manageCustomAgents": "Izveidot un pārvaldīt pielāgotus AI aģentus"
   },
   "language": {
     "autoDetect": "Automātiski noteikt no VS Code",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} analizē problēmu...",
     "testingConnection": "Savienojuma pārbaude...",
     "askingAI": "{0} apstrādā jūsu jautājumu...",
-    "askingFollowUp": "{0} apstrādā jūsu papildu jautājumu..."
+    "askingFollowUp": "{0} apstrādā jūsu papildu jautājumu...",
+    "processing": "Apstrādā..."
   },
   "errors": {
     "quotaExceeded": "Mēneša kvota izsmelts",
@@ -398,7 +403,8 @@
       "updates": "Atjauninājumi",
       "chat": "Čats",
       "inlineCompletion": "Inline pabeigšana",
-      "advanced": "Papildu"
+      "advanced": "Papildu",
+      "customAgents": "Pielāgoti aģenti"
     },
     "labels": {
       "temperature": "Radošums (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Maks. rindas (Vienkāršs)",
       "tokenEstimationMultiplier": "Vārdu faktors",
       "tokenEstimationCodeBlock": "Koda bloka faktors",
-      "tokenEstimationSpecialChars": "Speciālo rakstzīmju faktors"
+      "tokenEstimationSpecialChars": "Speciālo rakstzīmju faktors",
+      "maxCustomAgents": "Maksimālais aģentu skaits"
     },
     "descriptions": {
       "temperature": "AI radošums (0 = deterministisks, 1 = radošs)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Maksimālās rindas vienkāršām pabeigšanām",
       "tokenEstimationMultiplier": "Reizinātājs vārds-uz-marķieri novērtējumam",
       "tokenEstimationCodeBlock": "Papildu marķieri koda blokiem",
-      "tokenEstimationSpecialChars": "Reizinātājs speciālajām rakstzīmēm"
+      "tokenEstimationSpecialChars": "Reizinātājs speciālajām rakstzīmēm",
+      "maxCustomAgents": "Maksimālais saglabājamo pielāgoto aģentu skaits (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Daļēji atinstalēts",
     "deleted": "Dzēsts",
     "failed": "Neizdevās"
+  },
+  "customAgent": {
+    "title": "Pielāgoti AI aģenti",
+    "myAgents": "Mani aģenti",
+    "noAgentsYet": "Vēl nav aģentu",
+    "createFirstAgent": "Izveidojiet savu pirmo pielāgoto aģentu",
+    "newAgent": "Jauns aģents",
+    "editAgent": "Rediģēt aģentu",
+    "agentName": "Aģenta nosaukums",
+    "agentNamePlaceholder": "piem. Jaudas optimizētājs",
+    "promptLabel": "Aģenta uzvedne",
+    "promptPlaceholder": "Aprakstiet, ko aģentam vajadzētu darīt...",
+    "codeContext": "Koda konteksts",
+    "hardwareContext": "Aparatūras konteksts",
+    "currentSelection": "Pašreizējā izvēle",
+    "currentFileFull": "Pašreizējais fails (pilns)",
+    "currentFileFunctions": "Pašreizējais fails (tikai funkcijas)",
+    "allSketchFiles": "Visi skiču faili",
+    "boardInfo": "Plates informācija",
+    "usedLibraries": "Izmantotās bibliotēkas",
+    "pinConfiguration": "Kontaktu konfigurācija",
+    "buildContext": "Kompilācija un analīze",
+    "buildWarning": "Šīm opcijām nepieciešams kompilācijas process (var aizņemt dažas sekundes)",
+    "memoryUsage": "Atmiņas izmantošana",
+    "compilerErrors": "Kompilātora kļūdas (ja tādas ir)",
+    "compilerWarnings": "Kompilātora brīdinājumi",
+    "buildInfo": "Kompilācijas informācija",
+    "buildingSketch": "Kompilē skici...",
+    "buildFailed": "Kompilācija neizdevās",
+    "buildSuccess": "Kompilācija veiksmīga",
+    "output": "Rezultāts",
+    "lastUsed": "Pēdējo reizi izmantots",
+    "neverUsed": "Nekad nav izmantots",
+    "runAgent": "Palaist aģentu",
+    "maxAgentsReached": "Sasniegts maksimālais skaits (20)",
+    "agentCreated": "Aģents izveidots",
+    "agentUpdated": "Aģents atjaunināts",
+    "agentDeleted": "Aģents dzēsts",
+    "agentNotFound": "Aģents nav atrasts",
+    "deleteConfirm": "Vai tiešām dzēst aģentu?",
+    "backToAgents": "Atpakaļ pie aģentiem",
+    "selectAgent": "Izvēlēties aģentu",
+    "createFirst": "Izveidot aģentu",
+    "memoryNotAvailable": "Atmiņas informācija nav pieejama - pārbaudiet Arduino IDE izvades konsoli",
+    "line": "Rinda",
+    "noErrors": "Nav kļūdu",
+    "noWarnings": "Nav brīdinājumu",
+    "buildSuccessful": "Kompilācija veiksmīga",
+    "timestamp": "Laika zīmogs",
+    "customAgents": "Aģenti",
+    "maxCustomAgents": "Maksimālais aģentu skaits"
   }
 }

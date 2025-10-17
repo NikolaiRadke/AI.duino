@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "内联补全",
     "toggleInlineCompletionShort": "内联",
     "explainCopiedError": "↳ 从剪贴板",
-    "openSettings": "设置"
+    "openSettings": "设置",
+    "runCustomAgent": "运行代理",
+    "manageCustomAgents": "管理代理"
   },
   "messages": {
     "welcome": "👋 欢迎！AI.duino 支持{0}！",
@@ -118,7 +120,9 @@
     "editPrompts": "自定义和管理AI提示词",
     "openChatPanel": "带代码集成的AI聊天",
     "explainCopiedError": "分析剪贴板中的错误",
-    "openSettings": "自定义设置"
+    "openSettings": "自定义设置",
+    "runCustomAgent": "选择并运行代理",
+    "manageCustomAgents": "创建和管理自定义AI代理"
   },
   "language": {
     "autoDetect": "从 VS Code 自动检测",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0}正在分析问题...",
     "testingConnection": "正在测试连接...",
     "askingAI": "{0}正在处理您的问题...",
-    "askingFollowUp": "{0}正在处理您的追问..."
+    "askingFollowUp": "{0}正在处理您的追问...",
+    "processing": "处理中..."
   },
   "errors": {
     "quotaExceeded": "月度配额已用完",
@@ -398,7 +403,8 @@
       "updates": "更新",
       "chat": "聊天",
       "inlineCompletion": "内联补全",
-      "advanced": "高级"
+      "advanced": "高级",
+      "customAgents": "自定义代理"
     },
     "labels": {
       "temperature": "创造力 (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "最大行数 (简单)",
       "tokenEstimationMultiplier": "单词因子",
       "tokenEstimationCodeBlock": "代码块因子",
-      "tokenEstimationSpecialChars": "特殊字符因子"
+      "tokenEstimationSpecialChars": "特殊字符因子",
+      "maxCustomAgents": "代理最大数量"
     },
     "descriptions": {
       "temperature": "AI创造力 (0 = 确定性, 1 = 创造性)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "简单补全的最大行数",
       "tokenEstimationMultiplier": "单词到令牌估算的乘数",
       "tokenEstimationCodeBlock": "代码块的额外令牌",
-      "tokenEstimationSpecialChars": "特殊字符的乘数"
+      "tokenEstimationSpecialChars": "特殊字符的乘数",
+      "maxCustomAgents": "可存储的自定义代理最大数量（1-100）"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ 部分卸载",
     "deleted": "已删除",
     "failed": "失败"
+  },
+  "customAgent": {
+    "title": "自定义AI代理",
+    "myAgents": "我的代理",
+    "noAgentsYet": "还没有代理",
+    "createFirstAgent": "创建您的第一个自定义代理",
+    "newAgent": "新代理",
+    "editAgent": "编辑代理",
+    "agentName": "代理名称",
+    "agentNamePlaceholder": "例如：功率优化器",
+    "promptLabel": "代理提示",
+    "promptPlaceholder": "描述代理应该做什么...",
+    "codeContext": "代码上下文",
+    "hardwareContext": "硬件上下文",
+    "currentSelection": "当前选择",
+    "currentFileFull": "当前文件（完整）",
+    "currentFileFunctions": "当前文件（仅函数）",
+    "allSketchFiles": "所有草图文件",
+    "boardInfo": "开发板信息",
+    "usedLibraries": "使用的库",
+    "pinConfiguration": "引脚配置",
+    "buildContext": "构建和分析",
+    "buildWarning": "这些选项需要构建过程（可能需要几秒钟）",
+    "memoryUsage": "内存使用情况",
+    "compilerErrors": "编译器错误（如果有）",
+    "compilerWarnings": "编译器警告",
+    "buildInfo": "构建信息",
+    "buildingSketch": "正在编译草图...",
+    "buildFailed": "构建失败",
+    "buildSuccess": "构建成功",
+    "output": "结果",
+    "lastUsed": "上次使用",
+    "neverUsed": "从未使用",
+    "runAgent": "运行代理",
+    "maxAgentsReached": "已达到最大数量（20）",
+    "agentCreated": "代理已创建",
+    "agentUpdated": "代理已更新",
+    "agentDeleted": "代理已删除",
+    "agentNotFound": "未找到代理",
+    "deleteConfirm": "确定要删除代理吗？",
+    "backToAgents": "返回代理",
+    "selectAgent": "选择代理",
+    "createFirst": "创建代理",
+    "memoryNotAvailable": "内存信息不可用 - 请检查Arduino IDE输出控制台",
+    "line": "行",
+    "noErrors": "无错误",
+    "noWarnings": "无警告",
+    "buildSuccessful": "构建成功",
+    "timestamp": "时间戳",
+    "customAgents": "代理",
+    "maxCustomAgents": "代理最大数量"
   }
 }

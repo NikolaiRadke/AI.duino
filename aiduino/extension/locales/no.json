@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Inline fullføring",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ fra utklippstavle",
-    "openSettings": "Innstillinger"
+    "openSettings": "Innstillinger",
+    "runCustomAgent": "Kjør agent",
+    "manageCustomAgents": "Administrer agenter"
   },
   "messages": {
     "welcome": "👋 Velkommen! AI.duino støtter {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Tilpass og administrer AI-prompter",
     "openChatPanel": "AI-chat med kodeintegrasjon",
     "explainCopiedError": "Analyser feil fra utklippstavle",
-    "openSettings": "Tilpass innstillinger"
+    "openSettings": "Tilpass innstillinger",
+    "runCustomAgent": "Velg og kjør agent",
+    "manageCustomAgents": "Opprett og administrer tilpassede AI-agenter"
   },
   "language": {
     "autoDetect": "Auto-detect fra VS Code",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} analyserer problemet...",
     "testingConnection": "Tester forbindelse...",
     "askingAI": "{0} behandler spørsmålet ditt...",
-    "askingFollowUp": "{0} behandler oppfølgingsspørsmålet ditt..."
+    "askingFollowUp": "{0} behandler oppfølgingsspørsmålet ditt...",
+    "processing": "Behandler..."
   },
   "errors": {
     "quotaExceeded": "Månedlig kvote overskredet",
@@ -398,7 +403,8 @@
       "updates": "Oppdateringer",
       "chat": "Chat",
       "inlineCompletion": "Inline-fullføring",
-      "advanced": "Avansert"
+      "advanced": "Avansert",
+      "customAgents": "Tilpassede agenter"
     },
     "labels": {
       "temperature": "Kreativitet (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Maks. linjer (Enkel)",
       "tokenEstimationMultiplier": "Ordfaktor",
       "tokenEstimationCodeBlock": "Kodeblokk-faktor",
-      "tokenEstimationSpecialChars": "Spesialtegn-faktor"
+      "tokenEstimationSpecialChars": "Spesialtegn-faktor",
+      "maxCustomAgents": "Maksimalt antall agenter"
     },
     "descriptions": {
       "temperature": "AI-kreativitet (0 = deterministisk, 1 = kreativ)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Maksimale linjer ved enkle fullføringer",
       "tokenEstimationMultiplier": "Multiplikator for ord-til-token estimering",
       "tokenEstimationCodeBlock": "Ekstra tokens for kodeblokker",
-      "tokenEstimationSpecialChars": "Multiplikator for spesialtegn"
+      "tokenEstimationSpecialChars": "Multiplikator for spesialtegn",
+      "maxCustomAgents": "Maksimalt antall lagrbare tilpassede agenter (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Delvis avinstallert",
     "deleted": "Slettet",
     "failed": "Mislyktes"
+  },
+  "customAgent": {
+    "title": "Tilpassede AI-agenter",
+    "myAgents": "Mine agenter",
+    "noAgentsYet": "Ingen agenter ennå",
+    "createFirstAgent": "Opprett din første tilpassede agent",
+    "newAgent": "Ny agent",
+    "editAgent": "Rediger agent",
+    "agentName": "Agent navn",
+    "agentNamePlaceholder": "f.eks. Effektoptimaliserer",
+    "promptLabel": "Agent prompt",
+    "promptPlaceholder": "Beskriv hva agenten skal gjøre...",
+    "codeContext": "Kode kontekst",
+    "hardwareContext": "Maskinvare kontekst",
+    "currentSelection": "Gjeldende valg",
+    "currentFileFull": "Gjeldende fil (komplett)",
+    "currentFileFunctions": "Gjeldende fil (kun funksjoner)",
+    "allSketchFiles": "Alle sketch-filer",
+    "boardInfo": "Kortinformasjon",
+    "usedLibraries": "Brukte biblioteker",
+    "pinConfiguration": "Pin-konfigurasjon",
+    "buildContext": "Bygg og analyse",
+    "buildWarning": "Disse alternativene krever en byggeprosess (kan ta noen sekunder)",
+    "memoryUsage": "Minnebruk",
+    "compilerErrors": "Kompileringsfeil (hvis noen)",
+    "compilerWarnings": "Kompileringsadvarsler",
+    "buildInfo": "Bygginformasjon",
+    "buildingSketch": "Kompilerer sketch...",
+    "buildFailed": "Bygging mislyktes",
+    "buildSuccess": "Bygging vellykket",
+    "output": "Resultat",
+    "lastUsed": "Sist brukt",
+    "neverUsed": "Aldri brukt",
+    "runAgent": "Kjør agent",
+    "maxAgentsReached": "Maksimalt antall nådd (20)",
+    "agentCreated": "Agent opprettet",
+    "agentUpdated": "Agent oppdatert",
+    "agentDeleted": "Agent slettet",
+    "agentNotFound": "Agent ikke funnet",
+    "deleteConfirm": "Virkelig slette agent?",
+    "backToAgents": "Tilbake til agenter",
+    "selectAgent": "Velg agent",
+    "createFirst": "Opprett agent",
+    "memoryNotAvailable": "Minneinformasjon ikke tilgjengelig - sjekk Arduino IDE utgangskonsoll",
+    "line": "Linje",
+    "noErrors": "Ingen feil",
+    "noWarnings": "Ingen advarsler",
+    "buildSuccessful": "Bygging vellykket",
+    "timestamp": "Tidsstempel",
+    "customAgents": "Agenter",
+    "maxCustomAgents": "Maksimalt antall agenter"
   }
 }

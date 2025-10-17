@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Completare inline",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ din clipboard",
-    "openSettings": "Setări"
+    "openSettings": "Setări",
+    "runCustomAgent": "Rulează agentul",
+    "manageCustomAgents": "Gestionează agenții"
   },
   "messages": {
     "welcome": "👋 Bun venit! AI.duino suportă {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Personalizează și gestionează prompturile AI",
     "openChatPanel": "Chat AI cu integrare cod",
     "explainCopiedError": "Analizează eroarea din clipboard",
-    "openSettings": "Ajustează setările"
+    "openSettings": "Ajustează setările",
+    "runCustomAgent": "Selectează și rulează agentul",
+    "manageCustomAgents": "Creează și gestionează agenți AI personalizați"
   },
   "labels": {
     "active": "Activ",
@@ -190,7 +194,8 @@
     "analyzingProblem": "{0} analizează problema...",
     "testingConnection": "Testez conexiunea...",
     "askingAI": "{0} procesează întrebarea ta...",
-    "askingFollowUp": "{0} procesează întrebarea ta de urmărire..."
+    "askingFollowUp": "{0} procesează întrebarea ta de urmărire...",
+    "processing": "Se procesează..."
   },
   "errors": {
     "quotaExceeded": "Cota lunară depășită",
@@ -398,7 +403,8 @@
       "updates": "Actualizări",
       "chat": "Chat",
       "inlineCompletion": "Completare inline",
-      "advanced": "Avansat"
+      "advanced": "Avansat",
+      "customAgents": "Agenți personalizați"
     },
     "labels": {
       "temperature": "Creativitate (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Max. linii (Simplu)",
       "tokenEstimationMultiplier": "Factor cuvinte",
       "tokenEstimationCodeBlock": "Factor bloc cod",
-      "tokenEstimationSpecialChars": "Factor caractere speciale"
+      "tokenEstimationSpecialChars": "Factor caractere speciale",
+      "maxCustomAgents": "Număr maxim de agenți"
     },
     "descriptions": {
       "temperature": "Creativitatea AI (0 = determinist, 1 = creativ)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Linii maxime la completări simple",
       "tokenEstimationMultiplier": "Multiplicator pentru estimare cuvânt-în-token",
       "tokenEstimationCodeBlock": "Tokeni suplimentari pentru blocuri de cod",
-      "tokenEstimationSpecialChars": "Multiplicator pentru caractere speciale"
+      "tokenEstimationSpecialChars": "Multiplicator pentru caractere speciale",
+      "maxCustomAgents": "Număr maxim de agenți personalizați stocabili (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Dezinstalat parțial",
     "deleted": "Șters",
     "failed": "Eșuat"
+  },
+  "customAgent": {
+    "title": "Agenți AI personalizați",
+    "myAgents": "Agenții mei",
+    "noAgentsYet": "Încă nu există agenți",
+    "createFirstAgent": "Creează primul tău agent personalizat",
+    "newAgent": "Agent nou",
+    "editAgent": "Editează agentul",
+    "agentName": "Nume agent",
+    "agentNamePlaceholder": "ex. Optimizator de putere",
+    "promptLabel": "Prompt agent",
+    "promptPlaceholder": "Descrie ce ar trebui să facă agentul...",
+    "codeContext": "Context cod",
+    "hardwareContext": "Context hardware",
+    "currentSelection": "Selecție curentă",
+    "currentFileFull": "Fișier curent (complet)",
+    "currentFileFunctions": "Fișier curent (doar funcții)",
+    "allSketchFiles": "Toate fișierele sketch",
+    "boardInfo": "Informații despre placă",
+    "usedLibraries": "Biblioteci utilizate",
+    "pinConfiguration": "Configurație pini",
+    "buildContext": "Compilare și analiză",
+    "buildWarning": "Aceste opțiuni necesită un proces de compilare (poate dura câteva secunde)",
+    "memoryUsage": "Utilizare memorie",
+    "compilerErrors": "Erori compilator (dacă există)",
+    "compilerWarnings": "Avertismente compilator",
+    "buildInfo": "Informații compilare",
+    "buildingSketch": "Se compilează sketch-ul...",
+    "buildFailed": "Compilare eșuată",
+    "buildSuccess": "Compilare reușită",
+    "output": "Rezultat",
+    "lastUsed": "Ultima utilizare",
+    "neverUsed": "Niciodată utilizat",
+    "runAgent": "Rulează agentul",
+    "maxAgentsReached": "Număr maxim atins (20)",
+    "agentCreated": "Agent creat",
+    "agentUpdated": "Agent actualizat",
+    "agentDeleted": "Agent șters",
+    "agentNotFound": "Agent negăsit",
+    "deleteConfirm": "Ștergi cu adevărat agentul?",
+    "backToAgents": "Înapoi la agenți",
+    "selectAgent": "Selectează agentul",
+    "createFirst": "Creează agent",
+    "memoryNotAvailable": "Informații memorie indisponibile - verifică consola de output Arduino IDE",
+    "line": "Linie",
+    "noErrors": "Fără erori",
+    "noWarnings": "Fără avertismente",
+    "buildSuccessful": "Compilare reușită",
+    "timestamp": "Marcaj temporal",
+    "customAgents": "Agenți",
+    "maxCustomAgents": "Număr maxim de agenți"
   }
 }

@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Inline dopuna",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ iz međuspremnika",
-    "openSettings": "Postavke"
+    "openSettings": "Postavke",
+    "runCustomAgent": "Pokreni agenta",
+    "manageCustomAgents": "Upravljaj agentima"
   },
   "messages": {
     "welcome": "👋 Dobrodošli! AI.duino podržava {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Prilagodite AI upite",
     "openChatPanel": "AI chat sa integracijom koda",
     "explainCopiedError": "Analiziraj grešku iz međuspremnika",
-    "openSettings": "Prilagodi postavke"
+    "openSettings": "Prilagodi postavke",
+    "runCustomAgent": "Odaberi i pokreni agenta",
+    "manageCustomAgents": "Kreiraj i upravljaj prilagođenim AI agentima"
   },
   "language": {
     "autoDetect": "Automatski prepoznaj iz VS Code",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} analizira problem...",
     "testingConnection": "Testiranje konekcije...",
     "askingAI": "{0} obrađuje vaše pitanje...",
-    "askingFollowUp": "{0} obrađuje vaše dodatno pitanje..."
+    "askingFollowUp": "{0} obrađuje vaše dodatno pitanje...",
+    "processing": "Obrada..."
   },
   "errors": {
     "quotaExceeded": "Mjesečna kvota je iscrpljena",
@@ -398,7 +403,8 @@
       "updates": "Ažuriranja",
       "chat": "Chat",
       "inlineCompletion": "Inline dovršavanje",
-      "advanced": "Napredno"
+      "advanced": "Napredno",
+      "customAgents": "Prilagođeni agenti"
     },
     "labels": {
       "temperature": "Kreativnost (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Maks. redova (Jednostavno)",
       "tokenEstimationMultiplier": "Faktor riječi",
       "tokenEstimationCodeBlock": "Faktor bloka koda",
-      "tokenEstimationSpecialChars": "Faktor specijalnih karaktera"
+      "tokenEstimationSpecialChars": "Faktor specijalnih karaktera",
+      "maxCustomAgents": "Maksimalan broj agenata"
     },
     "descriptions": {
       "temperature": "Kreativnost AI-a (0 = deterministički, 1 = kreativan)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Maksimalni redovi kod jednostavnih dovršavanja",
       "tokenEstimationMultiplier": "Množitelj za procjenu riječi-tokeni",
       "tokenEstimationCodeBlock": "Dodatni tokeni za blokove koda",
-      "tokenEstimationSpecialChars": "Množitelj za specijalne karaktere"
+      "tokenEstimationSpecialChars": "Množitelj za specijalne karaktere",
+      "maxCustomAgents": "Maksimalan broj agenata za pohranu (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Djelimično deinstalirano",
     "deleted": "Obrisano",
     "failed": "Neuspješno"
+  },
+  "customAgent": {
+    "title": "Prilagođeni AI agenti",
+    "myAgents": "Moji agenti",
+    "noAgentsYet": "Još nema agenata",
+    "createFirstAgent": "Kreiraj svog prvog prilagođenog agenta",
+    "newAgent": "Novi agent",
+    "editAgent": "Uredi agenta",
+    "agentName": "Naziv agenta",
+    "agentNamePlaceholder": "npr. Optimizator snage",
+    "promptLabel": "Prompt agenta",
+    "promptPlaceholder": "Opiši šta agent treba raditi...",
+    "codeContext": "Kontekst koda",
+    "hardwareContext": "Kontekst hardvera",
+    "currentSelection": "Trenutni odabir",
+    "currentFileFull": "Trenutna datoteka (kompletna)",
+    "currentFileFunctions": "Trenutna datoteka (samo funkcije)",
+    "allSketchFiles": "Sve sketch datoteke",
+    "boardInfo": "Informacije o ploči",
+    "usedLibraries": "Korištene biblioteke",
+    "pinConfiguration": "Konfiguracija pinova",
+    "buildContext": "Build i analiza",
+    "buildWarning": "Ove opcije zahtijevaju proces kompajliranja (može potrajati nekoliko sekundi)",
+    "memoryUsage": "Korištenje memorije",
+    "compilerErrors": "Greške kompajlera (ako postoje)",
+    "compilerWarnings": "Upozorenja kompajlera",
+    "buildInfo": "Informacije o kompajliranju",
+    "buildingSketch": "Kompajliranje sketch-a...",
+    "buildFailed": "Kompajliranje neuspješno",
+    "buildSuccess": "Kompajliranje uspješno",
+    "output": "Rezultat",
+    "lastUsed": "Posljednje korišteno",
+    "neverUsed": "Nikad korišteno",
+    "runAgent": "Pokreni agenta",
+    "maxAgentsReached": "Dostignut maksimalan broj (20)",
+    "agentCreated": "Agent kreiran",
+    "agentUpdated": "Agent ažuriran",
+    "agentDeleted": "Agent izbrisan",
+    "agentNotFound": "Agent nije pronađen",
+    "deleteConfirm": "Zaista izbrisati agenta?",
+    "backToAgents": "Nazad na agente",
+    "selectAgent": "Odaberi agenta",
+    "createFirst": "Kreiraj agenta",
+    "memoryNotAvailable": "Informacije o memoriji nisu dostupne - provjerite Arduino IDE izlaznu konzolu",
+    "line": "Linija",
+    "noErrors": "Nema grešaka",
+    "noWarnings": "Nema upozorenja",
+    "buildSuccessful": "Kompajliranje uspješno",
+    "timestamp": "Vremenska oznaka",
+    "customAgents": "Agenti",
+    "maxCustomAgents": "Maksimalan broj agenata"
   }
 }

@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Uzupełnianie inline",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ ze schowka",
-    "openSettings": "Ustawienia"
+    "openSettings": "Ustawienia",
+    "runCustomAgent": "Uruchom agenta",
+    "manageCustomAgents": "Zarządzaj agentami"
   },
   "messages": {
     "welcome": "👋 Witaj! AI.duino  obsługuje {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Dostosuj i zarządzaj poleceniami AI",
     "openChatPanel": "Czat AI z integracją kodu",
     "explainCopiedError": "Analizuj błąd ze schowka",
-    "openSettings": "Dostosuj ustawienia"
+    "openSettings": "Dostosuj ustawienia",
+    "runCustomAgent": "Wybierz i uruchom agenta",
+    "manageCustomAgents": "Twórz i zarządzaj niestandardowymi agentami AI"
   },
   "language": {
     "autoDetect": "Wykryj automatycznie z VS Code",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} analizuje problem...",
     "testingConnection": "Testowanie połączenia...",
     "askingAI": "{0} przetwarza twoje pytanie...",
-    "askingFollowUp": "{0} przetwarza twoje pytanie uzupełniające..."
+    "askingFollowUp": "{0} przetwarza twoje pytanie uzupełniające...",
+    "processing": "Przetwarzanie..."
   },
   "errors": {
     "quotaExceeded": "Miesięczny limit przekroczony",
@@ -398,7 +403,8 @@
       "updates": "Aktualizacje",
       "chat": "Chat",
       "inlineCompletion": "Uzupełnianie w linii",
-      "advanced": "Zaawansowane"
+      "advanced": "Zaawansowane",
+      "customAgents": "Niestandardowi agenci"
     },
     "labels": {
       "temperature": "Kreatywność (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Maks. linie (proste)",
       "tokenEstimationMultiplier": "Współczynnik słowa",
       "tokenEstimationCodeBlock": "Współczynnik bloku kodu",
-      "tokenEstimationSpecialChars": "Współczynnik znaków specjalnych"
+      "tokenEstimationSpecialChars": "Współczynnik znaków specjalnych",
+      "maxCustomAgents": "Maksymalna liczba agentów"
     },
     "descriptions": {
       "temperature": "Kreatywność AI (0 = deterministyczna, 1 = kreatywna)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Maksymalna liczba linii dla prostych uzupełnień",
       "tokenEstimationMultiplier": "Mnożnik dla szacowania słowo-token",
       "tokenEstimationCodeBlock": "Dodatkowe tokeny dla bloków kodu",
-      "tokenEstimationSpecialChars": "Mnożnik dla znaków specjalnych"
+      "tokenEstimationSpecialChars": "Mnożnik dla znaków specjalnych",
+      "maxCustomAgents": "Maksymalna liczba przechowywanych niestandardowych agentów (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Częściowo odinstalowane",
     "deleted": "Usunięte",
     "failed": "Niepowodzenie"
+  },
+  "customAgent": {
+    "title": "Niestandardowi agenci AI",
+    "myAgents": "Moi agenci",
+    "noAgentsYet": "Nie ma jeszcze agentów",
+    "createFirstAgent": "Utwórz swojego pierwszego niestandardowego agenta",
+    "newAgent": "Nowy agent",
+    "editAgent": "Edytuj agenta",
+    "agentName": "Nazwa agenta",
+    "agentNamePlaceholder": "np. Optymalizator mocy",
+    "promptLabel": "Prompt agenta",
+    "promptPlaceholder": "Opisz, co powinien robić agent...",
+    "codeContext": "Kontekst kodu",
+    "hardwareContext": "Kontekst sprzętu",
+    "currentSelection": "Bieżący wybór",
+    "currentFileFull": "Bieżący plik (pełny)",
+    "currentFileFunctions": "Bieżący plik (tylko funkcje)",
+    "allSketchFiles": "Wszystkie pliki szkicu",
+    "boardInfo": "Informacje o płytce",
+    "usedLibraries": "Używane biblioteki",
+    "pinConfiguration": "Konfiguracja pinów",
+    "buildContext": "Kompilacja i analiza",
+    "buildWarning": "Te opcje wymagają procesu kompilacji (może potrwać kilka sekund)",
+    "memoryUsage": "Wykorzystanie pamięci",
+    "compilerErrors": "Błędy kompilatora (jeśli występują)",
+    "compilerWarnings": "Ostrzeżenia kompilatora",
+    "buildInfo": "Informacje o kompilacji",
+    "buildingSketch": "Kompilowanie szkicu...",
+    "buildFailed": "Kompilacja nie powiodła się",
+    "buildSuccess": "Kompilacja udana",
+    "output": "Wynik",
+    "lastUsed": "Ostatnio użyty",
+    "neverUsed": "Nigdy nie używany",
+    "runAgent": "Uruchom agenta",
+    "maxAgentsReached": "Osiągnięto maksymalną liczbę (20)",
+    "agentCreated": "Agent utworzony",
+    "agentUpdated": "Agent zaktualizowany",
+    "agentDeleted": "Agent usunięty",
+    "agentNotFound": "Agent nie znaleziony",
+    "deleteConfirm": "Czy na pewno usunąć agenta?",
+    "backToAgents": "Powrót do agentów",
+    "selectAgent": "Wybierz agenta",
+    "createFirst": "Utwórz agenta",
+    "memoryNotAvailable": "Informacje o pamięci niedostępne - sprawdź konsolę wyjściową Arduino IDE",
+    "line": "Linia",
+    "noErrors": "Brak błędów",
+    "noWarnings": "Brak ostrzeżeń",
+    "buildSuccessful": "Kompilacja udana",
+    "timestamp": "Znacznik czasu",
+    "customAgents": "Agenci",
+    "maxCustomAgents": "Maksymalna liczba agentów"
   }
 }

@@ -21,7 +21,9 @@
     "toggleInlineCompletion": "Plotësim inline",
     "toggleInlineCompletionShort": "Inline",
     "explainCopiedError": "↳ nga clipboard",
-    "openSettings": "Cilësimet"
+    "openSettings": "Cilësimet",
+    "runCustomAgent": "Ekzekuto agentin",
+    "manageCustomAgents": "Menaxho agentët"
   },
   "messages": {
     "welcome": "👋 Mirë se vini! AI.duino mbështet {0}!",
@@ -118,7 +120,9 @@
     "editPrompts": "Përshtat kërkesat e AI-së",
     "openChatPanel": "AI chat me integrim kodi",
     "explainCopiedError": "Analizo gabimin nga clipboard",
-    "openSettings": "Përshtat cilësimet"
+    "openSettings": "Përshtat cilësimet",
+    "runCustomAgent": "Zgjidh dhe ekzekuto agentin",
+    "manageCustomAgents": "Krijo dhe menaxho agentë AI të personalizuar"
   },
   "language": {
     "autoDetect": "Zbulo automatikisht nga VS Code",
@@ -196,7 +200,8 @@
     "analyzingProblem": "{0} po analizon problemin...",
     "testingConnection": "Po testohet lidhja...",
     "askingAI": "{0} po përpunon pyetjen tuaj...",
-    "askingFollowUp": "{0} po përpunon pyetjen tuaj shtesë..."
+    "askingFollowUp": "{0} po përpunon pyetjen tuaj shtesë...",
+    "processing": "Duke përpunuar..."
   },
   "errors": {
     "quotaExceeded": "Kuota mujore është shteruar",
@@ -398,7 +403,8 @@
       "updates": "Përditësimet",
       "chat": "Chat",
       "inlineCompletion": "Plotësimi inline",
-      "advanced": "Të avancuara"
+      "advanced": "Të avancuara",
+      "customAgents": "Agentë të personalizuar"
     },
     "labels": {
       "temperature": "Kreativiteti (Temperature)",
@@ -416,7 +422,8 @@
       "inlineCompletionMaxLinesSimple": "Maks. rreshta (I thjeshtë)",
       "tokenEstimationMultiplier": "Faktori i fjalëve",
       "tokenEstimationCodeBlock": "Faktori i bllokut të kodit",
-      "tokenEstimationSpecialChars": "Faktori i karaktereve speciale"
+      "tokenEstimationSpecialChars": "Faktori i karaktereve speciale",
+      "maxCustomAgents": "Numri maksimal i agentëve"
     },
     "descriptions": {
       "temperature": "Kreativiteti i AI (0 = deterministik, 1 = kreativ)",
@@ -434,7 +441,8 @@
       "inlineCompletionMaxLinesSimple": "Rreshtat maksimalë në plotësime të thjeshta",
       "tokenEstimationMultiplier": "Shumëzuesi për vlerësimin fjalë-në-token",
       "tokenEstimationCodeBlock": "Tokens shtesë për blloqet e kodit",
-      "tokenEstimationSpecialChars": "Shumëzuesi për karakteret speciale"
+      "tokenEstimationSpecialChars": "Shumëzuesi për karakteret speciale",
+      "maxCustomAgents": "Numri maksimal i agentëve të personalizuar të ruajtur (1-100)"
     }
   },
   "extensionUpdate": {
@@ -542,5 +550,56 @@
     "partialSuccess": "⚠️ Çinstaluar pjesërisht",
     "deleted": "U fshi",
     "failed": "Dështoi"
+  },
+  "customAgent": {
+    "title": "Agentë AI të personalizuar",
+    "myAgents": "Agentët e mi",
+    "noAgentsYet": "Ende s'ka agentë",
+    "createFirstAgent": "Krijo agentin tënd të parë të personalizuar",
+    "newAgent": "Agent i ri",
+    "editAgent": "Modifiko agentin",
+    "agentName": "Emri i agentit",
+    "agentNamePlaceholder": "p.sh. Optimizues i fuqisë",
+    "promptLabel": "Prompt i agentit",
+    "promptPlaceholder": "Përshkruaj çfarë duhet të bëjë agenti...",
+    "codeContext": "Konteksti i kodit",
+    "hardwareContext": "Konteksti i harduerit",
+    "currentSelection": "Zgjedhja aktuale",
+    "currentFileFull": "Skedari aktual (i plotë)",
+    "currentFileFunctions": "Skedari aktual (vetëm funksione)",
+    "allSketchFiles": "Të gjitha skedarët e sketch",
+    "boardInfo": "Informacioni i pllakës",
+    "usedLibraries": "Librari të përdorura",
+    "pinConfiguration": "Konfigurimi i pinave",
+    "buildContext": "Ndërtimi dhe analiza",
+    "buildWarning": "Këto opsione kërkojnë proces ndërtimi (mund të zgjasë disa sekonda)",
+    "memoryUsage": "Përdorimi i memories",
+    "compilerErrors": "Gabime të kompajlerit (nëse ka)",
+    "compilerWarnings": "Paralajmërime të kompajlerit",
+    "buildInfo": "Informacioni i ndërtimit",
+    "buildingSketch": "Duke kompajluar sketch...",
+    "buildFailed": "Ndërtimi dështoi",
+    "buildSuccess": "Ndërtimi u krye me sukses",
+    "output": "Rezultati",
+    "lastUsed": "Përdorur së fundi",
+    "neverUsed": "Kurrë nuk është përdorur",
+    "runAgent": "Ekzekuto agentin",
+    "maxAgentsReached": "U arrit numri maksimal (20)",
+    "agentCreated": "Agenti u krijua",
+    "agentUpdated": "Agenti u përditësua",
+    "agentDeleted": "Agenti u fshi",
+    "agentNotFound": "Agenti nuk u gjet",
+    "deleteConfirm": "Të fshihet agenti me të vërtetë?",
+    "backToAgents": "Kthehu te agentët",
+    "selectAgent": "Zgjidh agentin",
+    "createFirst": "Krijo agentin",
+    "memoryNotAvailable": "Informacioni i memories nuk është i disponueshëm - kontrollo konsolën e daljes së Arduino IDE",
+    "line": "Rreshti",
+    "noErrors": "Asnjë gabim",
+    "noWarnings": "Asnjë paralajmërim",
+    "buildSuccessful": "Ndërtimi u krye me sukses",
+    "timestamp": "Vula kohore",
+    "customAgents": "Agentë",
+    "maxCustomAgents": "Numri maksimal i agentëve"
   }
 }
