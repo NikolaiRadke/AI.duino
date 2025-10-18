@@ -8,8 +8,7 @@
 const vscode = require('vscode');
 const { getSharedCSS } = require('./sharedStyles');
 const { uninstallAiduino } = require('../uninstaller');
-const panelManager = require('../panelManager');  // ← NEU
-
+const panelManager = require('../panelManager');
 /**
  * Show settings panel with all configurable options
  * @param {Object} context - Extension context with dependencies

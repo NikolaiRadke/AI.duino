@@ -9,9 +9,9 @@ const vscode = require('vscode');
 const shared = require('../shared');
 const featureUtils = require('./featureUtils');
 const contextManager = require('../utils/contextManager');
+const panelManager = require('../utils/panelManager');
 const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 const { ChatHistoryManager } = require('../utils/chatHistoryManager');
-const panelManager = require('../utils/panelManager');
 
 // Global panel reference to prevent multiple instances
 let historyManager = null;
@@ -85,7 +85,7 @@ async function showChatPanel(context) {
                 let badgeHtml = contextManager.getContextBadgeHtml(lastUsedContext, context.t);
                 badgeHtml = badgeHtml.replace('</div>', 
                 '<span onclick="event.stopPropagation(); clearContext()" style="cursor: pointer; margin-left: 5px; font-weight: bold;">×</span></div>');
-    
+
                 panel.webview.postMessage({
                     command: 'contextAttached',
                     badge: badgeHtml
@@ -118,7 +118,7 @@ async function showChatPanel(context) {
             });
         }
     }); 
-        
+    
     // Initial render
     updatePanelContent(panel, context);
 }
