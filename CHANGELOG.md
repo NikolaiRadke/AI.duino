@@ -1,15 +1,15 @@
 # Changelog
 
-**V2.2.0** beta
+**V2.2.0**
 
 ## Features
 
 * Added Custom AI Agents
-* Removed tool panels
-
+  
 ## Bugfixes
 
 * Better error handling
 * Panels only open unique
 * Settings are saving now
 * Paste change trigger fixed
+* Code cleanup
