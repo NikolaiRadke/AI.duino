@@ -58,7 +58,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '131025'; 
+const CONFIG_VERSION = '181025'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -161,15 +161,18 @@ const PROVIDER_CONFIGS = {
             },
             method: 'POST',
             headers: () => ({ 'Content-Type': 'application/json' }),
-            buildRequest: (modelId, prompt) => ({
+            buildRequest: (modelId, prompt, systemPrompt) => ({
                 contents: [{ parts: [{ text: prompt }] }],
                 generationConfig: {
                     temperature: 0.7,
-                    maxOutputTokens: 8192
+                    maxOutputTokens: 65536
                 }
             }),
             extractResponse: (data) => {
                 if (data.error) throw new Error(data.error.message);
+                if (!data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                    throw new Error(`Gemini: ${data.candidates?.[0]?.finishReason || 'No response'}`);
+                }
                 return data.candidates[0].content.parts[0].text;
             }
         }

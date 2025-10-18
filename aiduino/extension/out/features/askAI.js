@@ -258,9 +258,6 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
         t
     );
 
-    // Board info
-    const board = shared.detectArduinoBoard();
-    const boardDisplay = board ? shared.getBoardDisplayName(board) : t('output.boardUnknown');
     const contextAge = isFollowUp ? Math.round((Date.now() - conversationContext.timestamp) / 60000) : null;
     
     return `
@@ -310,9 +307,7 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
             </div>
             ` : ''}
             
-            <div class="board-info">
-                🎯 ${t('output.boardDetected', boardDisplay)}
-            </div>
+            ${featureUtils.getBoardInfoHTML(t)}
             
             <div class="panel-section">
                 <h3>🤖 ${t('output.aiAnswer')}:</h3>

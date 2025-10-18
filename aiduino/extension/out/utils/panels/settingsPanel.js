@@ -128,7 +128,7 @@ function generateSettingsHTML(currentSettings, t, context, openCategory = null) 
             icon: '🤖',
             settings: [
                 { key: 'temperature', type: 'number', min: 0, max: 1, step: 0.1 },
-                { key: 'maxTokensPerRequest', type: 'number', min: 500, max: 4000, step: 100 }
+                { key: 'maxTokensPerRequest', type: 'number', min: 500, max: 8000, step: 100 }
             ]
         },
         {

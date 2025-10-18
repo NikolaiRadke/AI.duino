@@ -242,9 +242,9 @@
         },
         "aiduino.maxTokensPerRequest": {
           "type": "number",
-          "default": 2000,
+          "default": 8000,
           "minimum": 500,
-          "maximum": 4000,
+          "maximum": 8000,
           "description": "Maximum tokens per AI request"
         },
         "aiduino.temperature": {
@@ -304,7 +304,7 @@
         },
         "aiduino.apiTimeout": {
           "type": "number",
-          "default": 30000,
+          "default": 60000,
           "minimum": 5000,
           "maximum": 120000,
           "description": "API request timeout in milliseconds"

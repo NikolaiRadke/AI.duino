@@ -1,11 +1,10 @@
 # Changelog
 
-**V2.2.0** beta
+**V2.2.0** 
 
 ## Features
 
 * Added Custom AI Agents
-* Removed tool panels
 
 ## Bugfixes
 

@@ -131,10 +131,6 @@ function createAddCommentsHtml(originalCode, aiResponse, customInstructions, con
     const processedHtml = featureUtils.processMessageWithCodeBlocks(aiResponse, 'addComments', t, ['copy', 'insert', 'replace']);
     const codeBlocks = processedHtml.codeBlocks;
     
-    const boardFqbn = shared.detectArduinoBoard();
-    const boardDisplay = boardFqbn ? 
-        shared.getBoardDisplayName(boardFqbn) : t('output.boardUnknown');
-    
     const contextBadge = contextManager.getContextBadgeHtml(contextData, t);
     
     return `
@@ -176,9 +172,7 @@ function createAddCommentsHtml(originalCode, aiResponse, customInstructions, con
                 ${processedHtml.html}
             </div>
             
-            <div class="board-info">
-                🎯 ${t('improveCode.targetBoard')}: ${boardDisplay}
-            </div>
+            ${featureUtils.getBoardInfoHTML(t)}
             
             <script>
                 const vscode = acquireVsCodeApi();

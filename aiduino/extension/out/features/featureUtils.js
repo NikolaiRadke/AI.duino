@@ -807,6 +807,23 @@ function generateContextMenu(t, options = {}) {
     return { html, script };
 }
 
+/**
+ * Get board information HTML
+ * @param {Function} t - Translation function
+ * @returns {string} HTML string with board info
+ */
+function getBoardInfoHTML(t) {
+    const shared = require('../shared');
+    const boardFqbn = shared.detectArduinoBoard();
+    const boardDisplay = boardFqbn ? 
+        shared.getBoardDisplayName(boardFqbn) : 
+        t('output.boardUnknown');
+    
+    return `<div class="board-info">
+        🎯 ${t('output.boardDetected', boardDisplay)}
+    </div>`;
+}
+
 module.exports = {
     executeFeature,
     createAndShowDocument,
@@ -827,5 +844,6 @@ module.exports = {
     processAiCodeBlocksWithEventDelegation,
     processMessageWithCodeBlocks,
     parseArduinoCompilerOutput,
-    generateContextMenu
+    generateContextMenu,
+    getBoardInfoHTML
 };

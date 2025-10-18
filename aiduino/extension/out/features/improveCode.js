@@ -130,9 +130,6 @@ function createImproveCodeHtml(originalCode, aiResponse, customInstructions, con
     const processedHtml = featureUtils.processMessageWithCodeBlocks(aiResponse, 'improve', t, ['copy', 'insert', 'replace']);
     const codeBlocks = processedHtml.codeBlocks;
     
-    const boardFqbn = shared.detectArduinoBoard();
-    const boardDisplay = boardFqbn ? shared.getBoardDisplayName(boardFqbn) : t('output.boardUnknown');
-    
     // Context info badge (using shared function)
     const contextBadge = contextManager.getContextBadgeHtml(contextData, t);
     
@@ -175,9 +172,7 @@ function createImproveCodeHtml(originalCode, aiResponse, customInstructions, con
                 ${processedHtml.html}
             </div>
             
-            <div class="board-info">
-                🎯 ${t('improveCode.targetBoard')}: ${boardDisplay}
-            </div>
+            ${featureUtils.getBoardInfoHTML(t)}
             
             <script>
                 const vscode = acquireVsCodeApi();

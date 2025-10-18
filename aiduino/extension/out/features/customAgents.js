@@ -768,9 +768,6 @@ function generateOutputHTML(agent, response, context) {
     const result = featureUtils.processMessageWithCodeBlocks(response, 'customAgent', t, ['copy', 'insert']);
     const codeBlocks = result.codeBlocks;
     
-    const boardFqbn = shared.detectArduinoBoard();
-    const boardDisplay = boardFqbn ? shared.getBoardDisplayName(boardFqbn) : t('output.boardUnknown');
-    
     return `
         <!DOCTYPE html>
         <html>
@@ -786,9 +783,7 @@ function generateOutputHTML(agent, response, context) {
                 <p>${shared.escapeHtml(agent.prompt)}</p>
             </div>
             
-            <div class="board-info">
-                🎯 ${t('output.boardDetected', boardDisplay)}
-            </div>
+            ${featureUtils.getBoardInfoHTML(t)}
             
             <div class="panel-section">
                 <h3>💡 ${t('customAgent.output')}:</h3>

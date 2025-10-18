@@ -16,11 +16,11 @@ class SettingsManager {
         this.defaults = {
             // ===== AI BEHAVIOR =====
             temperature: 0.7,
-            maxTokensPerRequest: 2000,
+            maxTokensPerRequest: 8000,
             customInstructionsEnabled: true,
             
             // ===== PERFORMANCE =====
-            apiTimeout: 30000,                      // 30 seconds
+            apiTimeout: 60000,                      // 60 seconds
             apiMaxRetries: 3,
             debounceConfigChange: 300,              // ms
             debounceSaveOperation: 500,             // ms
