@@ -314,28 +314,7 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
                 ${processedResponse}
             </div>
 
-            <script>
-                const vscode = acquireVsCodeApi();
-                const codeBlocksData = ${JSON.stringify(codeBlocks)};
-                
-                document.addEventListener('click', (e) => {
-                    const button = e.target.closest('[data-action]');
-                    if (!button) return;
-                    
-                    const action = button.dataset.action;
-                    const index = parseInt(button.dataset.index);
-                    const code = codeBlocksData[index];
-                    
-                    if (action === 'copy') {
-                        vscode.postMessage({ command: 'copyCode', code: code });
-                    } else if (action === 'insert') {
-                        vscode.postMessage({ command: 'insertCode', code: code });
-                    }
-                });
-
-                // Context menu
-                ${featureUtils.generateContextMenu(t, { showFollowUp: true }).script}
-            </script>
+            ${featureUtils.generateCodeBlockHandlers(codeBlocks, t, { includeBackButton: false })}
             
             ${getPrismScripts()}
         </body>

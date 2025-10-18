@@ -796,32 +796,7 @@ function generateOutputHTML(agent, response, context) {
                 </button>
             </div>
             
-            <script>
-                const vscode = acquireVsCodeApi();
-                const codeBlocksData = ${JSON.stringify(codeBlocks)};
-                
-                document.addEventListener('click', (e) => {
-                    const button = e.target.closest('[data-action]');
-                    if (!button) return;
-                    
-                    const action = button.dataset.action;
-                    const index = parseInt(button.dataset.index);
-                    const code = codeBlocksData[index];
-                    
-                    if (action === 'copy') {
-                        vscode.postMessage({ command: 'copyCode', code: code });
-                    } else if (action === 'insert') {
-                        vscode.postMessage({ command: 'insertCode', code: code });
-                    }
-                });
-                
-                function backToOverview() {
-                    vscode.postMessage({ command: 'backToOverview' });
-                }
-                
-                // Context menu
-                ${featureUtils.generateContextMenu(t).script}
-            </script>
+            ${featureUtils.generateCodeBlockHandlers(codeBlocks, t, { includeBackButton: true })}
             
             ${getPrismScripts()}
         </body>

@@ -824,6 +824,50 @@ function getBoardInfoHTML(t) {
     </div>`;
 }
 
+/**
+ * Generate standard webview script for code block handling
+ * @param {Array} codeBlocks - Array of code blocks
+ * @param {Function} t - Translation function
+ * @param {Object} options - Additional options
+ * @returns {string} Complete script tag with code
+ */
+function generateCodeBlockHandlers(codeBlocks, t, options = {}) {
+    const { includeBackButton = false } = options;
+    
+    return `
+        <script>
+            const vscode = acquireVsCodeApi();
+            const codeBlocksData = ${JSON.stringify(codeBlocks)};
+            
+            document.addEventListener('click', (e) => {
+                const button = e.target.closest('[data-action]');
+                if (!button) return;
+                
+                const action = button.dataset.action;
+                const index = parseInt(button.dataset.index);
+                const code = codeBlocksData[index];
+                
+                if (action === 'copy') {
+                    vscode.postMessage({ command: 'copyCode', code: code });
+                } else if (action === 'insert') {
+                    vscode.postMessage({ command: 'insertCode', code: code });
+                } else if (action === 'replace') {
+                    vscode.postMessage({ command: 'replaceCode', code: code });
+                }
+            });
+            
+            ${includeBackButton ? `
+            function backToOverview() {
+                vscode.postMessage({ command: 'backToOverview' });
+            }
+            ` : ''}
+            
+            // Context menu
+            ${generateContextMenu(t).script}
+        </script>
+    `;
+}
+
 module.exports = {
     executeFeature,
     createAndShowDocument,
@@ -845,5 +889,6 @@ module.exports = {
     processMessageWithCodeBlocks,
     parseArduinoCompilerOutput,
     generateContextMenu,
-    getBoardInfoHTML
+    getBoardInfoHTML,
+    generateCodeBlockHandlers
 };
