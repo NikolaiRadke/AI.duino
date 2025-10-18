@@ -8,8 +8,7 @@
 const vscode = require('vscode');
 const { getSharedCSS } = require('./sharedStyles');
 const { forEachProvider, calculateTotalCost } = require('../../shared');
-
-let activeTokenStatsPanel = null;
+const panelManager = require('../panelManager');  // ← NEU
 
 /**
  * Show token usage statistics
@@ -18,28 +17,18 @@ let activeTokenStatsPanel = null;
 function showTokenStats(context) {
     const { t, minimalModelManager, tokenUsage, currentLocale } = context;
 
-    // If panel already exists, reveal it
-    if (activeTokenStatsPanel) {
-        activeTokenStatsPanel.reveal(vscode.ViewColumn.One);
+    const panel = panelManager.getOrCreatePanel({
+        id: 'tokenStats',
+        title: t('panels.tokenStats'),
+        viewColumn: vscode.ViewColumn.One
+    });
+    
+    // If panel was just revealed, return early
+    if (panel.webview.html) {
         return;
     }
     
     const totalCostToday = calculateTotalCost(tokenUsage, minimalModelManager.providers);
-    
-    const panel = vscode.window.createWebviewPanel(
-        'tokenStats',
-        t('panels.tokenStats'),
-        vscode.ViewColumn.One,
-        { enableScripts: true }
-    );
-
-    // Store panel reference
-    activeTokenStatsPanel = panel;
-    
-    // Clear reference when panel is disposed
-    panel.onDidDispose(() => {
-        activeTokenStatsPanel = null;
-    });
     
     // Generate statistics cards
     let modelCards = '';

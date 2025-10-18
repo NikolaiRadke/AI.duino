@@ -8,8 +8,7 @@ const vscode = require('vscode');
 const { escapeHtml } = require('../shared');
 const { getSharedCSS } = require('../utils/panels/sharedStyles');
 const featureUtils = require('./featureUtils');
-
-let activePromptEditorPanel = null;
+const panelManager = require('../utils/panelManager');  // ← NEU
 
 /**
  * Show prompt editor with dependency injection
@@ -19,13 +18,7 @@ async function showPromptEditor(context) {
     try {
         const { t, promptManager } = context;
         
-        // If panel already exists, reveal it
-        if (activePromptEditorPanel) {
-            activePromptEditorPanel.reveal(vscode.ViewColumn.One);
-            return;
-        }
-
-        // Variables for close protection - RIGHT HERE AT THE TOP
+        // Variables for close protection
         let hasUnsavedChanges = false;
         let isForceClosing = false;
         let pendingChanges = {};
@@ -47,45 +40,30 @@ async function showPromptEditor(context) {
             title: t('commands.editPrompts'),
             missingPlaceholder: t('promptEditor.missingPlaceholder'),
             missingPlaceholderMultiple: t('promptEditor.missingPlaceholderMultiple'),
-            resetConfirm: t('promptEditor.resetConfirm')  // ← NEU
+            resetConfirm: t('promptEditor.resetConfirm')
         };
         
-        const panel = vscode.window.createWebviewPanel(
-            'aiduinoPromptEditor',
-            strings.title,
-            vscode.ViewColumn.One,
-            { enableScripts: true }
-        );
-
-        // Store panel reference
-        activePromptEditorPanel = panel;
-
-        panel.onDidDispose(() => {
-            // Clear reference
-            activePromptEditorPanel = null;
-            if (hasUnsavedChanges && !isForceClosing) {
-                vscode.window.showWarningMessage(
-                    t('promptEditor.changesLostDialog'),
-                    t('buttons.saveChanges'),
-                    t('buttons.discard')
-                ).then(choice => {
-                    if (choice === t('buttons.saveChanges')) {
-                        Object.entries(pendingChanges).forEach(([key, value]) => {
-                            promptManager.updatePrompt(key, value);
-                        });
-                        vscode.window.showInformationMessage(t('promptEditor.changesSaved'));
-                    }
-                });
-            }
-
-            // Reset flags when panel is closed
-            if (context.setPromptEditorChanges) {
-                context.setPromptEditorChanges(false);
-            }
-            if (context.onPromptEditorClosed) {
-                context.onPromptEditorClosed();
+        // Create or reveal panel using PanelManager
+        const panel = panelManager.getOrCreatePanel({
+            id: 'aiduinoPromptEditor',
+            title: strings.title,
+            viewColumn: vscode.ViewColumn.One,
+            webviewOptions: { enableScripts: true },
+            onDispose: () => {
+                if (!isForceClosing && hasUnsavedChanges && context.onPromptEditorClosed) {
+                    context.onPromptEditorClosed();
+                }
+            },
+            onReveal: () => {
+                // Panel already exists, just return
+                return;
             }
         });
+        
+        // If panel was just revealed (not newly created), return early
+        if (panel.webview.html) {
+            return;
+        }
 
         // Generate HTML content for all prompt cards
         let promptsHtml = '';
@@ -518,124 +496,116 @@ panel.webview.html = `
                                 }, 3000);
                             }
                         }
+                        // Handle paste with change detection
+                        if (message.command === 'pasteText' && message.triggerInput) {
+                            // Wait for paste to complete, then trigger input event
+                            setTimeout(() => {
+                                const activeElement = document.activeElement;
+                                if (activeElement && activeElement.classList.contains('prompt-textarea')) {
+                                    const inputEvent = new Event('input', { bubbles: true });
+                                    activeElement.dispatchEvent(inputEvent);
+                                }
+                            }, 10);
+                        }
                     });
                 </script>
               </body>
             </html>
         `;
-        // Backend message handler
-        panel.webview.onDidReceiveMessage(async (message) => {
-            try {
-                switch (message.command) {
-                    case 'savePrompt':
-                        try {
-                            promptManager.updatePrompt(message.key, message.value);
+        // Backend message handler with custom close logic
+        featureUtils.setupStandardMessageHandler(panel, context, {
+            savePrompt: async (message) => {
+                try {
+                    promptManager.updatePrompt(message.key, message.value);
+
+                    // Only remove from pending changes if save was successful
+                    delete pendingChanges[message.key];
+                    hasUnsavedChanges = Object.keys(pendingChanges).length > 0;
         
-                            // Only remove from pending changes if save was successful
-                            delete pendingChanges[message.key];
-                            hasUnsavedChanges = Object.keys(pendingChanges).length > 0;
-        
-                            panel.webview.postMessage({
-                                command: 'saveConfirmed',
-                                key: message.key
-                            });
-            
-                            if (context.setPromptEditorChanges) {
-                                context.setPromptEditorChanges(hasUnsavedChanges);
-                            }
-                        } catch (error) {
-                            // Keep in pendingChanges if save failed
-                            panel.webview.postMessage({
-                                command: 'error',
-                                key: message.key,
-                                text: error.message
-                            });
-                        }
-                        break;
-                
-                    case 'resetPrompt':
-                        // Remove from pending changes when reset
-                        delete pendingChanges[message.key];
-                        hasUnsavedChanges = Object.keys(pendingChanges).length > 0;
+                    panel.webview.postMessage({
+                        command: 'saveConfirmed',
+                        key: message.key
+                    });
 
-                        const promptDefaultValue = promptManager.defaultPrompts?.[message.key] || '';
-                        if (promptDefaultValue) {
-                            if (promptManager.customPrompts && promptManager.customPrompts[message.key]) {
-                                delete promptManager.customPrompts[message.key];
-                                    promptManager.saveCustomPrompts();
-                                    promptManager.cleanupIfUnchanged();
-                            }   
-
-                            panel.webview.postMessage({
-                                command: 'promptReset',
-                                key: message.key,
-                                value: promptDefaultValue
-                            });
-                        }
-    
-                        // Use actual state instead of hardcoded false
-                        if (context.setPromptEditorChanges) {
-                            context.setPromptEditorChanges(hasUnsavedChanges);
-                        }
-                        break;
-                    
-                    case 'hasUnsavedChanges':
-                        hasUnsavedChanges = message.hasChanges;
-                        if (context.setPromptEditorChanges) {
-                            context.setPromptEditorChanges(message.hasChanges);
-                        }
-                        break;
-
-                    case 'storeChange':
-                        // Store pending changes for close protection
-                        pendingChanges[message.key] = message.value;
-                        hasUnsavedChanges = Object.keys(pendingChanges).length > 0;
-    
-                        if (context.setPromptEditorChanges) {
-                            context.setPromptEditorChanges(hasUnsavedChanges);
-                        }
-                        break;
-
-                    case 'copyCode':
-                        await vscode.env.clipboard.writeText(message.code);
-                        vscode.window.showInformationMessage(t('messages.copiedToClipboard'));
-                        break;
-
-                    case 'pasteFromClipboard':
-                        const clipboardText = await vscode.env.clipboard.readText();
-                        panel.webview.postMessage({
-                            command: 'pasteText',
-                            text: clipboardText
-                        });
-                        break;
-                    
-                    case 'closePanel':
-                        if (hasUnsavedChanges && !isForceClosing) {
-                            const choice = await vscode.window.showWarningMessage(
-                                t('promptEditor.changesLostDialog'),
-                                t('buttons.saveChanges'),
-                                t('buttons.discard')
-                            );
-                            
-                            if (choice === t('buttons.saveChanges')) {
-                                Object.entries(pendingChanges).forEach(([key, value]) => {
-                                    promptManager.updatePrompt(key, value);
-                                });
-                                vscode.window.showInformationMessage(t('promptEditor.changesSaved'));
-                            }
-                        }
-                        
-                        isForceClosing = true;
-                        panel.dispose();
-                        break;
+                    if (context.setPromptEditorChanges) {
+                        context.setPromptEditorChanges(hasUnsavedChanges);
+                    }
+                } catch (error) {
+                    // Keep in pendingChanges if save failed
+                    panel.webview.postMessage({
+                        command: 'error',
+                        key: message.key,
+                        text: error.message
+                    });
                 }
-            } catch (error) {
+            },
+            resetPrompt: async (message) => {
+                // Remove from pending changes when reset
+                delete pendingChanges[message.key];
+                hasUnsavedChanges = Object.keys(pendingChanges).length > 0;
+
+                const promptDefaultValue = promptManager.defaultPrompts?.[message.key] || '';
+                if (promptDefaultValue) {
+                    if (promptManager.customPrompts && promptManager.customPrompts[message.key]) {
+                        delete promptManager.customPrompts[message.key];
+                        promptManager.saveCustomPrompts();
+                        promptManager.cleanupIfUnchanged();
+                    }   
+
+                    panel.webview.postMessage({
+                        command: 'promptReset',
+                        key: message.key,
+                        value: promptDefaultValue
+                    });
+                }
+
+                // Use actual state instead of hardcoded false
+                if (context.setPromptEditorChanges) {
+                    context.setPromptEditorChanges(hasUnsavedChanges);
+                }
+            },      
+            hasUnsavedChanges: async (message) => {
+                hasUnsavedChanges = message.hasChanges;
+                if (context.setPromptEditorChanges) {
+                    context.setPromptEditorChanges(message.hasChanges);
+                }
+            },      
+            storeChange: async (message) => {
+                // Store pending changes for close protection
+                pendingChanges[message.key] = message.value;
+                hasUnsavedChanges = Object.keys(pendingChanges).length > 0;
+
+                if (context.setPromptEditorChanges) {
+                    context.setPromptEditorChanges(hasUnsavedChanges);
+                }
+            },  
+            pasteFromClipboard: async (message) => {        
+                const clipboardText = await vscode.env.clipboard.readText();
                 panel.webview.postMessage({
-                    command: 'error',
-                    key: message.key || 'unknown',
-                    text: error.message
+                    command: 'pasteText',
+                    text: clipboardText,
+                    triggerInput: true
                 });
-            }
+            },  
+            closePanel: async (message) => {
+                if (hasUnsavedChanges && !isForceClosing) {
+                    const choice = await vscode.window.showWarningMessage(
+                        context.t('promptEditor.changesLostDialog'),
+                        context.t('buttons.saveChanges'),
+                        context.t('buttons.discard')
+                    );
+                
+                    if (choice === context.t('buttons.saveChanges')) {
+                        Object.entries(pendingChanges).forEach(([key, value]) => {
+                            promptManager.updatePrompt(key, value);
+                        });
+                        vscode.window.showInformationMessage(context.t('promptEditor.changesSaved'));
+                    }
+                }
+                
+                isForceClosing = true;
+                panel.dispose();
+            }   
         });
     } catch (error) {
         const { t } = context;

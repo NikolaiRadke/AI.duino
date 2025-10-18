@@ -8,8 +8,7 @@
 const vscode = require('vscode');
 const { getSharedCSS } = require('./sharedStyles');
 const { forEachProvider } = require('../../shared');
-
-let activeAboutPanel = null;
+const panelManager = require('../panelManager');  // ← NEU
 
 /**
  * Show About dialog with extension information
@@ -19,26 +18,16 @@ function showAbout(context) {
     const logoData = require('../../../icons/aiduino-logo');
     const { t, minimalModelManager, EXTENSION_VERSION } = context;
 
-    // If panel already exists, reveal it
-    if (activeAboutPanel) {
-        activeAboutPanel.reveal(vscode.ViewColumn.One);
+    const panel = panelManager.getOrCreatePanel({
+        id: 'aiduinoAbout',
+        title: t('panels.about'),
+        viewColumn: vscode.ViewColumn.One
+    });
+    
+    // If panel was just revealed, return early
+    if (panel.webview.html) {
         return;
     }
-    
-    const panel = vscode.window.createWebviewPanel(
-        'aiduinoAbout',
-        t('panels.about'),
-        vscode.ViewColumn.One,
-        { enableScripts: true }
-    );
-
-    // Store panel reference
-    activeAboutPanel = panel;
-    
-    // Clear reference when panel is disposed
-    panel.onDidDispose(() => {
-        activeAboutPanel = null;
-    });
     
     // Generate model badges and features
     let modelBadges = '';

@@ -11,9 +11,9 @@ const featureUtils = require('./featureUtils');
 const contextManager = require('../utils/contextManager');
 const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 const { ChatHistoryManager } = require('../utils/chatHistoryManager');
+const panelManager = require('../utils/panelManager');
 
 // Global panel reference to prevent multiple instances
-let activeChatPanel = null;
 let historyManager = null;
 let currentView = 'overview'; // 'overview' or 'chat'
 let attachedContext = null; // Stores attached context for current message
@@ -30,148 +30,95 @@ let lastUsedProvider = null;
 async function showChatPanel(context) {
     const { t, minimalModelManager } = context;
     
-    // If panel already exists, reveal it
-    if (activeChatPanel) {
-        activeChatPanel.reveal(vscode.ViewColumn.Two);
+    // Create or reveal panel using PanelManager
+    const panel = panelManager.getOrCreatePanel({
+        id: 'aiduinoChatPanel',
+        title: `🤖 ${t('commands.openChatPanel')}`,
+        viewColumn: vscode.ViewColumn.Two,
+        webviewOptions: { 
+            enableScripts: true,
+            retainContextWhenHidden: true,
+            localResourceRoots: []
+        },
+        onDispose: () => {
+            historyManager = null;
+            currentView = 'overview';
+        },
+        onReveal: () => {
+            // Panel already exists, just return
+            return;
+        }
+    });
+    
+    // If panel was just revealed (not newly created), return early
+    if (panel.webview.html) {
         return;
     }
     
-    // Initialize ChatHistoryManager
+    // Initialize ChatHistoryManager for new panel
     historyManager = new ChatHistoryManager(context.settings);
     
     // Start with overview
     currentView = 'overview';
     
-    // Create persistent panel
-    const panel = vscode.window.createWebviewPanel(
-        'aiduinoChatPanel',
-        `🤖 ${t('commands.openChatPanel')}`,
-        vscode.ViewColumn.Two,
-        { 
-            enableScripts: true,
-            retainContextWhenHidden: true,
-            localResourceRoots: []
-        }
-    );
-
-    // Store panel reference
-    activeChatPanel = panel;
+    // Setup message handler with standard commands
+    featureUtils.setupStandardMessageHandler(panel, context, {
+        openChat: async (message) => {
+            await handleOpenChat(message.chatId, panel, context);
+        },
+        backToOverview: async (message) => {
+            currentView = 'overview';
+            updatePanelContent(panel, context);
+        },
+        sendMessage: async (message) => {
+            await handleUserMessage(message.text, panel, context);
+        },
+        attachContext: async (message) => {
+            await handleAttachContext(panel, context);
+        },
+        reuseLastContext: async (message) => {
+            if (lastUsedContext) {
+                attachedContext = lastUsedContext;
+                updatePanelContent(panel, context);
     
-    // Clear reference when panel is disposed
-    panel.onDidDispose(() => {
-        activeChatPanel = null;
-        historyManager = null;
-        currentView = 'overview';
-    });
+                // Show badge
+                let badgeHtml = contextManager.getContextBadgeHtml(lastUsedContext, context.t);
+                badgeHtml = badgeHtml.replace('</div>', 
+                '<span onclick="event.stopPropagation(); clearContext()" style="cursor: pointer; margin-left: 5px; font-weight: bold;">×</span></div>');
     
-    // Setup message handler
-    panel.webview.onDidReceiveMessage(async (message) => {
-        try {
-            switch (message.command) {
-                case 'openChat':
-                    await handleOpenChat(message.chatId, panel, context);
-                    break;
-                    
-                case 'backToOverview':
-                    currentView = 'overview';
-                    updatePanelContent(panel, context);
-                    break;
-                    
-                case 'sendMessage':
-                    await handleUserMessage(message.text, panel, context);
-                    break;
-
-                case 'attachContext':
-                    await handleAttachContext(panel, context);
-                    break;
-
-                case 'reuseLastContext':
-                    if (lastUsedContext) {
-                        attachedContext = lastUsedContext;
-                        updatePanelContent(panel, context);
-        
-                        // Show badge
-                        let badgeHtml = contextManager.getContextBadgeHtml(lastUsedContext, t);
-                        badgeHtml = badgeHtml.replace('</div>', 
-                        '<span onclick="event.stopPropagation(); clearContext()" style="cursor: pointer; margin-left: 5px; font-weight: bold;">×</span></div>');
-        
-                        panel.webview.postMessage({
-                            command: 'contextAttached',
-                            badge: badgeHtml
-                        });
-                    }
-                    break;
-    
-                case 'clearContext':
-                    attachedContext = null;
-                    updatePanelContent(panel, context);
-                    break;
-
-                case 'toggleArduinoMode':
-                    arduinoMode = !arduinoMode;
-                    updatePanelContent(panel, context);
-                    break;
-                    
-                case 'newChat':
-                    await handleNewChat(panel, context);
-                    break;
-                    
-                case 'deleteChat':
-                    await handleDeleteChat(message.chatId, panel, context);
-                    break;
-                    
-                case 'clearChat':
-                    historyManager.clearActiveChat();
-                    updatePanelContent(panel, context);
-                    break;
-
-                case 'pasteFromClipboard':
-                    const clipboardText = await vscode.env.clipboard.readText();
-                    panel.webview.postMessage({
-                        command: 'pasteText',
-                        text: clipboardText
-                    });
-                    break;
-                    
-                case 'copyCode':
-                    await vscode.env.clipboard.writeText(featureUtils.cleanHtmlCode(message.code));
-                    vscode.window.showInformationMessage(context.t('messages.copiedToClipboard'));
-                    break;
-                    
-                case 'insertCode':
-                    const editor = vscode.window.activeTextEditor;
-                    if (!editor) {
-                        vscode.window.showWarningMessage(context.t('messages.noEditor'));
-                        break;
-                    }
-                    await editor.edit(editBuilder => {
-                        editBuilder.insert(editor.selection.active, featureUtils.cleanHtmlCode(message.code));
-                    });
-                    vscode.window.showInformationMessage(context.t('messages.codeUpdated'));
-                    break;
-
-                case 'replaceOriginal':
-                    if (!panel.originalEditor || !panel.originalSelection) {
-                        vscode.window.showWarningMessage(context.t('messages.noEditor'));
-                        break;
-                    }
-    
-                    await panel.originalEditor.edit(editBuilder => {
-                        editBuilder.replace(panel.originalSelection, featureUtils.cleanHtmlCode(message.code));
-                    });
-    
-                    vscode.window.showInformationMessage(context.t('messages.codeUpdated'));
-                    break;
-                    
-                case 'closePanel':
-                    panel.dispose();
-                    break;
+                panel.webview.postMessage({
+                    command: 'contextAttached',
+                    badge: badgeHtml
+                });
             }
-        } catch (error) {
-            context.handleApiError(error);
+        },
+        clearContext: async (message) => {
+            attachedContext = null;
+            updatePanelContent(panel, context);
+        },
+        toggleArduinoMode: async (message) => {
+            arduinoMode = !arduinoMode;
+            updatePanelContent(panel, context);
+        },
+        newChat: async (message) => {
+            await handleNewChat(panel, context);
+        },
+        deleteChat: async (message) => {
+            await handleDeleteChat(message.chatId, panel, context);
+        },
+        clearChat: async (message) => {
+            historyManager.clearActiveChat();
+            updatePanelContent(panel, context);
+        },
+        pasteFromClipboard: async (message) => {
+            const clipboardText = await vscode.env.clipboard.readText();
+            panel.webview.postMessage({
+                command: 'pasteText',
+                text: clipboardText
+            });
         }
-    });
-    
+    }); 
+        
     // Initial render
     updatePanelContent(panel, context);
 }

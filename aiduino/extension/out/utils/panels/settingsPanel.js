@@ -8,8 +8,7 @@
 const vscode = require('vscode');
 const { getSharedCSS } = require('./sharedStyles');
 const { uninstallAiduino } = require('../uninstaller');
-
-let activeSettingsPanel = null;
+const panelManager = require('../panelManager');  // ← NEU
 
 /**
  * Show settings panel with all configurable options
@@ -18,26 +17,16 @@ let activeSettingsPanel = null;
 function showSettings(context, openCategory = null) {
     const { t, settings } = context;
     
-    // If panel already exists, reveal it
-    if (activeSettingsPanel) {
-        activeSettingsPanel.reveal(vscode.ViewColumn.One);
+    const panel = panelManager.getOrCreatePanel({
+        id: 'aiduinoSettings',
+        title: `⚙️ ${t('settings.title')}`,
+        viewColumn: vscode.ViewColumn.One
+    });
+    
+    // If panel was just revealed, return early
+    if (panel.webview.html) {
         return;
     }
-    
-    const panel = vscode.window.createWebviewPanel(
-        'aiduinoSettings',
-        `⚙️ ${t('settings.title')}`,
-        vscode.ViewColumn.One,
-        { enableScripts: true }
-    );
-
-    // Store panel reference
-    activeSettingsPanel = panel;
-    
-    // Clear reference when panel is disposed
-    panel.onDidDispose(() => {
-        activeSettingsPanel = null;
-    });
     
     // Get all current settings
     const currentSettings = settings.getAll();

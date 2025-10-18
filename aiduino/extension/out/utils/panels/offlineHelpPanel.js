@@ -7,8 +7,7 @@
 
 const vscode = require('vscode');
 const { getSharedCSS } = require('./sharedStyles');
-
-let activeOfflineHelpPanel = null;
+const panelManager = require('../panelManager');
 
 /**
  * Show offline help panel
@@ -17,9 +16,14 @@ let activeOfflineHelpPanel = null;
 function showOfflineHelp(context) {
     const { t, minimalModelManager } = context;
 
-    // If panel already exists, reveal it
-    if (activeOfflineHelpPanel) {
-        activeOfflineHelpPanel.reveal(vscode.ViewColumn.One);
+    const panel = panelManager.getOrCreatePanel({
+        id: 'aiOfflineHelp',
+        title: t('panels.offlineHelp'),
+        viewColumn: vscode.ViewColumn.One
+    });
+    
+    // If panel was just revealed, return early
+    if (panel.webview.html) {
         return;
     }
     
@@ -27,21 +31,6 @@ function showOfflineHelp(context) {
     const firewallList = Object.entries(minimalModelManager.providers)
         .map(([id, provider]) => `<li><code>${provider.hostname}</code> (${provider.name})</li>`)
         .join('');
-    
-    const panel = vscode.window.createWebviewPanel(
-        'aiOfflineHelp',
-        t('panels.offlineHelp'),
-        vscode.ViewColumn.One,
-        {}
-    );
-
-    // Store panel reference
-    activeOfflineHelpPanel = panel;
-    
-    // Clear reference when panel is disposed
-    panel.onDidDispose(() => {
-        activeOfflineHelpPanel = null;
-    });
     
     panel.webview.html = generateOfflineHelpHTML(firewallList, t);
 }

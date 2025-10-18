@@ -12,3 +12,4 @@
 * Better error handling
 * Panels only open unique
 * Settings are saving now
+* Paste change trigger fixed

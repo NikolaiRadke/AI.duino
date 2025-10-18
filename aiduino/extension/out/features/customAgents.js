@@ -13,11 +13,11 @@ const contextManager = require('../utils/contextManager');
 const shared = require('../shared');
 const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 const { CustomAgentManager } = require('../utils/customAgentManager');
+const panelManager = require('../utils/panelManager');
 
 let agentManager;
-let currentView = 'overview'; // 'overview', 'editor', 'output'
+let currentView = 'overview'; // 'overview', 'editor'
 let editingAgentId = null;
-let activeAgentManagerPanel = null;
 
 /**
  * Main entry point - Show Custom Agent Panel
@@ -31,78 +31,69 @@ async function showCustomAgentPanel(context) {
         agentManager = new CustomAgentManager();
     }
     
-    // If panel already exists, reveal it and reset to overview
-    if (activeAgentManagerPanel) {
-        activeAgentManagerPanel.reveal(vscode.ViewColumn.One);
-        // Reset to overview when reopened
-        currentView = 'overview';
-        editingAgentId = null;
-        updatePanelContent(activeAgentManagerPanel, context);
+    // Create or reveal panel using PanelManager
+    const panel = panelManager.getOrCreatePanel({
+        id: 'aiduinoCustomAgents',
+        title: `🤖 ${t('customAgent.title')}`,
+        viewColumn: vscode.ViewColumn.One,
+        webviewOptions: { enableScripts: true },
+        onDispose: () => {
+            // Reset state
+            currentView = 'overview';
+            editingAgentId = null;
+        },
+        onReveal: (panel) => {
+            // Reset to overview when reopened
+            currentView = 'overview';
+            editingAgentId = null;
+            updatePanelContent(panel, context);
+        }
+    });
+    
+    // If panel was just revealed (not newly created), return early
+    if (panel.webview.html) {
         return;
     }
     
-    const panel = vscode.window.createWebviewPanel(
-        'aiduinoCustomAgents',
-        `🤖 ${t('customAgent.title')}`,
-        vscode.ViewColumn.One,
-        { enableScripts: true }
-    );
-
-    // Store panel reference
-    activeAgentManagerPanel = panel;
-    
-    // Clear reference when panel is disposed
-    panel.onDidDispose(() => {
-        activeAgentManagerPanel = null;
-        // Reset state
-        currentView = 'overview';
-        editingAgentId = null;
-    });
-    
-    // Initial view
+    // Initial view for new panel
     currentView = 'overview';
     editingAgentId = null;
     updatePanelContent(panel, context);
-    
 
-    // Setup standard message handler
-    panel.webview.onDidReceiveMessage(async (message) => {
-        try {
-            const handlers = {
-                backToOverview: () => { currentView = 'overview'; editingAgentId = null; updatePanelContent(panel, context); },
-                createAgent: () => { currentView = 'editor'; editingAgentId = null; updatePanelContent(panel, context); },
-                editAgent: () => { currentView = 'editor'; editingAgentId = message.agentId; updatePanelContent(panel, context); },
-                saveAgent: () => handleSaveAgent(message.agentData, panel, context),
-                runAgent: () => handleRunAgent(message.agentId, panel, context),
-                deleteAgent: () => handleDeleteAgent(message.agentId, panel, context),
-                copyCode: async () => {
-                    await vscode.env.clipboard.writeText(featureUtils.cleanHtmlCode(message.code));
-                    vscode.window.showInformationMessage(t('messages.copiedToClipboard'));
-                },
-                pasteFromClipboard: async () => {
-                    const clipboardText = await vscode.env.clipboard.readText();
-                    panel.webview.postMessage({
-                        command: 'pasteText',
-                        text: clipboardText
-                    });
-                },
-                insertCode: async () => {
-                    const editor = vscode.window.activeTextEditor;
-                    if (editor) {
-                        await editor.edit(editBuilder => {
-                            editBuilder.insert(editor.selection.active, featureUtils.cleanHtmlCode(message.code));
-                        });
-                        vscode.window.showInformationMessage(t('messages.codeInserted'));
-                    }
-                },
-                closePanel: () => panel.dispose()
-            };
-            
-            await handlers[message.command]?.();
-        } catch (error) {
-            context.handleApiError(error);
+    // Setup message handler with standard commands
+    featureUtils.setupStandardMessageHandler(panel, context, {
+        backToOverview: async (message) => {
+            currentView = 'overview';
+            editingAgentId = null;
+            updatePanelContent(panel, context);
+        },
+        createAgent: async (message) => {
+            currentView = 'editor';
+            editingAgentId = null;
+            updatePanelContent(panel, context);
+        },
+        editAgent: async (message) => {
+            currentView = 'editor';
+            editingAgentId = message.agentId;
+            updatePanelContent(panel, context);
+        },
+        saveAgent: async (message) => {
+            await handleSaveAgent(message.agentData, panel, context);
+        },
+        runAgent: async (message) => {
+            await executeAgent(message.agentId, context);
+        },
+        deleteAgent: async (message) => {
+            await handleDeleteAgent(message.agentId, panel, context);
+        },
+        pasteFromClipboard: async (message) => {
+            const clipboardText = await vscode.env.clipboard.readText();
+            panel.webview.postMessage({
+                command: 'pasteText',
+                text: clipboardText
+            });
         }
-    });
+    }); 
 }
 
 /**
@@ -210,30 +201,10 @@ async function executeAgent(agentId, context) {
     outputPanel.webview.html = generateOutputHTML(agent, response, context);
 
     // Message handler for output panel
-    outputPanel.webview.onDidReceiveMessage(async (message) => {
-        try {
-            const handlers = {
-                copyCode: async () => {
-                    await vscode.env.clipboard.writeText(featureUtils.cleanHtmlCode(message.code));
-                    vscode.window.showInformationMessage(t('messages.copiedToClipboard'));
-                },
-                insertCode: async () => {
-                    const editor = vscode.window.activeTextEditor;
-                    if (editor) {
-                        await editor.edit(editBuilder => {
-                            editBuilder.insert(editor.selection.active, featureUtils.cleanHtmlCode(message.code));
-                        });
-                    }
-                },
-                backToOverview: async () => {
-                    outputPanel.dispose();
-                    await showCustomAgentPanel(context);
-                }
-            };
-            
-            await handlers[message.command]?.();
-        } catch (error) {
-            context.handleApiError(error);
+    featureUtils.setupStandardMessageHandler(outputPanel, context, {
+        backToOverview: async (message) => {
+            outputPanel.dispose();
+            await showCustomAgentPanel(context);
         }
     });
 }
@@ -767,64 +738,6 @@ async function handleSaveAgent(agentData, panel, context) {
     currentView = 'overview';
     editingAgentId = null;
     updatePanelContent(panel, context);
-}
-
-/**
- * Handle running agent
- */
-async function handleRunAgent(agentId, panel, context) {
-    const { t } = context;
-    const agent = agentManager.getAgent(agentId);
-    
-    if (!agent) {
-        vscode.window.showErrorMessage(t('customAgent.agentNotFound'));
-        return;
-    }
-    
-    const editor = vscode.window.activeTextEditor;
-    
-    // Validate context requirements
-    const needsEditor = agent.context.currentSelection || 
-                        agent.context.currentFileFull || 
-                        agent.context.currentFileFunctions ||
-                        agent.context.usedLibraries ||
-                        agent.context.pinConfiguration;
-    
-    if (needsEditor && !editor) {
-        vscode.window.showWarningMessage(t('messages.noEditor'));
-        return;
-    }
-    
-    if (agent.context.currentSelection && (!editor || editor.selection.isEmpty)) {
-        vscode.window.showWarningMessage(t('messages.selectCodeFirst'));
-        return;
-    }
-
-// Build context
-const contextData = await agentManager.buildContext(agent, editor, context);
-
-// DEBUG - in File schreiben
-const fs = require('fs');
-const os = require('os');
-fs.writeFileSync(os.homedir() + '/.aiduino/debug.txt', 
-    `contextData Länge: ${contextData.length}\n\n${contextData}\n\n---\n\nfullPrompt:\n${fullPrompt}`);
-
-// Build final prompt
-const fullPrompt = `${agent.prompt}\n\n${contextData}`;
-
-    // Call AI
-    const response = await featureUtils.callAIWithProgress(
-        fullPrompt,
-        'progress.processing',
-        context
-    );
-    
-    // Update last used
-    agentManager.updateLastUsed(agentId);
-    
-    // Show output
-    currentView = 'output';
-    panel.webview.html = generateOutputHTML(agent, response, context);
 }
 
 /**

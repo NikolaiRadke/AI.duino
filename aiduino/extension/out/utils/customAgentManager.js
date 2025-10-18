@@ -192,7 +192,7 @@ class CustomAgentManager {
 
         if (options.allSketchFiles && editor) {
            const sketchDir = path.dirname(editor.document.uri.fsPath);
-           const sketchFiles = contextManager.getSketchFiles(sketchDir); // KEIN await, und sketchDir statt uri!
+           const sketchFiles = contextManager.getSketchFiles(sketchDir);
         
            if (sketchFiles.length > 0) {
                let allFilesContent = '';
