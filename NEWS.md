@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **19.10.2025** Release **V2.2.1** with better http provider support and improved MaxToken managent.  
 * **18.10.2025** Release **V2.2.0** with custom AI agents (cooool!) and bugfixes.  
 * **17.10.2025** Added Custom AI Agents.    
 * **16.10.2025** Release **V2.1.0**: Yes! Fixed the last annoying issue: Changed the toolbar with a context menu!  
