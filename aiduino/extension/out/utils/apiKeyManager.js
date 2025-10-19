@@ -63,29 +63,55 @@ class ApiKeyManager {
                 }
             })
             
-            if (input) {
+             if (input) {
+                let finalValue = input;
+        
+               // For HTTP-based local providers: Run model detection
+                if (provider.type === 'local' && provider.httpConfig) {
+                    let normalizedUrl = input;
+    
+                    // Normalize URL: Add default port if missing
+                    try {
+                        const testUrl = new URL(input);
+                        if (!testUrl.port && provider.defaultPort) {
+                            normalizedUrl = `${testUrl.protocol}//${testUrl.hostname}:${provider.defaultPort}${testUrl.pathname}`;
+                        }
+                    } catch (e) {
+                        // Keep original if URL parsing fails
+                    }
+    
+                    // Use existing autoDetectLocalProvider with manual URL
+                    const apiManager = require('./apiManager');
+                    const detected = await apiManager.autoDetectLocalProvider(currentModel, providers, normalizedUrl);
+    
+                    if (detected) {
+                        finalValue = detected;
+                    } else {
+                        vscode.window.showErrorMessage(`${providerName} ${t('errors.localProviderNotRunning')} (${normalizedUrl})`);
+                        return false;
+                    }
+                }
+    
                 // Save API key using fileManager
-                if (fileManager.saveApiKey(currentModel, input, providers)) {
+                if (fileManager.saveApiKey(currentModel, finalValue, providers)) {
                     // Update in-memory API keys
-                    apiKeys[currentModel] = input;
-                    
+                    apiKeys[currentModel] = finalValue;
+        
                     // Update status bar
                     updateStatusBar();
-                    
+        
                     // Show success message
-                    const successMessage = t('messages.apiKeySaved', providerName) || 
-                                         `${providerName} API key saved!`;
+                    const successMessage = t('messages.apiKeySaved', providerName);
                     vscode.window.showInformationMessage(successMessage);
-                    
+        
                     return true;
                 } else {
-                    const errorMessage = t('errors.saveFailed', 'File save failed') || 
-                                        `Failed to save API key: File save failed`;
+                    const errorMessage = t('errors.saveFailed');
                     vscode.window.showErrorMessage(errorMessage);
                     return false;
                 }
             }
-            
+
             return false;
             
         } finally {

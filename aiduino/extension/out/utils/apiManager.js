@@ -91,28 +91,31 @@ async function switchModel(context) {
             
             const provider = minimalModelManager.providers[selected.value];
             
-            // Force auto-detection for local providers
+            // Auto-detection for local HTTP providers (only if not configured)
             if (provider.type === 'local' && provider.httpConfig) {
-                await vscode.window.withProgress({
-                    location: vscode.ProgressLocation.Notification,
-                    title: `Detecting ${provider.name}...`,
-                    cancellable: false
-                }, async () => {
-                    // Clear existing config to force re-detection
-                    delete updatedContext.apiKeys[selected.value];
-                    
-                    // Run auto-detection
-                    const detected = await autoDetectLocalProvider(selected.value, minimalModelManager.providers);
-                    if (detected) {
-                        updatedContext.apiKeys[selected.value] = detected;
-                        fileManager.saveApiKey(selected.value, detected, minimalModelManager.providers);
-                        updateStatusBar();
-                            vscode.window.showInformationMessage(`${provider.name} detected: ${detected.split('|')[0]}`);
-                    } else {
-                        updateStatusBar();
-                            vscode.window.showWarningMessage(`$(warning) ${provider.name} not found...`);
-                    }
-                });
+                // Skip auto-detection if already configured
+                if (updatedContext.apiKeys[selected.value]) {
+                    updateStatusBar();
+                    vscode.window.showInformationMessage(t('messages.modelSwitched', provider.name));
+                } else {
+                    // Run auto-detection only if not configured
+                    await vscode.window.withProgress({
+                        location: vscode.ProgressLocation.Notification,
+                        title: t('messages.operationAlreadyRunning'),
+                        cancellable: false
+                    }, async () => {
+                        const detected = await autoDetectLocalProvider(selected.value, minimalModelManager.providers);
+                        if (detected) {
+                            updatedContext.apiKeys[selected.value] = detected;
+                            fileManager.saveApiKey(selected.value, detected, minimalModelManager.providers);
+                            updateStatusBar();
+                            vscode.window.showInformationMessage(t('messages.apiKeySaved', provider.name));
+                        } else {
+                            updateStatusBar();
+                            vscode.window.showWarningMessage(t('messages.noPath', provider.name));
+                        }
+                    });
+                }
                 
             } else {
                 // All non-HTTP local providers: Process providers + Remote providers
@@ -197,19 +200,22 @@ async function validateApiConnection(context) {
  * Auto-detect local HTTP provider
  * @param {string} modelId - Model identifier
  * @param {Object} providers - Provider configurations
+ * @param {string|null} manualUrl - Optional manual URL to test (instead of autoDetectUrls)
  * @returns {Promise<string|null>} Detected URL or null
  */
-async function autoDetectLocalProvider(modelId, providers) {
+async function autoDetectLocalProvider(modelId, providers, manualUrl = null) {
     const provider = providers[modelId];
-    if (!provider?.autoDetectUrls) {
+    if (!provider?.autoDetectUrls && !manualUrl) {
         return null;
     }
     
-    // Hole den passenden HTTP Provider Handler
     const localProviders = require('../localProviders');
     const providerHandler = localProviders.getHttpProvider(provider.name);
     
-    for (const url of provider.autoDetectUrls) {
+    // If manual URL provided, test only that one
+    const urlsToTest = manualUrl ? [manualUrl] : provider.autoDetectUrls;
+    
+    for (const url of urlsToTest) {
         if (await testHttpProvider(url, provider)) {
             if (providerHandler && providerHandler.detectBestModel) {
                 const bestModel = await providerHandler.detectBestModel(
@@ -219,7 +225,6 @@ async function autoDetectLocalProvider(modelId, providers) {
                 );
                 return `${url}|${bestModel || provider.fallback}`;
             }
-            // Andere Provider (Process-basierte): nur URL zurückgeben
             return url;
         }
     }
@@ -241,5 +246,6 @@ module.exports = {
     callAI,
     switchModel,
     setApiKey,
-    validateApiConnection
+    validateApiConnection,
+    autoDetectLocalProvider
 };
