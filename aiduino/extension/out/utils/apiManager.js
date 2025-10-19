@@ -205,15 +205,21 @@ async function autoDetectLocalProvider(modelId, providers) {
         return null;
     }
     
+    // Hole den passenden HTTP Provider Handler
+    const localProviders = require('../localProviders');
+    const providerHandler = localProviders.getHttpProvider(provider.name);
+    
     for (const url of provider.autoDetectUrls) {
         if (await testHttpProvider(url, provider)) {
-            // Provider-spezifische Modell-Detection
-            if (provider.name === 'Ollama') {
-                const ollama = require('../localProviders/httpProviders/ollama');
-                const bestModel = await ollama.detectBestModel(url, provider.preferredModels);
-                return `${url}|${bestModel || 'llama3:latest'}`;
+            if (providerHandler && providerHandler.detectBestModel) {
+                const bestModel = await providerHandler.detectBestModel(
+                    url, 
+                    provider.preferredModels, 
+                    provider.defaultPort
+                );
+                return `${url}|${bestModel || provider.fallback}`;
             }
-            // Andere Provider: nur URL (für Process-basierte wie Claude Code)
+            // Andere Provider (Process-basierte): nur URL zurückgeben
             return url;
         }
     }
@@ -227,25 +233,8 @@ async function autoDetectLocalProvider(modelId, providers) {
  * @returns {Promise<boolean>} True if accessible
  */
 async function testHttpProvider(url, provider) {
-    return new Promise((resolve) => {
-        const http = require('http');
-        const testUrl = new URL(url);
-        
-        const req = http.get({
-            hostname: testUrl.hostname,
-            port: testUrl.port,
-            path: '/',
-            timeout: 3000
-        }, (res) => {
-            resolve(res.statusCode === 200);
-        });
-        
-        req.on('error', () => resolve(false));
-        req.on('timeout', () => {
-            req.destroy();
-            resolve(false);
-        });
-    });
+    const { testConnection } = require('../localProviders/httpProviders/httpProvider');
+    return testConnection(url, provider.defaultPort || 80, 3000);
 }
 
 module.exports = {

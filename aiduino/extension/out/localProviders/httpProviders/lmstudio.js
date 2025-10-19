@@ -39,16 +39,15 @@ function buildRequest(modelName, prompt) {
 /**
  * Get best available LM Studio model
  */
-async function detectBestModelLMStudio(baseUrl, preferredModels) {
+async function detectBestModelLMStudio(baseUrl, preferredModels, defaultPort = 1234) {
     return detectBestModel(
         baseUrl,
         '/v1/models',
-        1234,
+        defaultPort, 
         preferredModels,
         (response) => response.data?.map(m => m.id) || []
     );
 }
-
 module.exports = {
     extractResponse,
     buildRequest,

@@ -352,22 +352,24 @@ class UnifiedAPIClient {
      * Make direct HTTP request to local provider
      */
     async makeLocalHttpRequest(baseUrl, modelName, prompt, provider, t) {
-    const localProviders = require('../localProviders');
+        const localProviders = require('../localProviders');
         const providerHandler = localProviders.getHttpProvider(provider.name);
     
         if (!providerHandler) {
             throw new Error(`No handler found for ${provider.name}`);
         }
-    
+
         return new Promise((resolve, reject) => {
             const requestBody = providerHandler.buildRequest(modelName, prompt);
             const data = JSON.stringify(requestBody);
             const buffer = Buffer.from(data, 'utf8');
             
             const http = require('http');
+            const parsedUrl = new URL(baseUrl);
+            
             const req = http.request({
-                hostname: new URL(baseUrl).hostname,
-                port: new URL(baseUrl).port,
+                hostname: parsedUrl.hostname,
+                port: parsedUrl.port || provider.defaultPort || 80,  // GEÄNDERT
                 path: provider.httpConfig.endpoint,
                 method: 'POST',
                 headers: {

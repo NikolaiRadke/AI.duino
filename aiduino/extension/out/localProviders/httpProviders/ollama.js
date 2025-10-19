@@ -37,11 +37,11 @@ function buildRequest(modelName, prompt) {
 /**
  * Get best available Ollama model
  */
-async function detectBestModelOllama(baseUrl, preferredModels) {
+async function detectBestModelOllama(baseUrl, preferredModels, defaultPort = 11434) {
     return detectBestModel(
         baseUrl,
         '/api/tags',
-        11434,
+        defaultPort,  
         preferredModels,
         (response) => response.models?.map(m => m.name) || []
     );

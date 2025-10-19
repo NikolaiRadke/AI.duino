@@ -58,7 +58,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '181025'; 
+const CONFIG_VERSION = '191025'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -524,6 +524,7 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://ollama.com',
         fallback: 'llama3:latest',
         autoDetectUrls: ['http://127.0.0.1:11434', 'http://localhost:11434'],
+        defaultPort: 11434,
         httpConfig: {
             endpoint: '/api/chat'
         },
@@ -544,6 +545,7 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://lmstudio.ai',
         fallback: 'llama-3-8b',
         autoDetectUrls: ['http://127.0.0.1:1234', 'http://localhost:1234'],
+        defaultPort: 1234,
         preferredModels: [
             'llama-3',
             'codestral',
