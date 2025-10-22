@@ -133,6 +133,9 @@ C:\Program Files\Arduino IDE\resources\app\plugins\
 You can completly remove the extension in the AI.duino settings panel bei clickung the uninstall button.  Are you sure? 
 Are you really REALLY sure?   
 
+If you installed AI.duino manually into the plugin folder, you need to remove it by yourself. AI.duino has no permissions
+to to that.  
+
 ## API keys
 
 AI.duino communicates through the API with the AIs. It's impossible to  connect through the web 
