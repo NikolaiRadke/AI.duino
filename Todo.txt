@@ -1,0 +1,9 @@
+* chatPanel.js Attachment Quickmenü
+* Anzahl History-Einträge in den Settings
+* Neue Locales
+* codeAnalyzer.js einbinden
+* CSS in chatPanel und customAgents prüfen
+
+
+
+

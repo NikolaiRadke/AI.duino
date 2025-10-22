@@ -97,6 +97,7 @@ class CustomAgentManager {
             name: agentData.name,
             prompt: agentData.prompt,
             context: agentData.context,
+            additionalFiles: agentData.additionalFiles || [],
             created: new Date().toISOString(),
             lastUsed: null
         };
@@ -209,6 +210,27 @@ class CustomAgentManager {
                    contextParts.push(allFilesContent);
                }
            }
+        }
+
+        // Additional Files (outside of sketch directory)
+        if (agent.additionalFiles && agent.additionalFiles.length > 0) {
+            const additionalFilesData = await fileManager.readAdditionalFiles(agent.additionalFiles);
+            
+            if (additionalFilesData.length > 0) {
+                let additionalContent = '';
+                for (const file of additionalFilesData) {
+                    if (file.error) {
+                        // Skip files that couldn't be read
+                        continue;
+                    }
+                    additionalContent += `// ========== ${file.name} ==========\n`;
+                    additionalContent += `${file.content}\n\n`;
+                }
+                
+                if (additionalContent.trim()) {
+                    contextParts.push(`## Additional Files:\n\`\`\`cpp\n${additionalContent}\`\`\``);
+                }
+            }
         }
 
         // Hardware Context

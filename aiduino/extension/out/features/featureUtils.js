@@ -395,23 +395,6 @@ function generateCodeBlockButtons(actions, index, code, t) {
 }
 
 /**
- * Clean HTML-encoded code back to plain text
- * @param {string} html - HTML-encoded code
- * @returns {string} Plain text code
- */
-function cleanHtmlCode(html) {
-    if (!html) return '';
-    
-    return html
-        .replace(/<br>/g, '\n')
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&amp;/g, '&')
-        .replace(/&quot;/g, '"')
-        .replace(/&#039;/g, "'");
-}
-
-/**
  * Setup standard message handler for panels
  * @param {vscode.WebviewPanel} panel - The webview panel
  * @param {Object} context - Extension context with dependencies
@@ -422,7 +405,7 @@ function setupStandardMessageHandler(panel, context, customHandlers = {}) {
         try {
             // Standard: Copy code
             if (message.command === 'copyCode') {
-                await vscode.env.clipboard.writeText(cleanHtmlCode(message.code));
+                await vscode.env.clipboard.writeText(shared.cleanHtmlCode(message.code));
                 vscode.window.showInformationMessage(context.t('messages.copiedToClipboard'));
                 return;
             }
@@ -436,7 +419,7 @@ function setupStandardMessageHandler(panel, context, customHandlers = {}) {
                 }
                 
                 await editor.edit(editBuilder => {
-                    editBuilder.insert(editor.selection.active, cleanHtmlCode(message.code));
+                    editBuilder.insert(editor.selection.active, shared.cleanHtmlCode(message.code));
                 });
                 
                 vscode.window.showInformationMessage(context.t('messages.codeUpdated'));
@@ -453,10 +436,10 @@ function setupStandardMessageHandler(panel, context, customHandlers = {}) {
                 await panel.originalEditor.edit(editBuilder => {
                     if (panel.originalSelection && !panel.originalSelection.isEmpty) {
                         // Replace selection
-                        editBuilder.replace(panel.originalSelection, cleanHtmlCode(message.code));
+                        editBuilder.replace(panel.originalSelection, shared.cleanHtmlCode(message.code));
                     } else {
                         // Insert at cursor if no selection
-                        editBuilder.insert(panel.originalEditor.selection.active, cleanHtmlCode(message.code));
+                        editBuilder.insert(panel.originalEditor.selection.active, shared.cleanHtmlCode(message.code));
                     }
                 });
     
@@ -479,20 +462,6 @@ function setupStandardMessageHandler(panel, context, customHandlers = {}) {
             context.handleApiError(error);
         }
     });
-}
-
-/**
- * Clean code from HTML encoding
- * @param {string} codeContent - HTML-encoded code
- * @returns {string} Clean code
- */
-function cleanCodeContent(codeContent) {
-    return codeContent
-        .replace(/<br>/g, '\n')
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&amp;/g, '&')
-        .trim();
 }
 
 /**
@@ -881,14 +850,12 @@ module.exports = {
     showInputWithCreateQuickPickHistory, 
     validateArduinoFile,
     saveToHistory,
-    cleanHtmlCode,
     setupStandardMessageHandler,
-    cleanCodeContent,
     generateCodeBlockButtons,
     processAiCodeBlocksWithEventDelegation,
     processMessageWithCodeBlocks,
     parseArduinoCompilerOutput,
     generateContextMenu,
     getBoardInfoHTML,
-    generateCodeBlockHandlers
+    generateCodeBlockHandlers,
 };

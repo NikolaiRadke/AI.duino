@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 const vscode = require('vscode');
+const shared = require('../shared');
 
 /**
  * Generic Prompt History Manager for AI.duino
@@ -154,7 +155,7 @@ class PromptHistoryManager {
         .slice(0, limit)
         .map(entry => ({
             label: this.formatPromptLabel(entry.prompt),
-            description: t ? this.formatPromptDescription(entry, t, currentLocale) : '',
+            description: t ? shared.formatTimeAgo(new Date(entry.timestamp), t) : '',
             value: entry.prompt,
             timestamp: entry.timestamp,
             count: entry.count
@@ -194,7 +195,7 @@ class PromptHistoryManager {
             .slice(0, limit)
             .map(entry => ({
                 label: this.highlightSearchTerm(entry.prompt, searchText),
-                description: t ? this.formatPromptDescription(entry, t, currentLocale) : '',
+                description: t ? shared.formatTimeAgo(new Date(entry.timestamp), t) : '',
                 value: entry.prompt
             }));
     }
@@ -238,17 +239,6 @@ class PromptHistoryManager {
     }
 
     /**
-     * Format prompt description with timestamp
-     * @param {Object} entry - History entry
-     * @param {Function} t - Translation function
-     * @param {string} currentLocale - Current locale
-     * @returns {string} Formatted description
-     */
-    formatPromptDescription(entry, t, currentLocale) {
-        return this.getTimeAgo(entry.timestamp, t, currentLocale);
-    }
-
-    /**
      * Highlight search term in text
      * @param {string} text - Original text
      * @param {string} searchTerm - Search term to highlight
@@ -258,29 +248,6 @@ class PromptHistoryManager {
         // VS Code doesn't support HTML in QuickPick, so we use simple formatting
         const regex = new RegExp(`(${searchTerm})`, 'gi');
         return text.replace(regex, '→$1←');
-    }
-
-    /**
-     * Get human-readable time ago string for Arduino IDE
-     * @param {number} timestamp - Timestamp in milliseconds
-     * @param {Function} t - Translation function
-     * @param {string} currentLocale - Current locale (e.g. 'de', 'en')
-     * @returns {string} Localized time ago string
-     */
-    getTimeAgo(timestamp, t, currentLocale) {
-        const now = Date.now();
-        const diff = now - timestamp;
-        const minutes = Math.floor(diff / 60000);
-        const hours = Math.floor(diff / 3600000);
-        const days = Math.floor(diff / 86400000);
-
-        if (minutes < 1) return t('time.justNow');
-        if (minutes < 60) return t('time.minutesAgo', minutes);
-        if (hours < 24) return t('time.hoursAgo', hours);
-        if (days < 7) return t('time.daysAgo', days);
-        
-        // For older entries, use simple date formatting
-        return new Date(timestamp).toLocaleDateString();
     }
 }
 

@@ -8,9 +8,11 @@
 "use strict";
 
 const vscode = require('vscode');
+const path = require('path');
 const featureUtils = require('./featureUtils');
 const contextManager = require('../utils/contextManager');
 const shared = require('../shared');
+const fileManager = require('../utils/fileManager');
 const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 const { CustomAgentManager } = require('../utils/customAgentManager');
 const panelManager = require('../utils/panelManager');
@@ -85,6 +87,19 @@ async function showCustomAgentPanel(context) {
         },
         deleteAgent: async (message) => {
             await handleDeleteAgent(message.agentId, panel, context);
+        },
+        pickAdditionalFiles: async (message) => {
+            const existingFiles = message.existingFiles || [];
+            const newFiles = await fileManager.pickAdditionalFiles(existingFiles, {
+              title: t('customAgent.selectAdditionalFiles'),
+              openLabel: t('customAgent.addFiles')
+            });       
+            if (newFiles && newFiles.length > 0) {
+                panel.webview.postMessage({
+                    command: 'filesSelected',
+                    files: newFiles
+                });
+            }
         },
         pasteFromClipboard: async (message) => {
             const clipboardText = await vscode.env.clipboard.readText();
@@ -239,8 +254,8 @@ function generateOverviewHTML(agents, context) {
         `;
     } else {
         agentsHTML = agents.map(agent => {
-            const lastUsed = agent.lastUsed ? new Date(agent.lastUsed).toLocaleString() : t('customAgent.neverUsed');
-            
+            const lastUsed = agent.lastUsed ? shared.formatTimeAgo(new Date(agent.lastUsed), t) : t('customAgent.neverUsed');
+ 
             return `
                 <div class="agent-card">
                     <div class="agent-card-header">
@@ -447,6 +462,30 @@ function generateOverviewHTML(agents, context) {
         </body>
         </html>
     `;
+}
+
+/**
+ * Generate HTML for additional files list
+ */
+function generateAdditionalFilesHTML(files, t) {
+    if (!files || files.length === 0) {
+        return `<p style="color: var(--vscode-descriptionForeground); font-size: 12px;">${t('customAgent.noAdditionalFiles')}</p>`;
+    }
+    
+    let html = '<div class="file-list">';
+    files.forEach(filePath => {
+        const fileName = path.basename(filePath);
+        html += `
+            <div class="file-item">
+                <span class="file-name" title="${filePath}">${fileName}</span>
+                <button onclick="removeAdditionalFile('${filePath.replace(/\\/g, '\\\\')}')" class="remove-file-btn" title="${t('buttons.remove')}">
+                    ✕
+                </button>
+            </div>
+        `;
+    });
+    html += '</div>';
+    return html;
 }
 
 /**
@@ -658,6 +697,22 @@ function generateEditorHTML(agent, context) {
                     <label for="ctx_buildInfo">${t('customAgent.buildInfo')}</label>
                 </div>
             </div>
+
+            <div class="context-group">
+                <h3>📎 ${t('customAgent.additionalFiles')}</h3>
+                <p style="color: var(--vscode-descriptionForeground); font-size: 12px; margin-top: 0;">
+                    ${t('customAgent.additionalFilesDesc')}
+                </p>
+                
+                <button onclick="addAdditionalFiles()" class="action-button" style="margin-bottom: 10px;">
+                    <span style="margin-right: 5px;">📁</span>
+                    ${t('customAgent.addFiles')}
+                </button>
+                
+                <div id="additionalFilesList" class="additional-files-list">
+                    ${generateAdditionalFilesHTML(agent?.additionalFiles || [], t)}
+                </div>
+            </div>
             
             <div class="button-row">
                 <button class="btn-secondary" onclick="backToOverview()">←</button>
@@ -670,6 +725,61 @@ function generateEditorHTML(agent, context) {
                 const vscode = acquireVsCodeApi();
                 const isEdit = ${isEdit};
                 const editingId = ${agent ? `'${agent.id}'` : 'null'};
+
+                // Translations for frontend
+                const i18n = {
+                    noAdditionalFiles: '${t('customAgent.noAdditionalFiles')}',
+                    removeTitle: '${t('buttons.remove')}'
+                };
+    
+                // Additional Files Management
+                let additionalFiles = ${JSON.stringify(agent?.additionalFiles || [])};
+    
+                function addAdditionalFiles() {
+                    vscode.postMessage({
+                        command: 'pickAdditionalFiles',
+                        existingFiles: additionalFiles
+                    });
+                }
+    
+                function removeAdditionalFile(filePath) {
+                    additionalFiles = additionalFiles.filter(f => f !== filePath);
+                    updateAdditionalFilesList();
+                }   
+    
+                function updateAdditionalFilesList() {
+                    const listElement = document.getElementById('additionalFilesList');
+                    if (!listElement) return;
+        
+                    if (additionalFiles.length === 0) {
+                        listElement.innerHTML = '<p style="color: var(--vscode-descriptionForeground); font-size: 12px;">${t('customAgent.noAdditionalFiles')}</p>';
+                        return;
+                    }
+        
+                    let html = '<div class="file-list">';
+                    additionalFiles.forEach(filePath => {
+                        const fileName = filePath.split(/[\\\\/]/).pop();
+                        html += \`
+                            <div class="file-item">
+                                <button onclick="removeAdditionalFile('\${filePath.replace(/\\\\/g, '\\\\\\\\')}')" class="remove-file-btn" title="${t('buttons.remove')}">
+                                    ✕
+                                </button>
+                                <span class="file-name" title="\${filePath}">\${fileName}</span>
+                            </div>
+                        \`;
+                    });
+                    html += '</div>';
+                    listElement.innerHTML = html;
+                }
+    
+                // Listen for file selection from backend
+                window.addEventListener('message', event => {
+                    const message = event.data;
+                    if (message.command === 'filesSelected') {
+                        additionalFiles = [...additionalFiles, ...message.files];
+                        updateAdditionalFilesList();
+                    }
+                });
                 
                 function saveAgent() {
                     const name = document.getElementById('agentName').value.trim();
@@ -682,6 +792,7 @@ function generateEditorHTML(agent, context) {
                     const agentData = {
                         name: name,
                         prompt: prompt,
+                        additionalFiles: additionalFiles,
                         context: {
                             currentSelection: document.getElementById('ctx_currentSelection').checked,
                             currentFileFull: document.getElementById('ctx_currentFileFull').checked,

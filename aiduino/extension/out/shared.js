@@ -396,6 +396,43 @@ function escapeHtml(text) {
     return text.toString().replace(/[&<>"']/g, m => map[m]);
 }
 
+
+/**
+ * Clean HTML-encoded code back to plain text
+ * @param {string} html - HTML-encoded code
+ * @returns {string} Plain text code
+ */
+function cleanHtmlCode(html) {
+    if (!html) return '';
+    
+    return html
+        .replace(/<br>/g, '\n')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'");
+}
+
+/**
+ * Format time ago string
+ */
+function formatTimeAgo(date, t) {
+    const now = Date.now();
+    const diff = now - date.getTime();
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
+
+    if (minutes < 1) return t('time.justNow');
+    if (minutes < 60) return t('time.minutesAgo', minutes);
+    if (hours < 24) return t('time.hoursAgo', hours);
+    if (days < 7) return t('time.daysAgo', days);
+    
+    return date.toLocaleDateString();
+}
+
+
 /**
  * Wrap text to specified width with word boundaries
  * @param {string} text - Text to wrap
@@ -483,6 +520,8 @@ module.exports = {
     escapeHtml,
     wrapText,
     hasValidContext,
+    cleanHtmlCode,
+    formatTimeAgo,
     
     // Provider utilities
     forEachProvider,

@@ -366,7 +366,7 @@ function generateOverviewHTML(allChats, minimalModelManager, hasApiKey, t) {
     } else {
         chatsHTML = allChats.map(chat => {
             const date = new Date(chat.lastUpdated);
-            const timeAgo = formatTimeAgo(date, t);
+            const timeAgo = shared.formatTimeAgo(date, t);
             
             return `
                 <div class="chat-card" onclick="openChat('${chat.id}')">
@@ -935,23 +935,6 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
     `;
 }   
 
-/**
- * Format time ago string
- */
-function formatTimeAgo(date, t) {
-    const now = Date.now();
-    const diff = now - date.getTime();
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(diff / 3600000);
-    const days = Math.floor(diff / 86400000);
-
-    if (minutes < 1) return t('time.justNow');
-    if (minutes < 60) return t('time.minutesAgo', minutes);
-    if (hours < 24) return t('time.hoursAgo', hours);
-    if (days < 7) return t('time.daysAgo', days);
-    
-    return date.toLocaleDateString();
-}
 
 module.exports = {
     showChatPanel

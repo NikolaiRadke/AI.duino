@@ -330,6 +330,74 @@ function clearAIContext() {
     };
 }
 
+// ===== FILE PICKER & ADDITIONAL FILES =====
+
+/**
+ * Open file picker dialog for selecting additional files
+ * @param {Array<string>} existingFiles - Already selected files to filter out
+ * @param {Object} options - Optional picker options
+ * @returns {Promise<Array<string>|null>} Array of file paths or null if cancelled
+ */
+async function pickAdditionalFiles(existingFiles = [], options = {}) {
+    const vscode = require('vscode');
+    
+    const fileUris = await vscode.window.showOpenDialog({
+        canSelectMany: true,
+        canSelectFiles: true,
+        canSelectFolders: false,
+        filters: options.filters || {
+            'Arduino Files': ['ino', 'cpp', 'h', 'hpp', 'c'],
+            'All Files': ['*']
+        },
+        openLabel: options.openLabel || 'Select Files',
+        title: options.title || 'Select Additional Files',
+        defaultUri: options.defaultUri
+    });
+    
+    if (!fileUris || fileUris.length === 0) {
+        return null;
+    }
+    
+    // Convert to file paths and filter duplicates
+    const newPaths = fileUris
+        .map(uri => uri.fsPath)
+        .filter(path => !existingFiles.includes(path));
+    
+    return newPaths;
+}
+
+/**
+ * Read multiple files and return their contents
+ * @param {Array<string>} filePaths - Array of file paths
+ * @returns {Promise<Array<Object>>} Array of {path, name, content, error}
+ */
+async function readAdditionalFiles(filePaths) {
+    const results = [];
+    
+    for (const filePath of filePaths) {
+        const fileName = path.basename(filePath);
+        
+        try {
+            const content = await safeReadFileAsync(filePath, '');
+            results.push({
+                path: filePath,
+                name: fileName,
+                content: content,
+                error: null
+            });
+        } catch (error) {
+            results.push({
+                path: filePath,
+                name: fileName,
+                content: '',
+                error: error.message
+            });
+        }
+    }
+    
+    return results;
+}
+
 // ===== EXPORTS =====
 
 module.exports = {
@@ -355,5 +423,9 @@ module.exports = {
     getVersionFromPackage,       // sync
     getVersionFromPackageAsync,  // async
     migrateOldFiles,
-    clearAIContext
+    clearAIContext,
+
+    // File picker & additional files
+    pickAdditionalFiles,
+    readAdditionalFiles
 };

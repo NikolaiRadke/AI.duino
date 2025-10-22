@@ -8,11 +8,6 @@
 "use strict";
 
 /**
- * Code Analyzer - Extract various code elements for AI context
- * Provides advanced analysis of Arduino/C++ code
- */
-
-/**
  * Extract comprehensive pin configuration from code
  * Analyzes pinMode, digitalWrite, digitalRead, analogWrite, analogRead, interrupts
  * @param {string} code - Source code

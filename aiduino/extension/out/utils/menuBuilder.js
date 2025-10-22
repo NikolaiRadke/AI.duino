@@ -42,8 +42,8 @@ function buildMenuItems(context) {
         createMenuItem('$(error)', 'explainCopiedError', false, t, 'descriptions.explainCopiedError'),
         createMenuItem('$(bug)', 'debugHelp', false, t, 'descriptions.debugHelp'),
         createMenuItem('$(comment-discussion)', 'openChatPanel', false, t, 'descriptions.openChatPanel'),
-        createMenuItem('$(question)', 'askAI', false, t, 'descriptions.askAI'),
         createMenuItem('$(play)', 'runCustomAgent', false, t, 'descriptions.runCustomAgent'),
+        createMenuItem('$(question)', 'askAI', false, t, 'descriptions.askAI'),
     ];
     
     // Separator 1
@@ -100,7 +100,7 @@ function buildMenuItems(context) {
     // Follow-up option if context exists
     if (shared.hasValidContext(aiConversationContext)) {
         coreItems.push({
-            label: `$(arrow-right) ${t('commands.askFollowUp')}`,
+            label: `$(question) ↳ ${t('commands.askFollowUp')}`,
             description: t('descriptions.askFollowUp', 
                 formatQuestionPreview(aiConversationContext.lastQuestion, aiConversationContext.timestamp)),
             command: 'aiduino.askFollowUp'

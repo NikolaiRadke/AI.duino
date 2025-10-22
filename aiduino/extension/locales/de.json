@@ -100,7 +100,8 @@
     "close": "Schließen",
     "newInput": "Neue Eingabe",
     "delete": "Löschen",
-    "resetAll": "Alle zurücksetzen"
+    "resetAll": "Alle zurücksetzen",
+    "remove": "Entfernen"
   },
   "descriptions": {
     "improveCodeSelected": "Ausgewählten Code optimieren",
@@ -297,7 +298,8 @@
     "reuseLastContext": "Zuletzt verwendeten Kontext wieder anhängen",
     "arduinoMode": "Arduino",
     "generalMode": "Allgemein",
-    "toggleMode": "Modus umschalten"
+    "toggleMode": "Modus umschalten",
+    "externalFilesAttached": "{0} externe Datei(en) angehängt"
   },
   "shortcuts": {
     "askFollowUp": "Rückfrage",
@@ -600,6 +602,12 @@
     "buildSuccessful": "Build erfolgreich",
     "timestamp": "Zeitstempel",
     "customAgents": "Agenten",
-    "maxCustomAgents": "Maximale Anzahl Agenten"
+    "maxCustomAgents": "Maximale Anzahl Agenten",
+    "additionalFiles": "Zusätzliche Dateien",
+    "additionalFilesDesc": "Dateien außerhalb des Sketch-Verzeichnisses hinzufügen",
+    "addFiles": "Dateien hinzufügen",
+    "selectAdditionalFiles": "Zusätzliche Dateien auswählen",
+    "noAdditionalFiles": "Keine zusätzlichen Dateien",
+    "nameAndPromptRequired": "Name und Prompt sind erforderlich"
   }
 }
