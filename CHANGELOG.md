@@ -1,12 +1,13 @@
 # Changelog
 
-**V2.2.1** 
+**V2.2.2** 
+
+## Features
+* Added add external file feature
+* More Agent options
 
 ## Bugfixes
-
-* http providers now use a default port if only the URL is entered
-* http pvodider support prepared for more model integration
-* Improved MaxToken management, especially for Gemini
+* Small menu cleanup
 
 ## Other
 * Code refactoring

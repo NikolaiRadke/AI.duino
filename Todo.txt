@@ -3,6 +3,7 @@
 * Neue Locales
 * codeAnalyzer.js einbinden
 * CSS in chatPanel und customAgents prüfen
+* Persistenz Ollama
 
 
 
