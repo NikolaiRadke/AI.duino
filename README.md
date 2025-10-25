@@ -8,7 +8,7 @@ the newest Version to avoid annoying bugs.
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **19.10.2025** Release **V2.2.1** with better http provider support and improved MaxToken managent.  
+* **25.10.2025** V2.3.0 beta. See Changelog.md. Now it needs a lot of testing.    
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
