@@ -1,7 +1,8 @@
 # Newsblog
 
 ## 2025
-
+  
+* **25.10.2025** V2.3.0 beta. See Changelog.md. Now it needs a lot of testing.    
 * **19.10.2025** Release **V2.2.1** with better http provider support and improved MaxToken managent.  
 * **18.10.2025** Release **V2.2.0** with custom AI agents (cooool!) and bugfixes.  
 * **17.10.2025** Added Custom AI Agents.    
