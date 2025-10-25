@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ vágólapról",
     "openSettings": "Beállítások",
     "runCustomAgent": "Ügynök futtatása",
-    "manageCustomAgents": "Ügynökök kezelése"
+    "manageCustomAgents": "Ügynökök kezelése",
+    "analyzeCode": "Kód elemzése (Offline)"
   },
   "messages": {
     "welcome": "Üdvözöl a {0} támogatásával!",
@@ -100,7 +101,8 @@
     "send": "Küldés",
     "newInput": "Új bevitel",
     "delete": "Törlés",
-    "resetAll": "Összes visszaállítása"
+    "resetAll": "Összes visszaállítása",
+    "remove": "Eltávolítás"
   },
   "descriptions": {
     "improveCodeSelected": "Kijelölt kód optimalizálása",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Hiba elemzése a vágólapról",
     "openSettings": "Beállítások módosítása",
     "runCustomAgent": "Ügynök kiválasztása és futtatása",
-    "manageCustomAgents": "Egyéni AI ügynökök létrehozása és kezelése"
+    "manageCustomAgents": "Egyéni AI ügynökök létrehozása és kezelése",
+    "analyzeCode": "Offline kódelemzés AI nélkül"
   },
   "language": {
     "autoDetect": "Automatikus felismerés VS Code-ból",
@@ -404,7 +407,8 @@
       "chat": "Chat",
       "inlineCompletion": "Inline kiegészítés",
       "advanced": "Speciális",
-      "customAgents": "Egyéni ügynökök"
+      "customAgents": "Egyéni ügynökök",
+      "ui": "Felhasználói felület"
     },
     "labels": {
       "temperature": "Kreativitás (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Szó faktor",
       "tokenEstimationCodeBlock": "Kódblokk faktor",
       "tokenEstimationSpecialChars": "Speciális karakterek faktora",
-      "maxCustomAgents": "Ügynökök maximális száma"
+      "maxCustomAgents": "Ügynökök maximális száma",
+      "chatHistoryLength": "Chat előzmények hossza",
+      "promptHistoryLength": "Prompt előzmények hossza",
+      "cardStyle": "Kártya stílus",
+      "arduino-green": "Arduino zöld háttér",
+      "white-border": "Fehér háttér zöld szegéllyel"
     },
     "descriptions": {
       "temperature": "AI kreativitás (0 = determinisztikus, 1 = kreatív)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Szorzó a szó-token becsléshez",
       "tokenEstimationCodeBlock": "Extra tokenek kódblokkokhoz",
       "tokenEstimationSpecialChars": "Szorzó speciális karakterekhez",
-      "maxCustomAgents": "Tárolható egyéni ügynökök maximális száma (1-100)"
+      "maxCustomAgents": "Tárolható egyéni ügynökök maximális száma (1-100)",
+      "chatHistoryLength": "Üzenetek száma a chat előzményekben (felhasználó/AI párok)",
+      "promptHistoryLength": "Promptok száma az előzményekben",
+      "cardStyle": "Vizuális stílus a chat és ügynök kiválasztási kártyákhoz"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Fordítás sikeres",
     "timestamp": "Időbélyeg",
     "customAgents": "Ügynökök",
-    "maxCustomAgents": "Ügynökök maximális száma"
+    "maxCustomAgents": "Ügynökök maximális száma",
+    "additionalFiles": "További fájlok",
+    "additionalFilesDesc": "Fájlok hozzáadása a sketch könyvtáron kívülről",
+    "addFiles": "Fájlok hozzáadása",
+    "selectAdditionalFiles": "További fájlok kiválasztása",
+    "noAdditionalFiles": "Nincsenek további fájlok",
+    "nameAndPromptRequired": "A név és a prompt kötelező"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Elemzett fájl",
+    "pinsUsed": "Lábak",
+    "libraries": "Könyvtárak",
+    "functions": "Függvények",
+    "constants": "Konstansok",
+    "structures": "Struktúrák",
+    "pinConfig": "Pin konfiguráció",
+    "usedLibraries": "Használt könyvtárak",
+    "functionList": "Függvények",
+    "constantsList": "Konstansok és Defines",
+    "dataStructures": "Adatstruktúrák",
+    "noneFound": "Nem található",
+    "inferred": "(következtetett)",
+    "writes": "ír",
+    "readsDigital": "digitálisan olvas",
+    "readsAnalog": "analógan olvas",
+    "pwmValue": "PWM (érték: {0})",
+    "interruptMode": "Megszakítás {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Port manipuláció",
+    "portWrite": "ír",
+    "portRead": "olvas",
+    "globalVars": "Globális változók",
+    "globalVarsList": "Globális változók"
   }
 }

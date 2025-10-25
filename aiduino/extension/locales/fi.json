@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ leikepöydältä",
     "openSettings": "Asetukset",
     "runCustomAgent": "Suorita agentti",
-    "manageCustomAgents": "Hallitse agentteja"
+    "manageCustomAgents": "Hallitse agentteja",
+    "analyzeCode": "Analysoi koodi (Offline)"
   },
   "messages": {
     "welcome": "👋 Tervetuloa! AI.duino tukee {0}:tä!",
@@ -100,7 +101,8 @@
     "send": "Lähetä",
     "newInput": "Uusi syöte",
     "delete": "Poista",
-    "resetAll": "Palauta kaikki"
+    "resetAll": "Palauta kaikki",
+    "remove": "Poista"
   },
   "descriptions": {
     "improveCodeSelected": "Optimoi valittu koodi",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analysoi virhe leikepöydältä",
     "openSettings": "Muokkaa asetuksia",
     "runCustomAgent": "Valitse ja suorita agentti",
-    "manageCustomAgents": "Luo ja hallitse mukautettuja AI-agentteja"
+    "manageCustomAgents": "Luo ja hallitse mukautettuja AI-agentteja",
+    "analyzeCode": "Offline-koodianalyysi ilman tekoälyä"
   },
   "language": {
     "autoDetect": "Tunnista automaattisesti VS Codesta",
@@ -404,7 +407,8 @@
       "chat": "Chat",
       "inlineCompletion": "Inline-täydennys",
       "advanced": "Lisäasetukset",
-      "customAgents": "Mukautetut agentit"
+      "customAgents": "Mukautetut agentit",
+      "ui": "Käyttöliittymä"
     },
     "labels": {
       "temperature": "Luovuus (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Sanojen kerroin",
       "tokenEstimationCodeBlock": "Koodilohkon kerroin",
       "tokenEstimationSpecialChars": "Erikoismerkkien kerroin",
-      "maxCustomAgents": "Agenttien enimmäismäärä"
+      "maxCustomAgents": "Agenttien enimmäismäärä",
+      "chatHistoryLength": "Keskusteluhistorian pituus",
+      "promptHistoryLength": "Prompt-historian pituus",
+      "cardStyle": "Korttityyli",
+      "arduino-green": "Arduino vihreä tausta",
+      "white-border": "Valkoinen tausta vihreällä reunalla"
     },
     "descriptions": {
       "temperature": "AI:n luovuus (0 = deterministinen, 1 = luova)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Kerroin sana-token-arviolle",
       "tokenEstimationCodeBlock": "Lisätokenit koodilohkoille",
       "tokenEstimationSpecialChars": "Kerroin erikoismerkeille",
-      "maxCustomAgents": "Tallennettavien mukautettujen agenttien enimmäismäärä (1-100)"
+      "maxCustomAgents": "Tallennettavien mukautettujen agenttien enimmäismäärä (1-100)",
+      "chatHistoryLength": "Viestien määrä keskusteluhistoriassa (käyttäjä/tekoäly-parit)",
+      "promptHistoryLength": "Promptien määrä historiassa",
+      "cardStyle": "Visuaalinen tyyli keskustelu- ja agentinvalintakorteille"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Käännös onnistui",
     "timestamp": "Aikaleima",
     "customAgents": "Agentit",
-    "maxCustomAgents": "Agenttien enimmäismäärä"
+    "maxCustomAgents": "Agenttien enimmäismäärä",
+    "additionalFiles": "Lisätiedostot",
+    "additionalFilesDesc": "Lisää tiedostoja sketch-hakemiston ulkopuolelta",
+    "addFiles": "Lisää tiedostot",
+    "selectAdditionalFiles": "Valitse lisätiedostot",
+    "noAdditionalFiles": "Ei lisätiedostoja",
+    "nameAndPromptRequired": "Nimi ja prompt ovat pakollisia"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Analysoitu tiedosto",
+    "pinsUsed": "Pinnit",
+    "libraries": "Kirjastot",
+    "functions": "Funktiot",
+    "constants": "Vakiot",
+    "structures": "Rakenteet",
+    "pinConfig": "Pinnien konfiguraatio",
+    "usedLibraries": "Käytetyt kirjastot",
+    "functionList": "Funktiot",
+    "constantsList": "Vakiot ja Defines",
+    "dataStructures": "Tietorakenteet",
+    "noneFound": "Ei löytynyt",
+    "inferred": "(pääteltiin)",
+    "writes": "kirjoittaa",
+    "readsDigital": "lukee digitaalisesti",
+    "readsAnalog": "lukee analogisesti",
+    "pwmValue": "PWM (arvo: {0})",
+    "interruptMode": "Keskeytys {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pinni {0}: {1}{2}",
+    "portManipulation": "Portin manipulointi",
+    "portWrite": "kirjoittaa",
+    "portRead": "lukee",
+    "globalVars": "Globaalit muuttujat",
+    "globalVarsList": "Globaalit muuttujat"
   }
 }

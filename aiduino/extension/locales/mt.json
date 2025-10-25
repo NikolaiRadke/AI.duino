@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ mill-clipboard",
     "openSettings": "Settings",
     "runCustomAgent": "Mexxi l-Aġent",
-    "manageCustomAgents": "Immexxi l-Aġenti"
+    "manageCustomAgents": "Immexxi l-Aġenti",
+    "analyzeCode": "Analizza l-kodiċi (Offline)"
   },
   "messages": {
     "welcome": "👋 Merħba! AI.duino jappoġġa {0}!",
@@ -100,7 +101,8 @@
     "send": "Ibgħat",
     "newInput": "Input ġdid",
     "delete": "Ħassar",
-    "resetAll": "Irristja kollox"
+    "resetAll": "Irristja kollox",
+    "remove": "Neħħi"
   },
   "descriptions": {
     "improveCodeSelected": "Ħassan il-kodiċi magħżul",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analizza żball mill-clipboard",
     "openSettings": "Aġġusta s-settings",
     "runCustomAgent": "Agħżel u mexxi l-aġent",
-    "manageCustomAgents": "Oħloq u mmexxi aġenti AI personalizzati"
+    "manageCustomAgents": "Oħloq u mmexxi aġenti AI personalizzati",
+    "analyzeCode": "Analiżi tal-kodiċi offline mingħajr AI"
   },
   "language": {
     "autoDetect": "Awtomatikament minn VS Code",
@@ -404,7 +407,8 @@
       "chat": "Chat",
       "inlineCompletion": "Inline completion",
       "advanced": "Avvanzat",
-      "customAgents": "Aġenti Personalizzati"
+      "customAgents": "Aġenti Personalizzati",
+      "ui": "Interfaċċa tal-utent"
     },
     "labels": {
       "temperature": "Kreattività (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Fattur tal-kliem",
       "tokenEstimationCodeBlock": "Fattur tal-blokk tal-kodiċi",
       "tokenEstimationSpecialChars": "Fattur tal-karattri speċjali",
-      "maxCustomAgents": "Numru Massimu ta' Aġenti"
+      "maxCustomAgents": "Numru Massimu ta' Aġenti",
+      "chatHistoryLength": "Tul tal-istorja taċ-chat",
+      "promptHistoryLength": "Tul tal-istorja tal-prompts",
+      "cardStyle": "Stil tal-kard",
+      "arduino-green": "Sfond aħdar Arduino",
+      "white-border": "Sfond abjad b'limitu aħdar"
     },
     "descriptions": {
       "temperature": "Kreattività tal-AI (0 = deterministiku, 1 = kreattiv)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Multiplikatur għall-istima kliem-għal-token",
       "tokenEstimationCodeBlock": "Tokens addizzjonali għal blokki tal-kodiċi",
       "tokenEstimationSpecialChars": "Multiplikatur għal karattri speċjali",
-      "maxCustomAgents": "Numru massimu ta' aġenti personalizzati li jistgħu jinħażnu (1-100)"
+      "maxCustomAgents": "Numru massimu ta' aġenti personalizzati li jistgħu jinħażnu (1-100)",
+      "chatHistoryLength": "Numru ta' messaġġi fl-istorja taċ-chat (pari utent/AI)",
+      "promptHistoryLength": "Numru ta' prompts fl-istorja",
+      "cardStyle": "Stil viżwali għall-karti taċ-chat u għażla tal-aġent"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Build suċċess",
     "timestamp": "Timestamp",
     "customAgents": "Aġenti",
-    "maxCustomAgents": "Numru Massimu ta' Aġenti"
+    "maxCustomAgents": "Numru Massimu ta' Aġenti",
+    "additionalFiles": "Fajls addizzjonali",
+    "additionalFilesDesc": "Żid fajls barra mid-direttorju tal-iskizz",
+    "addFiles": "Żid fajls",
+    "selectAdditionalFiles": "Agħżel fajls addizzjonali",
+    "noAdditionalFiles": "Ebda fajls addizzjonali",
+    "nameAndPromptRequired": "Isem u prompt huma obbligatorji"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Fajl analizzat",
+    "pinsUsed": "Pins",
+    "libraries": "Libreriji",
+    "functions": "Funzjonijiet",
+    "constants": "Kostanti",
+    "structures": "Strutturi",
+    "pinConfig": "Konfigurazzjoni tal-pins",
+    "usedLibraries": "Libreriji użati",
+    "functionList": "Funzjonijiet",
+    "constantsList": "Kostanti u Defines",
+    "dataStructures": "Strutturi tad-data",
+    "noneFound": "Ebda wieħed ma nstab",
+    "inferred": "(inferit)",
+    "writes": "jikteb",
+    "readsDigital": "jaqra diġitalment",
+    "readsAnalog": "jaqra analogu",
+    "pwmValue": "PWM (valur: {0})",
+    "interruptMode": "Interruzzjoni {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Manipulazzjoni tal-port",
+    "portWrite": "jikteb",
+    "portRead": "jaqra",
+    "globalVars": "Varjabbli globali",
+    "globalVarsList": "Varjabbli globali"
   }
 }

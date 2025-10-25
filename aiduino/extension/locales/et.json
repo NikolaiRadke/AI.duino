@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ lõikelauale",
     "openSettings": "Seaded",
     "runCustomAgent": "Käivita agent",
-    "manageCustomAgents": "Halda agente"
+    "manageCustomAgents": "Halda agente",
+    "analyzeCode": "Analüüsi koodi (Võrguühenduseta)"
   },
   "messages": {
     "welcome": "👋 Tere tulemast! AI.duino toetab {0}!",
@@ -100,7 +101,8 @@
     "send": "Saada",
     "newInput": "Uus sisend",
     "delete": "Kustuta",
-    "resetAll": "Lähtesta kõik"
+    "resetAll": "Lähtesta kõik",
+    "remove": "Eemalda"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiseeri märgitud kood",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analüüsi viga lõikelaual",
     "openSettings": "Kohanda seadeid",
     "runCustomAgent": "Vali ja käivita agent",
-    "manageCustomAgents": "Loo ja halda kohandatud AI agente"
+    "manageCustomAgents": "Loo ja halda kohandatud AI agente",
+    "analyzeCode": "Võrguühenduseta koodi analüüs ilma AI-ta"
   },
   "language": {
     "autoDetect": "Tuvasta automaatselt VS Code-st",
@@ -404,7 +407,8 @@
       "chat": "Vestlus",
       "inlineCompletion": "Inline täiendamine",
       "advanced": "Täpsem",
-      "customAgents": "Kohandatud agendid"
+      "customAgents": "Kohandatud agendid",
+      "ui": "Kasutajaliides"
     },
     "labels": {
       "temperature": "Loovus (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Sõnade tegur",
       "tokenEstimationCodeBlock": "Koodiploki tegur",
       "tokenEstimationSpecialChars": "Erimärkide tegur",
-      "maxCustomAgents": "Maksimaalne agentide arv"
+      "maxCustomAgents": "Maksimaalne agentide arv",
+      "chatHistoryLength": "Vestluse ajaloo pikkus",
+      "promptHistoryLength": "Prompti ajaloo pikkus",
+      "cardStyle": "Kaardi stiil",
+      "arduino-green": "Arduino roheline taust",
+      "white-border": "Valge taust rohelise äärega"
     },
     "descriptions": {
       "temperature": "AI loovus (0 = deterministlik, 1 = loov)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Korrutaja sõna-tokeniks hinnangule",
       "tokenEstimationCodeBlock": "Lisakokeneid koodi plokkide jaoks",
       "tokenEstimationSpecialChars": "Korrutaja erimärkide jaoks",
-      "maxCustomAgents": "Maksimaalne salvestatavate kohandatud agentide arv (1-100)"
+      "maxCustomAgents": "Maksimaalne salvestatavate kohandatud agentide arv (1-100)",
+      "chatHistoryLength": "Sõnumite arv vestluse ajaloos (kasutaja/AI paarid)",
+      "promptHistoryLength": "Promptide arv ajaloos",
+      "cardStyle": "Visuaalne stiil vestluse ja agendi valiku kaartidele"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Koostamine õnnestus",
     "timestamp": "Ajatempel",
     "customAgents": "Agendid",
-    "maxCustomAgents": "Maksimaalne agentide arv"
+    "maxCustomAgents": "Maksimaalne agentide arv",
+    "additionalFiles": "Lisafailid",
+    "additionalFilesDesc": "Lisa faile väljaspool sketchi kataloogi",
+    "addFiles": "Lisa failid",
+    "selectAdditionalFiles": "Vali lisafailid",
+    "noAdditionalFiles": "Lisafaile pole",
+    "nameAndPromptRequired": "Nimi ja prompt on kohustuslikud"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Analüüsitud fail",
+    "pinsUsed": "Pins",
+    "libraries": "Teegid",
+    "functions": "Funktsioonid",
+    "constants": "Konstandid",
+    "structures": "Struktuurid",
+    "pinConfig": "Pin-i konfiguratsioon",
+    "usedLibraries": "Kasutatud teegid",
+    "functionList": "Funktsioonid",
+    "constantsList": "Konstandid ja Defines",
+    "dataStructures": "Andmestruktuurid",
+    "noneFound": "Ei leitud",
+    "inferred": "(järeldatud)",
+    "writes": "kirjutab",
+    "readsDigital": "loeb digitaalselt",
+    "readsAnalog": "loeb analoogselt",
+    "pwmValue": "PWM (väärtus: {0})",
+    "interruptMode": "Katkestus {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Pordi manipuleerimine",
+    "portWrite": "kirjutab",
+    "portRead": "loeb",
+    "globalVars": "Globaalsed muutujad",
+    "globalVarsList": "Globaalsed muutujad"
   }
 }

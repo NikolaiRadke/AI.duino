@@ -343,6 +343,8 @@ class UnifiedAPIClient {
     
         if (newSessionId && provider.persistent) {
             context.lastSessionId = newSessionId;
+            // Return object with session ID for persistent providers
+            return { text: response, sessionId: newSessionId };
         }
 
         return response;

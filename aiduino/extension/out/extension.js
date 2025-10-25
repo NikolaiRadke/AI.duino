@@ -34,6 +34,7 @@ const debugHelpFeature = require('./features/debugHelp');
 const promptEditorFeature = require('./features/promptEditor'); 
 const inlineCompletion = require('./features/inlineCompletion/completionProvider');
 const customAgentsFeature = require('./features/customAgents');
+const analyzeCodeFeature = require('./features/analyzeCode');
 
 // Utility modules
 const uiTools = require('./utils/ui');
@@ -545,6 +546,7 @@ async function activate(context) {
 
     // Initialize Prompt History Manager
     promptHistory = new PromptHistoryManager();
+    promptHistory.updateSettings(settingsManager);
     
     // Load token statistics
     loadTokenUsage();
@@ -631,6 +633,7 @@ function registerCommands(context) {
         customAgentsFeature,
         inlineCompletion,
         explainCodeFeature,
+        analyzeCodeFeature,
 
         setPromptEditorOpen: (isOpen) => { isPromptEditorOpen = isOpen; },
         uiTools,
@@ -653,7 +656,7 @@ function getDependencies() {
     return {
         // Core functions
         t,
-        callAI: (prompt) => apiManager.callAI(prompt, getDependencies()),
+        callAI: (prompt, contextOverride) => apiManager.callAI(prompt, contextOverride || getDependencies()),
         handleApiError: (error) => errorHandling.handleApiError(error, getDependencies()),
         
         // System configuration
@@ -711,6 +714,7 @@ function getDependencies() {
  * Show main quick menu with all available actions
  */
 async function showQuickMenu() {
+console.log("Debug");
     const model = minimalModelManager.providers[currentModel];
     const hasApiKey = minimalModelManager.hasApiKey(currentModel); 
 

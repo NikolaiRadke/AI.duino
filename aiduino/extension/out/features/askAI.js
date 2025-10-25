@@ -140,11 +140,9 @@ async function askAI(context, isFollowUp = false) {
             }
 
             // Create interactive WebView Panel
-            const panel = vscode.window.createWebviewPanel(
+            const panel = featureUtils.createStandardPanel(
                 'aiAskAI',
-                context.t('commands.askAI'),
-                vscode.ViewColumn.Two,
-                { enableScripts: true }
+                context.t('commands.askAI')
             );
 
             // Create context badge
@@ -161,7 +159,8 @@ async function askAI(context, isFollowUp = false) {
                 contextBadge,
                 context.currentModel,
                 context.minimalModelManager,
-                context.t
+                context.t,
+                context
             );
 
             return panel;
@@ -246,7 +245,7 @@ function buildFollowUpPrompt(followUpQuestion, aiConversationContext, t, promptM
  * @param {Function} t - Translation function
  * @returns {string} HTML content
  */
-function createAskAIHtml(question, response, isFollowUp, conversationContext, currentCode, contextBadge, modelId, minimalModelManager, t) {
+function createAskAIHtml(question, response, isFollowUp, conversationContext, currentCode, contextBadge, modelId, minimalModelManager, t, context) {
     const model = minimalModelManager.providers[modelId];
     const modelBadge = `<span style="background: ${model.color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${model.icon} ${model.name}</span>`;
     
@@ -260,66 +259,44 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
 
     const contextAge = isFollowUp ? Math.round((Date.now() - conversationContext.timestamp) / 60000) : null;
     
-    return `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>${t('commands.askAI')} - AI.duino</title>
-            ${getSharedCSS()}
-            <style>
-                .context-badge {
-                    display: inline-block;
-                    padding: 4px 12px;
-                    background: var(--vscode-badge-background);
-                    color: var(--vscode-badge-foreground);
-                    border-radius: 12px;
-                    font-size: 0.9em;
-                    margin: 8px 0;
-                }
-            </style>
-        </head>
-        <body>
-            ${featureUtils.generateContextMenu(t, { showFollowUp: true }).html}
-            
-            <div class="header">
-                <h1>💬 ${t('commands.askAI')}</h1>
-                ${modelBadge}
-            </div>
-            
-            ${contextBadge}
-            
-            ${isFollowUp ? `
-            <div class="info-badge">
-                🔗 ${t('output.followUpTo')}: "${conversationContext.lastQuestion}" (${contextAge} min ago)
-            </div>
-            ` : ''}
-            
-            <div class="question-box">
-                <h3>❓ ${t('output.yourQuestion')}:</h3>
-                <p>${shared.escapeHtml(question)}</p>
-            </div>
-            
-            ${currentCode ? `
-            <div class="code-context">
-                <h3>📄 ${t('output.codeContextYes', currentCode.split('\n').length)}:</h3>
-                <pre><code class="language-cpp">${shared.escapeHtml(currentCode)}</code></pre>
-            </div>
-            ` : ''}
-            
-            ${featureUtils.getBoardInfoHTML(t)}
-            
-            <div class="panel-section">
-                <h3>🤖 ${t('output.aiAnswer')}:</h3>
-                ${processedResponse}
-            </div>
-
-            ${featureUtils.generateCodeBlockHandlers(codeBlocks, t, { includeBackButton: false })}
-            
-            ${getPrismScripts()}
-        </body>
-        </html>
+    const mainContent = `
+        ${isFollowUp ? `
+        <div class="info-badge">
+            🔗 ${t('output.followUpTo')}: "${conversationContext.lastQuestion}" (${contextAge} min ago)
+        </div>
+        ` : ''}
+        
+        <div class="question-box">
+            <h3>❓ ${t('output.yourQuestion')}:</h3>
+            <p>${shared.escapeHtml(question)}</p>
+        </div>
+        
+        ${currentCode ? `
+        <div class="code-context">
+            <h3>📄 ${t('output.codeContextYes', currentCode.split('\n').length)}:</h3>
+            <pre><code class="language-cpp">${shared.escapeHtml(currentCode)}</code></pre>
+        </div>
+        ` : ''}
+        
+        ${featureUtils.getBoardInfoHTML(t)}
+        
+        <div class="panel-section">
+            <h3>🤖 ${t('output.aiAnswer')}:</h3>
+            ${processedResponse}
+        </div>
     `;
+    
+    return featureUtils.buildQuestionFeatureHtml({
+        title: t('commands.askAI'),
+        icon: '💬',
+        badge: modelBadge,
+        contextBadge,
+        mainContent,
+        codeBlocks,
+        t,
+        showFollowUp: true,
+        context
+    });
 }
 
 /**

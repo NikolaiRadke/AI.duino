@@ -4,13 +4,15 @@
  */
 
 const { executeProcessProvider } = require('./processProvider');
+const vscode = require('vscode');
 
 /**
  * Build command arguments with session support
  */
 function buildArgs(prompt, sessionId = null) {
     if (sessionId) {
-        return ['--continue', '--print', '--dangerously-skip-permissions', '--output-format', 'json', prompt];
+        // Use --resume with session ID (like in terminal test)
+        return ['--print', '--resume', sessionId, '--dangerously-skip-permissions', '--output-format', 'json', prompt];
     } else {
         return ['--print', '--dangerously-skip-permissions', '--output-format', 'json', prompt];
     }
@@ -20,12 +22,15 @@ function buildArgs(prompt, sessionId = null) {
  * Extract response and session ID from output
  */
 function extractResponse(stdout) {
+    const vscode = require('vscode');
+    
     try {
         const jsonResponse = JSON.parse(stdout);
         const response = jsonResponse.result || jsonResponse.content || stdout;
-        const sessionId = jsonResponse.session_id || jsonResponse.sessionId || jsonResponse.metadata?.session_id || null;
+        const sessionId = jsonResponse.session_id || null;
+
         return { response, sessionId };
-    } catch {
+    } catch (e) {
         return { response: stdout, sessionId: null };
     }
 }

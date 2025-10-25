@@ -41,6 +41,7 @@ class CommandRegistry {
             chatPanelFeature,
             promptEditorFeature,
             customAgentsFeature,
+            analyzeCodeFeature,
             uiTools
         } = deps;
 
@@ -87,6 +88,11 @@ class CommandRegistry {
                 name: 'aiduino.runCustomAgent', 
                 handler: () => customAgentsFeature.runCustomAgent(deps.getDependencies()),
                 description: 'Run Custom AI Agent'
+            },
+            { 
+                name: 'aiduino.analyzeCode', 
+                handler: () => analyzeCodeFeature.analyzeCodeOffline(deps.getDependencies()),
+                description: 'Analyze Code (Offline)'
             },
 
             // Error & Debug Features

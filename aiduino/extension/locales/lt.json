@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ iš mainų srities",
     "openSettings": "Nustatymai",
     "runCustomAgent": "Paleisti agentą",
-    "manageCustomAgents": "Valdyti agentus"
+    "manageCustomAgents": "Valdyti agentus",
+    "analyzeCode": "Analizuoti kodą (Neprisijungus)"
   },
   "messages": {
     "welcome": "👋 Sveiki! AI.duino palaiko {0}!",
@@ -100,7 +101,8 @@
     "send": "Siųsti",
     "newInput": "Naujas įvedimas",
     "delete": "Ištrinti",
-    "resetAll": "Atstatyti viską"
+    "resetAll": "Atstatyti viską",
+    "remove": "Pašalinti"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizuoti pažymėtą kodą",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analizuoti klaidą iš mainų srities",
     "openSettings": "Pritaikyti nustatymus",
     "runCustomAgent": "Pasirinkti ir paleisti agentą",
-    "manageCustomAgents": "Kurti ir valdyti pasirinktinius AI agentus"
+    "manageCustomAgents": "Kurti ir valdyti pasirinktinius AI agentus",
+    "analyzeCode": "Kodo analizė neprisijungus be AI"
   },
   "language": {
     "autoDetect": "Automatiškai nustatyti iš VS Code",
@@ -404,7 +407,8 @@
       "chat": "Pokalbis",
       "inlineCompletion": "Inline užbaigimas",
       "advanced": "Išplėstiniai",
-      "customAgents": "Pasirinktiniai agentai"
+      "customAgents": "Pasirinktiniai agentai",
+      "ui": "Vartotojo sąsaja"
     },
     "labels": {
       "temperature": "Kūrybiškumas (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Žodžių faktorius",
       "tokenEstimationCodeBlock": "Kodo bloko faktorius",
       "tokenEstimationSpecialChars": "Specialių simbolių faktorius",
-      "maxCustomAgents": "Maksimalus agentų skaičius"
+      "maxCustomAgents": "Maksimalus agentų skaičius",
+      "chatHistoryLength": "Pokalbių istorijos ilgis",
+      "promptHistoryLength": "Užklausų istorijos ilgis",
+      "cardStyle": "Kortelės stilius",
+      "arduino-green": "Arduino žalias fonas",
+      "white-border": "Baltas fonas su žaliu rėmeliu"
     },
     "descriptions": {
       "temperature": "AI kūrybiškumas (0 = deterministinis, 1 = kūrybingas)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Daugiklis žodis-į-tokeną įvertinimui",
       "tokenEstimationCodeBlock": "Papildomi tokenai kodo blokams",
       "tokenEstimationSpecialChars": "Daugiklis specialiems simboliams",
-      "maxCustomAgents": "Maksimalus saugomų pasirinktinių agentų skaičius (1-100)"
+      "maxCustomAgents": "Maksimalus saugomų pasirinktinių agentų skaičius (1-100)",
+      "chatHistoryLength": "Pranešimų skaičius pokalbių istorijoje (vartotojo/AI poros)",
+      "promptHistoryLength": "Užklausų skaičius istorijoje",
+      "cardStyle": "Vizualinis stilius pokalbių ir agentų pasirinkimo kortelėms"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Kompiliavimas sėkmingas",
     "timestamp": "Laiko žyma",
     "customAgents": "Agentai",
-    "maxCustomAgents": "Maksimalus agentų skaičius"
+    "maxCustomAgents": "Maksimalus agentų skaičius",
+    "additionalFiles": "Papildomi failai",
+    "additionalFilesDesc": "Pridėti failus už sketch katalogo ribų",
+    "addFiles": "Pridėti failus",
+    "selectAdditionalFiles": "Pasirinkti papildomus failus",
+    "noAdditionalFiles": "Nėra papildomų failų",
+    "nameAndPromptRequired": "Pavadinimas ir užklausa yra privalomi"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Analizuotas failas",
+    "pinsUsed": "Kontaktai",
+    "libraries": "Bibliotekos",
+    "functions": "Funkcijos",
+    "constants": "Konstantos",
+    "structures": "Struktūros",
+    "pinConfig": "Kontaktų konfigūracija",
+    "usedLibraries": "Naudojamos bibliotekos",
+    "functionList": "Funkcijos",
+    "constantsList": "Konstantos ir Defines",
+    "dataStructures": "Duomenų struktūros",
+    "noneFound": "Nerasta",
+    "inferred": "(išvesta)",
+    "writes": "rašo",
+    "readsDigital": "skaito skaitmeniškai",
+    "readsAnalog": "skaito analogiškai",
+    "pwmValue": "PWM (vertė: {0})",
+    "interruptMode": "Pertraukimas {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Kontaktas {0}: {1}{2}",
+    "portManipulation": "Prievado manipuliavimas",
+    "portWrite": "rašo",
+    "portRead": "skaito",
+    "globalVars": "Globalūs kintamieji",
+    "globalVarsList": "Globalūs kintamieji"
   }
 }

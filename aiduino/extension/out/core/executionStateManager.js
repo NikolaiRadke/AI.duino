@@ -23,7 +23,8 @@ class ExecutionStateManager {
             ERROR: 'error',
             SET_API_KEY: 'setApiKey',
             SWITCH_MODEL: 'switchModel',
-            SWITCH_LANGUAGE: 'switchLanguage'
+            SWITCH_LANGUAGE: 'switchLanguage',
+            ANALYZE_CODE: 'ANALYZE_CODE'
         };
     }
     

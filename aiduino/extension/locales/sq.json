@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ nga clipboard",
     "openSettings": "Cilësimet",
     "runCustomAgent": "Ekzekuto agentin",
-    "manageCustomAgents": "Menaxho agentët"
+    "manageCustomAgents": "Menaxho agentët",
+    "analyzeCode": "Analizoni kodin (Offline)"
   },
   "messages": {
     "welcome": "👋 Mirë se vini! AI.duino mbështet {0}!",
@@ -100,7 +101,8 @@
     "send": "Dërgo",
     "newInput": "Hyrje e re",
     "delete": "Fshi",
-    "resetAll": "Rivendos të gjitha"
+    "resetAll": "Rivendos të gjitha",
+    "remove": "Hiq"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizo kodin e zgjedhur",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analizo gabimin nga clipboard",
     "openSettings": "Përshtat cilësimet",
     "runCustomAgent": "Zgjidh dhe ekzekuto agentin",
-    "manageCustomAgents": "Krijo dhe menaxho agentë AI të personalizuar"
+    "manageCustomAgents": "Krijo dhe menaxho agentë AI të personalizuar",
+    "analyzeCode": "Analizë kodi offline pa AI"
   },
   "language": {
     "autoDetect": "Zbulo automatikisht nga VS Code",
@@ -404,7 +407,8 @@
       "chat": "Chat",
       "inlineCompletion": "Plotësimi inline",
       "advanced": "Të avancuara",
-      "customAgents": "Agentë të personalizuar"
+      "customAgents": "Agentë të personalizuar",
+      "ui": "Ndërfaqja e përdoruesit"
     },
     "labels": {
       "temperature": "Kreativiteti (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Faktori i fjalëve",
       "tokenEstimationCodeBlock": "Faktori i bllokut të kodit",
       "tokenEstimationSpecialChars": "Faktori i karaktereve speciale",
-      "maxCustomAgents": "Numri maksimal i agentëve"
+      "maxCustomAgents": "Numri maksimal i agentëve",
+      "chatHistoryLength": "Gjatësia e historisë së bisedës",
+      "promptHistoryLength": "Gjatësia e historisë së prompteve",
+      "cardStyle": "Stili i kartës",
+      "arduino-green": "Sfond jeshil Arduino",
+      "white-border": "Sfond i bardhë me kornizë jeshile"
     },
     "descriptions": {
       "temperature": "Kreativiteti i AI (0 = deterministik, 1 = kreativ)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Shumëzuesi për vlerësimin fjalë-në-token",
       "tokenEstimationCodeBlock": "Tokens shtesë për blloqet e kodit",
       "tokenEstimationSpecialChars": "Shumëzuesi për karakteret speciale",
-      "maxCustomAgents": "Numri maksimal i agentëve të personalizuar të ruajtur (1-100)"
+      "maxCustomAgents": "Numri maksimal i agentëve të personalizuar të ruajtur (1-100)",
+      "chatHistoryLength": "Numri i mesazheve në historinë e bisedës (çifte përdorues/AI)",
+      "promptHistoryLength": "Numri i prompteve në histori",
+      "cardStyle": "Stili vizual për kartat e bisedës dhe zgjedhjes së agjentit"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Ndërtimi u krye me sukses",
     "timestamp": "Vula kohore",
     "customAgents": "Agentë",
-    "maxCustomAgents": "Numri maksimal i agentëve"
+    "maxCustomAgents": "Numri maksimal i agentëve",
+    "additionalFiles": "Skedarë shtesë",
+    "additionalFilesDesc": "Shto skedarë jashtë drejtorisë së sketch",
+    "addFiles": "Shto skedarë",
+    "selectAdditionalFiles": "Zgjidh skedarë shtesë",
+    "noAdditionalFiles": "Nuk ka skedarë shtesë",
+    "nameAndPromptRequired": "Emri dhe prompt janë të detyrueshme"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Skedari i analizuar",
+    "pinsUsed": "Pinë",
+    "libraries": "Biblioteka",
+    "functions": "Funksione",
+    "constants": "Konstante",
+    "structures": "Struktura",
+    "pinConfig": "Konfigurimi i pinëve",
+    "usedLibraries": "Biblioteka të përdorura",
+    "functionList": "Funksione",
+    "constantsList": "Konstante dhe Defines",
+    "dataStructures": "Struktura të të dhënave",
+    "noneFound": "Nuk u gjet asnjë",
+    "inferred": "(e nxjerrë)",
+    "writes": "shkruan",
+    "readsDigital": "lexon dixhitalisht",
+    "readsAnalog": "lexon analogjikisht",
+    "pwmValue": "PWM (vlera: {0})",
+    "interruptMode": "Ndërprerje {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Manipulimi i portit",
+    "portWrite": "shkruan",
+    "portRead": "lexon",
+    "globalVars": "Variabla globale",
+    "globalVarsList": "Variabla globale"
   }
 }

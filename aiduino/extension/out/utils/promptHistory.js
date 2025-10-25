@@ -16,10 +16,11 @@ const shared = require('../shared');
  * Handles storage and retrieval of user prompts across different features
  */
 class PromptHistoryManager {
-    constructor() {
+    constructor(settings = null) {
         this.historyFile = path.join(os.homedir(), '.aiduino', '.aiduino-prompt-history.json');
-        this.maxEntriesPerCategory = 20;
-        this.maxSearchResults = 8;
+        this.settings = settings;
+        this.maxEntriesPerCategory = 10;  // Default value
+        this.maxSearchResults = 10;  // Default value
         this.history = this.loadHistory();
     }
 
@@ -80,6 +81,17 @@ class PromptHistoryManager {
         } catch (error) {
             // Silent catch
         }
+    }
+
+    /**
+     * Update settings reference and limits
+     * @param {Object} settings - Settings manager instance
+     */
+    updateSettings(settings) {
+        this.settings = settings;
+        const limit = settings ? settings.get('promptHistoryLength') : 10;
+        this.maxEntriesPerCategory = limit;
+        this.maxSearchResults = limit;
     }
 
     /**

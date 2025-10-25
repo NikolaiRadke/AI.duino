@@ -30,6 +30,8 @@ class SettingsManager {
             // ===== UI PREFERENCES =====
             language: 'auto',
             defaultModel: 'claude',
+            promptHistoryLength: 5,
+            cardStyle: 'arduino-green',             // 'arduino-green' or 'white-border'
 
             // ===== INLINE COMPLETION =====
             inlineCompletionDelay: 500,             // Rate limiting delay (ms)
@@ -52,6 +54,7 @@ class SettingsManager {
             // ===== CHAT PANEL =====
             maxChats: 10,
             maxMessagesPerChat: 100,
+            chatHistoryLength: 20,
             
             // ===== ADVANCED =====
             tokenEstimationMultiplier: 0.75,
@@ -82,6 +85,9 @@ class SettingsManager {
             // Chat
             'maxChats',
             'maxMessagesPerChat',
+            'chatHistoryLength',
+            'promptHistoryLength',
+            'cardStyle',
             // Inline Completion Details
             'inlineCompletionDelay',
             'inlineCompletionContextLines',
@@ -179,7 +185,8 @@ class SettingsManager {
             },
             chatPanel: {
                 maxChats: this.get('maxChats'),
-                maxMessagesPerChat: this.get('maxMessagesPerChat')
+                maxMessagesPerChat: this.get('maxMessagesPerChat'),
+                chatHistoryLength: this.get('chatHistoryLength')
             },
             inlineCompletion: {
                 inlineCompletionEnabled: this.get('inlineCompletionEnabled'),
@@ -194,6 +201,10 @@ class SettingsManager {
                 language: this.get('language'),
                 autoDetectErrors: this.get('autoDetectErrors'),
                 defaultModel: this.get('defaultModel'),
+            },
+            ui: {
+                promptHistoryLength: this.get('promptHistoryLength'),
+                cardStyle: this.get('cardStyle')
             },
             updates: {
                 autoUpdateConfigs: this.get('autoUpdateConfigs'),

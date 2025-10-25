@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ from Clipboard",
     "openSettings": "Settings",
     "runCustomAgent": "Run Agent",
-    "manageCustomAgents": "Manage Agents"
+    "manageCustomAgents": "Manage Agents",
+    "analyzeCode": "Analyze Code (Offline)"
   },
   "messages": {
     "welcome": "👋 Welcome! AI.duino  supports {0}!",
@@ -100,7 +101,8 @@
     "send": "Send",
     "newInput": "New input",
     "delete": "Delete",
-    "resetAll": "Reset All"
+    "resetAll": "Reset All",
+    "remove": "Remove"
   },
   "descriptions": {
     "improveCodeSelected": "Optimize selected code",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analyze error from clipboard",
     "openSettings": "Customize settings",
     "runCustomAgent": "Select and run agent",
-    "manageCustomAgents": "Create and manage custom AI agents"
+    "manageCustomAgents": "Create and manage custom AI agents",
+    "analyzeCode": "Offline code analysis without AI"
   },
   "language": {
     "autoDetect": "Auto-detect from VS Code",
@@ -491,7 +494,8 @@
       "chat": "Chat",
       "inlineCompletion": "Inline Completion",
       "advanced": "Advanced",
-      "customAgents": "Custom Agents"
+      "customAgents": "Custom Agents",
+      "ui": "User Interface"
     },
     "labels": {
       "temperature": "Creativity (Temperature)",
@@ -510,7 +514,12 @@
       "tokenEstimationMultiplier": "Word Factor",
       "tokenEstimationCodeBlock": "Code Block Factor",
       "tokenEstimationSpecialChars": "Special Characters Factor",
-      "maxCustomAgents": "Maximum Number of Agents"
+      "maxCustomAgents": "Maximum Number of Agents",
+      "chatHistoryLength": "Chat History Length",
+      "promptHistoryLength": "Prompt History Length",
+      "cardStyle": "Card Style",
+      "arduino-green": "Arduino Green Background",
+      "white-border": "White Background with Green Border"
     },
     "descriptions": {
       "temperature": "AI creativity (0 = deterministic, 1 = creative)",
@@ -529,7 +538,10 @@
       "tokenEstimationMultiplier": "Multiplier for word-to-token estimation",
       "tokenEstimationCodeBlock": "Additional tokens for code blocks",
       "tokenEstimationSpecialChars": "Multiplier for special characters",
-      "maxCustomAgents": "Maximum number of storable custom agents (1-100)"
+      "maxCustomAgents": "Maximum number of storable custom agents (1-100)",
+      "chatHistoryLength": "Number of messages in chat history (pairs of user/AI)",
+      "promptHistoryLength": "Number of prompts in history",
+      "cardStyle": "Visual style for chat and agent selection cards"
     }
   },
   "uninstall": {
@@ -599,6 +611,39 @@
     "buildSuccessful": "Build successful",
     "timestamp": "Timestamp",
     "customAgents": "Agents",
-    "maxCustomAgents": "Maximum Number of Agents"
+    "maxCustomAgents": "Maximum Number of Agents",
+    "additionalFiles": "Additional Files",
+    "additionalFilesDesc": "Add files outside the sketch directory",
+    "addFiles": "Add Files",
+    "selectAdditionalFiles": "Select Additional Files",
+    "noAdditionalFiles": "No additional files",
+    "nameAndPromptRequired": "Name and prompt are required"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Analyzed File",
+    "pinsUsed": "Pins",
+    "libraries": "Libraries",
+    "functions": "Functions",
+    "constants": "Constants",
+    "structures": "Structures",
+    "pinConfig": "Pin Configuration",
+    "usedLibraries": "Used Libraries",
+    "functionList": "Functions",
+    "constantsList": "Constants & Defines",
+    "dataStructures": "Data Structures",
+    "noneFound": "None found",
+    "inferred": "(inferred)",
+    "writes": "writes",
+    "readsDigital": "reads digital",
+    "readsAnalog": "reads analog",
+    "pwmValue": "PWM (value: {0})",
+    "interruptMode": "Interrupt {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Port Manipulation",
+    "portWrite": "writes",
+    "portRead": "reads",
+    "globalVars": "Global Variables",
+    "globalVarsList": "Global Variables"
   }
 }

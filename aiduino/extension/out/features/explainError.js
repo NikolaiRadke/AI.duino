@@ -112,8 +112,9 @@ async function explainError(context, preProvidedText = null) {
                 codeBlocks,
                 contextBadge,
                 context.currentModel,
-                context.t
-            );
+                context.t,
+                context
+            );;
             
             return panel;
         },
@@ -170,54 +171,31 @@ function buildErrorPromptWithContext(errorText, lineNumber, minimalContext, cont
  * @param {Function} t - Translation function
  * @returns {string} HTML content
  */
-function createErrorExplanationHtml(error, line, processedExplanation, codeBlocks, contextBadge, modelId, t) {
+function createErrorExplanationHtml(error, line, processedExplanation, codeBlocks, contextBadge, modelId, t, context) {
     const modelBadge = `<span style="background: #6B46C1; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${t('explainError.errorBadge')}</span>`;
     
-    return `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>${t('commands.explainError')} - AI.duino</title>
-            ${getSharedCSS()}
-            <style>
-                .context-badge {
-                    display: inline-block;
-                    padding: 4px 12px;
-                    background: var(--vscode-badge-background);
-                    color: var(--vscode-badge-foreground);
-                    border-radius: 12px;
-                    font-size: 0.9em;
-                    margin: 8px 0;
-                }
-            </style>
-        </head>
-        <body>
-            ${featureUtils.generateContextMenu(t).html}
-            
-            <div class="header">
-                <h1>🔧 ${t('html.errorExplanation')}</h1>
-                ${modelBadge}
-            </div>
-            
-            ${contextBadge}
-            
-            <div class="error-box">
-                <div class="error-title">${t('html.errorInLine', line)}:</div>
-                <pre><code>${shared.escapeHtml(error)}</code></pre>
-            </div>
-            
-            <div class="explanation">
-                ${processedExplanation}
-            </div>
-
-            ${featureUtils.generateCodeBlockHandlers(codeBlocks, t, { includeBackButton: false })}
-
-            ${getPrismScripts()}
-            
-        </body>
-        </html>
+    const mainContent = `
+        <div class="error-box">
+            <div class="error-title">${t('html.errorInLine', line)}:</div>
+            <pre><code>${shared.escapeHtml(error)}</code></pre>
+        </div>
+        
+        <div class="explanation">
+            ${processedExplanation}
+        </div>
     `;
+    
+    return featureUtils.buildQuestionFeatureHtml({
+        title: t('commands.explainError'),
+        icon: '🔧',
+        badge: modelBadge,
+        contextBadge,
+        mainContent,
+        codeBlocks,
+        t,
+        showFollowUp: false,
+        context
+    });
 }
 
 /**

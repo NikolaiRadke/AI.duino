@@ -27,7 +27,6 @@ function buildRequest(modelName, prompt) {
     return {
         model: modelName,
         messages: [
-            { role: "system", content: "You are a helpful Arduino programming assistant." },
             { role: "user", content: prompt }
         ],
         temperature: 0.7,

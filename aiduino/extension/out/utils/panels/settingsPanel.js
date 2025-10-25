@@ -86,7 +86,6 @@ function showSettings(context, openCategory = null) {
                     }
                 } else {
                     await settings.set(message.key, message.value);
-                    vscode.window.showInformationMessage(t('messages.settingsSaved'));
                 }
                 break;
                 
@@ -132,6 +131,17 @@ function generateSettingsHTML(currentSettings, t, context, openCategory = null) 
             ]
         },
         {
+            id: 'ui',
+            icon: '🎨',
+            settings: [
+                { key: 'promptHistoryLength', type: 'number', min: 0, max: 10, step: 1 },
+                { key: 'cardStyle', type: 'radio', options: [
+                    { value: 'arduino-green', label: 'Arduino Green' },
+                    { value: 'white-border', label: 'White with Green Border' }
+                ]}
+            ]
+        },
+        {
             id: 'performance',
             icon: '⚡',
             settings: [
@@ -152,7 +162,8 @@ function generateSettingsHTML(currentSettings, t, context, openCategory = null) 
             icon: '💬',
             settings: [
                 { key: 'maxChats', type: 'number', min: 1, max: 50, step: 1 },
-                { key: 'maxMessagesPerChat', type: 'number', min: 10, max: 1000, step: 10 }
+                { key: 'maxMessagesPerChat', type: 'number', min: 10, max: 1000, step: 10 },
+                { key: 'chatHistoryLength', type: 'number', min: 4, max: 50, step: 2 }
             ]
         },
         {
@@ -510,6 +521,7 @@ function generateSettingsHTML(currentSettings, t, context, openCategory = null) 
 function getCategoryData(categoryId, currentSettings) {
     const mapping = {
         aiBehavior: currentSettings.aiBehavior,
+        ui: currentSettings.ui,
         performance: currentSettings.performance,
         updates: currentSettings.updates,
         chat: currentSettings.chatPanel,
@@ -527,6 +539,43 @@ function generateSettingsForCategory(category, categoryData, t, context) {
     return category.settings.map(setting => {
         const key = setting.key;
         const value = categoryData[key];
+
+        // Special handling for card style radio buttons
+        if (setting.type === 'radio' && setting.options) {
+            let optionsHTML = '';
+            setting.options.forEach(option => {
+                const checked = value === option.value ? 'checked' : '';
+                const colorBox = option.value === 'arduino-green' 
+                    ? '<span style="display:inline-block;width:20px;height:20px;background:#00979D;border-radius:3px;margin-right:8px;vertical-align:middle;"></span>'
+                    : '<span style="display:inline-block;width:20px;height:20px;background:white;border:2px solid #00979D;border-radius:3px;margin-right:8px;vertical-align:middle;"></span>';
+                
+                const labelText = t(`settings.labels.${option.value}`);
+                
+                optionsHTML += `
+                    <label style="display:flex;align-items:center;margin:8px 0;cursor:pointer;">
+                        <input type="radio" 
+                               name="cardStyle" 
+                               value="${option.value}" 
+                               ${checked}
+                               onchange="updateSetting('${key}', this.value, 'string')"
+                               style="margin-right:8px;">
+                        ${colorBox}
+                        <span>${labelText}</span>
+                    </label>
+                `;
+            });
+            
+            return `
+                <div class="setting-item">
+                    <div class="setting-header">
+                        <span class="setting-label">${t(`settings.labels.${key}`)}</span>
+                    </div>
+                    <div class="setting-control" style="flex-direction:column;align-items:flex-start;">
+                        ${optionsHTML}
+                    </div>
+                </div>
+            `;
+        }
         
         // Special handling for provider dropdown
         if (setting.type === 'dropdown' && setting.providers) {

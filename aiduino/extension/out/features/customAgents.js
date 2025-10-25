@@ -255,16 +255,17 @@ function generateOverviewHTML(agents, context) {
     } else {
         agentsHTML = agents.map(agent => {
             const lastUsed = agent.lastUsed ? shared.formatTimeAgo(new Date(agent.lastUsed), t) : t('customAgent.neverUsed');
+            const cardStyle = context.settings.get('cardStyle') || 'arduino-green';
  
             return `
-                <div class="agent-card">
-                    <div class="agent-card-header">
-                        <div class="agent-card-title">🤖 ${shared.escapeHtml(agent.name)}</div>
+                <div class="card style-${cardStyle}">
+                    <div class="card-header">
+                        <div class="card-title">🤖 ${shared.escapeHtml(agent.name)}</div>
                         <div class="agent-card-actions">
                             <button class="agent-btn-run" onclick="runAgent('${agent.id}')" title="${t('customAgent.runAgent')}">
                                 ▶
                             </button>
-                            <button class="agent-btn-edit" onclick="editAgent('${agent.id}')" title="${t('buttons.edit')}">
+                            <button class="agent-btn-edit" onclick="editAgent('${agent.id}')" title="${t('customAgent.editAgent')}">
                                 ✏️
                             </button>
                             <button class="agent-btn-delete" onclick="deleteAgent('${agent.id}')" title="${t('buttons.delete')}">
@@ -272,9 +273,9 @@ function generateOverviewHTML(agents, context) {
                             </button>
                         </div>
                     </div>
-                    <div class="agent-card-info">
+                    <div class="card-info">
                         <div class="agent-prompt-preview">${shared.escapeHtml((agent.prompt || '').substring(0, 100))}${(agent.prompt || '').length > 100 ? '...' : ''}</div>
-                        <div class="agent-meta">${t('customAgent.lastUsed')}: ${lastUsed}</div>
+                        <div class="agent-last-used">${t('customAgent.lastUsed')}: ${lastUsed}</div>
                     </div>
                 </div>
             `;
@@ -289,120 +290,28 @@ function generateOverviewHTML(agents, context) {
         <html>
         <head>
             <title>${t('customAgent.title')}</title>
-            ${getSharedCSS()}
+            ${getSharedCSS(context.settings.get('cardStyle'))}
             <style>
                 body {
                     padding: 20px;
                     max-width: 900px;
                     margin: 0 auto;
                 }
-                
-                .overview-header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 20px;
-                    padding-bottom: 15px;
-                    border-bottom: 2px solid var(--vscode-panel-border);
-                }
-                
-                .overview-title {
-                    font-size: 18px;
-                    font-weight: bold;
-                }
-                
                 .agent-counter {
                     color: var(--vscode-descriptionForeground);
+                    font-size: 14px;
                     margin-left: 10px;
-                }
-                
+                }                
                 .new-agent-btn {
-                    background: var(--vscode-button-background);
-                    color: var(--vscode-button-foreground);
-                    border: none;
-                    padding: 8px 16px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    font-weight: bold;
-                }
-                
-                .new-agent-btn:hover {
-                    background: var(--vscode-button-hoverBackground);
-                }
-                
-                .new-agent-btn.disabled {
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                }
-                
-                .empty-state {
-                    text-align: center;
-                    padding: 60px 20px;
-                    color: var(--vscode-descriptionForeground);
-                }
-                
-                .agent-card {
-                    background: var(--vscode-editor-background);
-                    border: 1px solid var(--vscode-panel-border);
+                    padding: 10px 20px;
                     border-radius: 6px;
-                    padding: 15px;
-                    margin-bottom: 15px;
-                    transition: border-color 0.2s;
+                    font-size: 16px;
+                    transition: background 0.2s;
                 }
-                
-                .agent-card:hover {
-                    border-color: var(--vscode-focusBorder);
-                }
-                
-                .agent-card-header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 10px;
-                }
-                
-                .agent-card-title {
-                    font-weight: bold;
-                    font-size: 15px;
-                }
-                
-                .agent-card-actions {
-                    display: flex;
-                    gap: 5px;
-                }
-                
-                .agent-btn-run, .agent-btn-edit, .agent-btn-delete {
-                    background: var(--vscode-button-secondaryBackground);
-                    color: var(--vscode-button-secondaryForeground);
-                    border: 1px solid var(--vscode-panel-border);
-                    padding: 4px 8px;
-                    border-radius: 3px;
-                    cursor: pointer;
-                    font-size: 12px;
-                }
-                
-                .agent-btn-run {
-                    background: var(--vscode-button-background);
-                    color: var(--vscode-button-foreground);
-                }
-                
-                .agent-btn-run:hover {
-                    background: var(--vscode-button-hoverBackground);
-                }
-                
-                .agent-btn-edit:hover, .agent-btn-delete:hover {
-                    background: var(--vscode-button-secondaryHoverBackground);
-                }
-                
-                .agent-prompt-preview {
-                    color: var(--vscode-descriptionForeground);
-                    font-size: 13px;
-                    margin-bottom: 8px;
-                }
-                
-                .agent-meta {
+                .agent-last-used {
                     font-size: 12px;
                     color: var(--vscode-descriptionForeground);
+                    margin-top: 5px;
                 }
             </style>
         </head>
@@ -415,7 +324,7 @@ function generateOverviewHTML(agents, context) {
                     <span class="agent-counter">${agents.length}/${maxAgents}</span>
                 </div>
                 <button 
-                    class="new-agent-btn ${canCreateMore ? '' : 'disabled'}" 
+                    class="panel-btn new-agent-btn ${canCreateMore ? '' : 'disabled'}"
                     onclick="createNewAgent()"
                     ${canCreateMore ? '' : 'disabled'}
                     title="${canCreateMore ? '' : t('customAgent.maxAgentsReached', maxAgents)}"
@@ -516,7 +425,7 @@ function generateEditorHTML(agent, context) {
         <html>
         <head>
             <title>${isEdit ? t('customAgent.editAgent') : t('customAgent.newAgent')}</title>
-            ${getSharedCSS()}
+            ${getSharedCSS(context.settings.get('cardStyle'))}
             <style>
                 body {
                     padding: 20px;
@@ -884,7 +793,7 @@ function generateOutputHTML(agent, response, context) {
         <html>
         <head>
             <title>${shared.escapeHtml(agent.name)}</title>
-            ${getSharedCSS()}
+            ${getSharedCSS(context.settings.get('cardStyle'))}
         </head>
         <body>
             ${featureUtils.generateContextMenu(t).html}

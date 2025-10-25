@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ ze schránky",
     "openSettings": "Nastavení",
     "runCustomAgent": "Spustit agenta",
-    "manageCustomAgents": "Správa agentů"
+    "manageCustomAgents": "Správa agentů",
+    "analyzeCode": "Analyzovat kód (Offline)"
   },
   "messages": {
     "welcome": "👋 Vítejte! AI.duino podporuje {0}!",
@@ -100,7 +101,8 @@
     "send": "Odeslat",
     "newInput": "Nový vstup",
     "delete": "Smazat",
-    "resetAll": "Resetovat vše"
+    "resetAll": "Resetovat vše",
+    "remove": "Odebrat"
   },
   "descriptions": {
     "improveCodeSelected": "Optimalizovat vybraný kód",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analyzovat chybu ze schránky",
     "openSettings": "Upravit nastavení",
     "runCustomAgent": "Vybrat a spustit agenta",
-    "manageCustomAgents": "Vytvářet a spravovat vlastní AI agenty"
+    "manageCustomAgents": "Vytvářet a spravovat vlastní AI agenty",
+    "analyzeCode": "Offline analýza kódu bez AI"
   },
   "language": {
     "autoDetect": "Automaticky rozpoznat z VS Code",
@@ -404,7 +407,8 @@
       "chat": "Chat",
       "inlineCompletion": "Inline doplňování",
       "advanced": "Pokročilé",
-      "customAgents": "Vlastní agenti"
+      "customAgents": "Vlastní agenti",
+      "ui": "Uživatelské rozhraní"
     },
     "labels": {
       "temperature": "Kreativita (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Slovní faktor",
       "tokenEstimationCodeBlock": "Faktor bloku kódu",
       "tokenEstimationSpecialChars": "Faktor speciálních znaků",
-      "maxCustomAgents": "Maximální počet agentů"
+      "maxCustomAgents": "Maximální počet agentů",
+      "chatHistoryLength": "Délka historie chatu",
+      "promptHistoryLength": "Délka historie promptů",
+      "cardStyle": "Styl karet",
+      "arduino-green": "Arduino zelené pozadí",
+      "white-border": "Bílé pozadí se zeleným okrajem"
     },
     "descriptions": {
       "temperature": "Kreativita AI (0 = deterministické, 1 = kreativní)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Násobitel pro odhad slov-na-tokeny",
       "tokenEstimationCodeBlock": "Dodatečné tokeny pro bloky kódu",
       "tokenEstimationSpecialChars": "Násobitel pro speciální znaky",
-      "maxCustomAgents": "Maximální počet uložitelných vlastních agentů (1-100)"
+      "maxCustomAgents": "Maximální počet uložitelných vlastních agentů (1-100)",
+      "chatHistoryLength": "Počet zpráv v historii chatu (páry uživatel/AI)",
+      "promptHistoryLength": "Počet promptů v historii",
+      "cardStyle": "Vizuální styl pro chat a výběr karet agentů"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Sestavení úspěšné",
     "timestamp": "Časová značka",
     "customAgents": "Agenti",
-    "maxCustomAgents": "Maximální počet agentů"
+    "maxCustomAgents": "Maximální počet agentů",
+    "additionalFiles": "Dodatečné soubory",
+    "additionalFilesDesc": "Přidání souborů mimo sketch adresář",
+    "addFiles": "Přidat soubory",
+    "selectAdditionalFiles": "Vybrat dodatečné soubory",
+    "noAdditionalFiles": "Žádné dodatečné soubory",
+    "nameAndPromptRequired": "Jméno a prompt jsou povinné"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Analyzovaný soubor",
+    "pinsUsed": "Piny",
+    "libraries": "Knihovny",
+    "functions": "Funkce",
+    "constants": "Konstanty",
+    "structures": "Struktury",
+    "pinConfig": "Konfigurace pinů",
+    "usedLibraries": "Použité knihovny",
+    "functionList": "Funkce",
+    "constantsList": "Konstanty a Defines",
+    "dataStructures": "Datové struktury",
+    "noneFound": "Nic nenalezeno",
+    "inferred": "(odvozeno)",
+    "writes": "zapisuje",
+    "readsDigital": "čte digitálně",
+    "readsAnalog": "čte analogově",
+    "pwmValue": "PWM (hodnota: {0})",
+    "interruptMode": "Přerušení {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Manipulace s portem",
+    "portWrite": "zapisuje",
+    "portRead": "čte",
+    "globalVars": "Globální proměnné",
+    "globalVarsList": "Globální proměnné"
   }
 }

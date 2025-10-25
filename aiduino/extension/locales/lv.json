@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ no starpliktuves",
     "openSettings": "Iestatījumi",
     "runCustomAgent": "Palaist aģentu",
-    "manageCustomAgents": "Pārvaldīt aģentus"
+    "manageCustomAgents": "Pārvaldīt aģentus",
+    "analyzeCode": "Analizēt kodu (Bezsaistē)"
   },
   "messages": {
     "welcome": "👋 Esiet sveicināti! AI.duino atbalsta {0}!",
@@ -100,7 +101,8 @@
     "send": "Sūtīt",
     "newInput": "Jauns ievads",
     "delete": "Dzēst",
-    "resetAll": "Atiestatīt visu"
+    "resetAll": "Atiestatīt visu",
+    "remove": "Noņemt"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizēt iezīmēto kodu",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analizēt kļūdu no starpliktuves",
     "openSettings": "Pielāgot iestatījumus",
     "runCustomAgent": "Izvēlēties un palaist aģentu",
-    "manageCustomAgents": "Izveidot un pārvaldīt pielāgotus AI aģentus"
+    "manageCustomAgents": "Izveidot un pārvaldīt pielāgotus AI aģentus",
+    "analyzeCode": "Bezsaistes koda analīze bez AI"
   },
   "language": {
     "autoDetect": "Automātiski noteikt no VS Code",
@@ -404,7 +407,8 @@
       "chat": "Čats",
       "inlineCompletion": "Inline pabeigšana",
       "advanced": "Papildu",
-      "customAgents": "Pielāgoti aģenti"
+      "customAgents": "Pielāgoti aģenti",
+      "ui": "Lietotāja saskarne"
     },
     "labels": {
       "temperature": "Radošums (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Vārdu faktors",
       "tokenEstimationCodeBlock": "Koda bloka faktors",
       "tokenEstimationSpecialChars": "Speciālo rakstzīmju faktors",
-      "maxCustomAgents": "Maksimālais aģentu skaits"
+      "maxCustomAgents": "Maksimālais aģentu skaits",
+      "chatHistoryLength": "Tērzēšanas vēstures garums",
+      "promptHistoryLength": "Uzvedņu vēstures garums",
+      "cardStyle": "Kartes stils",
+      "arduino-green": "Arduino zaļš fons",
+      "white-border": "Balts fons ar zaļu apmali"
     },
     "descriptions": {
       "temperature": "AI radošums (0 = deterministisks, 1 = radošs)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Reizinātājs vārds-uz-marķieri novērtējumam",
       "tokenEstimationCodeBlock": "Papildu marķieri koda blokiem",
       "tokenEstimationSpecialChars": "Reizinātājs speciālajām rakstzīmēm",
-      "maxCustomAgents": "Maksimālais saglabājamo pielāgoto aģentu skaits (1-100)"
+      "maxCustomAgents": "Maksimālais saglabājamo pielāgoto aģentu skaits (1-100)",
+      "chatHistoryLength": "Ziņojumu skaits tērzēšanas vēsturē (lietotāja/AI pāri)",
+      "promptHistoryLength": "Uzvedņu skaits vēsturē",
+      "cardStyle": "Vizuālais stils tērzēšanas un aģentu izvēles kartēm"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Kompilācija veiksmīga",
     "timestamp": "Laika zīmogs",
     "customAgents": "Aģenti",
-    "maxCustomAgents": "Maksimālais aģentu skaits"
+    "maxCustomAgents": "Maksimālais aģentu skaits",
+    "additionalFiles": "Papildu faili",
+    "additionalFilesDesc": "Pievienot failus ārpus sketch direktorijas",
+    "addFiles": "Pievienot failus",
+    "selectAdditionalFiles": "Izvēlēties papildu failus",
+    "noAdditionalFiles": "Nav papildu failu",
+    "nameAndPromptRequired": "Nosaukums un uzvedne ir obligāti"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Analizēts fails",
+    "pinsUsed": "Kontakti",
+    "libraries": "Bibliotēkas",
+    "functions": "Funkcijas",
+    "constants": "Konstantes",
+    "structures": "Struktūras",
+    "pinConfig": "Kontaktu konfigurācija",
+    "usedLibraries": "Izmantotās bibliotēkas",
+    "functionList": "Funkcijas",
+    "constantsList": "Konstantes un Defines",
+    "dataStructures": "Datu struktūras",
+    "noneFound": "Nav atrasts",
+    "inferred": "(secināts)",
+    "writes": "raksta",
+    "readsDigital": "lasa digitāli",
+    "readsAnalog": "lasa analogiski",
+    "pwmValue": "PWM (vērtība: {0})",
+    "interruptMode": "Pārtraukums {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Kontakts {0}: {1}{2}",
+    "portManipulation": "Porta manipulācija",
+    "portWrite": "raksta",
+    "portRead": "lasa",
+    "globalVars": "Globālie mainīgie",
+    "globalVarsList": "Globālie mainīgie"
   }
 }

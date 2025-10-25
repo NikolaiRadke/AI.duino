@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ iz odložišča",
     "openSettings": "Nastavitve",
     "runCustomAgent": "Zaženi agenta",
-    "manageCustomAgents": "Upravljaj agente"
+    "manageCustomAgents": "Upravljaj agente",
+    "analyzeCode": "Analiziraj kodo (Brez povezave)"
   },
   "messages": {
     "welcome": "Dobrodošli! AI.duino podpira {0}!",
@@ -100,7 +101,8 @@
     "send": "Pošlji",
     "newInput": "Nov vnos",
     "delete": "Izbriši",
-    "resetAll": "Ponastavi vse"
+    "resetAll": "Ponastavi vse",
+    "remove": "Odstrani"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizacija označene kode",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analiziraj napako iz odložišča",
     "openSettings": "Prilagodi nastavitve",
     "runCustomAgent": "Izberi in zaženi agenta",
-    "manageCustomAgents": "Ustvari in upravljaj prilagojene AI agente"
+    "manageCustomAgents": "Ustvari in upravljaj prilagojene AI agente",
+    "analyzeCode": "Analiza kode brez povezave brez AI"
   },
   "language": {
     "autoDetect": "Samodejno zaznavanje iz VS Code",
@@ -404,7 +407,8 @@
       "chat": "Klepet",
       "inlineCompletion": "Inline dokončanje",
       "advanced": "Napredno",
-      "customAgents": "Prilagojeni agenti"
+      "customAgents": "Prilagojeni agenti",
+      "ui": "Uporabniški vmesnik"
     },
     "labels": {
       "temperature": "Ustvarjalnost (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Besedni faktor",
       "tokenEstimationCodeBlock": "Faktor bloka kode",
       "tokenEstimationSpecialChars": "Faktor posebnih znakov",
-      "maxCustomAgents": "Največje število agentov"
+      "maxCustomAgents": "Največje število agentov",
+      "chatHistoryLength": "Dolžina zgodovine klepeta",
+      "promptHistoryLength": "Dolžina zgodovine promptov",
+      "cardStyle": "Slog kartice",
+      "arduino-green": "Arduino zeleno ozadje",
+      "white-border": "Belo ozadje z zelenim robom"
     },
     "descriptions": {
       "temperature": "Ustvarjalnost AI (0 = deterministično, 1 = ustvarjalno)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Množitelj za oceno beseda-v-žeton",
       "tokenEstimationCodeBlock": "Dodatni žetoni za bloke kode",
       "tokenEstimationSpecialChars": "Množitelj za posebne znake",
-      "maxCustomAgents": "Največje število shranjenih prilagojenih agentov (1-100)"
+      "maxCustomAgents": "Največje število shranjenih prilagojenih agentov (1-100)",
+      "chatHistoryLength": "Število sporočil v zgodovini klepeta (pari uporabnik/AI)",
+      "promptHistoryLength": "Število promptov v zgodovini",
+      "cardStyle": "Vizualni slog za kartice klepeta in izbire agenta"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Prevajanje uspešno",
     "timestamp": "Časovni žig",
     "customAgents": "Agenti",
-    "maxCustomAgents": "Največje število agentov"
+    "maxCustomAgents": "Največje število agentov",
+    "additionalFiles": "Dodatne datoteke",
+    "additionalFilesDesc": "Dodaj datoteke zunaj mape sketcha",
+    "addFiles": "Dodaj datoteke",
+    "selectAdditionalFiles": "Izberi dodatne datoteke",
+    "noAdditionalFiles": "Ni dodatnih datotek",
+    "nameAndPromptRequired": "Ime in prompt sta obvezna"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Analizirana datoteka",
+    "pinsUsed": "Pini",
+    "libraries": "Knjižnice",
+    "functions": "Funkcije",
+    "constants": "Konstante",
+    "structures": "Strukture",
+    "pinConfig": "Konfiguracija pinov",
+    "usedLibraries": "Uporabljene knjižnice",
+    "functionList": "Funkcije",
+    "constantsList": "Konstante in Defines",
+    "dataStructures": "Podatkovne strukture",
+    "noneFound": "Ni najdeno",
+    "inferred": "(sklepano)",
+    "writes": "piše",
+    "readsDigital": "bere digitalno",
+    "readsAnalog": "bere analogno",
+    "pwmValue": "PWM (vrednost: {0})",
+    "interruptMode": "Prekinitev {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Manipulacija vrat",
+    "portWrite": "piše",
+    "portRead": "bere",
+    "globalVars": "Globalne spremenljivke",
+    "globalVarsList": "Globalne spremenljivke"
   }
 }

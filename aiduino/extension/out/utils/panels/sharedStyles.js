@@ -7,7 +7,7 @@
 
 const vscode = require('vscode');
 
-function getSharedCSS() {
+function getSharedCSS(cardStyle = 'arduino-green') {
     const themeKind = vscode.window.activeColorTheme.kind;
     const isDarkTheme = themeKind === vscode.ColorThemeKind.Dark || 
                         themeKind === vscode.ColorThemeKind.HighContrast;
@@ -27,6 +27,8 @@ function getSharedCSS() {
             color: var(--vscode-foreground);
             background: var(--vscode-editor-background);
         }
+        
+        /* Card style will be set via data-card-style="${cardStyle}" attribute */
         .logo {
             font-size: 72px;
             margin: 20px 0;
@@ -249,16 +251,12 @@ function getSharedCSS() {
         }
         
         .question-box {
-            background: var(--vscode-textBlockQuote-background);
-            border-left: 4px solid var(--vscode-textLink-foreground);
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 4px;
         }
         
         .code-context {
-            background: var(--vscode-editor-selectionBackground);
-            border: 1px solid var(--vscode-panel-border);
             border-radius: 4px;
             padding: 15px;
             margin-bottom: 20px;
@@ -360,8 +358,6 @@ function getSharedCSS() {
         }
         
         .instructions-box {
-            background: var(--vscode-textBlockQuote-background);
-            border-left: 4px solid var(--vscode-textLink-foreground);
             padding: 15px;
             margin-bottom: 20px;
         }
@@ -369,7 +365,6 @@ function getSharedCSS() {
         .info-section, .panel-section {
             margin: 20px 0;
             padding: 15px;
-            background: var(--vscode-editor-selectionBackground);
             border-radius: 8px;
         }
         
@@ -381,15 +376,6 @@ function getSharedCSS() {
             padding: 10px;
             background: var(--vscode-badge-background);
             border-radius: 4px;
-        }
-        
-        .no-code-message {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--vscode-descriptionForeground);
-            background: var(--vscode-editor-selectionBackground);
-            border-radius: 8px;
-            margin: 20px 0;
         }
         
         .solution {
@@ -449,6 +435,204 @@ function getSharedCSS() {
             background: var(--vscode-menu-background);
             color: var(--vscode-menu-foreground);
         }
+        
+        /* === CARD SYSTEM (for chatPanel + customAgents) === */
+        /* Arduino Green Card Style */
+        .card.style-arduino-green {
+            background: var(--vscode-editor-selectionBackground);
+            border: 1px solid var(--vscode-panel-border);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .card.style-arduino-green:hover {
+            background: var(--vscode-list-hoverBackground);
+            border-color: var(--vscode-focusBorder);
+            transform: translateX(5px);
+        }
+        
+        /* White with Green Border Card Style */
+        .card.style-white-border {
+            background: var(--vscode-editor-background);
+            border: 2px solid #00979D;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .card.style-white-border:hover {
+            background: var(--vscode-editor-background);
+            border-color: #00C8D0;
+            box-shadow: 0 2px 8px rgba(0, 151, 157, 0.3);
+            transform: translateX(5px);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .card-delete {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            padding: 5px;
+        }
+        
+        .card-delete:hover {
+            opacity: 1;
+        }
+        
+        .card-info {
+            font-size: 13px;
+            color: var(--vscode-descriptionForeground);
+        }
+
+        /* === MESSAGE STYLES (for chat responses) === */
+        /* Arduino Green Message Style */
+        .ai-message.style-arduino-green {
+            background: var(--vscode-editor-selectionBackground);
+            margin-right: auto;
+            border-left: 3px solid #4CAF50;
+        }
+        
+        /* White with Green Border Message Style */
+        .ai-message.style-white-border {
+            background: var(--vscode-editor-background);
+            margin-right: auto;
+            border-left: 3px solid #00979D;
+        }
+
+        /* === RESPONSE BLOCK STYLES (for feature AI outputs) === */
+        /* Arduino Green Style - for AI response containers */
+        .info-section.style-arduino-green,
+        .panel-section.style-arduino-green {
+            background: var(--vscode-editor-selectionBackground);
+            border-left: 3px solid #4CAF50;
+        }
+        
+        .question-box.style-arduino-green,
+        .instructions-box.style-arduino-green {
+            background: var(--vscode-textBlockQuote-background);
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .code-context.style-arduino-green {
+            background: var(--vscode-editor-selectionBackground);
+            border: 1px solid var(--vscode-panel-border);
+        }
+        
+        /* White with Green Border Style - for AI response containers */
+        .info-section.style-white-border,
+        .panel-section.style-white-border {
+            background: var(--vscode-editor-background);
+            border-left: 3px solid #00979D;
+        }
+        
+        .question-box.style-white-border,
+        .instructions-box.style-white-border {
+            background: var(--vscode-editor-background);
+            border-left: 4px solid #00979D;
+        }
+        
+        .code-context.style-white-border {
+            background: var(--vscode-editor-background);
+            border: 2px solid #00979D;
+        }
+        
+        /* === OVERVIEW LAYOUT (for chatPanel + customAgents) === */
+        .overview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--vscode-panel-border);
+        }
+        
+        .overview-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .item-counter {
+            color: var(--vscode-descriptionForeground);
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--vscode-descriptionForeground);
+        }
+        
+        .empty-state h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        /* === BUTTON STATE EXTENSIONS === */
+        button.disabled, .btn.disabled, .panel-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        button:disabled, .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* === CONTEXT BADGE (for all features) === */
+        .context-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--vscode-badge-background);
+            color: var(--vscode-badge-foreground);
+            border-radius: 12px;
+            font-size: 0.9em;
+            margin: 8px 0;
+         }
+        
+        /* === FORM SYSTEM (for customAgents) === */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--vscode-foreground);
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--vscode-panel-border);
+        }
                 
         /* === RESPONSIVE DESIGN === */
         @media (max-width: 768px) {
@@ -477,6 +661,14 @@ function getSharedCSS() {
                 padding: 10px 16px;
                 font-size: 14px;
             }
+            
+            .card {
+                transform: none;
+            }
+            
+            .card:hover {
+                transform: translateX(2px);
+            }
         }
         /* Disable empty context menu in Arduino IDE */
         * {
@@ -484,9 +676,35 @@ function getSharedCSS() {
         }
     </style> 
     <script>
+        // Inject card style setting from VS Code
+        window.AIDUINO_CARD_STYLE = '${cardStyle}';
+    </script>
+    <script>
         // Block native context menu in panels without custom menu
         document.addEventListener('contextmenu', (e) => {
             e.preventDefault();
+        });
+
+        // Auto-apply card style to AI response blocks
+        window.addEventListener('DOMContentLoaded', () => {
+            // Get card style from VS Code settings (injected via data attribute)
+            const cardStyle = window.AIDUINO_CARD_STYLE || 'arduino-green';
+            const styleClass = 'style-' + cardStyle;
+            
+            // Apply style to all AI response containers
+            const selectors = [
+                '.info-section',
+                '.panel-section',
+                '.question-box',
+                '.instructions-box',
+                '.code-context'
+            ];
+            
+            selectors.forEach(selector => {
+                document.querySelectorAll(selector).forEach(element => {
+                    element.classList.add(styleClass);
+                });
+            });
         });
     </script>
     `;

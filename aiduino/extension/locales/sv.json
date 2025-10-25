@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ från urklipp",
     "openSettings": "Inställningar",
     "runCustomAgent": "Kör agent",
-    "manageCustomAgents": "Hantera agenter"
+    "manageCustomAgents": "Hantera agenter",
+    "analyzeCode": "Analysera kod (Offline)"
   },
   "messages": {
     "welcome": "👋 Välkommen! AI.duino  stöder {0}!",
@@ -100,7 +101,8 @@
     "send": "Skicka",
     "newInput": "Ny inmatning",
     "delete": "Ta bort",
-    "resetAll": "Återställ allt"
+    "resetAll": "Återställ allt",
+    "remove": "Ta bort"
   },
   "descriptions": {
     "improveCodeSelected": "Optimera vald kod",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analysera fel från urklipp",
     "openSettings": "Anpassa inställningar",
     "runCustomAgent": "Välj och kör agent",
-    "manageCustomAgents": "Skapa och hantera anpassade AI-agenter"
+    "manageCustomAgents": "Skapa och hantera anpassade AI-agenter",
+    "analyzeCode": "Offline kodanalys utan AI"
   },
   "language": {
     "autoDetect": "Upptäck automatiskt från VS Code",
@@ -404,7 +407,8 @@
       "chat": "Chatt",
       "inlineCompletion": "Inline-komplettering",
       "advanced": "Avancerat",
-      "customAgents": "Anpassade agenter"
+      "customAgents": "Anpassade agenter",
+      "ui": "Användargränssnitt"
     },
     "labels": {
       "temperature": "Kreativitet (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Ordfaktor",
       "tokenEstimationCodeBlock": "Kodblocksfaktor",
       "tokenEstimationSpecialChars": "Specialtecken-faktor",
-      "maxCustomAgents": "Maximalt antal agenter"
+      "maxCustomAgents": "Maximalt antal agenter",
+      "chatHistoryLength": "Chatthistoriklängd",
+      "promptHistoryLength": "Prompthistoriklängd",
+      "cardStyle": "Kortstil",
+      "arduino-green": "Arduino grön bakgrund",
+      "white-border": "Vit bakgrund med grön kant"
     },
     "descriptions": {
       "temperature": "AI-kreativitet (0 = deterministisk, 1 = kreativ)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Multiplikator för ord-till-token-uppskattning",
       "tokenEstimationCodeBlock": "Extra tokens för kodblock",
       "tokenEstimationSpecialChars": "Multiplikator för specialtecken",
-      "maxCustomAgents": "Maximalt antal lagringsbara anpassade agenter (1-100)"
+      "maxCustomAgents": "Maximalt antal lagringsbara anpassade agenter (1-100)",
+      "chatHistoryLength": "Antal meddelanden i chatthistoriken (användar/AI-par)",
+      "promptHistoryLength": "Antal prompter i historiken",
+      "cardStyle": "Visuell stil för chatt- och agentvalskort"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Bygge lyckades",
     "timestamp": "Tidsstämpel",
     "customAgents": "Agenter",
-    "maxCustomAgents": "Maximalt antal agenter"
+    "maxCustomAgents": "Maximalt antal agenter",
+    "additionalFiles": "Ytterligare filer",
+    "additionalFilesDesc": "Lägg till filer utanför sketch-katalogen",
+    "addFiles": "Lägg till filer",
+    "selectAdditionalFiles": "Välj ytterligare filer",
+    "noAdditionalFiles": "Inga ytterligare filer",
+    "nameAndPromptRequired": "Namn och prompt är obligatoriska"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Analyserad fil",
+    "pinsUsed": "Pins",
+    "libraries": "Bibliotek",
+    "functions": "Funktioner",
+    "constants": "Konstanter",
+    "structures": "Strukturer",
+    "pinConfig": "Pin-konfiguration",
+    "usedLibraries": "Använda bibliotek",
+    "functionList": "Funktioner",
+    "constantsList": "Konstanter och Defines",
+    "dataStructures": "Datastrukturer",
+    "noneFound": "Inga hittades",
+    "inferred": "(härlett)",
+    "writes": "skriver",
+    "readsDigital": "läser digitalt",
+    "readsAnalog": "läser analogt",
+    "pwmValue": "PWM (värde: {0})",
+    "interruptMode": "Avbrott {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Portmanipulering",
+    "portWrite": "skriver",
+    "portRead": "läser",
+    "globalVars": "Globala variabler",
+    "globalVarsList": "Globala variabler"
   }
 }

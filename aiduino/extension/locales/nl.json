@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ van klembord",
     "openSettings": "Instellingen",
     "runCustomAgent": "Voer agent uit",
-    "manageCustomAgents": "Beheer agents"
+    "manageCustomAgents": "Beheer agents",
+    "analyzeCode": "Analyseer code (Offline)"
   },
   "messages": {
     "welcome": "👋 Welkom! AI.duino  ondersteunt {0}!",
@@ -100,7 +101,8 @@
     "send": "Verzenden",
     "newInput": "Nieuwe invoer",
     "delete": "Verwijderen",
-    "resetAll": "Alles herstellen"
+    "resetAll": "Alles herstellen",
+    "remove": "Verwijderen"
   },
   "descriptions": {
     "improveCodeSelected": "Geselecteerde code optimaliseren",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analyseer fout van klembord",
     "openSettings": "Pas instellingen aan",
     "runCustomAgent": "Selecteer en voer agent uit",
-    "manageCustomAgents": "Maak en beheer aangepaste AI-agents"
+    "manageCustomAgents": "Maak en beheer aangepaste AI-agents",
+    "analyzeCode": "Offline code-analyse zonder AI"
   },
   "language": {
     "autoDetect": "Automatisch detecteren vanuit VS Code",
@@ -404,7 +407,8 @@
       "chat": "Chat",
       "inlineCompletion": "Inline-aanvulling",
       "advanced": "Geavanceerd",
-      "customAgents": "Aangepaste agents"
+      "customAgents": "Aangepaste agents",
+      "ui": "Gebruikersinterface"
     },
     "labels": {
       "temperature": "Creativiteit (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Woordfactor",
       "tokenEstimationCodeBlock": "Codeblok factor",
       "tokenEstimationSpecialChars": "Speciale tekens factor",
-      "maxCustomAgents": "Maximum aantal agents"
+      "maxCustomAgents": "Maximum aantal agents",
+      "chatHistoryLength": "Lengte chatgeschiedenis",
+      "promptHistoryLength": "Lengte promptgeschiedenis",
+      "cardStyle": "Kaartstijl",
+      "arduino-green": "Arduino groene achtergrond",
+      "white-border": "Witte achtergrond met groene rand"
     },
     "descriptions": {
       "temperature": "AI-creativiteit (0 = deterministisch, 1 = creatief)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Vermenigvuldiger voor woord-naar-token schatting",
       "tokenEstimationCodeBlock": "Extra tokens voor codeblokken",
       "tokenEstimationSpecialChars": "Vermenigvuldiger voor speciale tekens",
-      "maxCustomAgents": "Maximum aantal opgeslagen aangepaste agents (1-100)"
+      "maxCustomAgents": "Maximum aantal opgeslagen aangepaste agents (1-100)",
+      "chatHistoryLength": "Aantal berichten in chatgeschiedenis (gebruiker/AI-paren)",
+      "promptHistoryLength": "Aantal prompts in geschiedenis",
+      "cardStyle": "Visuele stijl voor chat- en agentselectiekaarten"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Build succesvol",
     "timestamp": "Tijdstempel",
     "customAgents": "Agents",
-    "maxCustomAgents": "Maximum aantal agents"
+    "maxCustomAgents": "Maximum aantal agents",
+    "additionalFiles": "Extra bestanden",
+    "additionalFilesDesc": "Bestanden toevoegen buiten de sketch-map",
+    "addFiles": "Bestanden toevoegen",
+    "selectAdditionalFiles": "Selecteer extra bestanden",
+    "noAdditionalFiles": "Geen extra bestanden",
+    "nameAndPromptRequired": "Naam en prompt zijn verplicht"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Geanalyseerd bestand",
+    "pinsUsed": "Pins",
+    "libraries": "Bibliotheken",
+    "functions": "Functies",
+    "constants": "Constanten",
+    "structures": "Structuren",
+    "pinConfig": "Pin-configuratie",
+    "usedLibraries": "Gebruikte bibliotheken",
+    "functionList": "Functies",
+    "constantsList": "Constanten en Defines",
+    "dataStructures": "Datastructuren",
+    "noneFound": "Geen gevonden",
+    "inferred": "(afgeleid)",
+    "writes": "schrijft",
+    "readsDigital": "leest digitaal",
+    "readsAnalog": "leest analoog",
+    "pwmValue": "PWM (waarde: {0})",
+    "interruptMode": "Interrupt {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Poortmanipulatie",
+    "portWrite": "schrijft",
+    "portRead": "leest",
+    "globalVars": "Globale variabelen",
+    "globalVarsList": "Globale variabelen"
   }
 }

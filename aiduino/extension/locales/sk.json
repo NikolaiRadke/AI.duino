@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ zo schránky",
     "openSettings": "Nastavenia",
     "runCustomAgent": "Spustiť agenta",
-    "manageCustomAgents": "Spravovať agentov"
+    "manageCustomAgents": "Spravovať agentov",
+    "analyzeCode": "Analyzovať kód (Offline)"
   },
   "messages": {
     "welcome": "Vitajte! AI.duino podporuje {0}!",
@@ -100,7 +101,8 @@
     "send": "Odoslať",
     "newInput": "Nový vstup",
     "delete": "Odstrániť",
-    "resetAll": "Resetovať všetko"
+    "resetAll": "Resetovať všetko",
+    "remove": "Odstrániť"
   },
   "descriptions": {
     "improveCodeSelected": "Optimalizácia označeného kódu",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analyzovať chybu zo schránky",
     "openSettings": "Upraviť nastavenia",
     "runCustomAgent": "Vybrať a spustiť agenta",
-    "manageCustomAgents": "Vytvárať a spravovať vlastných AI agentov"
+    "manageCustomAgents": "Vytvárať a spravovať vlastných AI agentov",
+    "analyzeCode": "Offline analýza kódu bez AI"
   },
   "language": {
     "autoDetect": "Automatické rozpoznanie z VS Code",
@@ -404,7 +407,8 @@
       "chat": "Chat",
       "inlineCompletion": "Inline dopĺňanie",
       "advanced": "Pokročilé",
-      "customAgents": "Vlastní agenti"
+      "customAgents": "Vlastní agenti",
+      "ui": "Používateľské rozhranie"
     },
     "labels": {
       "temperature": "Kreativita (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Slovný faktor",
       "tokenEstimationCodeBlock": "Faktor bloku kódu",
       "tokenEstimationSpecialChars": "Faktor špeciálnych znakov",
-      "maxCustomAgents": "Maximálny počet agentov"
+      "maxCustomAgents": "Maximálny počet agentov",
+      "chatHistoryLength": "Dĺžka histórie chatu",
+      "promptHistoryLength": "Dĺžka histórie promptov",
+      "cardStyle": "Štýl karty",
+      "arduino-green": "Arduino zelené pozadie",
+      "white-border": "Biele pozadie so zeleným okrajom"
     },
     "descriptions": {
       "temperature": "Kreativita AI (0 = deterministické, 1 = kreatívne)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Násobiteľ pre odhad slov-na-tokeny",
       "tokenEstimationCodeBlock": "Dodatočné tokeny pre bloky kódu",
       "tokenEstimationSpecialChars": "Násobiteľ pre špeciálne znaky",
-      "maxCustomAgents": "Maximálny počet uložiteľných vlastných agentov (1-100)"
+      "maxCustomAgents": "Maximálny počet uložiteľných vlastných agentov (1-100)",
+      "chatHistoryLength": "Počet správ v histórii chatu (páry používateľ/AI)",
+      "promptHistoryLength": "Počet promptov v histórii",
+      "cardStyle": "Vizuálny štýl pre karty chatu a výberu agenta"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Zostavenie úspešné",
     "timestamp": "Časová pečiatka",
     "customAgents": "Agenti",
-    "maxCustomAgents": "Maximálny počet agentov"
+    "maxCustomAgents": "Maximálny počet agentov",
+    "additionalFiles": "Dodatočné súbory",
+    "additionalFilesDesc": "Pridať súbory mimo adresára sketchu",
+    "addFiles": "Pridať súbory",
+    "selectAdditionalFiles": "Vybrať dodatočné súbory",
+    "noAdditionalFiles": "Žiadne dodatočné súbory",
+    "nameAndPromptRequired": "Názov a prompt sú povinné"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Analyzovaný súbor",
+    "pinsUsed": "Piny",
+    "libraries": "Knižnice",
+    "functions": "Funkcie",
+    "constants": "Konštanty",
+    "structures": "Štruktúry",
+    "pinConfig": "Konfigurácia pinov",
+    "usedLibraries": "Použité knižnice",
+    "functionList": "Funkcie",
+    "constantsList": "Konštanty a Defines",
+    "dataStructures": "Dátové štruktúry",
+    "noneFound": "Nenájdené",
+    "inferred": "(odvodené)",
+    "writes": "píše",
+    "readsDigital": "číta digitálne",
+    "readsAnalog": "číta analógovo",
+    "pwmValue": "PWM (hodnota: {0})",
+    "interruptMode": "Prerušenie {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Manipulácia portu",
+    "portWrite": "píše",
+    "portRead": "číta",
+    "globalVars": "Globálne premenné",
+    "globalVarsList": "Globálne premenné"
   }
 }

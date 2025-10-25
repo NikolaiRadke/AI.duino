@@ -198,6 +198,9 @@ async function clearVSCodeSettings() {
         // Chat
         'maxChats',
         'maxMessagesPerChat',
+        'chatHistoryLength',
+        'promptHistoryLength',
+        'cardStyle',
         // Inline Completion Details
         'inlineCompletionDelay',
         'inlineCompletionContextLines',

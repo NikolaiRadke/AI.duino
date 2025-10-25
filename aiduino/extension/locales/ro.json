@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ din clipboard",
     "openSettings": "Setări",
     "runCustomAgent": "Rulează agentul",
-    "manageCustomAgents": "Gestionează agenții"
+    "manageCustomAgents": "Gestionează agenții",
+    "analyzeCode": "Analizează cod (Offline)"
   },
   "messages": {
     "welcome": "👋 Bun venit! AI.duino suportă {0}!",
@@ -100,7 +101,8 @@
     "send": "Trimite",
     "newInput": "Intrare nouă",
     "delete": "Șterge",
-    "resetAll": "Resetează tot"
+    "resetAll": "Resetează tot",
+    "remove": "Elimină"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizează codul selectat",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analizează eroarea din clipboard",
     "openSettings": "Ajustează setările",
     "runCustomAgent": "Selectează și rulează agentul",
-    "manageCustomAgents": "Creează și gestionează agenți AI personalizați"
+    "manageCustomAgents": "Creează și gestionează agenți AI personalizați",
+    "analyzeCode": "Analiză cod offline fără AI"
   },
   "labels": {
     "active": "Activ",
@@ -404,7 +407,8 @@
       "chat": "Chat",
       "inlineCompletion": "Completare inline",
       "advanced": "Avansat",
-      "customAgents": "Agenți personalizați"
+      "customAgents": "Agenți personalizați",
+      "ui": "Interfață utilizator"
     },
     "labels": {
       "temperature": "Creativitate (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Factor cuvinte",
       "tokenEstimationCodeBlock": "Factor bloc cod",
       "tokenEstimationSpecialChars": "Factor caractere speciale",
-      "maxCustomAgents": "Număr maxim de agenți"
+      "maxCustomAgents": "Număr maxim de agenți",
+      "chatHistoryLength": "Lungimea istoricului chat",
+      "promptHistoryLength": "Lungimea istoricului prompturi",
+      "cardStyle": "Stil card",
+      "arduino-green": "Fundal verde Arduino",
+      "white-border": "Fundal alb cu chenar verde"
     },
     "descriptions": {
       "temperature": "Creativitatea AI (0 = determinist, 1 = creativ)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Multiplicator pentru estimare cuvânt-în-token",
       "tokenEstimationCodeBlock": "Tokeni suplimentari pentru blocuri de cod",
       "tokenEstimationSpecialChars": "Multiplicator pentru caractere speciale",
-      "maxCustomAgents": "Număr maxim de agenți personalizați stocabili (1-100)"
+      "maxCustomAgents": "Număr maxim de agenți personalizați stocabili (1-100)",
+      "chatHistoryLength": "Număr de mesaje în istoricul chat (perechi utilizator/AI)",
+      "promptHistoryLength": "Număr de prompturi în istoric",
+      "cardStyle": "Stil vizual pentru carduri chat și selecție agent"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Compilare reușită",
     "timestamp": "Marcaj temporal",
     "customAgents": "Agenți",
-    "maxCustomAgents": "Număr maxim de agenți"
+    "maxCustomAgents": "Număr maxim de agenți",
+    "additionalFiles": "Fișiere suplimentare",
+    "additionalFilesDesc": "Adaugă fișiere din afara directorului sketch",
+    "addFiles": "Adaugă fișiere",
+    "selectAdditionalFiles": "Selectează fișiere suplimentare",
+    "noAdditionalFiles": "Niciun fișier suplimentar",
+    "nameAndPromptRequired": "Numele și promptul sunt obligatorii"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Fișier analizat",
+    "pinsUsed": "Pini",
+    "libraries": "Biblioteci",
+    "functions": "Funcții",
+    "constants": "Constante",
+    "structures": "Structuri",
+    "pinConfig": "Configurare pini",
+    "usedLibraries": "Biblioteci utilizate",
+    "functionList": "Funcții",
+    "constantsList": "Constante și Defines",
+    "dataStructures": "Structuri de date",
+    "noneFound": "Nu s-au găsit",
+    "inferred": "(dedus)",
+    "writes": "scrie",
+    "readsDigital": "citește digital",
+    "readsAnalog": "citește analogic",
+    "pwmValue": "PWM (valoare: {0})",
+    "interruptMode": "Întrerupere {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Manipulare port",
+    "portWrite": "scrie",
+    "portRead": "citește",
+    "globalVars": "Variabile globale",
+    "globalVarsList": "Variabile globale"
   }
 }

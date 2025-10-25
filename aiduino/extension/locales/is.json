@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ úr klemmuspjaldi",
     "openSettings": "Stillingar",
     "runCustomAgent": "Keyra umboðsmann",
-    "manageCustomAgents": "Stjórna umboðsmönnum"
+    "manageCustomAgents": "Stjórna umboðsmönnum",
+    "analyzeCode": "Greina kóða (Án nettengingar)"
   },
   "messages": {
     "welcome": "👋 Velkominn! AI.duino styður {0}!",
@@ -100,7 +101,8 @@
     "send": "Senda",
     "newInput": "Ný innsláttur",
     "delete": "Eyða",
-    "resetAll": "Endurstilla allt"
+    "resetAll": "Endurstilla allt",
+    "remove": "Fjarlægja"
   },
   "descriptions": {
     "improveCodeSelected": "Bæta valinn kóða",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Greina villu úr klemmuspjaldi",
     "openSettings": "Aðlaga stillingar",
     "runCustomAgent": "Velja og keyra umboðsmann",
-    "manageCustomAgents": "Búa til og stjórna sérsniðnum gervigreind umboðsmönnum"
+    "manageCustomAgents": "Búa til og stjórna sérsniðnum gervigreind umboðsmönnum",
+    "analyzeCode": "Kóðagreining án nettengingar án gervigreindar"
   },
   "language": {
     "autoDetect": "Greina sjálfkrafa frá VS Code",
@@ -404,7 +407,8 @@
       "chat": "Spjall",
       "inlineCompletion": "Inline klárgerð",
       "advanced": "Ítarlegt",
-      "customAgents": "Sérsniðnir umboðsmenn"
+      "customAgents": "Sérsniðnir umboðsmenn",
+      "ui": "Notendaviðmót"
     },
     "labels": {
       "temperature": "Sköpunargáfa (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Orðastuðull",
       "tokenEstimationCodeBlock": "Kóðablokk stuðull",
       "tokenEstimationSpecialChars": "Sérstakra stafa stuðull",
-      "maxCustomAgents": "Hámarksfjöldi umboðsmanna"
+      "maxCustomAgents": "Hámarksfjöldi umboðsmanna",
+      "chatHistoryLength": "Lengd spjallferils",
+      "promptHistoryLength": "Lengd skipanaferils",
+      "cardStyle": "Kortastíll",
+      "arduino-green": "Arduino grænn bakgrunnur",
+      "white-border": "Hvítur bakgrunnur með grænum ramma"
     },
     "descriptions": {
       "temperature": "AI sköpunargáfa (0 = ákveðið, 1 = skapandi)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Margfaldari fyrir orð-í-token mat",
       "tokenEstimationCodeBlock": "Auka token fyrir kóðablokkir",
       "tokenEstimationSpecialChars": "Margfaldari fyrir sérstafi",
-      "maxCustomAgents": "Hámarksfjöldi geymanlegra sérsniðinna umboðsmanna (1-100)"
+      "maxCustomAgents": "Hámarksfjöldi geymanlegra sérsniðinna umboðsmanna (1-100)",
+      "chatHistoryLength": "Fjöldi skilaboða í spjallferli (notandi/gervigreind pör)",
+      "promptHistoryLength": "Fjöldi skipana í ferli",
+      "cardStyle": "Sjónrænn stíll fyrir spjall- og umboðsvalskort"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Bygging tókst",
     "timestamp": "Tímamerki",
     "customAgents": "Umboðsmenn",
-    "maxCustomAgents": "Hámarksfjöldi umboðsmanna"
+    "maxCustomAgents": "Hámarksfjöldi umboðsmanna",
+    "additionalFiles": "Viðbótarskrár",
+    "additionalFilesDesc": "Bæta við skrám utan sketch möppu",
+    "addFiles": "Bæta við skrám",
+    "selectAdditionalFiles": "Velja viðbótarskrár",
+    "noAdditionalFiles": "Engar viðbótarskrár",
+    "nameAndPromptRequired": "Nafn og skipun eru nauðsynleg"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Greind skrá",
+    "pinsUsed": "Pinnar",
+    "libraries": "Söfn",
+    "functions": "Föll",
+    "constants": "Fastar",
+    "structures": "Skipulag",
+    "pinConfig": "Pinna stillingar",
+    "usedLibraries": "Notuð söfn",
+    "functionList": "Föll",
+    "constantsList": "Fastar og Defines",
+    "dataStructures": "Gagnaskipulag",
+    "noneFound": "Ekkert fannst",
+    "inferred": "(ályktað)",
+    "writes": "skrifar",
+    "readsDigital": "les stafrænt",
+    "readsAnalog": "les hliðrænt",
+    "pwmValue": "PWM (gildi: {0})",
+    "interruptMode": "Truflun {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pinni {0}: {1}{2}",
+    "portManipulation": "Gáttameðhöndlun",
+    "portWrite": "skrifar",
+    "portRead": "les",
+    "globalVars": "Altækar breytur",
+    "globalVarsList": "Altækar breytur"
   }
 }

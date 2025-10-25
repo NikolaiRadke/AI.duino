@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ 클립보드에서",
     "openSettings": "설정",
     "runCustomAgent": "에이전트 실행",
-    "manageCustomAgents": "에이전트 관리"
+    "manageCustomAgents": "에이전트 관리",
+    "analyzeCode": "코드 분석 (오프라인)"
   },
   "messages": {
     "welcome": "👋 환영합니다! AI.duino {0}을(를) 지원합니다!",
@@ -100,7 +101,8 @@
     "send": "보내기",
     "newInput": "새 입력",
     "delete": "삭제",
-    "resetAll": "모두 초기화"
+    "resetAll": "모두 초기화",
+    "remove": "제거"
   },
   "descriptions": {
     "improveCodeSelected": "선택한 코드 최적화",
@@ -122,7 +124,8 @@
     "explainCopiedError": "클립보드의 오류 분석",
     "openSettings": "설정 조정",
     "runCustomAgent": "에이전트 선택 및 실행",
-    "manageCustomAgents": "맞춤형 AI 에이전트 생성 및 관리"
+    "manageCustomAgents": "맞춤형 AI 에이전트 생성 및 관리",
+    "analyzeCode": "AI 없이 오프라인 코드 분석"
   },
   "language": {
     "autoDetect": "VS Code에서 자동 감지",
@@ -404,7 +407,8 @@
       "chat": "채팅",
       "inlineCompletion": "인라인 자동완성",
       "advanced": "고급",
-      "customAgents": "맞춤형 에이전트"
+      "customAgents": "맞춤형 에이전트",
+      "ui": "사용자 인터페이스"
     },
     "labels": {
       "temperature": "창의성 (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "단어 계수",
       "tokenEstimationCodeBlock": "코드 블록 계수",
       "tokenEstimationSpecialChars": "특수 문자 계수",
-      "maxCustomAgents": "최대 에이전트 수"
+      "maxCustomAgents": "최대 에이전트 수",
+      "chatHistoryLength": "채팅 기록 길이",
+      "promptHistoryLength": "프롬프트 기록 길이",
+      "cardStyle": "카드 스타일",
+      "arduino-green": "Arduino 녹색 배경",
+      "white-border": "녹색 테두리가 있는 흰색 배경"
     },
     "descriptions": {
       "temperature": "AI 창의성 (0 = 결정적, 1 = 창의적)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "단어-토큰 추정 승수",
       "tokenEstimationCodeBlock": "코드 블록에 대한 추가 토큰",
       "tokenEstimationSpecialChars": "특수 문자 승수",
-      "maxCustomAgents": "저장 가능한 맞춤형 에이전트의 최대 개수 (1-100)"
+      "maxCustomAgents": "저장 가능한 맞춤형 에이전트의 최대 개수 (1-100)",
+      "chatHistoryLength": "채팅 기록의 메시지 수 (사용자/AI 쌍)",
+      "promptHistoryLength": "기록의 프롬프트 수",
+      "cardStyle": "채팅 및 에이전트 선택 카드의 시각적 스타일"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "빌드 성공",
     "timestamp": "타임스탬프",
     "customAgents": "에이전트",
-    "maxCustomAgents": "최대 에이전트 수"
+    "maxCustomAgents": "최대 에이전트 수",
+    "additionalFiles": "추가 파일",
+    "additionalFilesDesc": "스케치 디렉토리 외부의 파일 추가",
+    "addFiles": "파일 추가",
+    "selectAdditionalFiles": "추가 파일 선택",
+    "noAdditionalFiles": "추가 파일 없음",
+    "nameAndPromptRequired": "이름과 프롬프트는 필수입니다"
+  },
+  "analyzeCode": {
+    "analyzedFile": "분석된 파일",
+    "pinsUsed": "핀",
+    "libraries": "라이브러리",
+    "functions": "함수",
+    "constants": "상수",
+    "structures": "구조체",
+    "pinConfig": "핀 구성",
+    "usedLibraries": "사용된 라이브러리",
+    "functionList": "함수",
+    "constantsList": "상수 및 Defines",
+    "dataStructures": "데이터 구조",
+    "noneFound": "찾을 수 없음",
+    "inferred": "(추론됨)",
+    "writes": "쓰기",
+    "readsDigital": "디지털 읽기",
+    "readsAnalog": "아날로그 읽기",
+    "pwmValue": "PWM (값: {0})",
+    "interruptMode": "인터럽트 {0} → {1}()",
+    "servoAttached": "서보 ({0})",
+    "pinFormat": "핀 {0}: {1}{2}",
+    "portManipulation": "포트 조작",
+    "portWrite": "쓰기",
+    "portRead": "읽기",
+    "globalVars": "전역 변수",
+    "globalVarsList": "전역 변수"
   }
 }

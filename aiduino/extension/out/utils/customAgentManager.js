@@ -250,7 +250,7 @@ class CustomAgentManager {
         }
 
         if (options.pinConfiguration && editor) {
-            const pins = codeAnalyzer.extractPinConfiguration(editor.document.getText());
+            const pins = codeAnalyzer.extractPinConfiguration(editor.document.getText(), t);
             if (pins.length > 0) {
                 contextParts.push(`## Pin Configuration:\n${pins.join('\n')}`);
             }

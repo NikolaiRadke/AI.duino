@@ -6,9 +6,11 @@
  */
 
 const vscode = require('vscode');
+const path = require('path');
 const shared = require('../shared');
 const featureUtils = require('./featureUtils');
 const contextManager = require('../utils/contextManager');
+const fileManager = require('../utils/fileManager');
 const panelManager = require('../utils/panelManager');
 const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
 const { ChatHistoryManager } = require('../utils/chatHistoryManager');
@@ -43,6 +45,8 @@ async function showChatPanel(context) {
         onDispose: () => {
             historyManager = null;
             currentView = 'overview';
+            attachedContext = null;
+            lastUsedContext = null;
         },
         onReveal: () => {
             // Panel already exists, just return
@@ -67,11 +71,17 @@ async function showChatPanel(context) {
             await handleOpenChat(message.chatId, panel, context);
         },
         backToOverview: async (message) => {
+            // Reset attachments when going back to overview
+            attachedContext = null;
+            lastUsedContext = null;
             currentView = 'overview';
             updatePanelContent(panel, context);
         },
         sendMessage: async (message) => {
             await handleUserMessage(message.text, panel, context);
+        },
+        manageAttachments: async (message) => {
+            await handleManageAttachments(panel, context);
         },
         attachContext: async (message) => {
             await handleAttachContext(panel, context);
@@ -94,11 +104,16 @@ async function showChatPanel(context) {
         },
         clearContext: async (message) => {
             attachedContext = null;
+            lastUsedContext = null;
             updatePanelContent(panel, context);
         },
         toggleArduinoMode: async (message) => {
             arduinoMode = !arduinoMode;
-            updatePanelContent(panel, context);
+            // Update button style without re-rendering entire panel
+            panel.webview.postMessage({ 
+                command: 'updateArduinoMode', 
+                arduinoMode: arduinoMode 
+            });
         },
         newChat: async (message) => {
             await handleNewChat(panel, context);
@@ -107,8 +122,18 @@ async function showChatPanel(context) {
             await handleDeleteChat(message.chatId, panel, context);
         },
         clearChat: async (message) => {
-            historyManager.clearActiveChat();
-            updatePanelContent(panel, context);
+            const { t } = context;
+            
+            const choice = await vscode.window.showWarningMessage(
+                t('chat.confirmDelete'),
+                t('buttons.yes'),
+                t('buttons.no')
+            );
+            
+            if (choice === t('buttons.yes')) {
+                historyManager.clearActiveChat();
+                updatePanelContent(panel, context);
+            }
         },
         pasteFromClipboard: async (message) => {
             const clipboardText = await vscode.env.clipboard.readText();
@@ -203,41 +228,45 @@ async function handleUserMessage(userText, panel, context) {
     const chatHistory = historyManager.getActiveChat();
     const chatId = historyManager.getActiveChatId();
     const sessionKey = `${chatId}-${actualCurrentModel}`;
+    const hadNoSession = !activeSessions[sessionKey];
     
     let prompt;
 
     if (attachedContext) {
         lastUsedContext = attachedContext;
-        prompt = contextManager.buildContextAwarePrompt(
-            '', attachedContext,
-            { selection: null, file: 'askAIFile', sketch: 'askAISketch', suffix: null },
-            context, null, [messageText]
-        );
+        prompt = buildChatPromptWithAttachments(messageText, attachedContext, context);
         attachedContext = null;
         panel.webview.postMessage({ command: 'contextAttached', badge: '' });
     } else {
         prompt = buildChatPrompt(userText, chatHistory, actualCurrentModel, context.minimalModelManager, chatId);
     }
     
-    try {
-        const freshContext = { 
-            ...context, 
-            currentModel: actualCurrentModel,
-            sessionId: activeSessions[sessionKey] || null
-        };
-        
-        const response = await featureUtils.callAIWithProgress(prompt, 'progress.askingAI', freshContext);
+try {
+    // DON'T create modifiedContext - modify context directly!
+    context.currentModel = actualCurrentModel;
+    context.sessionId = activeSessions[sessionKey] || null;
     
-        const provider = context.minimalModelManager.providers[actualCurrentModel];
-        if (provider?.persistent && freshContext.lastSessionId) {
-            activeSessions[sessionKey] = freshContext.lastSessionId;
-        }
+    const result = await featureUtils.callAIWithProgress(prompt, 'progress.askingAI', context);
     
-        historyManager.addMessage('ai', response, null, actualCurrentModel);
-        updatePanelContent(panel, context);
-    } catch (error) {
-        throw error;
+    // Handle both string response (API providers) and object response (local providers)
+    const response = typeof result === 'string' ? result : result.text;
+    const newSessionId = typeof result === 'object' ? result.sessionId : null;
+    
+    const provider = context.minimalModelManager.providers[actualCurrentModel];
+    const gotNewSession = provider?.persistent && hadNoSession && newSessionId;
+    
+    if (gotNewSession) {
+        activeSessions[sessionKey] = newSessionId;
+        historyManager.addMessage('system', context.t('chat.newSessionStarted'), null, actualCurrentModel);
+    } else if (provider?.persistent && newSessionId) {
+        activeSessions[sessionKey] = newSessionId;
     }
+    
+    historyManager.addMessage('ai', response, null, actualCurrentModel);
+    updatePanelContent(panel, context);
+} catch (error) {
+    throw error;
+}
 }
 
 /**
@@ -272,7 +301,8 @@ function buildChatPrompt(newMessage, history, currentModel, minimalModelManager,
         "You are an Arduino programming assistant. Previous conversation:\n\n" :
         "You are a helpful AI assistant. Previous conversation:\n\n";
     
-    const recentHistory = history.slice(-8);
+    const maxHistory = context.settings.get('chatHistoryLength') || 20;
+    const recentHistory = history.slice(-maxHistory);
     recentHistory.forEach(msg => {
         const role = msg.sender === 'user' ? 'User' : 'Assistant';
         prompt += `${role}: ${msg.text}\n\n`;
@@ -288,46 +318,230 @@ function buildChatPrompt(newMessage, history, currentModel, minimalModelManager,
 }
 
 /**
- * Handle attaching context files
+ * Build chat prompt with attachments (Arduino files and/or external files)
+ * @param {string} messageText - User message
+ * @param {Object} attachedContext - Context with contextData and externalFiles
+ * @param {Object} context - Extension context
+ * @returns {string} Complete prompt
+ */
+function buildChatPromptWithAttachments(messageText, attachedContext, context) {
+    const { t } = context;
+    let prompt = '';
+    
+    // Start with base prompt
+    prompt = arduinoMode ? 
+        "You are an Arduino programming assistant.\n\n" :
+        "You are a helpful AI assistant.\n\n";
+    
+    // Add user message
+    prompt += `User question: ${messageText}\n\n`;
+    
+    // Add Arduino context files if present
+    if (attachedContext.contextData && attachedContext.contextData.contextFiles) {
+        const files = attachedContext.contextData.contextFiles;
+        
+        if (files.length === 1) {
+            // Single file
+            const file = files[0];
+            prompt += `Code file (${file.name}):\n\`\`\`cpp\n${file.content}\n\`\`\`\n\n`;
+        } else if (files.length > 1) {
+            // Multiple files (full sketch)
+            prompt += `Complete Arduino Sketch:\n\n`;
+            for (const file of files) {
+                prompt += `// ========== ${file.name} ==========\n`;
+                prompt += `\`\`\`cpp\n${file.content}\n\`\`\`\n\n`;
+            }
+        }
+    }
+    
+    // Add external files if present
+    if (attachedContext.externalFiles && attachedContext.externalFiles.length > 0) {
+        prompt += `\n=== Additional External Files ===\n`;
+        for (const file of attachedContext.externalFiles) {
+            prompt += `\n// ========== ${file.name} ==========\n`;
+            prompt += `\`\`\`\n${file.content}\n\`\`\`\n`;
+        }
+    }
+    
+    // Add board context if Arduino mode
+    if (arduinoMode) {
+        prompt += '\n\n' + shared.getBoardContext();
+    }
+    return prompt;
+}
+
+/**
+ * Handle attaching context - shows menu with 3 options
  */
 async function handleAttachContext(panel, context) {
     const { t } = context;
     const editor = vscode.window.activeTextEditor;
     
-    if (!editor || !context.validation.validateArduinoFile(editor.document.fileName)) {
-        vscode.window.showWarningMessage(t('messages.openInoFile'));
-        return;
+    // Build options
+    const options = [];
+    
+    // Only show code options if Arduino file is open
+    if (editor && context.validation.validateArduinoFile(editor.document.fileName)) {
+        options.push({
+            label: '📂 ' + t('context.currentFile'),
+            description: t('context.currentFileDetailNoSelection'),
+            value: 'currentFile'
+        });
+        
+        options.push({
+            label: '📂 ' + t('context.fullSketch'),
+            description: t('context.fullSketchDetailNoSelection'),
+            value: 'fullSketch'
+        });
     }
     
-    // Use contextManager for selection
-    const contextData = await contextManager.selectContextLevel(
-        editor, 
-        '', // No selected text for chat
-        t,
-        { showSelectionOption: false } // No selection option in chat
-    );
-    
-    if (!contextData) return;
-    
-    attachedContext = contextData;
-    updatePanelContent(panel, context);
-
-    // Show info about one-time context
-    vscode.window.showInformationMessage(t('messages.contextAttachedInfo'));
-    
-    // Create custom badge with remove button for chat
-    let badgeHtml = contextManager.getContextBadgeHtml(contextData, t);
-    // Add remove button only for chat panel
-    badgeHtml = badgeHtml.replace('</div>', 
-        '<span onclick="event.stopPropagation(); clearContext()" style="cursor: pointer; margin-left: 5px; font-weight: bold;">×</span></div>');
-
-    // Feedback to webview
-    panel.webview.postMessage({
-        command: 'contextAttached',
-        badge: badgeHtml
+    // Always show external files option
+    options.push({
+        label: '📁 ' + t('customAgent.additionalFiles'),
+        description: t('customAgent.additionalFilesDesc'),
+        value: 'externalFiles'
     });
+    
+    const choice = await vscode.window.showQuickPick(options, {
+        placeHolder: t('chat.attachFile'),
+        ignoreFocusOut: true
+    });
+    
+    if (!choice) return;
+    
+    // Handle choice
+    if (choice.value === 'externalFiles') {
+        await handleAttachExternalFiles(panel, context);
+    } else {
+        // currentFile or fullSketch
+        const contextData = contextManager.buildContextData(
+            choice.value,
+            editor,
+            contextManager.getSketchFiles(path.dirname(editor.document.uri.fsPath)),
+            ''
+        );
+        
+        // Store in new structure
+        if (!attachedContext) {
+            attachedContext = {
+                contextData: null,
+                externalFiles: []
+            };
+        }
+        
+        attachedContext.contextData = contextData;
+        lastUsedContext = { ...attachedContext };
+        updatePanelContent(panel, context);
+        
+        vscode.window.showInformationMessage(t('messages.contextAttachedInfo'));
+    }
+}
+
+/**
+ * Handle attaching external files
+ */
+async function handleAttachExternalFiles(panel, context) {
+    const { t } = context;
+    
+    const existingFiles = attachedContext?.externalFiles || [];
+    
+    const newFiles = await fileManager.pickAdditionalFiles(existingFiles.map(f => f.path), {
+        title: t('customAgent.selectAdditionalFiles'),
+        openLabel: t('customAgent.addFiles')
+    });
+    
+    if (!newFiles || newFiles.length === 0) return;
+    
+    const filesData = await fileManager.readAdditionalFiles(newFiles);
+    
+    if (!attachedContext) {
+        attachedContext = {
+            contextData: null,
+            externalFiles: []
+        };
+    }
+    
+    attachedContext.externalFiles = [
+        ...attachedContext.externalFiles,
+        ...filesData.filter(f => !f.error)
+    ];
+    
+    lastUsedContext = { ...attachedContext };
+    updatePanelContent(panel, context);
+    
+    const count = filesData.filter(f => !f.error).length;
+    vscode.window.showInformationMessage(
+        count === 1 
+            ? t('chat.externalFileAttached')
+            : t('chat.externalFilesAttached', count)
+    );
+}
+
+/**
+ * Handle managing attachments via QuickPick
+ */
+async function handleManageAttachments(panel, context) {
+    const { t } = context;
+    
+    if (!attachedContext) return;
+    
+    const items = [];
+    
+    if (attachedContext.contextData && attachedContext.contextData.contextFiles) {
+        attachedContext.contextData.contextFiles.forEach(file => {
+            items.push({
+                label: `📂 ${file.name}`,
+                description: t('context.currentFile'),
+                filePath: `context:${file.name}`,
+                type: 'context'
+            });
+        });
+    }
+    
+    if (attachedContext.externalFiles) {
+        attachedContext.externalFiles.forEach(file => {
+            items.push({
+                label: `📁 ${file.name}`,
+                description: '(extern)',
+                filePath: file.path,
+                type: 'external'
+            });
+        });
+    }
+    
+    if (items.length === 0) return;
+    
+    const choice = await vscode.window.showQuickPick(items, {
+        placeHolder: t('chat.removeFilePrompt', t('buttons.remove') + '?'),
+        ignoreFocusOut: true
+    });
+    
+    if (!choice) return;
+    
+    if (choice.type === 'context') {
+        const fileName = choice.filePath.replace('context:', '');
+        if (attachedContext.contextData && attachedContext.contextData.contextFiles) {
+            attachedContext.contextData.contextFiles = attachedContext.contextData.contextFiles.filter(
+                f => f.name !== fileName
+            );
+            
+            if (attachedContext.contextData.contextFiles.length === 0) {
+                attachedContext.contextData = null;
+            }
+        }
+    } else {
+        attachedContext.externalFiles = attachedContext.externalFiles.filter(
+            f => f.path !== choice.filePath
+        );
+    }
+    
+    if (!attachedContext.contextData && attachedContext.externalFiles.length === 0) {
+        attachedContext = null;
+        lastUsedContext = null;  // NEU - auch lastUsedContext zurücksetzen
     }
 
+    updatePanelContent(panel, context);
+}
 /**
  * Update panel content based on current view
  */
@@ -340,17 +554,18 @@ function updatePanelContent(panel, context) {
     
     if (currentView === 'overview') {
         const allChats = historyManager.getAllChats();
-        panel.webview.html = generateOverviewHTML(allChats, minimalModelManager, hasApiKey, context.t);
+        panel.webview.html = generateOverviewHTML(allChats, minimalModelManager, hasApiKey, context);
     } else {
         const chatHistory = historyManager.getActiveChat();
-        panel.webview.html = generateChatHTML(chatHistory, minimalModelManager, hasApiKey, context.t);
+        panel.webview.html = generateChatHTML(chatHistory, minimalModelManager, hasApiKey, context);
     }
 }
 
 /**
  * Generate overview page HTML
  */
-function generateOverviewHTML(allChats, minimalModelManager, hasApiKey, t) {
+function generateOverviewHTML(allChats, minimalModelManager, hasApiKey, context) {
+    const { t } = context;
     const canCreateNew = historyManager.canCreateNewChat();
     
     // Generate chat cards
@@ -367,17 +582,18 @@ function generateOverviewHTML(allChats, minimalModelManager, hasApiKey, t) {
         chatsHTML = allChats.map(chat => {
             const date = new Date(chat.lastUpdated);
             const timeAgo = shared.formatTimeAgo(date, t);
+            const cardStyle = context.settings.get('cardStyle') || 'arduino-green';
             
             return `
-                <div class="chat-card" onclick="openChat('${chat.id}')">
-                    <div class="chat-card-header">
-                        <div class="chat-card-title">📝 ${shared.escapeHtml(chat.title)}</div>
-                        <button class="chat-card-delete" onclick="event.stopPropagation(); deleteChat('${chat.id}')" title="${t('buttons.delete')}">
+                <div class="card style-${cardStyle}" onclick="openChat('${chat.id}')">
+                    <div class="card-header">
+                        <div class="card-title">📝 ${shared.escapeHtml(chat.title)}</div>
+                        <button class="card-delete" onclick="event.stopPropagation(); deleteChat('${chat.id}')" title="${t('buttons.delete')}">
                             🗑️
                         </button>
                     </div>
-                    <div class="chat-card-info">
-                        ${chat.messageCount} ${t('chat.messages')} • ${timeAgo}
+                    <div class="card-info">
+                        ${chat.messageCount} ${t('chat.messages')} • ${timeAgo}}
                     </div>
                 </div>
             `;
@@ -396,117 +612,16 @@ function generateOverviewHTML(allChats, minimalModelManager, hasApiKey, t) {
                     max-width: 800px;
                     margin: 0 auto;
                 }
-                
-                .overview-header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 30px;
-                    padding-bottom: 15px;
-                    border-bottom: 2px solid var(--vscode-panel-border);
-                }
-                
-                .overview-title {
-                    font-size: 24px;
-                    font-weight: bold;
-                }
-                
                 .chat-counter {
                     color: var(--vscode-descriptionForeground);
                     font-size: 14px;
                     margin-left: 10px;
                 }
-                
                 .new-chat-btn {
-                    background: var(--vscode-button-background);
-                    color: var(--vscode-button-foreground);
-                    border: none;
                     padding: 10px 20px;
                     border-radius: 6px;
-                    cursor: pointer;
-                    font-weight: bold;
                     font-size: 16px;
                     transition: background 0.2s;
-                }
-                
-                .new-chat-btn:hover {
-                    background: var(--vscode-button-hoverBackground);
-                }
-                
-                .new-chat-btn.disabled {
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                }
-                
-                .chat-card {
-                    background: var(--vscode-editor-selectionBackground);
-                    border: 1px solid var(--vscode-panel-border);
-                    border-radius: 8px;
-                    padding: 15px;
-                    margin-bottom: 15px;
-                    cursor: pointer;
-                    transition: all 0.2s;
-                }
-                
-                .chat-card:hover {
-                    background: var(--vscode-list-hoverBackground);
-                    border-color: var(--vscode-focusBorder);
-                    transform: translateX(5px);
-                }
-                
-                .chat-card-header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 8px;
-                }
-                
-                .chat-card-title {
-                    font-size: 16px;
-                    font-weight: bold;
-                    flex: 1;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-                
-                .chat-card-delete {
-                    background: transparent;
-                    border: none;
-                    cursor: pointer;
-                    font-size: 16px;
-                    opacity: 0.6;
-                    transition: opacity 0.2s;
-                    padding: 5px;
-                }
-                
-                .chat-card-delete:hover {
-                    opacity: 1;
-                }
-                
-                .chat-card-info {
-                    font-size: 13px;
-                    color: var(--vscode-descriptionForeground);
-                }
-                
-                .empty-state {
-                    text-align: center;
-                    padding: 60px 20px;
-                    color: var(--vscode-descriptionForeground);
-                }
-                
-                .empty-state h2 {
-                    font-size: 32px;
-                    margin-bottom: 10px;
-                }
-                
-                .warning {
-                    background: var(--vscode-inputValidation-warningBackground);
-                    color: var(--vscode-inputValidation-warningForeground);
-                    padding: 15px;
-                    border-radius: 4px;
-                    margin-bottom: 20px;
-                    text-align: center;
                 }
             </style>
         </head>
@@ -519,7 +634,7 @@ function generateOverviewHTML(allChats, minimalModelManager, hasApiKey, t) {
                     <span class="chat-counter">${allChats.length}/10</span>
                 </div>
                 <button 
-                    class="new-chat-btn ${canCreateNew ? '' : 'disabled'}" 
+                    class="panel-btn new-chat-btn ${canCreateNew ? '' : 'disabled'}" 
                     onclick="createNewChat()"
                     ${canCreateNew ? '' : 'disabled'}
                     title="${canCreateNew ? '' : t('chat.maxChatsReached')}"
@@ -559,11 +674,41 @@ function generateOverviewHTML(allChats, minimalModelManager, hasApiKey, t) {
 }
 
 /**
+ * Generate attachment buttons (simple approach)
+ */
+function generateAttachmentButtons(attachedContext, t) {
+    if (!attachedContext) return '';
+    
+    let fileCount = 0;
+    
+    if (attachedContext.contextData && attachedContext.contextData.contextFiles) {
+        fileCount += attachedContext.contextData.contextFiles.length;
+    }
+    
+    if (attachedContext.externalFiles) {
+        fileCount += attachedContext.externalFiles.length;
+    }
+    
+    if (fileCount === 0) return '';
+    
+    return `
+        <button class="action-btn" onclick="manageAttachments()" title="${t('chat.manageAttachments')}">
+            ${fileCount}
+        </button>
+        <button class="action-btn" onclick="clearContext()" title="${t('chat.clearContext')}" style="padding: 6px 8px;">
+            ×
+        </button>
+    `;
+}
+
+/**
  * Generate chat view HTML with back button
  */
-function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
+    function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, context) {
+    const { t } = context;
     let messagesHTML = '';
     const allCodeBlocks = {}; // messageId -> codeBlocks array 
+    const messageStyle = context.settings.get('cardStyle') || 'arduino-green';
     
     chatHistory.forEach(msg => {
         const timeStr = new Date(msg.timestamp).toLocaleTimeString();
@@ -598,7 +743,7 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
         }
 
         messagesHTML += `
-            <div class="message ${isUser ? 'user-message' : 'ai-message'}">
+            <div class="message ${isUser ? 'user-message' : `ai-message style-${messageStyle}`}">
                 <div class="message-header">
                     <span class="sender">${isUser ? `👤 ${t('chat.you')}` : `🤖 ${modelName}`}</span>
                     <span class="timestamp">${timeStr}</span>
@@ -628,6 +773,7 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
             <title>${t('commands.openChatPanel')}</title>
             ${getSharedCSS()}
             <style>
+                /* Chat specific - uses shared button, textarea, .warning */
                 body {
                     text-align: left;
                     max-width: none;
@@ -637,133 +783,72 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
                     flex-direction: column;
                     overflow: hidden;
                     padding: 0;
-                }
-                
+                }                
                 .chat-container {
                     flex: 1;
                     overflow-y: auto;
                     padding: 10px 20px;
                     background: var(--vscode-editor-background);
-                }
-        
+                }        
                 .message {
                     margin-bottom: 15px;
                     padding: 10px;
                     border-radius: 8px;
                     max-width: 90%;
-                }
-        
+                }        
                 .user-message {
                     background: var(--vscode-textBlockQuote-background);
                     margin-left: auto;
                     border-left: 3px solid var(--vscode-textLink-foreground);
-                }
-                
-                .ai-message {
-                    background: var(--vscode-editor-selectionBackground);
-                    margin-right: auto;
-                    border-left: 3px solid #4CAF50;
-                }
-                
+                }                              
                 .message-header {
                     display: flex;
                     justify-content: space-between;
                     font-size: 12px;
                     margin-bottom: 5px;
                     opacity: 0.8;
-                }
-                
+                }                
                 .sender {
                     font-weight: bold;
-                }
-                
+                }                
                 .timestamp {
                     color: var(--vscode-descriptionForeground);
-                }
-                
+                }                
                 .message-content {
                     line-height: 1.4;
-                }
-                
+                }                
                 .input-container {
                     padding: 20px;
                     border-top: 1px solid var(--vscode-panel-border);
                     background: var(--vscode-panel-background);
                     flex-shrink: 0;
-                }
-                
+                }                
                 .input-actions {
                     display: flex;
                     gap: 10px;
                     margin-bottom: 10px;
-                }
-                
-                .action-btn.disabled {
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                }
-                
-                .input-row {
+                }               
+               .input-row {
                     display: flex;
                     gap: 10px;
                     align-items: flex-end;
-                }
-                
+                }                
                 .input-field {
                     flex: 1;
                     min-height: 60px;
-                    padding: 8px;
-                    border: 1px solid var(--vscode-input-border);
-                    border-radius: 4px;
-                    background: var(--vscode-input-background);
-                    color: var(--vscode-input-foreground);
-                    font-family: inherit;
                     resize: vertical;
                 }
-                
                 .send-btn {
-                    background: var(--vscode-button-background);
-                    color: var(--vscode-button-foreground);
-                    border: none;
-                    padding: 8px 20px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    font-weight: bold;
                     height: fit-content;
                 }
-                
-                .send-btn:hover {
-                    background: var(--vscode-button-hoverBackground);
-                }
-        
-                .send-btn.disabled {
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                }
-
                 .action-btn.active-pin {
                     background: var(--vscode-inputValidation-warningBackground);
                     color: var(--vscode-inputValidation-warningForeground);
-                }
-
-                .action-btn:disabled {
-                    opacity: 0.3;
-                    cursor: not-allowed;
-                }
-                
+                }               
                 .welcome-message {
                     text-align: center;
                     padding: 40px 20px;
                     color: var(--vscode-descriptionForeground);
-                }
-                
-                .warning {
-                    background: var(--vscode-inputValidation-warningBackground);
-                    color: var(--vscode-inputValidation-warningForeground);
-                    padding: 15px;
-                    border-radius: 4px;
-                    margin-bottom: 10px;
-                    text-align: center;
                 }
             </style>
         </head>
@@ -777,26 +862,20 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
             <div class="input-container">
                 ${hasApiKey ? '' : `<div class="warning">⚠️ ${t('messages.noApiKey', 'AI Provider')}</div>`}
                 
-               <div class="input-actions">
-                    <button class="action-btn" onclick="backToOverview()" title="${t('chat.backToOverview') || 'Zurück zur Übersicht'}">←</button>
-                    <button class="action-btn" onclick="attachContext()" title="${t('chat.attachContext')}">
-                        📎 ${t('chat.attachFile')}
-                    </button>
+                <div class="input-actions">
+                    <button class="action-btn" onclick="backToOverview()" title="${t('chat.backToOverview')}">←</button>
                     <button class="action-btn" 
                         onclick="toggleArduinoMode()" 
                         title="${t('chat.toggleMode')}"
                         style="background: ${arduinoMode ? 'var(--vscode-button-background)' : 'var(--vscode-button-secondaryBackground)'}">
-                        ${arduinoMode ? '🎯' : '💬'} ${arduinoMode ? t('chat.arduinoMode') : t('chat.generalMode')}
+                        ${arduinoMode ? '🎯' : '💬'}
                     </button>
+                    <button class="action-btn" onclick="attachContext()" title="${t('chat.attachContext')}">📎</button>
+                    ${generateAttachmentButtons(attachedContext, t)}
                     ${lastUsedContext ? `
-                        <button class="action-btn" onclick="reuseLastContext()" title="${t('chat.reuseLastContext')}">
-                            🔄 ${t('chat.useLastContext')}
-                        </button>
+                        <button class="action-btn" onclick="reuseLastContext()" title="${t('chat.reuseLastContext')}">🔄</button>
                     ` : ''}
-                    <button class="action-btn" onclick="clearChat()">
-                        🗑️ ${t('buttons.reset')}
-                    </button>
-                    <span class="context-badge-container">${attachedContext ? contextManager.getContextBadgeHtml(attachedContext, t).replace('</div>', '<span onclick="event.stopPropagation(); clearContext()" style="cursor: pointer; margin-left: 5px; font-weight: bold;">×</span></div>') : ''}</span>
+                    <button class="action-btn" onclick="clearChat()" title="${t('buttons.reset')}">🗑️</button>
                 </div>
                 
                 <div class="input-row">
@@ -879,6 +958,10 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
                     vscode.postMessage({ command: 'clearContext' });
                 }
 
+                function manageAttachments() {
+                    vscode.postMessage({ command: 'manageAttachments' });
+                }
+
                 function reuseLastContext() {
                     vscode.postMessage({ command: 'reuseLastContext' });
                 }
@@ -905,10 +988,13 @@ function generateChatHTML(chatHistory, minimalModelManager, hasApiKey, t) {
                         input.focus();
                     }
     
-                    if (message.command === 'contextAttached') {
-                        const badgeContainer = document.querySelector('.context-badge-container');
-                        if (badgeContainer) {
-                            badgeContainer.innerHTML = message.badge;
+                    if (message.command === 'updateArduinoMode') {
+                        const button = document.querySelector('[onclick="toggleArduinoMode()"]');
+                        if (button) {
+                            button.style.background = message.arduinoMode ? 
+                                'var(--vscode-button-background)' : 
+                                'var(--vscode-button-secondaryBackground)';
+                            button.textContent = message.arduinoMode ? '🎯' : '💬';
                         }
                     }
                 });

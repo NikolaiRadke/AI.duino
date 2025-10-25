@@ -56,7 +56,8 @@ class QuickMenuTreeProvider {
             item.command && [
                 'improveCode', 'explainCode', 'addComments', 
                 'explainError', 'explainCopiedError', 'debugHelp', 
-                'askAI', 'askFollowUp', 'openChatPanel', 'runCustomAgent'
+                'analyzeCode', 'askAI', 'askFollowUp', 'openChatPanel', 
+                'runCustomAgent'
             ].some(cmd => item.command.includes(cmd))
         );
         codeActions.forEach(item => treeItems.push(this.createTreeItem(item)));

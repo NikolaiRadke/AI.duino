@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ desde el portapapeles",
     "openSettings": "Configuración",
     "runCustomAgent": "Ejecutar agente",
-    "manageCustomAgents": "Administrar agentes"
+    "manageCustomAgents": "Administrar agentes",
+    "analyzeCode": "Analizar código (Sin conexión)"
   },
   "messages": {
     "welcome": "👋 ¡Bienvenido! AI.duino  soporta {0}!",
@@ -100,7 +101,8 @@
     "send": "Enviar",
     "newInput": "Nueva entrada",
     "delete": "Eliminar",
-    "resetAll": "Restablecer todo"
+    "resetAll": "Restablecer todo",
+    "remove": "Eliminar"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizar código seleccionado",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analizar error desde el portapapeles",
     "openSettings": "Personalizar configuración",
     "runCustomAgent": "Seleccionar y ejecutar agente",
-    "manageCustomAgents": "Crear y administrar agentes de IA personalizados"
+    "manageCustomAgents": "Crear y administrar agentes de IA personalizados",
+    "analyzeCode": "Análisis de código sin conexión sin IA"
   },
   "language": {
     "autoDetect": "Detectar automáticamente desde VS Code",
@@ -404,7 +407,8 @@
       "chat": "Chat",
       "inlineCompletion": "Completado en línea",
       "advanced": "Avanzado",
-      "customAgents": "Agentes personalizados"
+      "customAgents": "Agentes personalizados",
+      "ui": "Interfaz de usuario"
     },
     "labels": {
       "temperature": "Creatividad (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Factor palabra",
       "tokenEstimationCodeBlock": "Factor bloque de código",
       "tokenEstimationSpecialChars": "Factor caracteres especiales",
-      "maxCustomAgents": "Número máximo de agentes"
+      "maxCustomAgents": "Número máximo de agentes",
+      "chatHistoryLength": "Longitud del historial de chat",
+      "promptHistoryLength": "Longitud del historial de prompts",
+      "cardStyle": "Estilo de tarjeta",
+      "arduino-green": "Fondo verde Arduino",
+      "white-border": "Fondo blanco con borde verde"
     },
     "descriptions": {
       "temperature": "Creatividad de la IA (0 = determinista, 1 = creativo)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Multiplicador para estimación palabra-token",
       "tokenEstimationCodeBlock": "Tokens adicionales para bloques de código",
       "tokenEstimationSpecialChars": "Multiplicador para caracteres especiales",
-      "maxCustomAgents": "Número máximo de agentes personalizados almacenables (1-100)"
+      "maxCustomAgents": "Número máximo de agentes personalizados almacenables (1-100)",
+      "chatHistoryLength": "Número de mensajes en el historial de chat (pares de usuario/IA)",
+      "promptHistoryLength": "Número de prompts en el historial",
+      "cardStyle": "Estilo visual para tarjetas de chat y selección de agentes"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Compilación exitosa",
     "timestamp": "Marca de tiempo",
     "customAgents": "Agentes",
-    "maxCustomAgents": "Número máximo de agentes"
+    "maxCustomAgents": "Número máximo de agentes",
+    "additionalFiles": "Archivos adicionales",
+    "additionalFilesDesc": "Añadir archivos fuera del directorio del sketch",
+    "addFiles": "Añadir archivos",
+    "selectAdditionalFiles": "Seleccionar archivos adicionales",
+    "noAdditionalFiles": "Sin archivos adicionales",
+    "nameAndPromptRequired": "El nombre y el prompt son obligatorios"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Archivo analizado",
+    "pinsUsed": "Pines",
+    "libraries": "Bibliotecas",
+    "functions": "Funciones",
+    "constants": "Constantes",
+    "structures": "Estructuras",
+    "pinConfig": "Configuración de pines",
+    "usedLibraries": "Bibliotecas utilizadas",
+    "functionList": "Funciones",
+    "constantsList": "Constantes y Defines",
+    "dataStructures": "Estructuras de datos",
+    "noneFound": "Ninguno encontrado",
+    "inferred": "(inferido)",
+    "writes": "escribe",
+    "readsDigital": "lee digital",
+    "readsAnalog": "lee analógico",
+    "pwmValue": "PWM (valor: {0})",
+    "interruptMode": "Interrupción {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Manipulación de puerto",
+    "portWrite": "escribe",
+    "portRead": "lee",
+    "globalVars": "Variables globales",
+    "globalVarsList": "Variables globales"
   }
 }

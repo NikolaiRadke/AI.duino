@@ -13,7 +13,7 @@
  * @param {string} code - Source code
  * @returns {Array} Pin configurations with usage details
  */
-function extractPinConfiguration(code, t = null) {
+function extractPinConfiguration(code) {
     const pins = new Map();
     
     // pinMode declarations
@@ -34,9 +34,9 @@ function extractPinConfiguration(code, t = null) {
         const pin = match[1];
         const value = match[2];
         if (!pins.has(pin)) {
-            pins.set(pin, { modes: [`OUTPUT ${t ? t('analyzeCode.inferred') : '(inferred)'}`], operations: [] });
+            pins.set(pin, { modes: ['OUTPUT (inferred)'], operations: [] });
         }
-        pins.get(pin).operations.push(`${t ? t('analyzeCode.writes') : 'writes'} ${value}`);
+        pins.get(pin).operations.push(`writes ${value}`);
     }
     
     // digitalRead operations
@@ -44,9 +44,9 @@ function extractPinConfiguration(code, t = null) {
     while ((match = digitalReadRegex.exec(code)) !== null) {
         const pin = match[1];
         if (!pins.has(pin)) {
-            pins.set(pin, { modes: [`INPUT ${t ? t('analyzeCode.inferred') : '(inferred)'}`], operations: [] });
+            pins.set(pin, { modes: ['INPUT (inferred)'], operations: [] });
         }
-        pins.get(pin).operations.push(t ? t('analyzeCode.readsDigital') : 'reads digital');
+        pins.get(pin).operations.push('reads digital');
     }
     
     // analogWrite (PWM)
@@ -57,8 +57,7 @@ function extractPinConfiguration(code, t = null) {
         if (!pins.has(pin)) {
             pins.set(pin, { modes: ['PWM'], operations: [] });
         }
-        const pwmText = t ? t('analyzeCode.pwmValue').replace('{0}', value) : `PWM (value: ${value})`;
-        pins.get(pin).operations.push(pwmText);
+        pins.get(pin).operations.push(`PWM (value: ${value})`);
     }
     
     // analogRead
@@ -68,7 +67,7 @@ function extractPinConfiguration(code, t = null) {
         if (!pins.has(pin)) {
             pins.set(pin, { modes: ['ANALOG_INPUT'], operations: [] });
         }
-        pins.get(pin).operations.push(t ? t('analyzeCode.readsAnalog') + ' (0-1023)' : 'reads analog (0-1023)');
+        pins.get(pin).operations.push('reads analog (0-1023)');
     }
     
     // Interrupts
@@ -80,10 +79,7 @@ function extractPinConfiguration(code, t = null) {
         if (!pins.has(pin)) {
             pins.set(pin, { modes: ['INTERRUPT'], operations: [] });
         }
-        const interruptText = t 
-            ? t('analyzeCode.interruptMode').replace('{0}', mode).replace('{1}', isr)
-            : `interrupt ${mode} → ${isr}()`;
-        pins.get(pin).operations.push(interruptText);
+        pins.get(pin).operations.push(`interrupt ${mode} → ${isr}()`);
     }
     
     // Servo
@@ -96,10 +92,7 @@ function extractPinConfiguration(code, t = null) {
             if (!pins.has(pin)) {
                 pins.set(pin, { modes: ['SERVO'], operations: [] });
             }
-            const servoText = t 
-                ? t('analyzeCode.servoAttached').replace('{0}', servoName)
-                : `servo (${servoName})`;
-            pins.get(pin).operations.push(servoText);
+            pins.get(pin).operations.push(`servo (${servoName})`);
         }
     }
     
@@ -108,131 +101,7 @@ function extractPinConfiguration(code, t = null) {
     for (const [pin, data] of pins.entries()) {
         const modes = [...new Set(data.modes)].join(', ');
         const ops = [...new Set(data.operations)].join(', ');
-        const opsText = ops ? ` → ${ops}` : '';
-        const pinText = t 
-            ? t('analyzeCode.pinFormat').replace('{0}', pin).replace('{1}', modes).replace('{2}', opsText)
-            : `Pin ${pin}: ${modes}${opsText}`;
-        result.push(pinText);
-    }
-    
-    return result;
-}
-
-/**
- * Extract direct port manipulation (DDRx, PORTx, PINx)
- * @param {string} code - Source code
- * @param {Function} t - Translation function (optional)
- * @returns {Array} Port manipulation entries
- */
-function extractPortManipulation(code, t = null) {
-    const ports = new Map();
-    
-    // DDRx = ... (complete port assignment)
-    const ddrAssignRegex = /DDR([A-L])\s*=\s*(0x[0-9A-Fa-f]+|0b[01]+|\d+)/g;
-    let match;
-    while ((match = ddrAssignRegex.exec(code)) !== null) {
-        const port = match[1];
-        const value = match[2];
-        const key = `DDR${port}`;
-        if (!ports.has(key)) {
-            ports.set(key, []);
-        }
-        ports.get(key).push(`DDR${port} = ${value}`);
-    }
-    
-    // DDRx |= (1 << BIT) - set bit as output
-    const ddrSetRegex = /DDR([A-L])\s*\|=\s*\(?\s*1\s*<<\s*(\w+)\s*\)?/g;
-    while ((match = ddrSetRegex.exec(code)) !== null) {
-        const port = match[1];
-        const bit = match[2];
-        const text = t 
-            ? `PORT${port} Bit ${bit} → OUTPUT (${t('analyzeCode.inferred')})`
-        : `Port ${port} Bit ${bit} → OUTPUT (inferred)`;
-        const key = `PORT${port}`;
-        if (!ports.has(key)) {
-            ports.set(key, []);
-        }
-        ports.get(key).push(text);
-    }
-    
-    // DDRx &= ~(1 << BIT) - set bit as input
-    const ddrClearRegex = /DDR([A-L])\s*&=\s*~\s*\(?\s*1\s*<<\s*(\w+)\s*\)?/g;
-    while ((match = ddrClearRegex.exec(code)) !== null) {
-        const port = match[1];
-        const bit = match[2];
-        const text = t 
-            ? `PORT${port} Bit ${bit} → INPUT (${t('analyzeCode.inferred')})`
-            : `Port ${port} Bit ${bit} → INPUT (inferred)`;
-        const key = `PORT${port}`;
-        if (!ports.has(key)) {
-            ports.set(key, []);
-        }
-        ports.get(key).push(text);
-    }
-    
-    // PORTx |= (1 << BIT) - set output high
-    const portSetRegex = /PORT([A-L])\s*\|=\s*\(?\s*1\s*<<\s*(\w+)\s*\)?/g;
-    while ((match = portSetRegex.exec(code)) !== null) {
-        const port = match[1];
-        const bit = match[2];
-        const text = t 
-            ? `PORT${port} Bit ${bit} → ${t('analyzeCode.portWrite')} HIGH`
-            : `Port ${port} Bit ${bit} → writes HIGH`;
-        const key = `PORT${port}`;
-        if (!ports.has(key)) {
-            ports.set(key, []);
-        }
-        ports.get(key).push(text);
-    }
-    
-    // PORTx &= ~(1 << BIT) - set output low
-    const portClearRegex = /PORT([A-L])\s*&=\s*~\s*\(?\s*1\s*<<\s*(\w+)\s*\)?/g;
-    while ((match = portClearRegex.exec(code)) !== null) {
-        const port = match[1];
-        const bit = match[2];
-        const text = t 
-            ? `PORT${port} Bit ${bit} → ${t('analyzeCode.portWrite')} LOW`
-            : `Port ${port} Bit ${bit} → writes LOW`;
-        const key = `PORT${port}`;
-        if (!ports.has(key)) {
-            ports.set(key, []);
-        }
-        ports.get(key).push(text);
-    }
-    
-    // PORTx ^= (1 << BIT) - toggle output
-    const portToggleRegex = /PORT([A-L])\s*\^=\s*\(?\s*1\s*<<\s*(\w+)\s*\)?/g;
-    while ((match = portToggleRegex.exec(code)) !== null) {
-        const port = match[1];
-        const bit = match[2];
-        const text = `PORT${port} Bit ${bit} → toggle`;
-        const key = `PORT${port}`;
-        if (!ports.has(key)) {
-            ports.set(key, []);
-        }
-        ports.get(key).push(text);
-    }
-    
-    // PINx & (1 << BIT) - read input
-    const pinReadRegex = /PIN([A-L])\s*&\s*\(?\s*1\s*<<\s*(\w+)\s*\)?/g;
-    while ((match = pinReadRegex.exec(code)) !== null) {
-        const port = match[1];
-        const bit = match[2];
-        const text = t 
-            ? `PORT${port} Bit ${bit} → ${t('analyzeCode.portRead')}`
-            : `Port ${port} Bit ${bit} → reads`;
-        const key = `PORT${port}`;
-        if (!ports.has(key)) {
-            ports.set(key, []);
-        }
-        ports.get(key).push(text);
-    }
-    
-    // Format output
-    const result = [];
-    for (const [port, operations] of ports.entries()) {
-        const ops = [...new Set(operations)].join(', ');
-        result.push(`${port}: ${ops}`);
+        result.push(`Pin ${pin}: ${modes}${ops ? ` → ${ops}` : ''}`);
     }
     
     return result;
@@ -331,6 +200,33 @@ function extractGlobalVariables(code) {
 }
 
 /**
+ * Extract comments only
+ * @param {string} code - Source code
+ * @returns {Array} Comments (line and block)
+ */
+function extractComments(code) {
+    const comments = [];
+    
+    // Single-line comments
+    const lineCommentRegex = /\/\/(.+?)(?:\r?\n|$)/g;
+    let match;
+    while ((match = lineCommentRegex.exec(code)) !== null) {
+        const comment = match[1].trim();
+        if (comment) {
+            comments.push(`// ${comment}`);
+        }
+    }
+    
+    // Multi-line comments
+    const blockCommentRegex = /\/\*[\s\S]*?\*\//g;
+    while ((match = blockCommentRegex.exec(code)) !== null) {
+        comments.push(match[0].trim());
+    }
+    
+    return comments;
+}
+
+/**
  * Extract data structures (struct, class, enum)
  * @param {string} code - Source code
  * @returns {Array} Data structure definitions
@@ -378,13 +274,32 @@ function formatFileStructure(files) {
     return tree.join('\n');
 }
 
+/**
+ * Comprehensive code analysis
+ * Returns all available information about the code
+ * @param {string} code - Source code
+ * @returns {Object} Analysis results
+ */
+function analyzeCode(code) {
+    return {
+        pins: extractPinConfiguration(code),
+        libraries: extractLibraries(code),
+        functions: extractFunctionSignatures(code),
+        constants: extractConstants(code),
+        globals: extractGlobalVariables(code),
+        comments: extractComments(code),
+        structures: extractDataStructures(code)
+    };
+}
+
 module.exports = {
     extractPinConfiguration,
     extractLibraries,
     extractFunctionSignatures,
     extractConstants,
     extractGlobalVariables,
+    extractComments,
     extractDataStructures,
-    extractPortManipulation,
-    formatFileStructure
+    formatFileStructure,
+    analyzeCode
 };

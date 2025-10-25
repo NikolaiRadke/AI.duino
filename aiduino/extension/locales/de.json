@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ aus Zwischenablage",
     "openSettings": "Einstellungen",
     "runCustomAgent": "Agent ausführen",
-    "manageCustomAgents": "Agenten verwalten"
+    "manageCustomAgents": "Agenten verwalten",
+    "analyzeCode": "Code analysieren (Offline)"
   },
   "messages": {
     "welcome": "👋 Willkommen! AI.duino unterstützt {0}!",
@@ -123,7 +124,8 @@
     "explainCopiedError": "Fehler aus Zwischenablage analysieren",
     "openSettings": "Einstellungen anpassen",
     "runCustomAgent": "Agent auswählen und ausführen",
-    "manageCustomAgents": "Eigene KI-Agenten erstellen und verwalten"
+    "manageCustomAgents": "Eigene KI-Agenten erstellen und verwalten",
+    "analyzeCode": "Offline Code-Analyse ohne KI"
   },
   "language": {
     "autoDetect": "Automatisch von VS Code erkennen",
@@ -299,7 +301,12 @@
     "arduinoMode": "Arduino",
     "generalMode": "Allgemein",
     "toggleMode": "Modus umschalten",
-    "externalFilesAttached": "{0} externe Datei(en) angehängt"
+    "backToOverview": "Zurück zur Übersicht",
+    "removeFilePrompt": "{0} (ESC zum Abbrechen)",
+    "externalFileAttached": "1 externe Datei angehängt",
+    "externalFilesAttached": "{0} externe Dateien angehängt",
+    "manageAttachments": "Angehängte Dateien verwalten",    
+    "newSessionStarted": "🔄 Neue persistente Session gestartet"
   },
   "shortcuts": {
     "askFollowUp": "Rückfrage",
@@ -494,7 +501,8 @@
       "chat": "Chat",
       "inlineCompletion": "Inline-Vervollständigung",
       "advanced": "Erweitert",
-      "customAgents": "Custom Agents"
+      "customAgents": "Custom Agents",
+      "ui": "Benutzeroberfläche"
     },
     "labels": {
       "temperature": "Kreativität (Temperature)",
@@ -513,7 +521,12 @@
       "tokenEstimationMultiplier": "Wörter-Faktor",
       "tokenEstimationCodeBlock": "Code-Block-Faktor",
       "tokenEstimationSpecialChars": "Sonderzeichen-Faktor",
-      "maxCustomAgents": "Maximale Anzahl Custom Agents"
+      "maxCustomAgents": "Maximale Anzahl Custom Agents",
+      "chatHistoryLength": "Chat-Verlauf Länge",
+      "promptHistoryLength": "Prompt-Verlauf Länge",
+      "cardStyle": "Karten-Design",
+      "arduino-green": "Arduino Grün Hintergrund",
+      "white-border": "Weißer Hintergrund mit grünem Rand"
     },
     "descriptions": {
       "temperature": "Kreativität der KI (0 = deterministisch, 1 = kreativ)",
@@ -532,7 +545,10 @@
       "tokenEstimationMultiplier": "Multiplikator für Wort-zu-Token-Schätzung",
       "tokenEstimationCodeBlock": "Zusätzliche Tokens für Code-Blöcke",
       "tokenEstimationSpecialChars": "Multiplikator für Sonderzeichen",
-      "maxCustomAgents": "Maximale Anzahl speicherbarer Custom Agents (1-100)"
+      "maxCustomAgents": "Maximale Anzahl speicherbarer Custom Agents (1-100)",
+      "chatHistoryLength": "Anzahl der Nachrichten im Chat-Verlauf (Paare aus User/KI)",
+      "promptHistoryLength": "Anzahl der Prompts im Verlauf",
+      "cardStyle": "Visueller Stil für Chat- und Agenten-Auswahlkarten"
     }
   },
   "uninstall": {
@@ -609,5 +625,32 @@
     "selectAdditionalFiles": "Zusätzliche Dateien auswählen",
     "noAdditionalFiles": "Keine zusätzlichen Dateien",
     "nameAndPromptRequired": "Name und Prompt sind erforderlich"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Analysierte Datei",
+    "pinsUsed": "Pins",
+    "libraries": "Libraries",
+    "functions": "Funktionen",
+    "constants": "Konstanten",
+    "structures": "Strukturen",
+    "pinConfig": "Pin-Konfiguration",
+    "usedLibraries": "Verwendete Libraries",
+    "functionList": "Funktionen",
+    "constantsList": "Konstanten & Defines",
+    "dataStructures": "Datenstrukturen",
+    "noneFound": "Keine gefunden",
+    "inferred": "(abgeleitet)",
+    "writes": "schreibt",
+    "readsDigital": "liest digital",
+    "readsAnalog": "liest analog",
+    "pwmValue": "PWM (Wert: {0})",
+    "interruptMode": "Interrupt {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Port-Manipulation",
+    "portWrite": "schreibt",
+    "portRead": "liest",
+    "globalVars": "Globale Variablen",
+    "globalVarsList": "Globale Variablen"
   }
 }

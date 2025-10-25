@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ クリップボードから",
     "openSettings": "設定",
     "runCustomAgent": "エージェントを実行",
-    "manageCustomAgents": "エージェントを管理"
+    "manageCustomAgents": "エージェントを管理",
+    "analyzeCode": "コードを分析 (オフライン)"
   },
   "messages": {
     "welcome": "👋 ようこそ！AI.duino は{0}をサポートしています！",
@@ -97,7 +98,8 @@
     "send": "送信",
     "newInput": "新しい入力",
     "delete": "削除",
-    "resetAll": "すべてリセット"
+    "resetAll": "すべてリセット",
+    "remove": "削除"
   },
   "descriptions": {
     "improveCodeSelected": "選択したコードを最適化",
@@ -119,7 +121,8 @@
     "explainCopiedError": "クリップボードからエラーを分析",
     "openSettings": "設定をカスタマイズ",
     "runCustomAgent": "エージェントを選択して実行",
-    "manageCustomAgents": "カスタムAIエージェントを作成・管理"
+    "manageCustomAgents": "カスタムAIエージェントを作成・管理",
+    "analyzeCode": "AIなしのオフラインコード分析"
   },
   "language": {
     "autoDetect": "VS Codeから自動検出",
@@ -400,7 +403,8 @@
       "chat": "チャット",
       "inlineCompletion": "インライン補完",
       "advanced": "詳細設定",
-      "customAgents": "カスタムエージェント"
+      "customAgents": "カスタムエージェント",
+      "ui": "ユーザーインターフェース"
     },
     "labels": {
       "temperature": "創造性 (Temperature)",
@@ -419,7 +423,12 @@
       "tokenEstimationMultiplier": "単語係数",
       "tokenEstimationCodeBlock": "コードブロック係数",
       "tokenEstimationSpecialChars": "特殊文字係数",
-      "maxCustomAgents": "最大エージェント数"
+      "maxCustomAgents": "最大エージェント数",
+      "chatHistoryLength": "チャット履歴の長さ",
+      "promptHistoryLength": "プロンプト履歴の長さ",
+      "cardStyle": "カードスタイル",
+      "arduino-green": "Arduino緑背景",
+      "white-border": "白背景と緑枠"
     },
     "descriptions": {
       "temperature": "AIの創造性 (0 = 決定論的, 1 = 創造的)",
@@ -438,7 +447,10 @@
       "tokenEstimationMultiplier": "単語からトークンへの推定の乗数",
       "tokenEstimationCodeBlock": "コードブロックの追加トークン",
       "tokenEstimationSpecialChars": "特殊文字の乗数",
-      "maxCustomAgents": "保存可能なカスタムエージェントの最大数 (1-100)"
+      "maxCustomAgents": "保存可能なカスタムエージェントの最大数 (1-100)",
+      "chatHistoryLength": "チャット履歴のメッセージ数（ユーザー/AIペア）",
+      "promptHistoryLength": "履歴内のプロンプト数",
+      "cardStyle": "チャットとエージェント選択カードの視覚スタイル"
     }
   },
   "extensionUpdate": {
@@ -596,6 +608,39 @@
     "buildSuccessful": "ビルド成功",
     "timestamp": "タイムスタンプ",
     "customAgents": "エージェント",
-    "maxCustomAgents": "最大エージェント数"
+    "maxCustomAgents": "最大エージェント数",
+    "additionalFiles": "追加ファイル",
+    "additionalFilesDesc": "スケッチディレクトリ外のファイルを追加",
+    "addFiles": "ファイルを追加",
+    "selectAdditionalFiles": "追加ファイルを選択",
+    "noAdditionalFiles": "追加ファイルなし",
+    "nameAndPromptRequired": "名前とプロンプトは必須です"
+  },
+  "analyzeCode": {
+    "analyzedFile": "分析されたファイル",
+    "pinsUsed": "ピン",
+    "libraries": "ライブラリ",
+    "functions": "関数",
+    "constants": "定数",
+    "structures": "構造体",
+    "pinConfig": "ピン構成",
+    "usedLibraries": "使用されたライブラリ",
+    "functionList": "関数",
+    "constantsList": "定数とDefines",
+    "dataStructures": "データ構造",
+    "noneFound": "見つかりません",
+    "inferred": "（推測）",
+    "writes": "書き込み",
+    "readsDigital": "デジタル読み取り",
+    "readsAnalog": "アナログ読み取り",
+    "pwmValue": "PWM（値：{0}）",
+    "interruptMode": "割り込み {0} → {1}()",
+    "servoAttached": "サーボ（{0}）",
+    "pinFormat": "ピン {0}：{1}{2}",
+    "portManipulation": "ポート操作",
+    "portWrite": "書き込み",
+    "portRead": "読み取り",
+    "globalVars": "グローバル変数",
+    "globalVarsList": "グローバル変数"
   }
 }

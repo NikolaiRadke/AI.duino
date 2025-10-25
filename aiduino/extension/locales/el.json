@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ από το πρόχειρο",
     "openSettings": "Ρυθμίσεις",
     "runCustomAgent": "Εκτέλεση παράγοντα",
-    "manageCustomAgents": "Διαχείριση παραγόντων"
+    "manageCustomAgents": "Διαχείριση παραγόντων",
+    "analyzeCode": "Ανάλυση κώδικα (Εκτός σύνδεσης)"
   },
   "messages": {
     "welcome": "👋 Καλώς ήρθατε! Το AI.duino  υποστηρίζει {0}!",
@@ -100,7 +101,8 @@
     "send": "Αποστολή",
     "newInput": "Νέα εισαγωγή",
     "delete": "Διαγραφή",
-    "resetAll": "Επαναφορά όλων"
+    "resetAll": "Επαναφορά όλων",
+    "remove": "Αφαίρεση"
   },
   "descriptions": {
     "improveCodeSelected": "Βελτιστοποίηση επιλεγμένου κώδικα",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Ανάλυση σφάλματος από το πρόχειρο",
     "openSettings": "Προσαρμογή ρυθμίσεων",
     "runCustomAgent": "Επιλογή και εκτέλεση παράγοντα",
-    "manageCustomAgents": "Δημιουργία και διαχείριση προσαρμοσμένων AI παραγόντων"
+    "manageCustomAgents": "Δημιουργία και διαχείριση προσαρμοσμένων AI παραγόντων",
+    "analyzeCode": "Ανάλυση κώδικα εκτός σύνδεσης χωρίς AI"
   },
   "language": {
     "autoDetect": "Αυτόματη ανίχνευση από VS Code",
@@ -404,7 +407,8 @@
       "chat": "Chat",
       "inlineCompletion": "Inline συμπλήρωση",
       "advanced": "Προχωρημένα",
-      "customAgents": "Προσαρμοσμένοι παράγοντες"
+      "customAgents": "Προσαρμοσμένοι παράγοντες",
+      "ui": "Διεπαφή χρήστη"
     },
     "labels": {
       "temperature": "Δημιουργικότητα (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Συντελεστής λέξεων",
       "tokenEstimationCodeBlock": "Συντελεστής μπλοκ κώδικα",
       "tokenEstimationSpecialChars": "Συντελεστής ειδικών χαρακτήρων",
-      "maxCustomAgents": "Μέγιστος αριθμός παραγόντων"
+      "maxCustomAgents": "Μέγιστος αριθμός παραγόντων",
+      "chatHistoryLength": "Μήκος ιστορικού συνομιλίας",
+      "promptHistoryLength": "Μήκος ιστορικού prompt",
+      "cardStyle": "Στυλ κάρτας",
+      "arduino-green": "Arduino πράσινο φόντο",
+      "white-border": "Λευκό φόντο με πράσινο περίγραμμα"
     },
     "descriptions": {
       "temperature": "Δημιουργικότητα AI (0 = ντετερμινιστική, 1 = δημιουργική)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Πολλαπλασιαστής για εκτίμηση λέξεων-σε-tokens",
       "tokenEstimationCodeBlock": "Πρόσθετα tokens για μπλοκ κώδικα",
       "tokenEstimationSpecialChars": "Πολλαπλασιαστής για ειδικούς χαρακτήρες",
-      "maxCustomAgents": "Μέγιστος αριθμός αποθηκευμένων προσαρμοσμένων παραγόντων (1-100)"
+      "maxCustomAgents": "Μέγιστος αριθμός αποθηκευμένων προσαρμοσμένων παραγόντων (1-100)",
+      "chatHistoryLength": "Αριθμός μηνυμάτων στο ιστορικό συνομιλίας (ζεύγη χρήστη/AI)",
+      "promptHistoryLength": "Αριθμός prompts στο ιστορικό",
+      "cardStyle": "Οπτικό στυλ για κάρτες συνομιλίας και επιλογής πράκτορα"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Επιτυχής μεταγλώττιση",
     "timestamp": "Χρονική σήμανση",
     "customAgents": "Παράγοντες",
-    "maxCustomAgents": "Μέγιστος αριθμός παραγόντων"
+    "maxCustomAgents": "Μέγιστος αριθμός παραγόντων",
+    "additionalFiles": "Επιπλέον αρχεία",
+    "additionalFilesDesc": "Προσθήκη αρχείων εκτός του καταλόγου sketch",
+    "addFiles": "Προσθήκη αρχείων",
+    "selectAdditionalFiles": "Επιλογή επιπλέον αρχείων",
+    "noAdditionalFiles": "Δεν υπάρχουν επιπλέον αρχεία",
+    "nameAndPromptRequired": "Το όνομα και το prompt είναι υποχρεωτικά"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Αναλυμένο αρχείο",
+    "pinsUsed": "Pins",
+    "libraries": "Βιβλιοθήκες",
+    "functions": "Συναρτήσεις",
+    "constants": "Σταθερές",
+    "structures": "Δομές",
+    "pinConfig": "Διαμόρφωση pin",
+    "usedLibraries": "Χρησιμοποιούμενες βιβλιοθήκες",
+    "functionList": "Συναρτήσεις",
+    "constantsList": "Σταθερές & Defines",
+    "dataStructures": "Δομές δεδομένων",
+    "noneFound": "Δεν βρέθηκαν",
+    "inferred": "(συμπερασμένο)",
+    "writes": "γράφει",
+    "readsDigital": "διαβάζει ψηφιακά",
+    "readsAnalog": "διαβάζει αναλογικά",
+    "pwmValue": "PWM (τιμή: {0})",
+    "interruptMode": "Διακοπή {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Χειρισμός θύρας",
+    "portWrite": "γράφει",
+    "portRead": "διαβάζει",
+    "globalVars": "Καθολικές μεταβλητές",
+    "globalVarsList": "Καθολικές μεταβλητές"
   }
 }

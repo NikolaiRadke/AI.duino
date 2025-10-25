@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ 从剪贴板",
     "openSettings": "设置",
     "runCustomAgent": "运行代理",
-    "manageCustomAgents": "管理代理"
+    "manageCustomAgents": "管理代理",
+    "analyzeCode": "分析代码（离线）"
   },
   "messages": {
     "welcome": "👋 欢迎！AI.duino 支持{0}！",
@@ -100,7 +101,8 @@
     "send": "发送",
     "newInput": "新输入",
     "delete": "删除",
-    "resetAll": "全部重置"
+    "resetAll": "全部重置",
+    "remove": "移除"
   },
   "descriptions": {
     "improveCodeSelected": "优化选定的代码",
@@ -122,7 +124,8 @@
     "explainCopiedError": "分析剪贴板中的错误",
     "openSettings": "自定义设置",
     "runCustomAgent": "选择并运行代理",
-    "manageCustomAgents": "创建和管理自定义AI代理"
+    "manageCustomAgents": "创建和管理自定义AI代理",
+    "analyzeCode": "无需AI的离线代码分析"
   },
   "language": {
     "autoDetect": "从 VS Code 自动检测",
@@ -404,7 +407,8 @@
       "chat": "聊天",
       "inlineCompletion": "内联补全",
       "advanced": "高级",
-      "customAgents": "自定义代理"
+      "customAgents": "自定义代理",
+      "ui": "用户界面"
     },
     "labels": {
       "temperature": "创造力 (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "单词因子",
       "tokenEstimationCodeBlock": "代码块因子",
       "tokenEstimationSpecialChars": "特殊字符因子",
-      "maxCustomAgents": "代理最大数量"
+      "maxCustomAgents": "代理最大数量",
+      "chatHistoryLength": "聊天记录长度",
+      "promptHistoryLength": "提示记录长度",
+      "cardStyle": "卡片样式",
+      "arduino-green": "Arduino绿色背景",
+      "white-border": "白色背景与绿色边框"
     },
     "descriptions": {
       "temperature": "AI创造力 (0 = 确定性, 1 = 创造性)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "单词到令牌估算的乘数",
       "tokenEstimationCodeBlock": "代码块的额外令牌",
       "tokenEstimationSpecialChars": "特殊字符的乘数",
-      "maxCustomAgents": "可存储的自定义代理最大数量（1-100）"
+      "maxCustomAgents": "可存储的自定义代理最大数量（1-100）",
+      "chatHistoryLength": "聊天记录中消息的数量（用户/AI配对）",
+      "promptHistoryLength": "历史提示的数量",
+      "cardStyle": "聊天和代理选择卡片的视觉样式"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "构建成功",
     "timestamp": "时间戳",
     "customAgents": "代理",
-    "maxCustomAgents": "代理最大数量"
+    "maxCustomAgents": "代理最大数量",
+    "additionalFiles": "附加文件",
+    "additionalFilesDesc": "添加草图目录外的文件",
+    "addFiles": "添加文件",
+    "selectAdditionalFiles": "选择附加文件",
+    "noAdditionalFiles": "没有附加文件",
+    "nameAndPromptRequired": "名称和提示是必填项"
+  },
+  "analyzeCode": {
+    "analyzedFile": "已分析文件",
+    "pinsUsed": "引脚",
+    "libraries": "库",
+    "functions": "函数",
+    "constants": "常量",
+    "structures": "结构体",
+    "pinConfig": "引脚配置",
+    "usedLibraries": "使用的库",
+    "functionList": "函数列表",
+    "constantsList": "常量与定义",
+    "dataStructures": "数据结构",
+    "noneFound": "未找到",
+    "inferred": "（推测）",
+    "writes": "写入",
+    "readsDigital": "读取数字信号",
+    "readsAnalog": "读取模拟信号",
+    "pwmValue": "PWM（值：{0}）",
+    "interruptMode": "中断 {0} → {1}()",
+    "servoAttached": "舵机（{0}）",
+    "pinFormat": "引脚 {0}：{1}{2}",
+    "portManipulation": "端口操作",
+    "portWrite": "写入",
+    "portRead": "读取",
+    "globalVars": "全局变量",
+    "globalVarsList": "全局变量列表"
   }
 }

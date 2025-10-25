@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ ze schowka",
     "openSettings": "Ustawienia",
     "runCustomAgent": "Uruchom agenta",
-    "manageCustomAgents": "Zarządzaj agentami"
+    "manageCustomAgents": "Zarządzaj agentami",
+    "analyzeCode": "Analizuj kod (Offline)"
   },
   "messages": {
     "welcome": "👋 Witaj! AI.duino  obsługuje {0}!",
@@ -100,7 +101,8 @@
     "send": "Wyślij",
     "newInput": "Nowe wprowadzenie",
     "delete": "Usuń",
-    "resetAll": "Zresetuj wszystko"
+    "resetAll": "Zresetuj wszystko",
+    "remove": "Usuń"
   },
   "descriptions": {
     "improveCodeSelected": "Optymalizuj zaznaczony kod",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analizuj błąd ze schowka",
     "openSettings": "Dostosuj ustawienia",
     "runCustomAgent": "Wybierz i uruchom agenta",
-    "manageCustomAgents": "Twórz i zarządzaj niestandardowymi agentami AI"
+    "manageCustomAgents": "Twórz i zarządzaj niestandardowymi agentami AI",
+    "analyzeCode": "Analiza kodu offline bez AI"
   },
   "language": {
     "autoDetect": "Wykryj automatycznie z VS Code",
@@ -404,7 +407,8 @@
       "chat": "Chat",
       "inlineCompletion": "Uzupełnianie w linii",
       "advanced": "Zaawansowane",
-      "customAgents": "Niestandardowi agenci"
+      "customAgents": "Niestandardowi agenci",
+      "ui": "Interfejs użytkownika"
     },
     "labels": {
       "temperature": "Kreatywność (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Współczynnik słowa",
       "tokenEstimationCodeBlock": "Współczynnik bloku kodu",
       "tokenEstimationSpecialChars": "Współczynnik znaków specjalnych",
-      "maxCustomAgents": "Maksymalna liczba agentów"
+      "maxCustomAgents": "Maksymalna liczba agentów",
+      "chatHistoryLength": "Długość historii czatu",
+      "promptHistoryLength": "Długość historii promptów",
+      "cardStyle": "Styl karty",
+      "arduino-green": "Arduino zielone tło",
+      "white-border": "Białe tło z zieloną ramką"
     },
     "descriptions": {
       "temperature": "Kreatywność AI (0 = deterministyczna, 1 = kreatywna)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Mnożnik dla szacowania słowo-token",
       "tokenEstimationCodeBlock": "Dodatkowe tokeny dla bloków kodu",
       "tokenEstimationSpecialChars": "Mnożnik dla znaków specjalnych",
-      "maxCustomAgents": "Maksymalna liczba przechowywanych niestandardowych agentów (1-100)"
+      "maxCustomAgents": "Maksymalna liczba przechowywanych niestandardowych agentów (1-100)",
+      "chatHistoryLength": "Liczba wiadomości w historii czatu (pary użytkownik/AI)",
+      "promptHistoryLength": "Liczba promptów w historii",
+      "cardStyle": "Styl wizualny dla kart czatu i wyboru agenta"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Kompilacja udana",
     "timestamp": "Znacznik czasu",
     "customAgents": "Agenci",
-    "maxCustomAgents": "Maksymalna liczba agentów"
+    "maxCustomAgents": "Maksymalna liczba agentów",
+    "additionalFiles": "Dodatkowe pliki",
+    "additionalFilesDesc": "Dodaj pliki spoza katalogu szkicu",
+    "addFiles": "Dodaj pliki",
+    "selectAdditionalFiles": "Wybierz dodatkowe pliki",
+    "noAdditionalFiles": "Brak dodatkowych plików",
+    "nameAndPromptRequired": "Nazwa i prompt są wymagane"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Przeanalizowany plik",
+    "pinsUsed": "Piny",
+    "libraries": "Biblioteki",
+    "functions": "Funkcje",
+    "constants": "Stałe",
+    "structures": "Struktury",
+    "pinConfig": "Konfiguracja pinów",
+    "usedLibraries": "Używane biblioteki",
+    "functionList": "Funkcje",
+    "constantsList": "Stałe i Defines",
+    "dataStructures": "Struktury danych",
+    "noneFound": "Nie znaleziono",
+    "inferred": "(wywnioskowane)",
+    "writes": "zapisuje",
+    "readsDigital": "odczytuje cyfrowo",
+    "readsAnalog": "odczytuje analogowo",
+    "pwmValue": "PWM (wartość: {0})",
+    "interruptMode": "Przerwanie {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Manipulacja portem",
+    "portWrite": "zapisuje",
+    "portRead": "odczytuje",
+    "globalVars": "Zmienne globalne",
+    "globalVarsList": "Zmienne globalne"
   }
 }

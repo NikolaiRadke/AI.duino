@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ fra udklipsholder",
     "openSettings": "Indstillinger",
     "runCustomAgent": "Kør agent",
-    "manageCustomAgents": "Administrer agenter"
+    "manageCustomAgents": "Administrer agenter",
+    "analyzeCode": "Analyser kode (Offline)"
   },
   "messages": {
     "welcome": "👋 Velkommen! AI.duino understøtter {0}!",
@@ -100,7 +101,8 @@
     "send": "Send",
     "newInput": "Ny indtastning",
     "delete": "Slet",
-    "resetAll": "Nulstil alle"
+    "resetAll": "Nulstil alle",
+    "remove": "Fjern"
   },
   "descriptions": {
     "improveCodeSelected": "Optimere valgte kode",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Analyser fejl fra udklipsholder",
     "openSettings": "Tilpas indstillinger",
     "runCustomAgent": "Vælg og kør agent",
-    "manageCustomAgents": "Opret og administrer tilpassede AI-agenter"
+    "manageCustomAgents": "Opret og administrer tilpassede AI-agenter",
+    "analyzeCode": "Offline kodeanalyse uden AI"
   },
   "language": {
     "autoDetect": "Auto-detektér fra VS Code",
@@ -404,7 +407,8 @@
       "chat": "Chat",
       "inlineCompletion": "Inline-fuldførelse",
       "advanced": "Avanceret",
-      "customAgents": "Tilpassede agenter"
+      "customAgents": "Tilpassede agenter",
+      "ui": "Brugergrænseflade"
     },
     "labels": {
       "temperature": "Kreativitet (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Ordfaktor",
       "tokenEstimationCodeBlock": "Kodeblok-faktor",
       "tokenEstimationSpecialChars": "Specialtegn-faktor",
-      "maxCustomAgents": "Maksimalt antal agenter"
+      "maxCustomAgents": "Maksimalt antal agenter",
+      "chatHistoryLength": "Chat historik længde",
+      "promptHistoryLength": "Prompt historik længde",
+      "cardStyle": "Kort stil",
+      "arduino-green": "Arduino grøn baggrund",
+      "white-border": "Hvid baggrund med grøn kant"
     },
     "descriptions": {
       "temperature": "AI's kreativitet (0 = deterministisk, 1 = kreativ)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Multiplikator for ord-til-token estimering",
       "tokenEstimationCodeBlock": "Ekstra tokens for kodeblokke",
       "tokenEstimationSpecialChars": "Multiplikator for specialtegn",
-      "maxCustomAgents": "Maksimalt antal gemte tilpassede agenter (1-100)"
+      "maxCustomAgents": "Maksimalt antal gemte tilpassede agenter (1-100)",
+      "chatHistoryLength": "Antal beskeder i chat historik (par af bruger/AI)",
+      "promptHistoryLength": "Antal prompts i historik",
+      "cardStyle": "Visuel stil for chat og agent valgkort"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Build succesfuld",
     "timestamp": "Tidsstempel",
     "customAgents": "Agenter",
-    "maxCustomAgents": "Maksimalt antal agenter"
+    "maxCustomAgents": "Maksimalt antal agenter",
+    "additionalFiles": "Yderligere filer",
+    "additionalFilesDesc": "Tilføj filer uden for sketch mappen",
+    "addFiles": "Tilføj filer",
+    "selectAdditionalFiles": "Vælg yderligere filer",
+    "noAdditionalFiles": "Ingen yderligere filer",
+    "nameAndPromptRequired": "Navn og prompt er påkrævet"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Analyseret fil",
+    "pinsUsed": "Pins",
+    "libraries": "Biblioteker",
+    "functions": "Funktioner",
+    "constants": "Konstanter",
+    "structures": "Strukturer",
+    "pinConfig": "Pin konfiguration",
+    "usedLibraries": "Anvendte biblioteker",
+    "functionList": "Funktioner",
+    "constantsList": "Konstanter & Defines",
+    "dataStructures": "Datastrukturer",
+    "noneFound": "Ingen fundet",
+    "inferred": "(udledt)",
+    "writes": "skriver",
+    "readsDigital": "læser digitalt",
+    "readsAnalog": "læser analogt",
+    "pwmValue": "PWM (værdi: {0})",
+    "interruptMode": "Interrupt {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Port manipulation",
+    "portWrite": "skriver",
+    "portRead": "læser",
+    "globalVars": "Globale variabler",
+    "globalVarsList": "Globale variabler"
   }
 }

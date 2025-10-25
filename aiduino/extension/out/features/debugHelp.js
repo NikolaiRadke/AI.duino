@@ -87,11 +87,9 @@ async function debugHelp(context) {
             );
             
             // Create WebviewPanel for debug help
-            const panel = vscode.window.createWebviewPanel(
+            const panel = featureUtils.createStandardPanel(
                 'aiDebugHelp',
-                context.t('panels.debugHelp'),
-                vscode.ViewColumn.Beside,
-                { enableScripts: true }
+                context.t('panels.debugHelp')
             );
             
             // Create context badge before HTML generation
@@ -104,7 +102,8 @@ async function debugHelp(context) {
                 contextBadge,
                 context.currentModel,
                 context.minimalModelManager,
-                context.t
+                context.t,
+                context
             );
             
             return panel;
@@ -296,53 +295,31 @@ function buildTimingPrompt(selectedText, contextData, context) {
  * @param {Function} t - Translation function
  * @returns {string} HTML content
  */
-function createDebugHelpHtml(debugType, processedResponse, codeBlocks, contextBadge, modelId, minimalModelManager, t) {
+function createDebugHelpHtml(debugType, processedResponse, codeBlocks, contextBadge, modelId, minimalModelManager, t, context) {
     const model = minimalModelManager.providers[modelId];
     const modelBadge = `<span style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${t('debugHelp.debugBadge')}</span>`;
     
     // Clean debug type label (remove VS Code icons)
     const cleanDebugType = debugType.replace(/\$\([^)]+\)\s*/, '');
     
-    return `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>${t('panels.debugHelp')} - AI.duino</title>
-            ${getSharedCSS()}
-            <style>
-                .context-badge {
-                    display: inline-block;
-                    padding: 4px 12px;
-                    background: var(--vscode-badge-background);
-                    color: var(--vscode-badge-foreground);
-                    border-radius: 12px;
-                    font-size: 0.9em;
-                    margin: 8px 0;
-                }
-            </style>
-        </head>
-        <body>
-            ${featureUtils.generateContextMenu(t).html}
-            
-            <div class="header">
-                <h1>🔍 ${shared.escapeHtml(cleanDebugType)}</h1>
-                ${modelBadge}
-            </div>
-            
-            ${contextBadge}
-            
-            <div class="info-section">
-                <h3>🤖 AI Debug Analysis:</h3>
-                ${processedResponse}
-            </div>
-            
-            ${featureUtils.generateCodeBlockHandlers(codeBlocks, t, { includeBackButton: false })}
-            
-            ${getPrismScripts()}
-        </body>
-        </html>
+    const mainContent = `
+        <div class="info-section">
+            <h3>🤖 AI Debug Analysis:</h3>
+            ${processedResponse}
+        </div>
     `;
+    
+    return featureUtils.buildQuestionFeatureHtml({
+        title: t('panels.debugHelp'),
+        icon: '',
+        badge: modelBadge,
+        contextBadge,
+        mainContent,
+        codeBlocks,
+        t,
+        showFollowUp: false,
+        context
+    });
 }
 
 module.exports = {

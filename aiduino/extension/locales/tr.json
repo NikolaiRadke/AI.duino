@@ -23,7 +23,8 @@
     "explainCopiedError": "↳ panodan",
     "openSettings": "Ayarlar",
     "runCustomAgent": "Ajanı Çalıştır",
-    "manageCustomAgents": "Ajanları Yönet"
+    "manageCustomAgents": "Ajanları Yönet",
+    "analyzeCode": "Kodu analiz et (Çevrimdışı)"
   },
   "messages": {
     "welcome": "👋 Hoş geldiniz! AI.duino  {0} destekliyor!",
@@ -100,7 +101,8 @@
     "send": "Gönder",
     "newInput": "Yeni giriş",
     "delete": "Sil",
-    "resetAll": "Tümünü sıfırla"
+    "resetAll": "Tümünü sıfırla",
+    "remove": "Kaldır"
   },
   "descriptions": {
     "improveCodeSelected": "Seçili kodu optimize et",
@@ -122,7 +124,8 @@
     "explainCopiedError": "Panodaki hatayı analiz et",
     "openSettings": "Ayarları düzenle",
     "runCustomAgent": "Ajan seç ve çalıştır",
-    "manageCustomAgents": "Özel AI ajanları oluştur ve yönet"
+    "manageCustomAgents": "Özel AI ajanları oluştur ve yönet",
+    "analyzeCode": "AI olmadan çevrimdışı kod analizi"
   },
   "language": {
     "autoDetect": "VS Code'dan otomatik algıla",
@@ -404,7 +407,8 @@
       "chat": "Sohbet",
       "inlineCompletion": "Satır İçi Tamamlama",
       "advanced": "Gelişmiş",
-      "customAgents": "Özel Ajanlar"
+      "customAgents": "Özel Ajanlar",
+      "ui": "Kullanıcı arayüzü"
     },
     "labels": {
       "temperature": "Yaratıcılık (Temperature)",
@@ -423,7 +427,12 @@
       "tokenEstimationMultiplier": "Kelime faktörü",
       "tokenEstimationCodeBlock": "Kod bloğu faktörü",
       "tokenEstimationSpecialChars": "Özel karakter faktörü",
-      "maxCustomAgents": "Maksimum Ajan Sayısı"
+      "maxCustomAgents": "Maksimum Ajan Sayısı",
+      "chatHistoryLength": "Sohbet geçmişi uzunluğu",
+      "promptHistoryLength": "Komut geçmişi uzunluğu",
+      "cardStyle": "Kart stili",
+      "arduino-green": "Arduino yeşil arka plan",
+      "white-border": "Yeşil kenarlıklı beyaz arka plan"
     },
     "descriptions": {
       "temperature": "AI yaratıcılığı (0 = deterministik, 1 = yaratıcı)",
@@ -442,7 +451,10 @@
       "tokenEstimationMultiplier": "Kelime-token tahmini için çarpan",
       "tokenEstimationCodeBlock": "Kod blokları için ek tokenlar",
       "tokenEstimationSpecialChars": "Özel karakterler için çarpan",
-      "maxCustomAgents": "Saklanabilecek maksimum özel ajan sayısı (1-100)"
+      "maxCustomAgents": "Saklanabilecek maksimum özel ajan sayısı (1-100)",
+      "chatHistoryLength": "Sohbet geçmişindeki mesaj sayısı (kullanıcı/AI çiftleri)",
+      "promptHistoryLength": "Geçmişteki komut sayısı",
+      "cardStyle": "Sohbet ve ajan seçim kartları için görsel stil"
     }
   },
   "extensionUpdate": {
@@ -600,6 +612,39 @@
     "buildSuccessful": "Derleme başarılı",
     "timestamp": "Zaman damgası",
     "customAgents": "Ajanlar",
-    "maxCustomAgents": "Maksimum Ajan Sayısı"
+    "maxCustomAgents": "Maksimum Ajan Sayısı",
+    "additionalFiles": "Ek dosyalar",
+    "additionalFilesDesc": "Sketch dizini dışındaki dosyaları ekle",
+    "addFiles": "Dosya ekle",
+    "selectAdditionalFiles": "Ek dosyaları seç",
+    "noAdditionalFiles": "Ek dosya yok",
+    "nameAndPromptRequired": "İsim ve komut zorunludur"
+  },
+  "analyzeCode": {
+    "analyzedFile": "Analiz edilen dosya",
+    "pinsUsed": "Pinler",
+    "libraries": "Kütüphaneler",
+    "functions": "Fonksiyonlar",
+    "constants": "Sabitler",
+    "structures": "Yapılar",
+    "pinConfig": "Pin yapılandırması",
+    "usedLibraries": "Kullanılan kütüphaneler",
+    "functionList": "Fonksiyonlar",
+    "constantsList": "Sabitler ve Defines",
+    "dataStructures": "Veri yapıları",
+    "noneFound": "Hiçbiri bulunamadı",
+    "inferred": "(çıkarılan)",
+    "writes": "yazar",
+    "readsDigital": "dijital okur",
+    "readsAnalog": "analog okur",
+    "pwmValue": "PWM (değer: {0})",
+    "interruptMode": "Kesme {0} → {1}()",
+    "servoAttached": "Servo ({0})",
+    "pinFormat": "Pin {0}: {1}{2}",
+    "portManipulation": "Port manipülasyonu",
+    "portWrite": "yazar",
+    "portRead": "okur",
+    "globalVars": "Global değişkenler",
+    "globalVarsList": "Global değişkenler"
   }
 }

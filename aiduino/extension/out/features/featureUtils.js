@@ -121,7 +121,20 @@ async function callAIWithProgress(prompt, progressKey, context) {
         cancellable: false
     }, async () => {
         try {
-            const result = await context.callAI(prompt);
+            const result = await context.callAI(prompt, context);  // Pass context as 2nd parameter!
+            
+            // Handle both string responses and object responses (e.g., from Claude Code with sessionId)
+            if (typeof result === 'string') {
+                return result;
+            } else if (result && typeof result === 'object' && result.text) {
+                // Store sessionId in context if present (for persistent sessions)
+                if (result.sessionId) {
+                    context.sessionId = result.sessionId;
+                }
+                return result.text;
+            }
+            
+            // Fallback: return result as-is
             return result;
         } catch (error) {
             context.handleApiError(error);
@@ -249,7 +262,8 @@ async function showInputWithCreateQuickPickHistory(context, promptKey, placehold
         return showSimpleInputBox(context, promptKey, placeholderKey, savedValue);
     }
 
-    const recentItems = context.promptHistory.getRecentPrompts(historyCategory, 5, context.t, context.currentLocale);
+    const limit = context.settings ? context.settings.get('promptHistoryLength') : 5;   
+    const recentItems = context.promptHistory.getRecentPrompts(historyCategory, limit, context.t, context.currentLocale);
 
     // If no history exists, use simple input
     if (recentItems.length === 0) {
@@ -837,6 +851,98 @@ function generateCodeBlockHandlers(codeBlocks, t, options = {}) {
     `;
 }
 
+/**
+ * Build standard HTML for question-based features (askAI, debugHelp, explainError)
+ * @param {Object} options - HTML building options
+ * @returns {string} Complete HTML
+ */
+function buildQuestionFeatureHtml(options) {
+    const { getSharedCSS, getPrismScripts } = require('../utils/panels/sharedStyles');
+    const { 
+        title,              // Page title
+        icon,               // Emoji icon
+        badge,              // Model/feature badge HTML
+        contextBadge,       // Context info badge HTML
+        mainContent,        // Main content HTML
+        codeBlocks,         // Array of code blocks
+        t,                  // Translation function
+        showFollowUp = false, // Show follow-up in context menu
+        context             // Extension context for settings
+    } = options;
+    
+    return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>${title} - AI.duino</title>
+            ${getSharedCSS()}
+        </head>
+        <body>
+            ${getSharedCSS(context?.settings?.get('cardStyle') || 'arduino-green')}
+            
+            <div class="header">
+                <h1>${icon} ${title}</h1>
+                ${badge}
+            </div>
+            
+            ${contextBadge}           
+            ${mainContent}
+            ${generateCodeBlockHandlers(codeBlocks, t, { includeBackButton: false })}
+            ${getPrismScripts()}
+        </body>
+        </html>
+    `;
+}
+
+/**
+ * Validate editor and Arduino file in one call
+ * @param {Object} context - Extension context
+ * @returns {Object|null} Editor object or null if validation fails
+ */
+function validateEditorAndFile(context) {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showWarningMessage(context.t('messages.noEditor'));
+        return null;
+    }
+    
+    if (!context.validation.validateArduinoFile(editor.document.fileName)) {
+        vscode.window.showWarningMessage(context.t('messages.openInoFile'));
+        return null;
+    }
+    
+    return editor;
+}
+
+/**
+ * Get selection information from editor
+ * @param {vscode.TextEditor} editor - VS Code text editor
+ * @returns {Object} Selection info with selection, hasSelection, selectedText
+ */
+function getSelectionInfo(editor) {
+    const selection = editor.selection;
+    const hasSelection = !selection.start.isEqual(selection.end);
+    const selectedText = hasSelection ? editor.document.getText(selection) : '';
+    
+    return { selection, hasSelection, selectedText };
+}
+
+/**
+ * Create a standard webview panel with common settings
+ * @param {string} panelId - Panel identifier
+ * @param {string} title - Panel title
+ * @returns {vscode.WebviewPanel} Created panel
+ */
+function createStandardPanel(panelId, title) {
+    return vscode.window.createWebviewPanel(
+        panelId,
+        title,
+        vscode.ViewColumn.Two,
+        { enableScripts: true }
+    );
+}
+
 module.exports = {
     executeFeature,
     createAndShowDocument,
@@ -858,4 +964,8 @@ module.exports = {
     generateContextMenu,
     getBoardInfoHTML,
     generateCodeBlockHandlers,
+    validateEditorAndFile,
+    getSelectionInfo,
+    createStandardPanel,
+    buildQuestionFeatureHtml
 };
