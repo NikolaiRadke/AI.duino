@@ -8,7 +8,7 @@ the newest Version to avoid annoying bugs.
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **25.10.2025** V2.3.0 beta. See Changelog.md. Now it needs a lot of testing.    
+* **26.10.2025** Release **V2.3.0** with feature for adding external files and a code analyzer.      
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
