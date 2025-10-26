@@ -11,37 +11,36 @@ set "EXTENSIONS_DIR=%USERPROFILE%\.arduinoIDE\extensions"
 set "DEPLOYED_DIR=%USERPROFILE%\.arduinoIDE\deployedPlugins"
 set "VSIX_FILE=%~dp0aiduino.vsix"
 
-REM Prüfen, ob die VSIX-Datei vorhanden ist
+REM Check if VSIX file exists
 if not exist "%VSIX_FILE%" (
-    echo [Fehler] aiduino.vsix wurde nicht gefunden im Ordner:
+    echo [Error] aiduino.vsix was not found in folder:
     echo %~dp0
-    echo Bitte stelle sicher, dass die Datei im gleichen Ordner wie dieses Installationsprogramm liegt.
+    echo Please make sure the file is in the same folder as this installer.
     echo.
     pause
     exit /b 1
 )
 
-REM Ordner erstellen, falls nicht vorhanden
+REM Create folder if it doesn't exist
 if not exist "%EXTENSIONS_DIR%" (
-    echo Erstelle Erweiterungsverzeichnis...
+    echo Creating extension directory...
     mkdir "%EXTENSIONS_DIR%"
 )
 
-REM Alte Version entfernen
+REM Remove old version
 if exist "%EXTENSIONS_DIR%\aiduino.vsix" (
-    echo Entferne alte Erweiterung...
+    echo Removing old extension...
     del "%EXTENSIONS_DIR%\aiduino.vsix"
 )
 
 if exist "%DEPLOYED_DIR%\aiduino" (
-    echo Entferne alte Installation...
+    echo Removing old installation...
     rmdir /s /q "%DEPLOYED_DIR%\aiduino"
 )
 
-REM Neue Datei kopieren
-echo Installiere neue Erweiterung...
+REM Copy new file
+echo Installing new extension...
 copy "%VSIX_FILE%" "%EXTENSIONS_DIR%\" >nul
 
 if %ERRORLEVEL% EQU 0 (
     echo
-

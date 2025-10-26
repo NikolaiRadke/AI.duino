@@ -8,7 +8,7 @@
 const vscode = require('vscode');
 const { getSharedCSS } = require('./sharedStyles');
 const { forEachProvider, calculateTotalCost } = require('../../shared');
-const panelManager = require('../panelManager');  // ← NEU
+const panelManager = require('../panelManager');
 
 /**
  * Show token usage statistics

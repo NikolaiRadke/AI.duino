@@ -14,9 +14,10 @@
 * Fixed annoying Arduino mode switch bug in the chat
 
 ## Other
-* Much much code refactoring
+* Much much code refactoring and code cleanup
 * Explain Code now has Webview too
 * History persistence enhanced
 * More customable settings
+* Translated Windows installer to English
 
 

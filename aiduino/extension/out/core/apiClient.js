@@ -68,7 +68,7 @@ class UnifiedAPIClient {
      * @param {Function} t - Translation function
      * @returns {Promise<Object>} Response data
      */
-    async makeRequest(config, t) {  // t als Parameter hinzufügen
+    async makeRequest(config, t) {
         return new Promise((resolve, reject) => {
             const data = JSON.stringify(config.body);
         
@@ -114,8 +114,8 @@ class UnifiedAPIClient {
             const timeout = setTimeout(() => {
                 req.destroy();
                 const timeoutError = new Error(t('errors.timeout'));
-                timeoutError.type = 'NETWORK_ERROR';   // NEU: Type setzen
-                timeoutError.code = 'ETIMEDOUT';       // NEU: Code setzen
+                timeoutError.type = 'NETWORK_ERROR';  
+                timeoutError.code = 'ETIMEDOUT'; 
                 reject(timeoutError);
             }, this.timeout);
     
@@ -371,7 +371,7 @@ class UnifiedAPIClient {
             
             const req = http.request({
                 hostname: parsedUrl.hostname,
-                port: parsedUrl.port || provider.defaultPort || 80,  // GEÄNDERT
+                port: parsedUrl.port || provider.defaultPort || 80, 
                 path: provider.httpConfig.endpoint,
                 method: 'POST',
                 headers: {
@@ -498,7 +498,7 @@ class UnifiedAPIClient {
         if (context.globalContext && !context.skipSupportHint) {
             const uiTools = require('../utils/ui');
             const contextWithT = { ...context.globalContext, t: context.t };
-            uiTools.showSupportHint(contextWithT).catch(() => {}); // Fehler wieder silent
+            uiTools.showSupportHint(contextWithT).catch(() => {}); 
         }
     }
 }

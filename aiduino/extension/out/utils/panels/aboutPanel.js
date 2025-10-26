@@ -8,7 +8,7 @@
 const vscode = require('vscode');
 const { getSharedCSS } = require('./sharedStyles');
 const { forEachProvider } = require('../../shared');
-const panelManager = require('../panelManager');  // â† NEU
+const panelManager = require('../panelManager'); 
 
 /**
  * Show About dialog with extension information

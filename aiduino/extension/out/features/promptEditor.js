@@ -8,7 +8,7 @@ const vscode = require('vscode');
 const { escapeHtml } = require('../shared');
 const { getSharedCSS } = require('../utils/panels/sharedStyles');
 const featureUtils = require('./featureUtils');
-const panelManager = require('../utils/panelManager');  // ← NEU
+const panelManager = require('../utils/panelManager');
 
 /**
  * Show prompt editor with dependency injection

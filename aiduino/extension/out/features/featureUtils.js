@@ -481,7 +481,6 @@ function setupStandardMessageHandler(panel, context, customHandlers = {}) {
 /**
  * Process AI response with event-delegation-based code blocks
  * Returns HTML + codeBlocks array for event handling
- * NEU: Für askAI.js und improveCode.js
  * @param {string} response - AI response text
  * @param {string} codeBlockTitle - Title for code blocks
  * @param {Array} buttonActions - Button actions ['copy', 'insert', 'replace']

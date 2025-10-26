@@ -129,7 +129,7 @@ function buildMenuItems(context) {
         command: 'aiduino.about'
     });
 
-    // Settings (NEU)
+    // Settings
     infoItems.push({
         label: `$(gear) ${t('commands.openSettings')}`,
         description: t('descriptions.openSettings') || '',
@@ -182,12 +182,12 @@ function formatQuestionPreview(question, timestamp) {
 function getInlineCompletionStatus(context) {
     const { currentModel, minimalModelManager } = context;
     const config = vscode.workspace.getConfiguration('aiduino');
-    const enabled = config.get('inlineCompletionEnabled', false);  // ← KORRIGIERT!
+    const enabled = config.get('inlineCompletionEnabled', false);
     
     const providerInfo = minimalModelManager.getProviderInfo(currentModel);
     
     if (!providerInfo.hasApiKey) {
-        return '○';  // Kein Provider
+        return '○'; 
     }
     
     return enabled ? '✓' : '✗';

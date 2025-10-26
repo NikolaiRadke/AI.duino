@@ -29,11 +29,10 @@ function handleNetworkError(error, t) {
     
     const message = errorMessages[error.code] || t('errors.network.general', error.message);
     
-    // NEU: Error-Objekt mit Type erstellen
     const enhancedError = new Error(message);
-    enhancedError.type = 'NETWORK_ERROR';  // Type setzen
-    enhancedError.code = error.code;       // Original-Code behalten
-    
+    enhancedError.type = 'NETWORK_ERROR'; 
+    enhancedError.code = error.code;      
+
     return enhancedError;
 }
 
