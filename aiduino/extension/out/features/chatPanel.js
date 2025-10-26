@@ -105,7 +105,7 @@ async function showChatPanel(context) {
         clearContext: async (message) => {
             attachedContext = null;
             lastUsedContext = null;
-            updatePanelContent(panel, context);
+            updateAttachmentButtons(panel, context);
         },
         toggleArduinoMode: async (message) => {
             arduinoMode = !arduinoMode;
@@ -130,10 +130,7 @@ async function showChatPanel(context) {
                 t('buttons.no')
             );
             
-            if (choice === t('buttons.yes')) {
-                historyManager.clearActiveChat();
-                updatePanelContent(panel, context);
-            }
+            updateAttachmentButtons(panel, context);
         },
         pasteFromClipboard: async (message) => {
             const clipboardText = await vscode.env.clipboard.readText();
@@ -238,7 +235,7 @@ async function handleUserMessage(userText, panel, context) {
         attachedContext = null;
         panel.webview.postMessage({ command: 'contextAttached', badge: '' });
     } else {
-        prompt = buildChatPrompt(userText, chatHistory, actualCurrentModel, context.minimalModelManager, chatId);
+        prompt = buildChatPrompt(userText, chatHistory, actualCurrentModel, context.minimalModelManager, chatId, context);
     }
     
 try {
@@ -272,7 +269,7 @@ try {
 /**
  * Build chat prompt with history context
  */
-function buildChatPrompt(newMessage, history, currentModel, minimalModelManager, chatId) {
+function buildChatPrompt(newMessage, history, currentModel, minimalModelManager, chatId, context) {
     const provider = minimalModelManager.providers[currentModel];
     const sessionKey = `${chatId}-${currentModel}`;
     const sessionId = activeSessions[sessionKey];
@@ -431,8 +428,8 @@ async function handleAttachContext(panel, context) {
         
         attachedContext.contextData = contextData;
         lastUsedContext = { ...attachedContext };
-        updatePanelContent(panel, context);
-        
+        updateAttachmentButtons(panel, context);
+
         vscode.window.showInformationMessage(t('messages.contextAttachedInfo'));
     }
 }
@@ -467,7 +464,7 @@ async function handleAttachExternalFiles(panel, context) {
     ];
     
     lastUsedContext = { ...attachedContext };
-    updatePanelContent(panel, context);
+    updateAttachmentButtons(panel, context);
     
     const count = filesData.filter(f => !f.error).length;
     vscode.window.showInformationMessage(
@@ -537,10 +534,10 @@ async function handleManageAttachments(panel, context) {
     
     if (!attachedContext.contextData && attachedContext.externalFiles.length === 0) {
         attachedContext = null;
-        lastUsedContext = null;  // NEU - auch lastUsedContext zurücksetzen
+        lastUsedContext = null;
     }
 
-    updatePanelContent(panel, context);
+    updateAttachmentButtons(panel, context);
 }
 /**
  * Update panel content based on current view
@@ -699,6 +696,17 @@ function generateAttachmentButtons(attachedContext, t) {
             ×
         </button>
     `;
+}
+
+/**
+ * Update attachment buttons without re-rendering the panel
+ */
+function updateAttachmentButtons(panel, context) {
+    const buttonsHtml = generateAttachmentButtons(attachedContext, context.t);
+    panel.webview.postMessage({
+        command: 'updateAttachments',
+        buttonsHtml: buttonsHtml
+    });
 }
 
 /**
@@ -871,11 +879,11 @@ function generateAttachmentButtons(attachedContext, t) {
                         ${arduinoMode ? '🎯' : '💬'}
                     </button>
                     <button class="action-btn" onclick="attachContext()" title="${t('chat.attachContext')}">📎</button>
-                    ${generateAttachmentButtons(attachedContext, t)}
+                    <span id="attachmentButtons">${generateAttachmentButtons(attachedContext, t)}</span>
                     ${lastUsedContext ? `
                         <button class="action-btn" onclick="reuseLastContext()" title="${t('chat.reuseLastContext')}">🔄</button>
                     ` : ''}
-                    <button class="action-btn" onclick="clearChat()" title="${t('buttons.reset')}">🗑️</button>
+                    <button class="action-btn" onclick="clearChat()" title="${t('buttons.reset')}" style="margin-left: auto;">🗑️</button>
                 </div>
                 
                 <div class="input-row">
@@ -995,6 +1003,13 @@ function generateAttachmentButtons(attachedContext, t) {
                                 'var(--vscode-button-background)' : 
                                 'var(--vscode-button-secondaryBackground)';
                             button.textContent = message.arduinoMode ? '🎯' : '💬';
+                        }
+                    }
+
+                    if (message.command === 'updateAttachments') {
+                        const container = document.getElementById('attachmentButtons');
+                        if (container) {
+                            container.innerHTML = message.buttonsHtml;
                         }
                     }
                 });
