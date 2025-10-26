@@ -260,16 +260,33 @@ class CustomAgentManager {
         const needsBuild = options.memoryUsage || options.compilerErrors || 
                            options.compilerWarnings || options.buildInfo;
 
-        if (needsBuild && editor) {
-            try {
-                const buildInfo = await this.buildAndCollectInfo(editor.document.uri, context);
-                const buildContext = this.formatBuildContext(buildInfo, options, context.t);
+        if (needsBuild) {
+            // Try to find an Arduino editor if not provided
+            let buildEditor = editor;
+            if (!buildEditor) {
+                // Find Arduino document in ALL open documents
+                const openDocs = vscode.workspace.textDocuments;
+                const arduinoDoc = openDocs.find(doc => 
+                    doc.fileName.match(/\.(ino|cpp|c|h)$/i)
+                );
                 
-                if (buildContext) {
-                    contextParts.push(buildContext);
+                if (arduinoDoc) {
+                    // Create editor-like object with document and uri
+                    buildEditor = { document: arduinoDoc };
                 }
-            } catch (error) {
-                contextParts.push(`\n## Build Error:\n${error.message}`);
+            }
+            
+            if (buildEditor) {
+                try {
+                    const buildInfo = await this.buildAndCollectInfo(buildEditor.document.uri, context);
+                    const buildContext = this.formatBuildContext(buildInfo, options, context.t);
+                    
+                    if (buildContext) {
+                        contextParts.push(buildContext);
+                    }
+                } catch (error) {
+                    contextParts.push(`\n## Build Error:\n${error.message}`);
+                }
             }
         }
 

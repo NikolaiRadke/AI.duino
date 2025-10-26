@@ -174,10 +174,10 @@ async function executeAgent(agentId, context) {
     
     // Validate context requirements
     const needsEditor = agent.context.currentSelection || 
-                       agent.context.currentFileFull || 
-                       agent.context.currentFileFunctions ||
-                       agent.context.usedLibraries ||
-                       agent.context.pinConfiguration;
+                   agent.context.currentFileFull || 
+                   agent.context.currentFileFunctions ||
+                   agent.context.usedLibraries ||
+                   agent.context.pinConfiguration;  
     
     if (needsEditor && !editor) {
         vscode.window.showWarningMessage(t('messages.openInoFile'));
