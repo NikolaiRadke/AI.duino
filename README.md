@@ -43,7 +43,14 @@ Ask something with or without marked code. You can ask further context-related.
 ### AI Chat 
 Multiple chats like in the browser but integrated in the IDE with history based persistance. You can add files content.
 
-### Inline Completion
+### Custom agents
+Let the AI do some tasks for you, like error checking after compiling. Agents can include build outputs and additional 
+internal and external files .
+
+### Offline code analysis 
+Gives some information about the current file.
+
+### Inline completion
 AI will suggest code completion behind common keywords like ``` Serial. ``` and in comments ending with ':'.   
 Example: ``` // Let the LED blink for three times: ```. Press *<Tab>* to accept the suggestion. 
 You can select a different provider, **Groq** is fast, free and recommended for inline completion.
