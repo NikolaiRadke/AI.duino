@@ -41,7 +41,8 @@ Ask something with or without marked code. You can ask further context-related.
 - Timing analysis
 
 ### AI Chat 
-Multiple chats like in the browser but integrated in the IDE with history based persistance. You can add files content.
+Multiple chats like in the browser but integrated in the IDE with history based persistance. Claude Code provides full session persistance.
+You can add files content.
 
 ### Custom agents
 Let the AI do some tasks for you, like error checking after compiling. Agents can include build outputs and additional 
@@ -141,7 +142,7 @@ You can completly remove the extension in the AI.duino settings panel bei clicku
 Are you really REALLY sure?   
 
 If you installed AI.duino manually into the plugin folder, you need to remove it by yourself. AI.duino has no permissions
-to to that.  
+to do that.  
 
 ## API keys
 
