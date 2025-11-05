@@ -57,8 +57,8 @@ Example: ``` // Let the LED blink for three times: ```. Press *<Tab>* to accept 
 You can select a different provider, **Groq** is fast, free and recommended for inline completion.
 
 ### Auto update
-The provider settings will be updated when availabe. They will be generated automatically every week. The extension is checking itsels 
-and will inform the user for new Version updates.  
+The provider settings will be updated when availabe. They will be generated automatically every week. The extension is checking itself 
+and will inform the user for new version updates.  
 
 
 ## Screenshots
