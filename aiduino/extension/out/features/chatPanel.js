@@ -105,7 +105,7 @@ async function showChatPanel(context) {
         clearContext: async (message) => {
             attachedContext = null;
             lastUsedContext = null;
-            updateAttachmentButtons(panel, context);
+            updatePanelContent(panel, context);
         },
         toggleArduinoMode: async (message) => {
             arduinoMode = !arduinoMode;
@@ -130,7 +130,10 @@ async function showChatPanel(context) {
                 t('buttons.no')
             );
             
-            updateAttachmentButtons(panel, context);
+            if (choice === t('buttons.yes')) {
+                historyManager.clearActiveChat();
+                updatePanelContent(panel, context);
+            }
         },
         pasteFromClipboard: async (message) => {
             const clipboardText = await vscode.env.clipboard.readText();
