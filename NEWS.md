@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **06.11.2025** Release **V2.3.1** with a minor bugfix and updated provider settings.      
 * **26.10.2025** Release **V2.3.0** with feature for adding external files and a code analyzer.      
 * **25.10.2025** V2.3.0 beta. See Changelog.md. Now it needs a lot of testing.    
 * **19.10.2025** Release **V2.2.1** with better http provider support and improved MaxToken managent.  
