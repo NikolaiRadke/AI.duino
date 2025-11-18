@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **18.11.2025** Two week of testing without bugs. Weeee!         
 * **06.11.2025** Release **V2.3.1** with a minor bugfix and updated provider settings.      
 * **26.10.2025** Release **V2.3.0** with feature for adding external files and a code analyzer.      
 * **25.10.2025** V2.3.0 beta. See Changelog.md. Now it needs a lot of testing.    
