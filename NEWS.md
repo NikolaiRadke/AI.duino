@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **01.12.2025** Release **V2.4.0** with a small but cool improvement and Copy&Paste bugfix.           
 * **18.11.2025** Two week of testing without bugs. Weeee!         
 * **06.11.2025** Release **V2.3.1** with a minor bugfix and updated provider settings.      
 * **26.10.2025** Release **V2.3.0** with feature for adding external files and a code analyzer.      
