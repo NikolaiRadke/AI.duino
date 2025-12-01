@@ -42,7 +42,7 @@ Ask something with or without marked code. You can ask further context-related.
 
 ### AI Chat 
 Multiple chats like in the browser but integrated in the IDE with history based persistance. Claude Code provides full session persistance.
-You can add files content.
+You can add files content. All feature results can be discussed here too.  
 
 ### Custom agents
 Let the AI do some tasks for you, like error checking after compiling. Agents can include build outputs and additional 
