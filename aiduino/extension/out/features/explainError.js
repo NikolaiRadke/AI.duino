@@ -89,8 +89,8 @@ async function explainError(context, preProvidedText = null) {
             // Process response with code blocks
             const { processedHtml, codeBlocks } = featureUtils.processAiCodeBlocksWithEventDelegation(
                 response,
-                `🔧 ${context.t('explainError.correctedCodeTitle')}`,
-                ['copy', 'insert'],
+                `ðŸ”§ ${context.t('explainError.correctedCodeTitle')}`,
+                ['copy'],
                 context.t
             );
             
@@ -101,6 +101,10 @@ async function explainError(context, preProvidedText = null) {
                 vscode.ViewColumn.Beside,
                 { enableScripts: true }
             );
+            
+            // Store data for "Continue in Chat" feature
+            panel.userPrompt = prompt;
+            panel.aiResponse = response;
             
             // Create context badge before HTML generation
             const contextBadge = contextManager.getContextBadgeHtml(contextData, context.t);
@@ -123,7 +127,12 @@ async function explainError(context, preProvidedText = null) {
     
     // Message Handler
     if (panel) {
-        featureUtils.setupStandardMessageHandler(panel, context);
+        featureUtils.setupStandardMessageHandler(panel, context, {
+            continueInChat: async (message) => {
+                const chatPanel = require('./chatPanel');
+                await chatPanel.continueInChat(panel.userPrompt, panel.aiResponse, context);
+            }
+        });
     }
 }
 
@@ -187,14 +196,15 @@ function createErrorExplanationHtml(error, line, processedExplanation, codeBlock
     
     return featureUtils.buildQuestionFeatureHtml({
         title: t('commands.explainError'),
-        icon: '🔧',
+        icon: 'ðŸ”§',
         badge: modelBadge,
         contextBadge,
         mainContent,
         codeBlocks,
         t,
         showFollowUp: false,
-        context
+        context,
+        showContinueInChat: true
     });
 }
 

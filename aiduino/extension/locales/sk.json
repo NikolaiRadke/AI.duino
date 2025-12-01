@@ -24,7 +24,8 @@
     "openSettings": "Nastavenia",
     "runCustomAgent": "Spustiť agenta",
     "manageCustomAgents": "Spravovať agentov",
-    "analyzeCode": "Analyzovať kód (Offline)"
+    "analyzeCode": "Analyzovať kód (Offline)",
+    "help": "Pomoc"
   },
   "messages": {
     "welcome": "Vitajte! AI.duino podporuje {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Upraviť nastavenia",
     "runCustomAgent": "Vybrať a spustiť agenta",
     "manageCustomAgents": "Vytvárať a spravovať vlastných AI agentov",
-    "analyzeCode": "Offline analýza kódu bez AI"
+    "analyzeCode": "Offline analýza kódu bez AI",
+    "help": "Otvoriť online pomoc na GitHube"
   },
   "language": {
     "autoDetect": "Automatické rozpoznanie z VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Odoslaný kód",
     "newChat": "Nový chat",
     "chats": "Chaty",
-    "maxChatsReached": "Dosiahnutý maximálny počet chatov (10)",
+    "maxChatsReached": "Dosiahnutý maximálny počet chatov. Odstráňte staré chaty.",
     "cannotDeleteLastChat": "Posledný chat nemožno odstrániť",
     "confirmDelete": "Odstrániť chat?",
     "noChatsYet": "Zatiaľ žiadne chaty",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Znovu použiť posledný kontext",
     "arduinoMode": "Arduino",
     "generalMode": "Všeobecný",
-    "toggleMode": "Prepnúť režim"
+    "toggleMode": "Odoslať informácie o doske",
+    "continueInChat": "Pokračovať v chate",
+    "historyNotAvailable": "História chatu nie je k dispozícii"
   },
   "shortcuts": {
     "askFollowUp": "Následná otázka",

@@ -24,7 +24,8 @@
     "openSettings": "Indstillinger",
     "runCustomAgent": "Kør agent",
     "manageCustomAgents": "Administrer agenter",
-    "analyzeCode": "Analyser kode (Offline)"
+    "analyzeCode": "Analyser kode (Offline)",
+    "help": "Hjælp"
   },
   "messages": {
     "welcome": "👋 Velkommen! AI.duino understøtter {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Tilpas indstillinger",
     "runCustomAgent": "Vælg og kør agent",
     "manageCustomAgents": "Opret og administrer tilpassede AI-agenter",
-    "analyzeCode": "Offline kodeanalyse uden AI"
+    "analyzeCode": "Offline kodeanalyse uden AI",
+    "help": "Åbn online hjælp på GitHub"
   },
   "language": {
     "autoDetect": "Auto-detektér fra VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Sendt kode",
     "newChat": "Ny chat",
     "chats": "Chats",
-    "maxChatsReached": "Maksimalt antal chats (10) nået",
+    "maxChatsReached": "Maksimalt antal chats nået. Slet venligst gamle chats.",
     "cannotDeleteLastChat": "Sidste chat kan ikke slettes",
     "confirmDelete": "Slet chat?",
     "noChatsYet": "Ingen chats endnu",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Genbrug seneste kontekst",
     "arduinoMode": "Arduino",
     "generalMode": "Generel",
-    "toggleMode": "Skift tilstand"
+    "toggleMode": "Send board-information",
+    "continueInChat": "Fortsæt i chat",
+    "historyNotAvailable": "Chathistorik ikke tilgængelig"
   },
   "shortcuts": {
     "askFollowUp": "Opfølgende spørgsmål",

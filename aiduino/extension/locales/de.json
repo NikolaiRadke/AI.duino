@@ -24,7 +24,8 @@
     "openSettings": "Einstellungen",
     "runCustomAgent": "Agent ausführen",
     "manageCustomAgents": "Agenten verwalten",
-    "analyzeCode": "Code analysieren (Offline)"
+    "analyzeCode": "Code analysieren (Offline)",
+    "help": "Hilfe"
   },
   "messages": {
     "welcome": "👋 Willkommen! AI.duino unterstützt {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Einstellungen anpassen",
     "runCustomAgent": "Agent auswählen und ausführen",
     "manageCustomAgents": "Eigene KI-Agenten erstellen und verwalten",
-    "analyzeCode": "Offline Code-Analyse ohne KI"
+    "analyzeCode": "Offline Code-Analyse ohne KI",
+    "help": "Öffne Online-Hilfe auf GitHub"
   },
   "language": {
     "autoDetect": "Automatisch von VS Code erkennen",
@@ -167,7 +169,6 @@
     "addCommentsFile": "Füge hilfreiche deutsche Kommentare zu dieser kompletten Arduino-Datei hinzu ({0}):\n\n```cpp\n{1}\n```\n\nRegeln:\n- Erkläre, was jede wichtige Zeile macht\n- Kommentiere Funktionen und ihre Parameter\n- Erkläre Hardware-Interaktionen\n- Nutze // für einzeilige und /* */ für mehrzeilige Kommentare\n- Kommentare sollen Anfängern helfen",
     "addCommentsSketch": "Füge hilfreiche deutsche Kommentare zu allen Dateien in diesem Arduino-Sketch hinzu:\n\n{0}\n\nRegeln:\n- Erkläre, was jede wichtige Zeile macht\n- Kommentiere Funktionen und ihre Parameter\n- Erkläre Hardware-Interaktionen und Datei-Beziehungen\n- Nutze // für einzeilige und /* */ für mehrzeilige Kommentare\n- Kommentare sollen Anfängern helfen",
     "explainCodeFile": "Erkläre diese komplette Arduino-Datei ({0}) auf Deutsch:\n\n```cpp\n{1}\n```\n\nErkläre:\n- Was die Datei macht (Hauptzweck)\n- Wichtige Funktionen und ihre Aufgaben\n- Hardware-Interaktionen (Pins, Sensoren, etc.)\n- Algorithmen und Logik\n- Besonderheiten oder wichtige Details",
-
     "explainCodeSketch": "Erkläre alle Dateien in diesem Arduino-Sketch auf Deutsch:\n\n{0}\n\nErkläre:\n- Was der gesamte Sketch macht (Hauptzweck)\n- Wie die Dateien zusammenarbeiten\n- Wichtige Funktionen in jeder Datei\n- Hardware-Interaktionen (Pins, Sensoren, etc.)\n- Datenfluss zwischen den Dateien\n- Besonderheiten oder wichtige Details",
     "explainErrorFile": "Erkläre diesen Arduino-Fehler in Zeile {1}:\n\nFehler: {0}\n\nDatei ({2}):\n```cpp\n{3}\n```\n\nErkläre:\n- Was der Fehler bedeutet\n- Warum er auftritt\n- Wie man ihn behebt\n- Zeige korrigierten Code",
     "explainErrorSketch": "Erkläre diesen Arduino-Fehler in Zeile {1}:\n\nFehler: {0}\n\nGesamter Sketch:\n{2}\n\nErkläre:\n- Was der Fehler bedeutet\n- Warum er auftritt (auch im Kontext der anderen Dateien)\n- Wie man ihn behebt\n- Zeige korrigierten Code",
@@ -209,7 +210,7 @@
   },
   "errors": {
     "quotaExceeded": "Monatliches Kontingent erschöpft",
-    "quotaExceededDetail": "{0}: Monatliches Kontingent erschöpft. Bitte warte bis zum Monatsanfang oder wechsle das Modell.",    
+    "quotaExceededDetail": "{0}: Monatliches Kontingent erschöpft. Bitte warte bis zum Monatsanfang oder wechsle das Modell.",
     "networkError": "Netzwerkfehler",
     "timeout": "Zeitüberschreitung – bitte Internetverbindung prüfen",
     "unreachable": "Nicht erreichbar",
@@ -275,7 +276,7 @@
     "followUpQuestion": "Rückfrage",
     "relatedCode": "Zugehöriger Code",
     "sendCode": "Code senden",
-    "insertCode": "Einfügen", 
+    "insertCode": "Einfügen",
     "inputPlaceholder": "Arduino-Frage oder Code-Hilfe...",
     "you": "Du",
     "welcomeMessage": "Stelle Fragen zu Arduino-Code oder sende markierten Code für Analyse.",
@@ -283,7 +284,6 @@
     "sentCode": "Gesendeter Code",
     "newChat": "Neuer Chat",
     "chats": "Chats",
-    "maxChatsReached": "Maximale Anzahl Chats (10) erreicht",
     "cannotDeleteLastChat": "Letzter Chat kann nicht gelöscht werden",
     "confirmDelete": "Chat wirklich löschen?",
     "noChatsYet": "Noch keine Chats",
@@ -300,18 +300,21 @@
     "reuseLastContext": "Zuletzt verwendeten Kontext wieder anhängen",
     "arduinoMode": "Arduino",
     "generalMode": "Allgemein",
-    "toggleMode": "Modus umschalten",
+    "toggleMode": "Boardinformationen übermitteln",
     "backToOverview": "Zurück zur Übersicht",
     "removeFilePrompt": "{0} (ESC zum Abbrechen)",
     "externalFileAttached": "1 externe Datei angehängt",
     "externalFilesAttached": "{0} externe Dateien angehängt",
-    "manageAttachments": "Angehängte Dateien verwalten",    
-    "newSessionStarted": "🔄 Neue persistente Session gestartet"
+    "manageAttachments": "Angehängte Dateien verwalten",
+    "newSessionStarted": "🔄 Neue persistente Session gestartet",
+    "continueInChat": "In Chat fortsetzen",
+    "historyNotAvailable": "Chat-Historie nicht verfügbar",
+    "maxChatsReached": "Maximale Chat-Anzahl erreicht. Bitte lösche alte Chats."
   },
   "shortcuts": {
     "askFollowUp": "Rückfrage",
     "askAI": "Neue Frage"
-  }, 
+  },
   "panels": {
     "errorExplanation": "🔧 Fehler-Erklärung",
     "debugHelp": "🔍 Debug-Hilfe",
@@ -395,7 +398,7 @@
   "config": {
     "updateAvailable": "Provider-Config Update verfügbar: {0} → {1}",
     "updateNow": "Jetzt aktualisieren",
-    "updateLater": "Später", 
+    "updateLater": "Später",
     "updatingConfigs": "Provider-Konfigurationen werden aktualisiert...",
     "updateSuccess": "Provider-Configs auf Version {0} aktualisiert",
     "updateFailed": "Config-Update fehlgeschlagen: {0}",
@@ -413,7 +416,7 @@
     "missingPlaceholder": "Fehler: Platzhalter {0} fehlt!",
     "missingPlaceholderMultiple": "Fehler: Platzhalter {0}, {1} oder {2} fehlt!",
     "standard": "Standard",
-    "custom": "Angepasst", 
+    "custom": "Angepasst",
     "modified": "Geändert",
     "saving": "Speichere",
     "saved": "Gespeichert",
@@ -425,7 +428,7 @@
   "time": {
     "justNow": "gerade eben",
     "minutesAgo": "vor {0}min",
-    "hoursAgo": "vor {0}h", 
+    "hoursAgo": "vor {0}h",
     "daysAgo": "vor {0}d"
   },
   "improveCode": {
@@ -442,7 +445,7 @@
     "outputFormatFile": "WICHTIG: Gib die komplette verbesserte Datei zurück. Format: ```cpp\n...\n```",
     "outputFormatSketch": "WICHTIG: Gib alle verbesserten Dateien zurück, jeweils mit Header. Format:\n```cpp\n// ========== DateiName.ino ==========\n...\n```"
   },
-    "addComments": {
+  "addComments": {
     "commentedCode": "Kommentierter Code",
     "customInstructions": "Eigene Anweisungen",
     "outputFormatSelection": "WICHTIG: Gib den Code-Abschnitt mit Kommentaren vollständig zurück. Format: ```cpp\n...\n```",

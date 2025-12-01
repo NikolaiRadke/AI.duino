@@ -24,7 +24,8 @@
     "openSettings": "Seaded",
     "runCustomAgent": "Käivita agent",
     "manageCustomAgents": "Halda agente",
-    "analyzeCode": "Analüüsi koodi (Võrguühenduseta)"
+    "analyzeCode": "Analüüsi koodi (Võrguühenduseta)",
+    "help": "Abi"
   },
   "messages": {
     "welcome": "👋 Tere tulemast! AI.duino toetab {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Kohanda seadeid",
     "runCustomAgent": "Vali ja käivita agent",
     "manageCustomAgents": "Loo ja halda kohandatud AI agente",
-    "analyzeCode": "Võrguühenduseta koodi analüüs ilma AI-ta"
+    "analyzeCode": "Võrguühenduseta koodi analüüs ilma AI-ta",
+    "help": "Ava veebipõhine abi GitHubis"
   },
   "language": {
     "autoDetect": "Tuvasta automaatselt VS Code-st",
@@ -282,7 +284,7 @@
     "sentCode": "Saadetud kood",
     "newChat": "Uus vestlus",
     "chats": "Vestlused",
-    "maxChatsReached": "Maksimaalne vestluste arv (10) saavutatud",
+    "maxChatsReached": "Maksimaalne vestluste arv saavutatud. Palun kustuta vanad vestlused.",
     "cannotDeleteLastChat": "Viimast vestlust ei saa kustutada",
     "confirmDelete": "Kas kustutada vestlus?",
     "noChatsYet": "Vestlusi pole veel",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Kasuta viimast konteksti uuesti",
     "arduinoMode": "Arduino",
     "generalMode": "Üldine",
-    "toggleMode": "Vaheta režiimi"
+    "toggleMode": "Saada plaadi teave",
+    "continueInChat": "Jätka vestluses",
+    "historyNotAvailable": "Vestluse ajalugu pole saadaval"
   },
   "shortcuts": {
     "askFollowUp": "Täiendav küsimus",

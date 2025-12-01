@@ -24,7 +24,8 @@
     "openSettings": "Postavke",
     "runCustomAgent": "Pokreni agenta",
     "manageCustomAgents": "Upravljaj agentima",
-    "analyzeCode": "Analiziraj kod (Offline)"
+    "analyzeCode": "Analiziraj kod (Offline)",
+    "help": "Pomoć"
   },
   "messages": {
     "welcome": "👋 Dobrodošli! AI.duino podržava {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Prilagodi postavke",
     "runCustomAgent": "Odaberi i pokreni agenta",
     "manageCustomAgents": "Kreiraj i upravljaj prilagođenim AI agentima",
-    "analyzeCode": "Offline analiza koda bez AI"
+    "analyzeCode": "Offline analiza koda bez AI",
+    "help": "Otvori online pomoć na GitHubu"
   },
   "language": {
     "autoDetect": "Automatski prepoznaj iz VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Poslani kod",
     "newChat": "Novi chat",
     "chats": "Chatovi",
-    "maxChatsReached": "Dostignut maksimalan broj chatova (10)",
+    "maxChatsReached": "Dostignut maksimalan broj chatova. Molimo obrišite stare chatove.",
     "cannotDeleteLastChat": "Posljednji chat ne može biti obrisan",
     "confirmDelete": "Zaista obrisati chat?",
     "noChatsYet": "Još nema chatova",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Ponovo koristi posljednji kontekst",
     "arduinoMode": "Arduino",
     "generalMode": "Opšte",
-    "toggleMode": "Prebaci mod"
+    "toggleMode": "Pošalji informacije o ploči",
+    "continueInChat": "Nastavi u chatu",
+    "historyNotAvailable": "Historija chata nije dostupna"
   },
   "shortcuts": {
     "askFollowUp": "Dodatno pitanje",

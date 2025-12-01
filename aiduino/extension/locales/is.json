@@ -24,7 +24,8 @@
     "openSettings": "Stillingar",
     "runCustomAgent": "Keyra umboðsmann",
     "manageCustomAgents": "Stjórna umboðsmönnum",
-    "analyzeCode": "Greina kóða (Án nettengingar)"
+    "analyzeCode": "Greina kóða (Án nettengingar)",
+    "help": "Hjálp"
   },
   "messages": {
     "welcome": "👋 Velkominn! AI.duino styður {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Aðlaga stillingar",
     "runCustomAgent": "Velja og keyra umboðsmann",
     "manageCustomAgents": "Búa til og stjórna sérsniðnum gervigreind umboðsmönnum",
-    "analyzeCode": "Kóðagreining án nettengingar án gervigreindar"
+    "analyzeCode": "Kóðagreining án nettengingar án gervigreindar",
+    "help": "Opna hjálp á netinu á GitHub"
   },
   "language": {
     "autoDetect": "Greina sjálfkrafa frá VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Sendur kóði",
     "newChat": "Nýtt spjall",
     "chats": "Spjöll",
-    "maxChatsReached": "Hámarksfjöldi spjalla (10) náð",
+    "maxChatsReached": "Hámarksfjöldi spjalla náð. Vinsamlegast eyddu gömlum spjöllum.",
     "cannotDeleteLastChat": "Ekki hægt að eyða síðasta spjalli",
     "confirmDelete": "Eyða spjalli?",
     "noChatsYet": "Engin spjöll ennþá",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Endurnota síðasta samhengi",
     "arduinoMode": "Arduino",
     "generalMode": "Almennt",
-    "toggleMode": "Skipta um ham"
+    "toggleMode": "Senda upplýsingar um spjald",
+    "continueInChat": "Halda áfram í spjalli",
+    "historyNotAvailable": "Spjallsaga ekki tiltæk"
   },
   "shortcuts": {
     "askFollowUp": "Framhaldsspurning",

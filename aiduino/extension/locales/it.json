@@ -24,7 +24,8 @@
     "openSettings": "Impostazioni",
     "runCustomAgent": "Esegui agente",
     "manageCustomAgents": "Gestisci agenti",
-    "analyzeCode": "Analizza codice (Offline)"
+    "analyzeCode": "Analizza codice (Offline)",
+    "help": "Aiuto"
   },
   "messages": {
     "welcome": "👋 Benvenuto! AI.duino  supporta {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Personalizza impostazioni",
     "runCustomAgent": "Seleziona ed esegui agente",
     "manageCustomAgents": "Crea e gestisci agenti AI personalizzati",
-    "analyzeCode": "Analisi del codice offline senza IA"
+    "analyzeCode": "Analisi del codice offline senza IA",
+    "help": "Apri la guida online su GitHub"
   },
   "language": {
     "autoDetect": "Rileva automaticamente da VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Codice inviato",
     "newChat": "Nuova chat",
     "chats": "Chat",
-    "maxChatsReached": "Numero massimo di chat (10) raggiunto",
+    "maxChatsReached": "Numero massimo di chat raggiunto. Eliminare le chat più vecchie.",
     "cannotDeleteLastChat": "L'ultima chat non può essere eliminata",
     "confirmDelete": "Eliminare la chat?",
     "noChatsYet": "Nessuna chat ancora",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Riallega l'ultimo contesto utilizzato",
     "arduinoMode": "Arduino",
     "generalMode": "Generale",
-    "toggleMode": "Cambia modalità"
+    "toggleMode": "Invia informazioni sulla scheda",
+    "continueInChat": "Continua nella chat",
+    "historyNotAvailable": "Cronologia chat non disponibile"
   },
   "shortcuts": {
     "askFollowUp": "Domanda di seguito",

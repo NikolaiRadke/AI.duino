@@ -24,7 +24,8 @@
     "openSettings": "Settings",
     "runCustomAgent": "Run Agent",
     "manageCustomAgents": "Manage Agents",
-    "analyzeCode": "Analyze Code (Offline)"
+    "analyzeCode": "Analyze Code (Offline)",
+    "help": "Help"
   },
   "messages": {
     "welcome": "👋 Welcome! AI.duino  supports {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Customize settings",
     "runCustomAgent": "Select and run agent",
     "manageCustomAgents": "Create and manage custom AI agents",
-    "analyzeCode": "Offline code analysis without AI"
+    "analyzeCode": "Offline code analysis without AI",
+    "help": "Open online help on GitHub"
   },
   "language": {
     "autoDetect": "Auto-detect from VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Sent Code",
     "newChat": "New Chat",
     "chats": "Chats",
-    "maxChatsReached": "Maximum number of chats (10) reached",
+    "maxChatsReached": "Maximum number of chats reached. Please delete old chats.",
     "cannotDeleteLastChat": "Last chat cannot be deleted",
     "confirmDelete": "Really delete chat?",
     "noChatsYet": "No chats yet",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Reattach last used context",
     "arduinoMode": "Arduino",
     "generalMode": "General",
-    "toggleMode": "Switch Mode"
+    "toggleMode": "Send board information",
+    "continueInChat": "Continue in chat",
+    "historyNotAvailable": "Chat history not available"
   },
   "shortcuts": {
     "askFollowUp": "Follow-up question",

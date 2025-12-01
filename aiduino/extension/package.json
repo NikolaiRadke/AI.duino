@@ -2,7 +2,7 @@
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "AI-powered assistance for Arduino with Claude, ChatGPT, and other AIs: improve code, explain errors, debug help",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "publisher": "MonsterMaker",
   "engines": {
     "vscode": "^1.60.0"
@@ -54,7 +54,7 @@
     "commands": [
       {
         "command": "aiduino.quickMenu",
-        "title": "🤖 AI.duino",
+        "title": "ðŸ¤– AI.duino",
         "category": "AI.duino",
         "icon": "$(robot)"
       },
@@ -168,6 +168,12 @@
         "command": "aiduino.openSettings",
         "title": "Open Settings",
         "category": "AI.duino"
+      },
+      {
+        "command": "aiduino.openHelp",
+        "title": "Help",
+        "category": "AI.duino",
+        "icon": "$(question)"
       }
     ],
     "keybindings": [

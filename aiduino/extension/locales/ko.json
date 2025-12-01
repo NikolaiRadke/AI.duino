@@ -24,7 +24,8 @@
     "openSettings": "설정",
     "runCustomAgent": "에이전트 실행",
     "manageCustomAgents": "에이전트 관리",
-    "analyzeCode": "코드 분석 (오프라인)"
+    "analyzeCode": "코드 분석 (오프라인)",
+    "help": "도움말"
   },
   "messages": {
     "welcome": "👋 환영합니다! AI.duino {0}을(를) 지원합니다!",
@@ -125,7 +126,8 @@
     "openSettings": "설정 조정",
     "runCustomAgent": "에이전트 선택 및 실행",
     "manageCustomAgents": "맞춤형 AI 에이전트 생성 및 관리",
-    "analyzeCode": "AI 없이 오프라인 코드 분석"
+    "analyzeCode": "AI 없이 오프라인 코드 분석",
+    "help": "GitHub에서 온라인 도움말 열기"
   },
   "language": {
     "autoDetect": "VS Code에서 자동 감지",
@@ -282,7 +284,7 @@
     "sentCode": "전송된 코드",
     "newChat": "새 채팅",
     "chats": "채팅",
-    "maxChatsReached": "최대 채팅 수(10)에 도달했습니다",
+    "maxChatsReached": "최대 채팅 수에 도달했습니다. 이전 채팅을 삭제하세요.",
     "cannotDeleteLastChat": "마지막 채팅은 삭제할 수 없습니다",
     "confirmDelete": "채팅을 삭제하시겠습니까?",
     "noChatsYet": "아직 채팅이 없습니다",
@@ -299,7 +301,9 @@
     "reuseLastContext": "마지막 사용한 컨텍스트 재사용",
     "arduinoMode": "Arduino",
     "generalMode": "일반",
-    "toggleMode": "모드 전환"
+    "toggleMode": "보드 정보 전송",
+    "continueInChat": "채팅에서 계속하기",
+    "historyNotAvailable": "채팅 기록을 사용할 수 없습니다"
   },
   "shortcuts": {
     "askFollowUp": "추가 질문",

@@ -24,7 +24,8 @@
     "openSettings": "Inställningar",
     "runCustomAgent": "Kör agent",
     "manageCustomAgents": "Hantera agenter",
-    "analyzeCode": "Analysera kod (Offline)"
+    "analyzeCode": "Analysera kod (Offline)",
+    "help": "Hjälp"
   },
   "messages": {
     "welcome": "👋 Välkommen! AI.duino  stöder {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Anpassa inställningar",
     "runCustomAgent": "Välj och kör agent",
     "manageCustomAgents": "Skapa och hantera anpassade AI-agenter",
-    "analyzeCode": "Offline kodanalys utan AI"
+    "analyzeCode": "Offline kodanalys utan AI",
+    "help": "Öppna onlinehjälp på GitHub"
   },
   "language": {
     "autoDetect": "Upptäck automatiskt från VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Skickad kod",
     "newChat": "Ny chatt",
     "chats": "Chattar",
-    "maxChatsReached": "Maximalt antal chattar (10) uppnått",
+    "maxChatsReached": "Maximalt antal chattar uppnått. Radera gamla chattar.",
     "cannotDeleteLastChat": "Sista chatten kan inte tas bort",
     "confirmDelete": "Ta bort chatt?",
     "noChatsYet": "Inga chattar ännu",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Återanvänd senast använda kontext",
     "arduinoMode": "Arduino",
     "generalMode": "Allmän",
-    "toggleMode": "Växla läge"
+    "toggleMode": "Skicka kortinformation",
+    "continueInChat": "Fortsätt i chatten",
+    "historyNotAvailable": "Chatthistorik inte tillgänglig"
   },
   "shortcuts": {
     "askFollowUp": "Följdfråga",

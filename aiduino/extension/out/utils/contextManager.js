@@ -97,7 +97,7 @@ async function selectContextLevel(editor, selectedText, t, options = {}) {
     
     const choice = await vscode.window.showQuickPick(contextOptions, {
         placeHolder: t('context.selectLevel'),
-        ignoreFocusOut: true
+        ignoreFocusOut: false
     });
     
     if (!choice) return null;

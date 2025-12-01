@@ -24,7 +24,8 @@
     "openSettings": "Settings",
     "runCustomAgent": "Mexxi l-Aġent",
     "manageCustomAgents": "Immexxi l-Aġenti",
-    "analyzeCode": "Analizza l-kodiċi (Offline)"
+    "analyzeCode": "Analizza l-kodiċi (Offline)",
+    "help": "Għajnuna"
   },
   "messages": {
     "welcome": "👋 Merħba! AI.duino jappoġġa {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Aġġusta s-settings",
     "runCustomAgent": "Agħżel u mexxi l-aġent",
     "manageCustomAgents": "Oħloq u mmexxi aġenti AI personalizzati",
-    "analyzeCode": "Analiżi tal-kodiċi offline mingħajr AI"
+    "analyzeCode": "Analiżi tal-kodiċi offline mingħajr AI",
+    "help": "Iftaħ l-għajnuna onlajn fuq GitHub"
   },
   "language": {
     "autoDetect": "Awtomatikament minn VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Kodiċi mibgħut",
     "newChat": "Chat ġdid",
     "chats": "Chats",
-    "maxChatsReached": "Numru massimu ta' chats (10) milħuq",
+    "maxChatsReached": "Numru massimu ta' chats milħuq. Jekk jogħġbok ħassar chats antiki.",
     "cannotDeleteLastChat": "L-aħħar chat ma jistax jitħassar",
     "confirmDelete": "Tħassar il-chat?",
     "noChatsYet": "Għad m'hemm ebda chat",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Erġa' uża l-aħħar kuntest",
     "arduinoMode": "Arduino",
     "generalMode": "Ġenerali",
-    "toggleMode": "Ibdel il-modalità"
+    "toggleMode": "Ibgħat informazzjoni dwar il-bord",
+    "continueInChat": "Kompli fil-chat",
+    "historyNotAvailable": "Storja tal-chat mhix disponibbli"
   },
   "shortcuts": {
     "askFollowUp": "Mistoqsija follow-up",

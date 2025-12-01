@@ -24,7 +24,8 @@
     "openSettings": "Iestatījumi",
     "runCustomAgent": "Palaist aģentu",
     "manageCustomAgents": "Pārvaldīt aģentus",
-    "analyzeCode": "Analizēt kodu (Bezsaistē)"
+    "analyzeCode": "Analizēt kodu (Bezsaistē)",
+    "help": "Palīdzība"
   },
   "messages": {
     "welcome": "👋 Esiet sveicināti! AI.duino atbalsta {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Pielāgot iestatījumus",
     "runCustomAgent": "Izvēlēties un palaist aģentu",
     "manageCustomAgents": "Izveidot un pārvaldīt pielāgotus AI aģentus",
-    "analyzeCode": "Bezsaistes koda analīze bez AI"
+    "analyzeCode": "Bezsaistes koda analīze bez AI",
+    "help": "Atvērt tiešsaistes palīdzību vietnē GitHub"
   },
   "language": {
     "autoDetect": "Automātiski noteikt no VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Nosūtītais kods",
     "newChat": "Jauna saruna",
     "chats": "Sarunas",
-    "maxChatsReached": "Sasniegts maksimālais sarunu skaits (10)",
+    "maxChatsReached": "Sasniegts maksimālais tērzēšanas skaits. Lūdzu, izdzēsiet vecās tērzēšanas.",
     "cannotDeleteLastChat": "Pēdējo sarunu nevar dzēst",
     "confirmDelete": "Dzēst sarunu?",
     "noChatsYet": "Vēl nav sarunu",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Atkārtoti izmantot pēdējo kontekstu",
     "arduinoMode": "Arduino",
     "generalMode": "Vispārīgi",
-    "toggleMode": "Pārslēgt režīmu"
+    "toggleMode": "Nosūtīt plates informāciju",
+    "continueInChat": "Turpināt tērzēšanā",
+    "historyNotAvailable": "Tērzēšanas vēsture nav pieejama"
   },
   "shortcuts": {
     "askFollowUp": "Papildu jautājums",

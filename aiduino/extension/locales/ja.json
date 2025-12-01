@@ -24,7 +24,8 @@
     "openSettings": "設定",
     "runCustomAgent": "エージェントを実行",
     "manageCustomAgents": "エージェントを管理",
-    "analyzeCode": "コードを分析 (オフライン)"
+    "analyzeCode": "コードを分析 (オフライン)",
+    "help": "ヘルプ"
   },
   "messages": {
     "welcome": "👋 ようこそ！AI.duino は{0}をサポートしています！",
@@ -122,7 +123,8 @@
     "openSettings": "設定をカスタマイズ",
     "runCustomAgent": "エージェントを選択して実行",
     "manageCustomAgents": "カスタムAIエージェントを作成・管理",
-    "analyzeCode": "AIなしのオフラインコード分析"
+    "analyzeCode": "AIなしのオフラインコード分析",
+    "help": "GitHubでオンラインヘルプを開く"
   },
   "language": {
     "autoDetect": "VS Codeから自動検出",
@@ -278,7 +280,7 @@
     "sentCode": "送信されたコード",
     "newChat": "新しいチャット",
     "chats": "チャット",
-    "maxChatsReached": "チャット数の上限（10）に達しました",
+    "maxChatsReached": "チャットの最大数に達しました。古いチャットを削除してください。",
     "cannotDeleteLastChat": "最後のチャットは削除できません",
     "confirmDelete": "チャットを削除しますか？",
     "noChatsYet": "まだチャットがありません",
@@ -295,7 +297,9 @@
     "reuseLastContext": "最後に使用したコンテキストを再利用",
     "arduinoMode": "Arduino",
     "generalMode": "一般",
-    "toggleMode": "モードを切り替え"
+    "toggleMode": "ボード情報を送信",
+    "continueInChat": "チャットで続ける",
+    "historyNotAvailable": "チャット履歴は利用できません"
   },
   "shortcuts": {
     "askFollowUp": "追加質問",

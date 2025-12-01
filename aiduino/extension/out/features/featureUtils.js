@@ -285,8 +285,8 @@ async function showInputWithCreateQuickPickHistory(context, promptKey, placehold
         // Handle typing new values
         quickPick.onDidChangeValue((value) => {
             currentValue = value;
-            userSelectedHistoryItem = false; // User typed → reset history selection flag
-            isInitialSelection = false; // User interaction → no longer initial
+            userSelectedHistoryItem = false; // User typed â†’ reset history selection flag
+            isInitialSelection = false; // User interaction â†’ no longer initial
         });
         
         // Handle selection from history
@@ -382,30 +382,21 @@ function saveToHistory(context, category, input, metadata = {}) {
  * Generate action buttons for code blocks (unified approach)
  * Supports both event delegation (for chatPanel) and direct onclick handlers (for other features)
  * Uses event delegation when index is provided, otherwise generates inline onclick handlers
- * @param {Array} actions - Button actions to generate ['copy', 'insert', 'replace']
+ * @param {Array} actions - Button actions to generate: Only 'copy' is provided
  * @param {number|null} index - Code block index for event delegation, or null for direct onclick
  * @param {string} code - Code content for inline onclick handlers (ignored if using event delegation)
  * @param {Function} t - Translation function
  * @returns {string} HTML string with action buttons
  */
 function generateCodeBlockButtons(actions, index, code, t) {
-    return actions.map(action => {
-        const useEventDelegation = index !== null;
-        
-        const attrs = useEventDelegation 
-            ? `data-action="${action}" data-index="${index}"`
-            : `onclick="${action}Code(\`${(code || '').replace(/`/g, '\\`')}\`)"`; 
-        
-        const btnClass = action === 'replace' ? 'code-btn primary' : 'code-btn';
-        
-        const labels = {
-            copy: `📋 ${t('buttons.copy')}`,
-            insert: `📝 ${t('chat.insertCode')}`,
-            replace: `🔄 ${t('buttons.replaceOriginal')}`
-        };
-        
-        return `<button class="${btnClass}" ${attrs}>${labels[action] || ''}</button>`;
-    }).join('');
+    // Only copy button supported now
+    const useEventDelegation = index !== null;
+    
+    const attrs = useEventDelegation 
+        ? `data-action="copy" data-index="${index}"`
+        : `onclick="copyCode(\`${(code || '').replace(/`/g, '\\`')}\`)"`; 
+    
+    return `<button class="code-btn" ${attrs}>📋 ${t('buttons.copy')}</button>`;
 }
 
 /**
@@ -421,43 +412,6 @@ function setupStandardMessageHandler(panel, context, customHandlers = {}) {
             if (message.command === 'copyCode') {
                 await vscode.env.clipboard.writeText(shared.cleanHtmlCode(message.code));
                 vscode.window.showInformationMessage(context.t('messages.copiedToClipboard'));
-                return;
-            }
-            
-            // Standard: Insert code
-            if (message.command === 'insertCode') {
-                const editor = vscode.window.activeTextEditor;
-                if (!editor) {
-                    vscode.window.showWarningMessage(context.t('messages.noEditor'));
-                    return;
-                }
-                
-                await editor.edit(editBuilder => {
-                    editBuilder.insert(editor.selection.active, shared.cleanHtmlCode(message.code));
-                });
-                
-                vscode.window.showInformationMessage(context.t('messages.codeUpdated'));
-                return;
-            }
-
-            // Standard: Replace original code
-            if (message.command === 'replaceOriginal') {
-                if (!panel.originalEditor) {
-                    vscode.window.showWarningMessage(context.t('messages.noEditor'));
-                    return;
-                }
-    
-                await panel.originalEditor.edit(editBuilder => {
-                    if (panel.originalSelection && !panel.originalSelection.isEmpty) {
-                        // Replace selection
-                        editBuilder.replace(panel.originalSelection, shared.cleanHtmlCode(message.code));
-                    } else {
-                        // Insert at cursor if no selection
-                        editBuilder.insert(panel.originalEditor.selection.active, shared.cleanHtmlCode(message.code));
-                    }
-                });
-    
-                vscode.window.showInformationMessage(context.t('messages.codeUpdated'));
                 return;
             }
             
@@ -483,11 +437,11 @@ function setupStandardMessageHandler(panel, context, customHandlers = {}) {
  * Returns HTML + codeBlocks array for event handling
  * @param {string} response - AI response text
  * @param {string} codeBlockTitle - Title for code blocks
- * @param {Array} buttonActions - Button actions ['copy', 'insert', 'replace']
+ * @param {Array} buttonActions - Button actions ['copy']
  * @param {Function} t - Translation function
  * @returns {Object} {processedHtml, codeBlocks}
  */
-function processAiCodeBlocksWithEventDelegation(response, codeBlockTitle, buttonActions = ['copy', 'insert'], t) {
+function processAiCodeBlocksWithEventDelegation(response, codeBlockTitle, buttonActions = ['copy'], t) {
     const codeBlocks = [];
     
     let processed = response.replace(/```(?:cpp|c|arduino)?\s*\n([\s\S]*?)\n```/g, (match, codeContent) => {
@@ -529,7 +483,7 @@ function processAiCodeBlocksWithEventDelegation(response, codeBlockTitle, button
  * @param {Function} t - Translation function
  * @returns {Object} {html: string, codeBlocks: Array} - Processed HTML and extracted code blocks array
  */
-function processMessageWithCodeBlocks(text, messageId, t, buttonActions = ['copy', 'insert', 'replace']) {
+function processMessageWithCodeBlocks(text, messageId, t, buttonActions = ['copy']) {
     const codeBlocks = [];
     
     let processed = text.replace(/```(?:cpp|c|arduino)?\s*\n([\s\S]*?)```/g, (match, codeContent) => {
@@ -542,17 +496,9 @@ function processMessageWithCodeBlocks(text, messageId, t, buttonActions = ['copy
     processed = processed.replace(/\n/g, '<br>');
     
     codeBlocks.forEach((code, index) => {
-        const buttons = buttonActions.map(action => {
-            const btnClass = action === 'replace' ? 'code-btn primary' : 'code-btn';
-            const labels = {
-                copy: `📋 ${t('buttons.copy')}`,
-                insert: `📄 ${t('chat.insertCode')}`,
-                replace: `🔄 ${t('buttons.replaceOriginal')}`
-            };
-            return `<button class="${btnClass}" data-action="${action}" data-message-id="${messageId}" data-index="${index}">
-                ${labels[action]}
-            </button>`;
-        }).join('');
+        const buttons = `<button class="code-btn" data-action="copy" data-message-id="${messageId}" data-index="${index}">
+            📋 ${t('buttons.copy')}
+        </button>`;
         
         const html = `<div class="code-block" data-message-id="${messageId}" data-code-index="${index}">
             <div class="code-header">
@@ -638,7 +584,7 @@ function generateContextMenu(t, options = {}) {
         <div id="ctxMenuOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:9998;"></div>
         <div id="ctxMenu" class="context-menu" style="display:none;">
             <div class="context-menu-item" data-action="copy" id="ctxMenuCopy">📋 ${t('buttons.copy')}</div>
-            ${showPaste ? `<div class="context-menu-item" data-action="paste" id="ctxMenuPaste">📄 ${t('chat.insertCode')}</div>` : ''}
+            ${showPaste ? `<div class="context-menu-item" data-action="paste" id="ctxMenuPaste">📝 ${t('chat.insertCode')}</div>` : ''}
             ${showFollowUp ? `<div class="context-menu-item" data-action="followup">↩️ ${t('shortcuts.askFollowUp')}</div>` : ''}
             ${showClose ? `<div class="context-menu-item" data-action="close">✖ ${t('buttons.close')}</div>` : ''}
         </div>
@@ -831,10 +777,6 @@ function generateCodeBlockHandlers(codeBlocks, t, options = {}) {
                 
                 if (action === 'copy') {
                     vscode.postMessage({ command: 'copyCode', code: code });
-                } else if (action === 'insert') {
-                    vscode.postMessage({ command: 'insertCode', code: code });
-                } else if (action === 'replace') {
-                    vscode.postMessage({ command: 'replaceCode', code: code });
                 }
             });
             

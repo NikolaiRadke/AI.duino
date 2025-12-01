@@ -101,7 +101,7 @@ function buildMenuItems(context) {
     // Follow-up option if context exists
     if (shared.hasValidContext(aiConversationContext)) {
         coreItems.push({
-            label: `$(question) ↳ ${t('commands.askFollowUp')}`,
+            label: `$(question) â†³ ${t('commands.askFollowUp')}`,
             description: t('descriptions.askFollowUp', 
                 formatQuestionPreview(aiConversationContext.lastQuestion, aiConversationContext.timestamp)),
             command: 'aiduino.askFollowUp'
@@ -127,6 +127,13 @@ function buildMenuItems(context) {
         label: `$(info) ${t('commands.about')}`,
         description: `Version ${EXTENSION_VERSION}`,
         command: 'aiduino.about'
+    });
+
+    // Help
+    infoItems.push({
+        label: `$(question) ${t('commands.help')}`,
+        description: t('descriptions.help'),
+        command: 'aiduino.openHelp'
     });
 
     // Settings
@@ -190,7 +197,7 @@ function getInlineCompletionStatus(context) {
         return '○'; 
     }
     
-    return enabled ? '✓' : '✗';
+     return enabled ? '✓' : '✗';
 }
 
 module.exports = {

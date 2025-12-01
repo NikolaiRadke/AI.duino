@@ -24,7 +24,8 @@
     "openSettings": "Setări",
     "runCustomAgent": "Rulează agentul",
     "manageCustomAgents": "Gestionează agenții",
-    "analyzeCode": "Analizează cod (Offline)"
+    "analyzeCode": "Analizează cod (Offline)",
+    "help": "Ajutor"
   },
   "messages": {
     "welcome": "👋 Bun venit! AI.duino suportă {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Ajustează setările",
     "runCustomAgent": "Selectează și rulează agentul",
     "manageCustomAgents": "Creează și gestionează agenți AI personalizați",
-    "analyzeCode": "Analiză cod offline fără AI"
+    "analyzeCode": "Analiză cod offline fără AI",
+    "help": "Deschide ajutorul online pe GitHub"
   },
   "labels": {
     "active": "Activ",
@@ -276,7 +278,7 @@
     "sentCode": "Cod trimis",
     "newChat": "Chat nou",
     "chats": "Chat-uri",
-    "maxChatsReached": "Număr maxim de chat-uri (10) atins",
+    "maxChatsReached": "Număr maxim de chat-uri atins. Vă rugăm să ștergeți chat-urile vechi.",
     "cannotDeleteLastChat": "Ultimul chat nu poate fi șters",
     "confirmDelete": "Șterge chat-ul?",
     "noChatsYet": "Încă nu există chat-uri",
@@ -293,7 +295,9 @@
     "reuseLastContext": "Refolosește ultimul context",
     "arduinoMode": "Arduino",
     "generalMode": "General",
-    "toggleMode": "Schimbă modul"
+    "toggleMode": "Trimite informații despre placă",
+    "continueInChat": "Continuă în chat",
+    "historyNotAvailable": "Istoricul chat-ului nu este disponibil"
   },
   "shortcuts": {
     "askFollowUp": "Întrebare de urmărire",

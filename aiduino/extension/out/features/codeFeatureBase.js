@@ -107,6 +107,10 @@ async function executeCodeFeature(context, config) {
                 context
             });
 
+            // Store data for "Continue in Chat" feature
+            panel.userPrompt = prompt;
+            panel.aiResponse = response;
+
             // 10. Store original selection for replacement
             panel.originalEditor = editor;
             panel.originalSelection = selection;
@@ -118,7 +122,12 @@ async function executeCodeFeature(context, config) {
     
     // 11. Setup message handler
     if (panel) {
-        featureUtils.setupStandardMessageHandler(panel, context, {});
+        featureUtils.setupStandardMessageHandler(panel, context, {
+            continueInChat: async (message) => {
+                const chatPanel = require('./chatPanel');
+                await chatPanel.continueInChat(panel.userPrompt, panel.aiResponse, context);
+            }
+        });
     }
     
     return panel;
@@ -147,7 +156,7 @@ function createCodeFeatureHtml(options) {
         aiResponse,
         commandKey,
         t,
-        ['copy', 'insert', 'replace']
+        ['copy']
     );
     const codeBlocks = processedHtml.codeBlocks;
     
@@ -163,7 +172,7 @@ function createCodeFeatureHtml(options) {
             <title>${t(`commands.${commandKey}`)}</title>
             ${getSharedCSS(context.settings.get('cardStyle'))}
         </head>
-        <body>
+<body>
             ${featureUtils.generateContextMenu(t).html}
             
             <h1>${icon} ${t(`commands.${commandKey}`)}</h1>
@@ -182,7 +191,23 @@ function createCodeFeatureHtml(options) {
                 ${processedHtml.html}
             </div>
             
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+                <button 
+                    class="action-btn" 
+                    onclick="continueInChat()" 
+                    style="padding: 10px 20px; font-size: 14px;"
+                    title="${t('chat.continueInChat')}">
+                    💬 ${t('chat.continueInChat')}
+                </button>
+            </div>
+            
             ${featureUtils.getBoardInfoHTML(t)}
+            
+            <script>
+                function continueInChat() {
+                    vscode.postMessage({ command: 'continueInChat' });
+                }
+            </script>
             
             ${featureUtils.generateCodeBlockHandlers(codeBlocks, t, { includeBackButton: false })}
             

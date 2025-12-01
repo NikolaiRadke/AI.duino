@@ -24,7 +24,8 @@
     "openSettings": "Ayarlar",
     "runCustomAgent": "Ajanı Çalıştır",
     "manageCustomAgents": "Ajanları Yönet",
-    "analyzeCode": "Kodu analiz et (Çevrimdışı)"
+    "analyzeCode": "Kodu analiz et (Çevrimdışı)",
+    "help": "Yardım"
   },
   "messages": {
     "welcome": "👋 Hoş geldiniz! AI.duino  {0} destekliyor!",
@@ -125,7 +126,8 @@
     "openSettings": "Ayarları düzenle",
     "runCustomAgent": "Ajan seç ve çalıştır",
     "manageCustomAgents": "Özel AI ajanları oluştur ve yönet",
-    "analyzeCode": "AI olmadan çevrimdışı kod analizi"
+    "analyzeCode": "AI olmadan çevrimdışı kod analizi",
+    "help": "GitHub'da çevrimiçi yardımı aç"
   },
   "language": {
     "autoDetect": "VS Code'dan otomatik algıla",
@@ -282,7 +284,7 @@
     "sentCode": "Gönderilen kod",
     "newChat": "Yeni sohbet",
     "chats": "Sohbetler",
-    "maxChatsReached": "Maksimum sohbet sayısına (10) ulaşıldı",
+    "maxChatsReached": "Maksimum sohbet sayısına ulaşıldı. Lütfen eski sohbetleri silin.",
     "cannotDeleteLastChat": "Son sohbet silinemiyor",
     "confirmDelete": "Sohbet silinsin mi?",
     "noChatsYet": "Henüz sohbet yok",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Son kullanılan bağlamı tekrar ekle",
     "arduinoMode": "Arduino",
     "generalMode": "Genel",
-    "toggleMode": "Modu değiştir"
+    "toggleMode": "Kart bilgilerini gönder",
+    "continueInChat": "Sohbette devam et",
+    "historyNotAvailable": "Sohbet geçmişi mevcut değil"
   },
   "shortcuts": {
     "askFollowUp": "Takip sorusu",

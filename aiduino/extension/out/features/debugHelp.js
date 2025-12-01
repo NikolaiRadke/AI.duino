@@ -81,8 +81,8 @@ async function debugHelp(context) {
             // Process response with code blocks
             const { processedHtml, codeBlocks } = featureUtils.processAiCodeBlocksWithEventDelegation(
                 response,
-                `🔧 ${context.t('debugHelp.debugSolutionTitle')}`,
-                ['copy', 'insert'],
+                `ðŸ”§ ${context.t('debugHelp.debugSolutionTitle')}`,
+                ['copy'],
                 context.t
             );
             
@@ -91,6 +91,10 @@ async function debugHelp(context) {
                 'aiDebugHelp',
                 context.t('panels.debugHelp')
             );
+            
+            // Store data for "Continue in Chat" feature
+            panel.userPrompt = prompt;
+            panel.aiResponse = response;
             
             // Create context badge before HTML generation
             const contextBadge = contextManager.getContextBadgeHtml(contextData, context.t);
@@ -113,7 +117,12 @@ async function debugHelp(context) {
     
     // Message Handler
     if (panel) {
-        featureUtils.setupStandardMessageHandler(panel, context);
+        featureUtils.setupStandardMessageHandler(panel, context, {
+            continueInChat: async (message) => {
+                const chatPanel = require('./chatPanel');
+                await chatPanel.continueInChat(panel.userPrompt, panel.aiResponse, context);
+            }
+        });
     }
 }
 
@@ -304,7 +313,7 @@ function createDebugHelpHtml(debugType, processedResponse, codeBlocks, contextBa
     
     const mainContent = `
         <div class="info-section">
-            <h3>🤖 AI Debug Analysis:</h3>
+            <h3>ðŸ¤– AI Debug Analysis:</h3>
             ${processedResponse}
         </div>
     `;
@@ -318,7 +327,8 @@ function createDebugHelpHtml(debugType, processedResponse, codeBlocks, contextBa
         codeBlocks,
         t,
         showFollowUp: false,
-        context
+        context,
+        showContinueInChat: true
     });
 }
 

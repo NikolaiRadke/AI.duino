@@ -24,7 +24,8 @@
     "openSettings": "Ustawienia",
     "runCustomAgent": "Uruchom agenta",
     "manageCustomAgents": "Zarządzaj agentami",
-    "analyzeCode": "Analizuj kod (Offline)"
+    "analyzeCode": "Analizuj kod (Offline)",
+    "help": "Pomoc"
   },
   "messages": {
     "welcome": "👋 Witaj! AI.duino  obsługuje {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Dostosuj ustawienia",
     "runCustomAgent": "Wybierz i uruchom agenta",
     "manageCustomAgents": "Twórz i zarządzaj niestandardowymi agentami AI",
-    "analyzeCode": "Analiza kodu offline bez AI"
+    "analyzeCode": "Analiza kodu offline bez AI",
+    "help": "Otwórz pomoc online na GitHubie"
   },
   "language": {
     "autoDetect": "Wykryj automatycznie z VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Wysłany kod",
     "newChat": "Nowy czat",
     "chats": "Czaty",
-    "maxChatsReached": "Osiągnięto maksymalną liczbę czatów (10)",
+    "maxChatsReached": "Osiągnięto maksymalną liczbę czatów. Usuń stare czaty.",
     "cannotDeleteLastChat": "Ostatni czat nie może zostać usunięty",
     "confirmDelete": "Usunąć czat?",
     "noChatsYet": "Brak czatów",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Użyj ponownie ostatniego kontekstu",
     "arduinoMode": "Arduino",
     "generalMode": "Ogólny",
-    "toggleMode": "Przełącz tryb"
+    "toggleMode": "Wyślij informacje o płytce",
+    "continueInChat": "Kontynuuj na czacie",
+    "historyNotAvailable": "Historia czatu niedostępna"
   },
   "shortcuts": {
     "askFollowUp": "Pytanie uzupełniające",

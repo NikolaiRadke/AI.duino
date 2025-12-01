@@ -24,7 +24,8 @@
     "openSettings": "设置",
     "runCustomAgent": "运行代理",
     "manageCustomAgents": "管理代理",
-    "analyzeCode": "分析代码（离线）"
+    "analyzeCode": "分析代码（离线）",
+    "help": "帮助"
   },
   "messages": {
     "welcome": "👋 欢迎！AI.duino 支持{0}！",
@@ -125,7 +126,8 @@
     "openSettings": "自定义设置",
     "runCustomAgent": "选择并运行代理",
     "manageCustomAgents": "创建和管理自定义AI代理",
-    "analyzeCode": "无需AI的离线代码分析"
+    "analyzeCode": "无需AI的离线代码分析",
+    "help": "在GitHub上打开在线帮助"
   },
   "language": {
     "autoDetect": "从 VS Code 自动检测",
@@ -282,7 +284,7 @@
     "sentCode": "已发送的代码",
     "newChat": "新聊天",
     "chats": "聊天",
-    "maxChatsReached": "已达到最大聊天数量（10）",
+    "maxChatsReached": "已达到最大聊天数量。请删除旧聊天。",
     "cannotDeleteLastChat": "无法删除最后一个聊天",
     "confirmDelete": "确定删除聊天？",
     "noChatsYet": "还没有聊天",
@@ -299,7 +301,9 @@
     "reuseLastContext": "重用最后使用的上下文",
     "arduinoMode": "Arduino",
     "generalMode": "通用",
-    "toggleMode": "切换模式"
+    "toggleMode": "发送开发板信息",
+    "continueInChat": "在聊天中继续",
+    "historyNotAvailable": "聊天记录不可用"
   },
   "shortcuts": {
     "askFollowUp": "追问",

@@ -79,9 +79,9 @@ class QuickMenuTreeProvider {
             treeItems.push(this.createSeparator());
         }
     
-        // Block 3: Info items (Stats, About - NO Board)
+        // Block 3: Info items (Stats, About, Help, Settings - NO Board)
         const infoItems = menuItems.filter(item => 
-            item.command && ['showTokenStats', 'about', 'openSettings'].some(cmd => 
+            item.command && ['showTokenStats', 'about', 'openHelp', 'openSettings'].some(cmd => 
                 item.command.includes(cmd)
             )
         );

@@ -24,7 +24,8 @@
     "openSettings": "Beállítások",
     "runCustomAgent": "Ügynök futtatása",
     "manageCustomAgents": "Ügynökök kezelése",
-    "analyzeCode": "Kód elemzése (Offline)"
+    "analyzeCode": "Kód elemzése (Offline)",
+    "help": "Súgó"
   },
   "messages": {
     "welcome": "Üdvözöl a {0} támogatásával!",
@@ -125,7 +126,8 @@
     "openSettings": "Beállítások módosítása",
     "runCustomAgent": "Ügynök kiválasztása és futtatása",
     "manageCustomAgents": "Egyéni AI ügynökök létrehozása és kezelése",
-    "analyzeCode": "Offline kódelemzés AI nélkül"
+    "analyzeCode": "Offline kódelemzés AI nélkül",
+    "help": "Online súgó megnyitása a GitHubon"
   },
   "language": {
     "autoDetect": "Automatikus felismerés VS Code-ból",
@@ -282,7 +284,7 @@
     "sentCode": "Elküldött kód",
     "newChat": "Új beszélgetés",
     "chats": "Beszélgetések",
-    "maxChatsReached": "Maximális beszélgetések száma (10) elérve",
+    "maxChatsReached": "Elérte a maximális chat-számot. Kérjük, töröljön régi chateket.",
     "cannotDeleteLastChat": "Az utolsó beszélgetést nem lehet törölni",
     "confirmDelete": "Beszélgetés törlése?",
     "noChatsYet": "Még nincsenek beszélgetések",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Utolsó kontextus újrafelhasználása",
     "arduinoMode": "Arduino",
     "generalMode": "Általános",
-    "toggleMode": "Mód váltása"
+    "toggleMode": "Kártyainformációk küldése",
+    "continueInChat": "Folytatás a chatben",
+    "historyNotAvailable": "Chat-előzmények nem elérhetők"
   },
   "shortcuts": {
     "askFollowUp": "Követő kérdés",

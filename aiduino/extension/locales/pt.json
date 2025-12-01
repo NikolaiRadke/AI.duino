@@ -24,7 +24,8 @@
     "openSettings": "Configurações",
     "runCustomAgent": "Executar agente",
     "manageCustomAgents": "Gerir agentes",
-    "analyzeCode": "Analisar código (Offline)"
+    "analyzeCode": "Analisar código (Offline)",
+    "help": "Ajuda"
   },
   "messages": {
     "welcome": "👋 Bem-vindo! AI.duino  suporta {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Personalizar configurações",
     "runCustomAgent": "Selecionar e executar agente",
     "manageCustomAgents": "Criar e gerir agentes de IA personalizados",
-    "analyzeCode": "Análise de código offline sem IA"
+    "analyzeCode": "Análise de código offline sem IA",
+    "help": "Abrir ajuda online no GitHub"
   },
   "language": {
     "autoDetect": "Detectar automaticamente do VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Código enviado",
     "newChat": "Novo chat",
     "chats": "Chats",
-    "maxChatsReached": "Número máximo de chats (10) atingido",
+    "maxChatsReached": "Número máximo de chats atingido. Por favor, exclua chats antigos.",
     "cannotDeleteLastChat": "O último chat não pode ser excluído",
     "confirmDelete": "Excluir chat?",
     "noChatsYet": "Ainda não há chats",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Reutilizar último contexto usado",
     "arduinoMode": "Arduino",
     "generalMode": "Geral",
-    "toggleMode": "Alternar modo"
+    "toggleMode": "Enviar informações da placa",
+    "continueInChat": "Continuar no chat",
+    "historyNotAvailable": "Histórico de chat não disponível"
   },
   "shortcuts": {
     "askFollowUp": "Pergunta de acompanhamento",

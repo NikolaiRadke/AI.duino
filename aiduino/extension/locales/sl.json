@@ -24,7 +24,8 @@
     "openSettings": "Nastavitve",
     "runCustomAgent": "Zaženi agenta",
     "manageCustomAgents": "Upravljaj agente",
-    "analyzeCode": "Analiziraj kodo (Brez povezave)"
+    "analyzeCode": "Analiziraj kodo (Brez povezave)",
+    "help": "Pomoč"
   },
   "messages": {
     "welcome": "Dobrodošli! AI.duino podpira {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Prilagodi nastavitve",
     "runCustomAgent": "Izberi in zaženi agenta",
     "manageCustomAgents": "Ustvari in upravljaj prilagojene AI agente",
-    "analyzeCode": "Analiza kode brez povezave brez AI"
+    "analyzeCode": "Analiza kode brez povezave brez AI",
+    "help": "Odpri spletno pomoč na GitHubu"
   },
   "language": {
     "autoDetect": "Samodejno zaznavanje iz VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Poslana koda",
     "newChat": "Nov klepet",
     "chats": "Klepeti",
-    "maxChatsReached": "Doseženo največje število klepetov (10)",
+    "maxChatsReached": "Doseženo največje število klepetov. Izbrišite stare klepete.",
     "cannotDeleteLastChat": "Zadnjega klepeta ni mogoče izbrisati",
     "confirmDelete": "Izbrisati klepet?",
     "noChatsYet": "Še ni klepetov",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Ponovno uporabi zadnji kontekst",
     "arduinoMode": "Arduino",
     "generalMode": "Splošno",
-    "toggleMode": "Preklopi način"
+    "toggleMode": "Pošlji informacije o plošči",
+    "continueInChat": "Nadaljuj v klepetu",
+    "historyNotAvailable": "Zgodovina klepeta ni na voljo"
   },
   "shortcuts": {
     "askFollowUp": "Nadaljnje vprašanje",

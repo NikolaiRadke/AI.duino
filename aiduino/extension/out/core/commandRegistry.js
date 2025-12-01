@@ -145,6 +145,13 @@ class CommandRegistry {
                 handler: deps.showSettings,
                 description: 'Open Settings'
             },
+            {
+                name: 'aiduino.openHelp',
+                handler: () => {
+                    vscode.env.openExternal(vscode.Uri.parse('https://github.com/NikolaiRadke/AI.duino/blob/main/HELP.md'));
+                },
+                description: 'Open Help Documentation'
+            },
 
             // Inline Completion
            {

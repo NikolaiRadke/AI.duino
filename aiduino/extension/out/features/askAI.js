@@ -253,7 +253,7 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
     const { processedHtml: processedResponse, codeBlocks } = featureUtils.processAiCodeBlocksWithEventDelegation(
         response,
         `💡 ${t('askAI.codeSuggestionTitle')}`,
-        ['copy', 'insert'],
+        ['copy'],
         t
     );
 

@@ -24,7 +24,8 @@
     "openSettings": "Nustatymai",
     "runCustomAgent": "Paleisti agentą",
     "manageCustomAgents": "Valdyti agentus",
-    "analyzeCode": "Analizuoti kodą (Neprisijungus)"
+    "analyzeCode": "Analizuoti kodą (Neprisijungus)",
+    "help": "Pagalba"
   },
   "messages": {
     "welcome": "👋 Sveiki! AI.duino palaiko {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Pritaikyti nustatymus",
     "runCustomAgent": "Pasirinkti ir paleisti agentą",
     "manageCustomAgents": "Kurti ir valdyti pasirinktinius AI agentus",
-    "analyzeCode": "Kodo analizė neprisijungus be AI"
+    "analyzeCode": "Kodo analizė neprisijungus be AI",
+    "help": "Atidaryti pagalbą internete GitHube"
   },
   "language": {
     "autoDetect": "Automatiškai nustatyti iš VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Išsiųstas kodas",
     "newChat": "Naujas pokalbis",
     "chats": "Pokalbiai",
-    "maxChatsReached": "Pasiektas maksimalus pokalbių skaičius (10)",
+    "maxChatsReached": "Pasiektas maksimalus pokalbių skaičius. Prašome ištrinti senus pokalbius.",
     "cannotDeleteLastChat": "Paskutinio pokalbio ištrinti negalima",
     "confirmDelete": "Ištrinti pokalbį?",
     "noChatsYet": "Dar nėra pokalbių",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Pakartotinai naudoti paskutinį kontekstą",
     "arduinoMode": "Arduino",
     "generalMode": "Bendras",
-    "toggleMode": "Perjungti režimą"
+    "toggleMode": "Siųsti plokštės informaciją",
+    "continueInChat": "Tęsti pokalbyje",
+    "historyNotAvailable": "Pokalbio istorija nepasiekiama"
   },
   "shortcuts": {
     "askFollowUp": "Papildomas klausimas",

@@ -24,7 +24,8 @@
     "openSettings": "Cilësimet",
     "runCustomAgent": "Ekzekuto agentin",
     "manageCustomAgents": "Menaxho agentët",
-    "analyzeCode": "Analizoni kodin (Offline)"
+    "analyzeCode": "Analizoni kodin (Offline)",
+    "help": "Ndihmë"
   },
   "messages": {
     "welcome": "👋 Mirë se vini! AI.duino mbështet {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Përshtat cilësimet",
     "runCustomAgent": "Zgjidh dhe ekzekuto agentin",
     "manageCustomAgents": "Krijo dhe menaxho agentë AI të personalizuar",
-    "analyzeCode": "Analizë kodi offline pa AI"
+    "analyzeCode": "Analizë kodi offline pa AI",
+    "help": "Hap ndihmën online në GitHub"
   },
   "language": {
     "autoDetect": "Zbulo automatikisht nga VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Kod i dërguar",
     "newChat": "Bisedë e re",
     "chats": "Biseda",
-    "maxChatsReached": "Numri maksimal i bisedave (10) u arrit",
+    "maxChatsReached": "Numri maksimal i bisedave është arritur. Ju lutemi fshini bisedat e vjetra.",
     "cannotDeleteLastChat": "Biseda e fundit nuk mund të fshihet",
     "confirmDelete": "Fshi bisedën?",
     "noChatsYet": "Ende pa biseda",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Ripërdor kontekstin e fundit",
     "arduinoMode": "Arduino",
     "generalMode": "I përgjithshëm",
-    "toggleMode": "Ndrysho mënyrën"
+    "toggleMode": "Dërgo informacione për kartën",
+    "continueInChat": "Vazhdo në bisedë",
+    "historyNotAvailable": "Historia e bisedës nuk është e disponueshme"
   },
   "shortcuts": {
     "askFollowUp": "Pyetje shtesë",

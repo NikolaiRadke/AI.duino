@@ -740,9 +740,9 @@ function updateAttachmentButtons(panel, context) {
         
         // Process message content
         let messageContent;
-        if (!isUser && msg.text.includes('```')) {
+        if (!isUser && msg.text && msg.text.includes('```')) {
             // AI message with code blocks - process like improveCode.js
-            const result = featureUtils.processMessageWithCodeBlocks(msg.text, msg.id, t, ['copy', 'insert']);
+            const result = featureUtils.processMessageWithCodeBlocks(msg.text, msg.id, t, ['copy']);
             messageContent = result.html;
             allCodeBlocks[msg.id] = result.codeBlocks;
         } else if (isUser && !msg.text && msg.code) {       
@@ -750,7 +750,7 @@ function updateAttachmentButtons(panel, context) {
             messageContent = `<em style="opacity: 0.7">[${t('chat.filesSent')}]</em>`;
         } else {
             // Simple text message
-            messageContent = shared.escapeHtml(msg.text).replace(/\n/g, '<br>');
+            messageContent = shared.escapeHtml(msg.text || '').replace(/\n/g, '<br>');
         }
 
         messagesHTML += `
@@ -922,11 +922,7 @@ function updateAttachmentButtons(panel, context) {
 
                     if (action === 'copy') {
                         vscode.postMessage({ command: 'copyCode', code: code });
-                    } else if (action === 'insert') {
-                        vscode.postMessage({ command: 'insertCode', code: code });
-                    } else if (action === 'replace') {
-                        vscode.postMessage({ command: 'replaceOriginal', code: code });
-                    }
+                    } 
                 });
 
                 // Context menu
@@ -1039,7 +1035,43 @@ function updateAttachmentButtons(panel, context) {
     `;
 }   
 
+/**
+ * Continue from another feature in chat
+ * @param {string} userPrompt - Original user prompt/code
+ * @param {string} aiResponse - AI response to continue from
+ * @param {Object} context - Extension context
+ */
+async function continueInChat(userPrompt, aiResponse, context) {
+    // First open chat panel (this initializes historyManager)
+    await showChatPanel(context);
+    
+    // Now check if chat history is available
+    if (!historyManager) {
+        vscode.window.showErrorMessage(context.t('chat.historyNotAvailable'));
+        return;
+    }
+    
+    // Create new chat
+    const chatId = historyManager.createNewChat('');
+    
+    // Check if chat creation failed (max chats reached)
+    if (!chatId) {
+        vscode.window.showWarningMessage(context.t('chat.maxChatsReached'));
+        return;
+    }
+    
+    historyManager.addMessage('user', userPrompt, null);
+    historyManager.addMessage('ai', aiResponse, null);
+    
+    // Switch to chat view and update
+    currentView = 'chat';
+    const panel = panelManager.getPanel('aiduinoChatPanel');
+    if (panel) {
+        updatePanelContent(panel, context);
+    }
+}
 
 module.exports = {
-    showChatPanel
+    showChatPanel,
+    continueInChat
 };

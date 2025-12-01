@@ -24,7 +24,8 @@
     "openSettings": "Instellingen",
     "runCustomAgent": "Voer agent uit",
     "manageCustomAgents": "Beheer agents",
-    "analyzeCode": "Analyseer code (Offline)"
+    "analyzeCode": "Analyseer code (Offline)",
+    "help": "Help"
   },
   "messages": {
     "welcome": "👋 Welkom! AI.duino  ondersteunt {0}!",
@@ -125,7 +126,8 @@
     "openSettings": "Pas instellingen aan",
     "runCustomAgent": "Selecteer en voer agent uit",
     "manageCustomAgents": "Maak en beheer aangepaste AI-agents",
-    "analyzeCode": "Offline code-analyse zonder AI"
+    "analyzeCode": "Offline code-analyse zonder AI",
+    "help": "Open online hulp op GitHub"
   },
   "language": {
     "autoDetect": "Automatisch detecteren vanuit VS Code",
@@ -282,7 +284,7 @@
     "sentCode": "Verzonden code",
     "newChat": "Nieuwe chat",
     "chats": "Chats",
-    "maxChatsReached": "Maximum aantal chats (10) bereikt",
+    "maxChatsReached": "Maximum aantal chats bereikt. Verwijder oude chats.",
     "cannotDeleteLastChat": "Laatste chat kan niet worden verwijderd",
     "confirmDelete": "Chat verwijderen?",
     "noChatsYet": "Nog geen chats",
@@ -299,7 +301,9 @@
     "reuseLastContext": "Laatst gebruikte context hergebruiken",
     "arduinoMode": "Arduino",
     "generalMode": "Algemeen",
-    "toggleMode": "Modus wisselen"
+    "toggleMode": "Boardinformatie verzenden",
+    "continueInChat": "Doorgaan in chat",
+    "historyNotAvailable": "Chatgeschiedenis niet beschikbaar"
   },
   "shortcuts": {
     "askFollowUp": "Vervolgvraag",

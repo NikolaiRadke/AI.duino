@@ -785,7 +785,7 @@ async function handleDeleteAgent(agentId, panel, context) {
 function generateOutputHTML(agent, response, context) {
     const { t } = context;
     
-    const result = featureUtils.processMessageWithCodeBlocks(response, 'customAgent', t, ['copy', 'insert']);
+    const result = featureUtils.processMessageWithCodeBlocks(response, 'customAgent', t, ['copy']);
     const codeBlocks = result.codeBlocks;
     
     return `
