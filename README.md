@@ -8,7 +8,7 @@ the newest Version to avoid annoying bugs.
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **18.11.2025** Two week of testing without bugs. Weeee!         
+* **01.12.2025** Release **V2.4.0** with a small but cool improvement and Copy&Paste bugfix.           
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
