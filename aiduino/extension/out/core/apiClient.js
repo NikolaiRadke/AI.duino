@@ -24,7 +24,7 @@ class UnifiedAPIClient {
      * @param {string} modelId - Model identifier
      * @param {string} prompt - User prompt
      * @param {Object} context - Extension context with dependencies
-     * @returns {Promise<string>} AI response
+     * @returns {Promise<string>} AI response text
      */
     async callAPI(modelId, prompt, context) {
         const { minimalModelManager } = context;
@@ -35,8 +35,8 @@ class UnifiedAPIClient {
             return this.callLocalProvider(modelId, prompt, context);
         }
     
-        // Existing remote API logic (unchanged)
-        const { apiKeys, updateTokenUsage, t } = context;
+        // Existing remote API logic
+        const { apiKeys, tokenManager, settings, t } = context;
     
         if (!apiKeys[modelId]) {
             const providerName = provider?.name || 'Unknown Provider';
@@ -48,10 +48,28 @@ class UnifiedAPIClient {
         for (let attempt = 1; attempt <= this.maxRetries; attempt++) {
             try {
                 const response = await this.makeRequest(config, t);
-                const extractedResponse = this.extractResponse(modelId, response, minimalModelManager);                
-                updateTokenUsage(modelId, prompt, extractedResponse);
+                const extracted = this.extractResponse(modelId, response, minimalModelManager);
+                
+                // Handle token usage
+                if (tokenManager) {
+                    let usage = extracted.usage;
+                    
+                    // If API didn't provide token counts, estimate them
+                    if (!usage) {
+                        const TokenManager = require('./tokenManager');
+                        usage = {
+                            inputTokens: TokenManager.estimateTokens(prompt, settings),
+                            outputTokens: TokenManager.estimateTokens(extracted.text, settings),
+                            estimated: true
+                        };
+                    }
+                    
+                    tokenManager.update(modelId, usage);
+                    context.updateStatusBar?.();
+                }
+                
                 this._triggerSupportHint(context);
-                return extractedResponse;
+                return extracted.text;
             } catch (error) {
                 if (attempt === this.maxRetries || !this.isRetryableError(error)) {
                     throw this.enhanceError(modelId, error, minimalModelManager, t);
@@ -182,17 +200,20 @@ class UnifiedAPIClient {
     }
     
     /**
-     * Extract response from API data (enhanced for local providers)
+     * Extract response and token usage from API data
      * @param {string} modelId - Model identifier
      * @param {Object|string} responseData - Raw API response or JSON string
      * @param {Object} minimalModelManager - Model manager
-     * @returns {string} Extracted response text
+     * @returns {Object} {text: string, usage: {inputTokens, outputTokens, estimated}}
      */
     extractResponse(modelId, responseData, minimalModelManager) {
         const provider = minimalModelManager.providers[modelId];
         if (!provider) {
             throw new Error(`Unknown provider: ${modelId}`);
         }
+
+        let text = null;
+        let usage = null;
 
         // For local providers, delegate to local provider handlers
         if (provider.type === 'local') {
@@ -201,42 +222,96 @@ class UnifiedAPIClient {
             if (provider.httpConfig) {
                 const providerHandler = localProviders.getHttpProvider(provider.name);
                 if (providerHandler && providerHandler.extractResponse) {
-                    return providerHandler.extractResponse(responseData);
+                    text = providerHandler.extractResponse(responseData);
                 }
             } else if (provider.processConfig) {
                 const providerHandler = localProviders.getProcessProvider(provider.name);
                 if (providerHandler && providerHandler.extractResponse) {
-                    return providerHandler.extractResponse(responseData);
+                    text = providerHandler.extractResponse(responseData);
                 }
             }
             
             // Fallback for local providers
-            return typeof responseData === 'string' ? responseData : JSON.stringify(responseData);
+            if (!text) {
+                text = typeof responseData === 'string' ? responseData : JSON.stringify(responseData);
+            }
+            
+            // Local providers don't provide token counts
+            return { text, usage: null };
         }
     
         // For API providers, use the apiConfig.extractResponse function
         if (provider.apiConfig && provider.apiConfig.extractResponse) {
-            return provider.apiConfig.extractResponse(responseData);
+            text = provider.apiConfig.extractResponse(responseData);
         }
     
         // Fallback for API providers without extractResponse
-        if (responseData && typeof responseData === 'object') {
+        if (!text && responseData && typeof responseData === 'object') {
             // Try common response patterns
             if (responseData.choices && responseData.choices[0] && responseData.choices[0].message) {
-                return responseData.choices[0].message.content;
-            }
-            if (responseData.content && responseData.content[0] && responseData.content[0].text) {
-                return responseData.content[0].text;
-            }
-            if (responseData.text) {
-                return responseData.text;
-            }
-            if (responseData.message) {
-                return responseData.message;
+                text = responseData.choices[0].message.content;
+            } else if (responseData.content && responseData.content[0] && responseData.content[0].text) {
+                text = responseData.content[0].text;
+            } else if (responseData.text) {
+                text = responseData.text;
+            } else if (responseData.message) {
+                text = responseData.message;
             }
         }
 
-        throw new Error(`Unable to extract response from ${provider.name} API`);
+        if (!text) {
+            throw new Error(`Unable to extract response from ${provider.name} API`);
+        }
+
+        // Extract token usage from API response
+        usage = this.extractTokenUsage(modelId, responseData, provider);
+
+        return { text, usage };
+    }
+
+    /**
+     * Extract token usage from API response
+     * @param {string} modelId - Model identifier
+     * @param {Object} responseData - API response data
+     * @param {Object} provider - Provider configuration
+     * @returns {Object|null} {inputTokens, outputTokens, estimated: false} or null
+     */
+    extractTokenUsage(modelId, responseData, provider) {
+        if (!responseData || typeof responseData !== 'object') return null;
+
+        // Use provider-specific extraction if available
+        if (provider.apiConfig && provider.apiConfig.extractTokenUsage) {
+            return provider.apiConfig.extractTokenUsage(responseData);
+        }
+
+        // Standard patterns for common providers
+        let inputTokens = 0;
+        let outputTokens = 0;
+
+        // OpenAI/ChatGPT/Groq/OpenRouter format
+        if (responseData.usage) {
+            inputTokens = responseData.usage.prompt_tokens || 0;
+            outputTokens = responseData.usage.completion_tokens || 0;
+        }
+        // Claude format
+        else if (responseData.usage && responseData.usage.input_tokens) {
+            inputTokens = responseData.usage.input_tokens || 0;
+            outputTokens = responseData.usage.output_tokens || 0;
+        }
+        // Gemini format
+        else if (responseData.usageMetadata) {
+            inputTokens = responseData.usageMetadata.promptTokenCount || 0;
+            outputTokens = responseData.usageMetadata.candidatesTokenCount || 0;
+        }
+
+        // Return null if no token info found (will trigger estimation)
+        if (inputTokens === 0 && outputTokens === 0) return null;
+
+        return {
+            inputTokens,
+            outputTokens,
+            estimated: false
+        };
     }
  
     /**
@@ -289,7 +364,7 @@ class UnifiedAPIClient {
      * Handle HTTP-based local providers (Ollama, LocalAI, etc.)
      */
     async callHttpLocalProvider(modelId, prompt, context) {
-        const { apiKeys, updateTokenUsage } = context;
+        const { apiKeys, tokenManager, settings } = context;
         const provider = context.minimalModelManager.providers[modelId];
     
         // Parse stored configuration (URL|model format from auto-detection)
@@ -302,7 +377,18 @@ class UnifiedAPIClient {
     
         // Make HTTP request to local provider
         const response = await this.makeLocalHttpRequest(baseUrl, selectedModel, prompt, provider, context.t);
-        updateTokenUsage(modelId, prompt, response);
+        
+        // Update token usage with estimation (local providers don't provide counts)
+        if (tokenManager) {
+            const TokenManager = require('./tokenManager');
+            tokenManager.update(modelId, {
+                inputTokens: TokenManager.estimateTokens(prompt, settings),
+                outputTokens: TokenManager.estimateTokens(response, settings),
+                estimated: true
+            });
+            context.updateStatusBar?.();
+        }
+        
         this._triggerSupportHint(context);
         return response;
     }
@@ -311,7 +397,7 @@ class UnifiedAPIClient {
      * Handle Process-based local providers (Claude Code, etc.) - REFACTORED
      */
     async callProcessLocalProvider(modelId, prompt, context) {
-        const { minimalModelManager, updateTokenUsage, apiKeys } = context; 
+        const { minimalModelManager, tokenManager, settings, apiKeys } = context; 
         const provider = minimalModelManager.providers[modelId];
     
         const localProviders = require('../localProviders');
@@ -338,7 +424,17 @@ class UnifiedAPIClient {
         const response = extracted.response || extracted;
         const newSessionId = extracted.sessionId || null;
 
-        updateTokenUsage(modelId, prompt, response);
+        // Update token usage with estimation (local providers don't provide counts)
+        if (tokenManager) {
+            const TokenManager = require('./tokenManager');
+            tokenManager.update(modelId, {
+                inputTokens: TokenManager.estimateTokens(prompt, settings),
+                outputTokens: TokenManager.estimateTokens(response, settings),
+                estimated: true
+            });
+            context.updateStatusBar?.();
+        }
+        
         this._triggerSupportHint(context);
     
         if (newSessionId && provider.persistent) {

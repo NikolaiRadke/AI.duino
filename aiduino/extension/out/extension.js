@@ -21,6 +21,7 @@ const { UnifiedAPIClient } = require('./core/apiClient');
 const { ExecutionStateManager } = require('./core/executionStateManager');
 const { EventManager } = require('./core/eventManager');
 const { CommandRegistry } = require('./core/commandRegistry');
+const TokenManager = require('./core/tokenManager');
 
 // Feature modules
 const shared = require('./shared');
@@ -86,7 +87,8 @@ let executionStates;
 let eventManager;
 let promptHistory;
 let settingsManager;
-let apiClient; 
+let apiClient;
+let tokenManager;
 
 // Single instance of model manager
 let configData;
@@ -95,7 +97,6 @@ let REMOTE_CONFIG_URL;
 
 // Data stores
 const apiKeys = {};
-let tokenUsage = {};
 let aiConversationContext = {
     lastQuestion: null,
     lastAnswer: null,
@@ -124,7 +125,7 @@ class MinimalModelManager {
         if (!provider) {
             return {
                 name: 'Unknown',
-                icon: 'â"',
+                icon: 'Ã¢"',
                 color: '#999999',
                 modelName: 'Unknown',
                 modelId: 'unknown',
@@ -290,7 +291,7 @@ async function switchLanguage() {
         
         const selected = await vscode.window.showQuickPick(availableLanguages, {
             placeHolder: t('language.selectLanguage') || 'Choose language for AI.duino',
-            title: `🌍 AI.duino ${t('language.changeLanguage') || 'Change Language'}`
+            title: `ðŸŒ AI.duino ${t('language.changeLanguage') || 'Change Language'}`
         });
         
         if (selected && selected.value !== currentSetting) {
@@ -326,136 +327,7 @@ async function switchLanguage() {
     }
 }
 
-// ===== TOKEN MANAGEMENT =====
-
-/**
- * Initialize token usage data structure for all models
- */
-function initializeTokenUsage() {
-    tokenUsage = {
-        daily: new Date().toDateString()
-    };
-
-    // Check if model manager is ready
-    if (!minimalModelManager || !minimalModelManager.providers) {
-        return;
-    }
-    
-    // Initialize for each model
-    Object.keys(minimalModelManager.providers).forEach(modelId => {
-        tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
-    });
-}
-
-/**
- * Load token usage from file or initialize if needed
- */
-function loadTokenUsage() {
-    const currentDate = new Date();
-    const today = currentDate.toDateString();
-    
-    // Check if file exists and is readable
-    if (!fs.existsSync(TOKEN_USAGE_FILE)) {
-        initializeTokenUsage();
-        saveTokenUsage();
-        return;
-    }
-    
-    const fileContent = fs.readFileSync(TOKEN_USAGE_FILE, 'utf8');
-    const data = JSON.parse(fileContent);
-    
-    // Check if model manager is ready
-    if (!minimalModelManager || !minimalModelManager.providers) {
-        return; // Skip if no providers loaded
-    }
-
-    // Validate data structure and check date
-    if (!data || typeof data !== 'object' || !data.daily || data.daily !== today) {
-        // Different day or invalid data - reset
-        initializeTokenUsage();
-        saveTokenUsage();
-        return;
-    }
-    
-    // Same day - restore data
-    tokenUsage = data;
-    
-    // Ensure all models exist in loaded data
-    Object.keys(minimalModelManager.providers).forEach(modelId => {
-        if (!tokenUsage[modelId]) {
-            tokenUsage[modelId] = { input: 0, output: 0, cost: 0 };
-        }
-    });
-    
-    // Update status bar after loading
-    if (statusBarManager) {
-        statusBarManager.updateFromContext(getDependencies());;
-    }
-}
-
-/**
- * Queue token usage save with debouncing
- */
-function saveTokenUsage() {
-    eventManager.debouncedSave(() => {
-        const data = JSON.stringify(tokenUsage, null, 2);
-        fs.writeFileSync(TOKEN_USAGE_FILE, data, { mode: 0o600 });
-    });
-}
-
-/**
- * Estimate token count for text
- * @param {string} text - Text to analyze
- * @returns {number} Estimated token count
- */
-function estimateTokens(text) {
-    if (!text) return 0;
-    
-    // Better estimation for code vs text
-    const words = text.split(/\s+/).length;
-    const codeBlocks = (text.match(/```/g) || []).length / 2;
-    const specialChars = (text.match(/[{}()\[\];,.<>]/g) || []).length;
-    
-    // Get estimation factors from settings
-    const multiplier = settingsManager?.get('tokenEstimationMultiplier') ?? 0.75;
-    const codeBlockFactor = settingsManager?.get('tokenEstimationCodeBlock') ?? 10;
-    const specialCharFactor = settingsManager?.get('tokenEstimationSpecialChars') ?? 0.2;
-    
-    // Base: ~0.75 words per token (more accurate than character count)
-    let tokens = words * multiplier;
-    tokens += codeBlocks * codeBlockFactor;
-    tokens += specialChars * specialCharFactor;
-    
-    return Math.ceil(tokens);
-}
-
-/**
- * Update token usage statistics and costs
- * @param {string} modelId - Model identifier
- * @param {string} inputText - Input text
- * @param {string} outputText - Output text
- */
-function updateTokenUsage(modelId, inputText, outputText) {
-    const inputTokens = estimateTokens(inputText);
-    const outputTokens = estimateTokens(outputText);
-    
-    tokenUsage[modelId].input += inputTokens;
-    tokenUsage[modelId].output += outputTokens;
- 
-   // Check if model manager is ready
-    if (!minimalModelManager || !minimalModelManager.providers) {
-        return;
-    }
-    // Calculate costs
-    const model = minimalModelManager.providers[modelId];
-    if (!model) return;
-    const inputCost = inputTokens * model.prices.input;
-    const outputCost = outputTokens * model.prices.output;
-    tokenUsage[modelId].cost += (inputCost + outputCost);
-    
-    saveTokenUsage();
-    statusBarManager.updateFromContext(getDependencies());;
-}
+// ===== ERROR CHECKING =====
 
 /**
  * Wrapper for error checking (delegates to ErrorChecker)
@@ -516,15 +388,23 @@ async function activate(context) {
     REMOTE_CONFIG_URL = remoteUrl;
     minimalModelManager = new MinimalModelManager(configData.providers);  
 
-    // Initialize EventManager FIRST - before anything else
-    eventManager = new EventManager({ settings: settingsManager });
-    eventManager.initialize({
-        updateStatusBar: () => statusBarManager.updateFromContext(getDependencies()),
-        onConfigChange: () => {}
-    });
-
     // Initialize Locale Utils first
     localeUtils = new LocaleUtils();
+    
+    // Initialize Token Manager EARLY (before EventManager needs it)
+    tokenManager = new TokenManager(TOKEN_USAGE_FILE, null);  // eventManager noch null
+    tokenManager.initialize(minimalModelManager.providers);
+    tokenManager.load();
+    
+    // Initialize EventManager AFTER TokenManager exists
+    eventManager = new EventManager({ settings: settingsManager });
+    eventManager.initialize({
+        updateStatusBar: () => statusBarManager?.updateFromContext(getDependencies()),
+        onConfigChange: () => {}
+    });
+    
+    // Update tokenManager with eventManager reference
+    tokenManager.eventManager = eventManager;
     
     // Async loading
     await Promise.all([
@@ -547,9 +427,6 @@ async function activate(context) {
     // Initialize Prompt History Manager
     promptHistory = new PromptHistoryManager();
     promptHistory.updateSettings(settingsManager);
-    
-    // Load token statistics
-    loadTokenUsage();
     
     // Initialize and show status bar
     statusBarManager = new StatusBarManager();
@@ -669,7 +546,7 @@ function getDependencies() {
         
         // Data stores
         apiKeys,
-        tokenUsage,
+        tokenUsage: tokenManager ? tokenManager.getUsage() : {},
         aiConversationContext,
         
         // Manager instances
@@ -680,6 +557,7 @@ function getDependencies() {
         promptHistory,
         apiKeyManager,
         quickMenuTreeProvider,
+        tokenManager,
         
         // Core clients/services
         apiClient,
@@ -693,7 +571,6 @@ function getDependencies() {
         
         // API functions
         switchModel: () => apiManager.switchModel(getDependencies()),
-        updateTokenUsage,
         
         // State setters (callbacks)
         setCurrentModel: (newModel) => { 
@@ -744,7 +621,7 @@ console.log("Debug");
     
     const selected = await vscode.window.showQuickPick(items, {
         placeHolder: t('messages.selectAction'),
-        title: `🤖 AI.duino v${EXTENSION_VERSION} (${model.name})`
+        title: `ðŸ¤– AI.duino v${EXTENSION_VERSION} (${model.name})`
     });
     
     if (selected && selected.command) {

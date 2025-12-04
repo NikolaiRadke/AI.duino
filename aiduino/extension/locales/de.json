@@ -13,7 +13,7 @@
     "changeApiKey": "API-Schlüssel ändern",
     "tokenStats": "Token-Statistik",
     "switchLanguage": "Sprache wechseln",
-    "askAI": "KI fragen",
+    "askAI": "Schnelle Frage",
     "askFollowUp": "Rückfrage stellen",
     "editPrompts": "Prompts bearbeiten",
     "changePath": "Pfad ändern",
@@ -309,7 +309,8 @@
     "newSessionStarted": "🔄 Neue persistente Session gestartet",
     "continueInChat": "In Chat fortsetzen",
     "historyNotAvailable": "Chat-Historie nicht verfügbar",
-    "maxChatsReached": "Maximale Chat-Anzahl erreicht. Bitte lösche alte Chats."
+    "maxChatsReached": "Maximale Chat-Anzahl erreicht. Bitte lösche alte Chats.",
+    "voiceInput": "Spracheingabe"
   },
   "shortcuts": {
     "askFollowUp": "Rückfrage",
