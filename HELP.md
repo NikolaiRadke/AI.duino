@@ -14,4 +14,4 @@ Coming soon.
 * Linux: Use *IBus Typing Booster* with *Voice Input* or install *Nerd Dictation*. 
 
 ### Where is the rigth-click context menu from the IDE in the output window?
-➡️ The IDE disabled right-click for security reasons. Because Copy&Paste ist important, AI.duino uses a tricky own workaround menu.  
+➡️ The IDE disabled right-click for security reasons. Because Copy&Paste is important, AI.duino uses a tricky own workaround menu.  
