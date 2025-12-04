@@ -291,7 +291,7 @@ async function switchLanguage() {
         
         const selected = await vscode.window.showQuickPick(availableLanguages, {
             placeHolder: t('language.selectLanguage') || 'Choose language for AI.duino',
-            title: `ðŸŒ AI.duino ${t('language.changeLanguage') || 'Change Language'}`
+            title: `🌍 AI.duino ${t('language.changeLanguage') || 'Change Language'}`
         });
         
         if (selected && selected.value !== currentSetting) {
@@ -621,7 +621,7 @@ console.log("Debug");
     
     const selected = await vscode.window.showQuickPick(items, {
         placeHolder: t('messages.selectAction'),
-        title: `ðŸ¤– AI.duino v${EXTENSION_VERSION} (${model.name})`
+        title: `🤖 AI.duino v${EXTENSION_VERSION} (${model.name})`
     });
     
     if (selected && selected.command) {

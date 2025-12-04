@@ -54,7 +54,7 @@
     "commands": [
       {
         "command": "aiduino.quickMenu",
-        "title": "ðŸ¤– AI.duino",
+        "title": "🤖 AI.duino",
         "category": "AI.duino",
         "icon": "$(robot)"
       },

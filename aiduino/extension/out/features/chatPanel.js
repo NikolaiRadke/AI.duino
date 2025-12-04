@@ -110,7 +110,7 @@ async function showChatPanel(context) {
         clearContext: async (message) => {
             attachedContext = null;
             lastUsedContext = null;
-            updatePanelContent(panel, context);
+            updateAttachmentButtons(panel, context);
         },
         toggleArduinoMode: async (message) => {
             arduinoMode = !arduinoMode;

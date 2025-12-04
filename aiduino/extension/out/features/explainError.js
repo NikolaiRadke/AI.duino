@@ -89,7 +89,7 @@ async function explainError(context, preProvidedText = null) {
             // Process response with code blocks
             const { processedHtml, codeBlocks } = featureUtils.processAiCodeBlocksWithEventDelegation(
                 response,
-                `ðŸ”§ ${context.t('explainError.correctedCodeTitle')}`,
+                `🔧 ${context.t('explainError.correctedCodeTitle')}`,
                 ['copy'],
                 context.t
             );
@@ -196,7 +196,7 @@ function createErrorExplanationHtml(error, line, processedExplanation, codeBlock
     
     return featureUtils.buildQuestionFeatureHtml({
         title: t('commands.explainError'),
-        icon: 'ðŸ”§',
+        icon: '🔧',
         badge: modelBadge,
         contextBadge,
         mainContent,

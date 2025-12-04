@@ -82,7 +82,7 @@ async function debugHelp(context) {
             // Process response with code blocks
             const { processedHtml, codeBlocks } = featureUtils.processAiCodeBlocksWithEventDelegation(
                 response,
-                `ðŸ”§ ${context.t('debugHelp.debugSolutionTitle')}`,
+                `🔧 ${context.t('debugHelp.debugSolutionTitle')}`,
                 ['copy'],
                 context.t
             );
@@ -314,7 +314,7 @@ function createDebugHelpHtml(debugType, processedResponse, codeBlocks, contextBa
     
     const mainContent = `
         <div class="info-section">
-            <h3>ðŸ¤– AI Debug Analysis:</h3>
+            <h3> 🤖 AI Debug Analysis:</h3>
             ${processedResponse}
         </div>
     `;
