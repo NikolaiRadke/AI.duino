@@ -1,6 +1,12 @@
 # HELP
 Some hints how to use AI.duino.  
-Coming soon.
+More coming soon.
+
+## Settings
+There a several options that needs further explainations.
+
+### AI Behavior
+* **Creativity (Temerature):** Controls randomness in AI responses. Lower values (0.0-0.3) produce more focused and deterministic answers, ideal for code generation. Higher values (0.7-1.0) increase creativity and variety. Default: 0.7
 
 # FAQ
 
