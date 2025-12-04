@@ -15,6 +15,7 @@ const codeFeatureBase = require('./codeFeatureBase');
 async function addComments(context) {
     return codeFeatureBase.executeCodeFeature(context, {
         operation: context.executionStates.OPERATIONS.COMMENTING,
+        useCodeTemperature: true,
         promptKeys: {
             selection: 'addCommentsSelected',
             file: 'addCommentsFile',

@@ -303,7 +303,8 @@
     "generalMode": "Általános",
     "toggleMode": "Kártyainformációk küldése",
     "continueInChat": "Folytatás a chatben",
-    "historyNotAvailable": "Chat-előzmények nem elérhetők"
+    "historyNotAvailable": "Chat-előzmények nem elérhetők",
+    "toggleCodeMode": "Kód mód váltása (alacsonyabb hőmérséklet pontosabb kódhoz)"
   },
   "shortcuts": {
     "askFollowUp": "Követő kérdés",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Prompt előzmények hossza",
       "cardStyle": "Kártya stílus",
       "arduino-green": "Arduino zöld háttér",
-      "white-border": "Fehér háttér zöld szegéllyel"
+      "white-border": "Fehér háttér zöld szegéllyel",
+      "codeTemperature": "Kód hőmérséklet"
     },
     "descriptions": {
       "temperature": "AI kreativitás (0 = determinisztikus, 1 = kreatív)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Tárolható egyéni ügynökök maximális száma (1-100)",
       "chatHistoryLength": "Üzenetek száma a chat előzményekben (felhasználó/AI párok)",
       "promptHistoryLength": "Promptok száma az előzményekben",
-      "cardStyle": "Vizuális stílus a chat és ügynök kiválasztási kártyákhoz"
+      "cardStyle": "Vizuális stílus a chat és ügynök kiválasztási kártyákhoz",
+      "codeTemperature": "Hőmérséklet kódgeneráláshoz (0 = pontos, 1 = kreatív). Kódfunkciókhoz és chat kód módban használatos."
     }
   },
   "extensionUpdate": {

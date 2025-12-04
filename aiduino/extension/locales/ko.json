@@ -303,7 +303,8 @@
     "generalMode": "일반",
     "toggleMode": "보드 정보 전송",
     "continueInChat": "채팅에서 계속하기",
-    "historyNotAvailable": "채팅 기록을 사용할 수 없습니다"
+    "historyNotAvailable": "채팅 기록을 사용할 수 없습니다",
+    "toggleCodeMode": "코드 모드 전환 (더 정확한 코드를 위한 낮은 온도)"
   },
   "shortcuts": {
     "askFollowUp": "추가 질문",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "프롬프트 기록 길이",
       "cardStyle": "카드 스타일",
       "arduino-green": "Arduino 녹색 배경",
-      "white-border": "녹색 테두리가 있는 흰색 배경"
+      "white-border": "녹색 테두리가 있는 흰색 배경",
+      "codeTemperature": "코드 온도"
     },
     "descriptions": {
       "temperature": "AI 창의성 (0 = 결정적, 1 = 창의적)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "저장 가능한 맞춤형 에이전트의 최대 개수 (1-100)",
       "chatHistoryLength": "채팅 기록의 메시지 수 (사용자/AI 쌍)",
       "promptHistoryLength": "기록의 프롬프트 수",
-      "cardStyle": "채팅 및 에이전트 선택 카드의 시각적 스타일"
+      "cardStyle": "채팅 및 에이전트 선택 카드의 시각적 스타일",
+      "codeTemperature": "코드 생성 온도 (0 = 정확, 1 = 창의적). 코드 기능 및 채팅 코드 모드에서 사용됩니다."
     }
   },
   "extensionUpdate": {

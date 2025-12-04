@@ -303,7 +303,8 @@
     "generalMode": "Algemeen",
     "toggleMode": "Boardinformatie verzenden",
     "continueInChat": "Doorgaan in chat",
-    "historyNotAvailable": "Chatgeschiedenis niet beschikbaar"
+    "historyNotAvailable": "Chatgeschiedenis niet beschikbaar",
+    "toggleCodeMode": "Code-modus schakelen (lagere temperatuur voor nauwkeurigere code)"
   },
   "shortcuts": {
     "askFollowUp": "Vervolgvraag",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Lengte promptgeschiedenis",
       "cardStyle": "Kaartstijl",
       "arduino-green": "Arduino groene achtergrond",
-      "white-border": "Witte achtergrond met groene rand"
+      "white-border": "Witte achtergrond met groene rand",
+      "codeTemperature": "Code-temperatuur"
     },
     "descriptions": {
       "temperature": "AI-creativiteit (0 = deterministisch, 1 = creatief)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Maximum aantal opgeslagen aangepaste agents (1-100)",
       "chatHistoryLength": "Aantal berichten in chatgeschiedenis (gebruiker/AI-paren)",
       "promptHistoryLength": "Aantal prompts in geschiedenis",
-      "cardStyle": "Visuele stijl voor chat- en agentselectiekaarten"
+      "cardStyle": "Visuele stijl voor chat- en agentselectiekaarten",
+      "codeTemperature": "Temperatuur voor code-generatie (0 = nauwkeurig, 1 = creatief). Wordt gebruikt voor codefuncties en in chat-codemodus."
     }
   },
   "extensionUpdate": {

@@ -303,7 +303,8 @@
     "generalMode": "Général",
     "toggleMode": "Envoyer les informations de la carte",
     "continueInChat": "Continuer dans le chat",
-    "historyNotAvailable": "Historique du chat non disponible"
+    "historyNotAvailable": "Historique du chat non disponible",
+    "toggleCodeMode": "Basculer en mode code (température plus basse pour un code plus précis)"
   },
   "shortcuts": {
     "askFollowUp": "Question de suivi",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Longueur de l'historique des prompts",
       "cardStyle": "Style de carte",
       "arduino-green": "Arrière-plan vert Arduino",
-      "white-border": "Arrière-plan blanc avec bordure verte"
+      "white-border": "Arrière-plan blanc avec bordure verte",
+      "codeTemperature": "Température du code"
     },
     "descriptions": {
       "temperature": "Créativité de l'IA (0 = déterministe, 1 = créatif)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Nombre maximum d'agents personnalisés stockables (1-100)",
       "chatHistoryLength": "Nombre de messages dans l'historique du chat (paires utilisateur/IA)",
       "promptHistoryLength": "Nombre de prompts dans l'historique",
-      "cardStyle": "Style visuel pour les cartes de chat et de sélection d'agent"
+      "cardStyle": "Style visuel pour les cartes de chat et de sélection d'agent",
+      "codeTemperature": "Température pour la génération de code (0 = précis, 1 = créatif). Utilisée pour les fonctions de code et en mode chat code."
     }
   },
   "extensionUpdate": {

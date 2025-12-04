@@ -16,6 +16,7 @@ class SettingsManager {
         this.defaults = {
             // ===== AI BEHAVIOR =====
             temperature: 0.7,
+            codeTemperature: 0.3,
             maxTokensPerRequest: 8000,
             customInstructionsEnabled: true,
             
@@ -72,6 +73,7 @@ class SettingsManager {
             'defaultModel',
             'maxTokensPerRequest',
             'temperature',
+            'codeTemperature',
             'customInstructionsEnabled',
             'inlineCompletionEnabled',
             'maxCustomAgents',
@@ -173,6 +175,7 @@ class SettingsManager {
         return {
             aiBehavior: {
                 temperature: this.get('temperature'),
+                codeTemperature: this.get('codeTemperature'),
                 maxTokensPerRequest: this.get('maxTokensPerRequest'),
                 customInstructionsEnabled: this.get('customInstructionsEnabled')
             },

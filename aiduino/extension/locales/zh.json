@@ -303,7 +303,8 @@
     "generalMode": "通用",
     "toggleMode": "发送开发板信息",
     "continueInChat": "在聊天中继续",
-    "historyNotAvailable": "聊天记录不可用"
+    "historyNotAvailable": "聊天记录不可用",
+    "toggleCodeMode": "切换代码模式（更低的温度以获得更精确的代码）"
   },
   "shortcuts": {
     "askFollowUp": "追问",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "提示记录长度",
       "cardStyle": "卡片样式",
       "arduino-green": "Arduino绿色背景",
-      "white-border": "白色背景与绿色边框"
+      "white-border": "白色背景与绿色边框",
+      "codeTemperature": "代码温度"
     },
     "descriptions": {
       "temperature": "AI创造力 (0 = 确定性, 1 = 创造性)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "可存储的自定义代理最大数量（1-100）",
       "chatHistoryLength": "聊天记录中消息的数量（用户/AI配对）",
       "promptHistoryLength": "历史提示的数量",
-      "cardStyle": "聊天和代理选择卡片的视觉样式"
+      "cardStyle": "聊天和代理选择卡片的视觉样式",
+      "codeTemperature": "代码生成温度（0 = 精确，1 = 创造性）。用于代码功能和聊天代码模式。"
     }
   },
   "extensionUpdate": {

@@ -310,7 +310,8 @@
     "continueInChat": "In Chat fortsetzen",
     "historyNotAvailable": "Chat-Historie nicht verfügbar",
     "maxChatsReached": "Maximale Chat-Anzahl erreicht. Bitte lösche alte Chats.",
-    "voiceInput": "Spracheingabe"
+    "voiceInput": "Spracheingabe",
+    "toggleCodeMode": "Code-Modus umschalten (niedrigere Temperatur für präziseren Code)"
   },
   "shortcuts": {
     "askFollowUp": "Rückfrage",
@@ -530,7 +531,8 @@
       "promptHistoryLength": "Prompt-Verlauf Länge",
       "cardStyle": "Karten-Design",
       "arduino-green": "Arduino Grün Hintergrund",
-      "white-border": "Weißer Hintergrund mit grünem Rand"
+      "white-border": "Weißer Hintergrund mit grünem Rand",
+      "codeTemperature": "Code-Temperatur"
     },
     "descriptions": {
       "temperature": "Kreativität der KI (0 = deterministisch, 1 = kreativ)",
@@ -552,7 +554,8 @@
       "maxCustomAgents": "Maximale Anzahl speicherbarer Custom Agents (1-100)",
       "chatHistoryLength": "Anzahl der Nachrichten im Chat-Verlauf (Paare aus User/KI)",
       "promptHistoryLength": "Anzahl der Prompts im Verlauf",
-      "cardStyle": "Visueller Stil für Chat- und Agenten-Auswahlkarten"
+      "cardStyle": "Visueller Stil für Chat- und Agenten-Auswahlkarten",
+      "codeTemperature": "Temperatur für Code-Generierung (0 = präzise, 1 = kreativ). Wird für Code-Features und im Chat-Code-Modus verwendet."
     }
   },
   "uninstall": {

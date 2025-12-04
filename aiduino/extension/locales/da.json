@@ -303,7 +303,8 @@
     "generalMode": "Generel",
     "toggleMode": "Send board-information",
     "continueInChat": "Fortsæt i chat",
-    "historyNotAvailable": "Chathistorik ikke tilgængelig"
+    "historyNotAvailable": "Chathistorik ikke tilgængelig",
+    "toggleCodeMode": "Skift kodetilstand (lavere temperatur for mere præcis kode)"
   },
   "shortcuts": {
     "askFollowUp": "Opfølgende spørgsmål",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Prompt historik længde",
       "cardStyle": "Kort stil",
       "arduino-green": "Arduino grøn baggrund",
-      "white-border": "Hvid baggrund med grøn kant"
+      "white-border": "Hvid baggrund med grøn kant",
+      "codeTemperature": "Kodetemperatur"
     },
     "descriptions": {
       "temperature": "AI's kreativitet (0 = deterministisk, 1 = kreativ)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Maksimalt antal gemte tilpassede agenter (1-100)",
       "chatHistoryLength": "Antal beskeder i chat historik (par af bruger/AI)",
       "promptHistoryLength": "Antal prompts i historik",
-      "cardStyle": "Visuel stil for chat og agent valgkort"
+      "cardStyle": "Visuel stil for chat og agent valgkort",
+      "codeTemperature": "Temperatur til kodegenerering (0 = præcis, 1 = kreativ). Bruges til kodefunktioner og i chat-kodetilstand."
     }
   },
   "extensionUpdate": {

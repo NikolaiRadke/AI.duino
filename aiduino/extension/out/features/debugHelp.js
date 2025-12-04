@@ -75,7 +75,8 @@ async function debugHelp(context) {
             const response = await featureUtils.callAIWithProgress(
                 prompt,
                 'progress.analyzingProblem',
-                context
+                context,
+                { useCodeTemperature: true }
             );
             
             // Process response with code blocks

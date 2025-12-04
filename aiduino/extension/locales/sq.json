@@ -303,7 +303,8 @@
     "generalMode": "I përgjithshëm",
     "toggleMode": "Dërgo informacione për kartën",
     "continueInChat": "Vazhdo në bisedë",
-    "historyNotAvailable": "Historia e bisedës nuk është e disponueshme"
+    "historyNotAvailable": "Historia e bisedës nuk është e disponueshme",
+    "toggleCodeMode": "Ndërro modalitetin e kodit (temperaturë më e ulët për kod më të saktë)"
   },
   "shortcuts": {
     "askFollowUp": "Pyetje shtesë",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Gjatësia e historisë së prompteve",
       "cardStyle": "Stili i kartës",
       "arduino-green": "Sfond jeshil Arduino",
-      "white-border": "Sfond i bardhë me kornizë jeshile"
+      "white-border": "Sfond i bardhë me kornizë jeshile",
+      "codeTemperature": "Temperatura e kodit"
     },
     "descriptions": {
       "temperature": "Kreativiteti i AI (0 = deterministik, 1 = kreativ)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Numri maksimal i agentëve të personalizuar të ruajtur (1-100)",
       "chatHistoryLength": "Numri i mesazheve në historinë e bisedës (çifte përdorues/AI)",
       "promptHistoryLength": "Numri i prompteve në histori",
-      "cardStyle": "Stili vizual për kartat e bisedës dhe zgjedhjes së agjentit"
+      "cardStyle": "Stili vizual për kartat e bisedës dhe zgjedhjes së agjentit",
+      "codeTemperature": "Temperatura për gjenerimin e kodit (0 = i saktë, 1 = kreativ). Përdoret për veçoritë e kodit dhe në modalitetin e bisedës së kodit."
     }
   },
   "extensionUpdate": {

@@ -303,7 +303,8 @@
     "generalMode": "Ogólny",
     "toggleMode": "Wyślij informacje o płytce",
     "continueInChat": "Kontynuuj na czacie",
-    "historyNotAvailable": "Historia czatu niedostępna"
+    "historyNotAvailable": "Historia czatu niedostępna",
+    "toggleCodeMode": "Przełącz tryb kodu (niższa temperatura dla dokładniejszego kodu)"
   },
   "shortcuts": {
     "askFollowUp": "Pytanie uzupełniające",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Długość historii promptów",
       "cardStyle": "Styl karty",
       "arduino-green": "Arduino zielone tło",
-      "white-border": "Białe tło z zieloną ramką"
+      "white-border": "Białe tło z zieloną ramką",
+      "codeTemperature": "Temperatura kodu"
     },
     "descriptions": {
       "temperature": "Kreatywność AI (0 = deterministyczna, 1 = kreatywna)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Maksymalna liczba przechowywanych niestandardowych agentów (1-100)",
       "chatHistoryLength": "Liczba wiadomości w historii czatu (pary użytkownik/AI)",
       "promptHistoryLength": "Liczba promptów w historii",
-      "cardStyle": "Styl wizualny dla kart czatu i wyboru agenta"
+      "cardStyle": "Styl wizualny dla kart czatu i wyboru agenta",
+      "codeTemperature": "Temperatura generowania kodu (0 = precyzyjny, 1 = kreatywny). Używana dla funkcji kodu i w trybie czatu kodu."
     }
   },
   "extensionUpdate": {

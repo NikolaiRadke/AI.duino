@@ -22,6 +22,7 @@ let attachedContext = null; // Stores attached context for current message
 let lastUsedContext = null; // Store last used context for reuse
 let activeSessions = {}; // Format: { 'chatId-providerId': 'session-abc123' }
 let arduinoMode = true;
+let chatCodeMode = false;
 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
 let lastUsedProvider = null;
 
@@ -79,6 +80,10 @@ async function showChatPanel(context) {
         },
         sendMessage: async (message) => {
             await handleUserMessage(message.text, panel, context);
+        },
+        toggleCodeMode: async (message) => {
+            chatCodeMode = !chatCodeMode;
+            updatePanelContent(panel, context);
         },
         manageAttachments: async (message) => {
             await handleManageAttachments(panel, context);
@@ -246,7 +251,12 @@ try {
     context.currentModel = actualCurrentModel;
     context.sessionId = activeSessions[sessionKey] || null;
     
-    const result = await featureUtils.callAIWithProgress(prompt, 'progress.askingAI', context);
+    const result = await featureUtils.callAIWithProgress(
+        prompt, 
+        'progress.askingAI', 
+        context,
+        { useCodeTemperature: chatCodeMode }
+    );
     
     // Handle both string response (API providers) and object response (local providers)
     const response = typeof result === 'string' ? result : result.text;
@@ -881,6 +891,13 @@ function updateAttachmentButtons(panel, context) {
                         style="background: ${arduinoMode ? 'var(--vscode-button-background)' : 'var(--vscode-button-secondaryBackground)'}">
                         ${arduinoMode ? '🎯' : '💬'}
                     </button>
+                    <button class="action-btn" 
+                        id="codeModeBtnƒ"
+                        onclick="toggleCodeMode()" 
+                        title="${t('chat.toggleCodeMode') || 'Code Mode (lower temperature)'}"
+                        style="background: ${chatCodeMode ? 'var(--vscode-button-background)' : 'var(--vscode-button-secondaryBackground)'}">
+                        ${chatCodeMode ? '❄️' : '🔥'}
+                    </button>
                     <button class="action-btn" onclick="attachContext()" title="${t('chat.attachContext')}">📎</button>
                     <span id="attachmentButtons">${generateAttachmentButtons(attachedContext, t)}</span>
                     ${lastUsedContext ? `
@@ -963,6 +980,10 @@ function updateAttachmentButtons(panel, context) {
 
                 function clearContext() {
                     vscode.postMessage({ command: 'clearContext' });
+                }
+                
+                function toggleCodeMode() {
+                    vscode.postMessage({ command: 'toggleCodeMode' });
                 }
 
                 function manageAttachments() {

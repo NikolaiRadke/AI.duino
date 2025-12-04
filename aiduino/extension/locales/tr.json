@@ -303,7 +303,8 @@
     "generalMode": "Genel",
     "toggleMode": "Kart bilgilerini gönder",
     "continueInChat": "Sohbette devam et",
-    "historyNotAvailable": "Sohbet geçmişi mevcut değil"
+    "historyNotAvailable": "Sohbet geçmişi mevcut değil",
+    "toggleCodeMode": "Kod modunu değiştir (daha hassas kod için düşük sıcaklık)"
   },
   "shortcuts": {
     "askFollowUp": "Takip sorusu",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Komut geçmişi uzunluğu",
       "cardStyle": "Kart stili",
       "arduino-green": "Arduino yeşil arka plan",
-      "white-border": "Yeşil kenarlıklı beyaz arka plan"
+      "white-border": "Yeşil kenarlıklı beyaz arka plan",
+      "codeTemperature": "Kod sıcaklığı"
     },
     "descriptions": {
       "temperature": "AI yaratıcılığı (0 = deterministik, 1 = yaratıcı)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Saklanabilecek maksimum özel ajan sayısı (1-100)",
       "chatHistoryLength": "Sohbet geçmişindeki mesaj sayısı (kullanıcı/AI çiftleri)",
       "promptHistoryLength": "Geçmişteki komut sayısı",
-      "cardStyle": "Sohbet ve ajan seçim kartları için görsel stil"
+      "cardStyle": "Sohbet ve ajan seçim kartları için görsel stil",
+      "codeTemperature": "Kod üretimi için sıcaklık (0 = hassas, 1 = yaratıcı). Kod özellikleri ve sohbet kod modunda kullanılır."
     }
   },
   "extensionUpdate": {

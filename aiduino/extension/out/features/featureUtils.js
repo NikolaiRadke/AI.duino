@@ -111,7 +111,7 @@ function extractCodeFromResponse(response, fallbackToFullResponse = true) {
  * @param {Object} context - Extension context with dependencies
  * @returns {Promise<string>} AI response
  */
-async function callAIWithProgress(prompt, progressKey, context) {
+async function callAIWithProgress(prompt, progressKey, context, options = {}) {
     const { t, minimalModelManager, currentModel } = context;
     const model = minimalModelManager.providers[currentModel];
     
@@ -121,7 +121,40 @@ async function callAIWithProgress(prompt, progressKey, context) {
         cancellable: false
     }, async () => {
         try {
-            const result = await context.callAI(prompt, context);  // Pass context as 2nd parameter!
+            // Override temperature for code features if requested
+            let effectiveContext = context;
+            if (options.useCodeTemperature && context.settings.get('codeTemperature') !== undefined) {
+                const codeTemp = context.settings.get('codeTemperature');
+                console.log(`❄️ Using codeTemperature: ${codeTemp}`);
+                effectiveContext = {
+                    ...context,
+                    settings: {
+                        ...context.settings,
+                        get: (key) => {
+                            if (key === 'temperature') {
+                                return codeTemp;  // ← Nutze die Variable
+                            }
+                            return context.settings.get(key);
+                        }
+                    }
+                };
+                effectiveContext = {
+                    ...context,
+                    settings: {
+                        ...context.settings,
+                        get: (key) => {
+                            if (key === 'temperature') {
+                                return context.settings.codeTemperature;
+                            }
+                            return context.settings.get(key);
+                        }
+                    }
+                };
+            } else {
+                console.log(`💡 Using normal temperature: ${context.settings.get('temperature')}`);  // ← NEU
+            }
+            
+            const result = await effectiveContext.callAI(prompt, effectiveContext);
             
             // Handle both string responses and object responses (e.g., from Claude Code with sessionId)
             if (typeof result === 'string') {

@@ -303,7 +303,8 @@
     "generalMode": "Opšte",
     "toggleMode": "Pošalji informacije o ploči",
     "continueInChat": "Nastavi u chatu",
-    "historyNotAvailable": "Historija chata nije dostupna"
+    "historyNotAvailable": "Historija chata nije dostupna",
+    "toggleCodeMode": "Prebaci režim koda (niža temperatura za precizniji kod)"
   },
   "shortcuts": {
     "askFollowUp": "Dodatno pitanje",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Dužina historije prompta",
       "cardStyle": "Stil kartica",
       "arduino-green": "Arduino zelena pozadina",
-      "white-border": "Bijela pozadina sa zelenim rubom"
+      "white-border": "Bijela pozadina sa zelenim rubom",
+      "codeTemperature": "Temperatura koda"
     },
     "descriptions": {
       "temperature": "Kreativnost AI-a (0 = deterministički, 1 = kreativan)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Maksimalan broj agenata za pohranu (1-100)",
       "chatHistoryLength": "Broj poruka u historiji chata (parovi korisnik/AI)",
       "promptHistoryLength": "Broj prompta u historiji",
-      "cardStyle": "Vizuelni stil za chat i kartice za izbor agenta"
+      "cardStyle": "Vizuelni stil za chat i kartice za izbor agenta",
+      "codeTemperature": "Temperatura za generisanje koda (0 = precizno, 1 = kreativno). Koristi se za funkcije koda i u režimu chat koda."
     }
   },
   "extensionUpdate": {

@@ -86,7 +86,8 @@ async function executeCodeFeature(context, config) {
             const response = await featureUtils.callAIWithProgress(
                 prompt,
                 progressKey,
-                context
+                context,
+                { useCodeTemperature: config.useCodeTemperature || false }
             );
 
             // 9. Create WebviewPanel

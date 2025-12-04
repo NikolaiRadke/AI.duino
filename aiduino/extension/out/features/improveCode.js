@@ -15,6 +15,7 @@ const codeFeatureBase = require('./codeFeatureBase');
 async function improveCode(context) {
     return codeFeatureBase.executeCodeFeature(context, {
         operation: context.executionStates.OPERATIONS.IMPROVE,
+        useCodeTemperature: true,
         promptKeys: {
             selection: 'improveCode',
             file: 'improveCodeFile',

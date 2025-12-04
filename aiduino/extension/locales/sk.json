@@ -303,7 +303,8 @@
     "generalMode": "Všeobecný",
     "toggleMode": "Odoslať informácie o doske",
     "continueInChat": "Pokračovať v chate",
-    "historyNotAvailable": "História chatu nie je k dispozícii"
+    "historyNotAvailable": "História chatu nie je k dispozícii",
+    "toggleCodeMode": "Prepnúť režim kódu (nižšia teplota pre presnejší kód)"
   },
   "shortcuts": {
     "askFollowUp": "Následná otázka",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Dĺžka histórie promptov",
       "cardStyle": "Štýl karty",
       "arduino-green": "Arduino zelené pozadie",
-      "white-border": "Biele pozadie so zeleným okrajom"
+      "white-border": "Biele pozadie so zeleným okrajom",
+      "codeTemperature": "Teplota kódu"
     },
     "descriptions": {
       "temperature": "Kreativita AI (0 = deterministické, 1 = kreatívne)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Maximálny počet uložiteľných vlastných agentov (1-100)",
       "chatHistoryLength": "Počet správ v histórii chatu (páry používateľ/AI)",
       "promptHistoryLength": "Počet promptov v histórii",
-      "cardStyle": "Vizuálny štýl pre karty chatu a výberu agenta"
+      "cardStyle": "Vizuálny štýl pre karty chatu a výberu agenta",
+      "codeTemperature": "Teplota pre generovanie kódu (0 = presné, 1 = kreatívne). Používa sa pre funkcie kódu a v režime chatu s kódom."
     }
   },
   "extensionUpdate": {

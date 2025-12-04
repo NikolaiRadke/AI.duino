@@ -139,7 +139,20 @@ class ArduinoCompletionProvider {
         const provider = minimalModelManager.providers[inlineProvider];
         
         // Don't count inline completions for support hints
-        const contextWithFlag = { ...this.context, skipSupportHint: true };
+        // Use codeTemperature for inline completion
+        const contextWithFlag = { 
+            ...this.context, 
+            skipSupportHint: true,
+            settings: {
+                ...this.context.settings,
+                get: (key) => {
+                    if (key === 'temperature' && this.context.settings.codeTemperature !== undefined) {
+                        return this.context.settings.codeTemperature;
+                    }
+                    return this.context.settings.get(key);
+                }
+            }
+        };
 
         // Make API call with user's selected model
         const response = await apiClient.callAPI('groq', prompt, contextWithFlag);

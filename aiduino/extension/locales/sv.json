@@ -303,7 +303,8 @@
     "generalMode": "Allmän",
     "toggleMode": "Skicka kortinformation",
     "continueInChat": "Fortsätt i chatten",
-    "historyNotAvailable": "Chatthistorik inte tillgänglig"
+    "historyNotAvailable": "Chatthistorik inte tillgänglig",
+    "toggleCodeMode": "Växla kodläge (lägre temperatur för mer exakt kod)"
   },
   "shortcuts": {
     "askFollowUp": "Följdfråga",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Prompthistoriklängd",
       "cardStyle": "Kortstil",
       "arduino-green": "Arduino grön bakgrund",
-      "white-border": "Vit bakgrund med grön kant"
+      "white-border": "Vit bakgrund med grön kant",
+      "codeTemperature": "Kodtemperatur"
     },
     "descriptions": {
       "temperature": "AI-kreativitet (0 = deterministisk, 1 = kreativ)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Maximalt antal lagringsbara anpassade agenter (1-100)",
       "chatHistoryLength": "Antal meddelanden i chatthistoriken (användar/AI-par)",
       "promptHistoryLength": "Antal prompter i historiken",
-      "cardStyle": "Visuell stil för chatt- och agentvalskort"
+      "cardStyle": "Visuell stil för chatt- och agentvalskort",
+      "codeTemperature": "Temperatur för kodgenerering (0 = exakt, 1 = kreativ). Används för kodfunktioner och i chatt-kodläge."
     }
   },
   "extensionUpdate": {

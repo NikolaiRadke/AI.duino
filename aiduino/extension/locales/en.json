@@ -303,7 +303,8 @@
     "generalMode": "General",
     "toggleMode": "Send board information",
     "continueInChat": "Continue in chat",
-    "historyNotAvailable": "Chat history not available"
+    "historyNotAvailable": "Chat history not available",
+    "toggleCodeMode": "Toggle code mode (lower temperature for more precise code)"
   },
   "shortcuts": {
     "askFollowUp": "Follow-up question",
@@ -523,7 +524,8 @@
       "promptHistoryLength": "Prompt History Length",
       "cardStyle": "Card Style",
       "arduino-green": "Arduino Green Background",
-      "white-border": "White Background with Green Border"
+      "white-border": "White Background with Green Border",
+      "codeTemperature": "Code Temperature"
     },
     "descriptions": {
       "temperature": "AI creativity (0 = deterministic, 1 = creative)",
@@ -545,7 +547,8 @@
       "maxCustomAgents": "Maximum number of storable custom agents (1-100)",
       "chatHistoryLength": "Number of messages in chat history (pairs of user/AI)",
       "promptHistoryLength": "Number of prompts in history",
-      "cardStyle": "Visual style for chat and agent selection cards"
+      "cardStyle": "Visual style for chat and agent selection cards",
+      "codeTemperature": "Temperature for code generation (0 = precise, 1 = creative). Used for code features and in chat code mode."
     }
   },
   "uninstall": {

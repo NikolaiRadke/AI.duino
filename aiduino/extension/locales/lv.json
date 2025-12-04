@@ -303,7 +303,8 @@
     "generalMode": "Vispārīgi",
     "toggleMode": "Nosūtīt plates informāciju",
     "continueInChat": "Turpināt tērzēšanā",
-    "historyNotAvailable": "Tērzēšanas vēsture nav pieejama"
+    "historyNotAvailable": "Tērzēšanas vēsture nav pieejama",
+    "toggleCodeMode": "Pārslēgt koda režīmu (zemāka temperatūra precīzākam kodam)"
   },
   "shortcuts": {
     "askFollowUp": "Papildu jautājums",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Uzvedņu vēstures garums",
       "cardStyle": "Kartes stils",
       "arduino-green": "Arduino zaļš fons",
-      "white-border": "Balts fons ar zaļu apmali"
+      "white-border": "Balts fons ar zaļu apmali",
+      "codeTemperature": "Koda temperatūra"
     },
     "descriptions": {
       "temperature": "AI radošums (0 = deterministisks, 1 = radošs)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Maksimālais saglabājamo pielāgoto aģentu skaits (1-100)",
       "chatHistoryLength": "Ziņojumu skaits tērzēšanas vēsturē (lietotāja/AI pāri)",
       "promptHistoryLength": "Uzvedņu skaits vēsturē",
-      "cardStyle": "Vizuālais stils tērzēšanas un aģentu izvēles kartēm"
+      "cardStyle": "Vizuālais stils tērzēšanas un aģentu izvēles kartēm",
+      "codeTemperature": "Temperatūra koda ģenerēšanai (0 = precīzs, 1 = radošs). Izmanto koda funkcijām un tērzēšanas koda režīmā."
     }
   },
   "extensionUpdate": {

@@ -303,7 +303,8 @@
     "generalMode": "Üldine",
     "toggleMode": "Saada plaadi teave",
     "continueInChat": "Jätka vestluses",
-    "historyNotAvailable": "Vestluse ajalugu pole saadaval"
+    "historyNotAvailable": "Vestluse ajalugu pole saadaval",
+    "toggleCodeMode": "Lülita koodi režiim (madalam temperatuur täpsema koodi jaoks)"
   },
   "shortcuts": {
     "askFollowUp": "Täiendav küsimus",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Prompti ajaloo pikkus",
       "cardStyle": "Kaardi stiil",
       "arduino-green": "Arduino roheline taust",
-      "white-border": "Valge taust rohelise äärega"
+      "white-border": "Valge taust rohelise äärega",
+      "codeTemperature": "Koodi temperatuur"
     },
     "descriptions": {
       "temperature": "AI loovus (0 = deterministlik, 1 = loov)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Maksimaalne salvestatavate kohandatud agentide arv (1-100)",
       "chatHistoryLength": "Sõnumite arv vestluse ajaloos (kasutaja/AI paarid)",
       "promptHistoryLength": "Promptide arv ajaloos",
-      "cardStyle": "Visuaalne stiil vestluse ja agendi valiku kaartidele"
+      "cardStyle": "Visuaalne stiil vestluse ja agendi valiku kaartidele",
+      "codeTemperature": "Temperatuur koodi genereerimiseks (0 = täpne, 1 = loov). Kasutatakse koodi funktsioonide ja vestluse koodi režiimis."
     }
   },
   "extensionUpdate": {

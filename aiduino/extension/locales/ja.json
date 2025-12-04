@@ -299,7 +299,8 @@
     "generalMode": "一般",
     "toggleMode": "ボード情報を送信",
     "continueInChat": "チャットで続ける",
-    "historyNotAvailable": "チャット履歴は利用できません"
+    "historyNotAvailable": "チャット履歴は利用できません",
+    "toggleCodeMode": "コードモードを切り替え（より正確なコードのための低温度）"
   },
   "shortcuts": {
     "askFollowUp": "追加質問",
@@ -432,7 +433,8 @@
       "promptHistoryLength": "プロンプト履歴の長さ",
       "cardStyle": "カードスタイル",
       "arduino-green": "Arduino緑背景",
-      "white-border": "白背景と緑枠"
+      "white-border": "白背景と緑枠",
+      "codeTemperature": "コード温度"
     },
     "descriptions": {
       "temperature": "AIの創造性 (0 = 決定論的, 1 = 創造的)",
@@ -454,7 +456,8 @@
       "maxCustomAgents": "保存可能なカスタムエージェントの最大数 (1-100)",
       "chatHistoryLength": "チャット履歴のメッセージ数（ユーザー/AIペア）",
       "promptHistoryLength": "履歴内のプロンプト数",
-      "cardStyle": "チャットとエージェント選択カードの視覚スタイル"
+      "cardStyle": "チャットとエージェント選択カードの視覚スタイル",
+      "codeTemperature": "コード生成の温度（0 = 正確、1 = 創造的）。コード機能とチャットコードモードで使用されます。"
     }
   },
   "extensionUpdate": {

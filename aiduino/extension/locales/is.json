@@ -303,7 +303,8 @@
     "generalMode": "Almennt",
     "toggleMode": "Senda upplýsingar um spjald",
     "continueInChat": "Halda áfram í spjalli",
-    "historyNotAvailable": "Spjallsaga ekki tiltæk"
+    "historyNotAvailable": "Spjallsaga ekki tiltæk",
+    "toggleCodeMode": "Skipta um kóðaham (lægra hitastig fyrir nákvæmari kóða)"
   },
   "shortcuts": {
     "askFollowUp": "Framhaldsspurning",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Lengd skipanaferils",
       "cardStyle": "Kortastíll",
       "arduino-green": "Arduino grænn bakgrunnur",
-      "white-border": "Hvítur bakgrunnur með grænum ramma"
+      "white-border": "Hvítur bakgrunnur með grænum ramma",
+      "codeTemperature": "Kóðahitastig"
     },
     "descriptions": {
       "temperature": "AI sköpunargáfa (0 = ákveðið, 1 = skapandi)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Hámarksfjöldi geymanlegra sérsniðinna umboðsmanna (1-100)",
       "chatHistoryLength": "Fjöldi skilaboða í spjallferli (notandi/gervigreind pör)",
       "promptHistoryLength": "Fjöldi skipana í ferli",
-      "cardStyle": "Sjónrænn stíll fyrir spjall- og umboðsvalskort"
+      "cardStyle": "Sjónrænn stíll fyrir spjall- og umboðsvalskort",
+      "codeTemperature": "Hitastig fyrir kóðagerð (0 = nákvæmt, 1 = skapandi). Notað fyrir kóðaaðgerðir og í spjallkóðaham."
     }
   },
   "extensionUpdate": {

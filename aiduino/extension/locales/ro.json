@@ -297,7 +297,8 @@
     "generalMode": "General",
     "toggleMode": "Trimite informații despre placă",
     "continueInChat": "Continuă în chat",
-    "historyNotAvailable": "Istoricul chat-ului nu este disponibil"
+    "historyNotAvailable": "Istoricul chat-ului nu este disponibil",
+    "toggleCodeMode": "Comutați modul cod (temperatură mai scăzută pentru cod mai precis)"
   },
   "shortcuts": {
     "askFollowUp": "Întrebare de urmărire",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Lungimea istoricului prompturi",
       "cardStyle": "Stil card",
       "arduino-green": "Fundal verde Arduino",
-      "white-border": "Fundal alb cu chenar verde"
+      "white-border": "Fundal alb cu chenar verde",
+      "codeTemperature": "Temperatura codului"
     },
     "descriptions": {
       "temperature": "Creativitatea AI (0 = determinist, 1 = creativ)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Număr maxim de agenți personalizați stocabili (1-100)",
       "chatHistoryLength": "Număr de mesaje în istoricul chat (perechi utilizator/AI)",
       "promptHistoryLength": "Număr de prompturi în istoric",
-      "cardStyle": "Stil vizual pentru carduri chat și selecție agent"
+      "cardStyle": "Stil vizual pentru carduri chat și selecție agent",
+      "codeTemperature": "Temperatura pentru generarea codului (0 = precis, 1 = creativ). Utilizată pentru funcții de cod și în modul chat cod."
     }
   },
   "extensionUpdate": {

@@ -303,7 +303,8 @@
     "generalMode": "Yleinen",
     "toggleMode": "Lähetä kortin tiedot",
     "continueInChat": "Jatka chatissa",
-    "historyNotAvailable": "Chat-historia ei saatavilla"
+    "historyNotAvailable": "Chat-historia ei saatavilla",
+    "toggleCodeMode": "Vaihda kooditilaa (matalampi lämpötila tarkemmalle koodille)"
   },
   "shortcuts": {
     "askFollowUp": "Jatkokysymys",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Prompt-historian pituus",
       "cardStyle": "Korttityyli",
       "arduino-green": "Arduino vihreä tausta",
-      "white-border": "Valkoinen tausta vihreällä reunalla"
+      "white-border": "Valkoinen tausta vihreällä reunalla",
+      "codeTemperature": "Koodin lämpötila"
     },
     "descriptions": {
       "temperature": "AI:n luovuus (0 = deterministinen, 1 = luova)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Tallennettavien mukautettujen agenttien enimmäismäärä (1-100)",
       "chatHistoryLength": "Viestien määrä keskusteluhistoriassa (käyttäjä/tekoäly-parit)",
       "promptHistoryLength": "Promptien määrä historiassa",
-      "cardStyle": "Visuaalinen tyyli keskustelu- ja agentinvalintakorteille"
+      "cardStyle": "Visuaalinen tyyli keskustelu- ja agentinvalintakorteille",
+      "codeTemperature": "Lämpötila koodin luomiseen (0 = tarkka, 1 = luova). Käytetään koodiominaisuuksiin ja chat-kooditilassa."
     }
   },
   "extensionUpdate": {

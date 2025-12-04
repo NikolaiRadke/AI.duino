@@ -303,7 +303,8 @@
     "generalMode": "Geral",
     "toggleMode": "Enviar informações da placa",
     "continueInChat": "Continuar no chat",
-    "historyNotAvailable": "Histórico de chat não disponível"
+    "historyNotAvailable": "Histórico de chat não disponível",
+    "toggleCodeMode": "Alternar modo de código (temperatura mais baixa para código mais preciso)"
   },
   "shortcuts": {
     "askFollowUp": "Pergunta de acompanhamento",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Comprimento do histórico de prompts",
       "cardStyle": "Estilo de cartão",
       "arduino-green": "Fundo verde Arduino",
-      "white-border": "Fundo branco com borda verde"
+      "white-border": "Fundo branco com borda verde",
+      "codeTemperature": "Temperatura do código"
     },
     "descriptions": {
       "temperature": "Criatividade da IA (0 = determinístico, 1 = criativo)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Número máximo de agentes personalizados armazenáveis (1-100)",
       "chatHistoryLength": "Número de mensagens no histórico de chat (pares utilizador/IA)",
       "promptHistoryLength": "Número de prompts no histórico",
-      "cardStyle": "Estilo visual para cartões de chat e seleção de agentes"
+      "cardStyle": "Estilo visual para cartões de chat e seleção de agentes",
+      "codeTemperature": "Temperatura para geração de código (0 = preciso, 1 = criativo). Usado para recursos de código e no modo de chat de código."
     }
   },
   "extensionUpdate": {

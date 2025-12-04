@@ -303,7 +303,8 @@
     "generalMode": "Generale",
     "toggleMode": "Invia informazioni sulla scheda",
     "continueInChat": "Continua nella chat",
-    "historyNotAvailable": "Cronologia chat non disponibile"
+    "historyNotAvailable": "Cronologia chat non disponibile",
+    "toggleCodeMode": "Attiva modalità codice (temperatura più bassa per codice più preciso)"
   },
   "shortcuts": {
     "askFollowUp": "Domanda di seguito",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Lunghezza cronologia prompt",
       "cardStyle": "Stile scheda",
       "arduino-green": "Sfondo verde Arduino",
-      "white-border": "Sfondo bianco con bordo verde"
+      "white-border": "Sfondo bianco con bordo verde",
+      "codeTemperature": "Temperatura codice"
     },
     "descriptions": {
       "temperature": "Creatività dell'IA (0 = deterministico, 1 = creativo)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Numero massimo di agenti personalizzati memorizzabili (1-100)",
       "chatHistoryLength": "Numero di messaggi nella cronologia chat (coppie utente/IA)",
       "promptHistoryLength": "Numero di prompt nella cronologia",
-      "cardStyle": "Stile visivo per le schede di chat e selezione agenti"
+      "cardStyle": "Stile visivo per le schede di chat e selezione agenti",
+      "codeTemperature": "Temperatura per la generazione di codice (0 = preciso, 1 = creativo). Utilizzata per le funzioni di codice e in modalità chat codice."
     }
   },
   "extensionUpdate": {

@@ -303,7 +303,8 @@
     "generalMode": "Splošno",
     "toggleMode": "Pošlji informacije o plošči",
     "continueInChat": "Nadaljuj v klepetu",
-    "historyNotAvailable": "Zgodovina klepeta ni na voljo"
+    "historyNotAvailable": "Zgodovina klepeta ni na voljo",
+    "toggleCodeMode": "Preklopi način kode (nižja temperatura za natančnejšo kodo)"
   },
   "shortcuts": {
     "askFollowUp": "Nadaljnje vprašanje",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Dolžina zgodovine promptov",
       "cardStyle": "Slog kartice",
       "arduino-green": "Arduino zeleno ozadje",
-      "white-border": "Belo ozadje z zelenim robom"
+      "white-border": "Belo ozadje z zelenim robom",
+      "codeTemperature": "Temperatura kode"
     },
     "descriptions": {
       "temperature": "Ustvarjalnost AI (0 = deterministično, 1 = ustvarjalno)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Največje število shranjenih prilagojenih agentov (1-100)",
       "chatHistoryLength": "Število sporočil v zgodovini klepeta (pari uporabnik/AI)",
       "promptHistoryLength": "Število promptov v zgodovini",
-      "cardStyle": "Vizualni slog za kartice klepeta in izbire agenta"
+      "cardStyle": "Vizualni slog za kartice klepeta in izbire agenta",
+      "codeTemperature": "Temperatura za generiranje kode (0 = natančno, 1 = ustvarjalno). Uporablja se za funkcije kode in v načinu klepeta s kodo."
     }
   },
   "extensionUpdate": {

@@ -303,7 +303,8 @@
     "generalMode": "Bendras",
     "toggleMode": "Siųsti plokštės informaciją",
     "continueInChat": "Tęsti pokalbyje",
-    "historyNotAvailable": "Pokalbio istorija nepasiekiama"
+    "historyNotAvailable": "Pokalbio istorija nepasiekiama",
+    "toggleCodeMode": "Perjungti kodo režimą (žemesnė temperatūra tikslesniam kodui)"
   },
   "shortcuts": {
     "askFollowUp": "Papildomas klausimas",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Užklausų istorijos ilgis",
       "cardStyle": "Kortelės stilius",
       "arduino-green": "Arduino žalias fonas",
-      "white-border": "Baltas fonas su žaliu rėmeliu"
+      "white-border": "Baltas fonas su žaliu rėmeliu",
+      "codeTemperature": "Kodo temperatūra"
     },
     "descriptions": {
       "temperature": "AI kūrybiškumas (0 = deterministinis, 1 = kūrybingas)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Maksimalus saugomų pasirinktinių agentų skaičius (1-100)",
       "chatHistoryLength": "Pranešimų skaičius pokalbių istorijoje (vartotojo/AI poros)",
       "promptHistoryLength": "Užklausų skaičius istorijoje",
-      "cardStyle": "Vizualinis stilius pokalbių ir agentų pasirinkimo kortelėms"
+      "cardStyle": "Vizualinis stilius pokalbių ir agentų pasirinkimo kortelėms",
+      "codeTemperature": "Temperatūra kodo generavimui (0 = tikslus, 1 = kūrybiškas). Naudojamas kodo funkcijoms ir pokalbio kodo režime."
     }
   },
   "extensionUpdate": {

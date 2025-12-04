@@ -303,7 +303,8 @@
     "generalMode": "Ġenerali",
     "toggleMode": "Ibgħat informazzjoni dwar il-bord",
     "continueInChat": "Kompli fil-chat",
-    "historyNotAvailable": "Storja tal-chat mhix disponibbli"
+    "historyNotAvailable": "Storja tal-chat mhix disponibbli",
+    "toggleCodeMode": "Aqleb il-modalità tal-kodiċi (temperatura aktar baxxa għal kodiċi aktar preċiż)"
   },
   "shortcuts": {
     "askFollowUp": "Mistoqsija follow-up",
@@ -436,7 +437,8 @@
       "promptHistoryLength": "Tul tal-istorja tal-prompts",
       "cardStyle": "Stil tal-kard",
       "arduino-green": "Sfond aħdar Arduino",
-      "white-border": "Sfond abjad b'limitu aħdar"
+      "white-border": "Sfond abjad b'limitu aħdar",
+      "codeTemperature": "Temperatura tal-kodiċi"
     },
     "descriptions": {
       "temperature": "Kreattività tal-AI (0 = deterministiku, 1 = kreattiv)",
@@ -458,7 +460,8 @@
       "maxCustomAgents": "Numru massimu ta' aġenti personalizzati li jistgħu jinħażnu (1-100)",
       "chatHistoryLength": "Numru ta' messaġġi fl-istorja taċ-chat (pari utent/AI)",
       "promptHistoryLength": "Numru ta' prompts fl-istorja",
-      "cardStyle": "Stil viżwali għall-karti taċ-chat u għażla tal-aġent"
+      "cardStyle": "Stil viżwali għall-karti taċ-chat u għażla tal-aġent",
+      "codeTemperature": "Temperatura għall-ġenerazzjoni tal-kodiċi (0 = preċiż, 1 = kreattiv). Jintuża għall-karatteristiċi tal-kodiċi u fil-modalità tal-chat tal-kodiċi."
     }
   },
   "extensionUpdate": {
