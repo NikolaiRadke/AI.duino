@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **04.12.2025** Release **V2.5.0** with improved AI temperature handling.             
 * **04.12.2025** Release **V2.4.1** with improved token counting.             
 * **01.12.2025** Release **V2.4.0** with a small but cool improvement and Copy&Paste bugfix.           
 * **18.11.2025** Two week of testing without bugs. Weeee!         
