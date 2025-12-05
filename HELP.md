@@ -16,7 +16,7 @@ There a several options that needs further explainations. The default values are
 ➡️ **No.** **Groq** (with an **q** is an independent AI infrastructure company founded by former Google engineers. It has no connection to Elon Musk or X/Twitter. **Grok** (with a "k") is xAI's chatbot. AI.duino uses **Groq** for its fast API access to open-source models - a purely technical choice based on performance.
 
     
-### "The browser chats have microfone input. Does AI.duino has it?"
+### "The browser chats have microphone input. Does AI.duino has it?"
 ➡️ **No.** Sorry. the IDE itself has no given permissions to access the microphone for security reasons. Use your OS voice input:
 * Windows: Press WIN + H 
 * macOS: Press Fn two times
