@@ -25,3 +25,6 @@ There a several options that needs further explainations. The default values are
     
 ### "Where is the rigth-click context menu from the IDE in the output window?"
 ➡️ The IDE disabled right-click for security reasons. Because Copy&Paste is important, AI.duino uses a tricky own workaround menu.  
+
+### "The Quick menu has an unpleasent position. Can it be moved?"
+➡️ **No.** Quick menu is a part of IDE/Theia restricted elements. AI.duino can have this or nothing.  
