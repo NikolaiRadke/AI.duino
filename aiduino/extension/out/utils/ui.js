@@ -115,9 +115,25 @@ class QuickMenuTreeProvider {
     
     const item = new QuickMenuTreeItem(cleanLabel, menuItem.command, icon);
     
-    // Add full name as tooltip for inline completion
+    // Set tooltip from translations instead of menuItem.description
     if (menuItem.command?.includes('toggleInlineCompletion') && this.context?.t) {
         item.tooltip = this.context.t('commands.toggleInlineCompletion');
+    } else if (menuItem.command && this.context?.t) {
+        const cmdName = menuItem.command.replace('aiduino.', '');
+        // Try "Selected" version first (more descriptive), fallback to base description
+        let descKey = `descriptions.${cmdName}Selected`;
+        let tooltip = this.context.t(descKey);
+        
+        // If translation returns the key itself, try without "Selected"
+        if (tooltip === descKey) {
+            descKey = `descriptions.${cmdName}`;
+            tooltip = this.context.t(descKey);
+        }
+        
+        // Only set tooltip if translation was found
+        if (tooltip !== descKey) {
+            item.tooltip = tooltip;
+        }
     }
     
     return item;
