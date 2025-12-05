@@ -6,7 +6,9 @@ More coming soon.
 There a several options that needs further explainations.
 
 ### AI Behavior
-* **Creativity (Temerature):** Controls randomness in AI responses. Lower values (0.0-0.3) produce more focused and deterministic answers, ideal for code generation. Higher values (0.7-1.0) increase creativity and variety. Default: 0.7
+* **Creativity (Temperature):** Controls randomness in AI responses. Lower values (0.0-0.3) produce more focused and deterministic answers, ideal for code generation. Higher values (0.7-1.0) increase creativity and variety. used in **Explain Code**, **Quick Question**, and **Chat (if enabled)**. Default: 0.7  
+  
+* **Code Temperature:** Code generation needs more precicion. Used in **all other features** and **inline completion**. Default: 0.3  
 
 # FAQ
 
