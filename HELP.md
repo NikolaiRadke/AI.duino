@@ -8,7 +8,9 @@ There a several options that needs further explainations. The default values are
 ### AI Behavior
 * **Creativity (Temperature):** Controls randomness in AI responses. Lower values (0.0-0.3) produce more focused and deterministic answers, ideal for code generation. Higher values (0.7-1.0) increase creativity and variety. used in **Explain Code**, **Quick Question**, and **Chat (if enabled)**. Default: 0.7  
   
-* **Code Temperature:** Code generation needs more precicion. Used in **all other features** and **inline completion**. Default: 0.3  
+* **Code Temperature:** Code generation needs more precicion. Used in **all other features** and **inline completion**. Default: 0.3
+  
+* **Max. Tokens per Request:** Set the token limit for the AI answer in 4 steps. 2000 ist really short, 8000 is quite talkative. The selected step is shown in the tree beneath **Response length:**. More than 8000 may cause errors, so it's limited. Default: 4000
 
 # FAQ
 
