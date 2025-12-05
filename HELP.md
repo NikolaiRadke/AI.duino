@@ -3,7 +3,7 @@ Some hints how to use AI.duino.
 More coming soon.
 
 ## Settings
-There a several options that needs further explainations.
+There a several options that needs further explainations. The default values are okay and tested, but if you need some customization, here are some explanations.
 
 ### AI Behavior
 * **Creativity (Temperature):** Controls randomness in AI responses. Lower values (0.0-0.3) produce more focused and deterministic answers, ideal for code generation. Higher values (0.7-1.0) increase creativity and variety. used in **Explain Code**, **Quick Question**, and **Chat (if enabled)**. Default: 0.7  
