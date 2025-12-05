@@ -496,7 +496,7 @@ function registerCommands(context) {
         setApiKey: () => apiManager.setApiKey(getDependencies()),
         switchLanguage,
         clearAIContext,
-        showSettings: () => showSettings(getDependencies()),
+        showSettings: (context, openCategory) => showSettings(context || getDependencies(), openCategory),
         
         // Feature modules  
         explainCodeFeature,

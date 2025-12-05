@@ -146,21 +146,22 @@ class CommandRegistry {
                 description: 'Open Settings'
             },
             {
+                name: 'aiduino.openMaxTokensSetting',
+                handler: () => deps.showSettings(deps.getDependencies(), 'aiBehavior'),
+                description: 'Open Max Tokens Setting'
+            },
+            {
                 name: 'aiduino.openHelp',
                 handler: () => {
                     vscode.env.openExternal(vscode.Uri.parse('https://github.com/NikolaiRadke/AI.duino/blob/main/HELP.md'));
                 },
                 description: 'Open Help Documentation'
             },
-
-            // Inline Completion
-           {
+            {
                 name: 'aiduino.toggleInlineCompletion',
                 handler: () => deps.inlineCompletion.toggleInlineCompletion(deps.getDependencies()),
                 description: 'Toggle Inline Code Completion'
             },
-            
-            // Prompt Management
             {
                 name: 'aiduino.editPrompts',
                 handler: () => deps.promptEditorFeature.editPrompts(deps.getDependencies()),

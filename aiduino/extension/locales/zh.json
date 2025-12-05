@@ -25,7 +25,9 @@
     "runCustomAgent": "运行代理",
     "manageCustomAgents": "管理代理",
     "analyzeCode": "分析代码（离线）",
-    "help": "帮助"
+    "help": "帮助",
+    "maxTokensDisplay": "最大响应长度：",
+    "maxTokensDisplayShort": "响应长度："
   },
   "messages": {
     "welcome": "👋 欢迎！AI.duino 支持{0}！",

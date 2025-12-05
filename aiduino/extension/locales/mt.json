@@ -25,7 +25,9 @@
     "runCustomAgent": "Mexxi l-Aġent",
     "manageCustomAgents": "Immexxi l-Aġenti",
     "analyzeCode": "Analizza l-kodiċi (Offline)",
-    "help": "Għajnuna"
+    "help": "Għajnuna",
+    "maxTokensDisplay": "Tul massimu tar-risposta:",
+    "maxTokensDisplayShort": "Tul tar-risposta:"
   },
   "messages": {
     "welcome": "👋 Merħba! AI.duino jappoġġa {0}!",

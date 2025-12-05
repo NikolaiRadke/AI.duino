@@ -25,7 +25,9 @@
     "runCustomAgent": "エージェントを実行",
     "manageCustomAgents": "エージェントを管理",
     "analyzeCode": "コードを分析 (オフライン)",
-    "help": "ヘルプ"
+    "help": "ヘルプ",
+    "maxTokensDisplay": "最大応答長:",
+    "maxTokensDisplayShort": "応答長:"
   },
   "messages": {
     "welcome": "👋 ようこそ！AI.duino は{0}をサポートしています！",

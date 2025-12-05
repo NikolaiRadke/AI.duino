@@ -86,6 +86,12 @@ function showSettings(context, openCategory = null) {
                     }
                 } else {
                     await settings.set(message.key, message.value);
+                    // Refresh tree for maxTokens changes
+                    if (message.key === 'maxTokensPerRequest' && context.quickMenuTreeProvider) {
+                        setTimeout(() => {
+                            context.quickMenuTreeProvider.refresh();
+                        }, 200);
+                    }
                 }
                 break;
                 
@@ -105,6 +111,8 @@ function showSettings(context, openCategory = null) {
                     // Refresh panel
                     const updatedSettings = settings.getAll();
                     panel.webview.html = generateSettingsHTML(updatedSettings, t, context, openCategory);
+                    // Refresh tree
+                    vscode.commands.executeCommand('aiduino.refreshQuickMenu');     
                     break;
 
                 case 'uninstall':
@@ -128,7 +136,7 @@ function generateSettingsHTML(currentSettings, t, context, openCategory = null) 
             settings: [
                 { key: 'temperature', type: 'number', min: 0, max: 1, step: 0.1 },
                 { key: 'codeTemperature', type: 'number', min: 0, max: 1, step: 0.1 },
-                { key: 'maxTokensPerRequest', type: 'number', min: 500, max: 8000, step: 100 }
+                { key: 'maxTokensPerRequest', type: 'range', options: [2000, 4000, 6000, 8000] }
             ]
         },
         {
@@ -404,6 +412,28 @@ function generateSettingsHTML(currentSettings, t, context, openCategory = null) 
             opacity: 0.8;
             transform: scale(1.02);
         }
+.setting-slider {
+            width: 100%;
+            cursor: pointer;
+        }
+        
+        .setting-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--vscode-button-background);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .setting-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--vscode-button-background);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -630,6 +660,34 @@ function generateSettingsForCategory(category, categoryData, t, context) {
                        class="setting-checkbox"
                        ${value ? 'checked' : ''}
                        onchange="updateSetting('${key}', this.checked, 'boolean')">
+            `;
+        } else if (setting.type === 'range' && setting.options) {
+            const options = setting.options;
+            const currentValue = value || options[0];
+            const currentIndex = options.indexOf(currentValue);
+            const labels = options.map((val, i) => `${i + 1} (${val})`);
+            
+            inputHTML = `
+                <div style="width: 100%;">
+                    <input type="range" 
+                           id="input-${key}" 
+                           class="setting-slider"
+                           min="0"
+                           max="${options.length - 1}"
+                           value="${currentIndex >= 0 ? currentIndex : 0}"
+                           step="1"
+                           list="markers-${key}"
+                           oninput="document.getElementById('value-${key}').textContent = ['${labels.join("','")}'][this.value]; updateSetting('${key}', [${options.join(',')}][this.value], 'number')">
+                    <datalist id="markers-${key}">
+                        ${options.map((_, i) => `<option value="${i}"></option>`).join('')}
+                    </datalist>
+                    <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--vscode-descriptionForeground); margin-top: 5px;">
+                        ${labels.map(label => `<span>${label}</span>`).join('')}
+                    </div>
+                    <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--vscode-foreground);">
+                        <span id="value-${key}">${currentIndex + 1} (${currentValue})</span>
+                    </div>
+                </div>
             `;
         } else {
             inputHTML = `

@@ -86,6 +86,15 @@ function buildMenuItems(context) {
             label: `$(wand) ${t('commands.toggleInlineCompletion')}`,
             description: getInlineCompletionStatus(context),
             command: 'aiduino.toggleInlineCompletion'
+        },
+        {
+            label: `$(output) ${t('commands.maxTokensDisplay')}`,
+            description: (() => {
+                const tokenValue = context.settings.get('maxTokensPerRequest');
+                const level = tokenValue === 2000 ? '1' : tokenValue === 4000 ? '2' : tokenValue === 6000 ? '3' : '4';
+                return level;
+            })(),
+            command: 'aiduino.openMaxTokensSetting'
         }
     ];
     

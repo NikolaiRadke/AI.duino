@@ -25,7 +25,9 @@
     "runCustomAgent": "Ügynök futtatása",
     "manageCustomAgents": "Ügynökök kezelése",
     "analyzeCode": "Kód elemzése (Offline)",
-    "help": "Súgó"
+    "help": "Súgó",
+    "maxTokensDisplay": "Maximális válaszhossz:",
+    "maxTokensDisplayShort": "Válaszhossz:"
   },
   "messages": {
     "welcome": "Üdvözöl a {0} támogatásával!",

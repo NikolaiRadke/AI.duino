@@ -25,7 +25,9 @@
     "runCustomAgent": "Ajanı Çalıştır",
     "manageCustomAgents": "Ajanları Yönet",
     "analyzeCode": "Kodu analiz et (Çevrimdışı)",
-    "help": "Yardım"
+    "help": "Yardım",
+    "maxTokensDisplay": "Maksimum yanıt uzunluğu:",
+    "maxTokensDisplayShort": "Yanıt uzunluğu:"
   },
   "messages": {
     "welcome": "👋 Hoş geldiniz! AI.duino  {0} destekliyor!",

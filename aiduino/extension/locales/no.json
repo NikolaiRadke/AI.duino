@@ -25,7 +25,9 @@
     "runCustomAgent": "Kjør agent",
     "manageCustomAgents": "Administrer agenter",
     "analyzeCode": "Analyser kode (Frakoblet)",
-    "help": "Hjelp"
+    "help": "Hjelp",
+    "maxTokensDisplay": "Maksimal svarlengde:",
+    "maxTokensDisplayShort": "Svarlengde:"
   },
   "messages": {
     "welcome": "👋 Velkommen! AI.duino støtter {0}!",

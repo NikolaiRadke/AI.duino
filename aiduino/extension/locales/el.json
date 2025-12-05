@@ -25,7 +25,9 @@
     "runCustomAgent": "Εκτέλεση παράγοντα",
     "manageCustomAgents": "Διαχείριση παραγόντων",
     "analyzeCode": "Ανάλυση κώδικα (Εκτός σύνδεσης)",
-    "help": "Βοήθεια"
+    "help": "Βοήθεια",
+    "maxTokensDisplay": "Μέγιστο μήκος απάντησης:",
+    "maxTokensDisplayShort": "Μήκος απάντησης:"
   },
   "messages": {
     "welcome": "👋 Καλώς ήρθατε! Το AI.duino  υποστηρίζει {0}!",

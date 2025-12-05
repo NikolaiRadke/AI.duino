@@ -25,7 +25,9 @@
     "runCustomAgent": "Kör agent",
     "manageCustomAgents": "Hantera agenter",
     "analyzeCode": "Analysera kod (Offline)",
-    "help": "Hjälp"
+    "help": "Hjälp",
+    "maxTokensDisplay": "Maximal svarslängd:",
+    "maxTokensDisplayShort": "Svarslängd:"
   },
   "messages": {
     "welcome": "👋 Välkommen! AI.duino  stöder {0}!",

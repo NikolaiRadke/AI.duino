@@ -25,7 +25,9 @@
     "runCustomAgent": "Rulează agentul",
     "manageCustomAgents": "Gestionează agenții",
     "analyzeCode": "Analizează cod (Offline)",
-    "help": "Ajutor"
+    "help": "Ajutor",
+    "maxTokensDisplay": "Lungimea maximă a răspunsului:",
+    "maxTokensDisplayShort": "Lungimea răspunsului:"
   },
   "messages": {
     "welcome": "👋 Bun venit! AI.duino suportă {0}!",

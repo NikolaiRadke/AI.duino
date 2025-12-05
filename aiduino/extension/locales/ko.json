@@ -25,7 +25,9 @@
     "runCustomAgent": "에이전트 실행",
     "manageCustomAgents": "에이전트 관리",
     "analyzeCode": "코드 분석 (오프라인)",
-    "help": "도움말"
+    "help": "도움말",
+    "maxTokensDisplay": "최대 응답 길이:",
+    "maxTokensDisplayShort": "응답 길이:"
   },
   "messages": {
     "welcome": "👋 환영합니다! AI.duino {0}을(를) 지원합니다!",

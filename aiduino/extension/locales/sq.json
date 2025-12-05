@@ -25,7 +25,9 @@
     "runCustomAgent": "Ekzekuto agentin",
     "manageCustomAgents": "Menaxho agentët",
     "analyzeCode": "Analizoni kodin (Offline)",
-    "help": "Ndihmë"
+    "help": "Ndihmë",
+    "maxTokensDisplay": "Gjatësia maksimale e përgjigjes:",
+    "maxTokensDisplayShort": "Gjatësia e përgjigjes:"
   },
   "messages": {
     "welcome": "👋 Mirë se vini! AI.duino mbështet {0}!",

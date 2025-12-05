@@ -25,7 +25,9 @@
     "runCustomAgent": "Käivita agent",
     "manageCustomAgents": "Halda agente",
     "analyzeCode": "Analüüsi koodi (Võrguühenduseta)",
-    "help": "Abi"
+    "help": "Abi",
+    "maxTokensDisplay": "Maksimaalne vastuse pikkus:",
+    "maxTokensDisplayShort": "Vastuse pikkus:"
   },
   "messages": {
     "welcome": "👋 Tere tulemast! AI.duino toetab {0}!",

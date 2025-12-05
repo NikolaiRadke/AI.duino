@@ -25,7 +25,9 @@
     "runCustomAgent": "Keyra umboðsmann",
     "manageCustomAgents": "Stjórna umboðsmönnum",
     "analyzeCode": "Greina kóða (Án nettengingar)",
-    "help": "Hjálp"
+    "help": "Hjálp",
+    "maxTokensDisplay": "Hámarks svarlengd:",
+    "maxTokensDisplayShort": "Svarlengd:"
   },
   "messages": {
     "welcome": "👋 Velkominn! AI.duino styður {0}!",

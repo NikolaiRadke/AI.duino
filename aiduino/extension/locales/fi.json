@@ -25,7 +25,9 @@
     "runCustomAgent": "Suorita agentti",
     "manageCustomAgents": "Hallitse agentteja",
     "analyzeCode": "Analysoi koodi (Offline)",
-    "help": "Ohje"
+    "help": "Ohje",
+    "maxTokensDisplay": "Vastauksen enimmäispituus:",
+    "maxTokensDisplayShort": "Vastauksen pituus:"
   },
   "messages": {
     "welcome": "👋 Tervetuloa! AI.duino tukee {0}:tä!",

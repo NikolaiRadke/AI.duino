@@ -25,7 +25,9 @@
     "runCustomAgent": "Pokreni agenta",
     "manageCustomAgents": "Upravljaj agentima",
     "analyzeCode": "Analiziraj kod (Offline)",
-    "help": "Pomoć"
+    "help": "Pomoć",
+    "maxTokensDisplay": "Maksimalna dužina odgovora:",
+    "maxTokensDisplayShort": "Dužina odgovora:"
   },
   "messages": {
     "welcome": "👋 Dobrodošli! AI.duino podržava {0}!",

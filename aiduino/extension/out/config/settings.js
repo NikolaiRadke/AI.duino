@@ -17,7 +17,7 @@ class SettingsManager {
             // ===== AI BEHAVIOR =====
             temperature: 0.7,
             codeTemperature: 0.3,
-            maxTokensPerRequest: 8000,
+            maxTokensPerRequest: 4000,
             customInstructionsEnabled: true,
             
             // ===== PERFORMANCE =====

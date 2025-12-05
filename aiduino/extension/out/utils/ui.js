@@ -68,10 +68,11 @@ class QuickMenuTreeProvider {
     
         // Block 2: Settings (including toggleInlineCompletion)
         const settings = menuItems.filter(item => 
-            item.command && [
-                'switchLanguage', 'switchModel', 'setApiKey', 
-                'manageCustomAgents', 'editPrompts', 'toggleInlineCompletion'
-            ].some(cmd => item.command.includes(cmd))
+            item.command && (
+                ['switchLanguage', 'switchModel', 'setApiKey', 
+                 'manageCustomAgents', 'editPrompts', 'toggleInlineCompletion'].some(cmd => item.command.includes(cmd)) ||
+                item.command.includes('openMaxTokensSetting')
+            )
         );
         settings.forEach(item => treeItems.push(this.createTreeItem(item)));
     
@@ -81,9 +82,9 @@ class QuickMenuTreeProvider {
     
         // Block 3: Info items (Stats, About, Help, Settings - NO Board)
         const infoItems = menuItems.filter(item => 
-            item.command && ['showTokenStats', 'about', 'openHelp', 'openSettings'].some(cmd => 
+            item.command && ['showTokenStats', 'about', 'openHelp'].some(cmd => 
                 item.command.includes(cmd)
-            )
+            ) || item.command === 'aiduino.openSettings'
         );
         infoItems.forEach(item => treeItems.push(this.createTreeItem(item)));
     
@@ -106,6 +107,10 @@ class QuickMenuTreeProvider {
     // Shorten label for tree view using translation
     if (menuItem.command?.includes('toggleInlineCompletion') && this.context?.t) {
         cleanLabel = this.context.t('commands.toggleInlineCompletionShort');
+    }
+    
+    if (menuItem.label.includes('$(output)') && this.context?.t) {
+        cleanLabel = `${this.context.t('commands.maxTokensDisplayShort')} ${menuItem.description}`;
     }
     
     // Add description for settings with status

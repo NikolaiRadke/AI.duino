@@ -25,7 +25,9 @@
     "runCustomAgent": "Palaist aģentu",
     "manageCustomAgents": "Pārvaldīt aģentus",
     "analyzeCode": "Analizēt kodu (Bezsaistē)",
-    "help": "Palīdzība"
+    "help": "Palīdzība",
+    "maxTokensDisplay": "Maksimālais atbildes garums:",
+    "maxTokensDisplayShort": "Atbildes garums:"
   },
   "messages": {
     "welcome": "👋 Esiet sveicināti! AI.duino atbalsta {0}!",

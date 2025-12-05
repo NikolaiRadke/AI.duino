@@ -25,7 +25,9 @@
     "runCustomAgent": "Spustit agenta",
     "manageCustomAgents": "Správa agentů",
     "analyzeCode": "Analyzovat kód (Offline)",
-    "help": "Nápověda"
+    "help": "Nápověda",
+    "maxTokensDisplay": "Maximální délka odpovědi:",
+    "maxTokensDisplayShort": "Délka odpovědi:"
   },
   "messages": {
     "welcome": "👋 Vítejte! AI.duino podporuje {0}!",

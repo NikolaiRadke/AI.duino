@@ -25,7 +25,9 @@
     "runCustomAgent": "Paleisti agentą",
     "manageCustomAgents": "Valdyti agentus",
     "analyzeCode": "Analizuoti kodą (Neprisijungus)",
-    "help": "Pagalba"
+    "help": "Pagalba",
+    "maxTokensDisplay": "Maksimalus atsakymo ilgis:",
+    "maxTokensDisplayShort": "Atsakymo ilgis:"
   },
   "messages": {
     "welcome": "👋 Sveiki! AI.duino palaiko {0}!",

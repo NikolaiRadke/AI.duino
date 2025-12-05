@@ -263,8 +263,8 @@
         },
         "aiduino.maxTokensPerRequest": {
           "type": "number",
-          "default": 8000,
-          "minimum": 500,
+          "default": 4000,
+          "minimum": 1000,
           "maximum": 8000,
           "description": "Maximum tokens per AI request"
         },

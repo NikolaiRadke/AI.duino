@@ -25,7 +25,9 @@
     "runCustomAgent": "Ejecutar agente",
     "manageCustomAgents": "Administrar agentes",
     "analyzeCode": "Analizar código (Sin conexión)",
-    "help": "Ayuda"
+    "help": "Ayuda",
+    "maxTokensDisplay": "Longitud máxima de respuesta:",
+    "maxTokensDisplayShort": "Longitud de respuesta:"
   },
   "messages": {
     "welcome": "👋 ¡Bienvenido! AI.duino  soporta {0}!",
