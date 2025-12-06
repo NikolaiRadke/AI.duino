@@ -1,8 +1,0 @@
-* Bugfix: Außerhalb des Fensters klicken zum Abbrechen
-* codeTemperatur wird bei der deinstallation korrekt entfernt
-* Lazy Loading der Features
-* Ungenutzte Datei entfernt
-* Debugging-Outputs entfernt
-* Bessere Session-Persistenz bei Claude Code und Codex CLI
-* Agentenimport und -export
-

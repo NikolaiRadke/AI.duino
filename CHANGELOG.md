@@ -1,23 +1,17 @@
 # Changelog
-**V2.3.0** 
+**V2.5.0-Make** 
 
 ## Features
-* Added adding external files feature for chat and agents
-* Added offline analysis
-* Added Codex CLI session persistence
-* Added UI design options
+* Added agent import/export
 
 ## Bugfixes
-* Small menu cleanup
-* Fixed Claude Code to REAL session persistence
-* Fixed double prompt building with Ollama and LM Studio
-* Fixed annoying Arduino mode switch bug in the chat
+* All settings are now removed correctly when using the uninstall option
+* Removed unused file 
+* Removed debugging code
 
 ## Other
-* Much much code refactoring and code cleanup
-* Explain Code now has Webview too
-* History persistence enhanced
-* More customable settings
-* Translated Windows installer to English
+* You can abort a feature bei clicking outside prompt window
+* Better Claude Code and Codex CLI session persistance
+* Feature lazy loading for better startup performance 
 
 
