@@ -627,7 +627,25 @@
     "addFiles": "Προσθήκη αρχείων",
     "selectAdditionalFiles": "Επιλογή επιπλέον αρχείων",
     "noAdditionalFiles": "Δεν υπάρχουν επιπλέον αρχεία",
-    "nameAndPromptRequired": "Το όνομα και το prompt είναι υποχρεωτικά"
+    "nameAndPromptRequired": "Το όνομα και το prompt είναι υποχρεωτικά",
+    "import": "Εισαγωγή",
+    "exportAll": "Εξαγωγή όλων",
+    "exportAgent": "Εξαγωγή πράκτορα",
+    "noAgentsToExport": "Δεν υπάρχουν διαθέσιμοι πράκτορες για εξαγωγή",
+    "exportSuccess": "{0} πράκτορας/ες εξήχθησαν με επιτυχία",
+    "exportFailed": "Η εξαγωγή απέτυχε",
+    "agentExported": "Πράκτορας '{0}' εξήχθη",
+    "importFailed": "Η εισαγωγή απέτυχε - μη έγκυρο αρχείο",
+    "importAgents": "Εισαγωγή πρακτόρων",
+    "skipExisting": "Παράλειψη (διατήρηση υπαρχόντων)",
+    "skipExistingDetail": "Οι υπάρχοντες πράκτορες παραμένουν αμετάβλητοι",
+    "replaceExisting": "Αντικατάσταση (αντικατάσταση)",
+    "replaceExistingDetail": "Οι υπάρχοντες πράκτορες θα ενημερωθούν",
+    "importConflictQuestion": "{0} πράκτορας/ες υπάρχουν ήδη: {1}. Τι θέλετε να κάνετε;",
+    "importSuccess": "{0} πράκτορας/ες εισήχθησαν με επιτυχία",
+    "skipped": "{0} παραλείφθηκαν",
+    "errors": "{0} σφάλματα",
+    "importError": "Σφάλμα εισαγωγής: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Αναλυμένο αρχείο",
@@ -655,5 +673,8 @@
     "portRead": "διαβάζει",
     "globalVars": "Καθολικές μεταβλητές",
     "globalVarsList": "Καθολικές μεταβλητές"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI εξήγηση"
   }
 }

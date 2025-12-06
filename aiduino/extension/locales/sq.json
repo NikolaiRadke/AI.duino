@@ -627,7 +627,25 @@
     "addFiles": "Shto skedarë",
     "selectAdditionalFiles": "Zgjidh skedarë shtesë",
     "noAdditionalFiles": "Nuk ka skedarë shtesë",
-    "nameAndPromptRequired": "Emri dhe prompt janë të detyrueshme"
+    "nameAndPromptRequired": "Emri dhe prompt janë të detyrueshme",
+    "import": "Importo",
+    "exportAll": "Eksporto të gjithë",
+    "exportAgent": "Eksporto agentin",
+    "noAgentsToExport": "Nuk ka agjentë të disponueshëm për eksportim",
+    "exportSuccess": "{0} agjent(ë) u eksportuan me sukses",
+    "exportFailed": "Eksportimi dështoi",
+    "agentExported": "Agjenti '{0}' u eksportua",
+    "importFailed": "Importimi dështoi - skedar i pavlefshëm",
+    "importAgents": "Importo agjentë",
+    "skipExisting": "Kalo (mbaj ekzistuesit)",
+    "skipExistingDetail": "Agjentët ekzistues mbeten të pandryshuar",
+    "replaceExisting": "Zëvendëso (mbishkruaj)",
+    "replaceExistingDetail": "Agjentët ekzistues do të përditësohen",
+    "importConflictQuestion": "{0} agjent(ë) tashmë ekzistojnë: {1}. Çfarë dëshironi të bëni?",
+    "importSuccess": "{0} agjent(ë) u importuan me sukses",
+    "skipped": "{0} u kaluan",
+    "errors": "{0} gabime",
+    "importError": "Gabim në importim: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Skedari i analizuar",
@@ -655,5 +673,8 @@
     "portRead": "lexon",
     "globalVars": "Variabla globale",
     "globalVarsList": "Variabla globale"
+  },
+  "explainCode": {
+    "aiAnalysis": "Shpjegim AI"
   }
 }

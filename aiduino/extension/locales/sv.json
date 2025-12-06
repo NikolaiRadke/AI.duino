@@ -627,7 +627,25 @@
     "addFiles": "Lägg till filer",
     "selectAdditionalFiles": "Välj ytterligare filer",
     "noAdditionalFiles": "Inga ytterligare filer",
-    "nameAndPromptRequired": "Namn och prompt är obligatoriska"
+    "nameAndPromptRequired": "Namn och prompt är obligatoriska",
+    "import": "Importera",
+    "exportAll": "Exportera alla",
+    "exportAgent": "Exportera agent",
+    "noAgentsToExport": "Inga agenter tillgängliga för export",
+    "exportSuccess": "{0} agent(er) exporterade",
+    "exportFailed": "Export misslyckades",
+    "agentExported": "Agent '{0}' exporterad",
+    "importFailed": "Import misslyckades - ogiltig fil",
+    "importAgents": "Importera agenter",
+    "skipExisting": "Hoppa över (behåll befintliga)",
+    "skipExistingDetail": "Befintliga agenter förblir oförändrade",
+    "replaceExisting": "Ersätt (skriv över)",
+    "replaceExistingDetail": "Befintliga agenter kommer att uppdateras",
+    "importConflictQuestion": "{0} agent(er) finns redan: {1}. Vad vill du göra?",
+    "importSuccess": "{0} agent(er) importerade",
+    "skipped": "{0} överhoppade",
+    "errors": "{0} fel",
+    "importError": "Importfel: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Analyserad fil",
@@ -655,5 +673,8 @@
     "portRead": "läser",
     "globalVars": "Globala variabler",
     "globalVarsList": "Globala variabler"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI-förklaring"
   }
 }

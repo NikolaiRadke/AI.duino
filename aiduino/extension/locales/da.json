@@ -627,7 +627,25 @@
     "addFiles": "Tilføj filer",
     "selectAdditionalFiles": "Vælg yderligere filer",
     "noAdditionalFiles": "Ingen yderligere filer",
-    "nameAndPromptRequired": "Navn og prompt er påkrævet"
+    "nameAndPromptRequired": "Navn og prompt er påkrævet",
+    "import": "Importer",
+    "exportAll": "Eksporter alle",
+    "exportAgent": "Eksporter agent",
+    "noAgentsToExport": "Ingen agenter tilgængelige til eksport",
+    "exportSuccess": "{0} agent(er) eksporteret succesfuldt",
+    "exportFailed": "Eksport mislykkedes",
+    "agentExported": "Agent '{0}' eksporteret",
+    "importFailed": "Import mislykkedes - ugyldig fil",
+    "importAgents": "Importer agenter",
+    "skipExisting": "Spring over (behold eksisterende)",
+    "skipExistingDetail": "Eksisterende agenter forbliver uændrede",
+    "replaceExisting": "Erstat (overskriv)",
+    "replaceExistingDetail": "Eksisterende agenter vil blive opdateret",
+    "importConflictQuestion": "{0} agent(er) eksisterer allerede: {1}. Hvad vil du gøre?",
+    "importSuccess": "{0} agent(er) importeret succesfuldt",
+    "skipped": "{0} sprunget over",
+    "errors": "{0} fejl",
+    "importError": "Importfejl: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Analyseret fil",
@@ -655,5 +673,8 @@
     "portRead": "læser",
     "globalVars": "Globale variabler",
     "globalVarsList": "Globale variabler"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI forklaring"
   }
 }

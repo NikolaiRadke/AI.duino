@@ -627,7 +627,25 @@
     "addFiles": "Pievienot failus",
     "selectAdditionalFiles": "Izvēlēties papildu failus",
     "noAdditionalFiles": "Nav papildu failu",
-    "nameAndPromptRequired": "Nosaukums un uzvedne ir obligāti"
+    "nameAndPromptRequired": "Nosaukums un uzvedne ir obligāti",
+    "import": "Importēt",
+    "exportAll": "Eksportēt visu",
+    "exportAgent": "Eksportēt aģentu",
+    "noAgentsToExport": "Nav pieejamu aģentu eksportēšanai",
+    "exportSuccess": "{0} aģents(-i) veiksmīgi eksportēti",
+    "exportFailed": "Eksportēšana neizdevās",
+    "agentExported": "Aģents '{0}' eksportēts",
+    "importFailed": "Importēšana neizdevās - nederīgs fails",
+    "importAgents": "Importēt aģentus",
+    "skipExisting": "Izlaist (paturēt esošos)",
+    "skipExistingDetail": "Esošie aģenti paliek nemainīti",
+    "replaceExisting": "Aizstāt (pārrakstīt)",
+    "replaceExistingDetail": "Esošie aģenti tiks atjaunināti",
+    "importConflictQuestion": "{0} aģents(-i) jau eksistē: {1}. Ko vēlaties darīt?",
+    "importSuccess": "{0} aģents(-i) veiksmīgi importēti",
+    "skipped": "{0} izlaisti",
+    "errors": "{0} kļūdas",
+    "importError": "Importēšanas kļūda: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Analizēts fails",
@@ -655,5 +673,8 @@
     "portRead": "lasa",
     "globalVars": "Globālie mainīgie",
     "globalVarsList": "Globālie mainīgie"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI skaidrojums"
   }
 }

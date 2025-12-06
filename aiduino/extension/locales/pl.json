@@ -627,7 +627,25 @@
     "addFiles": "Dodaj pliki",
     "selectAdditionalFiles": "Wybierz dodatkowe pliki",
     "noAdditionalFiles": "Brak dodatkowych plików",
-    "nameAndPromptRequired": "Nazwa i prompt są wymagane"
+    "nameAndPromptRequired": "Nazwa i prompt są wymagane",
+    "import": "Importuj",
+    "exportAll": "Eksportuj wszystko",
+    "exportAgent": "Eksportuj agenta",
+    "noAgentsToExport": "Brak agentów do eksportu",
+    "exportSuccess": "{0} agent(ów) pomyślnie wyeksportowano",
+    "exportFailed": "Eksport nie powiódł się",
+    "agentExported": "Agent '{0}' wyeksportowany",
+    "importFailed": "Import nie powiódł się - nieprawidłowy plik",
+    "importAgents": "Importuj agentów",
+    "skipExisting": "Pomiń (zachowaj istniejące)",
+    "skipExistingDetail": "Istniejący agenci pozostają niezmienieni",
+    "replaceExisting": "Zastąp (nadpisz)",
+    "replaceExistingDetail": "Istniejący agenci zostaną zaktualizowani",
+    "importConflictQuestion": "{0} agent(ów) już istnieje: {1}. Co chcesz zrobić?",
+    "importSuccess": "{0} agent(ów) pomyślnie zaimportowano",
+    "skipped": "{0} pominięto",
+    "errors": "{0} błędów",
+    "importError": "Błąd importu: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Przeanalizowany plik",
@@ -655,5 +673,8 @@
     "portRead": "odczytuje",
     "globalVars": "Zmienne globalne",
     "globalVarsList": "Zmienne globalne"
+  },
+  "explainCode": {
+    "aiAnalysis": "Wyjaśnienie AI"
   }
 }

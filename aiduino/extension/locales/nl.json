@@ -627,7 +627,25 @@
     "addFiles": "Bestanden toevoegen",
     "selectAdditionalFiles": "Selecteer extra bestanden",
     "noAdditionalFiles": "Geen extra bestanden",
-    "nameAndPromptRequired": "Naam en prompt zijn verplicht"
+    "nameAndPromptRequired": "Naam en prompt zijn verplicht",
+    "import": "Importeren",
+    "exportAll": "Alles exporteren",
+    "exportAgent": "Agent exporteren",
+    "noAgentsToExport": "Geen agents beschikbaar om te exporteren",
+    "exportSuccess": "{0} agent(en) succesvol geëxporteerd",
+    "exportFailed": "Export mislukt",
+    "agentExported": "Agent '{0}' geëxporteerd",
+    "importFailed": "Import mislukt - ongeldig bestand",
+    "importAgents": "Agents importeren",
+    "skipExisting": "Overslaan (bestaande behouden)",
+    "skipExistingDetail": "Bestaande agents blijven ongewijzigd",
+    "replaceExisting": "Vervangen (overschrijven)",
+    "replaceExistingDetail": "Bestaande agents worden bijgewerkt",
+    "importConflictQuestion": "{0} agent(en) bestaat/bestaan al: {1}. Wat wilt u doen?",
+    "importSuccess": "{0} agent(en) succesvol geïmporteerd",
+    "skipped": "{0} overgeslagen",
+    "errors": "{0} fouten",
+    "importError": "Importfout: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Geanalyseerd bestand",
@@ -655,5 +673,8 @@
     "portRead": "leest",
     "globalVars": "Globale variabelen",
     "globalVarsList": "Globale variabelen"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI-uitleg"
   }
 }

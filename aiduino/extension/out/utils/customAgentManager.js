@@ -16,6 +16,7 @@ const shared = require('../shared');
 
 const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
 const AGENTS_FILE = path.join(AIDUINO_DIR, '.aiduino-custom-agents.json');
+const AGENT_FILES_DIR = path.join(AIDUINO_DIR, 'agent-files'); 
 
 /**
  * Custom Agent Manager for AI.duino
@@ -97,10 +98,30 @@ class CustomAgentManager {
             name: agentData.name,
             prompt: agentData.prompt,
             context: agentData.context,
-            additionalFiles: agentData.additionalFiles || [],
+            additionalFiles: [],  // ← Will be filled below
             created: new Date().toISOString(),
             lastUsed: null
         };
+    
+        // Create agent directory for file storage
+        const agentDir = path.join(AGENT_FILES_DIR, agent.id);
+        if (!fs.existsSync(agentDir)) {
+            fs.mkdirSync(agentDir, { recursive: true, mode: 0o700 });
+        }
+    
+        // Copy additional files to agent directory
+        if (agentData.additionalFiles && agentData.additionalFiles.length > 0) {
+            agent.additionalFiles = agentData.additionalFiles.map(filePath => {
+                try {
+                    const fileName = path.basename(filePath);
+                    const targetPath = path.join(agentDir, fileName);
+                    fs.copyFileSync(filePath, targetPath);
+                    return targetPath;
+                } catch (error) {
+                    return null;
+                }
+            }).filter(Boolean);  // Remove failed copies
+        }
 
         this.agents.push(agent);
         this.saveAgents({ agents: this.agents });
@@ -117,16 +138,58 @@ class CustomAgentManager {
     updateAgent(id, updates) {
         const index = this.agents.findIndex(agent => agent.id === id);
         if (index === -1) return false;
+    
+        const agent = this.agents[index];
+        const agentDir = path.join(AGENT_FILES_DIR, id);
+    
+        // Handle additionalFiles updates
+        if (updates.additionalFiles) {
+            // Ensure agent directory exists
+            if (!fs.existsSync(agentDir)) {
+                fs.mkdirSync(agentDir, { recursive: true, mode: 0o700 });
+            }
+            
+            // Remove old files that are not in the new list
+            const oldFiles = agent.additionalFiles || [];
+            const newFilePaths = updates.additionalFiles;
+            
+            oldFiles.forEach(oldPath => {
+                if (!newFilePaths.includes(oldPath) && oldPath.includes(agentDir)) {
+                    try {
+                        fs.unlinkSync(oldPath);
+                    } catch {}
+                }
+            });
+        
+            // Copy new files to agent directory
+            updates.additionalFiles = newFilePaths.map(filePath => {
+                // If file is already in agent directory, keep it
+                if (filePath.startsWith(agentDir)) {
+                    return filePath;
+                }
+            
+                // Copy external file to agent directory
+                try {
+                    const fileName = path.basename(filePath);
+                    const targetPath = path.join(agentDir, fileName);
+                    fs.copyFileSync(filePath, targetPath);
+                    return targetPath;
+                } catch (error) {
+                    return null;
+                }
+            }).filter(Boolean);
+        }
 
         this.agents[index] = {
-            ...this.agents[index],
+            ...agent,
             ...updates,
-            id: this.agents[index].id,
-            created: this.agents[index].created
+            id: agent.id,
+            created: agent.created
         };
 
-        return this.saveAgents({ agents: this.agents });
-    }
+        this.saveAgents({ agents: this.agents });
+        return true;
+    }   
 
     /**
      * Delete agent
@@ -136,9 +199,20 @@ class CustomAgentManager {
     deleteAgent(id) {
         const index = this.agents.findIndex(agent => agent.id === id);
         if (index === -1) return false;
+    
+        // Delete agent directory with all files
+        const agentDir = path.join(AGENT_FILES_DIR, id);
+        if (fs.existsSync(agentDir)) {
+            try {
+                fs.rmSync(agentDir, { recursive: true, force: true });
+            } catch (error) {
+            }
+        }
 
         this.agents.splice(index, 1);
-        return this.saveAgents({ agents: this.agents });
+        this.saveAgents({ agents: this.agents });
+    
+        return true;
     }
 
     /**
@@ -550,6 +624,218 @@ class CustomAgentManager {
         }
         
         return parts.join('\n');
+    }
+
+    /**
+     * Export agent(s) to JSON with embedded file contents
+     * @param {string|Array|null} agentIds - Single ID, array of IDs, or null for all
+     * @returns {Object} Export data with embedded files
+     */
+    exportAgents(agentIds = null) {
+        let agentsToExport;
+        
+        if (agentIds === null) {
+            // Export all agents
+            agentsToExport = this.agents;
+        } else if (Array.isArray(agentIds)) {
+            // Export multiple agents
+            agentsToExport = this.agents.filter(a => agentIds.includes(a.id));
+        } else {
+            // Export single agent
+            agentsToExport = this.agents.filter(a => a.id === agentIds);
+        }
+        
+        // Embed file contents
+        const agentsWithContent = agentsToExport.map(agent => {
+            const filesWithContent = (agent.additionalFiles || []).map(filePath => {
+                try {
+                    const content = fs.readFileSync(filePath, 'utf8');
+                    return {
+                        name: path.basename(filePath),
+                        content: content
+                    };
+                } catch (error) {
+                    // File read failed - skip this file
+                    return null;
+                }
+            }).filter(Boolean);
+            
+            return {
+                id: agent.id,
+                name: agent.name,
+                prompt: agent.prompt,
+                context: agent.context,
+                additionalFiles: filesWithContent,
+                created: agent.created
+            };
+        });
+    
+        return {
+            version: "1.0",
+            exportDate: new Date().toISOString(),
+            aiduinoVersion: "1.0.0",
+            agents: agentsWithContent
+        };
+    }
+
+     /**
+     * Import agents from JSON data
+     * @param {Object} importData - Import data object
+     * @param {boolean} replaceExisting - Replace agents with same name
+     * @returns {Object} Import result with statistics
+     */
+    importAgents(importData, replaceExisting = false) {
+        if (!importData || !importData.agents || !Array.isArray(importData.agents)) {
+            return { 
+                success: false, 
+                error: 'Invalid import format: missing agents array' 
+            };
+        }
+    
+        // Version check
+        if (importData.version !== "1.0") {
+            return { 
+                success: false, 
+                error: `Unsupported export version: ${importData.version}` 
+            };
+        }
+    
+        const imported = [];
+        const skipped = [];
+        const errors = [];
+        
+        for (const importedAgent of importData.agents) {
+            try {
+                // Validate agent data
+                if (!importedAgent.name || !importedAgent.prompt) {
+                    errors.push(`Invalid agent data: missing name or prompt`);
+                    continue;
+                }
+                
+                // Check if agent with same name exists
+                const existingIndex = this.agents.findIndex(a => a.name === importedAgent.name);
+                
+                if (existingIndex !== -1 && !replaceExisting) {
+                    skipped.push(importedAgent.name);
+                    continue;
+                }
+                
+                // Generate new ID for imported agent
+                const newId = this.generateId();
+                const agentDir = path.join(AGENT_FILES_DIR, newId);
+                
+                // Create agent directory
+                if (!fs.existsSync(agentDir)) {
+                    fs.mkdirSync(agentDir, { recursive: true, mode: 0o700 });
+                }
+            
+                // Write files to agent directory
+                const localFiles = (importedAgent.additionalFiles || []).map(file => {
+                    try {
+                        const targetPath = path.join(agentDir, file.name);
+                        fs.writeFileSync(targetPath, file.content, 'utf8');
+                        return targetPath;
+                    } catch (error) {
+                        return null;
+                    }
+                }).filter(Boolean);
+                
+                // Create new agent object
+                const newAgent = {
+                    id: newId,
+                    name: importedAgent.name,
+                    prompt: importedAgent.prompt,
+                    context: importedAgent.context || 'current-sketch',
+                    additionalFiles: localFiles,
+                    created: new Date().toISOString(),
+                    lastUsed: null
+                };
+                
+                if (existingIndex !== -1 && replaceExisting) {
+                    // Replace existing agent (keep old ID and created date)
+                    const oldId = this.agents[existingIndex].id;
+                    const oldCreated = this.agents[existingIndex].created;
+                    
+                    // Delete old agent directory
+                    const oldAgentDir = path.join(AGENT_FILES_DIR, oldId);
+                    if (fs.existsSync(oldAgentDir)) {
+                        fs.rmSync(oldAgentDir, { recursive: true, force: true });
+                    }
+                    
+                    newAgent.id = oldId;
+                    newAgent.created = oldCreated;
+                    
+                    // Move files to old agent directory
+                    const correctDir = path.join(AGENT_FILES_DIR, oldId);
+                    if (!fs.existsSync(correctDir)) {
+                        fs.mkdirSync(correctDir, { recursive: true, mode: 0o700 });
+                    }
+                    
+                    newAgent.additionalFiles = localFiles.map(filePath => {
+                    const fileName = path.basename(filePath);
+                        const newPath = path.join(correctDir, fileName);
+                        fs.renameSync(filePath, newPath);
+                        return newPath;
+                    });
+                    
+                    // Remove temporary directory
+                    fs.rmSync(agentDir, { recursive: true, force: true });
+                    
+                    this.agents[existingIndex] = newAgent;
+                } else {
+                    // Add new agent
+                    this.agents.push(newAgent);
+                }
+            
+                imported.push(importedAgent.name);
+                
+            } catch (error) {
+                errors.push(`Failed to import agent "${importedAgent.name}": ${error.message}`);
+            }
+        }
+        
+        // Save updated agents
+        this.saveAgents({ agents: this.agents });
+    
+        return {
+            success: true,
+            imported: imported.length,
+            skipped: skipped.length,
+            errors: errors.length,
+            importedNames: imported,
+            skippedNames: skipped,
+            errorMessages: errors
+        };
+    }   
+    
+    /** 
+     * Save agent export to file
+     * @param {Object} exportData - Export data from exportAgents()
+     * @param {string} filePath - Target file path
+     * @returns {boolean} Success status
+     */
+    saveExportToFile(exportData, filePath) {
+        try {
+            const content = JSON.stringify(exportData, null, 2);
+            fs.writeFileSync(filePath, content, 'utf8');
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    /**
+     * Load agent import from file
+     * @param {string} filePath - Source file path
+     * @returns {Object|null} Import data or null on error
+     */
+    loadImportFromFile(filePath) {
+        try {
+            const content = fs.readFileSync(filePath, 'utf8');
+            return JSON.parse(content);
+        } catch (error) {
+            return null;
+        }
     }
 }
 

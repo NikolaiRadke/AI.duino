@@ -627,7 +627,25 @@
     "addFiles": "Fájlok hozzáadása",
     "selectAdditionalFiles": "További fájlok kiválasztása",
     "noAdditionalFiles": "Nincsenek további fájlok",
-    "nameAndPromptRequired": "A név és a prompt kötelező"
+    "nameAndPromptRequired": "A név és a prompt kötelező",
+    "import": "Importálás",
+    "exportAll": "Összes exportálása",
+    "exportAgent": "Ágens exportálása",
+    "noAgentsToExport": "Nincsenek exportálható ágensek",
+    "exportSuccess": "{0} ágens sikeresen exportálva",
+    "exportFailed": "Az exportálás sikertelen",
+    "agentExported": "'{0}' ágens exportálva",
+    "importFailed": "Az importálás sikertelen - érvénytelen fájl",
+    "importAgents": "Ágensek importálása",
+    "skipExisting": "Kihagyás (meglévők megtartása)",
+    "skipExistingDetail": "A meglévő ágensek változatlanok maradnak",
+    "replaceExisting": "Csere (felülírás)",
+    "replaceExistingDetail": "A meglévő ágensek frissítésre kerülnek",
+    "importConflictQuestion": "{0} ágens már létezik: {1}. Mit szeretne tenni?",
+    "importSuccess": "{0} ágens sikeresen importálva",
+    "skipped": "{0} kihagyva",
+    "errors": "{0} hiba",
+    "importError": "Importálási hiba: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Elemzett fájl",
@@ -655,5 +673,8 @@
     "portRead": "olvas",
     "globalVars": "Globális változók",
     "globalVarsList": "Globális változók"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI magyarázat"
   }
 }

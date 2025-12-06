@@ -627,7 +627,25 @@
     "addFiles": "Lisa failid",
     "selectAdditionalFiles": "Vali lisafailid",
     "noAdditionalFiles": "Lisafaile pole",
-    "nameAndPromptRequired": "Nimi ja prompt on kohustuslikud"
+    "nameAndPromptRequired": "Nimi ja prompt on kohustuslikud",
+    "import": "Import",
+    "exportAll": "Ekspordi kõik",
+    "exportAgent": "Ekspordi agent",
+    "noAgentsToExport": "Eksportimiseks pole agente saadaval",
+    "exportSuccess": "{0} agent(i) edukalt eksporditud",
+    "exportFailed": "Eksport ebaõnnestus",
+    "agentExported": "Agent '{0}' eksporditud",
+    "importFailed": "Import ebaõnnestus - kehtetu fail",
+    "importAgents": "Impordi agendid",
+    "skipExisting": "Jäta vahele (säilita olemasolevad)",
+    "skipExistingDetail": "Olemasolevad agendid jäävad muutmata",
+    "replaceExisting": "Asenda (kirjuta üle)",
+    "replaceExistingDetail": "Olemasolevad agendid uuendatakse",
+    "importConflictQuestion": "{0} agent(i) on juba olemas: {1}. Mida soovite teha?",
+    "importSuccess": "{0} agent(i) edukalt imporditud",
+    "skipped": "{0} vahele jäetud",
+    "errors": "{0} viga",
+    "importError": "Impordi viga: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Analüüsitud fail",
@@ -655,5 +673,8 @@
     "portRead": "loeb",
     "globalVars": "Globaalsed muutujad",
     "globalVarsList": "Globaalsed muutujad"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI selgitus"
   }
 }

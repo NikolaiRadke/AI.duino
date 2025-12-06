@@ -627,7 +627,25 @@
     "addFiles": "Bæta við skrám",
     "selectAdditionalFiles": "Velja viðbótarskrár",
     "noAdditionalFiles": "Engar viðbótarskrár",
-    "nameAndPromptRequired": "Nafn og skipun eru nauðsynleg"
+    "nameAndPromptRequired": "Nafn og skipun eru nauðsynleg",
+    "import": "Flytja inn",
+    "exportAll": "Flytja út allt",
+    "exportAgent": "Flytja út umboðsmann",
+    "noAgentsToExport": "Engir umboðsmenn tiltækir til útflutnings",
+    "exportSuccess": "{0} umboðsmaður/menn flutt út",
+    "exportFailed": "Útflutningur mistókst",
+    "agentExported": "Umboðsmaður '{0}' fluttur út",
+    "importFailed": "Innflutningur mistókst - ógild skrá",
+    "importAgents": "Flytja inn umboðsmenn",
+    "skipExisting": "Sleppa (halda núverandi)",
+    "skipExistingDetail": "Núverandi umboðsmenn haldast óbreyttir",
+    "replaceExisting": "Skipta um (skrifa yfir)",
+    "replaceExistingDetail": "Núverandi umboðsmenn verða uppfærðir",
+    "importConflictQuestion": "{0} umboðsmaður/menn eru þegar til: {1}. Hvað viltu gera?",
+    "importSuccess": "{0} umboðsmaður/menn flutt inn",
+    "skipped": "{0} sleppt",
+    "errors": "{0} villur",
+    "importError": "Innflutningsvilla: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Greind skrá",
@@ -655,5 +673,8 @@
     "portRead": "les",
     "globalVars": "Altækar breytur",
     "globalVarsList": "Altækar breytur"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI skýring"
   }
 }

@@ -627,7 +627,25 @@
     "addFiles": "Додати файли",
     "selectAdditionalFiles": "Вибрати додаткові файли",
     "noAdditionalFiles": "Немає додаткових файлів",
-    "nameAndPromptRequired": "Ім'я та промпт обов'язкові"
+    "nameAndPromptRequired": "Ім'я та промпт обов'язкові",
+    "import": "Імпортувати",
+    "exportAll": "Експортувати всі",
+    "exportAgent": "Експортувати агента",
+    "noAgentsToExport": "Немає доступних агентів для експорту",
+    "exportSuccess": "{0} агент(ів) успішно експортовано",
+    "exportFailed": "Експорт не вдався",
+    "agentExported": "Агента '{0}' експортовано",
+    "importFailed": "Імпорт не вдався - недійсний файл",
+    "importAgents": "Імпортувати агентів",
+    "skipExisting": "Пропустити (зберегти наявні)",
+    "skipExistingDetail": "Наявні агенти залишаться незмінними",
+    "replaceExisting": "Замінити (перезаписати)",
+    "replaceExistingDetail": "Наявні агенти будуть оновлені",
+    "importConflictQuestion": "{0} агент(ів) вже існує: {1}. Що ви хочете зробити?",
+    "importSuccess": "{0} агент(ів) успішно імпортовано",
+    "skipped": "{0} пропущено",
+    "errors": "{0} помилок",
+    "importError": "Помилка імпорту: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Проаналізований файл",
@@ -655,5 +673,8 @@
     "portRead": "читає",
     "globalVars": "Глобальні змінні",
     "globalVarsList": "Глобальні змінні"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI пояснення"
   }
 }

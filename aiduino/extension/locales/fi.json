@@ -627,7 +627,25 @@
     "addFiles": "Lisää tiedostot",
     "selectAdditionalFiles": "Valitse lisätiedostot",
     "noAdditionalFiles": "Ei lisätiedostoja",
-    "nameAndPromptRequired": "Nimi ja prompt ovat pakollisia"
+    "nameAndPromptRequired": "Nimi ja prompt ovat pakollisia",
+    "import": "Tuo",
+    "exportAll": "Vie kaikki",
+    "exportAgent": "Vie agentti",
+    "noAgentsToExport": "Ei agentteja vientiä varten",
+    "exportSuccess": "{0} agentti(a) viety onnistuneesti",
+    "exportFailed": "Vienti epäonnistui",
+    "agentExported": "Agentti '{0}' viety",
+    "importFailed": "Tuonti epäonnistui - virheellinen tiedosto",
+    "importAgents": "Tuo agentit",
+    "skipExisting": "Ohita (säilytä olemassa olevat)",
+    "skipExistingDetail": "Olemassa olevat agentit pysyvät muuttumattomina",
+    "replaceExisting": "Korvaa (ylikirjoita)",
+    "replaceExistingDetail": "Olemassa olevat agentit päivitetään",
+    "importConflictQuestion": "{0} agentti(a) on jo olemassa: {1}. Mitä haluat tehdä?",
+    "importSuccess": "{0} agentti(a) tuotu onnistuneesti",
+    "skipped": "{0} ohitettu",
+    "errors": "{0} virhettä",
+    "importError": "Tuontivirhe: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Analysoitu tiedosto",
@@ -655,5 +673,8 @@
     "portRead": "lukee",
     "globalVars": "Globaalit muuttujat",
     "globalVarsList": "Globaalit muuttujat"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI-selitys"
   }
 }

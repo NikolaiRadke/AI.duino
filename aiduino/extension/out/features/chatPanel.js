@@ -158,7 +158,9 @@ async function showChatPanel(context) {
  */
 async function handleOpenChat(chatId, panel, context) {
     if (historyManager.switchChat(chatId)) {
-        activeSessions = {};
+        // Sessions aus History wiederherstellen
+        const savedSessions = historyManager.loadSessions(chatId);
+        activeSessions = savedSessions || {};
         
         currentView = 'chat';
         updatePanelContent(panel, context);
@@ -246,37 +248,44 @@ async function handleUserMessage(userText, panel, context) {
         prompt = buildChatPrompt(userText, chatHistory, actualCurrentModel, context.minimalModelManager, chatId, context);
     }
     
-try {
-    // DON'T create modifiedContext - modify context directly!
-    context.currentModel = actualCurrentModel;
-    context.sessionId = activeSessions[sessionKey] || null;
+    try {
+        // DON'T create modifiedContext - modify context directly!
+        context.currentModel = actualCurrentModel;
+        context.sessionId = activeSessions[sessionKey] || null;
     
-    const result = await featureUtils.callAIWithProgress(
-        prompt, 
-        'progress.askingAI', 
-        context,
-        { useCodeTemperature: chatCodeMode }
-    );
+        const result = await featureUtils.callAIWithProgress(
+            prompt, 
+            'progress.askingAI', 
+            context,
+            { useCodeTemperature: chatCodeMode }
+        );
     
-    // Handle both string response (API providers) and object response (local providers)
-    const response = typeof result === 'string' ? result : result.text;
-    const newSessionId = typeof result === 'object' ? result.sessionId : null;
+        // Result is always a string now (sessionId is stored in context)
+        const response = result;
+        const newSessionId = context.sessionId || null;      
+        const provider = context.minimalModelManager.providers[actualCurrentModel];
+        const gotNewSession = provider?.persistent && hadNoSession && newSessionId;
     
-    const provider = context.minimalModelManager.providers[actualCurrentModel];
-    const gotNewSession = provider?.persistent && hadNoSession && newSessionId;
+        if (gotNewSession) {
+            activeSessions[sessionKey] = newSessionId;
+            historyManager.addMessage('system', context.t('chat.newSessionStarted'), null, actualCurrentModel);
+        } else if (provider?.persistent && newSessionId) {
+            activeSessions[sessionKey] = newSessionId;
+        }
     
-    if (gotNewSession) {
-        activeSessions[sessionKey] = newSessionId;
-        historyManager.addMessage('system', context.t('chat.newSessionStarted'), null, actualCurrentModel);
-    } else if (provider?.persistent && newSessionId) {
-        activeSessions[sessionKey] = newSessionId;
+        historyManager.addMessage('ai', response, null, actualCurrentModel);
+
+        if (provider?.persistent) {
+            historyManager.saveSessions(
+                historyManager.getActiveChatId(), 
+                activeSessions
+            );
+        }
+
+        updatePanelContent(panel, context);
+    } catch (error) {
+        throw error;
     }
-    
-    historyManager.addMessage('ai', response, null, actualCurrentModel);
-    updatePanelContent(panel, context);
-} catch (error) {
-    throw error;
-}
 }
 
 /**
@@ -293,6 +302,7 @@ function buildChatPrompt(newMessage, history, currentModel, minimalModelManager,
         if (arduinoMode) {
             prompt += shared.getBoardContext();
         }
+        prompt += "\n\nWhen writing code, always show the complete code in markdown code blocks (```cpp, ```python, etc.) in your response, not just file references.";
         return prompt;
     }
     
@@ -304,6 +314,7 @@ function buildChatPrompt(newMessage, history, currentModel, minimalModelManager,
         if (arduinoMode) {
             prompt += shared.getBoardContext();
         }
+        prompt += "\n\nWhen writing code, always show the complete code in markdown code blocks (```cpp, ```python, etc.) in your response, not just file references.";
         return prompt;
     }
     
@@ -322,6 +333,7 @@ function buildChatPrompt(newMessage, history, currentModel, minimalModelManager,
     if (arduinoMode) {
         prompt += shared.getBoardContext();
     }
+    prompt += "\n\nWhen writing code, always show the complete code in markdown code blocks (```cpp, ```python, etc.) in your response, not just file references.";
     prompt += "\n\nPlease respond as the AI assistant:";
     
     return prompt;
@@ -377,6 +389,7 @@ function buildChatPromptWithAttachments(messageText, attachedContext, context) {
     if (arduinoMode) {
         prompt += '\n\n' + shared.getBoardContext();
     }
+    prompt += "\n\nWhen writing code, always show the complete code in markdown code blocks (```cpp, ```python, etc.) in your response, not just file references.";
     return prompt;
 }
 

@@ -623,7 +623,25 @@
     "addFiles": "ファイルを追加",
     "selectAdditionalFiles": "追加ファイルを選択",
     "noAdditionalFiles": "追加ファイルなし",
-    "nameAndPromptRequired": "名前とプロンプトは必須です"
+    "nameAndPromptRequired": "名前とプロンプトは必須です",
+    "import": "インポート",
+    "exportAll": "すべてエクスポート",
+    "exportAgent": "エージェントをエクスポート",
+    "noAgentsToExport": "エクスポートできるエージェントがありません",
+    "exportSuccess": "{0}個のエージェントが正常にエクスポートされました",
+    "exportFailed": "エクスポートに失敗しました",
+    "agentExported": "エージェント'{0}'がエクスポートされました",
+    "importFailed": "インポートに失敗しました - 無効なファイル",
+    "importAgents": "エージェントをインポート",
+    "skipExisting": "スキップ（既存を保持）",
+    "skipExistingDetail": "既存のエージェントは変更されません",
+    "replaceExisting": "置換（上書き）",
+    "replaceExistingDetail": "既存のエージェントが更新されます",
+    "importConflictQuestion": "{0}個のエージェントが既に存在します：{1}。どうしますか？",
+    "importSuccess": "{0}個のエージェントが正常にインポートされました",
+    "skipped": "{0}個スキップ",
+    "errors": "{0}個のエラー",
+    "importError": "インポートエラー：{0}"
   },
   "analyzeCode": {
     "analyzedFile": "分析されたファイル",
@@ -651,5 +669,8 @@
     "portRead": "読み取り",
     "globalVars": "グローバル変数",
     "globalVarsList": "グローバル変数"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI解説"
   }
 }

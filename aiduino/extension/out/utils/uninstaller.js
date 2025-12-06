@@ -185,6 +185,7 @@ async function clearVSCodeSettings() {
         'defaultModel',
         'maxTokensPerRequest',
         'temperature',
+        'codeTemperature',
         'customInstructionsEnabled',
         'inlineCompletionEnabled',
         'maxCustomAgents',

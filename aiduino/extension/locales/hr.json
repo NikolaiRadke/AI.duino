@@ -627,7 +627,25 @@
     "addFiles": "Dodaj datoteke",
     "selectAdditionalFiles": "Odaberi dodatne datoteke",
     "noAdditionalFiles": "Nema dodatnih datoteka",
-    "nameAndPromptRequired": "Ime i prompt su obavezni"
+    "nameAndPromptRequired": "Ime i prompt su obavezni",
+    "import": "Uvoz",
+    "exportAll": "Izvezi sve",
+    "exportAgent": "Izvezi agenta",
+    "noAgentsToExport": "Nema dostupnih agenata za izvoz",
+    "exportSuccess": "{0} agent(i) uspješno izvezeni",
+    "exportFailed": "Izvoz nije uspio",
+    "agentExported": "Agent '{0}' izvezen",
+    "importFailed": "Uvoz nije uspio - nevažeća datoteka",
+    "importAgents": "Uvezi agente",
+    "skipExisting": "Preskoči (zadrži postojeće)",
+    "skipExistingDetail": "Postojeći agenti ostaju nepromijenjeni",
+    "replaceExisting": "Zamijeni (prepiši)",
+    "replaceExistingDetail": "Postojeći agenti će biti ažurirani",
+    "importConflictQuestion": "{0} agent(i) već postoje: {1}. Što želite učiniti?",
+    "importSuccess": "{0} agent(i) uspješno uvezeni",
+    "skipped": "{0} preskočeno",
+    "errors": "{0} grešaka",
+    "importError": "Greška pri uvozu: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Analizirana datoteka",
@@ -655,5 +673,8 @@
     "portRead": "čita",
     "globalVars": "Globalne varijable",
     "globalVarsList": "Globalne varijable"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI objašnjenje"
   }
 }

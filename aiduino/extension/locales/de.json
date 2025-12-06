@@ -449,6 +449,9 @@
     "outputFormatFile": "WICHTIG: Gib die komplette verbesserte Datei zurück. Format: ```cpp\n...\n```",
     "outputFormatSketch": "WICHTIG: Gib alle verbesserten Dateien zurück, jeweils mit Header. Format:\n```cpp\n// ========== DateiName.ino ==========\n...\n```"
   },
+  "explainCode": {
+    "aiAnalysis": "KI-Erklärung"
+  },
   "addComments": {
     "commentedCode": "Kommentierter Code",
     "customInstructions": "Eigene Anweisungen",
@@ -633,7 +636,25 @@
     "addFiles": "Dateien hinzufügen",
     "selectAdditionalFiles": "Zusätzliche Dateien auswählen",
     "noAdditionalFiles": "Keine zusätzlichen Dateien",
-    "nameAndPromptRequired": "Name und Prompt sind erforderlich"
+    "nameAndPromptRequired": "Name und Prompt sind erforderlich",
+    "import": "Importieren",
+    "exportAll": "Alle exportieren",
+    "exportAgent": "Agent exportieren",
+    "noAgentsToExport": "Keine Agenten zum Exportieren vorhanden",
+    "exportSuccess": "{0} Agent(en) erfolgreich exportiert",
+    "exportFailed": "Export fehlgeschlagen",
+    "agentExported": "Agent '{0}' exportiert",
+    "importFailed": "Import fehlgeschlagen - ungültige Datei",
+    "importAgents": "Agenten importieren",
+    "skipExisting": "Überspringen (vorhandene behalten)",
+    "skipExistingDetail": "Existierende Agenten bleiben unverändert",
+    "replaceExisting": "Ersetzen (überschreiben)",
+    "replaceExistingDetail": "Existierende Agenten werden aktualisiert",
+    "importConflictQuestion": "{0} Agent(en) existieren bereits: {1}. Was möchten Sie tun?",
+    "importSuccess": "{0} Agent(en) erfolgreich importiert",
+    "skipped": "{0} übersprungen",
+    "errors": "{0} Fehler",
+    "importError": "Import-Fehler: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Analysierte Datei",

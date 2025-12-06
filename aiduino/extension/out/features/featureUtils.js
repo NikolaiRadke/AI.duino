@@ -125,7 +125,6 @@ async function callAIWithProgress(prompt, progressKey, context, options = {}) {
             let effectiveContext = context;
             if (options.useCodeTemperature && context.settings.get('codeTemperature') !== undefined) {
                 const codeTemp = context.settings.get('codeTemperature');
-                console.log(`❄️ Using codeTemperature: ${codeTemp}`);
                 effectiveContext = {
                     ...context,
                     settings: {
@@ -150,9 +149,7 @@ async function callAIWithProgress(prompt, progressKey, context, options = {}) {
                         }
                     }
                 };
-            } else {
-                console.log(`💡 Using normal temperature: ${context.settings.get('temperature')}`);  // ← NEU
-            }
+            } 
             
             const result = await effectiveContext.callAI(prompt, effectiveContext);
             
@@ -164,7 +161,7 @@ async function callAIWithProgress(prompt, progressKey, context, options = {}) {
                 if (result.sessionId) {
                     context.sessionId = result.sessionId;
                 }
-                return result.text;
+                return result.text;  // ← Return complete object!
             }
             
             // Fallback: return result as-is
@@ -307,7 +304,7 @@ async function showInputWithCreateQuickPickHistory(context, promptKey, placehold
     const quickPick = vscode.window.createQuickPick();
     quickPick.title = context.promptManager.getPrompt(promptKey);
     quickPick.placeholder = context.t(placeholderKey);
-    quickPick.ignoreFocusOut = true;
+    quickPick.ignoreFocusOut = false;
     quickPick.items = recentItems;
     
     return new Promise((resolve) => {

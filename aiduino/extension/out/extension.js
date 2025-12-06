@@ -23,19 +23,23 @@ const { EventManager } = require('./core/eventManager');
 const { CommandRegistry } = require('./core/commandRegistry');
 const TokenManager = require('./core/tokenManager');
 
-// Feature modules
-const shared = require('./shared');
-const explainCodeFeature = require('./features/explainCode');
-const improveCodeFeature = require('./features/improveCode');
-const addCommentsFeature = require('./features/addComments');
-const askAIFeature = require('./features/askAI');
-const chatPanelFeature = require('./features/chatPanel');
-const explainErrorFeature = require('./features/explainError');
-const debugHelpFeature = require('./features/debugHelp');
-const promptEditorFeature = require('./features/promptEditor'); 
+// Feature loader configuration - loads features on demand
+const featureLoaders = {
+    explainCode: () => require('./features/explainCode'),
+    improveCode: () => require('./features/improveCode'),
+    addComments: () => require('./features/addComments'),
+    askAI: () => require('./features/askAI'),
+    chatPanel: () => require('./features/chatPanel'),
+    explainError: () => require('./features/explainError'),
+    debugHelp: () => require('./features/debugHelp'),
+    promptEditor: () => require('./features/promptEditor'),
+    customAgents: () => require('./features/customAgents'),
+    analyzeCode: () => require('./features/analyzeCode')
+};
 const inlineCompletion = require('./features/inlineCompletion/completionProvider');
-const customAgentsFeature = require('./features/customAgents');
-const analyzeCodeFeature = require('./features/analyzeCode');
+
+// Feature cache - loaded features are cached here
+const loadedFeatures = {};
 
 // Utility modules
 const uiTools = require('./utils/ui');
@@ -103,6 +107,18 @@ let aiConversationContext = {
     lastCode: null,
     timestamp: null
 };
+
+/**
+ * Load feature on demand with caching
+ * @param {string} featureName - Name of the feature to load
+ * @returns {Object} Loaded feature module
+ */
+function loadFeature(featureName) {
+    if (!loadedFeatures[featureName]) {
+        loadedFeatures[featureName] = featureLoaders[featureName]();
+    }
+    return loadedFeatures[featureName];
+}
 
 // ===== MINIMAL MODEL MANAGER CLASS =====
 
@@ -497,24 +513,14 @@ function registerCommands(context) {
         switchLanguage,
         clearAIContext,
         showSettings: (context, openCategory) => showSettings(context || getDependencies(), openCategory),
-        
-        // Feature modules  
-        explainCodeFeature,
-        improveCodeFeature,
-        addCommentsFeature, 
-        explainErrorFeature,
-        debugHelpFeature,
-        askAIFeature,
-        chatPanelFeature,
-        promptEditorFeature,
-        customAgentsFeature,
-        inlineCompletion,
-        explainCodeFeature,
-        analyzeCodeFeature,
-
+    
+        // Feature loader for lazy loading
+        loadFeature,
+    
         setPromptEditorOpen: (isOpen) => { isPromptEditorOpen = isOpen; },
         uiTools,
-        
+        inlineCompletion,
+    
         // System dependencies
         minimalModelManager,
         getDependencies
@@ -591,7 +597,6 @@ function getDependencies() {
  * Show main quick menu with all available actions
  */
 async function showQuickMenu() {
-console.log("Debug");
     const model = minimalModelManager.providers[currentModel];
     const hasApiKey = minimalModelManager.hasApiKey(currentModel); 
 

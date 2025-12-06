@@ -627,7 +627,25 @@
     "addFiles": "Adaugă fișiere",
     "selectAdditionalFiles": "Selectează fișiere suplimentare",
     "noAdditionalFiles": "Niciun fișier suplimentar",
-    "nameAndPromptRequired": "Numele și promptul sunt obligatorii"
+    "nameAndPromptRequired": "Numele și promptul sunt obligatorii",
+    "import": "Importă",
+    "exportAll": "Exportă tot",
+    "exportAgent": "Exportă agent",
+    "noAgentsToExport": "Niciun agent disponibil pentru export",
+    "exportSuccess": "{0} agent(i) exportat(i) cu succes",
+    "exportFailed": "Exportul a eșuat",
+    "agentExported": "Agentul '{0}' a fost exportat",
+    "importFailed": "Importul a eșuat - fișier invalid",
+    "importAgents": "Importă agenți",
+    "skipExisting": "Omite (păstrează existenții)",
+    "skipExistingDetail": "Agenții existenți rămân neschimbați",
+    "replaceExisting": "Înlocuiește (suprascrie)",
+    "replaceExistingDetail": "Agenții existenți vor fi actualizați",
+    "importConflictQuestion": "{0} agent(i) există deja: {1}. Ce doriți să faceți?",
+    "importSuccess": "{0} agent(i) importat(i) cu succes",
+    "skipped": "{0} omis(i)",
+    "errors": "{0} erori",
+    "importError": "Eroare de import: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Fișier analizat",
@@ -655,5 +673,8 @@
     "portRead": "citește",
     "globalVars": "Variabile globale",
     "globalVarsList": "Variabile globale"
+  },
+  "explainCode": {
+    "aiAnalysis": "Explicație AI"
   }
 }

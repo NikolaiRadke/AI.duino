@@ -627,7 +627,25 @@
     "addFiles": "Додај датотеки",
     "selectAdditionalFiles": "Избери дополнителни датотеки",
     "noAdditionalFiles": "Нема дополнителни датотеки",
-    "nameAndPromptRequired": "Име и промпт се задолжителни"
+    "nameAndPromptRequired": "Име и промпт се задолжителни",
+    "import": "Увези",
+    "exportAll": "Извези сè",
+    "exportAgent": "Извези агент",
+    "noAgentsToExport": "Нема достапни агенти за извоз",
+    "exportSuccess": "{0} агент(и) успешно извезени",
+    "exportFailed": "Извозот не успеа",
+    "agentExported": "Агентот '{0}' е извезен",
+    "importFailed": "Увозот не успеа - неважечка датотека",
+    "importAgents": "Увези агенти",
+    "skipExisting": "Прескокни (задржи постоечки)",
+    "skipExistingDetail": "Постоечките агенти остануваат непроменети",
+    "replaceExisting": "Замени (препиши)",
+    "replaceExistingDetail": "Постоечките агенти ќе бидат ажурирани",
+    "importConflictQuestion": "{0} агент(и) веќе постојат: {1}. Што сакате да направите?",
+    "importSuccess": "{0} агент(и) успешно увезени",
+    "skipped": "{0} прескокнати",
+    "errors": "{0} грешки",
+    "importError": "Грешка при увоз: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Анализирана датотека",
@@ -655,5 +673,8 @@
     "portRead": "чита",
     "globalVars": "Глобални променливи",
     "globalVarsList": "Глобални променливи"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI објаснување"
   }
 }

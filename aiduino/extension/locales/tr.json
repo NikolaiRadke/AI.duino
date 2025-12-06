@@ -627,7 +627,25 @@
     "addFiles": "Dosya ekle",
     "selectAdditionalFiles": "Ek dosyaları seç",
     "noAdditionalFiles": "Ek dosya yok",
-    "nameAndPromptRequired": "İsim ve komut zorunludur"
+    "nameAndPromptRequired": "İsim ve komut zorunludur",
+    "import": "İçe aktar",
+    "exportAll": "Tümünü dışa aktar",
+    "exportAgent": "Ajanı dışa aktar",
+    "noAgentsToExport": "Dışa aktarılacak ajan yok",
+    "exportSuccess": "{0} ajan başarıyla dışa aktarıldı",
+    "exportFailed": "Dışa aktarma başarısız",
+    "agentExported": "'{0}' ajanı dışa aktarıldı",
+    "importFailed": "İçe aktarma başarısız - geçersiz dosya",
+    "importAgents": "Ajanları içe aktar",
+    "skipExisting": "Atla (mevcut olanları koru)",
+    "skipExistingDetail": "Mevcut ajanlar değişmeden kalır",
+    "replaceExisting": "Değiştir (üzerine yaz)",
+    "replaceExistingDetail": "Mevcut ajanlar güncellenecek",
+    "importConflictQuestion": "{0} ajan zaten mevcut: {1}. Ne yapmak istersiniz?",
+    "importSuccess": "{0} ajan başarıyla içe aktarıldı",
+    "skipped": "{0} atlandı",
+    "errors": "{0} hata",
+    "importError": "İçe aktarma hatası: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Analiz edilen dosya",
@@ -655,5 +673,8 @@
     "portRead": "okur",
     "globalVars": "Global değişkenler",
     "globalVarsList": "Global değişkenler"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI açıklaması"
   }
 }

@@ -627,7 +627,25 @@
     "addFiles": "Ajouter des fichiers",
     "selectAdditionalFiles": "Sélectionner des fichiers supplémentaires",
     "noAdditionalFiles": "Aucun fichier supplémentaire",
-    "nameAndPromptRequired": "Le nom et le prompt sont obligatoires"
+    "nameAndPromptRequired": "Le nom et le prompt sont obligatoires",
+    "import": "Importer",
+    "exportAll": "Tout exporter",
+    "exportAgent": "Exporter l'agent",
+    "noAgentsToExport": "Aucun agent disponible pour l'exportation",
+    "exportSuccess": "{0} agent(s) exporté(s) avec succès",
+    "exportFailed": "Échec de l'exportation",
+    "agentExported": "Agent '{0}' exporté",
+    "importFailed": "Échec de l'importation - fichier invalide",
+    "importAgents": "Importer des agents",
+    "skipExisting": "Ignorer (conserver les existants)",
+    "skipExistingDetail": "Les agents existants restent inchangés",
+    "replaceExisting": "Remplacer (écraser)",
+    "replaceExistingDetail": "Les agents existants seront mis à jour",
+    "importConflictQuestion": "{0} agent(s) existe(nt) déjà : {1}. Que voulez-vous faire ?",
+    "importSuccess": "{0} agent(s) importé(s) avec succès",
+    "skipped": "{0} ignoré(s)",
+    "errors": "{0} erreurs",
+    "importError": "Erreur d'importation : {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Fichier analysé",
@@ -655,5 +673,8 @@
     "portRead": "lit",
     "globalVars": "Variables globales",
     "globalVarsList": "Variables globales"
+  },
+  "explainCode": {
+    "aiAnalysis": "Explication IA"
   }
 }

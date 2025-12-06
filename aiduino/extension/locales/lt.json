@@ -627,7 +627,25 @@
     "addFiles": "Pridėti failus",
     "selectAdditionalFiles": "Pasirinkti papildomus failus",
     "noAdditionalFiles": "Nėra papildomų failų",
-    "nameAndPromptRequired": "Pavadinimas ir užklausa yra privalomi"
+    "nameAndPromptRequired": "Pavadinimas ir užklausa yra privalomi",
+    "import": "Importuoti",
+    "exportAll": "Eksportuoti viską",
+    "exportAgent": "Eksportuoti agentą",
+    "noAgentsToExport": "Nėra agentų eksportavimui",
+    "exportSuccess": "{0} agentas(-ai) sėkmingai eksportuoti",
+    "exportFailed": "Eksportavimas nepavyko",
+    "agentExported": "Agentas '{0}' eksportuotas",
+    "importFailed": "Importavimas nepavyko - netinkamas failas",
+    "importAgents": "Importuoti agentus",
+    "skipExisting": "Praleisti (palikti esamus)",
+    "skipExistingDetail": "Esami agentai lieka nepakeisti",
+    "replaceExisting": "Pakeisti (perrašyti)",
+    "replaceExistingDetail": "Esami agentai bus atnaujinti",
+    "importConflictQuestion": "{0} agentas(-ai) jau egzistuoja: {1}. Ką norėtumėte daryti?",
+    "importSuccess": "{0} agentas(-ai) sėkmingai importuoti",
+    "skipped": "{0} praleista",
+    "errors": "{0} klaidų",
+    "importError": "Importavimo klaida: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Analizuotas failas",
@@ -655,5 +673,8 @@
     "portRead": "skaito",
     "globalVars": "Globalūs kintamieji",
     "globalVarsList": "Globalūs kintamieji"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI paaiškinimas"
   }
 }

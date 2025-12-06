@@ -32,20 +32,12 @@ class CommandRegistry {
             setApiKey, 
             switchLanguage,
             clearAIContext,
-            explainCodeFeature,
-            improveCodeFeature, 
-            addCommentsFeature,
-            explainErrorFeature,
-            debugHelpFeature,
-            askAIFeature,
-            chatPanelFeature,
-            promptEditorFeature,
-            customAgentsFeature,
-            analyzeCodeFeature,
-            uiTools
-        } = deps;
+            loadFeature,  // NEW: Lazy loader function
+            uiTools,
+            inlineCompletion
+     } = deps;
 
-        return [
+    return [
             // Core Menu Commands
             { 
                 name: 'aiduino.quickMenu', 
@@ -71,61 +63,61 @@ class CommandRegistry {
             // Code Features
             { 
                 name: 'aiduino.explainCode', 
-                handler: () => explainCodeFeature.explainCode(deps.getDependencies()),
+                handler: () => loadFeature('explainCode').explainCode(deps.getDependencies()),
                 description: 'Explain Selected Code'
             },
             { 
                 name: 'aiduino.improveCode', 
-                handler: () => improveCodeFeature.improveCode(deps.getDependencies()),
+                handler: () => loadFeature('improveCode').improveCode(deps.getDependencies()),
                 description: 'Improve Selected Code'
             },
             { 
                 name: 'aiduino.addComments', 
-                handler: () => addCommentsFeature.addComments(deps.getDependencies()),
+                handler: () => loadFeature('addComments').addComments(deps.getDependencies()),
                 description: 'Add Comments to Code'
             },
             { 
                 name: 'aiduino.runCustomAgent', 
-                handler: () => customAgentsFeature.runCustomAgent(deps.getDependencies()),
+                handler: () => loadFeature('customAgents').runCustomAgent(deps.getDependencies()),
                 description: 'Run Custom AI Agent'
             },
             { 
                 name: 'aiduino.analyzeCode', 
-                handler: () => analyzeCodeFeature.analyzeCodeOffline(deps.getDependencies()),
+                handler: () => loadFeature('analyzeCode').analyzeCodeOffline(deps.getDependencies()),
                 description: 'Analyze Code (Offline)'
             },
 
             // Error & Debug Features
             { 
                 name: 'aiduino.explainError', 
-                handler: () => explainErrorFeature.explainError(deps.getDependencies()),
+                handler: () => loadFeature('explainError').explainError(deps.getDependencies()),
                 description: 'Explain Compiler Error'
             },
             {
                 name: 'aiduino.explainCopiedError',
-                handler: () => explainErrorFeature.explainCopiedError(deps.getDependencies()),
+                handler: () => loadFeature('explainError').explainCopiedError(deps.getDependencies()),
                 description: 'Explain Copied Compiler Error'
             },
             { 
                 name: 'aiduino.debugHelp', 
-                handler: () => debugHelpFeature.debugHelp(deps.getDependencies()),
+                handler: () => loadFeature('debugHelp').debugHelp(deps.getDependencies()),
                 description: 'Debug Help'
             },
 
             // AI Chat Features
             { 
                 name: 'aiduino.askAI', 
-                handler: () => askAIFeature.askAI(deps.getDependencies(), false),
+                handler: () => loadFeature('askAI').askAI(deps.getDependencies(), false),
                 description: 'Ask AI a Question'
             },
             { 
                 name: 'aiduino.askFollowUp', 
-                handler: () => askAIFeature.askAI(deps.getDependencies(), true),
+                handler: () => loadFeature('askAI').askAI(deps.getDependencies(), true),
                 description: 'Ask Follow-up Question'
             },
             {
                 name: 'aiduino.openChatPanel',
-                handler: () => chatPanelFeature.showChatPanel(deps.getDependencies()),
+                handler: () => loadFeature('chatPanel').showChatPanel(deps.getDependencies()),
                 description: 'Open AI Chat Panel'
             },
 
@@ -164,12 +156,12 @@ class CommandRegistry {
             },
             {
                 name: 'aiduino.editPrompts',
-                handler: () => deps.promptEditorFeature.editPrompts(deps.getDependencies()),
+                handler: () => loadFeature('promptEditor').editPrompts(deps.getDependencies()),
                 description: 'Edit AI Prompts'
             },
             { 
                 name: 'aiduino.manageCustomAgents', 
-                handler: () => deps.customAgentsFeature.showCustomAgentPanel(deps.getDependencies()),
+                handler: () => loadFeature('customAgents').showCustomAgentPanel(deps.getDependencies()),
                 description: 'Manage Custom AI Agents'
             },
 

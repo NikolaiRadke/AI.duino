@@ -627,7 +627,25 @@
     "addFiles": "Pridať súbory",
     "selectAdditionalFiles": "Vybrať dodatočné súbory",
     "noAdditionalFiles": "Žiadne dodatočné súbory",
-    "nameAndPromptRequired": "Názov a prompt sú povinné"
+    "nameAndPromptRequired": "Názov a prompt sú povinné",
+    "import": "Importovať",
+    "exportAll": "Exportovať všetko",
+    "exportAgent": "Exportovať agenta",
+    "noAgentsToExport": "Žiadni agenti na export",
+    "exportSuccess": "{0} agent(ov) úspešne exportovaných",
+    "exportFailed": "Export zlyhal",
+    "agentExported": "Agent '{0}' exportovaný",
+    "importFailed": "Import zlyhal - neplatný súbor",
+    "importAgents": "Importovať agentov",
+    "skipExisting": "Preskočiť (ponechať existujúcich)",
+    "skipExistingDetail": "Existujúci agenti zostanú nezmenení",
+    "replaceExisting": "Nahradiť (prepísať)",
+    "replaceExistingDetail": "Existujúci agenti budú aktualizovaní",
+    "importConflictQuestion": "{0} agent(ov) už existuje: {1}. Čo chcete urobiť?",
+    "importSuccess": "{0} agent(ov) úspešne importovaných",
+    "skipped": "{0} preskočených",
+    "errors": "{0} chýb",
+    "importError": "Chyba importu: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Analyzovaný súbor",
@@ -655,5 +673,8 @@
     "portRead": "číta",
     "globalVars": "Globálne premenné",
     "globalVarsList": "Globálne premenné"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI vysvetlenie"
   }
 }

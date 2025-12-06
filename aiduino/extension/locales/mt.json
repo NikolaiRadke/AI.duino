@@ -627,7 +627,25 @@
     "addFiles": "Żid fajls",
     "selectAdditionalFiles": "Agħżel fajls addizzjonali",
     "noAdditionalFiles": "Ebda fajls addizzjonali",
-    "nameAndPromptRequired": "Isem u prompt huma obbligatorji"
+    "nameAndPromptRequired": "Isem u prompt huma obbligatorji",
+    "import": "Importa",
+    "exportAll": "Esporta kollox",
+    "exportAgent": "Esporta aġent",
+    "noAgentsToExport": "L-ebda aġenti disponibbli għall-esportazzjoni",
+    "exportSuccess": "{0} aġent(i) esportati b'suċċess",
+    "exportFailed": "L-esportazzjoni falliet",
+    "agentExported": "Aġent '{0}' esportat",
+    "importFailed": "L-importazzjoni falliet - fajl invalidu",
+    "importAgents": "Importa aġenti",
+    "skipExisting": "Aqbeż (żomm eżistenti)",
+    "skipExistingDetail": "L-aġenti eżistenti jibqgħu mhux mibdula",
+    "replaceExisting": "Ibdel (ikteb fuq)",
+    "replaceExistingDetail": "L-aġenti eżistenti jiġu aġġornati",
+    "importConflictQuestion": "{0} aġent(i) diġà jeżistu: {1}. X'tixtieq tagħmel?",
+    "importSuccess": "{0} aġent(i) importati b'suċċess",
+    "skipped": "{0} maqbuża",
+    "errors": "{0} żbalji",
+    "importError": "Żball fl-importazzjoni: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Fajl analizzat",
@@ -655,5 +673,8 @@
     "portRead": "jaqra",
     "globalVars": "Varjabbli globali",
     "globalVarsList": "Varjabbli globali"
+  },
+  "explainCode": {
+    "aiAnalysis": "Spjegazzjoni AI"
   }
 }

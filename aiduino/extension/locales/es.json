@@ -627,7 +627,25 @@
     "addFiles": "Añadir archivos",
     "selectAdditionalFiles": "Seleccionar archivos adicionales",
     "noAdditionalFiles": "Sin archivos adicionales",
-    "nameAndPromptRequired": "El nombre y el prompt son obligatorios"
+    "nameAndPromptRequired": "El nombre y el prompt son obligatorios",
+    "import": "Importar",
+    "exportAll": "Exportar todo",
+    "exportAgent": "Exportar agente",
+    "noAgentsToExport": "No hay agentes disponibles para exportar",
+    "exportSuccess": "{0} agente(s) exportado(s) correctamente",
+    "exportFailed": "Error al exportar",
+    "agentExported": "Agente '{0}' exportado",
+    "importFailed": "Error al importar - archivo no válido",
+    "importAgents": "Importar agentes",
+    "skipExisting": "Omitir (mantener existentes)",
+    "skipExistingDetail": "Los agentes existentes permanecen sin cambios",
+    "replaceExisting": "Reemplazar (sobrescribir)",
+    "replaceExistingDetail": "Los agentes existentes se actualizarán",
+    "importConflictQuestion": "{0} agente(s) ya existe(n): {1}. ¿Qué desea hacer?",
+    "importSuccess": "{0} agente(s) importado(s) correctamente",
+    "skipped": "{0} omitido(s)",
+    "errors": "{0} errores",
+    "importError": "Error de importación: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Archivo analizado",
@@ -655,5 +673,8 @@
     "portRead": "lee",
     "globalVars": "Variables globales",
     "globalVarsList": "Variables globales"
+  },
+  "explainCode": {
+    "aiAnalysis": "Explicación de IA"
   }
 }

@@ -23,14 +23,19 @@ function buildArgs(prompt, sessionId = null) {
  */
 function extractResponse(stdout) {
     const vscode = require('vscode');
-    
     try {
         const jsonResponse = JSON.parse(stdout);
+        console.log('🔍 PARSED JSON:', jsonResponse);
+        
         const response = jsonResponse.result || jsonResponse.content || stdout;
         const sessionId = jsonResponse.session_id || null;
+        
+        console.log('🔍 EXTRACTED - response length:', response?.length);
+        console.log('🔍 EXTRACTED - sessionId:', sessionId);
 
         return { response, sessionId };
     } catch (e) {
+        console.log('🔍 JSON PARSE FAILED:', e.message);
         return { response: stdout, sessionId: null };
     }
 }

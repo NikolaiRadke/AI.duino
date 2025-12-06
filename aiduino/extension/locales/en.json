@@ -626,7 +626,25 @@
     "addFiles": "Add Files",
     "selectAdditionalFiles": "Select Additional Files",
     "noAdditionalFiles": "No additional files",
-    "nameAndPromptRequired": "Name and prompt are required"
+    "nameAndPromptRequired": "Name and prompt are required",
+    "import": "Import",
+    "exportAll": "Export all",
+    "exportAgent": "Export agent",
+    "noAgentsToExport": "No agents available to export",
+    "exportSuccess": "{0} agent(s) successfully exported",
+    "exportFailed": "Export failed",
+    "agentExported": "Agent '{0}' exported",
+    "importFailed": "Import failed - invalid file",
+    "importAgents": "Import agents",
+    "skipExisting": "Skip (keep existing)",
+    "skipExistingDetail": "Existing agents remain unchanged",
+    "replaceExisting": "Replace (overwrite)",
+    "replaceExistingDetail": "Existing agents will be updated",
+    "importConflictQuestion": "{0} agent(s) already exist: {1}. What would you like to do?",
+    "importSuccess": "{0} agent(s) successfully imported",
+    "skipped": "{0} skipped",
+    "errors": "{0} errors",
+    "importError": "Import error: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Analyzed File",
@@ -654,5 +672,8 @@
     "portRead": "reads",
     "globalVars": "Global Variables",
     "globalVarsList": "Global Variables"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI Explanation"
   }
 }

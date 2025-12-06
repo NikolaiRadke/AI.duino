@@ -627,7 +627,25 @@
     "addFiles": "Добави файлове",
     "selectAdditionalFiles": "Избери допълнителни файлове",
     "noAdditionalFiles": "Няма допълнителни файлове",
-    "nameAndPromptRequired": "Име и prompt са задължителни"
+    "nameAndPromptRequired": "Име и prompt са задължителни",
+    "import": "Импортиране",
+    "exportAll": "Експортиране на всички",
+    "exportAgent": "Експортиране на агент",
+    "noAgentsToExport": "Няма налични агенти за експортиране",
+    "exportSuccess": "{0} агент(и) успешно експортирани",
+    "exportFailed": "Експортирането се провали",
+    "agentExported": "Агент '{0}' експортиран",
+    "importFailed": "Импортирането се провали - невалиден файл",
+    "importAgents": "Импортиране на агенти",
+    "skipExisting": "Пропускане (запазване на съществуващите)",
+    "skipExistingDetail": "Съществуващите агенти остават непроменени",
+    "replaceExisting": "Заместване (презаписване)",
+    "replaceExistingDetail": "Съществуващите агенти ще бъдат актуализирани",
+    "importConflictQuestion": "{0} агент(и) вече съществуват: {1}. Какво искате да направите?",
+    "importSuccess": "{0} агент(и) успешно импортирани",
+    "skipped": "{0} пропуснати",
+    "errors": "{0} грешки",
+    "importError": "Грешка при импортиране: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "Анализиран файл",
@@ -655,5 +673,8 @@
     "portRead": "чете",
     "globalVars": "Глобални променливи",
     "globalVarsList": "Глобални променливи"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI обяснение"
   }
 }

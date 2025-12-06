@@ -327,6 +327,51 @@ class ChatHistoryManager {
         const content = JSON.stringify(data, null, 2);
         return fileManager.atomicWrite(chatFile, content, { mode: 0o600 });
     }
+
+    /**
+     * Save session IDs for a chat
+     * @param {string} chatId - Chat ID
+     * @param {Object} sessions - Session data
+     */ 
+    saveSessions(chatId, sessions) {
+        const chatFile = path.join(CHATS_DIR, `${chatId}.json`);
+    
+        if (!fileManager.fileExists(chatFile)) {
+            return false;
+        }
+
+        try {
+            const content = fileManager.safeReadFile(chatFile);
+            const data = JSON.parse(content);
+            data.sessions = sessions;
+            
+            const updated = JSON.stringify(data, null, 2);
+            return fileManager.atomicWrite(chatFile, updated, { mode: 0o600 });
+        } catch (error) {
+            return false;
+        }
+    }
+
+    /**
+     * Load session IDs for a chat
+     * @param {string} chatId - Chat ID
+     * @returns {Object} Session data
+     */
+    loadSessions(chatId) {
+        const chatFile = path.join(CHATS_DIR, `${chatId}.json`);
+    
+        if (!fileManager.fileExists(chatFile)) {
+            return {};
+        }
+
+        try {
+            const content = fileManager.safeReadFile(chatFile);
+            const data = JSON.parse(content);
+            return data.sessions || {};
+        } catch (error) {
+            return {};
+        }
+    }
 }
 
 module.exports = { ChatHistoryManager };

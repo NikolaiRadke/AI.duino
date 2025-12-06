@@ -107,6 +107,15 @@ async function showCustomAgentPanel(context) {
                 command: 'pasteText',
                 text: clipboardText
             });
+        },
+        exportAllAgents: async (message) => {
+            await handleExportAllAgents(context);
+        },
+        exportAgent: async (message) => {
+            await handleExportAgent(message.agentId, context);
+        },
+        importAgents: async (message) => {
+            await handleImportAgents(panel, context);
         }
     }); 
 }
@@ -268,6 +277,9 @@ function generateOverviewHTML(agents, context) {
                             <button class="agent-btn-edit" onclick="editAgent('${agent.id}')" title="${t('customAgent.editAgent')}">
                                 ✏️
                             </button>
+                            <button class="agent-btn-export" onclick="exportAgent('${agent.id}')" title="${t('customAgent.exportAgent')}">
+                                📤
+                            </button>
                             <button class="agent-btn-delete" onclick="deleteAgent('${agent.id}')" title="${t('buttons.delete')}">
                                 🗑️
                             </button>
@@ -323,14 +335,25 @@ function generateOverviewHTML(agents, context) {
                     <span class="overview-title">🤖 ${t('customAgent.myAgents')}</span>
                     <span class="agent-counter">${agents.length}/${maxAgents}</span>
                 </div>
-                <button 
-                    class="panel-btn new-agent-btn ${canCreateMore ? '' : 'disabled'}"
-                    onclick="createNewAgent()"
-                    ${canCreateMore ? '' : 'disabled'}
-                    title="${canCreateMore ? '' : t('customAgent.maxAgentsReached', maxAgents)}"
-                >
-                    + ${t('customAgent.newAgent')}
-                </button>
+                <div style="display: flex; gap: 10px;">
+                    <button class="panel-btn" onclick="importAgents()" title="${t('customAgent.importAgents')}">
+                        📥 ${t('customAgent.import')}
+                    </button>
+                    <button class="panel-btn ${agents.length > 0 ? '' : 'disabled'}" 
+                            onclick="exportAllAgents()" 
+                            ${agents.length > 0 ? '' : 'disabled'}
+                            title="${t('customAgent.exportAll')}">
+                        📤 ${t('customAgent.exportAll')}
+                    </button>
+                    <button 
+                        class="panel-btn new-agent-btn ${canCreateMore ? '' : 'disabled'}"
+                        onclick="createNewAgent()"
+                        ${canCreateMore ? '' : 'disabled'}
+                        title="${canCreateMore ? '' : t('customAgent.maxAgentsReached', maxAgents)}"
+                    >
+                        + ${t('customAgent.newAgent')}
+                    </button>
+                </div>
             </div>
             
             <div class="agents-list">
@@ -363,6 +386,18 @@ function generateOverviewHTML(agents, context) {
                         command: 'deleteAgent',
                         agentId: agentId
                     });
+                }
+
+                function exportAllAgents() {
+                    vscode.postMessage({ command: 'exportAllAgents' });
+                }
+
+                function exportAgent(agentId) {
+                    vscode.postMessage({ command: 'exportAgent', agentId });
+                }
+
+                function importAgents() {
+                    vscode.postMessage({ command: 'importAgents' });
                 }
                 
                 // Context menu
@@ -822,6 +857,172 @@ function generateOutputHTML(agent, response, context) {
         </body>
         </html>
     `;
+}
+
+/**
+ * Handle export all agents
+ */
+async function handleExportAllAgents(context) {
+    const { t } = context;
+    
+    if (!agentManager) {
+        agentManager = new CustomAgentManager();
+    }
+    
+    const agents = agentManager.getAllAgents();
+    
+    if (agents.length === 0) {
+        vscode.window.showInformationMessage(t('customAgent.noAgentsToExport'));
+        return;
+    }
+    
+    // Show save dialog
+    const uri = await vscode.window.showSaveDialog({
+        defaultUri: vscode.Uri.file('aiduino-agents.json'),
+        filters: {
+            'JSON Files': ['json'],
+            'All Files': ['*']
+        },
+        saveLabel: t('buttons.save')
+    });
+    
+    if (!uri) return;
+    
+    // Export all agents
+    const exportData = agentManager.exportAgents(null);
+    const success = agentManager.saveExportToFile(exportData, uri.fsPath);
+    
+    if (success) {
+        vscode.window.showInformationMessage(
+            t('customAgent.exportSuccess', agents.length)
+        );
+    } else {
+        vscode.window.showErrorMessage(t('customAgent.exportFailed'));
+    }
+}
+
+/**
+ * Handle export single agent
+ */
+async function handleExportAgent(agentId, context) {
+    const { t } = context;
+    
+    if (!agentManager) {
+        agentManager = new CustomAgentManager();
+    }
+    
+    const agent = agentManager.getAgent(agentId);
+    if (!agent) return;
+    
+    // Show save dialog
+    const defaultName = `${agent.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.json`;
+    const uri = await vscode.window.showSaveDialog({
+        defaultUri: vscode.Uri.file(defaultName),
+        filters: {
+            'JSON Files': ['json'],
+            'All Files': ['*']
+        },
+        saveLabel: t('buttons.save')
+    });
+    
+    if (!uri) return;
+    
+    // Export single agent
+    const exportData = agentManager.exportAgents(agentId);
+    const success = agentManager.saveExportToFile(exportData, uri.fsPath);
+    
+    if (success) {
+        vscode.window.showInformationMessage(
+            t('customAgent.agentExported', agent.name)
+        );
+    } else {
+        vscode.window.showErrorMessage(t('customAgent.exportFailed'));
+    }
+}
+
+/**
+ * Handle import agents
+ */
+async function handleImportAgents(panel, context) {
+    const { t } = context;
+    
+    if (!agentManager) {
+        agentManager = new CustomAgentManager();
+    }
+    
+    // Show open dialog
+    const uris = await vscode.window.showOpenDialog({
+        canSelectMany: false,
+        filters: {
+            'JSON Files': ['json'],
+            'All Files': ['*']
+        },
+        openLabel: t('buttons.open')
+    });
+    
+    if (!uris || uris.length === 0) return;
+    
+    // Load import data
+    const importData = agentManager.loadImportFromFile(uris[0].fsPath);
+    
+    if (!importData) {
+        vscode.window.showErrorMessage(t('customAgent.importFailed'));
+        return;
+    }
+    
+    // Check for conflicts
+    const existingAgents = agentManager.getAllAgents();
+    const conflicts = importData.agents.filter(importAgent => 
+        existingAgents.some(existing => existing.name === importAgent.name)
+    );
+    
+    let replaceExisting = false;
+    
+    // Only ask if there are conflicts
+    if (conflicts.length > 0) {
+        const conflictNames = conflicts.map(a => a.name).join(', ');
+        const choice = await vscode.window.showQuickPick([
+            { 
+                label: `$(circle-slash) ${t('customAgent.skipExisting')}`, 
+                detail: t('customAgent.skipExistingDetail'),
+                value: false 
+            },
+            { 
+                label: `$(refresh) ${t('customAgent.replaceExisting')}`, 
+                detail: t('customAgent.replaceExistingDetail'),
+                value: true 
+            }
+        ], {
+            placeHolder: t('customAgent.importConflictQuestion', conflicts.length, conflictNames)
+        });
+        
+        if (!choice) return;
+        replaceExisting = choice.value;
+    }
+    
+    // Import agents
+    const result = agentManager.importAgents(importData, replaceExisting);
+    
+    if (!result.success) {
+        vscode.window.showErrorMessage(
+            t('customAgent.importError', result.error)
+        );
+        return;
+    }
+    
+    // Show result
+    let message = t('customAgent.importSuccess', result.imported);
+    if (result.skipped > 0) {
+        message += ` (${t('customAgent.skipped', result.skipped)})`;
+    }
+    if (result.errors > 0) {
+        message += ` (${t('customAgent.errors', result.errors)})`;
+    }
+    
+    vscode.window.showInformationMessage(message);
+    
+    // Refresh panel
+    updatePanelContent(panel, context);
 }
 
 module.exports = {

@@ -627,7 +627,25 @@
     "addFiles": "添加文件",
     "selectAdditionalFiles": "选择附加文件",
     "noAdditionalFiles": "没有附加文件",
-    "nameAndPromptRequired": "名称和提示是必填项"
+    "nameAndPromptRequired": "名称和提示是必填项",
+    "import": "导入",
+    "exportAll": "导出全部",
+    "exportAgent": "导出代理",
+    "noAgentsToExport": "没有可导出的代理",
+    "exportSuccess": "成功导出{0}个代理",
+    "exportFailed": "导出失败",
+    "agentExported": "代理'{0}'已导出",
+    "importFailed": "导入失败 - 无效文件",
+    "importAgents": "导入代理",
+    "skipExisting": "跳过（保留现有）",
+    "skipExistingDetail": "现有代理保持不变",
+    "replaceExisting": "替换（覆盖）",
+    "replaceExistingDetail": "现有代理将被更新",
+    "importConflictQuestion": "{0}个代理已存在：{1}。您想做什么？",
+    "importSuccess": "成功导入{0}个代理",
+    "skipped": "跳过{0}个",
+    "errors": "{0}个错误",
+    "importError": "导入错误：{0}"
   },
   "analyzeCode": {
     "analyzedFile": "已分析文件",
@@ -655,5 +673,8 @@
     "portRead": "读取",
     "globalVars": "全局变量",
     "globalVarsList": "全局变量列表"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI解释"
   }
 }

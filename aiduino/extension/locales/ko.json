@@ -627,7 +627,25 @@
     "addFiles": "파일 추가",
     "selectAdditionalFiles": "추가 파일 선택",
     "noAdditionalFiles": "추가 파일 없음",
-    "nameAndPromptRequired": "이름과 프롬프트는 필수입니다"
+    "nameAndPromptRequired": "이름과 프롬프트는 필수입니다",
+    "import": "가져오기",
+    "exportAll": "모두 내보내기",
+    "exportAgent": "에이전트 내보내기",
+    "noAgentsToExport": "내보낼 에이전트가 없습니다",
+    "exportSuccess": "{0}개의 에이전트가 성공적으로 내보내졌습니다",
+    "exportFailed": "내보내기 실패",
+    "agentExported": "에이전트 '{0}'가 내보내졌습니다",
+    "importFailed": "가져오기 실패 - 유효하지 않은 파일",
+    "importAgents": "에이전트 가져오기",
+    "skipExisting": "건너뛰기 (기존 유지)",
+    "skipExistingDetail": "기존 에이전트는 변경되지 않습니다",
+    "replaceExisting": "교체 (덮어쓰기)",
+    "replaceExistingDetail": "기존 에이전트가 업데이트됩니다",
+    "importConflictQuestion": "{0}개의 에이전트가 이미 존재합니다: {1}. 어떻게 하시겠습니까?",
+    "importSuccess": "{0}개의 에이전트가 성공적으로 가져와졌습니다",
+    "skipped": "{0}개 건너뜀",
+    "errors": "{0}개 오류",
+    "importError": "가져오기 오류: {0}"
   },
   "analyzeCode": {
     "analyzedFile": "분석된 파일",
@@ -655,5 +673,8 @@
     "portRead": "읽기",
     "globalVars": "전역 변수",
     "globalVarsList": "전역 변수"
+  },
+  "explainCode": {
+    "aiAnalysis": "AI 설명"
   }
 }
