@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **06.12.2025** Release **V2.5.0-Make** related to the upcoming article in the Make Magazine.             
 * **05.12.2025** Release **V2.5.0** with improved AI temperature handling.             
 * **04.12.2025** Release **V2.4.1** with improved token counting.             
 * **01.12.2025** Release **V2.4.0** with a small but cool improvement and Copy&Paste bugfix.           
