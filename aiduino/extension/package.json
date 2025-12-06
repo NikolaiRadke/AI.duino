@@ -329,11 +329,6 @@
           "maximum": 10,
           "description": "Number of prompts to save and display in prompt history"
         },
-        "aiduino.inlineCompletion.enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable inline code completion (uses current AI provider)"
-        },
         "aiduino.inlineCompletionEnabled": {
           "type": "boolean",
           "default": false,
