@@ -10,7 +10,7 @@ the newest Version to avoid annoying bugs.
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **06.12.2025** Release **V2.5.0-Make** related to the upcoming article in the Make Magazine.             
+* **09.12.2025** Added temperature and token settings for agents.               
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
