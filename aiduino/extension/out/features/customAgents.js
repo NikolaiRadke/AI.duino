@@ -204,11 +204,20 @@ async function executeAgent(agentId, context) {
     // Build final prompt
     const fullPrompt = `${agent.prompt}\n\n${contextData}`;
     
-    // Call AI
+    // Create modified context with agent-specific settings (if provided)
+    const agentContext = { ...context };
+    if (agent.temperature !== undefined) {
+        agentContext.temperature = agent.temperature;
+    }
+    if (agent.maxTokens !== undefined) {
+        agentContext.maxTokens = agent.maxTokens;
+    }
+    
+    // Call AI with agent-specific settings
     const response = await featureUtils.callAIWithProgress(
         fullPrompt,
         'progress.processing',
-        context
+        agentContext
     );
     
     // Update last used
@@ -222,13 +231,23 @@ async function executeAgent(agentId, context) {
         { enableScripts: true }
     );
     
+    // Store prompt and response for "continue in chat"
+    outputPanel.userPrompt = fullPrompt;
+    outputPanel.aiResponse = response;
+    
     outputPanel.webview.html = generateOutputHTML(agent, response, context);
+
+    // Message handler for output panel
 
     // Message handler for output panel
     featureUtils.setupStandardMessageHandler(outputPanel, context, {
         backToOverview: async (message) => {
             outputPanel.dispose();
             await showCustomAgentPanel(context);
+        },
+        continueInChat: async (message) => {
+            const chatPanel = require('./chatPanel');
+            await chatPanel.continueInChat(outputPanel.userPrompt, outputPanel.aiResponse, context);
         }
     });
 }
@@ -438,6 +457,10 @@ function generateAdditionalFilesHTML(files, t) {
 function generateEditorHTML(agent, context) {
     const { t } = context;
     const isEdit = agent !== null;
+    
+    // Read current global settings for placeholders
+    const defaultTemperature = context.settings.get('temperature', 0.7);
+    const defaultMaxTokens = context.settings.get('maxTokensPerRequest', 2000);
     
     const defaultContext = {
         currentSelection: false,
@@ -655,8 +678,52 @@ function generateEditorHTML(agent, context) {
                 
                 <div id="additionalFilesList" class="additional-files-list">
                     ${generateAdditionalFilesHTML(agent?.additionalFiles || [], t)}
-                </div>
+</div>
             </div>
+            
+            <div class="context-group">
+                <h3>🤖 ${t('settings.categories.aiBehavior')}</h3>
+                
+                <div class="form-group">
+                    <label for="agentTemperature">${t('settings.labels.temperature')}:</label>
+                    <input 
+                        type="number" 
+                        id="agentTemperature" 
+                        min="0" 
+                        max="1" 
+                        step="0.1"
+                        placeholder="${defaultTemperature}"
+                        value="${agent?.temperature !== undefined ? agent.temperature : ''}"
+                        style="width: auto;"
+                    >
+                    <span style="color: var(--vscode-descriptionForeground); font-size: 12px; margin-left: 10px;">
+                        ${t('settings.descriptions.temperature')}
+                    </span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="agentMaxTokens">${t('settings.descriptions.maxTokensPerRequest')}:</label>
+                    <div style="width: 100%; margin-top: 10px;">
+                        <input type="range" 
+                               id="agentMaxTokens" 
+                               class="setting-slider"
+                               min="0"
+                               max="3"
+                               value="${agent?.maxTokens !== undefined ? [2000, 4000, 6000, 8000].indexOf(agent.maxTokens) : [2000, 4000, 6000, 8000].indexOf(defaultMaxTokens)}"
+                               step="1"
+                               oninput="document.getElementById('valueMaxTokens').textContent = [2000, 4000, 6000, 8000][this.value]"
+                               style="width: 100%; cursor: pointer;">
+                        <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--vscode-descriptionForeground); margin-top: 5px;">
+                            <span>1 (2000)</span>
+                            <span>2 (4000)</span>
+                            <span>3 (6000)</span>
+                            <span>4 (8000)</span>
+                        </div>
+                        <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--vscode-foreground);">
+                            <span id="valueMaxTokens">${agent?.maxTokens !== undefined ? agent.maxTokens : defaultMaxTokens}</span>
+                        </div>
+                    </div>
+                </div>
             
             <div class="button-row">
                 <button class="btn-secondary" onclick="backToOverview()">←</button>
@@ -749,10 +816,21 @@ function generateEditorHTML(agent, context) {
                             compilerErrors: document.getElementById('ctx_compilerErrors').checked,
                             compilerWarnings: document.getElementById('ctx_compilerWarnings').checked,
                             buildInfo: document.getElementById('ctx_buildInfo').checked
-                        }
-                    };
-                    
-                    if (isEdit) {
+                    }
+                };
+                
+                // Add optional AI settings (only if provided)
+                const temperature = document.getElementById('agentTemperature').value;
+                const maxTokensSlider = document.getElementById('agentMaxTokens').value;
+                
+                if (temperature !== '') {
+                    agentData.temperature = parseFloat(temperature);
+                }
+                if (maxTokensSlider !== '-1') {
+                    agentData.maxTokens = [2000, 4000, 6000, 8000][parseInt(maxTokensSlider)];
+                }
+                
+                if (isEdit) {
                         agentData.id = editingId;
                     }
                     
@@ -845,11 +923,25 @@ function generateOutputHTML(agent, response, context) {
                 ${result.html}
             </div>
             
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+                <button class="action-btn" onclick="continueInChat()" 
+                        style="padding: 10px 20px; font-size: 14px;"
+                        title="${t('chat.continueInChat')}">
+                    💬 ${t('chat.continueInChat')}
+                </button>
+            </div>
+            
             <div style="margin-top: 20px;">
                 <button class="btn-secondary" onclick="backToOverview()">
                     ← ${t('customAgent.backToAgents')}
                 </button>
             </div>
+            
+            <script>
+                function continueInChat() {
+                    vscode.postMessage({ command: 'continueInChat' });
+                }
+            </script>
             
             ${featureUtils.generateCodeBlockHandlers(codeBlocks, t, { includeBackButton: true })}
             

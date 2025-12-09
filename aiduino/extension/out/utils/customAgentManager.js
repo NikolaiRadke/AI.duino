@@ -92,7 +92,7 @@ class CustomAgentManager {
      * @param {Object} agentData - Agent data (name, prompt, context)
      * @returns {Object} Created agent with ID
      */
-    createAgent(agentData) {
+     createAgent(agentData) {
         const agent = {
             id: this.generateId(),
             name: agentData.name,
@@ -102,6 +102,16 @@ class CustomAgentManager {
             created: new Date().toISOString(),
             lastUsed: null
         };
+        
+        // Add optional AI settings if provided
+        if (agentData.temperature !== undefined) {
+            agent.temperature = agentData.temperature;
+        }
+        if (agentData.maxTokens !== undefined) {
+            agent.maxTokens = agentData.maxTokens;
+        }
+    
+        // Create agent directory for file storage
     
         // Create agent directory for file storage
         const agentDir = path.join(AGENT_FILES_DIR, agent.id);
