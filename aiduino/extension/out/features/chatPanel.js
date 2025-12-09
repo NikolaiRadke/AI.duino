@@ -81,10 +81,6 @@ async function showChatPanel(context) {
         sendMessage: async (message) => {
             await handleUserMessage(message.text, panel, context);
         },
-        toggleCodeMode: async (message) => {
-            chatCodeMode = !chatCodeMode;
-            updatePanelContent(panel, context);
-        },
         manageAttachments: async (message) => {
             await handleManageAttachments(panel, context);
         },
@@ -118,6 +114,14 @@ async function showChatPanel(context) {
             panel.webview.postMessage({ 
                 command: 'updateArduinoMode', 
                 arduinoMode: arduinoMode 
+            });
+        },
+        toggleCodeMode: async (message) => {
+            chatCodeMode = !chatCodeMode;
+            // Update button style without re-rendering entire panel
+            panel.webview.postMessage({ 
+                command: 'updateCodeMode', 
+                chatCodeMode: chatCodeMode 
             });
         },
         newChat: async (message) => {
@@ -1036,6 +1040,16 @@ function updateAttachmentButtons(panel, context) {
                                 'var(--vscode-button-background)' : 
                                 'var(--vscode-button-secondaryBackground)';
                             button.textContent = message.arduinoMode ? '🎯' : '💬';
+                        }
+                    }
+
+                    if (message.command === 'updateCodeMode') {
+                        const button = document.querySelector('[onclick="toggleCodeMode()"]');
+                        if (button) {
+                            button.style.background = message.chatCodeMode ? 
+                                'var(--vscode-button-background)' : 
+                                'var(--vscode-button-secondaryBackground)';
+                            button.textContent = message.chatCodeMode ? '❄️' : '🔥';
                         }
                     }
 
