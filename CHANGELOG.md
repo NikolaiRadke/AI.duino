@@ -1,8 +1,8 @@
 # Changelog
-**V2.5.0-Make**   
+## V2.5.0-Make
 AI.duino will appear in the German Make Magazine. This is the feature-freeze release related to the article. 
 
-### Features
+## Features
 * Added agent import/export
 * Added temperature and token settings for agents
 * Added "Continue in Chat" button for agents
@@ -12,7 +12,7 @@ AI.duino will appear in the German Make Magazine. This is the feature-freeze rel
 * In ChatPanel you can switch between code and text generation temperature for the answer to each question 
 * Response length can be set in four steps with a slider (2000, 4000, 6000 and 8000 tokens)  
 
-### Bugfixes
+## Bugfixes
 * All settings are now removed correctly when using the uninstall option
 * Removed unused file 
 * Removed debugging code
@@ -21,7 +21,7 @@ AI.duino will appear in the German Make Magazine. This is the feature-freeze rel
 * Fixed some broken emojis
 * Fixed wrong tree tooltips
 
-### Other
+## Other
 * You can abort a feature by clicking outside prompt window
 * Better Claude Code and Codex CLI session persistence
 * Feature lazy loading for better startup performance 
