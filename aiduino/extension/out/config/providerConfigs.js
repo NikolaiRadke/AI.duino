@@ -58,7 +58,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '051125'; 
+const CONFIG_VERSION = '111225'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -113,7 +113,7 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.id.includes('gpt-4o')) || models.find(m => m.id.includes('gpt-4')) || models[0],
         fallback: 'gpt-4o',
         prices: {
-            input: 1.25 / 1000000,    // $1.25 per 1M tokens
+            input: 2.50 / 1000000,    // $2.50 per 1M tokens (GPT-4o pricing, reduced from $5)
             output: 10.0 / 1000000    // $10.00 per 1M tokens
         },
         apiConfig: {
@@ -193,8 +193,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.id.includes('medium-3') || m.id.includes('large')) || models[0],
         fallback: 'mistral-medium-3',
         prices: {
-            input: 0.40 / 1000000,    // $0.40 per 1M tokens (was: 0.40 / 1000)
-            output: 2.0 / 1000000     // $2.00 per 1M tokens (was: 2.0 / 1000)
+            input: 2.0 / 1000000,     // $2.00 per 1M tokens (Mistral Large pricing, Sept 2024)
+            output: 6.0 / 1000000     // $6.00 per 1M tokens
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -227,12 +227,12 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://www.perplexity.ai/settings/api',
         path: '/chat/completions',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => [{ id: 'llama-3.1-sonar-large-128k-online', name: 'Llama 3.1 Sonar Large' }],
+        extractModels: (data) => [{ id: 'sonar', name: 'Sonar' }],
         selectBest: (models) => models[0],
-        fallback: 'llama-3.1-sonar-large-128k-online',
+        fallback: 'sonar',
         prices: {
-           input: 1.0 / 1000000,     // $1.00 per 1M tokens (was: 1.0 / 1000)
-           output: 3.0 / 1000000     // $3.00 per 1M tokens (was: 3.0 / 1000)
+           input: 1.0 / 1000000,     // $1.00 per 1M tokens (Sonar model, Dec 2024)
+           output: 1.0 / 1000000     // $1.00 per 1M tokens (+ request fee $0.005-0.012/1k)
         }   ,
         apiConfig: {
             apiPath: '/chat/completions',
@@ -341,67 +341,8 @@ const PROVIDER_CONFIGS = {
         }
     },
      
-    vertex: {
-        // NOTE: Vertex AI requires Google Cloud Platform setup
-        // Before using this provider, you must:
-        // 1. Create a Google Cloud Project at https://console.cloud.google.com
-        // 2. Enable the Vertex AI API for your project
-        // 3. Create a Service Account with Vertex AI permissions
-        // 4. Generate an OAuth 2.0 access token (starts with 'ya29.')
-        // 5. Replace 'YOUR_PROJECT_ID' in the apiPath with your actual GCP project ID
-        // 
-        // This provider is designed for enterprise users. For simple AI integration,
-        // consider using the direct Gemini provider instead.
-        
-        name: 'Vertex AI',
-        icon: '☁️',
-        color: '#4285F4',
-        keyFile: '.aiduino-vertex-api-key',
-        keyPrefix: 'ya29.',
-        keyMinLength: 20,
-        hostname: 'us-central1-aiplatform.googleapis.com',
-        apiKeyUrl: 'https://console.cloud.google.com/apis/credentials',
-        path: '/v1/projects/PROJECT_ID/locations/us-central1/publishers/google/models',
-        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => data.models?.filter(m => m.name.includes('gemini')) || [],
-        selectBest: (models) => models.find(m => m.name.includes('gemini-1.5-pro')) || models[0],
-        fallback: 'gemini-1.5-pro',
-        prices: {
-            input: 1.25 / 1000000,
-            output: 5.0 / 1000000
-        },
-        apiConfig: {
-            apiPath: (modelId, key, projectId) => {
-                const project = projectId || 'YOUR_PROJECT_ID'; // Replace with your GCP project ID
-                return `/v1/projects/${project}/locations/us-central1/publishers/google/models/${modelId}:predict`;
-            },
-            method: 'POST',
-            headers: (key) => ({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${key}`
-            }),
-            buildRequest: (modelId, prompt, systemPrompt) => ({
-                instances: [{
-                    content: prompt
-                }],
-                parameters: {
-                    temperature: 0.7,
-                    maxOutputTokens: 2000,
-                    topP: 0.8,
-                    topK: 40
-                }
-            }),
-            extractResponse: (data) => {
-                if (data.predictions && data.predictions[0]) {
-                    return data.predictions[0].content || data.predictions[0].candidates?.[0]?.content;
-                }
-                throw new Error('Unexpected Vertex AI response format');
-            }
-        }
-    },  
-        
     huggingface: {
-        name: 'Hugging Face',
+        name: 'Hugging Face (≥ v2.5.0)',
         icon: '🤗',
         color: '#FF9500',
         keyFile: '.aiduino-hf-api-key',
@@ -410,13 +351,62 @@ const PROVIDER_CONFIGS = {
         hostname: 'api-inference.huggingface.co',
         apiKeyUrl: 'https://huggingface.co/settings/tokens',
         path: '/models',
+        requiresModelSelection: true,  // NEW: Triggers model picker
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+        // Popular open-source models available on HF
+        availableModels: [
+            { 
+                id: 'meta-llama/Llama-3.3-70B-Instruct', 
+                name: 'Llama 3.3 70B Instruct',
+                pricing: { input: 0.0005 / 1000000, output: 0.0015 / 1000000 }
+            },
+            { 
+                id: 'meta-llama/Llama-3.1-70B-Instruct', 
+                name: 'Llama 3.1 70B Instruct',
+                pricing: { input: 0.0005 / 1000000, output: 0.0015 / 1000000 }
+            },
+            { 
+                id: 'codellama/CodeLlama-34b-Instruct-hf', 
+                name: 'CodeLlama 34B Instruct',
+                pricing: { input: 0, output: 0 }
+            },
+            { 
+                id: 'mistralai/Mistral-7B-Instruct-v0.3', 
+                name: 'Mistral 7B Instruct',
+                pricing: { input: 0, output: 0 }
+            },
+            { 
+                id: 'mistralai/Mixtral-8x7B-Instruct-v0.1', 
+                name: 'Mixtral 8x7B Instruct',
+                pricing: { input: 0.0002 / 1000000, output: 0.0006 / 1000000 }
+            },
+            { 
+                id: 'deepseek-ai/deepseek-coder-33b-instruct', 
+                name: 'DeepSeek Coder 33B',
+                pricing: { input: 0, output: 0 }
+            },
+            { 
+                id: 'microsoft/Phi-3-medium-4k-instruct', 
+                name: 'Phi-3 Medium',
+                pricing: { input: 0, output: 0 }
+            },
+            { 
+                id: 'Qwen/Qwen2.5-Coder-32B-Instruct', 
+                name: 'Qwen 2.5 Coder 32B',
+                pricing: { input: 0, output: 0 }
+            },
+            { 
+                id: 'google/gemma-2-9b-it', 
+                name: 'Gemma 2 9B',
+                pricing: { input: 0, output: 0 }
+            }
+        ],
         extractModels: (data) => [{ id: 'meta-llama/Llama-3.3-70B-Instruct', name: 'Llama 3.3 70B Instruct' }],
         selectBest: (models) => models[0],
         fallback: 'meta-llama/Llama-3.3-70B-Instruct',
         prices: {
-            input: 0.0005 / 1000000,  // $0.0005 per 1M tokens
-            output: 0.0015 / 1000000  // $0.0015 per 1M tokens
+            input: 0,  // Varies per model
+            output: 0
         },
         apiConfig: {
             apiPath: (modelId) => `/models/${modelId}`,
@@ -442,6 +432,113 @@ const PROVIDER_CONFIGS = {
                     return data.generated_text;
                 }
                 throw new Error('Unexpected Hugging Face response format');
+            }
+        }
+    },
+
+    openrouter: {
+        name: 'OpenRouter (≥ v2.5.0)',
+        icon: '⚡',
+        color: '#FF6B35',
+        keyFile: '.aiduino-openrouter-api-key',
+        keyPrefix: 'sk-or-',
+        keyMinLength: 40,
+        hostname: 'openrouter.ai',
+        apiKeyUrl: 'https://openrouter.ai/keys',
+        path: '/api/v1/models',
+        requiresModelSelection: true,  // NEW: Triggers model picker
+        headers: (key) => ({ 
+            'Authorization': `Bearer ${key}`,
+            'HTTP-Referer': 'https://github.com/NikolaiRadke/AI.duino',
+            'X-Title': 'AI.duino'
+        }),
+        // Popular models
+        availableModels: [
+            { 
+                id: 'amazon/nova-2-lite-v1:free', 
+                name: 'Nova 2 Lite (Free)', 
+                pricing: { input: 0, output: 0 }
+            },
+            { 
+                id: 'anthropic/claude-sonnet-4-20250514', 
+                name: 'Claude Sonnet 4.5', 
+                pricing: { input: 3.0 / 1000000, output: 15.0 / 1000000 }
+            },
+            { 
+                id: 'anthropic/claude-3.5-sonnet', 
+                name: 'Claude 3.5 Sonnet', 
+                pricing: { input: 3.0 / 1000000, output: 15.0 / 1000000 }
+            },
+            { 
+                id: 'openai/gpt-4o', 
+                name: 'GPT-4o', 
+                pricing: { input: 2.5 / 1000000, output: 10.0 / 1000000 }
+            },
+            { 
+                id: 'openai/gpt-4o-mini', 
+                name: 'GPT-4o Mini', 
+                pricing: { input: 0.15 / 1000000, output: 0.6 / 1000000 }
+            },
+            { 
+                id: 'google/gemini-pro-1.5', 
+                name: 'Gemini 1.5 Pro', 
+                pricing: { input: 1.25 / 1000000, output: 5.0 / 1000000 }
+            },
+            { 
+                id: 'google/gemini-flash-1.5', 
+                name: 'Gemini 1.5 Flash', 
+                pricing: { input: 0.075 / 1000000, output: 0.3 / 1000000 }
+            },
+            { 
+                id: 'meta-llama/llama-3.3-70b-instruct', 
+                name: 'Llama 3.3 70B', 
+                pricing: { input: 0.59 / 1000000, output: 0.79 / 1000000 }
+            },
+            { 
+                id: 'mistralai/mistral-large', 
+                name: 'Mistral Large', 
+                pricing: { input: 2.0 / 1000000, output: 6.0 / 1000000 }
+            },
+            { 
+                id: 'deepseek/deepseek-chat', 
+                name: 'DeepSeek Chat', 
+                pricing: { input: 0.14 / 1000000, output: 0.28 / 1000000 }
+            }
+        ],
+        extractModels: (data) => data.data || [],
+        selectBest: (models) => models[0],
+        fallback: 'amazon/nova-2-lite-v1:free',
+        prices: {
+            input: 0,  // Varies per model
+            output: 0
+        },
+        apiConfig: {
+            apiPath: '/api/v1/chat/completions',
+            method: 'POST',
+            headers: (key) => ({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${key}`,
+                'HTTP-Referer': 'https://github.com/NikolaiRadke/AI.duino',
+                'X-Title': 'AI.duino'
+            }),
+            buildRequest: (modelId, prompt, systemPrompt) => {
+                const messages = [];
+                if (systemPrompt && typeof systemPrompt === 'string' && systemPrompt.trim()) {
+                    messages.push({ role: "system", content: systemPrompt.trim() });
+                }      
+                messages.push({ role: "user", content: prompt });              
+                return {
+                    model: modelId,
+                    messages: messages,
+                    max_tokens: 2000,
+                    temperature: 0.7
+                };
+            },
+            extractResponse: (data) => {
+                if (data.choices && data.choices[0] && data.choices[0].message) {
+                    return data.choices[0].message.content;
+                }
+                throw new Error('Unexpected OpenRouter API response format');
             }
         }
     },

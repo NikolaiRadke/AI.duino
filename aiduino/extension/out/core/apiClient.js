@@ -159,18 +159,26 @@ class UnifiedAPIClient {
 
         const currentModel = minimalModelManager.getCurrentModel(modelId);
         const apiConfig = provider.apiConfig;
-        const apiKey = apiKeys[modelId];
+        
+        // Parse API key and selected model (for OpenRouter)
+        let apiKey = apiKeys[modelId];
+        let selectedModel = currentModel.id;
+        
+        if (provider.requiresModelSelection && apiKey && apiKey.includes('|')) {
+            [apiKey, selectedModel] = apiKey.split('|');
+        }
+        
         const systemPrompt = "You are a helpful assistant specialized in Arduino programming and electronics.";
     
         let apiPath;
         if (typeof apiConfig.apiPath === 'function') {
-            apiPath = apiConfig.apiPath(currentModel.id, apiKey);
+            apiPath = apiConfig.apiPath(selectedModel, apiKey);
         } else {
             apiPath = apiConfig.apiPath;
         }
 
         // Build request body with provider defaults
-        const body = apiConfig.buildRequest(currentModel.id, prompt, systemPrompt);
+        const body = apiConfig.buildRequest(selectedModel, prompt, systemPrompt);
         
         // Override with user settings (if available)
         if (settings) {

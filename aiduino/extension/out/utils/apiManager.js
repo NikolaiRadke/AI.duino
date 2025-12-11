@@ -44,6 +44,7 @@ async function switchModel(context) {
         // Build model selection items
         const items = [];
         const cloudItems = [];
+        const aggregatorItems = [];
         const localItems = [];
 
         Object.keys(minimalModelManager.providers).forEach(modelId => {
@@ -58,12 +59,18 @@ async function switchModel(context) {
     
             if (provider.type === 'local') {
                 localItems.push(item);
+            } else if (provider.requiresModelSelection) {
+                aggregatorItems.push(item);
             } else {
                 cloudItems.push(item);
             }
         });
 
         const allItems = [...cloudItems];
+        if (aggregatorItems.length > 0) {
+            allItems.push({ label: '', kind: vscode.QuickPickItemKind.Separator });
+            allItems.push(...aggregatorItems);
+        }
         if (localItems.length > 0) {
             allItems.push({ label: '', kind: vscode.QuickPickItemKind.Separator });
             allItems.push(...localItems);
@@ -90,6 +97,48 @@ async function switchModel(context) {
             fileManager.saveSelectedModel(selected.value);
             
             const provider = minimalModelManager.providers[selected.value];
+            
+            // Check if model selection is required (OpenRouter)
+            if (provider.requiresModelSelection && provider.availableModels) {
+                const modelChoice = await showModelSelectionPicker(provider, t);
+                if (!modelChoice) {
+                    updateStatusBar();
+                    return; // User cancelled
+                }
+                
+                // Save selection in format: sk-or-xxx|model-id
+                const apiKey = updatedContext.apiKeys[selected.value];
+                if (apiKey) {
+                    const savedConfig = `${apiKey}|${modelChoice.id}`;
+                    updatedContext.apiKeys[selected.value] = savedConfig;
+                    fileManager.saveApiKey(selected.value, savedConfig, minimalModelManager.providers);
+                    updateStatusBar();
+                    vscode.window.showInformationMessage(
+                        t('messages.modelSwitched', `${provider.name}: ${modelChoice.name}`)
+                    );
+                    return;
+                } else {
+                    // No API key yet - ask for it first
+                    const choice = await vscode.window.showWarningMessage(
+                        t('messages.apiKeyRequired', provider.name),
+                        t('buttons.enterNow'),
+                        t('buttons.later')
+                    );
+                    if (choice === t('buttons.enterNow')) {
+                        await setApiKey(updatedContext);
+                        // After entering API key, ask for model again
+                        const modelChoice2 = await showModelSelectionPicker(provider, t);
+                        if (modelChoice2) {
+                            const newApiKey = updatedContext.apiKeys[selected.value];
+                            const savedConfig = `${newApiKey}|${modelChoice2.id}`;
+                            updatedContext.apiKeys[selected.value] = savedConfig;
+                            fileManager.saveApiKey(selected.value, savedConfig, minimalModelManager.providers);
+                        }
+                    }
+                    updateStatusBar();
+                    return;
+                }
+            }
             
             // Auto-detection for local HTTP providers (only if not configured)
             if (provider.type === 'local' && provider.httpConfig) {
@@ -240,6 +289,28 @@ async function autoDetectLocalProvider(modelId, providers, manualUrl = null) {
 async function testHttpProvider(url, provider) {
     const { testConnection } = require('../localProviders/httpProviders/httpProvider');
     return testConnection(url, provider.defaultPort || 80, 3000);
+}
+
+/**
+ * Show model selection picker for providers with multiple models
+ * @param {Object} provider - Provider config with availableModels
+ * @param {Function} t - Translation function
+ * @returns {Promise<Object|null>} Selected model or null
+ */
+async function showModelSelectionPicker(provider, t) {
+    const items = provider.availableModels.map(model => ({
+        label: `${model.name}`,
+        detail: model.pricing.input === 0 ? 
+            '💰 Free' : 
+            `💰 $${(model.pricing.input * 1000000).toFixed(2)}/$${(model.pricing.output * 1000000).toFixed(2)} per 1M tokens`,
+        value: model
+    }));
+
+    const selected = await vscode.window.showQuickPick(items, {
+        placeHolder: t('messages.selectModel') || 'Select a model'
+    });
+
+    return selected ? selected.value : null;
 }
 
 module.exports = {
