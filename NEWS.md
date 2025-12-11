@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **11.12.2025** Added aggregator service provider support (Hugging Face, OpenRouter).               
 * **09.12.2025** Added temperature and token settings for agents.               
 * **06.12.2025** Release **V2.5.0-Make** related to the upcoming article in the Make Magazine.             
 * **05.12.2025** Release **V2.5.0** with improved AI temperature handling.             
