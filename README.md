@@ -1,9 +1,7 @@
 ![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back.png)
 # 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
-AI.duino integrates the API providers **Claude, ChatGPT, Gemini, Mistral, Perplexity, Cohere, Croq, Vertex, Hugging Face** and local providers 
-**Claude Code, Codex CLI, LM Studio and Ollama** directly into the Arduino IDE for intelligent code assistance. It also works with **VS Code**. Please use 
-the newest Version to avoid annoying bugs.  
+AI.duino integrates the API providers **Claude, ChatGPT, Gemini, Mistral, Perplexity and Cohere, Croq**, aggregator services **OpenRouter and Hugging Face**, and local providers **Claude Code, Codex CLI, LM Studio and Ollama** directly into the Arduino IDE for intelligent code assistance. It also works with **VS Code**. Please use the newest Version to avoid annoying bugs.  
   
 **Hint:** Groq ist not Grok! AI.duino is Elon-free!  
  
@@ -162,8 +160,9 @@ Required: An API key from either:
 - Perplexity: https://www.perplexity.ai/settings/api (Untested)
 - Cohere: https://dashboard.cohere.ai (Untested)
 - Croq: https://console.groq.com
-- Vertex: https://console.cloud.google.com/vertex-ai (Untested)
-- Hugging Face: https://huggingface.co/settings/tokens (Untested)
+- Hugging Face: https://huggingface.co/settings/tokens (Untested, >=2.5.0)
+- OpenRouter: https://openrouter.ai/settings/keys (>=2.5.0)
+  
 
 The keys are stored locally and not transmitted.
 
