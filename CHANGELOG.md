@@ -1,5 +1,5 @@
 # Changelog
-**V2.5.0-Make** 
+**V2.5.0-Make**   
 AI.duino will appear in the German Make Magazine. This is the feature-freeze release related to the article. 
 
 ### Features
