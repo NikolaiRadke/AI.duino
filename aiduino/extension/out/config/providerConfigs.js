@@ -58,7 +58,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '111225'; 
+const CONFIG_VERSION = '121225'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -432,6 +432,173 @@ const PROVIDER_CONFIGS = {
                     return data.generated_text;
                 }
                 throw new Error('Unexpected Hugging Face response format');
+            }
+        }
+    },
+
+    fireworks: {
+        name: 'Fireworks AI (≥ v2.5.0)',
+        icon: '🔥',
+        color: '#FF6B00',
+        keyFile: '.aiduino-fireworks-api-key',
+        keyPrefix: 'fw-',
+        keyMinLength: 20,
+        hostname: 'api.fireworks.ai',
+        apiKeyUrl: 'https://fireworks.ai/api-keys',
+        path: '/inference/v1/models',
+        requiresModelSelection: true,  // NEW: Triggers model picker
+        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+        // Popular models on Fireworks
+        availableModels: [
+            { 
+                id: 'accounts/fireworks/models/llama-v3p3-70b-instruct', 
+                name: 'Llama 3.3 70B Instruct',
+                pricing: { input: 0.90 / 1000000, output: 0.90 / 1000000 }
+            },
+            { 
+                id: 'accounts/fireworks/models/qwen2p5-72b-instruct', 
+                name: 'Qwen 2.5 72B Instruct',
+                pricing: { input: 0.90 / 1000000, output: 0.90 / 1000000 }
+            },
+            { 
+                id: 'accounts/fireworks/models/deepseek-v3', 
+                name: 'DeepSeek V3',
+                pricing: { input: 0.90 / 1000000, output: 0.90 / 1000000 }
+            },
+            { 
+                id: 'accounts/fireworks/models/mixtral-8x7b-instruct', 
+                name: 'Mixtral 8x7B Instruct',
+                pricing: { input: 0.50 / 1000000, output: 0.50 / 1000000 }
+            },
+            { 
+                id: 'accounts/fireworks/models/llama-v3p1-8b-instruct', 
+                name: 'Llama 3.1 8B Instruct',
+                pricing: { input: 0.20 / 1000000, output: 0.20 / 1000000 }
+            },
+            { 
+                id: 'accounts/fireworks/models/gemma-2-9b-it', 
+                name: 'Gemma 2 9B',
+                pricing: { input: 0.20 / 1000000, output: 0.20 / 1000000 }
+            }
+        ],
+        extractModels: (data) => data.data || [],
+        selectBest: (models) => models[0],
+        fallback: 'accounts/fireworks/models/llama-v3p3-70b-instruct',
+        prices: {
+            input: 0,  // Varies per model
+            output: 0
+        },
+        apiConfig: {
+            apiPath: '/inference/v1/chat/completions',
+            method: 'POST',
+            headers: (key) => ({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${key}`
+            }),
+            buildRequest: (modelId, prompt, systemPrompt) => {
+                const messages = [];
+                if (systemPrompt && typeof systemPrompt === 'string' && systemPrompt.trim()) {
+                    messages.push({ role: "system", content: systemPrompt.trim() });
+                }      
+                messages.push({ role: "user", content: prompt });              
+                return {
+                    model: modelId,
+                    messages: messages,
+                    max_tokens: 2000,
+                    temperature: 0.7
+                };
+            },
+            extractResponse: (data) => {
+                if (data.choices && data.choices[0] && data.choices[0].message) {
+                    return data.choices[0].message.content;
+                }
+                throw new Error('Unexpected Fireworks AI response format');
+            }
+        }
+    },
+
+    together: {
+        name: 'Together AI (≥ v2.5.0)',
+        icon: '🤝',
+        color: '#FF9500',
+        keyFile: '.aiduino-together-api-key',
+        keyPrefix: '',
+        keyMinLength: 20,
+        hostname: 'api.together.xyz',
+        apiKeyUrl: 'https://api.together.xyz/settings/api-keys',
+        path: '/v1/models',
+        requiresModelSelection: true,  // NEW: Triggers model picker
+        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+        // Popular models on Together AI
+        availableModels: [
+            { 
+                id: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', 
+                name: 'Llama 3.3 70B Turbo',
+                pricing: { input: 0.88 / 1000000, output: 0.88 / 1000000 }
+            },
+            { 
+                id: 'meta-llama/Llama-3.1-70B-Instruct-Turbo', 
+                name: 'Llama 3.1 70B Turbo',
+                pricing: { input: 0.88 / 1000000, output: 0.88 / 1000000 }
+            },
+            { 
+                id: 'Qwen/Qwen2.5-72B-Instruct-Turbo', 
+                name: 'Qwen 2.5 72B Turbo',
+                pricing: { input: 0.88 / 1000000, output: 0.88 / 1000000 }
+            },
+            { 
+                id: 'mistralai/Mixtral-8x7B-Instruct-v0.1', 
+                name: 'Mixtral 8x7B Instruct',
+                pricing: { input: 0.60 / 1000000, output: 0.60 / 1000000 }
+            },
+            { 
+                id: 'deepseek-ai/DeepSeek-V3', 
+                name: 'DeepSeek V3',
+                pricing: { input: 0.27 / 1000000, output: 1.10 / 1000000 }
+            },
+            { 
+                id: 'meta-llama/Llama-3.1-8B-Instruct-Turbo', 
+                name: 'Llama 3.1 8B Turbo',
+                pricing: { input: 0.18 / 1000000, output: 0.18 / 1000000 }
+            },
+            { 
+                id: 'google/gemma-2-9b-it', 
+                name: 'Gemma 2 9B',
+                pricing: { input: 0.20 / 1000000, output: 0.20 / 1000000 }
+            }
+        ],
+        extractModels: (data) => data.data || [],
+        selectBest: (models) => models[0],
+        fallback: 'meta-llama/Llama-3.3-70B-Instruct-Turbo',
+        prices: {
+            input: 0,  // Varies per model
+            output: 0
+        },
+        apiConfig: {
+            apiPath: '/v1/chat/completions',
+            method: 'POST',
+            headers: (key) => ({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${key}`
+            }),
+            buildRequest: (modelId, prompt, systemPrompt) => {
+                const messages = [];
+                if (systemPrompt && typeof systemPrompt === 'string' && systemPrompt.trim()) {
+                    messages.push({ role: "system", content: systemPrompt.trim() });
+                }      
+                messages.push({ role: "user", content: prompt });              
+                return {
+                    model: modelId,
+                    messages: messages,
+                    max_tokens: 2000,
+                    temperature: 0.7
+                };
+            },
+            extractResponse: (data) => {
+                if (data.choices && data.choices[0] && data.choices[0].message) {
+                    return data.choices[0].message.content;
+                }
+                throw new Error('Unexpected Together AI response format');
             }
         }
     },
