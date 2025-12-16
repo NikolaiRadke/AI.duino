@@ -160,8 +160,10 @@ Required: An API key from either:
 - Perplexity: https://www.perplexity.ai/settings/api (Untested)
 - Cohere: https://dashboard.cohere.ai (Untested)
 - Croq: https://console.groq.com
-- Hugging Face: https://huggingface.co/settings/tokens (Untested, >=2.5.0)
-- OpenRouter: https://openrouter.ai/settings/keys (>=2.5.0)
+- OpenRouter: https://openrouter.ai/settings/keys (>= V2.5.0)
+- Hugging Face: https://huggingface.co/settings/tokens (Untested, >= V2.5.0)
+- Fireworks: https://app.fireworks.ai/login?redirectURI=%2Fsettings%2Fusers%2Fapi-keys (Untested, >= V2.5.0)
+- Togehter: https://api.together.xyz/sso-signin?redirectUrl=%2Fsettings%2Fapi-keys (Untested, >= V2.5.0)
   
 
 The keys are stored locally and not transmitted.
