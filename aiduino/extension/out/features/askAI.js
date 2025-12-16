@@ -163,6 +163,10 @@ async function askAI(context, isFollowUp = false) {
                 context
             );
 
+            // Store data for "Continue in Chat" feature
+            panel.userPrompt = finalPrompt;
+            panel.aiResponse = response;
+
             return panel;
         },
         context
@@ -173,6 +177,10 @@ async function askAI(context, isFollowUp = false) {
         featureUtils.setupStandardMessageHandler(panel, context, {
             'askFollowUp': async () => {
                 askAI(context, true);
+            },
+            'continueInChat': async () => {
+                const chatPanel = require('./chatPanel');
+                await chatPanel.continueInChat(panel.userPrompt, panel.aiResponse, context);
             }
         });
     }
@@ -284,19 +292,48 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
             <h3>🤖 ${t('output.aiAnswer')}:</h3>
             ${processedResponse}
         </div>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+            <button 
+                class="action-btn" 
+                onclick="continueInChat()" 
+                style="padding: 10px 20px; font-size: 14px;"
+                title="${t('chat.continueInChat')}">
+                💬 ${t('chat.continueInChat')}
+            </button>
+        </div>
     `;
     
-    return featureUtils.buildQuestionFeatureHtml({
-        title: t('commands.askAI'),
-        icon: '💬',
-        badge: modelBadge,
-        contextBadge,
-        mainContent,
-        codeBlocks,
-        t,
-        showFollowUp: true,
-        context
-    });
+    return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>${t('commands.askAI')} - AI.duino</title>
+            ${getSharedCSS(context.settings.get('cardStyle'))}
+        </head>
+        <body>
+            ${featureUtils.generateContextMenu(t, true).html}
+            
+            <div class="header">
+                <h1>💬 ${t('commands.askAI')}</h1>
+                ${modelBadge}
+            </div>
+            
+            ${contextBadge}           
+            ${mainContent}
+            
+            <script>
+                function continueInChat() {
+                    vscode.postMessage({ command: 'continueInChat' });
+                }
+            </script>
+            
+            ${featureUtils.generateCodeBlockHandlers(codeBlocks, t, { includeBackButton: false })}
+            ${getPrismScripts()}
+        </body>
+        </html>
+    `;
 }
 
 /**
