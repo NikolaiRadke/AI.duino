@@ -325,7 +325,7 @@ async function detectBestCloudModel(modelId, apiKey, providers) {
     if (!provider || provider.type === 'local') {
         return null;
     }
-
+    
     try {
         const https = require('https');
         
@@ -337,7 +337,7 @@ async function detectBestCloudModel(modelId, apiKey, providers) {
                 headers: provider.headers(apiKey),
                 timeout: 5000
             };
-
+            
             const req = https.request(options, (res) => {
                 let data = '';
                 res.on('data', chunk => data += chunk);
@@ -348,7 +348,7 @@ async function detectBestCloudModel(modelId, apiKey, providers) {
                             resolve(null);
                             return;
                         }
-
+                        
                         const parsed = JSON.parse(data);
                         const models = provider.extractModels(parsed);
                         
@@ -367,18 +367,18 @@ async function detectBestCloudModel(modelId, apiKey, providers) {
                     }
                 });
             });
-
+            
             req.on('error', (e) => {
                 console.log(`✗ Model detection failed for ${provider.name}:`, e.message);
                 resolve(null);
             });
-
+            
             req.on('timeout', () => {
                 req.destroy();
                 console.log(`✗ Model detection timeout for ${provider.name}`);
                 resolve(null);
             });
-
+            
             req.end();
         });
     } catch (error) {

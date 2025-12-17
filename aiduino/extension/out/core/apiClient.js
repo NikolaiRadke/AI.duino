@@ -157,6 +157,8 @@ class UnifiedAPIClient {
             throw new Error(`Unknown provider or missing API config: ${modelId}`);
         }
 
+        const apiConfig = provider.apiConfig;
+
         // Parse API key and selected model
         let apiKey = apiKeys[modelId];
         let selectedModel = provider.fallback; // Default fallback
