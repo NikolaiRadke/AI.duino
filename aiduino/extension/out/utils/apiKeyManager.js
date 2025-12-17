@@ -92,6 +92,27 @@ class ApiKeyManager {
                     }
                 }
     
+                // NEW: For cloud providers, detect best available model
+                if (provider.type !== 'local') {
+                    const apiManager = require('./apiManager');
+                    const detectedModel = await vscode.window.withProgress({
+                        location: vscode.ProgressLocation.Notification,
+                        title: t('messages.detectingModels', providerName) || `Detecting available models for ${providerName}...`,
+                        cancellable: false
+                    }, async () => {
+                        return await apiManager.detectBestCloudModel(currentModel, finalValue, providers);
+                    });
+
+                    if (detectedModel) {
+                        // Store in format: api-key|model-id (similar to OpenRouter)
+                        finalValue = `${finalValue}|${detectedModel}`;
+                        console.log(`✓ Using detected model for ${providerName}: ${detectedModel}`);
+                    } else {
+                        console.log(`ℹ Using fallback model for ${providerName}: ${provider.fallback}`);
+                        // Keep API key as-is, will use fallback
+                    }
+                }
+    
                 // Save API key using fileManager
                 if (fileManager.saveApiKey(currentModel, finalValue, providers)) {
                     // Update in-memory API keys

@@ -64,7 +64,8 @@
     "contextAttachedInfo": "🔎 コンテキストが添付されました - 次のメッセージにのみ有効です。再利用するには「🔄 最後のコンテキスト」を使用してください。",
     "noErrorInClipboard": "クリップボードにエラー情報が見つかりません。Arduino IDEで最初に「エラーメッセージをコピー」をクリックしてください。",
     "settingsSaved": "設定を保存しました",
-    "settingsReset": "設定をリセットしました"
+    "settingsReset": "設定をリセットしました",
+    "detectingModels": "{0}の利用可能なモデルを検出中..."
   },
   "buttons": {
     "chooseModel": "AIモデルを選択",

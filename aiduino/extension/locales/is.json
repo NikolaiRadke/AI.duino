@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Samhengi bætt við - gildir aðeins fyrir næsta skilaboð. Notaðu '🔄 Síðasta samhengi' til að endurnota.",
     "noErrorInClipboard": "Engar villuupplýsingar fundust í klemmuspjaldi. Vinsamlegast smelltu fyrst á 'Afrita villuskilaboð' í Arduino IDE.",
     "settingsSaved": "Stillingar vistaðar",
-    "settingsReset": "Stillingar endurstilltar"
+    "settingsReset": "Stillingar endurstilltar",
+    "detectingModels": "Greining tiltækra líkana fyrir {0}..."
   },
   "buttons": {
     "chooseModel": "Veldu gervigreindarlíkan",

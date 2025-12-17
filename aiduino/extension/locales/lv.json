@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Konteksts pievienots - attiecas tikai uz nākamo ziņojumu. Izmanto '🔄 Pēdējais konteksts' atkārtotai izmantošanai.",
     "noErrorInClipboard": "Starpliktuves neizdevās atrast kļūdas informāciju. Lūdzu, vispirms noklikšķini Arduino IDE uz 'Kopēt kļūdas ziņojumu'.",
     "settingsSaved": "Iestatījumi saglabāti",
-    "settingsReset": "Iestatījumi atiestatīti"
+    "settingsReset": "Iestatījumi atiestatīti",
+    "detectingModels": "Pieejamo modeļu noteikšana {0}..."
   },
   "buttons": {
     "chooseModel": "Izvēlēties AI modeli",

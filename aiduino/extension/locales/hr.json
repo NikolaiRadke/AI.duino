@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Kontekst dodan - vrijedi samo za sljedeću poruku. Koristi '🔄 Posljednji kontekst' za ponovnu upotrebu.",
     "noErrorInClipboard": "Nije pronađena informacija o grešci u međuspremniku. Molimo prvo klikni na 'Kopiraj poruku o grešci' u Arduino IDE-u.",
     "settingsSaved": "Postavke spremljene",
-    "settingsReset": "Postavke vraćene na zadane"
+    "settingsReset": "Postavke vraćene na zadane",
+    "detectingModels": "Otkrivanje dostupnih modela za {0}..."
   },
   "buttons": {
     "chooseModel": "Odaberite AI model",

@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Bağlam eklendi - yalnızca bir sonraki mesaj için geçerli. Tekrar kullanmak için '🔄 Son Bağlamı' kullan.",
     "noErrorInClipboard": "Panoda hata bilgisi bulunamadı. Lütfen önce Arduino IDE'de 'Hata mesajını kopyala'ya tıklayın.",
     "settingsSaved": "Ayarlar kaydedildi",
-    "settingsReset": "Ayarlar sıfırlandı"
+    "settingsReset": "Ayarlar sıfırlandı",
+    "detectingModels": "{0} için mevcut modeller algılanıyor..."
   },
   "buttons": {
     "chooseModel": "YZ Modeli Seç",

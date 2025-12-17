@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Contexte attaché - valable uniquement pour le prochain message. Utilisez '🔄 Dernier contexte' pour réutiliser.",
     "noErrorInClipboard": "Aucune information d'erreur trouvée dans le presse-papiers. Veuillez d'abord cliquer sur 'Copier le message d'erreur' dans l'IDE Arduino.",
     "settingsSaved": "Paramètres enregistrés",
-    "settingsReset": "Paramètres réinitialisés"
+    "settingsReset": "Paramètres réinitialisés",
+    "detectingModels": "Détection des modèles disponibles pour {0}..."
   },
   "buttons": {
     "chooseModel": "Choisir le modèle IA",

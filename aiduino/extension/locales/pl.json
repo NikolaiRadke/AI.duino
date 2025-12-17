@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Kontekst dołączony - ważny tylko dla następnej wiadomości. Użyj '🔄 Ostatni kontekst' aby użyć ponownie.",
     "noErrorInClipboard": "Nie znaleziono informacji o błędzie w schowku. Najpierw kliknij 'Kopiuj komunikat o błędzie' w Arduino IDE.",
     "settingsSaved": "Ustawienia zapisane",
-    "settingsReset": "Ustawienia zresetowane"
+    "settingsReset": "Ustawienia zresetowane",
+    "detectingModels": "Wykrywanie dostępnych modeli dla {0}..."
   },
   "buttons": {
     "chooseModel": "Wybierz model AI",

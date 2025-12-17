@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 已附加上下文 - 仅对下一条消息有效。使用「🔄 最后的上下文」重复使用。",
     "noErrorInClipboard": "剪贴板中未找到错误信息。请先在Arduino IDE中点击「复制错误消息」。",
     "settingsSaved": "设置已保存",
-    "settingsReset": "设置已重置"
+    "settingsReset": "设置已重置",
+    "detectingModels": "正在检测 {0} 的可用模型..."
   },
   "buttons": {
     "chooseModel": "选择AI模型",

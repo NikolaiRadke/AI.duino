@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Kontekst lisatud - kehtib ainult järgmise sõnumi jaoks. Kasuta '🔄 Viimane kontekst' uuesti kasutamiseks.",
     "noErrorInClipboard": "Lõikelaual ei leitud veateadet. Palun klõpsa esmalt Arduino IDE-s 'Kopeeri veateade'.",
     "settingsSaved": "Seaded salvestatud",
-    "settingsReset": "Seaded lähtestatud"
+    "settingsReset": "Seaded lähtestatud",
+    "detectingModels": "Saadaolevate mudelite tuvastamine {0} jaoks..."
   },
   "buttons": {
     "chooseModel": "Vali AI mudel",

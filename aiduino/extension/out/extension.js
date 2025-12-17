@@ -427,10 +427,29 @@ async function activate(context) {
         (async () => {
             const keys = await fileManager.loadAllApiKeysAsync(minimalModelManager.providers);
             Object.assign(apiKeys, keys);
-        })(),
-        (async () => {
-            const model = await fileManager.loadSelectedModelAsync(minimalModelManager.providers);
-            if (model) currentModel = model;
+            
+            // NEW: Detect models for cloud providers on startup (if not already detected)
+            for (const [providerId, apiKey] of Object.entries(apiKeys)) {
+                const provider = minimalModelManager.providers[providerId];
+                // Skip if already has model selection or is local provider
+                if (!apiKey || apiKey.includes('|') || provider.type === 'local') {
+                    continue;
+                }
+                
+                // Run detection in background (don't block startup)
+                apiManager.detectBestCloudModel(providerId, apiKey, minimalModelManager.providers)
+                    .then(detectedModel => {
+                        if (detectedModel) {
+                            const updatedKey = `${apiKey}|${detectedModel}`;
+                            apiKeys[providerId] = updatedKey;
+                            fileManager.saveApiKey(providerId, updatedKey, minimalModelManager.providers);
+                            console.log(`✓ Updated ${provider.name} to use: ${detectedModel}`);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(`✗ Startup model detection failed for ${provider.name}:`, err.message);
+                    });
+            }
         })(),
         // Load locale configuration
         loadLocaleAsync()

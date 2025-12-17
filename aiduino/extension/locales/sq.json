@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Konteksti u shtua - vlen vetëm për mesazhin tjetër. Përdor '🔄 Konteksti i fundit' për ta ripërdorur.",
     "noErrorInClipboard": "Nuk u gjet informacion gabimi në clipboard. Ju lutemi kliko fillimisht 'Kopjo mesazhin e gabimit' në Arduino IDE.",
     "settingsSaved": "Cilësimet u ruajtën",
-    "settingsReset": "Cilësimet u rivendosën"
+    "settingsReset": "Cilësimet u rivendosën",
+    "detectingModels": "Duke zbuluar modelet e disponueshme për {0}..."
   },
   "buttons": {
     "chooseModel": "Zgjidh modelin AI",

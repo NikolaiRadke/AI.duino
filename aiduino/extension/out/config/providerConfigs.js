@@ -58,7 +58,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '121225'; 
+const CONFIG_VERSION = '171225'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -74,8 +74,8 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://console.anthropic.com/api-keys',
         path: '/v1/models',
         headers: (key) => ({ 'x-api-key': key, 'anthropic-version': '2023-06-01' }),
-        extractModels: (data) => data.data?.filter(m => m.type === 'text' && !m.id.includes('deprecated')) || [],
-        selectBest: (models) => models.find(m => m.id.includes('sonnet-4')) || models.find(m => m.id.includes('3-5-sonnet')) || models[0],
+        extractModels: (data) => data.data?.filter(m => m.type === 'model' && !m.id.includes('deprecated')) || [],
+        selectBest: (models) => models.find(m => m.id.includes('opus-4-5')) || models.find(m => m.id.includes('sonnet-4-5')) || models.find(m => m.id.includes('sonnet-4')) || models[0],
         fallback: 'claude-sonnet-4-5-20250929',
         prices: {
             input: 3.0 / 1000000,     // $3.00 per 1M tokens (was: 3.0 / 1000)
@@ -265,7 +265,7 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://dashboard.cohere.ai/api-keys',
         path: '/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => data.models?.filter(m => m.name.includes('command')) || [],
+        extractModels: (data) => (data.models || data.data)?.filter(m => (m.name || m.id)?.includes('command')) || [],
         selectBest: (models) => models.find(m => m.name.includes('command-a')) || models.find(m => m.name.includes('command-r-plus')) || models[0],
         fallback: 'command-a-03-2025',
         prices: {
@@ -306,7 +306,7 @@ const PROVIDER_CONFIGS = {
         path: '/openai/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => data.data?.filter(m => m.id.includes('llama') || m.id.includes('mixtral')) || [],
-        selectBest: (models) => models.find(m => m.id.includes('llama-3.1')) || models[0],
+        selectBest: (models) => models.find(m => m.id.includes('llama-3.3')) || models.find(m => m.id.includes('llama-3.1')) || models[0],
         fallback: 'llama-3.3-70b-versatile',  // Statt llama-3.1-70b-versatile
         prices: {
             input: 0.59 / 1000000,    // $0.59 per 1M tokens (was: 0.59 / 1000)

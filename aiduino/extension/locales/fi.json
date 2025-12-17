@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Konteksti lisätty - koskee vain seuraavaa viestiä. Käytä '🔄 Viimeisin konteksti' uudelleenkäyttöön.",
     "noErrorInClipboard": "Leikepöydältä ei löytynyt virhetietoja. Klikkaa ensin Arduino IDE:ssä 'Kopioi virheilmoitus'.",
     "settingsSaved": "Asetukset tallennettu",
-    "settingsReset": "Asetukset palautettu"
+    "settingsReset": "Asetukset palautettu",
+    "detectingModels": "Tunnistetaan saatavilla olevia malleja kohteelle {0}..."
   },
   "buttons": {
     "chooseModel": "Valitse AI-malli",

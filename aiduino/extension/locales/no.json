@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Kontekst lagt til - gjelder kun for neste melding. Bruk '🔄 Siste kontekst' for å gjenbruke.",
     "noErrorInClipboard": "Ingen feilinformasjon funnet i utklippstavlen. Vennligst klikk først på 'Kopier feilmelding' i Arduino IDE.",
     "settingsSaved": "Innstillinger lagret",
-    "settingsReset": "Innstillinger tilbakestilt"
+    "settingsReset": "Innstillinger tilbakestilt",
+    "detectingModels": "Oppdager tilgjengelige modeller for {0}..."
   },
   "buttons": {
     "chooseModel": "Velg AI-modell",

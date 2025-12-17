@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Context attached - applies only to the next message. Use '🔄 Last Context' to reuse.",
     "noErrorInClipboard": "No error information found in clipboard. Please click 'Copy error message' in Arduino IDE first.",
     "settingsSaved": "Settings saved",
-    "settingsReset": "Settings reset"
+    "settingsReset": "Settings reset",
+    "detectingModels": "Detecting available models for {0}..."
   },
   "buttons": {
     "chooseModel": "Choose AI Model",

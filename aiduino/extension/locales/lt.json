@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Kontekstas pridėtas - galioja tik kitai žinutei. Naudok '🔄 Paskutinis kontekstas' pakartotinai naudoti.",
     "noErrorInClipboard": "Mainų srityje nerasta klaidos informacijos. Pirmiausia spustelėk 'Kopijuoti klaidos pranešimą' Arduino IDE.",
     "settingsSaved": "Nustatymai išsaugoti",
-    "settingsReset": "Nustatymai atstatyti"
+    "settingsReset": "Nustatymai atstatyti",
+    "detectingModels": "Aptinkami prieinami modeliai {0}..."
   },
   "buttons": {
     "chooseModel": "Pasirinkti AI modelį",

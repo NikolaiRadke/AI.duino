@@ -67,7 +67,8 @@
     "contextAttachedInfo": "📎 Kontext angehängt - gilt nur für die nächste Nachricht. Nutze '🔄 Letzten Kontext' zum Wiederverwenden.",
     "noErrorInClipboard": "Keine Fehlerinformation in der Zwischenablage gefunden.",
     "settingsSaved": "Einstellungen gespeichert",
-    "settingsReset": "Einstellungen zurückgesetzt"
+    "settingsReset": "Einstellungen zurückgesetzt",
+    "detectingModels": "Erkenne verfügbare Modelle für {0}..."
   },
   "buttons": {
     "chooseModel": "KI-Modell wählen",

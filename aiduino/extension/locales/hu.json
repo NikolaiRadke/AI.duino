@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Kontextus hozzáadva - csak a következő üzenetre vonatkozik. Használd a '🔄 Utolsó kontextus' lehetőséget az újrafelhasználáshoz.",
     "noErrorInClipboard": "Nem található hibaüzenet a vágólapon. Kérlek, először kattints az Arduino IDE-ben a 'Hibaüzenet másolása' gombra.",
     "settingsSaved": "Beállítások mentve",
-    "settingsReset": "Beállítások visszaállítva"
+    "settingsReset": "Beállítások visszaállítva",
+    "detectingModels": "Elérhető modellek észlelése a következőhöz: {0}..."
   },
   "buttons": {
     "chooseModel": "AI modell választása",

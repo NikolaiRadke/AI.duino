@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Kontekst dodan - velja samo za naslednje sporočilo. Uporabi '🔄 Zadnji kontekst' za ponovno uporabo.",
     "noErrorInClipboard": "V odložišču ni bilo najdenih informacij o napaki. Prosim najprej klikni na 'Kopiraj sporočilo o napaki' v Arduino IDE.",
     "settingsSaved": "Nastavitve shranjene",
-    "settingsReset": "Nastavitve ponastavljene"
+    "settingsReset": "Nastavitve ponastavljene",
+    "detectingModels": "Zaznavanje razpoložljivih modelov za {0}..."
   },
   "buttons": {
     "chooseModel": "Izbira AI modela",

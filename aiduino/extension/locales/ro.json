@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Context atașat - valabil doar pentru următorul mesaj. Folosește '🔄 Ultimul context' pentru a refolosi.",
     "noErrorInClipboard": "Nu s-a găsit nicio informație despre eroare în clipboard. Te rog dă click mai întâi pe 'Copiază mesajul de eroare' în Arduino IDE.",
     "settingsSaved": "Setările au fost salvate",
-    "settingsReset": "Setările au fost resetate"
+    "settingsReset": "Setările au fost resetate",
+    "detectingModels": "Detectarea modelelor disponibile pentru {0}..."
   },
   "buttons": {
     "chooseModel": "Alegeți modelul AI",

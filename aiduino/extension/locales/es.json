@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Contexto adjunto - válido solo para el próximo mensaje. Usa '🔄 Último contexto' para reutilizar.",
     "noErrorInClipboard": "No se encontró información de error en el portapapeles. Por favor haz clic primero en 'Copiar mensaje de error' en el IDE de Arduino.",
     "settingsSaved": "Configuración guardada",
-    "settingsReset": "Configuración restablecida"
+    "settingsReset": "Configuración restablecida",
+    "detectingModels": "Detectando modelos disponibles para {0}..."
   },
   "buttons": {
     "chooseModel": "Elegir modelo de IA",

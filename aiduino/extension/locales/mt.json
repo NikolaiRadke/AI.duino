@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Il-kuntest miżjud - japplika biss għall-messaġġ li jmiss. Uża '🔄 L-aħħar kuntest' biex terġa' tuża.",
     "noErrorInClipboard": "Ma nstabx informazzjoni dwar żball fil-clipboard. Jekk jogħġbok ikklikkja l-ewwel fuq 'Ikkopja messaġġ ta' żball' fl-Arduino IDE.",
     "settingsSaved": "Is-settings ġew salvati",
-    "settingsReset": "Is-settings ġew irristjati"
+    "settingsReset": "Is-settings ġew irristjati",
+    "detectingModels": "Kxif ta' mudelli disponibbli għal {0}..."
   },
   "buttons": {
     "chooseModel": "Agħżel mudell AI",

@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Kontext bifogad - gäller endast för nästa meddelande. Använd '🔄 Senaste kontext' för att återanvända.",
     "noErrorInClipboard": "Ingen felinformation hittades i urklipp. Klicka först på 'Kopiera felmeddelande' i Arduino IDE.",
     "settingsSaved": "Inställningar sparade",
-    "settingsReset": "Inställningar återställda"
+    "settingsReset": "Inställningar återställda",
+    "detectingModels": "Upptäcker tillgängliga modeller för {0}..."
   },
   "buttons": {
     "chooseModel": "Välj AI-modell",

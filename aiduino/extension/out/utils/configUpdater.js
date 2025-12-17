@@ -21,31 +21,57 @@ const BACKUP_SUFFIX = '.backup';
  * @returns {Object} Provider configurations with version info
  */
 function loadProviderConfigs() {
-    // Priority: HOME directory override, then plugin fallback
-    const configPaths = [
-        USER_CONFIG_FILE,                                              // User override
-        path.join(__dirname, '..', 'config', 'providerConfigs.js')   // Plugin fallback
-    ];
+    const userConfigPath = USER_CONFIG_FILE;
+    const pluginConfigPath = path.join(__dirname, '..', 'config', 'providerConfigs.js');
     
-    for (const configPath of configPaths) {
-        if (fs.existsSync(configPath)) {
-            // Clear require cache for dynamic loading
-            delete require.cache[require.resolve(configPath)];
-            
-            const config = require(configPath);
-            return {
-                providers: config.PROVIDER_CONFIGS || config,
-                version: config.CONFIG_VERSION || '010125',
-                source: configPath.includes('homedir') ? 'user' : 'plugin',
-                path: configPath
-            };
-        }
+    // Load both configs to compare versions
+    let userConfig = null;
+    let pluginConfig = null;
+    
+    if (fs.existsSync(userConfigPath)) {
+        delete require.cache[require.resolve(userConfigPath)];
+        userConfig = require(userConfigPath);
+    }
+    
+    if (fs.existsSync(pluginConfigPath)) {
+        delete require.cache[require.resolve(pluginConfigPath)];
+        pluginConfig = require(pluginConfigPath);
+    }
+    
+    // Compare versions and use newer one
+    const userVersion = userConfig?.CONFIG_VERSION || '000000';
+    const pluginVersion = pluginConfig?.CONFIG_VERSION || '000000';
+    
+    if (isNewerVersion(pluginVersion, userVersion)) {
+        console.log(`✓ Using plugin config (${pluginVersion}) - newer than user config (${userVersion})`);
+        return {
+            providers: pluginConfig.PROVIDER_CONFIGS || {},
+            version: pluginVersion,
+            source: 'plugin',
+            path: pluginConfigPath
+        };
+    } else if (userConfig) {
+        console.log(`✓ Using user config (${userVersion})`);
+        return {
+            providers: userConfig.PROVIDER_CONFIGS || {},
+            version: userVersion,
+            source: 'user',
+            path: userConfigPath
+        };
+    } else if (pluginConfig) {
+        console.log(`✓ Using plugin config (${pluginVersion}) - no user config found`);
+        return {
+            providers: pluginConfig.PROVIDER_CONFIGS || {},
+            version: pluginVersion,
+            source: 'plugin',
+            path: pluginConfigPath
+        };
     }
     
     // Fallback if no config found
     return {
         providers: {},
-        version: '100925',
+        version: '000000',
         source: 'none',
         path: null
     };

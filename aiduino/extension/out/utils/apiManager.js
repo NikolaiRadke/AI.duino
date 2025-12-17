@@ -313,10 +313,85 @@ async function showModelSelectionPicker(provider, t) {
     return selected ? selected.value : null;
 }
 
+/**
+ * Detect best model for cloud provider from API
+ * @param {string} modelId - Model identifier (e.g., 'claude', 'chatgpt')
+ * @param {string} apiKey - API key for authentication
+ * @param {Object} providers - Provider configurations
+ * @returns {Promise<string|null>} Best model ID or null
+ */
+async function detectBestCloudModel(modelId, apiKey, providers) {
+    const provider = providers[modelId];
+    if (!provider || provider.type === 'local') {
+        return null;
+    }
+
+    try {
+        const https = require('https');
+        
+        return new Promise((resolve, reject) => {
+            const options = {
+                hostname: provider.hostname,
+                path: provider.path,
+                method: 'GET',
+                headers: provider.headers(apiKey),
+                timeout: 5000
+            };
+
+            const req = https.request(options, (res) => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => {
+                    try {
+                        if (res.statusCode !== 200) {
+                            console.log(`✗ API returned status ${res.statusCode} for ${provider.name}`);
+                            resolve(null);
+                            return;
+                        }
+
+                        const parsed = JSON.parse(data);
+                        const models = provider.extractModels(parsed);
+                        
+                        if (models && models.length > 0) {
+                            const best = provider.selectBest(models);
+                            const modelId = best?.id || best?.name || best;
+                            console.log(`✓ Detected best model for ${provider.name}: ${modelId}`);
+                            resolve(modelId);
+                        } else {
+                            console.log(`✗ No models found for ${provider.name}, using fallback`);
+                            resolve(null);
+                        }
+                    } catch (e) {
+                        console.log(`✗ Failed to parse models for ${provider.name}:`, e.message);
+                        resolve(null);
+                    }
+                });
+            });
+
+            req.on('error', (e) => {
+                console.log(`✗ Model detection failed for ${provider.name}:`, e.message);
+                resolve(null);
+            });
+
+            req.on('timeout', () => {
+                req.destroy();
+                console.log(`✗ Model detection timeout for ${provider.name}`);
+                resolve(null);
+            });
+
+            req.end();
+        });
+    } catch (error) {
+        console.log(`✗ Model detection error for ${provider.name}:`, error.message);
+        return null;
+    }
+}
+
 module.exports = {
     callAI,
     switchModel,
     setApiKey,
     validateApiConnection,
-    autoDetectLocalProvider
+    autoDetectLocalProvider,
+    detectBestCloudModel
 };

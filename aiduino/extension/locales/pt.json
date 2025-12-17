@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Contexto anexado - válido apenas para a próxima mensagem. Use '🔄 Último contexto' para reutilizar.",
     "noErrorInClipboard": "Nenhuma informação de erro encontrada na área de transferência. Por favor, clique primeiro em 'Copiar mensagem de erro' no Arduino IDE.",
     "settingsSaved": "Configurações salvas",
-    "settingsReset": "Configurações redefinidas"
+    "settingsReset": "Configurações redefinidas",
+    "detectingModels": "Detectando modelos disponíveis para {0}..."
   },
   "buttons": {
     "chooseModel": "Escolher Modelo de IA",

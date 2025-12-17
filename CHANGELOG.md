@@ -20,6 +20,9 @@ AI.duino will appear in the German Make Magazine. This is the feature-freeze rel
 * Removed attachments in ChatPanel were now removed correctly
 * Fixed some broken emojis
 * Fixed wrong tree tooltips
+* Added missing chat button for AskAI
+* Added check for newer build-in providerConfig.js
+* Better check for best cloud provider model (ChatGPT, Claude, ...)
 
 ## Other
 * You can abort a feature by clicking outside prompt window

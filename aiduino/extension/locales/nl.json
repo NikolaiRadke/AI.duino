@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Context bijgevoegd - geldig alleen voor het volgende bericht. Gebruik '🔄 Laatste context' om opnieuw te gebruiken.",
     "noErrorInClipboard": "Geen foutinformatie gevonden in klembord. Klik eerst op 'Foutmelding kopiëren' in Arduino IDE.",
     "settingsSaved": "Instellingen opgeslagen",
-    "settingsReset": "Instellingen hersteld"
+    "settingsReset": "Instellingen hersteld",
+    "detectingModels": "Beschikbare modellen detecteren voor {0}..."
   },
   "buttons": {
     "chooseModel": "AI-model kiezen",

@@ -67,7 +67,8 @@
     "contextAttachedInfo": "🔎 Kontext přidán - platí pouze pro další zprávu. Pro opětovné použití využij '🔄 Poslední kontext'.",
     "noErrorInClipboard": "Ve schránce nebyla nalezena žádná chybová informace. Prosím nejprve klikni v Arduino IDE na 'Kopírovat chybovou zprávu'.",
     "settingsSaved": "Nastavení uloženo",
-    "settingsReset": "Nastavení resetováno"
+    "settingsReset": "Nastavení resetováno",
+    "detectingModels": "Zjišťování dostupných modelů pro {0}..."
   },
   "buttons": {
     "chooseModel": "Vybrat model AI",
