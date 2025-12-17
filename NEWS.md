@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **17.12.2025** Added better best cloud provider model detection.    
 * **16.12.2025** Added missing chat button for AskAI.               
 * **11.12.2025** Added aggregator service provider support (Hugging Face, OpenRouter, Fireworks and Together).               
 * **09.12.2025** Added temperature and token settings for agents.               
