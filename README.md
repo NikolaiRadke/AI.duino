@@ -8,7 +8,7 @@ AI.duino integrates the API providers **Claude, ChatGPT, Gemini, Mistral, Perple
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **17.12.2025** Added better best cloud provider model detection.    
+* **19.12.2025** Fixed LM Studio wrong model selection bug.    
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
