@@ -157,14 +157,14 @@ class UnifiedAPIClient {
             throw new Error(`Unknown provider or missing API config: ${modelId}`);
         }
 
-        const currentModel = minimalModelManager.getCurrentModel(modelId);
         const apiConfig = provider.apiConfig;
         
-        // Parse API key and selected model (for OpenRouter)
+        // Parse API key and selected model
         let apiKey = apiKeys[modelId];
-        let selectedModel = currentModel.id;
+        let selectedModel = provider.fallback; // Default fallback
         
-        if (provider.requiresModelSelection && apiKey && apiKey.includes('|')) {
+        // Check if stored config contains model selection (format: key|model-id)
+        if (apiKey && apiKey.includes('|')) {
             [apiKey, selectedModel] = apiKey.split('|');
         }
         
