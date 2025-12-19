@@ -14,7 +14,14 @@ function extractResponse(responseBody) {
     if (result.choices && result.choices[0]?.message?.content) {
         return result.choices[0].message.content;
     } else if (result.error) {
-        throw new Error(result.error.message || result.error);
+        const errorMsg = result.error.message || result.error;
+        
+        // Check if the error is about an embedding model
+        if (errorMsg.includes('not llm') || errorMsg.includes('embedding')) {
+            throw new Error('The selected model is not a language model (LLM).');
+        }
+        
+        throw new Error(errorMsg);
     } else {
         throw new Error('Unknown LM Studio response format');
     }
@@ -37,6 +44,7 @@ function buildRequest(modelName, prompt) {
 
 /**
  * Get best available LM Studio model
+ * Filters out embedding models and only returns LLM models
  */
 async function detectBestModelLMStudio(baseUrl, preferredModels, defaultPort = 1234) {
     return detectBestModel(
@@ -44,7 +52,14 @@ async function detectBestModelLMStudio(baseUrl, preferredModels, defaultPort = 1
         '/v1/models',
         defaultPort, 
         preferredModels,
-        (response) => response.data?.map(m => m.id) || []
+        (response) => {
+            if (!response.data) return [];
+            // Filter out embedding models - only include models with object: "model"
+            // Embedding models have object: "embedding" 
+            return response.data
+                .filter(m => !m.object || m.object === 'model')
+                .map(m => m.id) || [];
+        }
     );
 }
 module.exports = {
