@@ -149,7 +149,7 @@ class UnifiedAPIClient {
      * @param {Object} context - Extension context
      * @returns {Object} Request configuration
      */
-     getModelConfig(modelId, prompt, context) {
+    getModelConfig(modelId, prompt, context) {
         const { minimalModelManager, apiKeys, settings } = context; 
         const provider = minimalModelManager.providers[modelId];
     
@@ -157,18 +157,15 @@ class UnifiedAPIClient {
             throw new Error(`Unknown provider or missing API config: ${modelId}`);
         }
 
+        const currentModel = minimalModelManager.getCurrentModel(modelId);
         const apiConfig = provider.apiConfig;
-
-        // Parse API key and selected model
-        let apiKey = apiKeys[modelId];
-        let selectedModel = provider.fallback; // Default fallback
         
-        // Check if stored config contains model selection (format: key|model-id)
-        if (apiKey && apiKey.includes('|')) {
+        // Parse API key and selected model (for OpenRouter)
+        let apiKey = apiKeys[modelId];
+        let selectedModel = currentModel.id;
+        
+        if (provider.requiresModelSelection && apiKey && apiKey.includes('|')) {
             [apiKey, selectedModel] = apiKey.split('|');
-            console.log(`✓ Using stored model for ${provider.name}: ${selectedModel}`);
-        } else {
-            console.log(`ℹ Using fallback model for ${provider.name}: ${selectedModel}`);
         }
         
         const systemPrompt = "You are a helpful assistant specialized in Arduino programming and electronics.";
@@ -473,6 +470,9 @@ class UnifiedAPIClient {
             const data = JSON.stringify(requestBody);
             const buffer = Buffer.from(data, 'utf8');
             
+            // Flag to prevent race condition between timeout and response
+            let completed = false;
+            
             const http = require('http');
             const parsedUrl = new URL(baseUrl);
             
@@ -489,6 +489,9 @@ class UnifiedAPIClient {
                 let body = '';
                 res.on('data', chunk => body += chunk);
                 res.on('end', () => {
+                    if (completed) return; // Already timed out or errored
+                    completed = true;
+                    
                     try {
                         const response = providerHandler.extractResponse(body);
                         resolve(response);
@@ -499,6 +502,9 @@ class UnifiedAPIClient {
             });
             
             req.on('error', (error) => {
+                if (completed) return; // Already resolved or timed out
+                completed = true;
+                
                 if (error.code === 'ECONNREFUSED') {
                     reject(new Error(t('errors.localProviderNotRunning')));
                 } else {
@@ -506,7 +512,10 @@ class UnifiedAPIClient {
                 }
             });
             
-            req.setTimeout(180000, () => {
+            req.setTimeout(600000, () => {  // 10 minutes for slow CPU inference
+                if (completed) return; // Already resolved
+                completed = true;
+                
                 req.destroy();
                 reject(new Error(t('errors.localProviderTimeout')));
             });
