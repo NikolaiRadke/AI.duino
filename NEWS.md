@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **20.12.2025** Fixed load model on startup bug.    
 * **19.12.2025** Fixed LM Studio wrong model selection bug.    
 * **17.12.2025** Added better best cloud provider model detection.    
 * **16.12.2025** Added missing chat button for AskAI.               
