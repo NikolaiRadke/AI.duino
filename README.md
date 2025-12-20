@@ -177,7 +177,7 @@ Supported Provider:
 - Claude Code (Claude Plan Pro): https://www.claude.com/pricing
 - Codex CLI (ChatGPT Plus): https://chatgpt.com/#pricing (Untested)
 - Ollama: https://ollama.com/
-- LM Studio: https://lmstudio.ai (Untested)
+- LM Studio: https://lmstudio.ai
 
 ## Content
   
