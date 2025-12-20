@@ -24,6 +24,8 @@ AI.duino will appear in the German Make Magazine. This is the feature-freeze rel
 * Added check for newer build-in providerConfig.js
 * Better check for best cloud provider model (ChatGPT, Claude, ...)
 * Fixed LM Studio wrong model selection bug
+* Fixed load model on startup bug   
+
 
 ## Other
 * You can abort a feature by clicking outside prompt window
