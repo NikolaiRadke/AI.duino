@@ -427,6 +427,12 @@ async function activate(context) {
         (async () => {
             const keys = await fileManager.loadAllApiKeysAsync(minimalModelManager.providers);
             Object.assign(apiKeys, keys);
+
+            // Load saved model selection
+            const savedModel = await fileManager.loadSelectedModelAsync(minimalModelManager.providers);
+            if (savedModel) {
+                currentModel = savedModel;
+            }
             
             // NEW: Detect models for cloud providers on startup (if not already detected)
             for (const [providerId, apiKey] of Object.entries(apiKeys)) {
