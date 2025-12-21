@@ -85,7 +85,9 @@ If you want to install it into the Arduino programm directory, see *Manual insta
   
 #### Windows
 {% windows %}
+
 Run install_aiduino_windows.bat as administrator
+
 {% endwindows %}
 
 #### Linux
