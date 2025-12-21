@@ -173,7 +173,7 @@ HTTP based providers like **Ollama** get auto detected, process based providers 
 Example: Try *which claude* (Linux/macOS) or *where claude* (Windows) and copy the path for the AI.duino 
 input field when selecting Claude Code.  
 
-Supported Provider:
+Supported Providers:
 - Claude Code (Claude Plan Pro): https://www.claude.com/pricing
 - Codex CLI (ChatGPT Plus): https://chatgpt.com/#pricing (Untested)
 - Ollama: https://ollama.com/
