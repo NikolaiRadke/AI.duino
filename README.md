@@ -145,7 +145,7 @@ Are you really REALLY sure?
 
 If you installed AI.duino manually into the plugin folder, you need to remove it by yourself. AI.duino has no permissions
 to do that.  
-[^1]:Hint
+[^1]: Hint Yeah
 
 ## API keys
 
