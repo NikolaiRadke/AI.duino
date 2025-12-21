@@ -143,12 +143,6 @@ or
 ~/.local/share/arduino-ide/resources/app/plugins/
 ```
 
-{% linux %}
-
- These instructions are pertinent to Linux users.
-
-{% endlinux %}
-
 ## Deinstallation
 
 You can completly remove the extension in the AI.duino settings panel bei clickung the uninstall button.  Are you sure? 
