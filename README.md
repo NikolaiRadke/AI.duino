@@ -132,7 +132,7 @@ C:\Program Files\Arduino IDE\resources\app\plugins\
 #### Linux
 ```
 /usr/share/arduino/resources/app/plugins/
-# or
+or
 ~/.local/share/arduino-ide/resources/app/plugins/
 ```
 
