@@ -150,7 +150,7 @@ to do that.
 
 AI.duino communicates through the API with the AIs. It's impossible to  connect through the web 
 interface, so an API key is **mandatory**. If you already have a monthly paid account, you need 
-to - *sigh* - buy an additional key for about **5$**. Fortunatly, this really lasts long.
+to - *sigh* - buy an additional key for about **$5**. Fortunatly, this really lasts long.
   
 > [!TIP]
 > You can try **Groq** and **Gemini**: They have a rate for API keys for **free**.  
