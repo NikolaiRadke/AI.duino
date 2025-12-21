@@ -2,6 +2,9 @@
 Some hints on how to use AI.duino.  
 More coming soon.
 
+## Inline
+Clicking Inline opens the settings where inline completion can be enabled or disabled. The AI provides code suggestions while typing, triggered by keywords like Serial. and in comments ending with :. Example: ''' // Blink the LED three times: '''. Press the Tab key to accept the suggestion. A different provider can be configured for inline completion. Groq is recommended – it's free within limits and extremely fast.
+
 ## Settings  
 There are several options that need further explanation. The default values are tested and work fine, but if you need some customization, here are some details.
 
