@@ -84,17 +84,21 @@ You need the VSIX file *aiduino.vsix* in the same folder with the installer. The
 If you want to install it into the Arduino programm directory, see *Manual installation*. 
   
 #### Windows
-{% windows %}
-
+```
 Run install_aiduino_windows.bat as administrator
-
-{% endwindows %}
+```
 
 #### Linux
 ```bash
 chmod +x install_aiduino_linux.sh
 ./install_aiduino_install_linux.sh
 ```
+{% linux %}
+
+ These instructions are pertinent to Linux users.
+
+{% endlinux %}
+
 #### macOS
 ```bash
 chmod +x install_aiduino_macos.sh
