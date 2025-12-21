@@ -3,7 +3,7 @@
 
 AI.duino integrates the API providers **Claude, ChatGPT, Gemini, Mistral, Perplexity and Cohere, Croq**, aggregator services **OpenRouter and Hugging Face**, and local providers **Claude Code, Codex CLI, LM Studio and Ollama** directly into the Arduino IDE for intelligent code assistance. It also works with **VS Code**. Please use the newest Version to avoid annoying bugs.  
   
-**Hint:** Groq ist not Grok! AI.duino is Elon-free!  
+[!NOTE] Groq ist not Grok! AI.duino is Elon-free!  
  
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
