@@ -93,11 +93,6 @@ Run install_aiduino_windows.bat as administrator
 chmod +x install_aiduino_linux.sh
 ./install_aiduino_install_linux.sh
 ```
-{% linux %}
-
- These instructions are pertinent to Linux users.
-
-{% endlinux %}
 
 #### macOS
 ```bash
