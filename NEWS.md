@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **23.12.2025** Fixed addComments locale bug.    
 * **20.12.2025** Fixed load model on startup bug.    
 * **19.12.2025** Fixed LM Studio wrong model selection bug.    
 * **17.12.2025** Added better best cloud provider model detection.    
