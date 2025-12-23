@@ -107,9 +107,11 @@ async function switchModel(context) {
                 }
                 
                 // Save selection in format: sk-or-xxx|model-id
-                const apiKey = updatedContext.apiKeys[selected.value];
+                let apiKey = updatedContext.apiKeys[selected.value];
                 if (apiKey) {
-                    const savedConfig = `${apiKey}|${modelChoice.id}`;
+                    // Strip old model if exists (format: key|model)
+                    const keyOnly = apiKey.split('|')[0];
+                    const savedConfig = `${keyOnly}|${modelChoice.id}`;
                     updatedContext.apiKeys[selected.value] = savedConfig;
                     fileManager.saveApiKey(selected.value, savedConfig, minimalModelManager.providers);
                     updateStatusBar();
