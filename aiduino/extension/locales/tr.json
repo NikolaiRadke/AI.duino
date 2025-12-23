@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Hata ayıklama çözümü"
   },
   "addComments": {
-    "commentedCode": "Yorumlanmış kod",
     "customInstructions": "Özel talimatlar",
     "outputFormatSelection": "ÖNEMLİ: Kod bölümünü yorumlarıyla birlikte tamamen geri döndür. Format: ```cpp\n...\n```",
     "outputFormatFile": "ÖNEMLİ: Dosyanın tamamını yorumlarıyla birlikte geri döndür. Format: ```cpp\n...\n```",
-    "outputFormatSketch": "ÖNEMLİ: Tüm dosyaları yorumlarıyla birlikte başlıklarıyla geri döndür. Format:\n```cpp\n// ========== DosyaAdı.ino ==========\n...\n```"
+    "outputFormatSketch": "ÖNEMLİ: Tüm dosyaları yorumlarıyla birlikte başlıklarıyla geri döndür. Format:\n```cpp\n// ========== DosyaAdı.ino ==========\n...\n```",
+    "aiAnalysis": "Yorumlanmış kod"
   },
   "context": {
     "noContext": "Kod bağlamı olmadan",

@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Debug-oplossing"
   },
   "addComments": {
-    "commentedCode": "Code met commentaar",
     "customInstructions": "Aangepaste instructies",
     "outputFormatSelection": "BELANGRIJK: Geef het complete codesectie met commentaar terug. Formaat: ```cpp\n...\n```",
     "outputFormatFile": "BELANGRIJK: Geef het complete bestand met commentaar terug. Formaat: ```cpp\n...\n```",
-    "outputFormatSketch": "BELANGRIJK: Geef alle bestanden met commentaar terug, elk met koptekst. Formaat:\n```cpp\n// ========== Bestandsnaam.ino ==========\n...\n```"
+    "outputFormatSketch": "BELANGRIJK: Geef alle bestanden met commentaar terug, elk met koptekst. Formaat:\n```cpp\n// ========== Bestandsnaam.ino ==========\n...\n```",
+    "aiAnalysis": "Code met commentaar"
   },
   "context": {
     "noContext": "Zonder code context",

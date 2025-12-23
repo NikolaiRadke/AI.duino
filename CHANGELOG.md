@@ -25,6 +25,7 @@ AI.duino will appear in the German Make Magazine. This is the feature-freeze rel
 * Better check for best cloud provider model (ChatGPT, Claude, ...)
 * Fixed LM Studio wrong model selection bug
 * Fixed load model on startup bug   
+* Fixed addComments locale bug
 
 
 ## Other

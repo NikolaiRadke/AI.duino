@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Solución de depuración"
   },
   "addComments": {
-    "commentedCode": "Código comentado",
     "customInstructions": "Instrucciones personalizadas",
     "outputFormatSelection": "IMPORTANTE: Devuelve la sección de código con comentarios completa. Formato: ```cpp\n...\n```",
     "outputFormatFile": "IMPORTANTE: Devuelve el archivo completo con comentarios. Formato: ```cpp\n...\n```",
-    "outputFormatSketch": "IMPORTANTE: Devuelve todos los archivos con comentarios, cada uno con encabezado. Formato:\n```cpp\n// ========== NombreArchivo.ino ==========\n...\n```"
+    "outputFormatSketch": "IMPORTANTE: Devuelve todos los archivos con comentarios, cada uno con encabezado. Formato:\n```cpp\n// ========== NombreArchivo.ino ==========\n...\n```",
+    "aiAnalysis": "Código comentado"
   },
   "context": {
     "noContext": "Sin contexto de código",

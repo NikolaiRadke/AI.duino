@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Soluție depanare"
   },
   "addComments": {
-    "commentedCode": "Cod comentat",
     "customInstructions": "Instrucțiuni personalizate",
     "outputFormatSelection": "IMPORTANT: Returnează secțiunea de cod cu comentarii complet. Format: ```cpp\n...\n```",
     "outputFormatFile": "IMPORTANT: Returnează fișierul complet cu comentarii. Format: ```cpp\n...\n```",
-    "outputFormatSketch": "IMPORTANT: Returnează toate fișierele cu comentarii, fiecare cu antet. Format:\n```cpp\n// ========== NumeFișier.ino ==========\n...\n```"
+    "outputFormatSketch": "IMPORTANT: Returnează toate fișierele cu comentarii, fiecare cu antet. Format:\n```cpp\n// ========== NumeFișier.ino ==========\n...\n```",
+    "aiAnalysis": "Cod comentat"
   },
   "context": {
     "noContext": "Fără context de cod",

@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Atkļūdošanas risinājums"
   },
   "addComments": {
-    "commentedCode": "Komentēts kods",
     "customInstructions": "Pielāgotas instrukcijas",
     "outputFormatSelection": "SVARĪGI: Atgrieziet koda sadaļu ar komentāriem pilnībā. Formāts: ```cpp\n...\n```",
     "outputFormatFile": "SVARĪGI: Atgrieziet pilnu failu ar komentāriem. Formāts: ```cpp\n...\n```",
-    "outputFormatSketch": "SVARĪGI: Atgrieziet visus failus ar komentāriem, katru ar galveni. Formāts:\n```cpp\n// ========== FailaNosaukums.ino ==========\n...\n```"
+    "outputFormatSketch": "SVARĪGI: Atgrieziet visus failus ar komentāriem, katru ar galveni. Formāts:\n```cpp\n// ========== FailaNosaukums.ino ==========\n...\n```",
+    "aiAnalysis": "Komentēts kods"
   },
   "context": {
     "noContext": "Bez koda konteksta",

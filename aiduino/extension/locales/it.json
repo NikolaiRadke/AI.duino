@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Soluzione debug"
   },
   "addComments": {
-    "commentedCode": "Codice commentato",
     "customInstructions": "Istruzioni personalizzate",
     "outputFormatSelection": "IMPORTANTE: Restituisci la sezione di codice con commenti completa. Formato: ```cpp\n...\n```",
     "outputFormatFile": "IMPORTANTE: Restituisci il file completo con commenti. Formato: ```cpp\n...\n```",
-    "outputFormatSketch": "IMPORTANTE: Restituisci tutti i file con commenti, ciascuno con intestazione. Formato:\n```cpp\n// ========== NomeFile.ino ==========\n...\n```"
+    "outputFormatSketch": "IMPORTANTE: Restituisci tutti i file con commenti, ciascuno con intestazione. Formato:\n```cpp\n// ========== NomeFile.ino ==========\n...\n```",
+    "aiAnalysis": "Codice commentato"
   },
   "context": {
     "noContext": "Senza contesto di codice",

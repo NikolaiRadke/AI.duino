@@ -518,11 +518,11 @@
     "debugSolutionTitle": "调试解决方案"
   },
   "addComments": {
-    "commentedCode": "已注释代码",
     "customInstructions": "自定义说明",
     "outputFormatSelection": "重要: 返回完整的带注释代码部分。格式: ```cpp\n...\n```",
     "outputFormatFile": "重要: 返回完整的带注释文件。格式: ```cpp\n...\n```",
-    "outputFormatSketch": "重要: 返回所有带注释的文件，每个都带标题。格式:\n```cpp\n// ========== 文件名.ino ==========\n...\n```"
+    "outputFormatSketch": "重要: 返回所有带注释的文件，每个都带标题。格式:\n```cpp\n// ========== 文件名.ino ==========\n...\n```",
+    "aiAnalysis": "已注释代码"
   },
   "context": {
     "noContext": "无代码上下文",

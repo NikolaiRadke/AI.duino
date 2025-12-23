@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Debug-løsning"
   },
   "addComments": {
-    "commentedCode": "Kommenteret kode",
     "customInstructions": "Brugerdefinerede instruktioner",
     "outputFormatSelection": "VIGTIGT: Returner kodesektionen med kommentarer komplet. Format: ```cpp\n...\n```",
     "outputFormatFile": "VIGTIGT: Returner hele filen med kommentarer. Format: ```cpp\n...\n```",
-    "outputFormatSketch": "VIGTIGT: Returner alle filer med kommentarer, hver med header. Format:\n```cpp\n// ========== Filnavn.ino ==========\n...\n```"
+    "outputFormatSketch": "VIGTIGT: Returner alle filer med kommentarer, hver med header. Format:\n```cpp\n// ========== Filnavn.ino ==========\n...\n```",
+    "aiAnalysis": "Kommenteret kode"
   },
   "context": {
     "noContext": "Uden kodekontekst",

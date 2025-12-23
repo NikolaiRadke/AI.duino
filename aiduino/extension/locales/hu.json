@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Hibakeresési megoldás"
   },
   "addComments": {
-    "commentedCode": "Kommentált kód",
     "customInstructions": "Egyéni utasítások",
     "outputFormatSelection": "FONTOS: Add vissza a kódrészletet megjegyzésekkel teljes egészében. Formátum: ```cpp\n...\n```",
     "outputFormatFile": "FONTOS: Add vissza a teljes fájlt megjegyzésekkel. Formátum: ```cpp\n...\n```",
-    "outputFormatSketch": "FONTOS: Add vissza az összes fájlt megjegyzésekkel, mindegyiket fejléccel. Formátum:\n```cpp\n// ========== FájlNév.ino ==========\n...\n```"
+    "outputFormatSketch": "FONTOS: Add vissza az összes fájlt megjegyzésekkel, mindegyiket fejléccel. Formátum:\n```cpp\n// ========== FájlNév.ino ==========\n...\n```",
+    "aiAnalysis": "Kommentált kód"
   },
   "context": {
     "noContext": "Kód kontextus nélkül",

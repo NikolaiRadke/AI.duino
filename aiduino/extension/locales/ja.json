@@ -514,11 +514,11 @@
     "debugSolutionTitle": "デバッグソリューション"
   },
   "addComments": {
-    "commentedCode": "コメント付きコード",
     "customInstructions": "カスタム指示",
     "outputFormatSelection": "重要: コメント付きのコードセクション全体を返してください。形式: ```cpp\n...\n```",
     "outputFormatFile": "重要: コメント付きの完全なファイルを返してください。形式: ```cpp\n...\n```",
-    "outputFormatSketch": "重要: すべてのコメント付きファイルをヘッダー付きで返してください。形式:\n```cpp\n// ========== ファイル名.ino ==========\n...\n```"
+    "outputFormatSketch": "重要: すべてのコメント付きファイルをヘッダー付きで返してください。形式:\n```cpp\n// ========== ファイル名.ino ==========\n...\n```",
+    "aiAnalysis": "コメント付きコード"
   },
   "context": {
     "noContext": "コードコンテキストなし",

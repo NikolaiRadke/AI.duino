@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Zgjidhje debug"
   },
   "addComments": {
-    "commentedCode": "Kod i komentuar",
     "customInstructions": "Udhëzime të personalizuara",
     "outputFormatSelection": "E RËNDËSISHME: Kthe seksionin e kodit me komente plotësisht. Formati: ```cpp\n...\n```",
     "outputFormatFile": "E RËNDËSISHME: Kthe skedarin e plotë me komente. Formati: ```cpp\n...\n```",
-    "outputFormatSketch": "E RËNDËSISHME: Kthe të gjithë skedarët me komente, secili me titull. Formati:\n```cpp\n// ========== EmriSkedarit.ino ==========\n...\n```"
+    "outputFormatSketch": "E RËNDËSISHME: Kthe të gjithë skedarët me komente, secili me titull. Formati:\n```cpp\n// ========== EmriSkedarit.ino ==========\n...\n```",
+    "aiAnalysis": "Kod i komentuar"
   },
   "context": {
     "noContext": "Pa kontekst kodi",

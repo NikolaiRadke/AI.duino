@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Riešenie ladenia"
   },
   "addComments": {
-    "commentedCode": "Okomentovaný kód",
     "customInstructions": "Vlastné inštrukcie",
     "outputFormatSelection": "DÔLEŽITÉ: Vráť sekciu kódu s komentármi kompletne. Formát: ```cpp\n...\n```",
     "outputFormatFile": "DÔLEŽITÉ: Vráť kompletný súbor s komentármi. Formát: ```cpp\n...\n```",
-    "outputFormatSketch": "DÔLEŽITÉ: Vráť všetky súbory s komentármi, každý s hlavičkou. Formát:\n```cpp\n// ========== NázovSúboru.ino ==========\n...\n```"
+    "outputFormatSketch": "DÔLEŽITÉ: Vráť všetky súbory s komentármi, každý s hlavičkou. Formát:\n```cpp\n// ========== NázovSúboru.ino ==========\n...\n```",
+    "aiAnalysis": "Okomentovaný kód"
   },
   "context": {
     "noContext": "Bez kontextu kódu",

@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Silumise lahendus"
   },
   "addComments": {
-    "commentedCode": "Kommenteeritud kood",
     "customInstructions": "Kohandatud juhised",
     "outputFormatSelection": "OLULINE: Tagasta koodilõik kommentaaridega täielikult. Formaat: ```cpp\n...\n```",
     "outputFormatFile": "OLULINE: Tagasta täielik fail kommentaaridega. Formaat: ```cpp\n...\n```",
-    "outputFormatSketch": "OLULINE: Tagasta kõik failid kommentaaridega, igaüks päisega. Formaat:\n```cpp\n// ========== FailiNimi.ino ==========\n...\n```"
+    "outputFormatSketch": "OLULINE: Tagasta kõik failid kommentaaridega, igaüks päisega. Formaat:\n```cpp\n// ========== FailiNimi.ino ==========\n...\n```",
+    "aiAnalysis": "Kommenteeritud kood"
   },
   "context": {
     "noContext": "Ilma koodi kontekstita",

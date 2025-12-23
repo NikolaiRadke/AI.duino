@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Rješenje za otklanjanje grešaka"
   },
   "addComments": {
-    "commentedCode": "Komentirani kod",
     "customInstructions": "Prilagođene upute",
     "outputFormatSelection": "VAŽNO: Vrati odsječak koda s komentarima u potpunosti. Format: ```cpp\n...\n```",
     "outputFormatFile": "VAŽNO: Vrati potpunu datoteku s komentarima. Format: ```cpp\n...\n```",
-    "outputFormatSketch": "VAŽNO: Vrati sve datoteke s komentarima, svaku s naslovom. Format:\n```cpp\n// ========== ImeDatoteke.ino ==========\n...\n```"
+    "outputFormatSketch": "VAŽNO: Vrati sve datoteke s komentarima, svaku s naslovom. Format:\n```cpp\n// ========== ImeDatoteke.ino ==========\n...\n```",
+    "aiAnalysis": "Komentirani kod"
   },
   "context": {
     "noContext": "Bez konteksta koda",

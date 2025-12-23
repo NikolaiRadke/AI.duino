@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Debug-ratkaisu"
   },
   "addComments": {
-    "commentedCode": "Kommentoitu koodi",
     "customInstructions": "Mukautetut ohjeet",
     "outputFormatSelection": "TÄRKEÄÄ: Palauta koodiosio kommenteilla kokonaan. Muoto: ```cpp\n...\n```",
     "outputFormatFile": "TÄRKEÄÄ: Palauta kokonainen tiedosto kommenteilla. Muoto: ```cpp\n...\n```",
-    "outputFormatSketch": "TÄRKEÄÄ: Palauta kaikki tiedostot kommenteilla, kukin otsikolla. Muoto:\n```cpp\n// ========== TiedostoNimi.ino ==========\n...\n```"
+    "outputFormatSketch": "TÄRKEÄÄ: Palauta kaikki tiedostot kommenteilla, kukin otsikolla. Muoto:\n```cpp\n// ========== TiedostoNimi.ino ==========\n...\n```",
+    "aiAnalysis": "Kommentoitu koodi"
   },
   "context": {
     "noContext": "Ilman koodikontekstia",

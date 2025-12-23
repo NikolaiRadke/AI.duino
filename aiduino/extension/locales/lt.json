@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Derinimo sprendimas"
   },
   "addComments": {
-    "commentedCode": "Komentuotas kodas",
     "customInstructions": "Pritaikytos instrukcijos",
     "outputFormatSelection": "SVARBU: Grąžink kodo dalį su komentarais visiškai. Formatas: ```cpp\n...\n```",
     "outputFormatFile": "SVARBU: Grąžink visą failą su komentarais. Formatas: ```cpp\n...\n```",
-    "outputFormatSketch": "SVARBU: Grąžink visus failus su komentarais, kiekvieną su antrašte. Formatas:\n```cpp\n// ========== FailoPavadinimas.ino ==========\n...\n```"
+    "outputFormatSketch": "SVARBU: Grąžink visus failus su komentarais, kiekvieną su antrašte. Formatas:\n```cpp\n// ========== FailoPavadinimas.ino ==========\n...\n```",
+    "aiAnalysis": "Komentuotas kodas"
   },
   "context": {
     "noContext": "Be kodo konteksto",

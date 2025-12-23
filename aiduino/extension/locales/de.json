@@ -454,11 +454,11 @@
     "aiAnalysis": "KI-Erklärung"
   },
   "addComments": {
-    "commentedCode": "Kommentierter Code",
     "customInstructions": "Eigene Anweisungen",
     "outputFormatSelection": "WICHTIG: Gib den Code-Abschnitt mit Kommentaren vollständig zurück. Format: ```cpp\n...\n```",
     "outputFormatFile": "WICHTIG: Gib die komplette Datei mit Kommentaren zurück. Format: ```cpp\n...\n```",
-    "outputFormatSketch": "WICHTIG: Gib alle Dateien mit Kommentaren zurück, jeweils mit Header. Format:\n```cpp\n// ========== DateiName.ino ==========\n...\n```"
+    "outputFormatSketch": "WICHTIG: Gib alle Dateien mit Kommentaren zurück, jeweils mit Header. Format:\n```cpp\n// ========== DateiName.ino ==========\n...\n```",
+    "aiAnalysis": "Kommentierter Code"
   },
   "explainError": {
     "errorBadge": "KI Fehler-Analyse",

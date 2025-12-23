@@ -444,11 +444,11 @@
     "outputFormatSketch": "IMPORTANT: Return all improved files, each with header. Format:\n```cpp\n// ========== FileName.ino ==========\n...\n```"
   },
   "addComments": {
-    "commentedCode": "Commented Code",
     "customInstructions": "Custom Instructions",
     "outputFormatSelection": "IMPORTANT: Return the complete code section with comments. Format: ```cpp\n...\n```",
     "outputFormatFile": "IMPORTANT: Return the complete file with comments. Format: ```cpp\n...\n```",
-    "outputFormatSketch": "IMPORTANT: Return all files with comments, each with header. Format:\n```cpp\n// ========== FileName.ino ==========\n...\n```"
+    "outputFormatSketch": "IMPORTANT: Return all files with comments, each with header. Format:\n```cpp\n// ========== FileName.ino ==========\n...\n```",
+    "aiAnalysis": "Commented Code"
   },
   "explainError": {
     "errorBadge": "AI Error Analysis",

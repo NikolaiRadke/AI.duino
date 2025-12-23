@@ -518,11 +518,11 @@
     "debugSolutionTitle": "디버그 솔루션"
   },
   "addComments": {
-    "commentedCode": "주석이 추가된 코드",
     "customInstructions": "사용자 지정 지침",
     "outputFormatSelection": "중요: 주석이 포함된 코드 섹션을 완전히 반환. 형식: ```cpp\n...\n```",
     "outputFormatFile": "중요: 주석이 포함된 전체 파일을 반환. 형식: ```cpp\n...\n```",
-    "outputFormatSketch": "중요: 주석이 포함된 모든 파일을 헤더와 함께 반환. 형식:\n```cpp\n// ========== 파일이름.ino ==========\n...\n```"
+    "outputFormatSketch": "중요: 주석이 포함된 모든 파일을 헤더와 함께 반환. 형식:\n```cpp\n// ========== 파일이름.ino ==========\n...\n```",
+    "aiAnalysis": "주석이 추가된 코드"
   },
   "context": {
     "noContext": "코드 컨텍스트 없음",

@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Villuleitarlausn"
   },
   "addComments": {
-    "commentedCode": "Athugasemdaður kóði",
     "customInstructions": "Sérsniðnar leiðbeiningar",
     "outputFormatSelection": "MIKILVÆGT: Skilaðu kóðahlutanum með athugasemdum að fullu. Snið: ```cpp\n...\n```",
     "outputFormatFile": "MIKILVÆGT: Skilaðu fullkominni skrá með athugasemdum. Snið: ```cpp\n...\n```",
-    "outputFormatSketch": "MIKILVÆGT: Skilaðu öllum skrám með athugasemdum, hverri með haus. Snið:\n```cpp\n// ========== SkráNafn.ino ==========\n...\n```"
+    "outputFormatSketch": "MIKILVÆGT: Skilaðu öllum skrám með athugasemdum, hverri með haus. Snið:\n```cpp\n// ========== SkráNafn.ino ==========\n...\n```",
+    "aiAnalysis": "Athugasemdaður kóði"
   },
   "context": {
     "noContext": "Án kóðasamhengis",

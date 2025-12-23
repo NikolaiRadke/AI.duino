@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Rozwiązanie debugowania"
   },
   "addComments": {
-    "commentedCode": "Kod z komentarzami",
     "customInstructions": "Niestandardowe instrukcje",
     "outputFormatSelection": "WAŻNE: Zwróć kompletną sekcję kodu z komentarzami. Format: ```cpp\n...\n```",
     "outputFormatFile": "WAŻNE: Zwróć kompletny plik z komentarzami. Format: ```cpp\n...\n```",
-    "outputFormatSketch": "WAŻNE: Zwróć wszystkie pliki z komentarzami, każdy z nagłówkiem. Format:\n```cpp\n// ========== NazwaPliku.ino ==========\n...\n```"
+    "outputFormatSketch": "WAŻNE: Zwróć wszystkie pliki z komentarzami, każdy z nagłówkiem. Format:\n```cpp\n// ========== NazwaPliku.ino ==========\n...\n```",
+    "aiAnalysis": "Kod z komentarzami"
   },
   "context": {
     "noContext": "Bez kontekstu kodu",

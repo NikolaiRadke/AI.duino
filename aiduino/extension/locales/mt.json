@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Soluzzjoni debug"
   },
   "addComments": {
-    "commentedCode": "Kodiċi kkummentat",
     "customInstructions": "Istruzzjonijiet personalizzati",
     "outputFormatSelection": "IMPORTANTI: Irritorna s-sezzjoni tal-kodiċi bil-kummenti għalkollox. Format: ```cpp\n...\n```",
     "outputFormatFile": "IMPORTANTI: Irritorna l-fajl kollu bil-kummenti. Format: ```cpp\n...\n```",
-    "outputFormatSketch": "IMPORTANTI: Irritorna l-fajls kollha bil-kummenti, kull wieħed b'intestatura. Format:\n```cpp\n// ========== IsmilFajl.ino ==========\n...\n```"
+    "outputFormatSketch": "IMPORTANTI: Irritorna l-fajls kollha bil-kummenti, kull wieħed b'intestatura. Format:\n```cpp\n// ========== IsmilFajl.ino ==========\n...\n```",
+    "aiAnalysis": "Kodiċi kkummentat"
   },
   "context": {
     "noContext": "Mingħajr kuntest tal-kodiċi",

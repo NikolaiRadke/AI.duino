@@ -518,11 +518,11 @@
     "debugSolutionTitle": "Rešitev razhroščevanja"
   },
   "addComments": {
-    "commentedCode": "Komentirana koda",
     "customInstructions": "Prilagojene navodila",
     "outputFormatSelection": "POMEMBNO: Vrni del kode s komentarji v celoti. Format: ```cpp\n...\n```",
     "outputFormatFile": "POMEMBNO: Vrni celotno datoteko s komentarji. Format: ```cpp\n...\n```",
-    "outputFormatSketch": "POMEMBNO: Vrni vse datoteke s komentarji, vsako z glavo. Format:\n```cpp\n// ========== ImeDatoteke.ino ==========\n...\n```"
+    "outputFormatSketch": "POMEMBNO: Vrni vse datoteke s komentarji, vsako z glavo. Format:\n```cpp\n// ========== ImeDatoteke.ino ==========\n...\n```",
+    "aiAnalysis": "Komentirana koda"
   },
   "context": {
     "noContext": "Brez konteksta kode",
