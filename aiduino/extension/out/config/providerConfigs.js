@@ -58,7 +58,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '231225'; 
+const CONFIG_VERSION = '241225'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -657,6 +657,11 @@ const PROVIDER_CONFIGS = {
                 pricing: { input: 0.075 / 1000000, output: 0.3 / 1000000 }
             },
             { 
+                id: 'meta-llama/llama-3.3-70b-instruct:free', 
+                name: 'Llama 3.3 70B (Free)', 
+                pricing: { input: 0, output: 0 }
+            },
+            { 
                 id: 'meta-llama/llama-3.3-70b-instruct', 
                 name: 'Llama 3.3 70B', 
                 pricing: { input: 0.59 / 1000000, output: 0.79 / 1000000 }
@@ -674,7 +679,7 @@ const PROVIDER_CONFIGS = {
         ],
         extractModels: (data) => data.data || [],
         selectBest: (models) => models[0],
-        fallback: 'meta-llama/llama-3.3-70b-instruct',
+        fallback: 'meta-llama/llama-3.3-70b-instruct:free',
         prices: {
             input: 0,  // Varies per model
             output: 0
