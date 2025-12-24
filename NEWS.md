@@ -2,6 +2,7 @@
 
 ## 2025
 
+* **24.12.2025** Fixed critical key generation bug. Merry Christmas!
 * **23.12.2025** Fixed addComments locale bug.    
 * **20.12.2025** Fixed load model on startup bug.    
 * **19.12.2025** Fixed LM Studio wrong model selection bug.    
