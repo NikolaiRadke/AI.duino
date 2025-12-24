@@ -58,7 +58,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '241225'; 
+const CONFIG_VERSION = '251225'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -109,7 +109,14 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://platform.openai.com/api-keys',
         path: '/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => data.data?.filter(m => m.id.startsWith('gpt-') && !m.id.includes('instruct')) || [],
+        extractModels: (data) => data.data?.filter(m => {
+            // Only chat models
+            if (!m.id.startsWith('gpt-')) return false;
+            
+            // Exclude non-chat models
+            const excludePatterns = ['tts', 'whisper', 'dall-e', 'instruct', 'davinci', 'curie', 'babbage', 'ada'];
+            return !excludePatterns.some(pattern => m.id.includes(pattern));
+        }) || [],
         selectBest: (models) => models.find(m => m.id.includes('gpt-4o')) || models.find(m => m.id.includes('gpt-4')) || models[0],
         fallback: 'gpt-4o',
         prices: {

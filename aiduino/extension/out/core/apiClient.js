@@ -166,6 +166,22 @@ class UnifiedAPIClient {
         // Check if stored config contains model selection (format: key|model-id)
         if (apiKey && apiKey.includes('|')) {
             [apiKey, selectedModel] = apiKey.split('|');
+            
+            // Validate stored model against provider's filter
+            if (provider.extractModels) {
+                const testData = { data: [{ id: selectedModel }] };
+                const validModels = provider.extractModels(testData);
+                
+                if (validModels.length === 0) {
+                    // Stored model is no longer valid - use fallback
+                    console.log(`⚠️ Stored model "${selectedModel}" is invalid, using fallback: ${provider.fallback}`);
+                    selectedModel = provider.fallback;
+                    
+                    // Save corrected API key (without invalid model)
+                    const fileManager = require('../utils/fileManager');
+                    fileManager.saveApiKey(modelId, apiKey, minimalModelManager.providers);
+                }
+            }
         }
         
         const systemPrompt = "You are a helpful assistant specialized in Arduino programming and electronics.";
