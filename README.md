@@ -130,11 +130,9 @@ C:\Program Files\Arduino IDE\resources\app\plugins\
 ```
 
 #### Linux
-```
-/usr/share/arduino/resources/app/plugins/
-or
-~/.local/share/arduino-ide/resources/app/plugins/
-```
+``` /usr/share/arduino/resources/app/plugins/ ```   
+or   
+``` ~/.local/share/arduino-ide/resources/app/plugins/ ```   
 
 ## Deinstallation
 
