@@ -193,8 +193,9 @@ Root directory with some explanation files
 ## Related Projects
 
 - **[Arduino+](https://github.com/NikolaiRadke/Arduinoplus)** - Essential IDE helpers for Arduino development.
-- **[Extension Manager](https://github.com/NikolaiRadke/Extension-Manager)** -  Manage your Arduino IDE 2.X extensions. 
-## 💙 Support AI.duino
+- **[Extension Manager](https://github.com/NikolaiRadke/Extension-Manager)** -  Manage your Arduino IDE 2.X extensions.
+  
+## 💙 Support AI.duino  
 
 AI.duino is free and open source. If it saved your day, consider buying me a coffee! ☕
 
