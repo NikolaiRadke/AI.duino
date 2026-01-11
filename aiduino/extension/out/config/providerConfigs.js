@@ -58,7 +58,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '251225'; 
+const CONFIG_VERSION = '110126'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -75,11 +75,11 @@ const PROVIDER_CONFIGS = {
         path: '/v1/models',
         headers: (key) => ({ 'x-api-key': key, 'anthropic-version': '2023-06-01' }),
         extractModels: (data) => data.data?.filter(m => m.type === 'model' && !m.id.includes('deprecated')) || [],
-        selectBest: (models) => models.find(m => m.id.includes('opus-4-5')) || models.find(m => m.id.includes('sonnet-4-5')) || models.find(m => m.id.includes('sonnet-4')) || models[0],
+        selectBest: (models) => models.find(m => m.id.includes('opus-4-5')) || models.find(m => m.id.includes('sonnet-4-5')) || models.find(m => m.id.includes('sonnet-4')) || models.find(m => m.id.includes('haiku')) || models[0],
         fallback: 'claude-sonnet-4-5-20250929',
         prices: {
-            input: 3.0 / 1000000,     // $3.00 per 1M tokens (was: 3.0 / 1000)
-            output: 15.0 / 1000000    // $15.00 per 1M tokens (was: 15.0 / 1000)
+            input: 3.0 / 1000000,     // $3.00 per 1M tokens (Sonnet 4.5)
+            output: 15.0 / 1000000    // $15.00 per 1M tokens (Opus 4.5: $5/$25)
         },
         apiConfig: {
             apiPath: '/v1/messages',
@@ -151,15 +151,15 @@ const PROVIDER_CONFIGS = {
         keyPrefix: 'AIza',
         keyMinLength: 20,
         hostname: 'generativelanguage.googleapis.com',
-        apiKeyUrl: 'https://makersuite.google.com/app/apikey',
+        apiKeyUrl: 'https://aistudio.google.com/apikey',
         path: '/v1/models?key=',
         headers: () => ({}),
         extractModels: (data) => data.models?.filter(m => m.supportedGenerationMethods?.includes('generateContent')) || [],
         selectBest: (models) => models.find(m => m.name.includes('2.5-flash')) || models.find(m => m.name.includes('1.5-flash')) || models[0],
         fallback: 'models/gemini-2.5-flash',
         prices: {
-            input: 0.075 / 1000000,
-            output: 0.30 / 1000000
+            input: 0.15 / 1000000,
+            output: 0.60 / 1000000
         },
         apiConfig: {
             apiPath: (modelId, key) => {
@@ -190,8 +190,8 @@ const PROVIDER_CONFIGS = {
         icon: '🌟',
         color: '#FF7000',
         keyFile: '.aiduino-mistral-api-key',
-        keyPrefix: 'sk-',
-        keyMinLength: 15,
+        keyPrefix: '',
+        keyMinLength: 32,
         hostname: 'api.mistral.ai',
         apiKeyUrl: 'https://console.mistral.ai/',
         path: '/v1/models',
@@ -634,13 +634,13 @@ const PROVIDER_CONFIGS = {
                 pricing: { input: 0, output: 0 }
             },
             { 
-                id: 'anthropic/claude-sonnet-4-20250514', 
+                id: 'anthropic/claude-sonnet-4-5-20250929', 
                 name: 'Claude Sonnet 4.5', 
                 pricing: { input: 3.0 / 1000000, output: 15.0 / 1000000 }
             },
             { 
-                id: 'anthropic/claude-3.5-sonnet', 
-                name: 'Claude 3.5 Sonnet', 
+                id: 'anthropic/claude-sonnet-4-20250514', 
+                name: 'Claude Sonnet 4.5', 
                 pricing: { input: 3.0 / 1000000, output: 15.0 / 1000000 }
             },
             { 

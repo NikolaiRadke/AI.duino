@@ -4,7 +4,7 @@
 # Configuration
 EXTENSIONS_DIR="$HOME/.arduinoIDE/extensions"
 DEPLOYED_DIR="$HOME/.arduinoIDE/deployedPlugins"
-VSIX_FILE="$(dirname "$0")/aiduino.vsix"
+SCRIPT_DIR="$(dirname "$0")"
 
 # Colors
 RED='\033[0;31m'
@@ -17,11 +17,25 @@ echo -e "${BLUE}AI.duino Extension Installer${NC}"
 echo "================================"
 echo
 
+# Find VSIX file (versioned or not)
+VSIX_FILE=""
+if [ -f "$SCRIPT_DIR/aiduino.vsix" ]; then
+    VSIX_FILE="$SCRIPT_DIR/aiduino.vsix"
+else
+    # Look for versioned VSIX (e.g., aiduino-2.6.0.vsix)
+    VSIX_FILE=$(ls "$SCRIPT_DIR"/aiduino-*.vsix 2>/dev/null | sort -V | tail -n 1)
+fi
+
 # Check if VSIX exists
-if [ ! -f "$VSIX_FILE" ]; then
-    echo -e "${RED}Error: aiduino.vsix not found${NC}"
+if [ -z "$VSIX_FILE" ] || [ ! -f "$VSIX_FILE" ]; then
+    echo -e "${RED}Error: No aiduino*.vsix file found${NC}"
+    echo "Looking for: aiduino.vsix or aiduino-*.vsix"
     exit 1
 fi
+
+VSIX_FILENAME=$(basename "$VSIX_FILE")
+echo "Found: $VSIX_FILENAME"
+echo
 
 # Create extensions directory
 if [ ! -d "$EXTENSIONS_DIR" ]; then
@@ -29,12 +43,9 @@ if [ ! -d "$EXTENSIONS_DIR" ]; then
     mkdir -p "$EXTENSIONS_DIR"
 fi
 
-# Clean up old installations
-if [ -f "$EXTENSIONS_DIR/aiduino.vsix" ]; then
-    echo -e "${YELLOW}Removing old VSIX...${NC}"
-    rm -f "$EXTENSIONS_DIR/aiduino.vsix"
-fi
-
+# Clean up old installations (all versions)
+echo "Cleaning up old installations..."
+rm -f "$EXTENSIONS_DIR"/aiduino*.vsix 2>/dev/null
 if [ -d "$DEPLOYED_DIR/aiduino" ]; then
     echo -e "${YELLOW}Removing old deployed extension...${NC}"
     rm -rf "$DEPLOYED_DIR/aiduino"
@@ -47,11 +58,13 @@ cp "$VSIX_FILE" "$EXTENSIONS_DIR/"
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✓ Extension installed successfully!${NC}"
     echo
-    echo "Location: $EXTENSIONS_DIR/aiduino.vsix"
+    echo "File: $VSIX_FILENAME"
+    echo "Location: $EXTENSIONS_DIR/"
     echo
     echo "Restart Arduino IDE to use the extension."
 else
     echo -e "${RED}✗ Installation failed${NC}"
+    exit 1
 fi
 
 echo
