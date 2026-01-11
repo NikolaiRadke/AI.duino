@@ -155,7 +155,7 @@ Required: An API key from either:
 - Claude: https://console.anthropic.com 
 - ChatGPT: https://platform.openai.com
 - Gemini: https://makersuite.google.com
-- Mistral: https://console.mistral.ai (Untested)
+- Mistral: https://console.mistral.ai
 - Perplexity: https://www.perplexity.ai/settings/api (Untested)
 - Cohere: https://dashboard.cohere.ai (Untested)
 - Croq: https://console.groq.com
