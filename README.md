@@ -9,7 +9,7 @@ AI.duino integrates the API providers **Claude, ChatGPT, Gemini, Mistral, Perple
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **23.01.2026** New logo an banner to avoid copyright issues.  
+* **23.01.2026** New logo and banner to avoid copyright issues.  
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
@@ -162,7 +162,7 @@ Required: An API key from either:
 - OpenRouter: https://openrouter.ai/settings/keys (>= V2.5.0)
 - Hugging Face: https://huggingface.co/settings/tokens (Untested, >= V2.5.0)
 - Fireworks: https://app.fireworks.ai/login?redirectURI=%2Fsettings%2Fusers%2Fapi-keys (Untested, >= V2.5.0)
-- Togehter: https://api.together.xyz/sso-signin?redirectUrl=%2Fsettings%2Fapi-keys (Untested, >= V2.5.0)
+- Together: https://api.together.xyz/sso-signin?redirectUrl=%2Fsettings%2Fapi-keys (Untested, >= V2.5.0)
   
 
 The keys are stored locally and not transmitted.
