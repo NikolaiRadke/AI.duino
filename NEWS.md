@@ -1,7 +1,8 @@
 # Newsblog
 
 ## 2026
-  
+
+* **24.01.2026** New logo and banner to avoid copyright issues.
 * **01.01.2026** Happy new year! V2.6.0 is in progress, but won't be released until March.  
   
 ## 2025
