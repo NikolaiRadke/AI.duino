@@ -35,4 +35,7 @@ AI.duino will appear in the German Make Magazine. This is the feature-freeze rel
 * Feature lazy loading for better startup performance 
 * Removed Vertex. Vertex user don't need AI.duino :-) 
 * Merged 2.5.0 to 2.5.0-Make and removed 2.5.0 release
+<<<<<<< HEAD
 * Changed logo and banner to avoid copyright issues  
+=======
+>>>>>>> 210ee420ad31b21feab21e61583d46af234743d8

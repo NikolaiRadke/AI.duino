@@ -1,4 +1,4 @@
-![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back.png)
+![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back_2.png)
 # 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
 AI.duino integrates the API providers **Claude, ChatGPT, Gemini, Mistral, Perplexity and Cohere, Croq**, aggregator services **OpenRouter and Hugging Face**, and local providers **Claude Code, Codex CLI, LM Studio and Ollama** directly into the Arduino IDE for intelligent code assistance. It also works with **VS Code**. Please use the newest Version to avoid annoying bugs.  
@@ -9,7 +9,7 @@ AI.duino integrates the API providers **Claude, ChatGPT, Gemini, Mistral, Perple
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **01.01.2026** Happy new year! V2.6.0 is in progress, but won't be released until March.  
+* **23.01.2026** New logo and banner for AI.duino to avoid copyright issues.      
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
@@ -155,14 +155,14 @@ Required: An API key from either:
 - Claude: https://console.anthropic.com 
 - ChatGPT: https://platform.openai.com
 - Gemini: https://makersuite.google.com
-- Mistral: https://console.mistral.ai (Untested)
+- Mistral: https://console.mistral.ai
 - Perplexity: https://www.perplexity.ai/settings/api (Untested)
 - Cohere: https://dashboard.cohere.ai (Untested)
 - Croq: https://console.groq.com
 - OpenRouter: https://openrouter.ai/settings/keys (>= V2.5.0)
 - Hugging Face: https://huggingface.co/settings/tokens (Untested, >= V2.5.0)
 - Fireworks: https://app.fireworks.ai/login?redirectURI=%2Fsettings%2Fusers%2Fapi-keys (Untested, >= V2.5.0)
-- Togehter: https://api.together.xyz/sso-signin?redirectUrl=%2Fsettings%2Fapi-keys (Untested, >= V2.5.0)
+- Together: https://api.together.xyz/sso-signin?redirectUrl=%2Fsettings%2Fapi-keys (Untested, >= V2.5.0)
   
 
 The keys are stored locally and not transmitted.

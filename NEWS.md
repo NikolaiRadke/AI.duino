@@ -1,7 +1,10 @@
 # Newsblog
 
 ## 2026
-  
+
+* **23.01.2026** New logo and banner for AI.duino to avoid copyright issues.      
+* **20.01.2026** Working heavy on agentic coding integration.    
+* **11.01.2026** Updated provider configs. Mstral changed its key format.  
 * **01.01.2026** Happy new year! V2.6.0 is in progress, but won't be released until March.  
   
 ## 2025
