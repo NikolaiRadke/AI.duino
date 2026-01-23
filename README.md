@@ -1,4 +1,4 @@
-![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back.png)
+![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back_2.png)
 # 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
 AI.duino integrates the API providers **Claude, ChatGPT, Gemini, Mistral, Perplexity and Cohere, Croq**, aggregator services **OpenRouter and Hugging Face**, and local providers **Claude Code, Codex CLI, LM Studio and Ollama** directly into the Arduino IDE for intelligent code assistance. It also works with **VS Code**. Please use the newest Version to avoid annoying bugs.  
