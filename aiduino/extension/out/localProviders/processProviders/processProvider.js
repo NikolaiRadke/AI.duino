@@ -60,12 +60,13 @@ async function executeCommand(toolPath, prompt, context, provider, sessionId = n
  * @param {string} providerName - Provider name for error messages
  * @param {Function} t - Translation function
  * @param {number} timeout - Timeout in milliseconds (default: 300000 = 5 min)
+ * @param {Object} options - Additional options (e.g., { cwd: '/path' })
  * @returns {Promise<string>} stdout output
  */
-async function executeProcessProvider(toolPath, args, providerName, t, timeout = 300000) {
+async function executeProcessProvider(toolPath, args, providerName, t, timeout = 300000, options = {}) {
     return new Promise((resolve, reject) => {
         const childProcess = spawn(toolPath, args, {
-            cwd: '/tmp',
+            cwd: options.cwd || '/tmp',
             stdio: ['ignore', 'pipe', 'pipe'],
             detached: true,
             windowsHide: true

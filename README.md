@@ -9,7 +9,11 @@ AI.duino integrates the API providers **Claude, ChatGPT, Gemini, Mistral, Perple
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
+<<<<<<< HEAD
 * **23.01.2026** New logo and banner for AI.duino to avoid copyright issues.      
+=======
+* **23.01.2026** New logo and banner to avoid copyright issues.  
+>>>>>>> aff825164d15bedb0d1090a50adae6fd43f4e821
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features

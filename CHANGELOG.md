@@ -13,7 +13,7 @@ AI.duino will appear in the German Make Magazine. This is the feature-freeze rel
 * Response length can be set in four steps with a slider (2000, 4000, 6000 and 8000 tokens)  
 
 ## Bugfixes
-* Fixed critical key generation bug.  
+* Fixed critical key generation bug  
 * All settings are now removed correctly when using the uninstall option
 * Removed unused file 
 * Removed debugging code
@@ -28,6 +28,7 @@ AI.duino will appear in the German Make Magazine. This is the feature-freeze rel
 * Fixed load model on startup bug    
 * Fixed addComments locale bug
 * Updated Mistral key formation settings
+* Installer removes now all previously installed versions  
 
 ## Other
 * You can abort a feature by clicking outside prompt window

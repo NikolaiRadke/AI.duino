@@ -46,9 +46,9 @@ fi
 # Clean up old installations (all versions)
 echo "Cleaning up old installations..."
 rm -f "$EXTENSIONS_DIR"/aiduino*.vsix 2>/dev/null
-if [ -d "$DEPLOYED_DIR/aiduino" ]; then
-    echo -e "${YELLOW}Removing old deployed extension...${NC}"
-    rm -rf "$DEPLOYED_DIR/aiduino"
+if ls "$DEPLOYED_DIR"/aiduino* 1> /dev/null 2>&1; then
+    echo -e "${YELLOW}Removing old deployed extension(s)...${NC}"
+    rm -rf "$DEPLOYED_DIR"/aiduino*
 fi
 
 # Copy new VSIX

@@ -1,66 +1,117 @@
 /**
- * Codex CLI Process Provider
- * Provider-specific logic for OpenAI Codex CLI
+ * Codex / ChatGPT CLI integration
+ * API-identical to claudeCode.js
  */
+
+'use strict';
 
 const { executeProcessProvider, cleanProcessOutput } = require('./processProvider');
 
 /**
- * Build command arguments with session support
- * @param {string} prompt - User prompt
- * @param {string|null} sessionId - Optional session ID for continuation
- * @returns {Array} Command arguments
+ * Build CLI arguments
+ * Signature must stay identical to claudeCode.js
+ *
+ * @param {string} prompt
+ * @param {string|null} sessionId
+ * @param {boolean} agenticMode
+ * @returns {string[]}
  */
-function buildArgs(prompt, sessionId = null) {
+function buildArgs(prompt, sessionId = null, agenticMode = false) {
+    const args = ['exec', '--skip-git-repo-check'];
+
     if (sessionId) {
-        // Continue existing session
-        return ['--continue', '--non-interactive', prompt];
-    } else {
-        // Start new session
-        return ['--suggest', '--non-interactive', prompt];
+        args.push('--session', sessionId);
     }
+
+    if (agenticMode) {
+        args.push('--full-auto');
+    }
+    
+    args.push('--json');
+    args.push(prompt);
+
+    return args;
 }
 
 /**
- * Extract response and session ID from output
- * @param {string} stdout - Command output
- * @returns {Object} {response: string, sessionId: string|null}
+ * Extract the actual model response from raw CLI output
+ * Signature must stay identical to claudeCode.js
+ *
+ * @param {string} rawOutput
+ * @returns {string}
  */
-function extractResponse(stdout) {
+function extractResponse(rawOutput) {
+    if (!rawOutput) {
+        return { response: '', sessionId: null };
+    }
+    
     try {
-        const jsonResponse = JSON.parse(stdout);
+        // Codex CLI outputs NDJSON - find item.completed events with text
+        const lines = rawOutput.split(/\}\s*\{/).map((line, i, arr) => {
+            if (i === 0) return line + '}';
+            if (i === arr.length - 1) return '{' + line;
+            return '{' + line + '}';
+        });
         
-        // Try to extract session ID from response
-        // Codex CLI saves sessions to ~/.codex/sessions/[session-id].jsonl
-        // The session ID might be in the response metadata
-        const response = jsonResponse.response || jsonResponse.output || jsonResponse.text || JSON.stringify(jsonResponse, null, 2);
-        const sessionId = jsonResponse.session_id || jsonResponse.sessionId || null;
+        let text = '';
+        for (const line of lines) {
+            try {
+                const event = JSON.parse(line);
+                if (event.type === 'item.completed' && event.item?.text) {
+                    text += event.item.text;
+                }
+            } catch (e) {
+                // Skip invalid JSON
+            }
+        }
         
-        return { response, sessionId };
-    } catch {
-        // Fallback: clean text output, no session ID
-        return { 
-            response: cleanProcessOutput(stdout), 
-            sessionId: null 
-        };
+        if (text) {
+            return { response: text.trim(), sessionId: null };
+        }
+    } catch (e) {
+        // Fallback to raw output
     }
+    
+    return { response: rawOutput.trim(), sessionId: null };
 }
 
 /**
- * Execute Codex CLI command with optional session continuation
- * @param {string} toolPath - Path to codex binary
- * @param {string} prompt - User prompt
- * @param {Object} context - Extension context
- * @param {string|null} sessionId - Optional session ID
- * @returns {Promise<string>} Command output
+ * Execute the Codex / ChatGPT CLI
+ * Signature and parameter order must stay identical to claudeCode.js
+ *
+ * @param {string} toolPath
+ * @param {string} prompt
+ * @param {object} context
+ * @param {string|null} sessionId
+ * @param {string|null} workspacePath
+ * @param {boolean} agenticMode
+ * @returns {Promise<string>}
  */
-async function executeCommand(toolPath, prompt, context, sessionId = null) {
+async function executeCommand(
+    toolPath,
+    prompt,
+    context,
+    sessionId = null,
+    workspacePath = null,
+    agenticMode = false
+) {
     const { t } = context;
-    const args = buildArgs(prompt, sessionId);
-    return executeProcessProvider(toolPath, args, 'Codex CLI', t);
+    const args = buildArgs(prompt, sessionId, agenticMode);
+
+    const options = workspacePath ? { cwd: workspacePath } : {};
+
+    return executeProcessProvider(
+        toolPath,
+        args,
+        'Codex CLI',
+        t,
+        300000,
+        options
+    );
 }
 
 module.exports = {
     executeCommand,
     extractResponse
 };
+

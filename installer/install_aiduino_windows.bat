@@ -50,9 +50,10 @@ REM Remove old versions (all aiduino*.vsix files)
 echo Cleaning up old installations...
 del /q "%EXTENSIONS_DIR%\aiduino*.vsix" 2>nul
 
-if exist "%DEPLOYED_DIR%\aiduino" (
-    echo Removing old deployed extension...
-    rmdir /s /q "%DEPLOYED_DIR%\aiduino"
+REM Remove old deployed extensions (all versions)
+for /d %%D in ("%DEPLOYED_DIR%\aiduino*") do (
+    echo Removing old deployed extension: %%~nxD
+    rmdir /s /q "%%D"
 )
 
 REM Copy new file
