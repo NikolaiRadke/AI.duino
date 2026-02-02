@@ -58,7 +58,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '140126'; 
+const CONFIG_VERSION = '020226';
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -117,10 +117,10 @@ const PROVIDER_CONFIGS = {
             const excludePatterns = ['tts', 'whisper', 'dall-e', 'instruct', 'davinci', 'curie', 'babbage', 'ada'];
             return !excludePatterns.some(pattern => m.id.includes(pattern));
         }) || [],
-        selectBest: (models) => models.find(m => m.id.includes('gpt-4o')) || models.find(m => m.id.includes('gpt-4')) || models[0],
+        selectBest: (models) => models.find(m => m.id.includes('gpt-5')) || models.find(m => m.id.includes('gpt-4.1')) || models.find(m => m.id.includes('gpt-4o')) || models[0],
         fallback: 'gpt-4o',
         prices: {
-            input: 2.50 / 1000000,    // $2.50 per 1M tokens (GPT-4o pricing, reduced from $5)
+            input: 2.50 / 1000000,    // $2.50 per 1M tokens (GPT-4o pricing; GPT-5: $1.25/$10)
             output: 10.0 / 1000000    // $10.00 per 1M tokens
         },
         apiConfig: {
@@ -158,8 +158,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.name.includes('2.5-flash')) || models.find(m => m.name.includes('1.5-flash')) || models[0],
         fallback: 'models/gemini-2.5-flash',
         prices: {
-            input: 0.15 / 1000000,
-            output: 0.60 / 1000000
+            input: 0.30 / 1000000,    // $0.30 per 1M tokens (Gemini 2.5 Flash; Pro: $1.25/$10)
+            output: 2.50 / 1000000    // $2.50 per 1M tokens
         },
         apiConfig: {
             apiPath: (modelId, key) => {
@@ -200,8 +200,8 @@ const PROVIDER_CONFIGS = {
         selectBest: (models) => models.find(m => m.id.includes('medium-3') || m.id.includes('large')) || models[0],
         fallback: 'mistral-medium-3',
         prices: {
-            input: 2.0 / 1000000,     // $2.00 per 1M tokens (Mistral Large pricing, Sept 2024)
-            output: 6.0 / 1000000     // $6.00 per 1M tokens
+            input: 0.40 / 1000000,    // $0.40 per 1M tokens (Mistral Medium 3; Large: $2/$6)
+            output: 2.0 / 1000000     // $2.00 per 1M tokens
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -234,13 +234,13 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://www.perplexity.ai/settings/api',
         path: '/chat/completions',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => [{ id: 'sonar', name: 'Sonar' }],
+        extractModels: (data) => [{ id: 'sonar', name: 'Sonar' }, { id: 'sonar-pro', name: 'Sonar Pro' }],
         selectBest: (models) => models[0],
         fallback: 'sonar',
         prices: {
-           input: 1.0 / 1000000,     // $1.00 per 1M tokens (Sonar model, Dec 2024)
-           output: 1.0 / 1000000     // $1.00 per 1M tokens (+ request fee $0.005-0.012/1k)
-        }   ,
+           input: 1.0 / 1000000,     // $1.00 per 1M tokens (Sonar; Pro: $3/$15; + $5/1k searches)
+           output: 1.0 / 1000000     // $1.00 per 1M tokens
+        },
         apiConfig: {
             apiPath: '/chat/completions',
             method: 'POST',
@@ -280,7 +280,7 @@ const PROVIDER_CONFIGS = {
             output: 10.0 / 1000000    // $10.00 per 1M tokens
         },
         apiConfig: {
-            apiPath: '/v1/chat',
+            apiPath: '/v2/chat',
             method: 'POST',
             headers: (key) => ({
                 'Content-Type': 'application/json',
@@ -288,14 +288,16 @@ const PROVIDER_CONFIGS = {
             }),
             buildRequest: (modelId, prompt, systemPrompt) => ({
                 model: modelId,
-                message: prompt,
-                preamble: systemPrompt || "You are a helpful assistant specialized in Arduino programming and electronics.",
+                messages: [
+                    { role: "system", content: systemPrompt || "You are a helpful assistant specialized in Arduino programming and electronics." },
+                    { role: "user", content: prompt }
+                ],
                 max_tokens: 2000,
                 temperature: 0.7
             }),
             extractResponse: (data) => {
-                if (data.text) {
-                    return data.text;
+                if (data.message?.content?.[0]?.text) {
+                    return data.message.content[0].text;
                 }
                 throw new Error('Unexpected Cohere response format');
             }
@@ -312,9 +314,9 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://console.groq.com/keys',
         path: '/openai/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => data.data?.filter(m => m.id.includes('llama') || m.id.includes('mixtral')) || [],
-        selectBest: (models) => models.find(m => m.id.includes('llama-3.3')) || models.find(m => m.id.includes('llama-3.1')) || models[0],
-        fallback: 'llama-3.3-70b-versatile',  // Statt llama-3.1-70b-versatile
+        extractModels: (data) => data.data?.filter(m => m.id.includes('llama') || m.id.includes('qwen') || m.id.includes('deepseek')) || [],
+        selectBest: (models) => models.find(m => m.id.includes('llama-4')) || models.find(m => m.id.includes('llama-3.3')) || models.find(m => m.id.includes('llama-3.1')) || models[0],
+        fallback: 'llama-3.3-70b-versatile',
         prices: {
             input: 0.59 / 1000000,    // $0.59 per 1M tokens (was: 0.59 / 1000)
             output: 0.79 / 1000000    // $0.79 per 1M tokens (was: 0.79 / 1000)
@@ -638,9 +640,9 @@ const PROVIDER_CONFIGS = {
                 name: 'Claude Sonnet 4.5', 
                 pricing: { input: 3.0 / 1000000, output: 15.0 / 1000000 }
             },
-            { 
-                id: 'anthropic/claude-sonnet-4-20250514', 
-                name: 'Claude Sonnet 4.5', 
+            {
+                id: 'anthropic/claude-sonnet-4-20250514',
+                name: 'Claude Sonnet 4',
                 pricing: { input: 3.0 / 1000000, output: 15.0 / 1000000 }
             },
             { 
@@ -653,15 +655,15 @@ const PROVIDER_CONFIGS = {
                 name: 'GPT-4o Mini', 
                 pricing: { input: 0.15 / 1000000, output: 0.6 / 1000000 }
             },
-            { 
-                id: 'google/gemini-pro-1.5', 
-                name: 'Gemini 1.5 Pro', 
-                pricing: { input: 1.25 / 1000000, output: 5.0 / 1000000 }
+            {
+                id: 'google/gemini-2.5-pro',
+                name: 'Gemini 2.5 Pro',
+                pricing: { input: 1.25 / 1000000, output: 10.0 / 1000000 }
             },
-            { 
-                id: 'google/gemini-flash-1.5', 
-                name: 'Gemini 1.5 Flash', 
-                pricing: { input: 0.075 / 1000000, output: 0.3 / 1000000 }
+            {
+                id: 'google/gemini-2.5-flash',
+                name: 'Gemini 2.5 Flash',
+                pricing: { input: 0.30 / 1000000, output: 2.50 / 1000000 }
             },
             { 
                 id: 'meta-llama/llama-3.3-70b-instruct:free', 
