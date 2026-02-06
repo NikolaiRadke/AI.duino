@@ -28,7 +28,7 @@ AI.duino will appear in the German Make Magazine. This is the feature-freeze rel
 * Fixed load model on startup bug    
 * Fixed addComments locale bug
 * Updated Mistral key formation settings
-* Installer removes now all previously installed versions  
+* Installer now removes all previously installed versions  
 
 ## Other
 * You can abort a feature by clicking outside prompt window
