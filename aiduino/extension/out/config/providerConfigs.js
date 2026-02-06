@@ -1,6 +1,6 @@
 /*
  * AI.duino - Provider Configurations
- * Copyright 2025 Monster Maker
+ * Copyright 2026 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
  */
@@ -90,7 +90,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '060226'; 
+const CONFIG_VERSION = '070226'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -301,82 +301,6 @@ const PROVIDER_CONFIGS = {
         }
     },
 
-    deepseek: {
-        name: 'DeepSeek',
-        icon: '🧬',
-        color: '#0066CC',
-        keyFile: '.aiduino-deepseek-api-key',
-        keyPrefix: 'sk-',
-        keyMinLength: 20,
-        hostname: 'api.deepseek.com',
-        apiKeyUrl: 'https://platform.deepseek.com/api_keys',
-        path: '/v1/models',
-        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => data.data || [],
-        selectBest: (models) => models.find(m => m.id.includes('deepseek-chat')) || models[0],
-        fallback: 'deepseek-chat',
-        prices: {
-            input: 0.14 / 1000000,    // $0.14 per 1M tokens (cache miss)
-            output: 0.28 / 1000000    // $0.28 per 1M tokens (cache hit: $0.014)
-        },
-        apiConfig: {
-            apiPath: '/v1/chat/completions',
-            method: 'POST',
-            headers: (key) => ({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${key}`
-            }),
-            buildRequest: (modelId, prompt, systemPrompt) => ({
-                model: modelId,
-                messages: [
-                    { role: "system", content: systemPrompt },
-                    { role: "user", content: prompt }
-                ],
-                max_tokens: 2000,
-                temperature: 0.7
-            }),
-            extractResponse: (data) => data.choices[0].message.content
-        }
-    },
-
-    xai: {
-        name: 'xAI Grok',
-        icon: '🚀',
-        color: '#000000',
-        keyFile: '.aiduino-xai-api-key',
-        keyPrefix: 'xai-',
-        keyMinLength: 20,
-        hostname: 'api.x.ai',
-        apiKeyUrl: 'https://console.x.ai/',
-        path: '/v1/models',
-        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => data.data || [],
-        selectBest: (models) => models.find(m => m.id.includes('grok-2')) || models.find(m => m.id.includes('grok')) || models[0],
-        fallback: 'grok-2-latest',
-        prices: {
-            input: 2.0 / 1000000,     // $2.00 per 1M tokens (Grok-2)
-            output: 10.0 / 1000000    // $10.00 per 1M tokens
-        },
-        apiConfig: {
-            apiPath: '/v1/chat/completions',
-            method: 'POST',
-            headers: (key) => ({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${key}`
-            }),
-            buildRequest: (modelId, prompt, systemPrompt) => ({
-                model: modelId,
-                messages: [
-                    { role: "system", content: systemPrompt },
-                    { role: "user", content: prompt }
-                ],
-                max_tokens: 2000,
-                temperature: 0.7
-            }),
-            extractResponse: (data) => data.choices[0].message.content
-        }
-    },
-
     perplexity: {
         name: 'Perplexity',
         icon: '🔍',
@@ -403,44 +327,6 @@ const PROVIDER_CONFIGS = {
         },
         apiConfig: {
             apiPath: '/chat/completions',
-            method: 'POST',
-            headers: (key) => ({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${key}`
-            }),
-            buildRequest: (modelId, prompt, systemPrompt) => ({
-                model: modelId,
-                messages: [
-                    { role: "system", content: systemPrompt },
-                    { role: "user", content: prompt }
-                ],
-                max_tokens: 2000,
-                temperature: 0.7
-            }),
-            extractResponse: (data) => data.choices[0].message.content
-        }
-    },
-
-    cerebras: {
-        name: 'Cerebras',
-        icon: '🧠',
-        color: '#FF6B35',
-        keyFile: '.aiduino-cerebras-api-key',
-        keyPrefix: 'csk-',
-        keyMinLength: 20,
-        hostname: 'api.cerebras.ai',
-        apiKeyUrl: 'https://cloud.cerebras.ai/api-keys',
-        path: '/v1/models',
-        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => data.data || [],
-        selectBest: (models) => models.find(m => m.id.includes('llama-3.3-70b')) || models.find(m => m.id.includes('llama3.1-70b')) || models[0],
-        fallback: 'llama-3.3-70b',
-        prices: {
-            input: 0.10 / 1000000,    // $0.10 per 1M tokens
-            output: 0.10 / 1000000    // $0.10 per 1M tokens
-        },
-        apiConfig: {
-            apiPath: '/v1/chat/completions',
             method: 'POST',
             headers: (key) => ({
                 'Content-Type': 'application/json',
