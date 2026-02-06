@@ -1,11 +1,43 @@
 /*
  * AI.duino - Provider Configurations
- * Copyright 2026 Monster Maker
+ * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
  */
 
 "use strict";
+
+// Auto-repair corrupted ChatGPT model in stored API key file
+(function repairChatGPTModel() {
+    try {
+        const fs = require('fs');
+        const path = require('path');
+        const os = require('os');
+        
+        const keyFile = path.join(os.homedir(), '.aiduino', '.aiduino-openai-api-key');
+        
+        if (fs.existsSync(keyFile)) {
+            const content = fs.readFileSync(keyFile, 'utf8').trim();
+            const [apiKey, savedModel] = content.split('|');
+            
+            if (savedModel) {
+                // Check if model is a TTS model or other non-chat model
+                const invalidPatterns = ['tts', 'whisper', 'dall-e', 'instruct', 'davinci', 'curie', 'babbage', 'ada', 'base'];
+                const isInvalid = invalidPatterns.some(pattern => savedModel.includes(pattern));
+                
+                if (isInvalid) {
+                    // Replace with valid fallback
+                    const repairedContent = `${apiKey}|gpt-4o`;
+                    fs.writeFileSync(keyFile, repairedContent, 'utf8');
+                    console.log('ChatGPT: Auto-repaired invalid model:', savedModel, '→ gpt-4o');
+                }
+            }
+        }
+    } catch (err) {
+        // Silent fail - don't break extension if repair fails
+        console.error('ChatGPT: Model repair failed (non-critical):', err.message);
+    }
+})();
 
 // ===== HOW TO ADD NEW PROVIDERS =====
 // 1. Add provider configuration to PROVIDER_CONFIGS object below
@@ -58,7 +90,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '300126'; 
+const CONFIG_VERSION = '060226'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -125,11 +157,11 @@ const PROVIDER_CONFIGS = {
             
             return isKnownChatModel || isBaseGPT4;
         }) || [],
-        selectBest: (models) => models.find(m => m.id.includes('gpt-4o')) || models.find(m => m.id  .includes('gpt-4-turbo')) || models.find(m => m.id.includes('gpt-3.5-turbo')) || models[0],
+        selectBest: (models) => models.find(m => m.id.includes('gpt-4o')) || models.find(m => m.id.includes('gpt-4-turbo')) || models.find(m => m.id.includes('gpt-3.5-turbo')) || models[0],
         fallback: 'gpt-4o',
         prices: {
-            input: 2.50 / 1000000,
-            output: 10.0 / 1000000
+            input: 2.50 / 1000000,    // $2.50 per 1M tokens (GPT-4o pricing, reduced from $5)
+            output: 10.0 / 1000000    // $10.00 per 1M tokens
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -149,7 +181,7 @@ const PROVIDER_CONFIGS = {
             }),
             extractResponse: (data) => data.choices[0].message.content
         }
-    },
+    },  
     
     gemini: {
         name: 'Gemini',
@@ -231,24 +263,144 @@ const PROVIDER_CONFIGS = {
         }
     },
     
+    groq: {
+        name: 'Groq',
+        icon: '⚡',
+        color: '#F55036',
+        keyFile: '.aiduino-groq-api-key',
+        keyPrefix: 'gsk_',
+        keyMinLength: 20,
+        hostname: 'api.groq.com',
+        apiKeyUrl: 'https://console.groq.com/keys',
+        path: '/openai/v1/models',
+        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+        extractModels: (data) => data.data?.filter(m => !m.id.includes('whisper') && !m.id.includes('guard')) || [],
+        selectBest: (models) => models.find(m => m.id.includes('llama-3.3-70b')) || models.find(m => m.id.includes('llama-3.1-70b')) || models.find(m => m.id.includes('mixtral')) || models[0],
+        fallback: 'llama-3.3-70b-versatile',
+        prices: {
+            input: 0.59 / 1000000,    // $0.59 per 1M tokens (Llama 3.3 70B)
+            output: 0.79 / 1000000    // $0.79 per 1M tokens
+        },
+        apiConfig: {
+            apiPath: '/openai/v1/chat/completions',
+            method: 'POST',
+            headers: (key) => ({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${key}`
+            }),
+            buildRequest: (modelId, prompt, systemPrompt) => ({
+                model: modelId,
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: prompt }
+                ],
+                max_tokens: 2000,
+                temperature: 0.7
+            }),
+            extractResponse: (data) => data.choices[0].message.content
+        }
+    },
+
+    deepseek: {
+        name: 'DeepSeek',
+        icon: '🧬',
+        color: '#0066CC',
+        keyFile: '.aiduino-deepseek-api-key',
+        keyPrefix: 'sk-',
+        keyMinLength: 20,
+        hostname: 'api.deepseek.com',
+        apiKeyUrl: 'https://platform.deepseek.com/api_keys',
+        path: '/v1/models',
+        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+        extractModels: (data) => data.data || [],
+        selectBest: (models) => models.find(m => m.id.includes('deepseek-chat')) || models[0],
+        fallback: 'deepseek-chat',
+        prices: {
+            input: 0.14 / 1000000,    // $0.14 per 1M tokens (cache miss)
+            output: 0.28 / 1000000    // $0.28 per 1M tokens (cache hit: $0.014)
+        },
+        apiConfig: {
+            apiPath: '/v1/chat/completions',
+            method: 'POST',
+            headers: (key) => ({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${key}`
+            }),
+            buildRequest: (modelId, prompt, systemPrompt) => ({
+                model: modelId,
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: prompt }
+                ],
+                max_tokens: 2000,
+                temperature: 0.7
+            }),
+            extractResponse: (data) => data.choices[0].message.content
+        }
+    },
+
+    xai: {
+        name: 'xAI Grok',
+        icon: '🚀',
+        color: '#000000',
+        keyFile: '.aiduino-xai-api-key',
+        keyPrefix: 'xai-',
+        keyMinLength: 20,
+        hostname: 'api.x.ai',
+        apiKeyUrl: 'https://console.x.ai/',
+        path: '/v1/models',
+        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+        extractModels: (data) => data.data || [],
+        selectBest: (models) => models.find(m => m.id.includes('grok-2')) || models.find(m => m.id.includes('grok')) || models[0],
+        fallback: 'grok-2-latest',
+        prices: {
+            input: 2.0 / 1000000,     // $2.00 per 1M tokens (Grok-2)
+            output: 10.0 / 1000000    // $10.00 per 1M tokens
+        },
+        apiConfig: {
+            apiPath: '/v1/chat/completions',
+            method: 'POST',
+            headers: (key) => ({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${key}`
+            }),
+            buildRequest: (modelId, prompt, systemPrompt) => ({
+                model: modelId,
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: prompt }
+                ],
+                max_tokens: 2000,
+                temperature: 0.7
+            }),
+            extractResponse: (data) => data.choices[0].message.content
+        }
+    },
+
     perplexity: {
         name: 'Perplexity',
         icon: '🔍',
-        color: '#20B2AA',
+        color: '#20808D',
         keyFile: '.aiduino-perplexity-api-key',
         keyPrefix: 'pplx-',
-        keyMinLength: 15,
+        keyMinLength: 20,
         hostname: 'api.perplexity.ai',
         apiKeyUrl: 'https://www.perplexity.ai/settings/api',
-        path: '/chat/completions',
+        path: '/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => [{ id: 'sonar', name: 'Sonar' }],
-        selectBest: (models) => models[0],
-        fallback: 'sonar',
+        extractModels: (data) => {
+            // Perplexity returns models in a simpler format
+            if (Array.isArray(data)) {
+                return data.map(m => ({ id: m }));
+            }
+            return data.data || [];
+        },
+        selectBest: (models) => models.find(m => m.id?.includes('llama-3.1-sonar-large')) || models.find(m => m.id?.includes('sonar-pro')) || models[0],
+        fallback: 'llama-3.1-sonar-large-128k-online',
         prices: {
-           input: 1.0 / 1000000,     // $1.00 per 1M tokens (Sonar model, Dec 2024)
-           output: 1.0 / 1000000     // $1.00 per 1M tokens (+ request fee $0.005-0.012/1k)
-        }   ,
+            input: 1.0 / 1000000,     // $1.00 per 1M tokens (Sonar Large)
+            output: 1.0 / 1000000     // $1.00 per 1M tokens
+        },
         apiConfig: {
             apiPath: '/chat/completions',
             method: 'POST',
@@ -268,326 +420,24 @@ const PROVIDER_CONFIGS = {
             extractResponse: (data) => data.choices[0].message.content
         }
     },
-    
-    cohere: {
-        name: 'Cohere',
-        icon: '🔥',
-        color: '#39C5BB',
-        keyFile: '.aiduino-cohere-api-key',
-        keyPrefix: 'co-',
-        keyMinLength: 15,
-        hostname: 'api.cohere.ai',
-        apiKeyUrl: 'https://dashboard.cohere.ai/api-keys',
+
+    cerebras: {
+        name: 'Cerebras',
+        icon: '🧠',
+        color: '#FF6B35',
+        keyFile: '.aiduino-cerebras-api-key',
+        keyPrefix: 'csk-',
+        keyMinLength: 20,
+        hostname: 'api.cerebras.ai',
+        apiKeyUrl: 'https://cloud.cerebras.ai/api-keys',
         path: '/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => (data.models || data.data)?.filter(m => (m.name || m.id)?.includes('command')) || [],
-        selectBest: (models) => models.find(m => m.name.includes('command-a')) || models.find(m => m.name.includes('command-r-plus')) || models[0],
-        fallback: 'command-a-03-2025',
-        prices: {
-            input: 2.5 / 1000000,     // $2.50 per 1M tokens
-            output: 10.0 / 1000000    // $10.00 per 1M tokens
-        },
-        apiConfig: {
-            apiPath: '/v1/chat',
-            method: 'POST',
-            headers: (key) => ({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${key}`
-            }),
-            buildRequest: (modelId, prompt, systemPrompt) => ({
-                model: modelId,
-                message: prompt,
-                preamble: systemPrompt || "You are a helpful assistant specialized in Arduino programming and electronics.",
-                max_tokens: 2000,
-                temperature: 0.7
-            }),
-            extractResponse: (data) => {
-                if (data.text) {
-                    return data.text;
-                }
-                throw new Error('Unexpected Cohere response format');
-            }
-        }
-    },
-    
-    groq: {
-        name: 'Groq',
-        icon: '🚀',
-        color: '#F55036',
-        keyFile: '.aiduino-groq-api-key',
-        keyPrefix: 'gsk_',
-        hostname: 'api.groq.com',
-        apiKeyUrl: 'https://console.groq.com/keys',
-        path: '/openai/v1/models',
-        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => data.data?.filter(m => m.id.includes('llama') || m.id.includes('mixtral')) || [],
-        selectBest: (models) => models.find(m => m.id.includes('llama-3.3')) || models.find(m => m.id.includes('llama-3.1')) || models[0],
-        fallback: 'llama-3.3-70b-versatile',  // Statt llama-3.1-70b-versatile
-        prices: {
-            input: 0.59 / 1000000,    // $0.59 per 1M tokens (was: 0.59 / 1000)
-            output: 0.79 / 1000000    // $0.79 per 1M tokens (was: 0.79 / 1000)
-        },
-        apiConfig: {
-            apiPath: '/openai/v1/chat/completions',
-            method: 'POST',
-            headers: (key) => ({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${key}`
-            }),
-            buildRequest: (modelId, prompt, systemPrompt) => {
-                const messages = [];
-                if (systemPrompt && typeof systemPrompt === 'string' && systemPrompt.trim()) {
-                    messages.push({ role: "system", content: systemPrompt.trim() });
-                }      
-                messages.push({ role: "user", content: prompt });              
-                return {
-                    model: modelId,
-                    messages: messages,
-                    max_tokens: 2000,
-                    temperature: 0.7
-                };
-            },
-            extractResponse: (data) => {
-                if (data.choices && data.choices[0] && data.choices[0].message) {
-                    return data.choices[0].message.content;
-                }
-                throw new Error('Unexpected Groq API response format');
-            }
-        }
-    },
-     
-    huggingface: {
-        name: 'Hugging Face (≥ v2.5.0)',
-        icon: '🤗',
-        color: '#FF9500',
-        keyFile: '.aiduino-hf-api-key',
-        keyPrefix: 'hf_',
-        keyMinLength: 15,
-        hostname: 'api-inference.huggingface.co',
-        apiKeyUrl: 'https://huggingface.co/settings/tokens',
-        path: '/models',
-        requiresModelSelection: true,  // NEW: Triggers model picker
-        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        // Popular open-source models available on HF
-        availableModels: [
-            { 
-                id: 'meta-llama/Llama-3.3-70B-Instruct', 
-                name: 'Llama 3.3 70B Instruct',
-                pricing: { input: 0.0005 / 1000000, output: 0.0015 / 1000000 }
-            },
-            { 
-                id: 'meta-llama/Llama-3.1-70B-Instruct', 
-                name: 'Llama 3.1 70B Instruct',
-                pricing: { input: 0.0005 / 1000000, output: 0.0015 / 1000000 }
-            },
-            { 
-                id: 'codellama/CodeLlama-34b-Instruct-hf', 
-                name: 'CodeLlama 34B Instruct',
-                pricing: { input: 0, output: 0 }
-            },
-            { 
-                id: 'mistralai/Mistral-7B-Instruct-v0.3', 
-                name: 'Mistral 7B Instruct',
-                pricing: { input: 0, output: 0 }
-            },
-            { 
-                id: 'mistralai/Mixtral-8x7B-Instruct-v0.1', 
-                name: 'Mixtral 8x7B Instruct',
-                pricing: { input: 0.0002 / 1000000, output: 0.0006 / 1000000 }
-            },
-            { 
-                id: 'deepseek-ai/deepseek-coder-33b-instruct', 
-                name: 'DeepSeek Coder 33B',
-                pricing: { input: 0, output: 0 }
-            },
-            { 
-                id: 'microsoft/Phi-3-medium-4k-instruct', 
-                name: 'Phi-3 Medium',
-                pricing: { input: 0, output: 0 }
-            },
-            { 
-                id: 'Qwen/Qwen2.5-Coder-32B-Instruct', 
-                name: 'Qwen 2.5 Coder 32B',
-                pricing: { input: 0, output: 0 }
-            },
-            { 
-                id: 'google/gemma-2-9b-it', 
-                name: 'Gemma 2 9B',
-                pricing: { input: 0, output: 0 }
-            }
-        ],
-        extractModels: (data) => [{ id: 'meta-llama/Llama-3.3-70B-Instruct', name: 'Llama 3.3 70B Instruct' }],
-        selectBest: (models) => models[0],
-        fallback: 'meta-llama/Llama-3.3-70B-Instruct',
-        prices: {
-            input: 0,  // Varies per model
-            output: 0
-        },
-        apiConfig: {
-            apiPath: (modelId) => `/models/${modelId}`,
-            method: 'POST',
-            headers: (key) => ({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${key}`
-            }),
-            buildRequest: (modelId, prompt, systemPrompt) => ({
-                inputs: systemPrompt ? `${systemPrompt}\n\n${prompt}` : prompt,
-                parameters: {
-                    max_new_tokens: 2000,
-                    temperature: 0.7,
-                    return_full_text: false,
-                    do_sample: true
-                }
-            }),
-            extractResponse: (data) => {
-                if (Array.isArray(data) && data[0] && data[0].generated_text) {
-                    return data[0].generated_text;
-                }
-                if (data.generated_text) {
-                    return data.generated_text;
-                }
-                throw new Error('Unexpected Hugging Face response format');
-            }
-        }
-    },
-
-    fireworks: {
-        name: 'Fireworks AI (≥ v2.5.0)',
-        icon: '🔥',
-        color: '#FF6B00',
-        keyFile: '.aiduino-fireworks-api-key',
-        keyPrefix: 'fw-',
-        keyMinLength: 20,
-        hostname: 'api.fireworks.ai',
-        apiKeyUrl: 'https://fireworks.ai/api-keys',
-        path: '/inference/v1/models',
-        requiresModelSelection: true,  // NEW: Triggers model picker
-        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        // Popular models on Fireworks
-        availableModels: [
-            { 
-                id: 'accounts/fireworks/models/llama-v3p3-70b-instruct', 
-                name: 'Llama 3.3 70B Instruct',
-                pricing: { input: 0.90 / 1000000, output: 0.90 / 1000000 }
-            },
-            { 
-                id: 'accounts/fireworks/models/qwen2p5-72b-instruct', 
-                name: 'Qwen 2.5 72B Instruct',
-                pricing: { input: 0.90 / 1000000, output: 0.90 / 1000000 }
-            },
-            { 
-                id: 'accounts/fireworks/models/deepseek-v3', 
-                name: 'DeepSeek V3',
-                pricing: { input: 0.90 / 1000000, output: 0.90 / 1000000 }
-            },
-            { 
-                id: 'accounts/fireworks/models/mixtral-8x7b-instruct', 
-                name: 'Mixtral 8x7B Instruct',
-                pricing: { input: 0.50 / 1000000, output: 0.50 / 1000000 }
-            },
-            { 
-                id: 'accounts/fireworks/models/llama-v3p1-8b-instruct', 
-                name: 'Llama 3.1 8B Instruct',
-                pricing: { input: 0.20 / 1000000, output: 0.20 / 1000000 }
-            },
-            { 
-                id: 'accounts/fireworks/models/gemma-2-9b-it', 
-                name: 'Gemma 2 9B',
-                pricing: { input: 0.20 / 1000000, output: 0.20 / 1000000 }
-            }
-        ],
         extractModels: (data) => data.data || [],
-        selectBest: (models) => models[0],
-        fallback: 'accounts/fireworks/models/llama-v3p3-70b-instruct',
+        selectBest: (models) => models.find(m => m.id.includes('llama-3.3-70b')) || models.find(m => m.id.includes('llama3.1-70b')) || models[0],
+        fallback: 'llama-3.3-70b',
         prices: {
-            input: 0,  // Varies per model
-            output: 0
-        },
-        apiConfig: {
-            apiPath: '/inference/v1/chat/completions',
-            method: 'POST',
-            headers: (key) => ({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${key}`
-            }),
-            buildRequest: (modelId, prompt, systemPrompt) => {
-                const messages = [];
-                if (systemPrompt && typeof systemPrompt === 'string' && systemPrompt.trim()) {
-                    messages.push({ role: "system", content: systemPrompt.trim() });
-                }      
-                messages.push({ role: "user", content: prompt });              
-                return {
-                    model: modelId,
-                    messages: messages,
-                    max_tokens: 2000,
-                    temperature: 0.7
-                };
-            },
-            extractResponse: (data) => {
-                if (data.choices && data.choices[0] && data.choices[0].message) {
-                    return data.choices[0].message.content;
-                }
-                throw new Error('Unexpected Fireworks AI response format');
-            }
-        }
-    },
-
-    together: {
-        name: 'Together AI (≥ v2.5.0)',
-        icon: '🤝',
-        color: '#FF9500',
-        keyFile: '.aiduino-together-api-key',
-        keyPrefix: '',
-        keyMinLength: 20,
-        hostname: 'api.together.xyz',
-        apiKeyUrl: 'https://api.together.xyz/settings/api-keys',
-        path: '/v1/models',
-        requiresModelSelection: true,  // NEW: Triggers model picker
-        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        // Popular models on Together AI
-        availableModels: [
-            { 
-                id: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', 
-                name: 'Llama 3.3 70B Turbo',
-                pricing: { input: 0.88 / 1000000, output: 0.88 / 1000000 }
-            },
-            { 
-                id: 'meta-llama/Llama-3.1-70B-Instruct-Turbo', 
-                name: 'Llama 3.1 70B Turbo',
-                pricing: { input: 0.88 / 1000000, output: 0.88 / 1000000 }
-            },
-            { 
-                id: 'Qwen/Qwen2.5-72B-Instruct-Turbo', 
-                name: 'Qwen 2.5 72B Turbo',
-                pricing: { input: 0.88 / 1000000, output: 0.88 / 1000000 }
-            },
-            { 
-                id: 'mistralai/Mixtral-8x7B-Instruct-v0.1', 
-                name: 'Mixtral 8x7B Instruct',
-                pricing: { input: 0.60 / 1000000, output: 0.60 / 1000000 }
-            },
-            { 
-                id: 'deepseek-ai/DeepSeek-V3', 
-                name: 'DeepSeek V3',
-                pricing: { input: 0.27 / 1000000, output: 1.10 / 1000000 }
-            },
-            { 
-                id: 'meta-llama/Llama-3.1-8B-Instruct-Turbo', 
-                name: 'Llama 3.1 8B Turbo',
-                pricing: { input: 0.18 / 1000000, output: 0.18 / 1000000 }
-            },
-            { 
-                id: 'google/gemma-2-9b-it', 
-                name: 'Gemma 2 9B',
-                pricing: { input: 0.20 / 1000000, output: 0.20 / 1000000 }
-            }
-        ],
-        extractModels: (data) => data.data || [],
-        selectBest: (models) => models[0],
-        fallback: 'meta-llama/Llama-3.3-70B-Instruct-Turbo',
-        prices: {
-            input: 0,  // Varies per model
-            output: 0
+            input: 0.10 / 1000000,    // $0.10 per 1M tokens
+            output: 0.10 / 1000000    // $0.10 per 1M tokens
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -596,50 +446,111 @@ const PROVIDER_CONFIGS = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${key}`
             }),
-            buildRequest: (modelId, prompt, systemPrompt) => {
-                const messages = [];
-                if (systemPrompt && typeof systemPrompt === 'string' && systemPrompt.trim()) {
-                    messages.push({ role: "system", content: systemPrompt.trim() });
-                }      
-                messages.push({ role: "user", content: prompt });              
-                return {
-                    model: modelId,
-                    messages: messages,
-                    max_tokens: 2000,
-                    temperature: 0.7
-                };
-            },
-            extractResponse: (data) => {
-                if (data.choices && data.choices[0] && data.choices[0].message) {
-                    return data.choices[0].message.content;
-                }
-                throw new Error('Unexpected Together AI response format');
-            }
+            buildRequest: (modelId, prompt, systemPrompt) => ({
+                model: modelId,
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: prompt }
+                ],
+                max_tokens: 2000,
+                temperature: 0.7
+            }),
+            extractResponse: (data) => data.choices[0].message.content
+        }
+    },
+
+    together: {
+        name: 'Together AI',
+        icon: '🤝',
+        color: '#6366F1',
+        keyFile: '.aiduino-together-api-key',
+        keyPrefix: '',
+        keyMinLength: 32,
+        hostname: 'api.together.xyz',
+        apiKeyUrl: 'https://api.together.xyz/settings/api-keys',
+        path: '/v1/models',
+        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+        extractModels: (data) => data.data?.filter(m => m.type === 'chat') || [],
+        selectBest: (models) => models.find(m => m.id.includes('meta-llama/Llama-3.3-70B')) || models.find(m => m.id.includes('mixtral')) || models[0],
+        fallback: 'meta-llama/Llama-3.3-70B-Instruct-Turbo',
+        prices: {
+            input: 0.88 / 1000000,    // $0.88 per 1M tokens (Llama 3.3 70B)
+            output: 0.88 / 1000000    // $0.88 per 1M tokens
+        },
+        apiConfig: {
+            apiPath: '/v1/chat/completions',
+            method: 'POST',
+            headers: (key) => ({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${key}`
+            }),
+            buildRequest: (modelId, prompt, systemPrompt) => ({
+                model: modelId,
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: prompt }
+                ],
+                max_tokens: 2000,
+                temperature: 0.7
+            }),
+            extractResponse: (data) => data.choices[0].message.content
+        }
+    },
+
+    fireworks: {
+        name: 'Fireworks AI',
+        icon: '🎆',
+        color: '#FF4500',
+        keyFile: '.aiduino-fireworks-api-key',
+        keyPrefix: 'fw_',
+        keyMinLength: 20,
+        hostname: 'api.fireworks.ai',
+        apiKeyUrl: 'https://fireworks.ai/api-keys',
+        path: '/v1/models',
+        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+        extractModels: (data) => data.data?.filter(m => m.id.includes('llama') || m.id.includes('mistral') || m.id.includes('mixtral')) || [],
+        selectBest: (models) => models.find(m => m.id.includes('llama-v3p3-70b')) || models.find(m => m.id.includes('llama-v3p1-70b')) || models[0],
+        fallback: 'accounts/fireworks/models/llama-v3p3-70b-instruct',
+        prices: {
+            input: 0.90 / 1000000,    // $0.90 per 1M tokens (Llama 3.3 70B)
+            output: 0.90 / 1000000    // $0.90 per 1M tokens
+        },
+        apiConfig: {
+            apiPath: '/v1/chat/completions',
+            method: 'POST',
+            headers: (key) => ({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${key}`
+            }),
+            buildRequest: (modelId, prompt, systemPrompt) => ({
+                model: modelId,
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: prompt }
+                ],
+                max_tokens: 2000,
+                temperature: 0.7
+            }),
+            extractResponse: (data) => data.choices[0].message.content
         }
     },
 
     openrouter: {
-        name: 'OpenRouter (≥ v2.5.0)',
-        icon: '⚡',
-        color: '#FF6B35',
+        name: 'OpenRouter',
+        icon: '🌐',
+        color: '#8B5CF6',
         keyFile: '.aiduino-openrouter-api-key',
         keyPrefix: 'sk-or-',
-        keyMinLength: 40,
+        keyMinLength: 20,
         hostname: 'openrouter.ai',
         apiKeyUrl: 'https://openrouter.ai/keys',
         path: '/api/v1/models',
-        requiresModelSelection: true,  // NEW: Triggers model picker
-        headers: (key) => ({ 
-            'Authorization': `Bearer ${key}`,
-            'HTTP-Referer': 'https://github.com/NikolaiRadke/AI.duino',
-            'X-Title': 'AI.duino'
-        }),
-        // Popular models
-        availableModels: [
+        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+        staticModels: [
             { 
-                id: 'amazon/nova-2-lite-v1:free', 
-                name: 'Nova 2 Lite (Free)', 
-                pricing: { input: 0, output: 0 }
+                id: 'anthropic/claude-opus-4-5-20251101', 
+                name: 'Claude Opus 4.5', 
+                pricing: { input: 5.0 / 1000000, output: 25.0 / 1000000 }
             },
             { 
                 id: 'anthropic/claude-sonnet-4-5-20250929', 
