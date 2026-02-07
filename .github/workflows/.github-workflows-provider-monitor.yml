@@ -1,0 +1,68 @@
+name: Provider Monitor
+
+on:
+  schedule:
+    # Runs every Monday at 9:00 UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: npm install axios rss-parser
+      
+      - name: Run provider monitor
+        id: monitor
+        run: node .github/scripts/monitor-providers.js
+        continue-on-error: true
+      
+      - name: Read monitoring results
+        id: results
+        run: |
+          if [ -f monitor-results.json ]; then
+            echo "results_found=true" >> $GITHUB_OUTPUT
+          else
+            echo "results_found=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create issue if changes detected
+        if: steps.results.outputs.results_found == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync('monitor-results.json', 'utf8'));
+            
+            if (results.hasChanges) {
+              const body = results.issueBody;
+              const title = `🔔 Provider Updates Detected - ${new Date().toISOString().split('T')[0]}`;
+              
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: ['provider-update', 'automated']
+              });
+            }
+      
+      - name: Upload monitoring results as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: monitoring-results
+          path: |
+            monitor-results.json
+            monitor-log.txt
+          retention-days: 30
