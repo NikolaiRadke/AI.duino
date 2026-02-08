@@ -17,6 +17,9 @@ There are several options that need further explanation. The default values are 
 
 # FAQ  
 
+### "What does 'Invalid JSON response' mean?
+➡️ This is an error message from the provider, not AI.duino, usually in html. AI.duino can only parse JSON Messages. This will be fixed soon.  But what is the reason? Your rate is exhausted, there is no more credit on your account.  
+  
 ### "Groq? Really? AI.duino ist supporting Elon??"  
 ➡️ **No.** **Groq** (with a **q**) is an independent AI infrastructure company founded by former Google engineers. It has no connection to Elon Musk or X/Twitter. **Grok** (with a **k**) is xAI's chatbot. AI.duino uses **Groq** for fast API access to open-source models—a purely technical choice based on performance.
 
