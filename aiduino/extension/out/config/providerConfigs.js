@@ -90,7 +90,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '070226'; 
+const CONFIG_VERSION = '120226'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -535,7 +535,7 @@ const PROVIDER_CONFIGS = {
         agentModule: 'claudeCode',  // Which agent module to use
         persistent: true, // Killer feature!
         keyFile: '.aiduino-claudecode-path',
-        keyPrefix: '/', 
+        keyPrefix: '', 
         keyMinLength: 5, 
         apiKeyUrl: 'https://docs.claude.com/en/docs/claude-code',
         fallback: 'claude-code-local',
@@ -569,7 +569,7 @@ const PROVIDER_CONFIGS = {
         persistent: true,
         agentModule: 'codexAgent',  // Which agent module to use
         keyFile: '.aiduino-codexcli-path',
-        keyPrefix: '/',  // Path to codex binary, not API key
+        keyPrefix: '',  // Path to codex binary, not API key
         keyMinLength: 5,
         apiKeyUrl: 'https://github.com/openai/codex',
         fallback: 'codex-cli-local',

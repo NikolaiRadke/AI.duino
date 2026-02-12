@@ -110,16 +110,35 @@ class UnifiedAPIClient {
                 });
     
                 res.on('end', () => {
+                    // First check status code
+                    if (res.statusCode !== 200) {
+                        // Try to parse as JSON for structured error
+                        try {
+                            const parsedData = JSON.parse(responseData);
+                            reject(this.createHttpError(res.statusCode, parsedData));
+                        } catch (e) {
+                            // Not JSON - probably HTML error page
+                            const preview = responseData.substring(0, 200);
+                            const error = new Error(`HTTP ${res.statusCode}: ${res.statusMessage}`);
+                            error.statusCode = res.statusCode;
+                            error.responsePreview = preview;
+                            error.isHtmlError = responseData.trim().startsWith('<');
+                            reject(error);
+                        }
+                        return;
+                    }
+    
+                    // Status 200 - should be JSON
                     try {
                         const parsedData = JSON.parse(responseData);
-                        
-                        if (res.statusCode === 200) {
-                            resolve(parsedData);
-                        } else {
-                            reject(this.createHttpError(res.statusCode, parsedData));
-                        }
+                        resolve(parsedData);
                     } catch (e) {
-                        reject(new Error('Invalid JSON response'));
+                        // JSON parse failed despite 200 status
+                        const preview = responseData.substring(0, 500);
+                        const error = new Error('Invalid JSON response from API');
+                        error.responsePreview = preview;
+                        error.parseError = e.message;
+                        reject(error);
                     }
                 });
             });
