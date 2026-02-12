@@ -78,7 +78,7 @@ function atomicWrite(filePath, content, options = { mode: SECURE_FILE_MODE }) {
             if (fileExists(filePath)) {
                 fs.copyFileSync(filePath, backupFile);
             }
-            fs.writeFileSync(filePath, content, options);
+            fs.writeFileSync(filePath, content, { ...options, encoding: 'utf8' });
             if (fileExists(backupFile)) {
                 fs.unlinkSync(backupFile);
             }
@@ -97,7 +97,7 @@ function atomicWrite(filePath, content, options = { mode: SECURE_FILE_MODE }) {
         // Unix: Atomic rename
         const tempFile = filePath + '.tmp';
         try {
-            fs.writeFileSync(tempFile, content, options);
+            fs.writeFileSync(tempFile, content, { ...options, encoding: 'utf8' });
             fs.renameSync(tempFile, filePath);
             return true;
         } catch {
