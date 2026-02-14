@@ -64,8 +64,11 @@ async function executeCommand(toolPath, prompt, context, provider, sessionId = n
  * @returns {Promise<string>} stdout output
  */
 async function executeProcessProvider(toolPath, args, providerName, t, timeout = 300000, options = {}) {
+    const path = require('path');
+    const normalizedToolPath = path.normalize(toolPath);
+    
     return new Promise((resolve, reject) => {
-        const childProcess = spawn(toolPath, args, {
+        const childProcess = spawn(normalizedToolPath, args, {
             cwd: options.cwd || '/tmp',
             stdio: ['ignore', 'pipe', 'pipe'],
             detached: true,
