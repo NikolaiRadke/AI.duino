@@ -17,6 +17,9 @@ There are several options that need further explanation. The default values are 
 
 # FAQ  
 
+### The Provider isn't working! 
+➡️ That can happen. Providers tend to change the parameters of their models or APIs, and then it no longer works. However, all providers are checked weekly, which is a terrible job.  
+
 ### "What does 'Invalid JSON response' mean?
 ➡️ This is an error message from the provider, not AI.duino, usually in html. AI.duino can only parse JSON Messages. This will be fixed soon.  But what is the reason? Your rate is exhausted, there is no more credit on your account.  
   
