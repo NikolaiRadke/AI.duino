@@ -9,7 +9,7 @@ AI.duino integrates the API providers **Claude, ChatGPT, Gemini, Mistral, Perple
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **14.02.2026** Still working on an annoying bug with process provider (Claude Code and Codex CLI) with Windows 10.    
+* **18.02.2026** V2.6.0 will be releaded next week!  
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
