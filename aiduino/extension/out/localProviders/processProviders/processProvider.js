@@ -65,17 +65,20 @@ async function executeCommand(toolPath, prompt, context, provider, sessionId = n
  */
 async function executeProcessProvider(toolPath, args, providerName, t, timeout = 300000, options = {}) {
     const path = require('path');
-    const normalizedToolPath = path.normalize(toolPath);
+    
+    // Remove any quotes from path (Windows issue)
+    const cleanPath = toolPath.replace(/['"]/g, '');
+    const normalizedPath = path.normalize(cleanPath);
     
     return new Promise((resolve, reject) => {
-        const childProcess = spawn(normalizedToolPath, args, {
-            cwd: options.cwd || '/tmp',
+        const spawnOptions = {
+            cwd: options.cwd || process.cwd(),  // Use process.cwd() instead of /tmp on Windows
             stdio: ['ignore', 'pipe', 'pipe'],
-            detached: true,
+            shell: process.platform === 'win32',  // CRITICAL for Windows!
             windowsHide: true
-        });
+        };
         
-        childProcess.unref();
+        const childProcess = spawn(normalizedPath, args, spawnOptions);
         
         let stdout = '';
         let stderr = '';
