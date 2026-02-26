@@ -64,7 +64,7 @@ The provider settings will be updated when availabe. They will be generated auto
 and will inform the user for new version updates.  
 
 
-## Screenshots
+## Screenshots (V2.5.0)
 
 ![Screenshot 1](http://www.nikolairadke.de/aiduino/screenshot_1_1.png)
 ![Screenshot 2](http://www.nikolairadke.de/aiduino/screenshot_2_1.png)
