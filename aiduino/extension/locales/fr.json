@@ -317,7 +317,13 @@
     "continueInChat": "Continuer dans le chat",
     "historyNotAvailable": "Historique du chat non disponible",
     "toggleCodeMode": "Basculer en mode code (température plus basse pour un code plus précis)",
-    "toggleAgenticMode": "Activer/désactiver le Codage Agentique (l'IA lit, modifie et compile vos fichiers de projet de manière autonome)"
+    "toggleAgenticMode": "Activer/désactiver le Codage Agentique (l'IA lit, modifie et compile vos fichiers de projet de manière autonome)",
+    "externalFileAttached": "📎 Fichier externe joint",
+    "externalFilesAttached": "📎 {0} fichiers externes joints",
+    "backToOverview": "Retour à la vue d'ensemble",
+    "manageAttachments": "Gérer les pièces jointes",
+    "newSessionStarted": "Nouvelle session démarrée",
+    "removeFilePrompt": "Supprimer le fichier"
   },
   "shortcuts": {
     "askFollowUp": "Question de suivi",

@@ -317,7 +317,13 @@
     "continueInChat": "Fortsæt i chat",
     "historyNotAvailable": "Chathistorik ikke tilgængelig",
     "toggleCodeMode": "Skift kodetilstand (lavere temperatur for mere præcis kode)",
-    "toggleAgenticMode": "Skift Agentic Coding (AI læser, ændrer og kompilerer dine projektfiler autonomt)"
+    "toggleAgenticMode": "Skift Agentic Coding (AI læser, ændrer og kompilerer dine projektfiler autonomt)",
+    "externalFileAttached": "📎 Ekstern fil vedhæftet",
+    "externalFilesAttached": "📎 {0} eksterne filer vedhæftet",
+    "backToOverview": "Tilbage til oversigt",
+    "manageAttachments": "Administrer vedhæftede filer",
+    "newSessionStarted": "Ny session startet",
+    "removeFilePrompt": "Fjern fil"
   },
   "shortcuts": {
     "askFollowUp": "Opfølgende spørgsmål",

@@ -317,7 +317,13 @@
     "continueInChat": "Kontynuuj na czacie",
     "historyNotAvailable": "Historia czatu niedostępna",
     "toggleCodeMode": "Przełącz tryb kodu (niższa temperatura dla dokładniejszego kodu)",
-    "toggleAgenticMode": "Przełącz Agentic Coding (AI samodzielnie czyta, modyfikuje i kompiluje pliki projektu)"
+    "toggleAgenticMode": "Przełącz Agentic Coding (AI samodzielnie czyta, modyfikuje i kompiluje pliki projektu)",
+    "externalFileAttached": "📎 Zewnętrzny plik załączony",
+    "externalFilesAttached": "📎 {0} zewnętrzne pliki załączone",
+    "backToOverview": "Powrót do przeglądu",
+    "manageAttachments": "Zarządzaj załącznikami",
+    "newSessionStarted": "Nowa sesja rozpoczęta",
+    "removeFilePrompt": "Usuń plik"
   },
   "shortcuts": {
     "askFollowUp": "Pytanie uzupełniające",

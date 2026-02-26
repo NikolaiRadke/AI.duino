@@ -317,7 +317,13 @@
     "continueInChat": "Συνέχεια στη συνομιλία",
     "historyNotAvailable": "Το ιστορικό συνομιλίας δεν είναι διαθέσιμο",
     "toggleCodeMode": "Εναλλαγή λειτουργίας κώδικα (χαμηλότερη θερμοκρασία για πιο ακριβή κώδικα)",
-    "toggleAgenticMode": "Εναλλαγή Agentic Coding (η ΤΝ διαβάζει, τροποποιεί και μεταγλωττίζει αυτόνομα τα αρχεία του έργου)"
+    "toggleAgenticMode": "Εναλλαγή Agentic Coding (η ΤΝ διαβάζει, τροποποιεί και μεταγλωττίζει αυτόνομα τα αρχεία του έργου)",
+    "externalFileAttached": "📎 Εξωτερικό αρχείο επισυνάφθηκε",
+    "externalFilesAttached": "📎 {0} εξωτερικά αρχεία επισυνάφθηκαν",
+    "backToOverview": "Επιστροφή στην επισκόπηση",
+    "manageAttachments": "Διαχείριση συνημμένων",
+    "newSessionStarted": "Νέα συνεδρία ξεκίνησε",
+    "removeFilePrompt": "Κατάργηση αρχείου"
   },
   "shortcuts": {
     "askFollowUp": "Συνέχεια ερώτησης",

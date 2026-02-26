@@ -317,7 +317,13 @@
     "maxChatsReached": "Maximale Chat-Anzahl erreicht. Bitte lösche alte Chats.",
     "toggleCodeMode": "Code-Modus umschalten (niedrigere Temperatur für präziseren Code)",
     "cannotDeleteLastChat": "Letzter Chat kann nicht gelöscht werden",
-    "toggleAgenticMode": "Agentic Coding umschalten (KI liest, bearbeitet und kompiliert deine Projektdateien autonom)"
+    "toggleAgenticMode": "Agentic Coding umschalten (KI liest, bearbeitet und kompiliert deine Projektdateien autonom)",
+    "externalFileAttached": "📎 Externe Datei angehängt",
+    "externalFilesAttached": "📎 {0} externe Dateien angehängt",
+    "backToOverview": "Zurück zur Übersicht",
+    "manageAttachments": "Anhänge verwalten",
+    "newSessionStarted": "Neue Sitzung gestartet",
+    "removeFilePrompt": "Datei entfernen"
   },
   "shortcuts": {
     "askFollowUp": "Rückfrage",

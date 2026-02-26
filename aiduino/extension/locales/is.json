@@ -317,7 +317,13 @@
     "continueInChat": "Halda áfram í spjalli",
     "historyNotAvailable": "Spjallsaga ekki tiltæk",
     "toggleCodeMode": "Skipta um kóðaham (lægra hitastig fyrir nákvæmari kóða)",
-    "toggleAgenticMode": "Kveikja/slökkva á Agentic Coding (gervigreind les, breytir og þýðir skrár verkefnisins sjálfkrafa)"
+    "toggleAgenticMode": "Kveikja/slökkva á Agentic Coding (gervigreind les, breytir og þýðir skrár verkefnisins sjálfkrafa)",
+    "externalFileAttached": "📎 Ytri skrá hengd við",
+    "externalFilesAttached": "📎 {0} ytri skrár hengdar við",
+    "backToOverview": "Til baka í yfirlit",
+    "manageAttachments": "Stjórna viðhengjum",
+    "newSessionStarted": "Ný lota hafin",
+    "removeFilePrompt": "Fjarlægja skrá"
   },
   "shortcuts": {
     "askFollowUp": "Framhaldsspurning",

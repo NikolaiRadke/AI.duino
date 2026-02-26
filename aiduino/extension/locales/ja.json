@@ -313,7 +313,13 @@
     "continueInChat": "チャットで続ける",
     "historyNotAvailable": "チャット履歴は利用できません",
     "toggleCodeMode": "コードモードを切り替え（より正確なコードのための低温度）",
-    "toggleAgenticMode": "アジェンティックコーディングの切り替え（AIがプロジェクトファイルを自律的に読み取り、変更、コンパイルします）"
+    "toggleAgenticMode": "アジェンティックコーディングの切り替え（AIがプロジェクトファイルを自律的に読み取り、変更、コンパイルします）",
+    "externalFileAttached": "📎 外部ファイルを添付しました",
+    "externalFilesAttached": "📎 {0}個の外部ファイルを添付しました",
+    "backToOverview": "概要に戻る",
+    "manageAttachments": "添付ファイルを管理",
+    "newSessionStarted": "新しいセッションが開始されました",
+    "removeFilePrompt": "ファイルを削除"
   },
   "shortcuts": {
     "askFollowUp": "追加質問",

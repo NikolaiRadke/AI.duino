@@ -317,7 +317,13 @@
     "continueInChat": "Doorgaan in chat",
     "historyNotAvailable": "Chatgeschiedenis niet beschikbaar",
     "toggleCodeMode": "Code-modus schakelen (lagere temperatuur voor nauwkeurigere code)",
-    "toggleAgenticMode": "Agentic Coding wisselen (AI leest, wijzigt en compileert projectbestanden autonoom)"
+    "toggleAgenticMode": "Agentic Coding wisselen (AI leest, wijzigt en compileert projectbestanden autonoom)",
+    "externalFileAttached": "📎 Extern bestand bijgevoegd",
+    "externalFilesAttached": "📎 {0} externe bestanden bijgevoegd",
+    "backToOverview": "Terug naar overzicht",
+    "manageAttachments": "Bijlagen beheren",
+    "newSessionStarted": "Nieuwe sessie gestart",
+    "removeFilePrompt": "Bestand verwijderen"
   },
   "shortcuts": {
     "askFollowUp": "Vervolgvraag",

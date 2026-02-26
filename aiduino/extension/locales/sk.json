@@ -317,7 +317,13 @@
     "continueInChat": "Pokračovať v chate",
     "historyNotAvailable": "História chatu nie je k dispozícii",
     "toggleCodeMode": "Prepnúť režim kódu (nižšia teplota pre presnejší kód)",
-    "toggleAgenticMode": "Prepnúť Agentic Coding (AI autonómne číta, upravuje a kompiluje súbory projektu)"
+    "toggleAgenticMode": "Prepnúť Agentic Coding (AI autonómne číta, upravuje a kompiluje súbory projektu)",
+    "externalFileAttached": "📎 Externý súbor priložený",
+    "externalFilesAttached": "📎 {0} externé súbory priložené",
+    "backToOverview": "Späť na prehľad",
+    "manageAttachments": "Spravovať prílohy",
+    "newSessionStarted": "Nová relácia spustená",
+    "removeFilePrompt": "Odstrániť súbor"
   },
   "shortcuts": {
     "askFollowUp": "Následná otázka",

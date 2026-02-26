@@ -317,7 +317,13 @@
     "continueInChat": "Kompli fil-chat",
     "historyNotAvailable": "Storja tal-chat mhix disponibbli",
     "toggleCodeMode": "Aqleb il-modalità tal-kodiċi (temperatura aktar baxxa għal kodiċi aktar preċiż)",
-    "toggleAgenticMode": "Ibdel Agentic Coding (l-AI taqra, tmodifika u tikkompila l-fajls tal-proġett b'mod awtonomu)"
+    "toggleAgenticMode": "Ibdel Agentic Coding (l-AI taqra, tmodifika u tikkompila l-fajls tal-proġett b'mod awtonomu)",
+    "externalFileAttached": "📎 Fajl estern mehmuż",
+    "externalFilesAttached": "📎 {0} fajls esterni mehmuża",
+    "backToOverview": "Lura għall-ħarsa ġenerali",
+    "manageAttachments": "Immaniġġja l-allegati",
+    "newSessionStarted": "Sessjoni ġdida bdiet",
+    "removeFilePrompt": "Neħħi l-fajl"
   },
   "shortcuts": {
     "askFollowUp": "Mistoqsija follow-up",

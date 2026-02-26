@@ -317,7 +317,13 @@
     "continueInChat": "Sohbette devam et",
     "historyNotAvailable": "Sohbet geçmişi mevcut değil",
     "toggleCodeMode": "Kod modunu değiştir (daha hassas kod için düşük sıcaklık)",
-    "toggleAgenticMode": "Agentic Coding'i Değiştir (yapay zeka proje dosyalarını özerk olarak okur, değiştirir ve derler)"
+    "toggleAgenticMode": "Agentic Coding'i Değiştir (yapay zeka proje dosyalarını özerk olarak okur, değiştirir ve derler)",
+    "externalFileAttached": "📎 Harici dosya eklendi",
+    "externalFilesAttached": "📎 {0} harici dosya eklendi",
+    "backToOverview": "Genel bakışa dön",
+    "manageAttachments": "Ekleri yönet",
+    "newSessionStarted": "Yeni oturum başlatıldı",
+    "removeFilePrompt": "Dosyayı kaldır"
   },
   "shortcuts": {
     "askFollowUp": "Takip sorusu",

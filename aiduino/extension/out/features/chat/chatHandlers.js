@@ -421,13 +421,13 @@ async function handleAttachContext(panel, context, state) {
     // Agentic providers (Claude Code) have direct project access
     if (!isAgentic && editor && context.validation.validateArduinoFile(editor.document.fileName)) {
         options.push({
-            label: 'ðŸ“‚ ' + t('context.currentFile'),
+            label: '📂 ' + t('context.currentFile'),
             description: t('context.currentFileDetailNoSelection'),
             value: 'currentFile'
         });
         
         options.push({
-            label: 'ðŸ“‚ ' + t('context.fullSketch'),
+            label: '📂 ' + t('context.fullSketch'),
             description: t('context.fullSketchDetailNoSelection'),
             value: 'fullSketch'
         });
@@ -435,7 +435,7 @@ async function handleAttachContext(panel, context, state) {
     
     // Always show external files option
     options.push({
-        label: 'ðŸ“„ ' + t('customAgent.additionalFiles'),
+        label: '📂 ' + t('customAgent.additionalFiles'),
         description: t('customAgent.additionalFilesDesc'),
         value: 'externalFiles'
     });
@@ -534,7 +534,7 @@ async function handleManageAttachments(panel, context, state) {
     if (state.attachedContext.contextData && state.attachedContext.contextData.contextFiles) {
         state.attachedContext.contextData.contextFiles.forEach(file => {
             items.push({
-                label: `ðŸ“‚ ${file.name}`,
+                label: `📂 ${file.name}`,
                 description: t('context.currentFile'),
                 filePath: `context:${file.name}`,
                 type: 'context'
@@ -545,7 +545,7 @@ async function handleManageAttachments(panel, context, state) {
     if (state.attachedContext.externalFiles) {
         state.attachedContext.externalFiles.forEach(file => {
             items.push({
-                label: `ðŸ“„ ${file.name}`,
+                label: `📂 ${file.name}`,
                 description: '(extern)',
                 filePath: file.path,
                 type: 'external'
@@ -585,6 +585,52 @@ async function handleManageAttachments(panel, context, state) {
     }
 
     state.updateAttachmentButtons(panel, context);
+}
+
+/**
+ * Build chat prompt with attachments (Arduino files and/or external files)
+ * @param {string} messageText - User message
+ * @param {Object} attachedContext - Context with contextData and externalFiles
+ * @param {Object} context - Extension context
+ * @param {Object} state - Chat state object
+ * @returns {string} Complete prompt
+ */
+function buildChatPromptWithAttachments(messageText, attachedContext, context, state) {
+    const { t } = context;
+    let prompt = state.arduinoMode ?
+        t('prompts.systemPrompt') + "\n\n" :
+        "You are a helpful AI assistant.\n\n";
+
+    prompt += `User question: ${messageText}\n\n`;
+
+    if (attachedContext.contextData && attachedContext.contextData.contextFiles) {
+        const files = attachedContext.contextData.contextFiles;
+
+        if (files.length === 1) {
+            const file = files[0];
+            prompt += `Code file (${file.name}):\n\`\`\`cpp\n${file.content}\n\`\`\`\n\n`;
+        } else if (files.length > 1) {
+            prompt += `Complete Arduino Sketch:\n\n`;
+            for (const file of files) {
+                prompt += `// ========== ${file.name} ==========\n`;
+                prompt += `\`\`\`cpp\n${file.content}\n\`\`\`\n\n`;
+            }
+        }
+    }
+
+    if (attachedContext.externalFiles && attachedContext.externalFiles.length > 0) {
+        prompt += `\n=== Additional External Files ===\n`;
+        for (const file of attachedContext.externalFiles) {
+            prompt += `\n// ========== ${file.name} ==========\n`;
+            prompt += `\`\`\`\n${file.content}\n\`\`\`\n`;
+        }
+    }
+
+    if (state.arduinoMode) {
+        prompt += '\n\n' + shared.getBoardContext();
+    }
+    prompt += "\n\nWhen writing code, always show the complete code in markdown code blocks (```cpp, ```python, etc.) in your response, not just file references.";
+    return prompt;
 }
 
 module.exports = {

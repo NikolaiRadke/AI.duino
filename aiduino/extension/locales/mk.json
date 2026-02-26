@@ -317,7 +317,13 @@
     "continueInChat": "Продолжи во разговорот",
     "historyNotAvailable": "Историјата на разговорот не е достапна",
     "toggleCodeMode": "Префрли режим на код (пониска температура за попрецизен код)",
-    "toggleAgenticMode": "Префрли на Agentic Coding (ВИ чита, менува и компилира датотеки на проектот автономно)"
+    "toggleAgenticMode": "Префрли на Agentic Coding (ВИ чита, менува и компилира датотеки на проектот автономно)",
+    "externalFileAttached": "📎 Надворешна датотека прикачена",
+    "externalFilesAttached": "📎 {0} надворешни датотеки прикачени",
+    "backToOverview": "Назад кон преглед",
+    "manageAttachments": "Управување со прилози",
+    "newSessionStarted": "Нова сесија започната",
+    "removeFilePrompt": "Отстрани датотека"
   },
   "shortcuts": {
     "askFollowUp": "Дополнително прашање",

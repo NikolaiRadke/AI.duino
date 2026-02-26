@@ -317,7 +317,13 @@
     "continueInChat": "Nastavi u chatu",
     "historyNotAvailable": "Historija chata nije dostupna",
     "toggleCodeMode": "Prebaci režim koda (niža temperatura za precizniji kod)",
-    "toggleAgenticMode": "Prebaci Agentic Coding (AI čita, mijenja i kompajlira datoteke projekta autonomno)"
+    "toggleAgenticMode": "Prebaci Agentic Coding (AI čita, mijenja i kompajlira datoteke projekta autonomno)",
+    "externalFileAttached": "📎 Vanjski fajl priložen",
+    "externalFilesAttached": "📎 {0} vanjska fajla priložena",
+    "backToOverview": "Nazad na pregled",
+    "manageAttachments": "Upravljanje prilozima",
+    "newSessionStarted": "Nova sesija pokrenuta",
+    "removeFilePrompt": "Ukloni fajl"
   },
   "shortcuts": {
     "askFollowUp": "Dodatno pitanje",

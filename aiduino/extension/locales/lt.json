@@ -317,7 +317,13 @@
     "continueInChat": "Tęsti pokalbyje",
     "historyNotAvailable": "Pokalbio istorija nepasiekiama",
     "toggleCodeMode": "Perjungti kodo režimą (žemesnė temperatūra tikslesniam kodui)",
-    "toggleAgenticMode": "Įjungti Agentic Coding (DI savarankiškai skaito, keičia ir kompiliuoja projekto failus)"
+    "toggleAgenticMode": "Įjungti Agentic Coding (DI savarankiškai skaito, keičia ir kompiliuoja projekto failus)",
+    "externalFileAttached": "📎 Išorinis failas pridėtas",
+    "externalFilesAttached": "📎 {0} išoriniai failai pridėti",
+    "backToOverview": "Grįžti į apžvalgą",
+    "manageAttachments": "Tvarkyti priedus",
+    "newSessionStarted": "Nauja sesija pradėta",
+    "removeFilePrompt": "Pašalinti failą"
   },
   "shortcuts": {
     "askFollowUp": "Papildomas klausimas",

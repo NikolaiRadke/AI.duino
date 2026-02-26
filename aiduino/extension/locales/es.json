@@ -317,7 +317,13 @@
     "continueInChat": "Continuar en el chat",
     "historyNotAvailable": "Historial de chat no disponible",
     "toggleCodeMode": "Cambiar modo de código (temperatura más baja para código más preciso)",
-    "toggleAgenticMode": "Alternar Agentic Coding (la IA lee, modifica y compila los archivos del proyecto de forma autónoma)"
+    "toggleAgenticMode": "Alternar Agentic Coding (la IA lee, modifica y compila los archivos del proyecto de forma autónoma)",
+    "externalFileAttached": "📎 Archivo externo adjuntado",
+    "externalFilesAttached": "📎 {0} archivos externos adjuntados",
+    "backToOverview": "Volver al resumen",
+    "manageAttachments": "Gestionar archivos adjuntos",
+    "newSessionStarted": "Nueva sesión iniciada",
+    "removeFilePrompt": "Eliminar archivo"
   },
   "shortcuts": {
     "askFollowUp": "Pregunta de seguimiento",

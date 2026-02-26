@@ -317,7 +317,13 @@
     "continueInChat": "Jatka chatissa",
     "historyNotAvailable": "Chat-historia ei saatavilla",
     "toggleCodeMode": "Vaihda kooditilaa (matalampi lämpötila tarkemmalle koodille)",
-    "toggleAgenticMode": "Vaihda Agentic Coding (tekoäly lukee, muokkaa ja kääntää projektitiedostot itsenäisesti)"
+    "toggleAgenticMode": "Vaihda Agentic Coding (tekoäly lukee, muokkaa ja kääntää projektitiedostot itsenäisesti)",
+    "externalFileAttached": "📎 Ulkoinen tiedosto liitetty",
+    "externalFilesAttached": "📎 {0} ulkoista tiedostoa liitetty",
+    "backToOverview": "Takaisin yleiskatsaukseen",
+    "manageAttachments": "Hallitse liitteitä",
+    "newSessionStarted": "Uusi istunto aloitettu",
+    "removeFilePrompt": "Poista tiedosto"
   },
   "shortcuts": {
     "askFollowUp": "Jatkokysymys",

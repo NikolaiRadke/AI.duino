@@ -317,7 +317,13 @@
     "continueInChat": "Continue in chat",
     "historyNotAvailable": "Chat history not available",
     "toggleCodeMode": "Toggle code mode (lower temperature for more precise code)",
-    "toggleAgenticMode": "Toggle Agentic Coding (AI reads, modifies and compiles your project files autonomously)"
+    "toggleAgenticMode": "Toggle Agentic Coding (AI reads, modifies and compiles your project files autonomously)",
+    "externalFileAttached": "📎 External file attached",
+    "externalFilesAttached": "📎 {0} external files attached",
+    "backToOverview": "Back to overview",
+    "manageAttachments": "Manage attachments",
+    "newSessionStarted": "New session started",
+    "removeFilePrompt": "Remove file"
   },
   "shortcuts": {
     "askFollowUp": "Follow-up question",

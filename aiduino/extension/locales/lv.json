@@ -317,7 +317,13 @@
     "continueInChat": "Turpināt tērzēšanā",
     "historyNotAvailable": "Tērzēšanas vēsture nav pieejama",
     "toggleCodeMode": "Pārslēgt koda režīmu (zemāka temperatūra precīzākam kodam)",
-    "toggleAgenticMode": "Pārslēgt Agentic Coding (MI autonomi lasa, modificē un kompilē projekta failus)"
+    "toggleAgenticMode": "Pārslēgt Agentic Coding (MI autonomi lasa, modificē un kompilē projekta failus)",
+    "externalFileAttached": "📎 Ārējais fails pievienots",
+    "externalFilesAttached": "📎 {0} ārējie faili pievienoti",
+    "backToOverview": "Atpakaļ uz pārskatu",
+    "manageAttachments": "Pārvaldīt pielikumus",
+    "newSessionStarted": "Jauna sesija sākta",
+    "removeFilePrompt": "Noņemt failu"
   },
   "shortcuts": {
     "askFollowUp": "Papildu jautājums",

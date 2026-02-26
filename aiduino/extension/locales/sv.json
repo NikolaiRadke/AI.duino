@@ -317,7 +317,13 @@
     "continueInChat": "Fortsätt i chatten",
     "historyNotAvailable": "Chatthistorik inte tillgänglig",
     "toggleCodeMode": "Växla kodläge (lägre temperatur för mer exakt kod)",
-    "toggleAgenticMode": "Växla Agentic Coding (AI läser, ändrar och kompilerar dina projektfiler autonomt)"
+    "toggleAgenticMode": "Växla Agentic Coding (AI läser, ändrar och kompilerar dina projektfiler autonomt)",
+    "externalFileAttached": "📎 Extern fil bifogad",
+    "externalFilesAttached": "📎 {0} externa filer bifogade",
+    "backToOverview": "Tillbaka till översikt",
+    "manageAttachments": "Hantera bilagor",
+    "newSessionStarted": "Ny session startad",
+    "removeFilePrompt": "Ta bort fil"
   },
   "shortcuts": {
     "askFollowUp": "Följdfråga",

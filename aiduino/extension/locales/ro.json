@@ -311,7 +311,13 @@
     "continueInChat": "Continuă în chat",
     "historyNotAvailable": "Istoricul chat-ului nu este disponibil",
     "toggleCodeMode": "Comutați modul cod (temperatură mai scăzută pentru cod mai precis)",
-    "toggleAgenticMode": "Comutați Agentic Coding (AI citește, modifică și compilează autonom fișierele proiectului)"
+    "toggleAgenticMode": "Comutați Agentic Coding (AI citește, modifică și compilează autonom fișierele proiectului)",
+    "externalFileAttached": "📎 Fișier extern atașat",
+    "externalFilesAttached": "📎 {0} fișiere externe atașate",
+    "backToOverview": "Înapoi la prezentare generală",
+    "manageAttachments": "Gestionați atașamentele",
+    "newSessionStarted": "Sesiune nouă pornită",
+    "removeFilePrompt": "Eliminați fișierul"
   },
   "shortcuts": {
     "askFollowUp": "Întrebare de urmărire",

@@ -317,7 +317,13 @@
     "continueInChat": "Продовжити в чаті",
     "historyNotAvailable": "Історія чату недоступна",
     "toggleCodeMode": "Перемкнути режим коду (нижча температура для точнішого коду)",
-    "toggleAgenticMode": "Перемкнути Agentic Coding (ШІ автономно читає, змінює та компілює файли проекту)"
+    "toggleAgenticMode": "Перемкнути Agentic Coding (ШІ автономно читає, змінює та компілює файли проекту)",
+    "externalFileAttached": "📎 Зовнішній файл прикріплено",
+    "externalFilesAttached": "📎 {0} зовнішніх файли прикріплено",
+    "backToOverview": "Назад до огляду",
+    "manageAttachments": "Керування вкладеннями",
+    "newSessionStarted": "Нову сесію розпочато",
+    "removeFilePrompt": "Видалити файл"
   },
   "shortcuts": {
     "askFollowUp": "Додаткове питання",

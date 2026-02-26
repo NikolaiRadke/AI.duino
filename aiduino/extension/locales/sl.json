@@ -317,7 +317,13 @@
     "continueInChat": "Nadaljuj v klepetu",
     "historyNotAvailable": "Zgodovina klepeta ni na voljo",
     "toggleCodeMode": "Preklopi način kode (nižja temperatura za natančnejšo kodo)",
-    "toggleAgenticMode": "Preklopi Agentic Coding (UI avtonomno bere, spreminja in prevaja datoteke projekta)"
+    "toggleAgenticMode": "Preklopi Agentic Coding (UI avtonomno bere, spreminja in prevaja datoteke projekta)",
+    "externalFileAttached": "📎 Zunanja datoteka priložena",
+    "externalFilesAttached": "📎 {0} zunanje datoteke priložene",
+    "backToOverview": "Nazaj na pregled",
+    "manageAttachments": "Upravljanje prilog",
+    "newSessionStarted": "Nova seja se je začela",
+    "removeFilePrompt": "Odstrani datoteko"
   },
   "shortcuts": {
     "askFollowUp": "Nadaljnje vprašanje",

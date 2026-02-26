@@ -317,7 +317,13 @@
     "continueInChat": "Fortsett i chat",
     "historyNotAvailable": "Chathistorikk ikke tilgjengelig",
     "toggleCodeMode": "Bytt kodemodus (lavere temperatur for mer presis kode)",
-    "toggleAgenticMode": "Bytt Agentic Coding (KI leser, endrer og kompilerer prosjektfilene dine autonomt)"
+    "toggleAgenticMode": "Bytt Agentic Coding (KI leser, endrer og kompilerer prosjektfilene dine autonomt)",
+    "externalFileAttached": "📎 Ekstern fil vedlagt",
+    "externalFilesAttached": "📎 {0} eksterne filer vedlagt",
+    "backToOverview": "Tilbake til oversikt",
+    "manageAttachments": "Administrer vedlegg",
+    "newSessionStarted": "Ny økt startet",
+    "removeFilePrompt": "Fjern fil"
   },
   "shortcuts": {
     "askFollowUp": "Oppfølgingsspørsmål",

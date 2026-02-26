@@ -317,7 +317,13 @@
     "continueInChat": "Folytatás a chatben",
     "historyNotAvailable": "Chat-előzmények nem elérhetők",
     "toggleCodeMode": "Kód mód váltása (alacsonyabb hőmérséklet pontosabb kódhoz)",
-    "toggleAgenticMode": "Agentic Coding váltása (az AI önállóan olvassa, módosítja és fordítja a projektfájlokat)"
+    "toggleAgenticMode": "Agentic Coding váltása (az AI önállóan olvassa, módosítja és fordítja a projektfájlokat)",
+    "externalFileAttached": "📎 Külső fájl csatolva",
+    "externalFilesAttached": "📎 {0} külső fájl csatolva",
+    "backToOverview": "Vissza az áttekintéshez",
+    "manageAttachments": "Mellékletek kezelése",
+    "newSessionStarted": "Új munkamenet indítva",
+    "removeFilePrompt": "Fájl eltávolítása"
   },
   "shortcuts": {
     "askFollowUp": "Követő kérdés",

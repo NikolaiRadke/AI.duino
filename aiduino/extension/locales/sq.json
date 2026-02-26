@@ -317,7 +317,13 @@
     "continueInChat": "Vazhdo në bisedë",
     "historyNotAvailable": "Historia e bisedës nuk është e disponueshme",
     "toggleCodeMode": "Ndërro modalitetin e kodit (temperaturë më e ulët për kod më të saktë)",
-    "toggleAgenticMode": "Ndërro Agentic Coding (AI lexon, modifikon dhe komprimon skedarët e projektit në mënyrë autonome)"
+    "toggleAgenticMode": "Ndërro Agentic Coding (AI lexon, modifikon dhe komprimon skedarët e projektit në mënyrë autonome)",
+    "externalFileAttached": "📎 Skedar i jashtëm i bashkangjitur",
+    "externalFilesAttached": "📎 {0} skedarë të jashtëm të bashkangjitur",
+    "backToOverview": "Kthehu te pamja e përgjithshme",
+    "manageAttachments": "Menaxho bashkëngjitjet",
+    "newSessionStarted": "Sesion i ri filloi",
+    "removeFilePrompt": "Hiq skedarin"
   },
   "shortcuts": {
     "askFollowUp": "Pyetje shtesë",

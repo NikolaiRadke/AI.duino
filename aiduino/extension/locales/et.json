@@ -317,7 +317,13 @@
     "continueInChat": "Jätka vestluses",
     "historyNotAvailable": "Vestluse ajalugu pole saadaval",
     "toggleCodeMode": "Lülita koodi režiim (madalam temperatuur täpsema koodi jaoks)",
-    "toggleAgenticMode": "Lülita Agentic Coding (AI loeb, muudab ja kompileerib projektifaile autonoomselt)"
+    "toggleAgenticMode": "Lülita Agentic Coding (AI loeb, muudab ja kompileerib projektifaile autonoomselt)",
+    "externalFileAttached": "📎 Väline fail lisatud",
+    "externalFilesAttached": "📎 {0} välist faili lisatud",
+    "backToOverview": "Tagasi ülevaatesse",
+    "manageAttachments": "Halda manuseid",
+    "newSessionStarted": "Uus seanss alustatud",
+    "removeFilePrompt": "Eemalda fail"
   },
   "shortcuts": {
     "askFollowUp": "Täiendav küsimus",

@@ -317,7 +317,13 @@
     "continueInChat": "Pokračovat v chatu",
     "historyNotAvailable": "Historie chatu není k dispozici",
     "toggleCodeMode": "Přepnout režim kódu (nižší teplota pro přesnější kód)",
-    "toggleAgenticMode": "Přepnout Agentic Coding (AI čte, upravuje a kompiluje soubory projektu autonomně)"
+    "toggleAgenticMode": "Přepnout Agentic Coding (AI čte, upravuje a kompiluje soubory projektu autonomně)",
+    "externalFileAttached": "📎 Externí soubor připojen",
+    "externalFilesAttached": "📎 {0} externí soubory připojeny",
+    "backToOverview": "Zpět na přehled",
+    "manageAttachments": "Spravovat přílohy",
+    "newSessionStarted": "Nová relace zahájena",
+    "removeFilePrompt": "Odebrat soubor"
   },
   "shortcuts": {
     "askFollowUp": "Navazující otázka",

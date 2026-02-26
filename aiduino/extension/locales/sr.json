@@ -317,7 +317,13 @@
     "continueInChat": "Настави у ћаскању",
     "historyNotAvailable": "Историја ћаскања није доступна",
     "toggleCodeMode": "Пребаци режим кода (нижа температура за прецизнији код)",
-    "toggleAgenticMode": "Пребаци Agentic Coding (ВИ чита, мења и компајлира датотеке пројекта аутономно)"
+    "toggleAgenticMode": "Пребаци Agentic Coding (ВИ чита, мења и компајлира датотеке пројекта аутономно)",
+    "externalFileAttached": "📎 Спољна датотека приложена",
+    "externalFilesAttached": "📎 {0} спољне датотеке приложене",
+    "backToOverview": "Назад на преглед",
+    "manageAttachments": "Управљање прилозима",
+    "newSessionStarted": "Нова сесија покренута",
+    "removeFilePrompt": "Уклони датотеку"
   },
   "shortcuts": {
     "askFollowUp": "Додатно питање",
