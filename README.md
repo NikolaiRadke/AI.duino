@@ -78,6 +78,11 @@ and will inform the user for new version updates.
 * Press the `AI.duino` button below  
 * Enter Ai.duino menu through the side tree bar
 
+### Agentic Mode (new!)
+
+You can toggle the Chat to be agentic by pressing the second Button from the right. Now, the AI has access to the folder your file is located in.
+Remember that you need additional Software.  
+
 ## Installation
 
 ### Automatic (recommended)
@@ -103,23 +108,6 @@ chmod +x install_aiduino_macos.sh
 ## Manual Installation
 
 Add read permissions to each folder and file. Copy the prepared `aiduino` folder to the Arduino IDE plugin directory. 
-The folder must have the following structure:
-```
-aiduino/
-└── extension/
-    ├── icons/ 
-    ├── locales/
-    └── out/
-        ├── config/
-        ├── core/
-        ├── features/
-        |   ├── inlineCompletion/
-        ├── localProviders/
-        |   ├── httpProviders/
-        |   └── processProviders/
-        └── utils/
-            └── panels/
-```
 
 #### Windows
 ```
@@ -146,9 +134,10 @@ to do that.
 
 ## API Keys
 
-AI.duino communicates through the API with the AIs. It's impossible to  connect through the web 
-interface, so an API key is **mandatory**. If you already have a monthly paid account, you need 
-to - *sigh* - buy an additional key for about **$5**. Fortunatly, this really lasts long.
+AI.duino communicates through the API with the AIs. It's impossible to  connect through the web interface, so an 
+API key is **mandatory**. If you already have a monthly paid account, you need to - *sigh* - buy an additional 
+key for about **$5**. Fortunatly, this really lasts long. Some Providers like Mistral give API-Keys for free, when
+aou have a monthly paid account. 
   
 > [!TIP]
 > You can try **Groq** and **Gemini**: They have a rate for API keys for **free**.  
@@ -166,20 +155,20 @@ Required: An API key from either:
 - Fireworks: https://app.fireworks.ai/login?redirectURI=%2Fsettings%2Fusers%2Fapi-keys (Untested, >= V2.5.0)
 - Together: https://api.together.xyz/sso-signin?redirectUrl=%2Fsettings%2Fapi-keys (Untested, >= V2.5.0)
   
-
 The keys are stored locally and not transmitted.
 
-**Local providers** don't need an API key. If you have an account, for example *Pro Plan* with Claude, you can use Claude Cor no extra costs. 
-HTTP based providers like **Ollama** get auto detected, process based providers like **Claude Code** only needs the path to the binary. 
-Example: Try *which claude* (Linux/macOS) or *where claude* (Windows) and copy the path for the AI.duino 
-input field when selecting Claude Code.  
-
-Supported Providers:
-- Claude Code (Claude Plan Pro): https://www.claude.com/pricing
-- Codex CLI (ChatGPT Plus): https://chatgpt.com/#pricing (Untested)
+For Agentic Coding required: a CLI from either:
+- Claude Code: https://code.claude.com/docs
+- Codex CLI (ChatGPT): https://github.com/openai/codex
+- Mistral Vibe: https://docs.mistral.ai/mistral-vibe/introduction
+- OpenCode: https://opencode.ai/docs/
+- Gemini CLI: https://geminicli.com/docs/get-started/authentication/
+- Groq Code: https://github.com/NikolaiRadke/groq-code-cli
 - Ollama: https://ollama.com/
-- LM Studio: https://lmstudio.ai
 
+Some of these **Local providers** don't need an API key. If you have an account, for example *Pro Plan* with Claude, you can use Claude for no extra costs. 
+HTTP based providers like **Ollama** get auto detected, process based providers like **Claude Code** only needs the path to the binary, which should be
+detected too. if not, try *which claude* (Linux/macOS) or *where claude* (Windows) and copy the path for the AI.duino input field when selecting Claude Code.  
 ## Content
   
 ```
