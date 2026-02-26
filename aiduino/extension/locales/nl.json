@@ -316,7 +316,8 @@
     "toggleMode": "Boardinformatie verzenden",
     "continueInChat": "Doorgaan in chat",
     "historyNotAvailable": "Chatgeschiedenis niet beschikbaar",
-    "toggleCodeMode": "Code-modus schakelen (lagere temperatuur voor nauwkeurigere code)"
+    "toggleCodeMode": "Code-modus schakelen (lagere temperatuur voor nauwkeurigere code)",
+    "toggleAgenticMode": "Agentic Coding wisselen (AI leest, wijzigt en compileert projectbestanden autonoom)"
   },
   "shortcuts": {
     "askFollowUp": "Vervolgvraag",

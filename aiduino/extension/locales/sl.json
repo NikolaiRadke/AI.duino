@@ -316,7 +316,8 @@
     "toggleMode": "Pošlji informacije o plošči",
     "continueInChat": "Nadaljuj v klepetu",
     "historyNotAvailable": "Zgodovina klepeta ni na voljo",
-    "toggleCodeMode": "Preklopi način kode (nižja temperatura za natančnejšo kodo)"
+    "toggleCodeMode": "Preklopi način kode (nižja temperatura za natančnejšo kodo)",
+    "toggleAgenticMode": "Preklopi Agentic Coding (UI avtonomno bere, spreminja in prevaja datoteke projekta)"
   },
   "shortcuts": {
     "askFollowUp": "Nadaljnje vprašanje",

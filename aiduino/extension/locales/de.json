@@ -316,7 +316,8 @@
     "historyNotAvailable": "Chat-Historie nicht verfügbar",
     "maxChatsReached": "Maximale Chat-Anzahl erreicht. Bitte lösche alte Chats.",
     "toggleCodeMode": "Code-Modus umschalten (niedrigere Temperatur für präziseren Code)",
-    "cannotDeleteLastChat": "Letzter Chat kann nicht gelöscht werden"
+    "cannotDeleteLastChat": "Letzter Chat kann nicht gelöscht werden",
+    "toggleAgenticMode": "Agentic Coding umschalten (KI liest, bearbeitet und kompiliert deine Projektdateien autonom)"
   },
   "shortcuts": {
     "askFollowUp": "Rückfrage",

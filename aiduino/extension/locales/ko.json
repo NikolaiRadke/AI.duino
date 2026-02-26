@@ -316,7 +316,8 @@
     "toggleMode": "보드 정보 전송",
     "continueInChat": "채팅에서 계속하기",
     "historyNotAvailable": "채팅 기록을 사용할 수 없습니다",
-    "toggleCodeMode": "코드 모드 전환 (더 정확한 코드를 위한 낮은 온도)"
+    "toggleCodeMode": "코드 모드 전환 (더 정확한 코드를 위한 낮은 온도)",
+    "toggleAgenticMode": "에이전틱 코딩 전환 (AI가 프로젝트 파일을 자율적으로 읽고, 수정하고, 컴파일합니다)"
   },
   "shortcuts": {
     "askFollowUp": "추가 질문",

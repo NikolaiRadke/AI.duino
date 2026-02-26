@@ -316,7 +316,8 @@
     "toggleMode": "Enviar informações da placa",
     "continueInChat": "Continuar no chat",
     "historyNotAvailable": "Histórico de chat não disponível",
-    "toggleCodeMode": "Alternar modo de código (temperatura mais baixa para código mais preciso)"
+    "toggleCodeMode": "Alternar modo de código (temperatura mais baixa para código mais preciso)",
+    "toggleAgenticMode": "Alternar Agentic Coding (a IA lê, modifica e compila os ficheiros do projeto de forma autónoma)"
   },
   "shortcuts": {
     "askFollowUp": "Pergunta de acompanhamento",

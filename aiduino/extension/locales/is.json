@@ -316,7 +316,8 @@
     "toggleMode": "Senda upplýsingar um spjald",
     "continueInChat": "Halda áfram í spjalli",
     "historyNotAvailable": "Spjallsaga ekki tiltæk",
-    "toggleCodeMode": "Skipta um kóðaham (lægra hitastig fyrir nákvæmari kóða)"
+    "toggleCodeMode": "Skipta um kóðaham (lægra hitastig fyrir nákvæmari kóða)",
+    "toggleAgenticMode": "Kveikja/slökkva á Agentic Coding (gervigreind les, breytir og þýðir skrár verkefnisins sjálfkrafa)"
   },
   "shortcuts": {
     "askFollowUp": "Framhaldsspurning",

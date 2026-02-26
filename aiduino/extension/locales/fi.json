@@ -316,7 +316,8 @@
     "toggleMode": "Lähetä kortin tiedot",
     "continueInChat": "Jatka chatissa",
     "historyNotAvailable": "Chat-historia ei saatavilla",
-    "toggleCodeMode": "Vaihda kooditilaa (matalampi lämpötila tarkemmalle koodille)"
+    "toggleCodeMode": "Vaihda kooditilaa (matalampi lämpötila tarkemmalle koodille)",
+    "toggleAgenticMode": "Vaihda Agentic Coding (tekoäly lukee, muokkaa ja kääntää projektitiedostot itsenäisesti)"
   },
   "shortcuts": {
     "askFollowUp": "Jatkokysymys",

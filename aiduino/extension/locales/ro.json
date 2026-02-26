@@ -310,7 +310,8 @@
     "toggleMode": "Trimite informații despre placă",
     "continueInChat": "Continuă în chat",
     "historyNotAvailable": "Istoricul chat-ului nu este disponibil",
-    "toggleCodeMode": "Comutați modul cod (temperatură mai scăzută pentru cod mai precis)"
+    "toggleCodeMode": "Comutați modul cod (temperatură mai scăzută pentru cod mai precis)",
+    "toggleAgenticMode": "Comutați Agentic Coding (AI citește, modifică și compilează autonom fișierele proiectului)"
   },
   "shortcuts": {
     "askFollowUp": "Întrebare de urmărire",

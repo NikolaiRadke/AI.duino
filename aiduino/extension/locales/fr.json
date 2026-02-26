@@ -316,7 +316,8 @@
     "toggleMode": "Envoyer les informations de la carte",
     "continueInChat": "Continuer dans le chat",
     "historyNotAvailable": "Historique du chat non disponible",
-    "toggleCodeMode": "Basculer en mode code (température plus basse pour un code plus précis)"
+    "toggleCodeMode": "Basculer en mode code (température plus basse pour un code plus précis)",
+    "toggleAgenticMode": "Activer/désactiver le Codage Agentique (l'IA lit, modifie et compile vos fichiers de projet de manière autonome)"
   },
   "shortcuts": {
     "askFollowUp": "Question de suivi",

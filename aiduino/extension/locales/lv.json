@@ -316,7 +316,8 @@
     "toggleMode": "Nosūtīt plates informāciju",
     "continueInChat": "Turpināt tērzēšanā",
     "historyNotAvailable": "Tērzēšanas vēsture nav pieejama",
-    "toggleCodeMode": "Pārslēgt koda režīmu (zemāka temperatūra precīzākam kodam)"
+    "toggleCodeMode": "Pārslēgt koda režīmu (zemāka temperatūra precīzākam kodam)",
+    "toggleAgenticMode": "Pārslēgt Agentic Coding (MI autonomi lasa, modificē un kompilē projekta failus)"
   },
   "shortcuts": {
     "askFollowUp": "Papildu jautājums",

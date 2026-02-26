@@ -316,7 +316,8 @@
     "toggleMode": "Send board-information",
     "continueInChat": "Fortsæt i chat",
     "historyNotAvailable": "Chathistorik ikke tilgængelig",
-    "toggleCodeMode": "Skift kodetilstand (lavere temperatur for mere præcis kode)"
+    "toggleCodeMode": "Skift kodetilstand (lavere temperatur for mere præcis kode)",
+    "toggleAgenticMode": "Skift Agentic Coding (AI læser, ændrer og kompilerer dine projektfiler autonomt)"
   },
   "shortcuts": {
     "askFollowUp": "Opfølgende spørgsmål",

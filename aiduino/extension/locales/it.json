@@ -316,7 +316,8 @@
     "toggleMode": "Invia informazioni sulla scheda",
     "continueInChat": "Continua nella chat",
     "historyNotAvailable": "Cronologia chat non disponibile",
-    "toggleCodeMode": "Attiva modalità codice (temperatura più bassa per codice più preciso)"
+    "toggleCodeMode": "Attiva modalità codice (temperatura più bassa per codice più preciso)",
+    "toggleAgenticMode": "Attiva/disattiva Agentic Coding (l'IA legge, modifica e compila i file del progetto in modo autonomo)"
   },
   "shortcuts": {
     "askFollowUp": "Domanda di seguito",

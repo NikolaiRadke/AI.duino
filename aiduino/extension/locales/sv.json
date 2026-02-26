@@ -316,7 +316,8 @@
     "toggleMode": "Skicka kortinformation",
     "continueInChat": "Fortsätt i chatten",
     "historyNotAvailable": "Chatthistorik inte tillgänglig",
-    "toggleCodeMode": "Växla kodläge (lägre temperatur för mer exakt kod)"
+    "toggleCodeMode": "Växla kodläge (lägre temperatur för mer exakt kod)",
+    "toggleAgenticMode": "Växla Agentic Coding (AI läser, ändrar och kompilerar dina projektfiler autonomt)"
   },
   "shortcuts": {
     "askFollowUp": "Följdfråga",

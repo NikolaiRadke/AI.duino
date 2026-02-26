@@ -316,7 +316,8 @@
     "toggleMode": "Send kortinformasjon",
     "continueInChat": "Fortsett i chat",
     "historyNotAvailable": "Chathistorikk ikke tilgjengelig",
-    "toggleCodeMode": "Bytt kodemodus (lavere temperatur for mer presis kode)"
+    "toggleCodeMode": "Bytt kodemodus (lavere temperatur for mer presis kode)",
+    "toggleAgenticMode": "Bytt Agentic Coding (KI leser, endrer og kompilerer prosjektfilene dine autonomt)"
   },
   "shortcuts": {
     "askFollowUp": "Oppfølgingsspørsmål",

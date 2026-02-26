@@ -316,7 +316,8 @@
     "toggleMode": "Siųsti plokštės informaciją",
     "continueInChat": "Tęsti pokalbyje",
     "historyNotAvailable": "Pokalbio istorija nepasiekiama",
-    "toggleCodeMode": "Perjungti kodo režimą (žemesnė temperatūra tikslesniam kodui)"
+    "toggleCodeMode": "Perjungti kodo režimą (žemesnė temperatūra tikslesniam kodui)",
+    "toggleAgenticMode": "Įjungti Agentic Coding (DI savarankiškai skaito, keičia ir kompiliuoja projekto failus)"
   },
   "shortcuts": {
     "askFollowUp": "Papildomas klausimas",

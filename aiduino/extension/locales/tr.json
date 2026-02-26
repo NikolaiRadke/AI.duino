@@ -316,7 +316,8 @@
     "toggleMode": "Kart bilgilerini gönder",
     "continueInChat": "Sohbette devam et",
     "historyNotAvailable": "Sohbet geçmişi mevcut değil",
-    "toggleCodeMode": "Kod modunu değiştir (daha hassas kod için düşük sıcaklık)"
+    "toggleCodeMode": "Kod modunu değiştir (daha hassas kod için düşük sıcaklık)",
+    "toggleAgenticMode": "Agentic Coding'i Değiştir (yapay zeka proje dosyalarını özerk olarak okur, değiştirir ve derler)"
   },
   "shortcuts": {
     "askFollowUp": "Takip sorusu",

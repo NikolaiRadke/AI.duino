@@ -316,7 +316,8 @@
     "toggleMode": "发送开发板信息",
     "continueInChat": "在聊天中继续",
     "historyNotAvailable": "聊天记录不可用",
-    "toggleCodeMode": "切换代码模式（更低的温度以获得更精确的代码）"
+    "toggleCodeMode": "切换代码模式（更低的温度以获得更精确的代码）",
+    "toggleAgenticMode": "切换代理编码（AI自主读取、修改和编译您的项目文件）"
   },
   "shortcuts": {
     "askFollowUp": "追问",

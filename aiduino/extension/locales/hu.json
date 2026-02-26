@@ -316,7 +316,8 @@
     "toggleMode": "Kártyainformációk küldése",
     "continueInChat": "Folytatás a chatben",
     "historyNotAvailable": "Chat-előzmények nem elérhetők",
-    "toggleCodeMode": "Kód mód váltása (alacsonyabb hőmérséklet pontosabb kódhoz)"
+    "toggleCodeMode": "Kód mód váltása (alacsonyabb hőmérséklet pontosabb kódhoz)",
+    "toggleAgenticMode": "Agentic Coding váltása (az AI önállóan olvassa, módosítja és fordítja a projektfájlokat)"
   },
   "shortcuts": {
     "askFollowUp": "Követő kérdés",

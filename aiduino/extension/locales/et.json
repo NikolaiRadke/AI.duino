@@ -316,7 +316,8 @@
     "toggleMode": "Saada plaadi teave",
     "continueInChat": "Jätka vestluses",
     "historyNotAvailable": "Vestluse ajalugu pole saadaval",
-    "toggleCodeMode": "Lülita koodi režiim (madalam temperatuur täpsema koodi jaoks)"
+    "toggleCodeMode": "Lülita koodi režiim (madalam temperatuur täpsema koodi jaoks)",
+    "toggleAgenticMode": "Lülita Agentic Coding (AI loeb, muudab ja kompileerib projektifaile autonoomselt)"
   },
   "shortcuts": {
     "askFollowUp": "Täiendav küsimus",

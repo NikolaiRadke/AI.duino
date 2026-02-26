@@ -316,7 +316,8 @@
     "toggleMode": "Send board information",
     "continueInChat": "Continue in chat",
     "historyNotAvailable": "Chat history not available",
-    "toggleCodeMode": "Toggle code mode (lower temperature for more precise code)"
+    "toggleCodeMode": "Toggle code mode (lower temperature for more precise code)",
+    "toggleAgenticMode": "Toggle Agentic Coding (AI reads, modifies and compiles your project files autonomously)"
   },
   "shortcuts": {
     "askFollowUp": "Follow-up question",

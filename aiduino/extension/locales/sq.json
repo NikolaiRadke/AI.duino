@@ -316,7 +316,8 @@
     "toggleMode": "Dërgo informacione për kartën",
     "continueInChat": "Vazhdo në bisedë",
     "historyNotAvailable": "Historia e bisedës nuk është e disponueshme",
-    "toggleCodeMode": "Ndërro modalitetin e kodit (temperaturë më e ulët për kod më të saktë)"
+    "toggleCodeMode": "Ndërro modalitetin e kodit (temperaturë më e ulët për kod më të saktë)",
+    "toggleAgenticMode": "Ndërro Agentic Coding (AI lexon, modifikon dhe komprimon skedarët e projektit në mënyrë autonome)"
   },
   "shortcuts": {
     "askFollowUp": "Pyetje shtesë",

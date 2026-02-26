@@ -316,7 +316,8 @@
     "toggleMode": "Pošalji informacije o ploči",
     "continueInChat": "Nastavi u chatu",
     "historyNotAvailable": "Historija chata nije dostupna",
-    "toggleCodeMode": "Prebaci režim koda (niža temperatura za precizniji kod)"
+    "toggleCodeMode": "Prebaci režim koda (niža temperatura za precizniji kod)",
+    "toggleAgenticMode": "Prebaci Agentic Coding (AI čita, mijenja i kompajlira datoteke projekta autonomno)"
   },
   "shortcuts": {
     "askFollowUp": "Dodatno pitanje",

@@ -316,7 +316,8 @@
     "toggleMode": "Odoslať informácie o doske",
     "continueInChat": "Pokračovať v chate",
     "historyNotAvailable": "História chatu nie je k dispozícii",
-    "toggleCodeMode": "Prepnúť režim kódu (nižšia teplota pre presnejší kód)"
+    "toggleCodeMode": "Prepnúť režim kódu (nižšia teplota pre presnejší kód)",
+    "toggleAgenticMode": "Prepnúť Agentic Coding (AI autonómne číta, upravuje a kompiluje súbory projektu)"
   },
   "shortcuts": {
     "askFollowUp": "Následná otázka",

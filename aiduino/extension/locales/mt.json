@@ -316,7 +316,8 @@
     "toggleMode": "Ibgħat informazzjoni dwar il-bord",
     "continueInChat": "Kompli fil-chat",
     "historyNotAvailable": "Storja tal-chat mhix disponibbli",
-    "toggleCodeMode": "Aqleb il-modalità tal-kodiċi (temperatura aktar baxxa għal kodiċi aktar preċiż)"
+    "toggleCodeMode": "Aqleb il-modalità tal-kodiċi (temperatura aktar baxxa għal kodiċi aktar preċiż)",
+    "toggleAgenticMode": "Ibdel Agentic Coding (l-AI taqra, tmodifika u tikkompila l-fajls tal-proġett b'mod awtonomu)"
   },
   "shortcuts": {
     "askFollowUp": "Mistoqsija follow-up",
