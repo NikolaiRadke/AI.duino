@@ -132,7 +132,7 @@ Are you really REALLY sure?
 If you installed AI.duino manually into the plugin folder, you need to remove it by yourself. AI.duino has no permissions
 to do that.  
 
-## API Keys
+## API Keys and Local Providers
 
 AI.duino communicates through the API with the AIs. It's impossible to  connect through the web interface, so an 
 API key is **mandatory**. If you already have a monthly paid account, you need to - *sigh* - buy an additional 
@@ -142,7 +142,7 @@ aou have a monthly paid account.
 > [!TIP]
 > You can try **Groq** and **Gemini**: They have a rate for API keys for **free**.  
   
-Required: An API key from either:
+Required: An **API key** from either:
 - Claude: https://console.anthropic.com 
 - ChatGPT: https://platform.openai.com
 - Gemini: https://makersuite.google.com
@@ -157,7 +157,7 @@ Required: An API key from either:
   
 The keys are stored locally and not transmitted.
 
-For Agentic Coding required: a CLI from either:
+For **Agentic Coding** required: a process provider from either:
 - Claude Code: https://code.claude.com/docs
 - Codex CLI (ChatGPT): https://github.com/openai/codex
 - Mistral Vibe: https://docs.mistral.ai/mistral-vibe/introduction
