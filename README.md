@@ -1,7 +1,9 @@
 ![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back_2.png)
 # 🤖 AI.duino - AI assistant for Arduino IDE 2.X
 
-AI.duino integrates the API providers **Claude, ChatGPT, Gemini, Mistral, Perplexity and Cohere, Croq**, aggregator services **OpenRouter and Hugging Face**, and local providers **Claude Code, Codex CLI, LM Studio and Ollama** directly into the Arduino IDE for intelligent code assistance. It also works with **VS Code**. Please use the newest Version to avoid annoying bugs.  
+AI.duino integrates the API providers **Claude, ChatGPT, Gemini, Mistral, Perplexity and Cohere, Croq**, aggregator services **OpenRouter and Hugging Face**, and local providers **LM Studio and Ollama**. It also works with **VS Code**. Please use the newest Version to avoid annoying bugs.  
+
+Since **V2.6.0**, AI.duino supports full Agentic Coding: Unlike traditional AI chat, Agentic Coding allows the AI to directly read, modify and write your project files — no copy-pasting required. The AI can verify its changes by compiling the code and fixing errors autonomously. It supports **Claude Code, Codex CLI, Mistral Vibe, OpenCode, Gemini CLI, Groq Code Ollama Agentic**. All these providers need additional software installed.  
 
 > [!NOTE]
 > Groq ist not Grok! AI.duino is Elon-free! 
@@ -9,7 +11,7 @@ AI.duino integrates the API providers **Claude, ChatGPT, Gemini, Mistral, Perple
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **18.02.2026** V2.6.0 will be released next week!  
+* **26.02.2026** Release **V2.6.0** with Agentic Coding support.  
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
