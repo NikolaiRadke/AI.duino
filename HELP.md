@@ -26,8 +26,8 @@ There are several options that need further explanation. The default values are 
 ### "Groq? Really? AI.duino ist supporting Elon??"  
 ➡️ **No.** **Groq** (with a **q**) is an independent AI infrastructure company founded by former Google engineers. It has no connection to Elon Musk or X/Twitter. **Grok** (with a **k**) is xAI's chatbot. AI.duino uses **Groq** for fast API access to open-source models—a purely technical choice based on performance.
 
-### "And DeepSeek? Can you suppoert it?"  
-➡️ **No.** DeepSeek is not supported due to concerns about censorship and data privacy. AI.duino only integrates providers that meet reasonable standards of transparency and user trust.
+### "And DeepSeek? Can you support it?"  
+➡️ **No.** DeepSeek is not supported due to concerns about censorship and data privacy. AI.duino only integrates providers that meet reasonable standards of transparency and user trust. But you can easily modify your providerConfig.js - maybe with help of the AI of your choice. 
   
 ### "The browser chats have microphone input. Does AI.duino have it?"  
 ➡️ **No.** Sorry, the IDE itself has no permission to access the microphone for security reasons. Use your OS voice input:  
