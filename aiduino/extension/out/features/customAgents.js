@@ -219,6 +219,16 @@ async function executeAgent(agentId, context) {
         'progress.processing',
         agentContext
     );
+
+    // Check if user cancelled due to high cost
+    if (!response) {
+        return;
+    }
+
+    // Check if auto-open in chat is enabled
+    if (await featureUtils.handleAutoOpenInChat(fullPrompt, response, context)) {
+        return; // Skip panel creation
+    }
     
     // Update last used
     agentManager.updateLastUsed(agentId);

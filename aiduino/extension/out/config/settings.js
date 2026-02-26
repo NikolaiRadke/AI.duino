@@ -19,6 +19,7 @@ class SettingsManager {
             codeTemperature: 0.3,
             maxTokensPerRequest: 4000,
             customInstructionsEnabled: true,
+            projectNotesEnabled: true,
             
             // ===== PERFORMANCE =====
             apiTimeout: 60000,                      // 60 seconds
@@ -33,6 +34,9 @@ class SettingsManager {
             defaultModel: 'claude',
             promptHistoryLength: 5,
             cardStyle: 'arduino-green',             // 'arduino-green' or 'white-border'
+            autoOpenInChat: false,
+            showCostWarning: true,                  // Show cost warning before API calls
+            costWarningThreshold: 0.10,             // Threshold in USD for cost warning
 
             // ===== INLINE COMPLETION =====
             inlineCompletionDelay: 500,             // Rate limiting delay (ms)
@@ -77,6 +81,9 @@ class SettingsManager {
             'customInstructionsEnabled',
             'inlineCompletionEnabled',
             'maxCustomAgents',
+            'projectNotesEnabled',
+            'showCostWarning',
+            'costWarningThreshold',
             // Token
             'tokenEstimationMultiplier',
             'tokenEstimationCodeBlock',
@@ -90,6 +97,7 @@ class SettingsManager {
             'chatHistoryLength',
             'promptHistoryLength',
             'cardStyle',
+            'autoOpenInChat',
             // Inline Completion Details
             'inlineCompletionDelay',
             'inlineCompletionContextLines',
@@ -177,7 +185,8 @@ class SettingsManager {
                 temperature: this.get('temperature'),
                 codeTemperature: this.get('codeTemperature'),
                 maxTokensPerRequest: this.get('maxTokensPerRequest'),
-                customInstructionsEnabled: this.get('customInstructionsEnabled')
+                customInstructionsEnabled: this.get('customInstructionsEnabled'),
+                projectNotesEnabled: this.get('projectNotesEnabled')
             },
             performance: {
                 apiTimeout: this.get('apiTimeout'),
@@ -207,7 +216,10 @@ class SettingsManager {
             },
             ui: {
                 promptHistoryLength: this.get('promptHistoryLength'),
-                cardStyle: this.get('cardStyle')
+                cardStyle: this.get('cardStyle'),
+                autoOpenInChat: this.get('autoOpenInChat'),
+                showCostWarning: this.get('showCostWarning'),
+                costWarningThreshold: this.get('costWarningThreshold')
             },
             updates: {
                 autoUpdateConfigs: this.get('autoUpdateConfigs'),

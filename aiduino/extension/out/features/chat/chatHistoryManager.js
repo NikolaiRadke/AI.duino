@@ -1,6 +1,6 @@
 /*
  * AI.duino - Multi-Chat History Manager
- * Copyright 2025 Monster Maker
+ * Copyright 2026 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
  */
@@ -8,7 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const fileManager = require('./fileManager');
+const fileManager = require('../../utils/fileManager')
 
 const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
 const CHATS_DIR = path.join(AIDUINO_DIR, '.aiduino-chats');
@@ -86,9 +86,10 @@ class ChatHistoryManager {
     /**
      * Create new chat with auto-generated title
      * @param {string} firstMessage - First user message for title generation
+     * @param {string|null} workspacePath - Optional workspace path to associate with chat
      * @returns {string|null} New chat ID or null if limit reached
      */
-    createNewChat(firstMessage = '') {
+    createNewChat(firstMessage = '', workspacePath = null) {
         // Check limit
         if (this.index.chats.length >= this.MAX_CHATS) {
             return null;
@@ -106,7 +107,8 @@ class ChatHistoryManager {
             title: title,
             created: Date.now(),
             lastUpdated: Date.now(),
-            messageCount: 0
+            messageCount: 0,
+            workspacePath: workspacePath  // Associate chat with project
         };
 
         // Add to index
@@ -115,11 +117,10 @@ class ChatHistoryManager {
         this.saveIndex();
 
         // Create empty chat file
-        this.saveChatFile(chatId, []);
+        this.saveChatFile(chatId, [], workspacePath);
 
         return chatId;
     }
-
     /**
      * Generate chat title from first message
      * @param {string} message - First message
@@ -271,6 +272,33 @@ class ChatHistoryManager {
     }
 
     /**
+     * Remove last message if it matches a prefix
+     * @param {string} prefix - Prefix to match
+     * @returns {boolean} True if message was removed
+     */
+    removeLastMessageIfStartsWith(prefix) {
+        if (!this.index.activeChat) return false;
+        
+        const chatId = this.index.activeChat;
+        const messages = this.loadChatFile(chatId);
+        
+        if (messages.length > 0 && messages[messages.length - 1].text?.startsWith(prefix)) {
+            messages.pop();
+            
+            // Update metadata
+            const chatMeta = this.index.chats.find(c => c.id === chatId);
+            if (chatMeta) {
+                chatMeta.messageCount = messages.length;
+            }
+            
+            this.saveChatFile(chatId, messages);
+            this.saveIndex();
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Clear active chat history
      */
     clearActiveChat() {
@@ -314,15 +342,31 @@ class ChatHistoryManager {
      * Save chat messages to file
      * @param {string} chatId - Chat ID
      * @param {Array} messages - Messages to save
+     * @param {string|null} workspacePath - Optional workspace path (only set on create)
      * @returns {boolean} Success status
      */
-    saveChatFile(chatId, messages) {
+    saveChatFile(chatId, messages, workspacePath = null) {
         const chatFile = path.join(CHATS_DIR, `${chatId}.json`);
         
+        // Preserve existing data (sessions, workspacePath) when updating
+        let existingData = {};
+        if (fileManager.fileExists(chatFile)) {
+            try {
+                const content = fileManager.safeReadFile(chatFile);
+                existingData = JSON.parse(content);
+            } catch (e) { /* ignore */ }
+        }
+        
         const data = {
+            ...existingData,
             id: chatId,
             messages: messages
         };
+        
+        // Set workspacePath if provided (only on create)
+        if (workspacePath !== null) {
+            data.workspacePath = workspacePath;
+        }
 
         const content = JSON.stringify(data, null, 2);
         return fileManager.atomicWrite(chatFile, content, { mode: 0o600 });
@@ -370,6 +414,33 @@ class ChatHistoryManager {
             return data.sessions || {};
         } catch (error) {
             return {};
+        }
+    }
+
+    /**
+     * Get workspace path for a chat
+     * @param {string} chatId - Chat ID
+     * @returns {string|null} Workspace path or null
+     */
+    getWorkspacePath(chatId) {
+        // First check index
+        const chatMeta = this.index.chats.find(c => c.id === chatId);
+        if (chatMeta?.workspacePath) {
+            return chatMeta.workspacePath;
+        }
+        
+        // Fallback: check chat file
+        const chatFile = path.join(CHATS_DIR, `${chatId}.json`);
+        if (!fileManager.fileExists(chatFile)) {
+            return null;
+        }
+
+        try {
+            const content = fileManager.safeReadFile(chatFile);
+            const data = JSON.parse(content);
+            return data.workspacePath || null;
+        } catch (error) {
+            return null;
         }
     }
 }

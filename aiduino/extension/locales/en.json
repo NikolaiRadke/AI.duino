@@ -68,7 +68,12 @@
     "noErrorInClipboard": "No error information found in clipboard. Please click 'Copy error message' in Arduino IDE first.",
     "settingsSaved": "Settings saved",
     "settingsReset": "Settings reset",
-    "detectingModels": "Detecting available models for {0}..."
+    "detectingModels": "Detecting available models for {0}...",
+    "promptCreateNotes": "💡 Create NOTES.ino to explain your project to the AI?",
+    "notesCreated": "✅ NOTES.ino created!",
+    "highCostWarning": "Estimated cost (without response): ${0} with {1}. Continue?",
+    "codeApplied": "Code has been applied",
+    "nodePathSaved": "Node.js path has been saved"
   },
   "buttons": {
     "chooseModel": "Choose AI Model",
@@ -106,7 +111,11 @@
     "newInput": "New input",
     "delete": "Delete",
     "resetAll": "Reset All",
-    "remove": "Remove"
+    "remove": "Remove",
+    "continue": "Continue",
+    "apply": "Apply",
+    "configureNodePath": "Configure Node.js Path",
+    "enterNodePath": "Enter Node.js v20+ Path"
   },
   "descriptions": {
     "improveCodeSelected": "Optimize selected code",
@@ -528,7 +537,11 @@
       "cardStyle": "Card Style",
       "arduino-green": "Arduino Green Background",
       "white-border": "White Background with Green Border",
-      "codeTemperature": "Code Temperature"
+      "codeTemperature": "Code Temperature",
+      "projectNotesEnabled": "Enable project notes",
+      "autoOpenInChat": "Auto-open in chat",
+      "showCostWarning": "Show cost warning",
+      "costWarningThreshold": "Cost threshold (USD)"
     },
     "descriptions": {
       "temperature": "AI creativity (0 = deterministic, 1 = creative)",
@@ -551,7 +564,11 @@
       "chatHistoryLength": "Number of messages in chat history (pairs of user/AI)",
       "promptHistoryLength": "Number of prompts in history",
       "cardStyle": "Visual style for chat and agent selection cards",
-      "codeTemperature": "Temperature for code generation (0 = precise, 1 = creative). Used for code features and in chat code mode."
+      "codeTemperature": "Temperature for code generation (0 = precise, 1 = creative). Used for code features and in chat code mode.",
+      "projectNotesEnabled": "Enable project notes (NOTES.ino for project-specific AI instructions)",
+      "autoOpenInChat": "Automatically open AI results in chat instead of output panel",
+      "showCostWarning": "Show warning before expensive API requests",
+      "costWarningThreshold": "Threshold in USD for cost warning (e.g., 0.10 = 10 cents)"
     }
   },
   "uninstall": {
@@ -676,5 +693,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI Explanation"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Project-specific instructions"
   }
 }

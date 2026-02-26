@@ -65,10 +65,15 @@
     "inlineCompletionDisabled": "Completamento inline disattivato",
     "operationAlreadyRunning": "Operazione già in esecuzione! Attendere prego...",
     "contextAttachedInfo": "🔎 Contesto allegato - valido solo per il prossimo messaggio. Usa '🔄 Ultimo contesto' per riutilizzare.",
-    "noErrorInClipboard": "Nessuna informazione di errore trovata negli appunti. Si prega di fare clic prima su 'Copia messaggio di errore' nell'IDE Arduino.",
+    "noErrorInClipboard": "Nessuna informazione di errore trovata negli appunti. Fare prima clic su 'Copia messaggio di errore' nell'IDE Arduino.",
     "settingsSaved": "Impostazioni salvate",
     "settingsReset": "Impostazioni ripristinate",
-    "detectingModels": "Rilevamento modelli disponibili per {0}..."
+    "detectingModels": "Rilevamento modelli disponibili per {0}...",
+    "promptCreateNotes": "💡 Creare NOTES.ino per spiegare il progetto all'IA?",
+    "notesCreated": "✅ NOTES.ino creato!",
+    "highCostWarning": "Costo stimato (senza risposta): ${0} con {1}. Continuare?",
+    "codeApplied": "Codice applicato",
+    "nodePathSaved": "Percorso Node.js salvato"
   },
   "buttons": {
     "chooseModel": "Scegli modello IA",
@@ -106,7 +111,11 @@
     "newInput": "Nuovo input",
     "delete": "Elimina",
     "resetAll": "Ripristina tutto",
-    "remove": "Rimuovi"
+    "remove": "Rimuovi",
+    "continue": "Continua",
+    "apply": "Applica",
+    "configureNodePath": "Configura percorso Node.js",
+    "enterNodePath": "Inserisci percorso Node.js v20+"
   },
   "descriptions": {
     "improveCodeSelected": "Ottimizza codice selezionato",
@@ -370,16 +379,16 @@
   },
   "about": {
     "tagline": "Sviluppo Arduino potenziato dall'IA",
-    "features": "Caratteristiche",
+    "features": "Funzionalità",
     "integration": "Integrazione",
     "feature1": "Miglioramento e ottimizzazione del codice",
-    "feature2": "Spiegazione errori in linguaggio semplice",
-    "feature3": "Commenti automatici del codice",
+    "feature2": "Spiegazione degli errori in linguaggio semplice",
+    "feature3": "Commento automatico del codice",
     "feature4": "Aiuto debug e diagnostica hardware",
-    "feature5": "Tracciamento uso token",
+    "feature5": "Monitoraggio utilizzo token",
     "feature6": "Aiuto offline per problemi di connessione",
-    "feature7": "Architettura modulare per facile estensione",
-    "feature8": "Supporto multilingua",
+    "feature7": "Architettura modulare per estensione facile",
+    "feature8": "Supporto multilingue",
     "quickstart": "Avvio rapido",
     "step1": "Seleziona codice Arduino",
     "step2": "Premi",
@@ -441,7 +450,11 @@
       "cardStyle": "Stile scheda",
       "arduino-green": "Sfondo verde Arduino",
       "white-border": "Sfondo bianco con bordo verde",
-      "codeTemperature": "Temperatura codice"
+      "codeTemperature": "Temperatura codice",
+      "projectNotesEnabled": "Abilita note progetto",
+      "autoOpenInChat": "Apri automaticamente nella chat",
+      "showCostWarning": "Mostra avviso costi",
+      "costWarningThreshold": "Soglia costi (USD)"
     },
     "descriptions": {
       "temperature": "Creatività dell'IA (0 = deterministico, 1 = creativo)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Numero di messaggi nella cronologia chat (coppie utente/IA)",
       "promptHistoryLength": "Numero di prompt nella cronologia",
       "cardStyle": "Stile visivo per le schede di chat e selezione agenti",
-      "codeTemperature": "Temperatura per la generazione di codice (0 = preciso, 1 = creativo). Utilizzata per le funzioni di codice e in modalità chat codice."
+      "codeTemperature": "Temperatura per la generazione di codice (0 = preciso, 1 = creativo). Utilizzata per le funzioni di codice e in modalità chat codice.",
+      "projectNotesEnabled": "Abilita note progetto (NOTES.ino per istruzioni IA specifiche del progetto)",
+      "autoOpenInChat": "Aprire automaticamente i risultati IA nella chat invece del pannello di output",
+      "showCostWarning": "Mostrare avviso prima di richieste API costose",
+      "costWarningThreshold": "Soglia in USD per avviso costi (es. 0.10 = 10 centesimi)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "Spiegazione IA"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Istruzioni specifiche del progetto"
   }
 }

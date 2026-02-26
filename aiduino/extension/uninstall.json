@@ -1,0 +1,48 @@
+{
+  "name": "AI.duino",
+  "version": "2.6.0",
+  "directories": [
+    "~/.aiduino"
+  ],
+  "files": [
+    "{arduinoIDE}/extensions/aiduino.vsix",
+    "{arduinoIDE}/deployedPlugins/aiduino"
+  ],
+  "globalState": [
+    "monstermaker.aiduino"
+  ],
+  "settings": [
+    "aiduino.language",
+    "aiduino.autoDetectErrors",
+    "aiduino.defaultModel",
+    "aiduino.maxTokensPerRequest",
+    "aiduino.temperature",
+    "aiduino.codeTemperature",
+    "aiduino.customInstructionsEnabled",
+    "aiduino.inlineCompletionEnabled",
+    "aiduino.maxCustomAgents",
+    "aiduino.projectNotesEnabled",
+    "aiduino.tokenEstimationMultiplier",
+    "aiduino.tokenEstimationCodeBlock",
+    "aiduino.tokenEstimationSpecialChars",
+    "aiduino.apiTimeout",
+    "aiduino.apiMaxRetries",
+    "aiduino.maxChats",
+    "aiduino.maxMessagesPerChat",
+    "aiduino.chatHistoryLength",
+    "aiduino.promptHistoryLength",
+    "aiduino.cardStyle",
+    "aiduino.autoOpenInChat",
+    "aiduino.showCostWarning",
+    "aiduino.costWarningThreshold",
+    "aiduino.inlineCompletionDelay",
+    "aiduino.inlineCompletionContextLines",
+    "aiduino.inlineCompletionMinCommentLength",
+    "aiduino.inlineCompletionMaxLinesComment",
+    "aiduino.inlineCompletionMaxLinesSimple"
+  ],
+  "confirm": {
+    "enabled": true,
+    "double": true
+  }
+}

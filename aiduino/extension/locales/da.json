@@ -65,10 +65,15 @@
     "inlineCompletionDisabled": "Inline-fuldførelse deaktiveret",
     "operationAlreadyRunning": "Operationen kører allerede! Vent venligst...",
     "contextAttachedInfo": "🔎 Kontekst tilføjet - gælder kun for næste besked. Brug '🔄 Sidste kontekst' til at genbruge.",
-    "noErrorInClipboard": "Ingen fejlinformation fundet i udklipsholderen. Klik venligst først på 'Kopier fejlmeddelelse' i Arduino IDE.",
+    "noErrorInClipboard": "Ingen fejlinformation fundet i udklipsholder. Klik venligst først på 'Kopier fejlmeddelelse' i Arduino IDE.",
     "settingsSaved": "Indstillinger gemt",
     "settingsReset": "Indstillinger nulstillet",
-    "detectingModels": "Registrerer tilgængelige modeller for {0}..."
+    "detectingModels": "Registrerer tilgængelige modeller for {0}...",
+    "promptCreateNotes": "💡 Opret NOTES.ino for at forklare dit projekt til AI'en?",
+    "notesCreated": "✅ NOTES.ino oprettet!",
+    "highCostWarning": "Anslåede omkostninger (uden svar): ${0} med {1}. Fortsæt?",
+    "codeApplied": "Kode er blevet anvendt",
+    "nodePathSaved": "Node.js-sti er blevet gemt"
   },
   "buttons": {
     "chooseModel": "Vælg AI Model",
@@ -106,7 +111,11 @@
     "newInput": "Ny indtastning",
     "delete": "Slet",
     "resetAll": "Nulstil alle",
-    "remove": "Fjern"
+    "remove": "Fjern",
+    "continue": "Fortsæt",
+    "apply": "Anvend",
+    "configureNodePath": "Konfigurer Node.js-sti",
+    "enterNodePath": "Indtast Node.js v20+ sti"
   },
   "descriptions": {
     "improveCodeSelected": "Optimere valgte kode",
@@ -373,12 +382,12 @@
     "features": "Funktioner",
     "integration": "Integration",
     "feature1": "Kodeforbedring og optimering",
-    "feature2": "Fejlforklaring på almindeligt sprog",
-    "feature3": "Automatisk kode kommentering",
-    "feature4": "Debug hjælp og hardware diagnostik",
-    "feature5": "Token forbrugs sporing",
+    "feature2": "Fejlforklaring på klart sprog",
+    "feature3": "Automatisk kodekommentering",
+    "feature4": "Debughjælp og hardwarediagnostik",
+    "feature5": "Sporing af tokenforbrug",
     "feature6": "Offline hjælp til forbindelsesproblemer",
-    "feature7": "Modulær arkitektur for nem udvidelse",
+    "feature7": "Modulær arkitektur til nem udvidelse",
     "feature8": "Flersproget support",
     "quickstart": "Hurtig Start",
     "step1": "Vælg Arduino kode",
@@ -441,7 +450,11 @@
       "cardStyle": "Kort stil",
       "arduino-green": "Arduino grøn baggrund",
       "white-border": "Hvid baggrund med grøn kant",
-      "codeTemperature": "Kodetemperatur"
+      "codeTemperature": "Kodetemperatur",
+      "projectNotesEnabled": "Aktiver projektnoter",
+      "autoOpenInChat": "Åbn automatisk i chat",
+      "showCostWarning": "Vis omkostningsadvarsel",
+      "costWarningThreshold": "Omkostningstærskel (USD)"
     },
     "descriptions": {
       "temperature": "AI's kreativitet (0 = deterministisk, 1 = kreativ)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Antal beskeder i chat historik (par af bruger/AI)",
       "promptHistoryLength": "Antal prompts i historik",
       "cardStyle": "Visuel stil for chat og agent valgkort",
-      "codeTemperature": "Temperatur til kodegenerering (0 = præcis, 1 = kreativ). Bruges til kodefunktioner og i chat-kodetilstand."
+      "codeTemperature": "Temperatur til kodegenerering (0 = præcis, 1 = kreativ). Bruges til kodefunktioner og i chat-kodetilstand.",
+      "projectNotesEnabled": "Aktiver projektnoter (NOTES.ino til projektspecifikke AI-instruktioner)",
+      "autoOpenInChat": "Åbn automatisk AI-resultater i chat i stedet for outputpanel",
+      "showCostWarning": "Vis advarsel før dyre API-anmodninger",
+      "costWarningThreshold": "Tærskel i USD for omkostningsadvarsel (f.eks. 0.10 = 10 cent)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI forklaring"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Projektspecifikke instruktioner"
   }
 }

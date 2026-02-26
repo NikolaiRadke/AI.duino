@@ -65,10 +65,15 @@
     "inlineCompletionDisabled": "Inline doplňování deaktivováno",
     "operationAlreadyRunning": "Operace již běží! Prosím počkej...",
     "contextAttachedInfo": "🔎 Kontext přidán - platí pouze pro další zprávu. Pro opětovné použití využij '🔄 Poslední kontext'.",
-    "noErrorInClipboard": "Ve schránce nebyla nalezena žádná chybová informace. Prosím nejprve klikni v Arduino IDE na 'Kopírovat chybovou zprávu'.",
+    "noErrorInClipboard": "V schránce nebyly nalezeny žádné informace o chybě. Nejprve klikněte na 'Kopírovat chybovou zprávu' v Arduino IDE.",
     "settingsSaved": "Nastavení uloženo",
     "settingsReset": "Nastavení resetováno",
-    "detectingModels": "Zjišťování dostupných modelů pro {0}..."
+    "detectingModels": "Zjišťování dostupných modelů pro {0}...",
+    "promptCreateNotes": "💡 Vytvořit NOTES.ino pro vysvětlení projektu AI?",
+    "notesCreated": "✅ NOTES.ino vytvořen!",
+    "highCostWarning": "Odhadované náklady (bez odpovědi): ${0} s {1}. Pokračovat?",
+    "codeApplied": "Kód byl použit",
+    "nodePathSaved": "Cesta k Node.js byla uložena"
   },
   "buttons": {
     "chooseModel": "Vybrat model AI",
@@ -106,7 +111,11 @@
     "newInput": "Nový vstup",
     "delete": "Smazat",
     "resetAll": "Resetovat vše",
-    "remove": "Odebrat"
+    "remove": "Odebrat",
+    "continue": "Pokračovat",
+    "apply": "Použít",
+    "configureNodePath": "Konfigurovat cestu k Node.js",
+    "enterNodePath": "Zadat cestu k Node.js v20+"
   },
   "descriptions": {
     "improveCodeSelected": "Optimalizovat vybraný kód",
@@ -373,13 +382,13 @@
     "features": "Funkce",
     "integration": "Integrace",
     "feature1": "Vylepšení a optimalizace kódu",
-    "feature2": "Vysvětlení chyb srozumitelným jazykem",
+    "feature2": "Vysvětlení chyb jednoduchým jazykem",
     "feature3": "Automatické komentování kódu",
     "feature4": "Pomoc s laděním a diagnostika hardwaru",
     "feature5": "Sledování využití tokenů",
-    "feature6": "Offline pomoc při problémech s připojením",
+    "feature6": "Offline pomoc pro problémy s připojením",
     "feature7": "Modulární architektura pro snadné rozšíření",
-    "feature8": "Podpora více jazyků",
+    "feature8": "Vícejazyčná podpora",
     "quickstart": "Rychlý start",
     "step1": "Vyberte Arduino kód",
     "step2": "Stiskněte",
@@ -441,7 +450,11 @@
       "cardStyle": "Styl karet",
       "arduino-green": "Arduino zelené pozadí",
       "white-border": "Bílé pozadí se zeleným okrajem",
-      "codeTemperature": "Teplota kódu"
+      "codeTemperature": "Teplota kódu",
+      "projectNotesEnabled": "Povolit poznámky k projektu",
+      "autoOpenInChat": "Automaticky otevřít v chatu",
+      "showCostWarning": "Zobrazit varování nákladů",
+      "costWarningThreshold": "Práh nákladů (USD)"
     },
     "descriptions": {
       "temperature": "Kreativita AI (0 = deterministické, 1 = kreativní)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Počet zpráv v historii chatu (páry uživatel/AI)",
       "promptHistoryLength": "Počet promptů v historii",
       "cardStyle": "Vizuální styl pro chat a výběr karet agentů",
-      "codeTemperature": "Teplota pro generování kódu (0 = přesné, 1 = kreativní). Používá se pro funkce kódu a v režimu chatu s kódem."
+      "codeTemperature": "Teplota pro generování kódu (0 = přesné, 1 = kreativní). Používá se pro funkce kódu a v režimu chatu s kódem.",
+      "projectNotesEnabled": "Povolit poznámky k projektu (NOTES.ino pro AI instrukce specifické pro projekt)",
+      "autoOpenInChat": "Automaticky otevřít AI výsledky v chatu místo ve výstupním panelu",
+      "showCostWarning": "Zobrazit varování před nákladnými API požadavky",
+      "costWarningThreshold": "Práh v USD pro varování nákladů (např. 0.10 = 10 centů)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI vysvětlení"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Instrukce specifické pro projekt"
   }
 }

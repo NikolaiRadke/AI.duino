@@ -78,6 +78,16 @@ async function debugHelp(context) {
                 context,
                 { useCodeTemperature: true }
             );
+
+            // Check if user cancelled due to high cost
+            if (!response) {
+                return null;
+            }
+
+            // Check if auto-open in chat is enabled
+            if (await featureUtils.handleAutoOpenInChat(prompt, response, context)) {
+                return null; // Skip panel creation
+            }
             
             // Process response with code blocks
             const { processedHtml, codeBlocks } = featureUtils.processAiCodeBlocksWithEventDelegation(

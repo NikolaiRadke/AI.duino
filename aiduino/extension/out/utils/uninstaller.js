@@ -3,6 +3,8 @@
  * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
+ * 
+ * Reads uninstall.json for declarative uninstall configuration
  */
 
 const vscode = require('vscode');
@@ -11,92 +13,144 @@ const path = require('path');
 const os = require('os');
 
 /**
- * Uninstall AI.duino with double confirmation
- * Removes all files, directories and settings
+ * Load uninstall configuration from uninstall.json
+ * @returns {Object} Uninstall configuration
+ */
+function loadUninstallConfig() {
+    const configPath = path.join(__dirname, '..', '..', 'uninstall.json');
+    
+    if (!fs.existsSync(configPath)) {
+        throw new Error('uninstall.json not found');
+    }
+    
+    return JSON.parse(fs.readFileSync(configPath, 'utf8'));
+}
+
+/**
+ * Resolve platform-specific Arduino IDE directory
+ * @returns {string} Arduino IDE directory path
+ */
+function getArduinoIDEDir() {
+    const homeDir = os.homedir();
+    const platform = process.platform;
+    
+    if (platform === 'win32') {
+        return path.join(homeDir, 'AppData', 'Roaming', 'Arduino IDE');
+    } else if (platform === 'darwin') {
+        return path.join(homeDir, 'Library', 'Application Support', 'Arduino IDE');
+    } else {
+        return path.join(homeDir, '.arduinoIDE');
+    }
+}
+
+/**
+ * Resolve path placeholders
+ * @param {string} pathStr - Path with placeholders
+ * @returns {string} Resolved path
+ */
+function resolvePath(pathStr) {
+    const homeDir = os.homedir();
+    const arduinoIDE = getArduinoIDEDir();
+    
+    return pathStr
+        .replace(/^~/, homeDir)
+        .replace(/\{arduinoIDE\}/g, arduinoIDE)
+        .replace(/\{home\}/g, homeDir);
+}
+
+/**
+ * Get all paths that will be deleted from uninstall.json
+ * @returns {Array} Array of {path, type, exists} objects
+ */
+function getPathsToDelete() {
+    const config = loadUninstallConfig();
+    const paths = [];
+    
+    // Add directories
+    if (config.directories) {
+        for (const dir of config.directories) {
+            const resolved = resolvePath(dir);
+            paths.push({
+                path: resolved,
+                type: 'directory',
+                exists: fs.existsSync(resolved)
+            });
+        }
+    }
+    
+    // Add files
+    if (config.files) {
+        for (const file of config.files) {
+            const resolved = resolvePath(file);
+            paths.push({
+                path: resolved,
+                type: 'file',
+                exists: fs.existsSync(resolved)
+            });
+        }
+    }
+    
+    return paths;
+}
+
+/**
+ * Uninstall AI.duino using configuration from uninstall.json
  * @param {Object} context - Extension context with dependencies
  */
 async function uninstallAiduino(context) {
     const { t, globalContext } = context;
+    const config = loadUninstallConfig();
+    
+    // Check if confirmation is required
+    const confirmEnabled = config.confirm?.enabled !== false;
+    const doubleConfirm = config.confirm?.double === true;
+    
+    if (!confirmEnabled) {
+        await performUninstall(config, globalContext, t);
+        return;
+    }
     
     // First confirmation - show what will be deleted
     const pathsToDelete = getPathsToDelete();
-    const fileList = pathsToDelete.map(p => `  • ${p.path}`).join('\n');
+    const fileList = pathsToDelete
+        .filter(p => p.exists)
+        .map(p => `  • ${p.path}`)
+        .join('\n');
     
     const firstChoice = await vscode.window.showWarningMessage(
         `${t('uninstall.warning')}\n\n${t('uninstall.willDelete')}:\n\n${fileList}\n\n${t('uninstall.cannotUndo')}`,
         { modal: true },
-        t('uninstall.uninstall'),
+        t('uninstall.uninstall')
     );
     
     if (firstChoice !== t('uninstall.uninstall')) {
         return; // User cancelled
     }
     
-    // Second confirmation - final warning
-    const secondChoice = await vscode.window.showWarningMessage(
-        t('uninstall.finalWarning'),
-        { modal: true },
-        t('uninstall.yesDelete')
-    );
-    
-    if (secondChoice !== t('uninstall.yesDelete')) {
-        return; // User cancelled
+    // Second confirmation if enabled
+    if (doubleConfirm) {
+        const secondChoice = await vscode.window.showWarningMessage(
+            t('uninstall.finalWarning'),
+            { modal: true },
+            t('uninstall.yesDelete')
+        );
+        
+        if (secondChoice !== t('uninstall.yesDelete')) {
+            return; // User cancelled
+        }
     }
     
     // Execute uninstall
-    await performUninstall(pathsToDelete, globalContext, t);
+    await performUninstall(config, globalContext, t);
 }
 
 /**
- * Get all paths that will be deleted (platform-specific)
- * @returns {Array} Array of {path, exists} objects
- */
-function getPathsToDelete() {
-    const homeDir = os.homedir();
-    const platform = process.platform;
-    
-    // Platform-specific Arduino IDE directory
-    let arduinoIdeDir;
-    if (platform === 'win32') {
-        // Windows: %APPDATA%\Arduino IDE
-        arduinoIdeDir = path.join(homeDir, 'AppData', 'Roaming', 'Arduino IDE');
-    } else if (platform === 'darwin') {
-        // macOS: ~/Library/Application Support/Arduino IDE
-        arduinoIdeDir = path.join(homeDir, 'Library', 'Application Support', 'Arduino IDE');
-    } else {
-        // Linux: ~/.arduinoIDE
-        arduinoIdeDir = path.join(homeDir, '.arduinoIDE');
-    }
-    
-    const paths = [
-        {
-            path: path.join(homeDir, '.aiduino'),
-            description: 'API Keys, Settings, Chats, Token Stats'
-        },
-        {
-            path: path.join(arduinoIdeDir, 'extensions', 'aiduino.vsix'),
-            description: 'Extension Package'
-        },
-        {
-            path: path.join(arduinoIdeDir, 'deployedPlugins', 'aiduino'),
-            description: 'Deployed Plugin Files'
-        }
-    ];
-    
-    // Check which paths exist
-    return paths.map(p => ({
-        ...p,
-        exists: fs.existsSync(p.path)
-    }));
-}
-
-/**
- * Perform the actual uninstall
- * @param {Array} paths - Paths to delete
+ * Perform the actual uninstall based on configuration
+ * @param {Object} config - Uninstall configuration from JSON
  * @param {Object} globalContext - VS Code context
  * @param {Function} t - Translation function
  */
-async function performUninstall(paths, globalContext, t) {
+async function performUninstall(config, globalContext, t) {
     return vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         title: t('uninstall.removing'),
@@ -108,9 +162,13 @@ async function performUninstall(paths, globalContext, t) {
             notFound: []
         };
         
+        const pathsToDelete = getPathsToDelete();
+        
         // Delete directories and files
-        for (const item of paths) {
-            progress.report({ message: `${t('uninstall.deleting')}: ${path.basename(item.path)}` });
+        for (const item of pathsToDelete) {
+            progress.report({ 
+                message: `${t('uninstall.deleting')}: ${path.basename(item.path)}` 
+            });
             
             if (!item.exists) {
                 results.notFound.push(item.path);
@@ -118,7 +176,7 @@ async function performUninstall(paths, globalContext, t) {
             }
             
             try {
-                if (fs.statSync(item.path).isDirectory()) {
+                if (item.type === 'directory' || fs.statSync(item.path).isDirectory()) {
                     fs.rmSync(item.path, { recursive: true, force: true });
                 } else {
                     fs.unlinkSync(item.path);
@@ -130,8 +188,16 @@ async function performUninstall(paths, globalContext, t) {
         }
         
         // Clear GlobalState
-        progress.report({ message: t('uninstall.clearingSettings') });
-        await clearGlobalState(globalContext);
+        if (config.globalState && config.globalState.length > 0) {
+            progress.report({ message: t('uninstall.clearingSettings') });
+            await clearGlobalState(config.globalState, globalContext);
+        }
+        
+        // Clear VS Code Settings
+        if (config.settings && config.settings.length > 0) {
+            progress.report({ message: t('uninstall.clearingSettings') });
+            await clearVSCodeSettings(config.settings);
+        }
         
         // Show results
         showUninstallResults(results, t);
@@ -139,79 +205,45 @@ async function performUninstall(paths, globalContext, t) {
 }
 
 /**
- * Clear all GlobalState settings from global-state.json
+ * Clear GlobalState settings from global-state.json
+ * @param {Array} stateKeys - Keys to remove from global state
  * @param {Object} globalContext - VS Code context
  */
-async function clearGlobalState(globalContext) {
-    const platform = process.platform;
-    const homeDir = os.homedir();
-    
-    let arduinoIdeDir;
-    if (platform === 'win32') {
-        arduinoIdeDir = path.join(homeDir, 'AppData', 'Roaming', 'Arduino IDE');
-    } else if (platform === 'darwin') {
-        arduinoIdeDir = path.join(homeDir, 'Library', 'Application Support', 'Arduino IDE');
-    } else {
-        arduinoIdeDir = path.join(homeDir, '.arduinoIDE');
-    }
-    
+async function clearGlobalState(stateKeys, globalContext) {
+    const arduinoIdeDir = getArduinoIDEDir();
     const globalStateFile = path.join(arduinoIdeDir, 'plugin-storage', 'global-state.json');
     
     try {
         if (fs.existsSync(globalStateFile)) {
             const data = JSON.parse(fs.readFileSync(globalStateFile, 'utf8'));
-            delete data['monstermaker.aiduino'];
+            
+            for (const key of stateKeys) {
+                delete data[key];
+            }
+            
             fs.writeFileSync(globalStateFile, JSON.stringify(data), 'utf8');
         }
     } catch (error) {
         // Silent fail - can't do anything if file doesn't exist or is locked
     }
-
-    // Also clear VS Code workspace configuration settings
-    await clearVSCodeSettings();
 }
 
-
 /**
- * Clear all aiduino.* settings from VS Code workspace configuration
+ * Clear VS Code workspace configuration settings
+ * @param {Array} settingKeys - Setting keys to remove
  */
-async function clearVSCodeSettings() {
-    const config = vscode.workspace.getConfiguration('aiduino');
+async function clearVSCodeSettings(settingKeys) {
+    // Extract prefix from first key (e.g., "aiduino" from "aiduino.language")
+    const prefix = settingKeys[0]?.split('.')[0];
+    if (!prefix) return;
     
-    // List of all VS Code configuration keys used by aiduino
-    const configKeys = [
-        'language',
-        'autoDetectErrors', 
-        'defaultModel',
-        'maxTokensPerRequest',
-        'temperature',
-        'codeTemperature',
-        'customInstructionsEnabled',
-        'inlineCompletionEnabled',
-        'maxCustomAgents',
-        // Token
-        'tokenEstimationMultiplier',
-        'tokenEstimationCodeBlock',
-        'tokenEstimationSpecialChars',
-        // Performance
-        'apiTimeout',
-        'apiMaxRetries',
-        // Chat
-        'maxChats',
-        'maxMessagesPerChat',
-        'chatHistoryLength',
-        'promptHistoryLength',
-        'cardStyle',
-        // Inline Completion Details
-        'inlineCompletionDelay',
-        'inlineCompletionContextLines',
-        'inlineCompletionMinCommentLength',
-        'inlineCompletionMaxLinesComment',
-        'inlineCompletionMaxLinesSimple'
-    ];
+    const config = vscode.workspace.getConfiguration(prefix);
     
     // Remove all settings from both User and Workspace
-    for (const key of configKeys) {
+    for (const fullKey of settingKeys) {
+        // Extract just the setting name without prefix
+        const key = fullKey.replace(`${prefix}.`, '');
+        
         try {
             await config.update(key, undefined, vscode.ConfigurationTarget.Global);
             await config.update(key, undefined, vscode.ConfigurationTarget.Workspace);
@@ -220,6 +252,7 @@ async function clearVSCodeSettings() {
         }
     }
 }
+
 /**
  * Show uninstall results to user
  * @param {Object} results - Results from uninstall operation
@@ -254,20 +287,29 @@ function showUninstallResults(results, t) {
  * @returns {boolean} True if likely has permissions
  */
 function checkPermissions() {
-    const homeDir = os.homedir();
-    const testPath = path.join(homeDir, '.aiduino');
-    
-    if (!fs.existsSync(testPath)) {
-        return true; // Nothing to delete
-    }
-    
     try {
+        const config = loadUninstallConfig();
+        if (!config.directories || config.directories.length === 0) {
+            return true;
+        }
+        
+        const firstDir = resolvePath(config.directories[0]);
+        
+        if (!fs.existsSync(firstDir)) {
+            return true; // Nothing to delete
+        }
+        
         // Try to access the directory
-        fs.accessSync(testPath, fs.constants.W_OK);
+        fs.accessSync(firstDir, fs.constants.W_OK);
         return true;
     } catch (error) {
         return false;
     }
 }
 
-module.exports = { uninstallAiduino, getPathsToDelete, checkPermissions };
+module.exports = { 
+    uninstallAiduino, 
+    getPathsToDelete, 
+    checkPermissions,
+    loadUninstallConfig 
+};

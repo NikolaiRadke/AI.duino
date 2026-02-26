@@ -65,10 +65,15 @@
     "inlineCompletionDisabled": "인라인 자동완성 비활성화됨",
     "operationAlreadyRunning": "작업이 이미 실행 중입니다! 잠시 기다려주세요...",
     "contextAttachedInfo": "🔎 컨텍스트가 추가되었습니다 - 다음 메시지에만 적용됩니다. 재사용하려면 '🔄 마지막 컨텍스트'를 사용하세요.",
-    "noErrorInClipboard": "클립보드에서 오류 정보를 찾을 수 없습니다. Arduino IDE에서 먼저 '오류 메시지 복사'를 클릭해주세요.",
+    "noErrorInClipboard": "클립보드에 오류 정보가 없습니다. Arduino IDE에서 먼저 '오류 메시지 복사'를 클릭하세요.",
     "settingsSaved": "설정이 저장되었습니다",
     "settingsReset": "설정이 초기화되었습니다",
-    "detectingModels": "{0}에 사용 가능한 모델 감지 중..."
+    "detectingModels": "{0}에 사용 가능한 모델 감지 중...",
+    "promptCreateNotes": "💡 AI에게 프로젝트를 설명하기 위해 NOTES.ino를 생성하시겠습니까?",
+    "notesCreated": "✅ NOTES.ino가 생성되었습니다!",
+    "highCostWarning": "예상 비용(응답 제외): ${0} ({1} 사용). 계속하시겠습니까?",
+    "codeApplied": "코드가 적용되었습니다",
+    "nodePathSaved": "Node.js 경로가 저장되었습니다"
   },
   "buttons": {
     "chooseModel": "AI 모델 선택",
@@ -106,7 +111,11 @@
     "newInput": "새 입력",
     "delete": "삭제",
     "resetAll": "모두 초기화",
-    "remove": "제거"
+    "remove": "제거",
+    "continue": "계속",
+    "apply": "적용",
+    "configureNodePath": "Node.js 경로 구성",
+    "enterNodePath": "Node.js v20+ 경로 입력"
   },
   "descriptions": {
     "improveCodeSelected": "선택한 코드 최적화",
@@ -373,11 +382,11 @@
     "features": "기능",
     "integration": "통합",
     "feature1": "코드 개선 및 최적화",
-    "feature2": "오류를 쉬운 말로 설명",
-    "feature3": "자동 코드 주석",
+    "feature2": "평이한 언어로 오류 설명",
+    "feature3": "자동 코드 주석 달기",
     "feature4": "디버그 도움말 및 하드웨어 진단",
     "feature5": "토큰 사용량 추적",
-    "feature6": "연결 문제를 위한 오프라인 도움말",
+    "feature6": "연결 문제에 대한 오프라인 도움말",
     "feature7": "쉬운 확장을 위한 모듈식 아키텍처",
     "feature8": "다국어 지원",
     "quickstart": "빠른 시작",
@@ -441,7 +450,11 @@
       "cardStyle": "카드 스타일",
       "arduino-green": "Arduino 녹색 배경",
       "white-border": "녹색 테두리가 있는 흰색 배경",
-      "codeTemperature": "코드 온도"
+      "codeTemperature": "코드 온도",
+      "projectNotesEnabled": "프로젝트 노트 활성화",
+      "autoOpenInChat": "채팅에서 자동 열기",
+      "showCostWarning": "비용 경고 표시",
+      "costWarningThreshold": "비용 임계값 (USD)"
     },
     "descriptions": {
       "temperature": "AI 창의성 (0 = 결정적, 1 = 창의적)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "채팅 기록의 메시지 수 (사용자/AI 쌍)",
       "promptHistoryLength": "기록의 프롬프트 수",
       "cardStyle": "채팅 및 에이전트 선택 카드의 시각적 스타일",
-      "codeTemperature": "코드 생성 온도 (0 = 정확, 1 = 창의적). 코드 기능 및 채팅 코드 모드에서 사용됩니다."
+      "codeTemperature": "코드 생성 온도 (0 = 정확, 1 = 창의적). 코드 기능 및 채팅 코드 모드에서 사용됩니다.",
+      "projectNotesEnabled": "프로젝트 노트 활성화 (프로젝트별 AI 지시사항을 위한 NOTES.ino)",
+      "autoOpenInChat": "출력 패널 대신 채팅에서 AI 결과를 자동으로 열기",
+      "showCostWarning": "비용이 많이 드는 API 요청 전에 경고 표시",
+      "costWarningThreshold": "비용 경고를 위한 USD 임계값 (예: 0.10 = 10센트)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI 설명"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "프로젝트별 지시사항"
   }
 }

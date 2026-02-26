@@ -68,7 +68,12 @@
     "noErrorInClipboard": "Ingen feilinformasjon funnet i utklippstavlen. Vennligst klikk først på 'Kopier feilmelding' i Arduino IDE.",
     "settingsSaved": "Innstillinger lagret",
     "settingsReset": "Innstillinger tilbakestilt",
-    "detectingModels": "Oppdager tilgjengelige modeller for {0}..."
+    "detectingModels": "Oppdager tilgjengelige modeller for {0}...",
+    "promptCreateNotes": "💡 Opprette NOTES.ino for å forklare prosjektet ditt til AI?",
+    "notesCreated": "✅ NOTES.ino opprettet!",
+    "highCostWarning": "Anslåtte kostnader (uten svar): ${0} med {1}. Fortsett?",
+    "codeApplied": "Kode er anvendt",
+    "nodePathSaved": "Node.js-bane er lagret"
   },
   "buttons": {
     "chooseModel": "Velg AI-modell",
@@ -106,7 +111,11 @@
     "newInput": "Ny inndata",
     "delete": "Slett",
     "resetAll": "Tilbakestill alle",
-    "remove": "Fjern"
+    "remove": "Fjern",
+    "continue": "Fortsett",
+    "apply": "Bruk",
+    "configureNodePath": "Konfigurer Node.js-bane",
+    "enterNodePath": "Angi Node.js v20+ bane"
   },
   "descriptions": {
     "improveCodeSelected": "Optimaliser valgt kode",
@@ -373,11 +382,11 @@
     "features": "Funksjoner",
     "integration": "Integrasjon",
     "feature1": "Kodeforbedring og optimalisering",
-    "feature2": "Feilforklaring på vanlig språk",
+    "feature2": "Feilforklaring på enkelt språk",
     "feature3": "Automatisk kodekommentering",
-    "feature4": "Debug-hjelp og maskinvarediagnostikk",
-    "feature5": "Token-brukssporing",
-    "feature6": "Offline-hjelp for forbindelsesproblemer",
+    "feature4": "Feilsøkingshjelp og maskinvarediagnose",
+    "feature5": "Sporing av tokenbruk",
+    "feature6": "Offline hjelp for tilkoblingsproblemer",
     "feature7": "Modulær arkitektur for enkel utvidelse",
     "feature8": "Flerspråklig støtte",
     "quickstart": "Hurtigstart",
@@ -441,7 +450,11 @@
       "cardStyle": "Kortstil",
       "arduino-green": "Arduino grønn bakgrunn",
       "white-border": "Hvit bakgrunn med grønn kant",
-      "codeTemperature": "Kodetemperatur"
+      "codeTemperature": "Kodetemperatur",
+      "projectNotesEnabled": "Aktiver prosjektnotater",
+      "autoOpenInChat": "Åpne automatisk i chat",
+      "showCostWarning": "Vis kostnadsadvarsel",
+      "costWarningThreshold": "Kostnadsterskel (USD)"
     },
     "descriptions": {
       "temperature": "AI-kreativitet (0 = deterministisk, 1 = kreativ)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Antall meldinger i chattehistorikk (bruker/AI-par)",
       "promptHistoryLength": "Antall prompts i historikk",
       "cardStyle": "Visuell stil for chatte- og agentutvalgskort",
-      "codeTemperature": "Temperatur for kodegenerering (0 = presis, 1 = kreativ). Brukes til kodefunksjoner og i chat-kodemodus."
+      "codeTemperature": "Temperatur for kodegenerering (0 = presis, 1 = kreativ). Brukes til kodefunksjoner og i chat-kodemodus.",
+      "projectNotesEnabled": "Aktiver prosjektnotater (NOTES.ino for prosjektspesifikke AI-instruksjoner)",
+      "autoOpenInChat": "Åpne AI-resultater automatisk i chat i stedet for utdatapanel",
+      "showCostWarning": "Vis advarsel før dyre API-forespørsler",
+      "costWarningThreshold": "Terskel i USD for kostnadsadvarsel (f.eks. 0.10 = 10 cent)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI-forklaring"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Prosjektspesifikke instruksjoner"
   }
 }

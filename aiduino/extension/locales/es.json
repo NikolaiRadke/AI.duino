@@ -65,10 +65,15 @@
     "inlineCompletionDisabled": "Completado en línea desactivado",
     "operationAlreadyRunning": "¡Operación ya en curso! Por favor espera...",
     "contextAttachedInfo": "🔎 Contexto adjunto - válido solo para el próximo mensaje. Usa '🔄 Último contexto' para reutilizar.",
-    "noErrorInClipboard": "No se encontró información de error en el portapapeles. Por favor haz clic primero en 'Copiar mensaje de error' en el IDE de Arduino.",
+    "noErrorInClipboard": "No se encontró información de error en el portapapeles. Por favor, haz clic primero en 'Copiar mensaje de error' en Arduino IDE.",
     "settingsSaved": "Configuración guardada",
     "settingsReset": "Configuración restablecida",
-    "detectingModels": "Detectando modelos disponibles para {0}..."
+    "detectingModels": "Detectando modelos disponibles para {0}...",
+    "promptCreateNotes": "💡 ¿Crear NOTES.ino para explicar tu proyecto a la IA?",
+    "notesCreated": "✅ ¡NOTES.ino creado!",
+    "highCostWarning": "Costo estimado (sin respuesta): ${0} con {1}. ¿Continuar?",
+    "codeApplied": "Código aplicado",
+    "nodePathSaved": "Ruta de Node.js guardada"
   },
   "buttons": {
     "chooseModel": "Elegir modelo de IA",
@@ -106,7 +111,11 @@
     "newInput": "Nueva entrada",
     "delete": "Eliminar",
     "resetAll": "Restablecer todo",
-    "remove": "Eliminar"
+    "remove": "Eliminar",
+    "continue": "Continuar",
+    "apply": "Aplicar",
+    "configureNodePath": "Configurar ruta de Node.js",
+    "enterNodePath": "Introducir ruta de Node.js v20+"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizar código seleccionado",
@@ -441,7 +450,11 @@
       "cardStyle": "Estilo de tarjeta",
       "arduino-green": "Fondo verde Arduino",
       "white-border": "Fondo blanco con borde verde",
-      "codeTemperature": "Temperatura de código"
+      "codeTemperature": "Temperatura de código",
+      "projectNotesEnabled": "Activar notas de proyecto",
+      "autoOpenInChat": "Abrir automáticamente en chat",
+      "showCostWarning": "Mostrar advertencia de costo",
+      "costWarningThreshold": "Umbral de costo (USD)"
     },
     "descriptions": {
       "temperature": "Creatividad de la IA (0 = determinista, 1 = creativo)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Número de mensajes en el historial de chat (pares de usuario/IA)",
       "promptHistoryLength": "Número de prompts en el historial",
       "cardStyle": "Estilo visual para tarjetas de chat y selección de agentes",
-      "codeTemperature": "Temperatura para generación de código (0 = preciso, 1 = creativo). Se usa para funciones de código y en modo de chat de código."
+      "codeTemperature": "Temperatura para generación de código (0 = preciso, 1 = creativo). Se usa para funciones de código y en modo de chat de código.",
+      "projectNotesEnabled": "Activar notas de proyecto (NOTES.ino para instrucciones de IA específicas del proyecto)",
+      "autoOpenInChat": "Abrir automáticamente resultados de IA en el chat en lugar del panel de salida",
+      "showCostWarning": "Mostrar advertencia antes de solicitudes de API costosas",
+      "costWarningThreshold": "Umbral en USD para advertencia de costo (ej. 0.10 = 10 centavos)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "Explicación de IA"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Instrucciones específicas del proyecto"
   }
 }

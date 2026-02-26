@@ -65,10 +65,15 @@
     "inlineCompletionDisabled": "Inline-täydennys poistettu käytöstä",
     "operationAlreadyRunning": "Toiminto on jo käynnissä! Odota hetki...",
     "contextAttachedInfo": "🔎 Konteksti lisätty - koskee vain seuraavaa viestiä. Käytä '🔄 Viimeisin konteksti' uudelleenkäyttöön.",
-    "noErrorInClipboard": "Leikepöydältä ei löytynyt virhetietoja. Klikkaa ensin Arduino IDE:ssä 'Kopioi virheilmoitus'.",
+    "noErrorInClipboard": "Leikepöydältä ei löytynyt virhetietoja. Napsauta ensin 'Kopioi virheilmoitus' Arduino IDE:ssä.",
     "settingsSaved": "Asetukset tallennettu",
     "settingsReset": "Asetukset palautettu",
-    "detectingModels": "Tunnistetaan saatavilla olevia malleja kohteelle {0}..."
+    "detectingModels": "Tunnistetaan saatavilla olevia malleja kohteelle {0}...",
+    "promptCreateNotes": "💡 Luodaanko NOTES.ino projektin selittämiseksi tekoälylle?",
+    "notesCreated": "✅ NOTES.ino luotu!",
+    "highCostWarning": "Arvioitu kustannus (ilman vastausta): ${0} käyttäen {1}. Jatketaanko?",
+    "codeApplied": "Koodi on otettu käyttöön",
+    "nodePathSaved": "Node.js-polku on tallennettu"
   },
   "buttons": {
     "chooseModel": "Valitse AI-malli",
@@ -106,7 +111,11 @@
     "newInput": "Uusi syöte",
     "delete": "Poista",
     "resetAll": "Palauta kaikki",
-    "remove": "Poista"
+    "remove": "Poista",
+    "continue": "Jatka",
+    "apply": "Ota käyttöön",
+    "configureNodePath": "Määritä Node.js-polku",
+    "enterNodePath": "Syötä Node.js v20+ polku"
   },
   "descriptions": {
     "improveCodeSelected": "Optimoi valittu koodi",
@@ -288,7 +297,7 @@
     "newChat": "Uusi keskustelu",
     "chats": "Keskustelut",
     "maxChatsReached": "Chattien enimmäismäärä saavutettu. Poista vanhoja chatteja.",
-    "cannotDeleteLastChat": "Viimeistä keskustelua ei voi poistaa",
+    "cannotDeleteLastChat": "Viimeistä chattia ei voi poistaa",
     "confirmDelete": "Poistetaanko keskustelu?",
     "noChatsYet": "Ei vielä keskusteluja",
     "createFirstChat": "Luo ensimmäinen keskustelu!",
@@ -373,12 +382,12 @@
     "features": "Ominaisuudet",
     "integration": "Integraatio",
     "feature1": "Koodin parantaminen ja optimointi",
-    "feature2": "Virheiden selittäminen tavallisella kielellä",
+    "feature2": "Virheiden selitys yksinkertaisella kielellä",
     "feature3": "Automaattinen koodin kommentointi",
-    "feature4": "Debug-apu ja laitteistodiagnostiikka",
-    "feature5": "Token-käytön seuranta",
+    "feature4": "Virheenkorjausapu ja laitteiston diagnostiikka",
+    "feature5": "Tokenien käytön seuranta",
     "feature6": "Offline-apu yhteysongelmiin",
-    "feature7": "Modulaarinen arkkitehtuuri helpolla laajennettavuudella",
+    "feature7": "Modulaarinen arkkitehtuuri helpoksi laajentamiseksi",
     "feature8": "Monikielinen tuki",
     "quickstart": "Pika-aloitus",
     "step1": "Valitse Arduino-koodi",
@@ -441,7 +450,11 @@
       "cardStyle": "Korttityyli",
       "arduino-green": "Arduino vihreä tausta",
       "white-border": "Valkoinen tausta vihreällä reunalla",
-      "codeTemperature": "Koodin lämpötila"
+      "codeTemperature": "Koodin lämpötila",
+      "projectNotesEnabled": "Ota projektimuistiinpanot käyttöön",
+      "autoOpenInChat": "Avaa automaattisesti chatissa",
+      "showCostWarning": "Näytä kustannusvaroitus",
+      "costWarningThreshold": "Kustannusraja (USD)"
     },
     "descriptions": {
       "temperature": "AI:n luovuus (0 = deterministinen, 1 = luova)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Viestien määrä keskusteluhistoriassa (käyttäjä/tekoäly-parit)",
       "promptHistoryLength": "Promptien määrä historiassa",
       "cardStyle": "Visuaalinen tyyli keskustelu- ja agentinvalintakorteille",
-      "codeTemperature": "Lämpötila koodin luomiseen (0 = tarkka, 1 = luova). Käytetään koodiominaisuuksiin ja chat-kooditilassa."
+      "codeTemperature": "Lämpötila koodin luomiseen (0 = tarkka, 1 = luova). Käytetään koodiominaisuuksiin ja chat-kooditilassa.",
+      "projectNotesEnabled": "Ota projektimuistiinpanot käyttöön (NOTES.ino projektikohtaisille AI-ohjeille)",
+      "autoOpenInChat": "Avaa AI-tulokset automaattisesti chatissa tulosteikkunan sijaan",
+      "showCostWarning": "Näytä varoitus ennen kalliita API-pyyntöjä",
+      "costWarningThreshold": "Raja USD:ssa kustannusvaroitukselle (esim. 0.10 = 10 senttiä)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI-selitys"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Projektikohtaiset ohjeet"
   }
 }

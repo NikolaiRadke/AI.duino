@@ -14,10 +14,16 @@ const { executeProcessProvider, cleanProcessOutput } = require('./processProvide
  * @param {string} prompt
  * @param {string|null} sessionId
  * @param {boolean} agenticMode
+ * @param {string|null} modelId - Selected model ID (e.g. 'gpt-4o')
  * @returns {string[]}
  */
-function buildArgs(prompt, sessionId = null, agenticMode = false) {
+function buildArgs(prompt, sessionId = null, agenticMode = false, modelId = null) {
     const args = ['exec', '--skip-git-repo-check'];
+
+    // Add model selection if specified
+    if (modelId) {
+        args.push('--model', modelId);
+    }
 
     if (sessionId) {
         args.push('--session', sessionId);
@@ -46,22 +52,24 @@ function extractResponse(rawOutput) {
     }
     
     try {
-        // Codex CLI outputs NDJSON - find item.completed events with text
-        const lines = rawOutput.split(/\}\s*\{/).map((line, i, arr) => {
-            if (i === 0) return line + '}';
-            if (i === arr.length - 1) return '{' + line;
-            return '{' + line + '}';
-        });
+        // Codex CLI outputs NDJSON (Newline Delimited JSON)
+        const lines = rawOutput.trim().split('\n');
         
         let text = '';
         for (const line of lines) {
+            if (!line.trim()) continue;
+            
             try {
                 const event = JSON.parse(line);
-                if (event.type === 'item.completed' && event.item?.text) {
-                    text += event.item.text;
+                
+                // Look for item.completed events with agent_message type
+                if (event.type === 'item.completed' && 
+                    event.item?.type === 'agent_message' && 
+                    event.item?.text) {
+                    text += event.item.text + '\n';
                 }
             } catch (e) {
-                // Skip invalid JSON
+                // Skip invalid JSON lines
             }
         }
         
@@ -85,6 +93,7 @@ function extractResponse(rawOutput) {
  * @param {string|null} sessionId
  * @param {string|null} workspacePath
  * @param {boolean} agenticMode
+ * @param {string|null} modelId - Selected model ID
  * @returns {Promise<string>}
  */
 async function executeCommand(
@@ -93,10 +102,11 @@ async function executeCommand(
     context,
     sessionId = null,
     workspacePath = null,
-    agenticMode = false
+    agenticMode = false,
+    modelId = null
 ) {
     const { t } = context;
-    const args = buildArgs(prompt, sessionId, agenticMode);
+    const args = buildArgs(prompt, sessionId, agenticMode, modelId);
 
     const options = workspacePath ? { cwd: workspacePath } : {};
 
@@ -114,4 +124,3 @@ module.exports = {
     executeCommand,
     extractResponse
 };
-

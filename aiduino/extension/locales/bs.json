@@ -65,10 +65,15 @@
     "inlineCompletionEnabled": "✓ Inline dopuna aktivirana",
     "inlineCompletionDisabled": "Inline dopuna deaktivirana",
     "contextAttachedInfo": "🔎 Kontekst dodan - vrijedi samo za sljedeću poruku. Koristi '🔄 Posljednji kontekst' za ponovno korištenje.",
-    "noErrorInClipboard": "Nije pronađena informacija o grešci u međuspremniku. Molimo prvo klikni na 'Kopiraj poruku o grešci' u Arduino IDE.",
+    "noErrorInClipboard": "Nema informacija o grešci u clipboardu. Molimo kliknite 'Kopiraj poruku o grešci' u Arduino IDE prvo.",
     "settingsSaved": "Postavke su sačuvane",
     "settingsReset": "Postavke su vraćene na početne vrijednosti",
-    "detectingModels": "Otkrivanje dostupnih modela za {0}..."
+    "detectingModels": "Otkrivanje dostupnih modela za {0}...",
+    "promptCreateNotes": "💡 Kreirati NOTES.ino da objasnite svoj projekat AI-u?",
+    "notesCreated": "✅ NOTES.ino kreiran!",
+    "highCostWarning": "Procijenjena cijena (bez odgovora): ${0} sa {1}. Nastaviti?",
+    "codeApplied": "Kod je primijenjen",
+    "nodePathSaved": "Node.js putanja je sačuvana"
   },
   "buttons": {
     "chooseModel": "Odaberi AI model",
@@ -106,7 +111,11 @@
     "newInput": "Novi unos",
     "delete": "Obriši",
     "resetAll": "Resetuj sve",
-    "remove": "Ukloni"
+    "remove": "Ukloni",
+    "continue": "Nastavi",
+    "apply": "Primijeni",
+    "configureNodePath": "Konfiguriraj Node.js putanju",
+    "enterNodePath": "Unesi Node.js v20+ putanju"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiziraj označeni kod",
@@ -373,12 +382,12 @@
     "features": "Funkcije",
     "integration": "Integracija",
     "feature1": "Poboljšanje i optimizacija koda",
-    "feature2": "Objašnjenja grešaka na bosanskom jeziku",
-    "feature3": "Automatsko komentiranje koda",
-    "feature4": "Debug pomoć i hardware dijagnoza",
+    "feature2": "Objašnjenje greške na jednostavnom jeziku",
+    "feature3": "Automatsko komentarisanje koda",
+    "feature4": "Pomoć u debugovanju i dijagnostika hardvera",
     "feature5": "Praćenje upotrebe tokena",
-    "feature6": "Offline pomoć pri problemima sa konekcijom",
-    "feature7": "Modularna arhitektura za lako proširivanje",
+    "feature6": "Pomoć van mreže za probleme s konekcijom",
+    "feature7": "Modularna arhitektura za lako proširenje",
     "feature8": "Višejezična podrška",
     "quickstart": "Brzi početak",
     "step1": "Označite Arduino kod",
@@ -441,7 +450,11 @@
       "cardStyle": "Stil kartica",
       "arduino-green": "Arduino zelena pozadina",
       "white-border": "Bijela pozadina sa zelenim rubom",
-      "codeTemperature": "Temperatura koda"
+      "codeTemperature": "Temperatura koda",
+      "projectNotesEnabled": "Omogući bilješke projekta",
+      "autoOpenInChat": "Automatski otvori u chatu",
+      "showCostWarning": "Prikaži upozorenje o cijeni",
+      "costWarningThreshold": "Prag cijene (USD)"
     },
     "descriptions": {
       "temperature": "Kreativnost AI-a (0 = deterministički, 1 = kreativan)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Broj poruka u historiji chata (parovi korisnik/AI)",
       "promptHistoryLength": "Broj prompta u historiji",
       "cardStyle": "Vizuelni stil za chat i kartice za izbor agenta",
-      "codeTemperature": "Temperatura za generisanje koda (0 = precizno, 1 = kreativno). Koristi se za funkcije koda i u režimu chat koda."
+      "codeTemperature": "Temperatura za generisanje koda (0 = precizno, 1 = kreativno). Koristi se za funkcije koda i u režimu chat koda.",
+      "projectNotesEnabled": "Omogući bilješke projekta (NOTES.ino za AI instrukcije specifične za projekat)",
+      "autoOpenInChat": "Automatski otvori AI rezultate u chatu umjesto u izlaznom panelu",
+      "showCostWarning": "Prikaži upozorenje prije skupih API zahtjeva",
+      "costWarningThreshold": "Prag u USD za upozorenje o cijeni (npr. 0.10 = 10 centi)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI objašnjenje"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Instrukcije specifične za projekat"
   }
 }

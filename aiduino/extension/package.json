@@ -2,7 +2,7 @@
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "AI-powered assistance for Arduino with Claude, ChatGPT, and other AIs: improve code, explain errors, debug help",
-  "version": "2.5.1",
+  "version": "2.6.0",
   "publisher": "MonsterMaker",
   "engines": {
     "vscode": "^1.60.0"
@@ -260,6 +260,28 @@
             "White background with green border (better readability)"
           ],
           "description": "Visual style for chat and agent selection cards"
+        },
+        "aiduino.projectNotesEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable project notes feature (NOTES.ino)"
+        },
+        "aiduino.autoOpenInChat": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically open AI results in chat instead of output panel"
+        },
+        "aiduino.showCostWarning": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show warning before high-cost API calls"
+        },
+        "aiduino.costWarningThreshold": {
+          "type": "number",
+          "default": 0.10,
+          "minimum": 0.01,
+          "maximum": 10.0,
+          "description": "Cost threshold in USD for showing warning"
         },
         "aiduino.maxTokensPerRequest": {
           "type": "number",

@@ -90,6 +90,16 @@ async function executeCodeFeature(context, config) {
                 { useCodeTemperature: config.useCodeTemperature || false }
             );
 
+            // Check if user cancelled due to high cost
+            if (!response) {
+                return null; // User cancelled
+            }
+
+            // Check if auto-open in chat is enabled
+            if (await featureUtils.handleAutoOpenInChat(prompt, response, context)) {
+                return null; // Skip panel creation
+            }
+
             // 9. Create WebviewPanel
             const panel = featureUtils.createStandardPanel(
                 panelId,
@@ -153,11 +163,16 @@ function createCodeFeatureHtml(options) {
     } = options;
     
     // Process AI response with code blocks
+    // Only show "apply" button for agentic providers (they return precise code)
+    const provider = context.minimalModelManager?.providers[context.currentModel];
+    const isAgentic = provider?.agentModule;
+    const buttonActions = isAgentic ? ['copy', 'apply'] : ['copy'];
+    
     const processedHtml = featureUtils.processMessageWithCodeBlocks(
         aiResponse,
         commandKey,
         t,
-        ['copy']
+        buttonActions
     );
     const codeBlocks = processedHtml.codeBlocks;
     

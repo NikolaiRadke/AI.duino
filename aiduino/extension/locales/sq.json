@@ -65,10 +65,15 @@
     "inlineCompletionEnabled": "✓ Plotësim inline u aktivizua",
     "inlineCompletionDisabled": "Plotësim inline u çaktivizua",
     "contextAttachedInfo": "🔎 Konteksti u shtua - vlen vetëm për mesazhin tjetër. Përdor '🔄 Konteksti i fundit' për ta ripërdorur.",
-    "noErrorInClipboard": "Nuk u gjet informacion gabimi në clipboard. Ju lutemi kliko fillimisht 'Kopjo mesazhin e gabimit' në Arduino IDE.",
+    "noErrorInClipboard": "Nuk u gjet informacion për gabim në clipboard. Ju lutemi klikoni fillimisht 'Kopjo mesazhin e gabimit' në Arduino IDE.",
     "settingsSaved": "Cilësimet u ruajtën",
     "settingsReset": "Cilësimet u rivendosën",
-    "detectingModels": "Duke zbuluar modelet e disponueshme për {0}..."
+    "detectingModels": "Duke zbuluar modelet e disponueshme për {0}...",
+    "promptCreateNotes": "💡 Krijo NOTES.ino për të shpjeguar projektin tënd AI-së?",
+    "notesCreated": "✅ NOTES.ino u krijua!",
+    "highCostWarning": "Kosto e vlerësuar (pa përgjigje): ${0} me {1}. Vazhdo?",
+    "codeApplied": "Kodi është zbatuar",
+    "nodePathSaved": "Rruga e Node.js është ruajtur"
   },
   "buttons": {
     "chooseModel": "Zgjidh modelin AI",
@@ -106,7 +111,11 @@
     "newInput": "Hyrje e re",
     "delete": "Fshi",
     "resetAll": "Rivendos të gjitha",
-    "remove": "Hiq"
+    "remove": "Hiq",
+    "continue": "Vazhdo",
+    "apply": "Zbato",
+    "configureNodePath": "Konfiguro rrugën e Node.js",
+    "enterNodePath": "Fut rrugën e Node.js v20+"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizo kodin e zgjedhur",
@@ -372,12 +381,12 @@
     "tagline": "Zhvillim Arduino i mbështetur nga AI",
     "features": "Veçoritë",
     "integration": "Integrimi",
-    "feature1": "Përmirësim dhe optimizim i kodit",
-    "feature2": "Shpjegime gabimesh në gjuhën shqipe",
-    "feature3": "Komentim automatik i kodit",
-    "feature4": "Ndihmë debug dhe diagnostikim hardware",
-    "feature5": "Ndjekje e përdorimit të tokenëve",
-    "feature6": "Ndihmë offline për probleme lidhje",
+    "feature1": "Përmirësimi dhe optimizimi i kodit",
+    "feature2": "Shpjegimi i gabimeve në gjuhë të thjeshtë",
+    "feature3": "Komentimi automatik i kodit",
+    "feature4": "Ndihmë për debug dhe diagnostikimi i hardware-it",
+    "feature5": "Ndjekja e përdorimit të tokens",
+    "feature6": "Ndihmë offline për problemet e lidhjes",
     "feature7": "Arkitekturë modulare për zgjerim të lehtë",
     "feature8": "Mbështetje shumëgjuhëshe",
     "quickstart": "Fillim i shpejtë",
@@ -441,7 +450,11 @@
       "cardStyle": "Stili i kartës",
       "arduino-green": "Sfond jeshil Arduino",
       "white-border": "Sfond i bardhë me kornizë jeshile",
-      "codeTemperature": "Temperatura e kodit"
+      "codeTemperature": "Temperatura e kodit",
+      "projectNotesEnabled": "Aktivizo shënimet e projektit",
+      "autoOpenInChat": "Hap automatikisht në bisedë",
+      "showCostWarning": "Shfaq paralajmërim kostoje",
+      "costWarningThreshold": "Pragu i kostos (USD)"
     },
     "descriptions": {
       "temperature": "Kreativiteti i AI (0 = deterministik, 1 = kreativ)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Numri i mesazheve në historinë e bisedës (çifte përdorues/AI)",
       "promptHistoryLength": "Numri i prompteve në histori",
       "cardStyle": "Stili vizual për kartat e bisedës dhe zgjedhjes së agjentit",
-      "codeTemperature": "Temperatura për gjenerimin e kodit (0 = i saktë, 1 = kreativ). Përdoret për veçoritë e kodit dhe në modalitetin e bisedës së kodit."
+      "codeTemperature": "Temperatura për gjenerimin e kodit (0 = i saktë, 1 = kreativ). Përdoret për veçoritë e kodit dhe në modalitetin e bisedës së kodit.",
+      "projectNotesEnabled": "Aktivizo shënimet e projektit (NOTES.ino për udhëzime AI specifike për projektin)",
+      "autoOpenInChat": "Hap automatikisht rezultatet AI në bisedë në vend të panelit të daljes",
+      "showCostWarning": "Shfaq paralajmërim përpara kërkesave API të shtrenjta",
+      "costWarningThreshold": "Pragu në USD për paralajmërim kostoje (p.sh. 0.10 = 10 centë)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "Shpjegim AI"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Udhëzime specifike për projektin"
   }
 }

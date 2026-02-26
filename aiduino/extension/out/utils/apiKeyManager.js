@@ -1,6 +1,6 @@
 /*
  * AI.duino - API Key Manager Module
- * Copyright 2025 Monster Maker
+ * Copyright 2026 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
  */
@@ -43,7 +43,33 @@ class ApiKeyManager {
             }
             
             const providerName = provider.name;
-            const currentValue = provider.type === 'local' ? (apiKeys[currentModel] || '') : '';
+            // Try auto-discovery for local providers first
+            let currentValue = '';
+            if (provider.type === 'local') {
+                // Check if already set
+                currentValue = apiKeys[currentModel] || '';
+    
+                // If not set, try auto-discovery
+                if (!currentValue) {
+                    const { discoverProvider, findNodeV20Plus } = require('./providerDiscovery');
+                    const discovered = await discoverProvider(currentModel, provider);
+                    
+                    if (discovered) {
+                        currentValue = discovered.path;
+            
+                        // For Gemini CLI, also cache Node.js path
+                        if (discovered.nodePath) {
+                            // Trigger setNodePath with pre-filled value
+                            await this.setNodePath({
+                                ...deps,
+                                prefilledValue: discovered.nodePath
+                            });
+                        }
+                    } else if (provider.autoDetectUrls?.length > 0) {
+                        currentValue = provider.autoDetectUrls[0];
+                    }
+                }
+            }
 
             const input = await vscode.window.showInputBox({
                 prompt: provider.type === 'local' ? 
@@ -155,6 +181,42 @@ class ApiKeyManager {
     dispose() {
         this.isSettingKey = false;
     }
+
+    /**
+     * Set Node.js v20+ path for Gemini CLI
+     */
+    async setNodePath(deps) {
+        const { t, fileManager, prefilledValue } = deps;  // <- prefilledValue hinzufügen
+        const vscode = require('vscode');
+    
+        const input = await vscode.window.showInputBox({
+            prompt: t('buttons.enterNodePath'),
+            placeHolder: '/usr/bin/node',
+            value: prefilledValue || '',  // <- Vorbelegter Wert wie bei Binaries
+            ignoreFocusOut: true,
+            validateInput: (value) => {
+                if (!value || value.trim().length === 0) {
+                    return t('errors.invalidInput');
+                }
+                if (!fileManager.fileExists(value)) {
+                    return t('errors.fileNotFound');
+                }
+                return null;
+            }
+        });
+    
+        if (input) {
+            if (fileManager.saveNodePath(input)) {
+                vscode.window.showInformationMessage(t('messages.nodePathSaved'));
+                return true;
+            } else {
+                vscode.window.showErrorMessage(t('errors.saveFailed'));
+                return false;
+            }
+        }
+        
+        return false;
+    }   
 }
 
 module.exports = { ApiKeyManager };

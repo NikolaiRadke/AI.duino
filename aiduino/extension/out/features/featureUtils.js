@@ -115,6 +115,35 @@ async function callAIWithProgress(prompt, progressKey, context, options = {}) {
     const { t, minimalModelManager, currentModel } = context;
     const model = minimalModelManager.providers[currentModel];
     
+    // Estimate costs before API call
+    const TokenManager = require('../core/tokenManager');
+    const estimatedInputTokens = TokenManager.estimateTokens(prompt, context.settings);
+    const estimatedOutputTokens = Math.min(
+        context.settings.get('maxTokensPerRequest') || 4000,
+        estimatedInputTokens * 2 // Rough estimate: output is usually 1-2x input
+    );
+    
+    // Calculate estimated cost
+    const inputCost = estimatedInputTokens * model.prices.input;
+    const outputCost = estimatedOutputTokens * model.prices.output;
+    const estimatedCost = inputCost + outputCost;
+    
+    // Show warning if enabled and cost exceeds threshold
+    const showWarning = context.settings.get('showCostWarning');
+    const costThreshold = context.settings.get('costWarningThreshold');
+    
+    if (showWarning && estimatedCost > costThreshold) {
+        const choice = await vscode.window.showWarningMessage(
+            t('messages.highCostWarning', estimatedCost.toFixed(3), model.name),
+            t('buttons.continue'),
+            t('buttons.cancel')
+        );
+        
+        if (choice !== t('buttons.continue')) {
+            return null; // User cancelled - return null to signal cancellation
+        }
+    }
+    
     return vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         title: t(progressKey, model.name),  
@@ -412,21 +441,31 @@ function saveToHistory(context, category, input, metadata = {}) {
  * Generate action buttons for code blocks (unified approach)
  * Supports both event delegation (for chatPanel) and direct onclick handlers (for other features)
  * Uses event delegation when index is provided, otherwise generates inline onclick handlers
- * @param {Array} actions - Button actions to generate: Only 'copy' is provided
+ * @param {Array} actions - Button actions to generate: 'copy', 'apply'
  * @param {number|null} index - Code block index for event delegation, or null for direct onclick
  * @param {string} code - Code content for inline onclick handlers (ignored if using event delegation)
  * @param {Function} t - Translation function
  * @returns {string} HTML string with action buttons
  */
 function generateCodeBlockButtons(actions, index, code, t) {
-    // Only copy button supported now
     const useEventDelegation = index !== null;
+    let buttons = [];
     
-    const attrs = useEventDelegation 
-        ? `data-action="copy" data-index="${index}"`
-        : `onclick="copyCode(\`${(code || '').replace(/`/g, '\\`')}\`)"`; 
+    if (actions.includes('copy')) {
+        const attrs = useEventDelegation 
+            ? `data-action="copy" data-index="${index}"`
+            : `onclick="copyCode(\`${(code || '').replace(/`/g, '\\`')}\`)"`;
+        buttons.push(`<button class="code-btn" ${attrs}>📋 ${t('buttons.copy')}</button>`);
+    }
     
-    return `<button class="code-btn" ${attrs}>📋 ${t('buttons.copy')}</button>`;
+    if (actions.includes('apply')) {
+        const attrs = useEventDelegation 
+            ? `data-action="apply" data-index="${index}"`
+            : `onclick="applyCode(\`${(code || '').replace(/`/g, '\\`')}\`)"`;
+        buttons.push(`<button class="code-btn code-btn-primary" ${attrs}>✅ ${t('buttons.apply')}</button>`);
+    }
+    
+    return buttons.join(' ');
 }
 
 /**
@@ -442,6 +481,35 @@ function setupStandardMessageHandler(panel, context, customHandlers = {}) {
             if (message.command === 'copyCode') {
                 await vscode.env.clipboard.writeText(shared.cleanHtmlCode(message.code));
                 vscode.window.showInformationMessage(context.t('messages.copiedToClipboard'));
+                return;
+            }
+            
+            // Standard: Apply code to editor
+            if (message.command === 'applyCode') {
+                const editor = panel.originalEditor || vscode.window.activeTextEditor;
+                if (!editor) {
+                    vscode.window.showWarningMessage(context.t('messages.noEditor'));
+                    return;
+                }
+                
+                const code = shared.cleanHtmlCode(message.code);
+                const selection = panel.originalSelection;
+                
+                await editor.edit(editBuilder => {
+                    if (selection && !selection.isEmpty) {
+                        // Replace selection
+                        editBuilder.replace(selection, code);
+                    } else {
+                        // Replace entire document content
+                        const fullRange = new vscode.Range(
+                            editor.document.positionAt(0),
+                            editor.document.positionAt(editor.document.getText().length)
+                        );
+                        editBuilder.replace(fullRange, code);
+                    }
+                });
+                
+                vscode.window.showInformationMessage(context.t('messages.codeApplied'));
                 return;
             }
             
@@ -526,9 +594,8 @@ function processMessageWithCodeBlocks(text, messageId, t, buttonActions = ['copy
     processed = processed.replace(/\n/g, '<br>');
     
     codeBlocks.forEach((code, index) => {
-        const buttons = `<button class="code-btn" data-action="copy" data-message-id="${messageId}" data-index="${index}">
-            📋 ${t('buttons.copy')}
-        </button>`;
+        // Use generateCodeBlockButtons for consistent button generation
+        const buttons = generateCodeBlockButtons(buttonActions, index, null, t);
         
         const html = `<div class="code-block" data-message-id="${messageId}" data-code-index="${index}">
             <div class="code-header">
@@ -807,6 +874,8 @@ function generateCodeBlockHandlers(codeBlocks, t, options = {}) {
                 
                 if (action === 'copy') {
                     vscode.postMessage({ command: 'copyCode', code: code });
+                } else if (action === 'apply') {
+                    vscode.postMessage({ command: 'applyCode', code: code, index: index });
                 }
             });
             
@@ -914,6 +983,22 @@ function createStandardPanel(panelId, title) {
     );
 }
 
+/**
+ * Check if auto-open in chat is enabled and handle accordingly
+ * @param {string} prompt - User prompt
+ * @param {string} response - AI response
+ * @param {Object} context - Extension context
+ * @returns {Promise<boolean>} True if auto-opened in chat (skip panel creation)
+ */
+async function handleAutoOpenInChat(prompt, response, context) {
+    if (context.settings.get('autoOpenInChat')) {
+        const chatPanel = require('./chatPanel');
+        await chatPanel.continueInChat(prompt, response, context);
+        return true; // Signal to skip panel creation
+    }
+    return false; // Continue with normal panel creation
+}
+
 module.exports = {
     executeFeature,
     createAndShowDocument,
@@ -938,5 +1023,6 @@ module.exports = {
     validateEditorAndFile,
     getSelectionInfo,
     createStandardPanel,
-    buildQuestionFeatureHtml
+    buildQuestionFeatureHtml,
+    handleAutoOpenInChat
 };

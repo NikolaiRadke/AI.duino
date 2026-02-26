@@ -68,7 +68,12 @@
     "noErrorInClipboard": "Ingen felinformation hittades i urklipp. Klicka först på 'Kopiera felmeddelande' i Arduino IDE.",
     "settingsSaved": "Inställningar sparade",
     "settingsReset": "Inställningar återställda",
-    "detectingModels": "Upptäcker tillgängliga modeller för {0}..."
+    "detectingModels": "Upptäcker tillgängliga modeller för {0}...",
+    "promptCreateNotes": "💡 Skapa NOTES.ino för att förklara ditt projekt för AI?",
+    "notesCreated": "✅ NOTES.ino skapad!",
+    "highCostWarning": "Uppskattad kostnad (utan svar): ${0} med {1}. Fortsätt?",
+    "codeApplied": "Kod har tillämpats",
+    "nodePathSaved": "Node.js-sökväg har sparats"
   },
   "buttons": {
     "chooseModel": "Välj AI-modell",
@@ -106,7 +111,11 @@
     "newInput": "Ny inmatning",
     "delete": "Ta bort",
     "resetAll": "Återställ allt",
-    "remove": "Ta bort"
+    "remove": "Ta bort",
+    "continue": "Fortsätt",
+    "apply": "Tillämpa",
+    "configureNodePath": "Konfigurera Node.js-sökväg",
+    "enterNodePath": "Ange Node.js v20+ sökväg"
   },
   "descriptions": {
     "improveCodeSelected": "Optimera vald kod",
@@ -288,7 +297,7 @@
     "newChat": "Ny chatt",
     "chats": "Chattar",
     "maxChatsReached": "Maximalt antal chattar uppnått. Radera gamla chattar.",
-    "cannotDeleteLastChat": "Sista chatten kan inte tas bort",
+    "cannotDeleteLastChat": "Sista chatten kan inte raderas",
     "confirmDelete": "Ta bort chatt?",
     "noChatsYet": "Inga chattar ännu",
     "createFirstChat": "Skapa din första chatt!",
@@ -373,13 +382,13 @@
     "features": "Funktioner",
     "integration": "Integration",
     "feature1": "Kodförbättring och optimering",
-    "feature2": "Felförklaring på vanlig svenska",
+    "feature2": "Felförklaring på enkelt språk",
     "feature3": "Automatisk kodkommentering",
-    "feature4": "Felsökningshjälp och hårdvarudiagnostik",
-    "feature5": "Spårning av token-användning",
-    "feature6": "Offline-hjälp vid anslutningsproblem",
+    "feature4": "Felsökningshjälp och hårdvarudiagnos",
+    "feature5": "Spårning av tokenanvändning",
+    "feature6": "Offline-hjälp för anslutningsproblem",
     "feature7": "Modulär arkitektur för enkel utökning",
-    "feature8": "Flerspråkigt stöd",
+    "feature8": "Flerspråkig support",
     "quickstart": "Snabbstart",
     "step1": "Välj Arduino-kod",
     "step2": "Tryck",
@@ -441,7 +450,11 @@
       "cardStyle": "Kortstil",
       "arduino-green": "Arduino grön bakgrund",
       "white-border": "Vit bakgrund med grön kant",
-      "codeTemperature": "Kodtemperatur"
+      "codeTemperature": "Kodtemperatur",
+      "projectNotesEnabled": "Aktivera projektanteckningar",
+      "autoOpenInChat": "Öppna automatiskt i chatt",
+      "showCostWarning": "Visa kostnadsvarning",
+      "costWarningThreshold": "Kostnadströskel (USD)"
     },
     "descriptions": {
       "temperature": "AI-kreativitet (0 = deterministisk, 1 = kreativ)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Antal meddelanden i chatthistoriken (användar/AI-par)",
       "promptHistoryLength": "Antal prompter i historiken",
       "cardStyle": "Visuell stil för chatt- och agentvalskort",
-      "codeTemperature": "Temperatur för kodgenerering (0 = exakt, 1 = kreativ). Används för kodfunktioner och i chatt-kodläge."
+      "codeTemperature": "Temperatur för kodgenerering (0 = exakt, 1 = kreativ). Används för kodfunktioner och i chatt-kodläge.",
+      "projectNotesEnabled": "Aktivera projektanteckningar (NOTES.ino för projektspecifika AI-instruktioner)",
+      "autoOpenInChat": "Öppna automatiskt AI-resultat i chatt istället för utdatapanel",
+      "showCostWarning": "Visa varning före dyra API-förfrågningar",
+      "costWarningThreshold": "Tröskel i USD för kostnadsvarning (t.ex. 0.10 = 10 cent)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI-förklaring"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Projektspecifika instruktioner"
   }
 }

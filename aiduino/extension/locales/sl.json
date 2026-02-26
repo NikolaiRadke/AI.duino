@@ -65,10 +65,15 @@
     "inlineCompletionDisabled": "Inline dopolnjevanje deaktivirano",
     "operationAlreadyRunning": "Operacija že teče! Prosim počakaj...",
     "contextAttachedInfo": "🔎 Kontekst dodan - velja samo za naslednje sporočilo. Uporabi '🔄 Zadnji kontekst' za ponovno uporabo.",
-    "noErrorInClipboard": "V odložišču ni bilo najdenih informacij o napaki. Prosim najprej klikni na 'Kopiraj sporočilo o napaki' v Arduino IDE.",
+    "noErrorInClipboard": "V odložišču ni bilo najdenih informacij o napaki. Najprej kliknite 'Kopiraj sporočilo o napaki' v Arduino IDE.",
     "settingsSaved": "Nastavitve shranjene",
     "settingsReset": "Nastavitve ponastavljene",
-    "detectingModels": "Zaznavanje razpoložljivih modelov za {0}..."
+    "detectingModels": "Zaznavanje razpoložljivih modelov za {0}...",
+    "promptCreateNotes": "💡 Ustvariti NOTES.ino za razlago projekta UI?",
+    "notesCreated": "✅ NOTES.ino ustvarjen!",
+    "highCostWarning": "Ocenjeni stroški (brez odgovora): ${0} z {1}. Nadaljuj?",
+    "codeApplied": "Koda je bila uporabljena",
+    "nodePathSaved": "Pot Node.js je bila shranjena"
   },
   "buttons": {
     "chooseModel": "Izbira AI modela",
@@ -106,7 +111,11 @@
     "newInput": "Nov vnos",
     "delete": "Izbriši",
     "resetAll": "Ponastavi vse",
-    "remove": "Odstrani"
+    "remove": "Odstrani",
+    "continue": "Nadaljuj",
+    "apply": "Uporabi",
+    "configureNodePath": "Konfiguriraj pot Node.js",
+    "enterNodePath": "Vnesi pot Node.js v20+"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizacija označene kode",
@@ -373,11 +382,11 @@
     "features": "Funkcije",
     "integration": "Integracija",
     "feature1": "Izboljšanje in optimizacija kode",
-    "feature2": "Razlaga napak v slovenščini",
-    "feature3": "Samodejno komentiranje kode",
-    "feature4": "Debug pomoč in strojna diagnostika",
-    "feature5": "Sledenje porabe žetonov",
-    "feature6": "Offline pomoč pri težavah s povezavo",
+    "feature2": "Razlaga napak v preprostem jeziku",
+    "feature3": "Samodejna komentiranje kode",
+    "feature4": "Pomoč pri odpravljanju napak in diagnostika strojne opreme",
+    "feature5": "Sledenje uporabe žetonov",
+    "feature6": "Pomoč brez povezave za težave s povezavo",
     "feature7": "Modularna arhitektura za enostavno razširitev",
     "feature8": "Večjezična podpora",
     "quickstart": "Hitri začetek",
@@ -441,7 +450,11 @@
       "cardStyle": "Slog kartice",
       "arduino-green": "Arduino zeleno ozadje",
       "white-border": "Belo ozadje z zelenim robom",
-      "codeTemperature": "Temperatura kode"
+      "codeTemperature": "Temperatura kode",
+      "projectNotesEnabled": "Omogoči projektne opombe",
+      "autoOpenInChat": "Samodejno odpri v klepetu",
+      "showCostWarning": "Prikaži opozorilo o stroških",
+      "costWarningThreshold": "Prag stroškov (USD)"
     },
     "descriptions": {
       "temperature": "Ustvarjalnost AI (0 = deterministično, 1 = ustvarjalno)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Število sporočil v zgodovini klepeta (pari uporabnik/AI)",
       "promptHistoryLength": "Število promptov v zgodovini",
       "cardStyle": "Vizualni slog za kartice klepeta in izbire agenta",
-      "codeTemperature": "Temperatura za generiranje kode (0 = natančno, 1 = ustvarjalno). Uporablja se za funkcije kode in v načinu klepeta s kodo."
+      "codeTemperature": "Temperatura za generiranje kode (0 = natančno, 1 = ustvarjalno). Uporablja se za funkcije kode in v načinu klepeta s kodo.",
+      "projectNotesEnabled": "Omogoči projektne opombe (NOTES.ino za projektno specifična UI navodila)",
+      "autoOpenInChat": "Samodejno odpri AI rezultate v klepetu namesto v izhodnem panelu",
+      "showCostWarning": "Prikaži opozorilo pred drage API zahteve",
+      "costWarningThreshold": "Prag v USD za opozorilo o stroških (npr. 0.10 = 10 centov)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI pojasnilo"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Projektno specifična navodila"
   }
 }

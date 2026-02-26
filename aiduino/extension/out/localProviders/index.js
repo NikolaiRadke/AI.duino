@@ -4,7 +4,13 @@
  */
 
 const claudeCode = require('./processProviders/claudeCode');
-const codexCli = require('./processProviders/codexCli'); 
+const codexCli = require('./processProviders/codexCli');
+const mistralVibe = require('./processProviders/mistralVibe'); 
+const openCode = require('./processProviders/openCode');
+const geminiCli = require('./processProviders/geminiCli');
+const groqCode = require('./processProviders/groqCode');
+const ollamaAgentic = require('./processProviders/ollamaAgentic');
+
 const ollama = require('./httpProviders/ollama');
 const lmstudio = require('./httpProviders/lmstudio');  
 
@@ -30,7 +36,12 @@ function getHttpProvider(providerName) {
 function getProcessProvider(providerName) {
     const providers = {
         'Claude Code': claudeCode,
+        'Groq Code CLI': groqCode,
         'Codex CLI': codexCli,
+        'OpenCode': openCode,
+        'Mistral Vibe': mistralVibe,
+        'Gemini CLI': geminiCli,
+        'Ollama Agentic': ollamaAgentic,
     };
     
     return providers[providerName] || null;

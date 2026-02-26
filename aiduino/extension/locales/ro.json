@@ -65,10 +65,15 @@
     "inlineCompletionDisabled": "Completare inline dezactivată",
     "operationAlreadyRunning": "Operațiunea rulează deja! Te rog așteaptă...",
     "contextAttachedInfo": "🔎 Context atașat - valabil doar pentru următorul mesaj. Folosește '🔄 Ultimul context' pentru a refolosi.",
-    "noErrorInClipboard": "Nu s-a găsit nicio informație despre eroare în clipboard. Te rog dă click mai întâi pe 'Copiază mesajul de eroare' în Arduino IDE.",
+    "noErrorInClipboard": "Nu s-au găsit informații despre eroare în clipboard. Vă rugăm să faceți clic mai întâi pe 'Copiați mesajul de eroare' în Arduino IDE.",
     "settingsSaved": "Setările au fost salvate",
     "settingsReset": "Setările au fost resetate",
-    "detectingModels": "Detectarea modelelor disponibile pentru {0}..."
+    "detectingModels": "Detectarea modelelor disponibile pentru {0}...",
+    "promptCreateNotes": "💡 Creați NOTES.ino pentru a explica proiectul AI-ului?",
+    "notesCreated": "✅ NOTES.ino creat!",
+    "highCostWarning": "Cost estimat (fără răspuns): ${0} cu {1}. Continuați?",
+    "codeApplied": "Cod aplicat",
+    "nodePathSaved": "Calea Node.js a fost salvată"
   },
   "buttons": {
     "chooseModel": "Alegeți modelul AI",
@@ -106,7 +111,11 @@
     "newInput": "Intrare nouă",
     "delete": "Șterge",
     "resetAll": "Resetează tot",
-    "remove": "Elimină"
+    "remove": "Elimină",
+    "continue": "Continuă",
+    "apply": "Aplică",
+    "configureNodePath": "Configurează calea Node.js",
+    "enterNodePath": "Introduceți calea Node.js v20+"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizează codul selectat",
@@ -373,11 +382,11 @@
     "features": "Caracteristici",
     "integration": "Integrare",
     "feature1": "Îmbunătățirea și optimizarea codului",
-    "feature2": "Explicarea erorilor în română",
-    "feature3": "Comentarea automată a codului",
-    "feature4": "Ajutor debug și diagnosticare hardware",
-    "feature5": "Urmărirea utilizării tokenilor",
-    "feature6": "Ajutor offline la problemele de conexiune",
+    "feature2": "Explicarea erorilor în limbaj simplu",
+    "feature3": "Comentare automată a codului",
+    "feature4": "Ajutor pentru depanare și diagnostic hardware",
+    "feature5": "Urmărirea utilizării token-urilor",
+    "feature6": "Ajutor offline pentru probleme de conexiune",
     "feature7": "Arhitectură modulară pentru extensie ușoară",
     "feature8": "Suport multilingv",
     "quickstart": "Început rapid",
@@ -441,7 +450,11 @@
       "cardStyle": "Stil card",
       "arduino-green": "Fundal verde Arduino",
       "white-border": "Fundal alb cu chenar verde",
-      "codeTemperature": "Temperatura codului"
+      "codeTemperature": "Temperatura codului",
+      "projectNotesEnabled": "Activează notele proiectului",
+      "autoOpenInChat": "Deschidere automată în chat",
+      "showCostWarning": "Afișare avertisment cost",
+      "costWarningThreshold": "Prag de cost (USD)"
     },
     "descriptions": {
       "temperature": "Creativitatea AI (0 = determinist, 1 = creativ)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Număr de mesaje în istoricul chat (perechi utilizator/AI)",
       "promptHistoryLength": "Număr de prompturi în istoric",
       "cardStyle": "Stil vizual pentru carduri chat și selecție agent",
-      "codeTemperature": "Temperatura pentru generarea codului (0 = precis, 1 = creativ). Utilizată pentru funcții de cod și în modul chat cod."
+      "codeTemperature": "Temperatura pentru generarea codului (0 = precis, 1 = creativ). Utilizată pentru funcții de cod și în modul chat cod.",
+      "projectNotesEnabled": "Activează notele proiectului (NOTES.ino pentru instrucțiuni AI specifice proiectului)",
+      "autoOpenInChat": "Deschidere automată a rezultatelor AI în chat în loc de panoul de ieșire",
+      "showCostWarning": "Afișare avertisment înainte de solicitări API costisitoare",
+      "costWarningThreshold": "Prag în USD pentru avertisment cost (ex. 0.10 = 10 cenți)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "Explicație AI"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Instrucțiuni specifice proiectului"
   }
 }

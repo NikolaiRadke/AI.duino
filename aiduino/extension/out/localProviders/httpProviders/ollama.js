@@ -3,7 +3,7 @@
  * Handles Ollama-specific request/response processing
  */
 
-const { detectBestModel } = require('./httpProvider');
+const modelDiscovery = require('../../utils/modelDiscovery');
 
 /**
  * Extract response from Ollama JSON
@@ -34,16 +34,41 @@ function buildRequest(modelName, prompt) {
 }
 
 /**
- * Get best available Ollama model
+ * Get best available Ollama model using modelDiscovery service
  */
 async function detectBestModelOllama(baseUrl, preferredModels, defaultPort = 11434) {
-    return detectBestModel(
-        baseUrl,
-        '/api/tags',
-        defaultPort,  
-        preferredModels,
-        (response) => response.models?.map(m => m.name) || []
-    );
+    try {
+        // Get provider config
+        const { PROVIDER_CONFIGS } = require('../../config/providerConfigs');
+        const provider = PROVIDER_CONFIGS.ollama;
+        
+        // Discover models using modelDiscovery service
+        const models = await modelDiscovery.discoverModels('ollama', provider, baseUrl);
+        
+        if (!models || models.length === 0) {
+            console.log('[Ollama] No models found, using fallback');
+            return provider.fallback;
+        }
+        
+        // Try to find preferred model
+        if (preferredModels && preferredModels.length > 0) {
+            for (const preferred of preferredModels) {
+                const found = models.find(m => 
+                    m.id?.includes(preferred) || m.name?.includes(preferred)
+                );
+                if (found) {
+                    return found.id || found.name;
+                }
+            }
+        }
+        
+        // Use modelDiscovery's default selection
+        return modelDiscovery.selectDefaultModel(models, provider);
+    } catch (error) {
+        console.error('[Ollama] Model detection error:', error.message);
+        const { PROVIDER_CONFIGS } = require('../../config/providerConfigs');
+        return PROVIDER_CONFIGS.ollama.fallback;
+    }
 }
 
 module.exports = {

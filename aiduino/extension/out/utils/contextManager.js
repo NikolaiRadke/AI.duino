@@ -331,6 +331,19 @@ function buildContextAwarePrompt(selectedText, contextData, promptKeys, context,
         }
     }
     
+    // Add project notes at end as important requirements
+    if (contextData?.sketchDirectory && context.settings.get('projectNotesEnabled')) {
+        const projectNotes = require('../shared').getProjectNotes(contextData.sketchDirectory);
+        if (projectNotes) {
+            const content = projectNotes.replace(/=== PROJECT NOTES ===/g, '').replace(/=== END PROJECT NOTES ===/g, '').trim();
+            if (content) {
+                prompt += '\n\n⚠️ IMPORTANT PROJECT REQUIREMENTS - MUST FOLLOW ⚠️\n';
+                prompt += content;
+                prompt += '\n';
+            }
+        }
+    }
+    
     return prompt;
 }
 

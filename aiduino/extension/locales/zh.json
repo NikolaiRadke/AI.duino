@@ -68,7 +68,12 @@
     "noErrorInClipboard": "剪贴板中未找到错误信息。请先在Arduino IDE中点击「复制错误消息」。",
     "settingsSaved": "设置已保存",
     "settingsReset": "设置已重置",
-    "detectingModels": "正在检测 {0} 的可用模型..."
+    "detectingModels": "正在检测 {0} 的可用模型...",
+    "promptCreateNotes": "💡 创建NOTES.ino向AI解释您的项目？",
+    "notesCreated": "✅ NOTES.ino已创建！",
+    "highCostWarning": "预估成本（不含响应）：${0}（使用{1}）。继续？",
+    "codeApplied": "代码已应用",
+    "nodePathSaved": "Node.js路径已保存"
   },
   "buttons": {
     "chooseModel": "选择AI模型",
@@ -106,7 +111,11 @@
     "newInput": "新输入",
     "delete": "删除",
     "resetAll": "全部重置",
-    "remove": "移除"
+    "remove": "移除",
+    "continue": "继续",
+    "apply": "应用",
+    "configureNodePath": "配置Node.js路径",
+    "enterNodePath": "输入Node.js v20+路径"
   },
   "descriptions": {
     "improveCodeSelected": "优化选定的代码",
@@ -288,7 +297,7 @@
     "newChat": "新聊天",
     "chats": "聊天",
     "maxChatsReached": "已达到最大聊天数量。请删除旧聊天。",
-    "cannotDeleteLastChat": "无法删除最后一个聊天",
+    "cannotDeleteLastChat": "最后一个聊天无法删除",
     "confirmDelete": "确定删除聊天？",
     "noChatsYet": "还没有聊天",
     "createFirstChat": "创建你的第一个聊天！",
@@ -373,12 +382,12 @@
     "features": "功能",
     "integration": "集成",
     "feature1": "代码改进和优化",
-    "feature2": "用通俗语言解释错误",
+    "feature2": "用简单语言解释错误",
     "feature3": "自动代码注释",
     "feature4": "调试帮助和硬件诊断",
-    "feature5": "Token使用跟踪",
+    "feature5": "令牌使用跟踪",
     "feature6": "连接问题的离线帮助",
-    "feature7": "易于扩展的模块化架构",
+    "feature7": "便于扩展的模块化架构",
     "feature8": "多语言支持",
     "quickstart": "快速开始",
     "step1": "选择Arduino代码",
@@ -441,7 +450,11 @@
       "cardStyle": "卡片样式",
       "arduino-green": "Arduino绿色背景",
       "white-border": "白色背景与绿色边框",
-      "codeTemperature": "代码温度"
+      "codeTemperature": "代码温度",
+      "projectNotesEnabled": "启用项目备注",
+      "autoOpenInChat": "在聊天中自动打开",
+      "showCostWarning": "显示成本警告",
+      "costWarningThreshold": "成本阈值（美元）"
     },
     "descriptions": {
       "temperature": "AI创造力 (0 = 确定性, 1 = 创造性)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "聊天记录中消息的数量（用户/AI配对）",
       "promptHistoryLength": "历史提示的数量",
       "cardStyle": "聊天和代理选择卡片的视觉样式",
-      "codeTemperature": "代码生成温度（0 = 精确，1 = 创造性）。用于代码功能和聊天代码模式。"
+      "codeTemperature": "代码生成温度（0 = 精确，1 = 创造性）。用于代码功能和聊天代码模式。",
+      "projectNotesEnabled": "启用项目备注（用于项目特定AI指令的NOTES.ino）",
+      "autoOpenInChat": "在聊天中自动打开AI结果，而不是输出面板",
+      "showCostWarning": "在昂贵的API请求之前显示警告",
+      "costWarningThreshold": "成本警告的美元阈值（例如0.10 = 10美分）"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI解释"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "项目特定指令"
   }
 }

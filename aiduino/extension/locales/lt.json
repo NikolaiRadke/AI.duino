@@ -65,10 +65,15 @@
     "inlineCompletionEnabled": "✓ Inline užbaigimas aktyvuotas",
     "inlineCompletionDisabled": "Inline užbaigimas deaktyvuotas",
     "contextAttachedInfo": "🔎 Kontekstas pridėtas - galioja tik kitai žinutei. Naudok '🔄 Paskutinis kontekstas' pakartotinai naudoti.",
-    "noErrorInClipboard": "Mainų srityje nerasta klaidos informacijos. Pirmiausia spustelėk 'Kopijuoti klaidos pranešimą' Arduino IDE.",
+    "noErrorInClipboard": "Iškarpinėje nerasta klaidų informacijos. Pirmiausia spustelėkite 'Kopijuoti klaidos pranešimą' Arduino IDE.",
     "settingsSaved": "Nustatymai išsaugoti",
     "settingsReset": "Nustatymai atstatyti",
-    "detectingModels": "Aptinkami prieinami modeliai {0}..."
+    "detectingModels": "Aptinkami prieinami modeliai {0}...",
+    "promptCreateNotes": "💡 Sukurti NOTES.ino, kad paaiškintumėte savo projektą AI?",
+    "notesCreated": "✅ NOTES.ino sukurtas!",
+    "highCostWarning": "Numatoma kaina (be atsakymo): ${0} naudojant {1}. Tęsti?",
+    "codeApplied": "Kodas pritaikytas",
+    "nodePathSaved": "Node.js kelias išsaugotas"
   },
   "buttons": {
     "chooseModel": "Pasirinkti AI modelį",
@@ -106,7 +111,11 @@
     "newInput": "Naujas įvedimas",
     "delete": "Ištrinti",
     "resetAll": "Atstatyti viską",
-    "remove": "Pašalinti"
+    "remove": "Pašalinti",
+    "continue": "Tęsti",
+    "apply": "Pritaikyti",
+    "configureNodePath": "Konfigūruoti Node.js kelią",
+    "enterNodePath": "Įvesti Node.js v20+ kelią"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizuoti pažymėtą kodą",
@@ -288,7 +297,7 @@
     "newChat": "Naujas pokalbis",
     "chats": "Pokalbiai",
     "maxChatsReached": "Pasiektas maksimalus pokalbių skaičius. Prašome ištrinti senus pokalbius.",
-    "cannotDeleteLastChat": "Paskutinio pokalbio ištrinti negalima",
+    "cannotDeleteLastChat": "Paskutinio pokalbio negalima ištrinti",
     "confirmDelete": "Ištrinti pokalbį?",
     "noChatsYet": "Dar nėra pokalbių",
     "createFirstChat": "Sukurkite savo pirmą pokalbį!",
@@ -373,12 +382,12 @@
     "features": "Funkcijos",
     "integration": "Integracija",
     "feature1": "Kodo tobulinimas ir optimizavimas",
-    "feature2": "Klaidų paaiškinimai lietuvių kalba",
+    "feature2": "Klaidų paaiškinimas paprasta kalba",
     "feature3": "Automatinis kodo komentavimas",
-    "feature4": "Derinimo pagalba ir aparatūros diagnostika",
+    "feature4": "Derinimo pagalba ir aparatinės įrangos diagnostika",
     "feature5": "Žetonų naudojimo sekimas",
-    "feature6": "Atsijungimo pagalba ryšio problemoms",
-    "feature7": "Modulinė architektūra lengvam plėtimui",
+    "feature6": "Pagalba neprisijungus prie ryšio problemų",
+    "feature7": "Modulinė architektūra lengvam išplėtimui",
     "feature8": "Daugiakalbė parama",
     "quickstart": "Greitas pradžia",
     "step1": "Pažymėkite Arduino kodą",
@@ -441,7 +450,11 @@
       "cardStyle": "Kortelės stilius",
       "arduino-green": "Arduino žalias fonas",
       "white-border": "Baltas fonas su žaliu rėmeliu",
-      "codeTemperature": "Kodo temperatūra"
+      "codeTemperature": "Kodo temperatūra",
+      "projectNotesEnabled": "Įjungti projekto pastabas",
+      "autoOpenInChat": "Automatiškai atidaryti pokalbyje",
+      "showCostWarning": "Rodyti kainos įspėjimą",
+      "costWarningThreshold": "Kainos slenkstis (USD)"
     },
     "descriptions": {
       "temperature": "AI kūrybiškumas (0 = deterministinis, 1 = kūrybingas)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Pranešimų skaičius pokalbių istorijoje (vartotojo/AI poros)",
       "promptHistoryLength": "Užklausų skaičius istorijoje",
       "cardStyle": "Vizualinis stilius pokalbių ir agentų pasirinkimo kortelėms",
-      "codeTemperature": "Temperatūra kodo generavimui (0 = tikslus, 1 = kūrybiškas). Naudojamas kodo funkcijoms ir pokalbio kodo režime."
+      "codeTemperature": "Temperatūra kodo generavimui (0 = tikslus, 1 = kūrybiškas). Naudojamas kodo funkcijoms ir pokalbio kodo režime.",
+      "projectNotesEnabled": "Įjungti projekto pastabas (NOTES.ino projektui specifinėms AI instrukcijoms)",
+      "autoOpenInChat": "Automatiškai atidaryti AI rezultatus pokalbyje vietoj išvesties skydelio",
+      "showCostWarning": "Rodyti įspėjimą prieš brangius API užklausimus",
+      "costWarningThreshold": "Slenkstis USD kainos įspėjimui (pvz., 0.10 = 10 centų)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI paaiškinimas"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Projektui specifinės instrukcijos"
   }
 }

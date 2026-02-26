@@ -65,10 +65,15 @@
     "inlineCompletionEnabled": "✓ Inline dopuna aktivirana",
     "inlineCompletionDisabled": "Inline dopuna deaktivirana",
     "contextAttachedInfo": "🔎 Kontekst dodan - vrijedi samo za sljedeću poruku. Koristi '🔄 Posljednji kontekst' za ponovnu upotrebu.",
-    "noErrorInClipboard": "Nije pronađena informacija o grešci u međuspremniku. Molimo prvo klikni na 'Kopiraj poruku o grešci' u Arduino IDE-u.",
+    "noErrorInClipboard": "Nije pronađena informacija o grešci u međuspremniku. Molimo kliknite 'Kopiraj poruku o grešci' u Arduino IDE prvo.",
     "settingsSaved": "Postavke spremljene",
     "settingsReset": "Postavke vraćene na zadane",
-    "detectingModels": "Otkrivanje dostupnih modela za {0}..."
+    "detectingModels": "Otkrivanje dostupnih modela za {0}...",
+    "promptCreateNotes": "💡 Kreirati NOTES.ino da objasnite svoj projekt AI-u?",
+    "notesCreated": "✅ NOTES.ino kreiran!",
+    "highCostWarning": "Procijenjena cijena (bez odgovora): ${0} sa {1}. Nastaviti?",
+    "codeApplied": "Kod je primijenjen",
+    "nodePathSaved": "Node.js putanja je spremljena"
   },
   "buttons": {
     "chooseModel": "Odaberite AI model",
@@ -106,7 +111,11 @@
     "newInput": "Novi unos",
     "delete": "Obriši",
     "resetAll": "Resetiraj sve",
-    "remove": "Ukloni"
+    "remove": "Ukloni",
+    "continue": "Nastavi",
+    "apply": "Primijeni",
+    "configureNodePath": "Konfiguriraj Node.js putanju",
+    "enterNodePath": "Unesi Node.js v20+ putanju"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiziraj označeni kod",
@@ -288,7 +297,7 @@
     "newChat": "Novi chat",
     "chats": "Chatovi",
     "maxChatsReached": "Dosegnut maksimalan broj chatova. Molimo obrišite stare chatove.",
-    "cannotDeleteLastChat": "Zadnji chat ne može biti obrisan",
+    "cannotDeleteLastChat": "Posljednji chat ne može biti izbrisan",
     "confirmDelete": "Zaista obrisati chat?",
     "noChatsYet": "Još nema chatova",
     "createFirstChat": "Kreiraj svoj prvi chat!",
@@ -370,15 +379,15 @@
   },
   "about": {
     "tagline": "AI-potpomognuti Arduino razvoj",
-    "features": "Funkcije",
+    "features": "Značajke",
     "integration": "Integracija",
     "feature1": "Poboljšanje i optimizacija koda",
-    "feature2": "Objašnjavanje grešaka na hrvatskom",
+    "feature2": "Objašnjenje grešaka jednostavnim jezikom",
     "feature3": "Automatsko komentiranje koda",
-    "feature4": "Debug pomoć i hardware dijagnoza",
-    "feature5": "Praćenje potrošnje tokena",
-    "feature6": "Offline pomoć pri problemima veze",
-    "feature7": "Modularna arhitektura za lako proširivanje",
+    "feature4": "Pomoć u otklanjanju pogrešaka i dijagnostika hardvera",
+    "feature5": "Praćenje korištenja tokena",
+    "feature6": "Offline pomoć za probleme s vezom",
+    "feature7": "Modularna arhitektura za lako proširenje",
     "feature8": "Višejezična podrška",
     "quickstart": "Brzi početak",
     "step1": "Označite Arduino kod",
@@ -441,7 +450,11 @@
       "cardStyle": "Stil kartice",
       "arduino-green": "Arduino zelena pozadina",
       "white-border": "Bijela pozadina sa zelenim rubom",
-      "codeTemperature": "Temperatura koda"
+      "codeTemperature": "Temperatura koda",
+      "projectNotesEnabled": "Omogući bilješke projekta",
+      "autoOpenInChat": "Automatski otvori u chatu",
+      "showCostWarning": "Prikaži upozorenje o cijeni",
+      "costWarningThreshold": "Prag cijene (USD)"
     },
     "descriptions": {
       "temperature": "Kreativnost AI-a (0 = deterministički, 1 = kreativan)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Broj poruka u povijesti razgovora (parovi korisnik/AI)",
       "promptHistoryLength": "Broj promptova u povijesti",
       "cardStyle": "Vizualni stil za kartice razgovora i odabira agenta",
-      "codeTemperature": "Temperatura za generiranje koda (0 = precizno, 1 = kreativno). Koristi se za funkcije koda i u režimu chata s kodom."
+      "codeTemperature": "Temperatura za generiranje koda (0 = precizno, 1 = kreativno). Koristi se za funkcije koda i u režimu chata s kodom.",
+      "projectNotesEnabled": "Omogući bilješke projekta (NOTES.ino za AI upute specifične za projekt)",
+      "autoOpenInChat": "Automatski otvori AI rezultate u chatu umjesto u izlaznom panelu",
+      "showCostWarning": "Prikaži upozorenje prije skupih API zahtjeva",
+      "costWarningThreshold": "Prag u USD za upozorenje o cijeni (npr. 0.10 = 10 centi)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI objašnjenje"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Upute specifične za projekt"
   }
 }

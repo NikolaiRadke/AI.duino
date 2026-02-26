@@ -68,7 +68,12 @@
     "noErrorInClipboard": "Nenhuma informação de erro encontrada na área de transferência. Por favor, clique primeiro em 'Copiar mensagem de erro' no Arduino IDE.",
     "settingsSaved": "Configurações salvas",
     "settingsReset": "Configurações redefinidas",
-    "detectingModels": "Detectando modelos disponíveis para {0}..."
+    "detectingModels": "Detectando modelos disponíveis para {0}...",
+    "promptCreateNotes": "💡 Criar NOTES.ino para explicar seu projeto à IA?",
+    "notesCreated": "✅ NOTES.ino criado!",
+    "highCostWarning": "Custo estimado (sem resposta): ${0} com {1}. Continuar?",
+    "codeApplied": "Código aplicado",
+    "nodePathSaved": "Caminho do Node.js salvo"
   },
   "buttons": {
     "chooseModel": "Escolher Modelo de IA",
@@ -106,7 +111,11 @@
     "newInput": "Nova entrada",
     "delete": "Excluir",
     "resetAll": "Redefinir tudo",
-    "remove": "Remover"
+    "remove": "Remover",
+    "continue": "Continuar",
+    "apply": "Aplicar",
+    "configureNodePath": "Configurar caminho do Node.js",
+    "enterNodePath": "Inserir caminho do Node.js v20+"
   },
   "descriptions": {
     "improveCodeSelected": "Otimizar código selecionado",
@@ -374,12 +383,12 @@
     "integration": "Integração",
     "feature1": "Melhoria e otimização de código",
     "feature2": "Explicação de erros em linguagem simples",
-    "feature3": "Comentário automático de código",
-    "feature4": "Ajuda com debug e diagnóstico de hardware",
+    "feature3": "Comentários automáticos de código",
+    "feature4": "Ajuda de depuração e diagnóstico de hardware",
     "feature5": "Rastreamento de uso de tokens",
     "feature6": "Ajuda offline para problemas de conexão",
     "feature7": "Arquitetura modular para fácil extensão",
-    "feature8": "Suporte multi-idiomas",
+    "feature8": "Suporte multilíngue",
     "quickstart": "Início Rápido",
     "step1": "Selecione código Arduino",
     "step2": "Pressione",
@@ -441,7 +450,11 @@
       "cardStyle": "Estilo de cartão",
       "arduino-green": "Fundo verde Arduino",
       "white-border": "Fundo branco com borda verde",
-      "codeTemperature": "Temperatura do código"
+      "codeTemperature": "Temperatura do código",
+      "projectNotesEnabled": "Ativar notas de projeto",
+      "autoOpenInChat": "Abrir automaticamente no chat",
+      "showCostWarning": "Mostrar aviso de custo",
+      "costWarningThreshold": "Limite de custo (USD)"
     },
     "descriptions": {
       "temperature": "Criatividade da IA (0 = determinístico, 1 = criativo)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Número de mensagens no histórico de chat (pares utilizador/IA)",
       "promptHistoryLength": "Número de prompts no histórico",
       "cardStyle": "Estilo visual para cartões de chat e seleção de agentes",
-      "codeTemperature": "Temperatura para geração de código (0 = preciso, 1 = criativo). Usado para recursos de código e no modo de chat de código."
+      "codeTemperature": "Temperatura para geração de código (0 = preciso, 1 = criativo). Usado para recursos de código e no modo de chat de código.",
+      "projectNotesEnabled": "Ativar notas de projeto (NOTES.ino para instruções de IA específicas do projeto)",
+      "autoOpenInChat": "Abrir automaticamente resultados de IA no chat em vez do painel de saída",
+      "showCostWarning": "Mostrar aviso antes de solicitações de API caras",
+      "costWarningThreshold": "Limite em USD para aviso de custo (ex: 0.10 = 10 centavos)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "Explicação de IA"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Instruções específicas do projeto"
   }
 }

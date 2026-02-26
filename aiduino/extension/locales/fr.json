@@ -65,10 +65,15 @@
     "inlineCompletionDisabled": "Complétion en ligne désactivée",
     "operationAlreadyRunning": "Opération déjà en cours ! Veuillez patienter...",
     "contextAttachedInfo": "🔎 Contexte attaché - valable uniquement pour le prochain message. Utilisez '🔄 Dernier contexte' pour réutiliser.",
-    "noErrorInClipboard": "Aucune information d'erreur trouvée dans le presse-papiers. Veuillez d'abord cliquer sur 'Copier le message d'erreur' dans l'IDE Arduino.",
+    "noErrorInClipboard": "Aucune information d'erreur trouvée dans le presse-papiers. Veuillez d'abord cliquer sur 'Copier le message d'erreur' dans Arduino IDE.",
     "settingsSaved": "Paramètres enregistrés",
     "settingsReset": "Paramètres réinitialisés",
-    "detectingModels": "Détection des modèles disponibles pour {0}..."
+    "detectingModels": "Détection des modèles disponibles pour {0}...",
+    "promptCreateNotes": "💡 Créer NOTES.ino pour expliquer votre projet à l'IA ?",
+    "notesCreated": "✅ NOTES.ino créé !",
+    "highCostWarning": "Coût estimé (sans réponse) : ${0} avec {1}. Continuer ?",
+    "codeApplied": "Code appliqué",
+    "nodePathSaved": "Chemin Node.js enregistré"
   },
   "buttons": {
     "chooseModel": "Choisir le modèle IA",
@@ -106,7 +111,11 @@
     "newInput": "Nouvelle saisie",
     "delete": "Supprimer",
     "resetAll": "Tout réinitialiser",
-    "remove": "Supprimer"
+    "remove": "Supprimer",
+    "continue": "Continuer",
+    "apply": "Appliquer",
+    "configureNodePath": "Configurer le chemin Node.js",
+    "enterNodePath": "Entrer le chemin Node.js v20+"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiser le code sélectionné",
@@ -374,11 +383,11 @@
     "integration": "Intégration",
     "feature1": "Amélioration et optimisation du code",
     "feature2": "Explication des erreurs en langage simple",
-    "feature3": "Commentaires automatiques du code",
+    "feature3": "Commentaire automatique du code",
     "feature4": "Aide au débogage et diagnostic matériel",
     "feature5": "Suivi de l'utilisation des tokens",
     "feature6": "Aide hors ligne pour les problèmes de connexion",
-    "feature7": "Architecture modulaire pour extension facile",
+    "feature7": "Architecture modulaire pour une extension facile",
     "feature8": "Support multilingue",
     "quickstart": "Démarrage rapide",
     "step1": "Sélectionnez du code Arduino",
@@ -441,7 +450,11 @@
       "cardStyle": "Style de carte",
       "arduino-green": "Arrière-plan vert Arduino",
       "white-border": "Arrière-plan blanc avec bordure verte",
-      "codeTemperature": "Température du code"
+      "codeTemperature": "Température du code",
+      "projectNotesEnabled": "Activer les notes de projet",
+      "autoOpenInChat": "Ouvrir automatiquement dans le chat",
+      "showCostWarning": "Afficher l'avertissement de coût",
+      "costWarningThreshold": "Seuil de coût (USD)"
     },
     "descriptions": {
       "temperature": "Créativité de l'IA (0 = déterministe, 1 = créatif)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Nombre de messages dans l'historique du chat (paires utilisateur/IA)",
       "promptHistoryLength": "Nombre de prompts dans l'historique",
       "cardStyle": "Style visuel pour les cartes de chat et de sélection d'agent",
-      "codeTemperature": "Température pour la génération de code (0 = précis, 1 = créatif). Utilisée pour les fonctions de code et en mode chat code."
+      "codeTemperature": "Température pour la génération de code (0 = précis, 1 = créatif). Utilisée pour les fonctions de code et en mode chat code.",
+      "projectNotesEnabled": "Activer les notes de projet (NOTES.ino pour les instructions IA spécifiques au projet)",
+      "autoOpenInChat": "Ouvrir automatiquement les résultats IA dans le chat au lieu du panneau de sortie",
+      "showCostWarning": "Afficher un avertissement avant les requêtes API coûteuses",
+      "costWarningThreshold": "Seuil en USD pour l'avertissement de coût (ex. 0.10 = 10 centimes)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "Explication IA"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Instructions spécifiques au projet"
   }
 }

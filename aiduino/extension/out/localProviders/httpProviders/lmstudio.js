@@ -3,7 +3,7 @@
  * Handles LM Studio-specific request/response processing
  */
 
-const { detectBestModel } = require('./httpProvider');
+const modelDiscovery = require('../../utils/modelDiscovery');
 
 /**
  * Extract response from LM Studio JSON
@@ -43,25 +43,44 @@ function buildRequest(modelName, prompt) {
 }
 
 /**
- * Get best available LM Studio model
+ * Get best available LM Studio model using modelDiscovery service
  * Filters out embedding models and only returns LLM models
  */
 async function detectBestModelLMStudio(baseUrl, preferredModels, defaultPort = 1234) {
-    return detectBestModel(
-        baseUrl,
-        '/v1/models',
-        defaultPort, 
-        preferredModels,
-        (response) => {
-            if (!response.data) return [];
-            // Filter out embedding models - only include models with object: "model"
-            // Embedding models have object: "embedding" 
-            return response.data
-                .filter(m => !m.object || m.object === 'model')
-                .map(m => m.id) || [];
+    try {
+        // Get provider config
+        const { PROVIDER_CONFIGS } = require('../../config/providerConfigs');
+        const provider = PROVIDER_CONFIGS.lmstudio;
+        
+        // Discover models using modelDiscovery service
+        const models = await modelDiscovery.discoverModels('lmstudio', provider, baseUrl);
+        
+        if (!models || models.length === 0) {
+            console.log('[LM Studio] No models found, using fallback');
+            return provider.fallback;
         }
-    );
+        
+        // Try to find preferred model
+        if (preferredModels && preferredModels.length > 0) {
+            for (const preferred of preferredModels) {
+                const found = models.find(m => 
+                    m.id?.includes(preferred) || m.name?.includes(preferred)
+                );
+                if (found) {
+                    return found.id || found.name;
+                }
+            }
+        }
+        
+        // Use modelDiscovery's default selection
+        return modelDiscovery.selectDefaultModel(models, provider);
+    } catch (error) {
+        console.error('[LM Studio] Model detection error:', error.message);
+        const { PROVIDER_CONFIGS } = require('../../config/providerConfigs');
+        return PROVIDER_CONFIGS.lmstudio.fallback;
+    }
 }
+
 module.exports = {
     extractResponse,
     buildRequest,

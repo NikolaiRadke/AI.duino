@@ -65,10 +65,15 @@
     "inlineCompletionEnabled": "✓ Inline pabeigšana aktivizēta",
     "inlineCompletionDisabled": "Inline pabeigšana deaktivizēta",
     "contextAttachedInfo": "🔎 Konteksts pievienots - attiecas tikai uz nākamo ziņojumu. Izmanto '🔄 Pēdējais konteksts' atkārtotai izmantošanai.",
-    "noErrorInClipboard": "Starpliktuves neizdevās atrast kļūdas informāciju. Lūdzu, vispirms noklikšķini Arduino IDE uz 'Kopēt kļūdas ziņojumu'.",
+    "noErrorInClipboard": "Starpliktuvē nav atrasta kļūdas informācija. Lūdzu, vispirms noklikšķiniet uz 'Kopēt kļūdas ziņojumu' Arduino IDE.",
     "settingsSaved": "Iestatījumi saglabāti",
     "settingsReset": "Iestatījumi atiestatīti",
-    "detectingModels": "Pieejamo modeļu noteikšana {0}..."
+    "detectingModels": "Pieejamo modeļu noteikšana {0}...",
+    "promptCreateNotes": "💡 Izveidot NOTES.ino, lai izskaidrotu savu projektu AI?",
+    "notesCreated": "✅ NOTES.ino izveidots!",
+    "highCostWarning": "Paredzamās izmaksas (bez atbildes): ${0} ar {1}. Turpināt?",
+    "codeApplied": "Kods ir piemērots",
+    "nodePathSaved": "Node.js ceļš ir saglabāts"
   },
   "buttons": {
     "chooseModel": "Izvēlēties AI modeli",
@@ -106,7 +111,11 @@
     "newInput": "Jauns ievads",
     "delete": "Dzēst",
     "resetAll": "Atiestatīt visu",
-    "remove": "Noņemt"
+    "remove": "Noņemt",
+    "continue": "Turpināt",
+    "apply": "Piemērot",
+    "configureNodePath": "Konfigurēt Node.js ceļu",
+    "enterNodePath": "Ievadīt Node.js v20+ ceļu"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizēt iezīmēto kodu",
@@ -288,7 +297,7 @@
     "newChat": "Jauna saruna",
     "chats": "Sarunas",
     "maxChatsReached": "Sasniegts maksimālais tērzēšanas skaits. Lūdzu, izdzēsiet vecās tērzēšanas.",
-    "cannotDeleteLastChat": "Pēdējo sarunu nevar dzēst",
+    "cannotDeleteLastChat": "Pēdējo tērzēšanu nevar izdzēst",
     "confirmDelete": "Dzēst sarunu?",
     "noChatsYet": "Vēl nav sarunu",
     "createFirstChat": "Izveidojiet savu pirmo sarunu!",
@@ -373,10 +382,10 @@
     "features": "Funkcijas",
     "integration": "Integrācija",
     "feature1": "Koda uzlabošana un optimizācija",
-    "feature2": "Kļūdu skaidrojumi latviešu valodā",
+    "feature2": "Kļūdu skaidrojums vienkāršā valodā",
     "feature3": "Automātiska koda komentēšana",
     "feature4": "Atkļūdošanas palīdzība un aparatūras diagnostika",
-    "feature5": "Žetonu izmantošanas izsekošana",
+    "feature5": "Marķieru izmantošanas izsekošana",
     "feature6": "Bezsaistes palīdzība savienojuma problēmām",
     "feature7": "Modulāra arhitektūra vieglai paplašināšanai",
     "feature8": "Daudzvalodu atbalsts",
@@ -441,7 +450,11 @@
       "cardStyle": "Kartes stils",
       "arduino-green": "Arduino zaļš fons",
       "white-border": "Balts fons ar zaļu apmali",
-      "codeTemperature": "Koda temperatūra"
+      "codeTemperature": "Koda temperatūra",
+      "projectNotesEnabled": "Iespējot projekta piezīmes",
+      "autoOpenInChat": "Automātiski atvērt tērzēšanā",
+      "showCostWarning": "Rādīt izmaksu brīdinājumu",
+      "costWarningThreshold": "Izmaksu slieksnis (USD)"
     },
     "descriptions": {
       "temperature": "AI radošums (0 = deterministisks, 1 = radošs)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Ziņojumu skaits tērzēšanas vēsturē (lietotāja/AI pāri)",
       "promptHistoryLength": "Uzvedņu skaits vēsturē",
       "cardStyle": "Vizuālais stils tērzēšanas un aģentu izvēles kartēm",
-      "codeTemperature": "Temperatūra koda ģenerēšanai (0 = precīzs, 1 = radošs). Izmanto koda funkcijām un tērzēšanas koda režīmā."
+      "codeTemperature": "Temperatūra koda ģenerēšanai (0 = precīzs, 1 = radošs). Izmanto koda funkcijām un tērzēšanas koda režīmā.",
+      "projectNotesEnabled": "Iespējot projekta piezīmes (NOTES.ino projektam specifiskām AI instrukcijām)",
+      "autoOpenInChat": "Automātiski atvērt AI rezultātus tērzēšanā, nevis izvades panelī",
+      "showCostWarning": "Rādīt brīdinājumu pirms dārgiem API pieprasījumiem",
+      "costWarningThreshold": "Slieksnis USD izmaksu brīdinājumam (piemēram, 0.10 = 10 centi)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI skaidrojums"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Projektam specifiskas instrukcijas"
   }
 }

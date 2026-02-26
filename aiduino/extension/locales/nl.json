@@ -68,7 +68,12 @@
     "noErrorInClipboard": "Geen foutinformatie gevonden in klembord. Klik eerst op 'Foutmelding kopiëren' in Arduino IDE.",
     "settingsSaved": "Instellingen opgeslagen",
     "settingsReset": "Instellingen hersteld",
-    "detectingModels": "Beschikbare modellen detecteren voor {0}..."
+    "detectingModels": "Beschikbare modellen detecteren voor {0}...",
+    "promptCreateNotes": "💡 NOTES.ino aanmaken om je project aan de AI uit te leggen?",
+    "notesCreated": "✅ NOTES.ino aangemaakt!",
+    "highCostWarning": "Geschatte kosten (zonder antwoord): ${0} met {1}. Doorgaan?",
+    "codeApplied": "Code toegepast",
+    "nodePathSaved": "Node.js-pad opgeslagen"
   },
   "buttons": {
     "chooseModel": "AI-model kiezen",
@@ -106,7 +111,11 @@
     "newInput": "Nieuwe invoer",
     "delete": "Verwijderen",
     "resetAll": "Alles herstellen",
-    "remove": "Verwijderen"
+    "remove": "Verwijderen",
+    "continue": "Doorgaan",
+    "apply": "Toepassen",
+    "configureNodePath": "Node.js-pad configureren",
+    "enterNodePath": "Node.js v20+ pad invoeren"
   },
   "descriptions": {
     "improveCodeSelected": "Geselecteerde code optimaliseren",
@@ -373,11 +382,11 @@
     "features": "Functies",
     "integration": "Integratie",
     "feature1": "Codeverbetering en optimalisatie",
-    "feature2": "Foutuitleg in gewone taal",
-    "feature3": "Automatisch code becommentariëren",
-    "feature4": "Debug-hulp en hardware-diagnostiek",
-    "feature5": "Token-gebruik bijhouden",
-    "feature6": "Offline hulp bij verbindingsproblemen",
+    "feature2": "Foutuitleg in eenvoudige taal",
+    "feature3": "Automatische codebecommentariëring",
+    "feature4": "Debughulp en hardwarediagnose",
+    "feature5": "Tokengebruik bijhouden",
+    "feature6": "Offline hulp voor verbindingsproblemen",
     "feature7": "Modulaire architectuur voor eenvoudige uitbreiding",
     "feature8": "Meertalige ondersteuning",
     "quickstart": "Snelstart",
@@ -441,7 +450,11 @@
       "cardStyle": "Kaartstijl",
       "arduino-green": "Arduino groene achtergrond",
       "white-border": "Witte achtergrond met groene rand",
-      "codeTemperature": "Code-temperatuur"
+      "codeTemperature": "Code-temperatuur",
+      "projectNotesEnabled": "Projectnotities inschakelen",
+      "autoOpenInChat": "Automatisch openen in chat",
+      "showCostWarning": "Kostenwaarschuwing tonen",
+      "costWarningThreshold": "Kostendrempel (USD)"
     },
     "descriptions": {
       "temperature": "AI-creativiteit (0 = deterministisch, 1 = creatief)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Aantal berichten in chatgeschiedenis (gebruiker/AI-paren)",
       "promptHistoryLength": "Aantal prompts in geschiedenis",
       "cardStyle": "Visuele stijl voor chat- en agentselectiekaarten",
-      "codeTemperature": "Temperatuur voor code-generatie (0 = nauwkeurig, 1 = creatief). Wordt gebruikt voor codefuncties en in chat-codemodus."
+      "codeTemperature": "Temperatuur voor code-generatie (0 = nauwkeurig, 1 = creatief). Wordt gebruikt voor codefuncties en in chat-codemodus.",
+      "projectNotesEnabled": "Projectnotities inschakelen (NOTES.ino voor projectspecifieke AI-instructies)",
+      "autoOpenInChat": "AI-resultaten automatisch openen in chat in plaats van uitvoerpaneel",
+      "showCostWarning": "Waarschuwing tonen voor dure API-verzoeken",
+      "costWarningThreshold": "Drempel in USD voor kostenwaarschuwing (bijv. 0.10 = 10 cent)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI-uitleg"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Projectspecifieke instructies"
   }
 }

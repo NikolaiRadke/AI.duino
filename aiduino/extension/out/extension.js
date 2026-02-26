@@ -1,6 +1,6 @@
 /*
  * AI.duino
- * Copyright 2025 Monster Maker
+ * Copyright 2026 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
  */
@@ -18,6 +18,7 @@ const path = require("path");
 
 // Core modules
 const { UnifiedAPIClient } = require('./core/apiClient');
+const { AgenticClient } = require('./core/agenticClient');
 const { ExecutionStateManager } = require('./core/executionStateManager');
 const { EventManager } = require('./core/eventManager');
 const { CommandRegistry } = require('./core/commandRegistry');
@@ -34,7 +35,7 @@ const featureLoaders = {
     debugHelp: () => require('./features/debugHelp'),
     promptEditor: () => require('./features/promptEditor'),
     customAgents: () => require('./features/customAgents'),
-    analyzeCode: () => require('./features/analyzeCode')
+    analyzeCode: () => require('./features/analyzeCode'),
 };
 const inlineCompletion = require('./features/inlineCompletion/completionProvider');
 
@@ -92,6 +93,7 @@ let eventManager;
 let promptHistory;
 let settingsManager;
 let apiClient;
+let agenticClient;
 let tokenManager;
 
 // Single instance of model manager
@@ -149,12 +151,27 @@ class MinimalModelManager {
             };
         }
         
+        // Read actual saved model from keyFile
+        let modelName = this.cleanName(provider.fallback);
+        let modelId = provider.fallback;
+        try {
+            const keyFile = path.join(AIDUINO_DIR, provider.keyFile);
+            if (fs.existsSync(keyFile)) {
+                const saved = fs.readFileSync(keyFile, 'utf8').trim();
+                if (saved.includes('|')) {
+                    const parts = saved.split('|');
+                    modelId = parts[parts.length - 1];
+                    modelName = this.cleanName(modelId);
+                }
+            }
+        } catch (e) { /* use fallback */ }
+
         return {
             name: provider.name,
             icon: provider.icon,
             color: provider.color,
-            modelName: this.cleanName(provider.fallback),
-            modelId: provider.fallback,
+            modelName: modelName,
+            modelId: modelId,
             hasApiKey: this.hasApiKey(providerId),
             isLatest: true
         };
@@ -168,17 +185,24 @@ class MinimalModelManager {
     getCurrentModel(providerId) {
         const provider = this.providers[providerId];
         if (!provider) {
-            return {
-                id: 'unknown',
-                name: 'Unknown',
-                isFallback: true
-            };
+            return { id: 'unknown', name: 'Unknown', isFallback: true };
         }
-        
+
+        let modelId = provider.fallback;
+        try {
+            const keyFile = path.join(AIDUINO_DIR, provider.keyFile);
+            if (fs.existsSync(keyFile)) {
+                const saved = fs.readFileSync(keyFile, 'utf8').trim();
+                if (saved.includes('|')) {
+                    modelId = saved.split('|').pop();
+                }
+            }
+        } catch (e) { /* use fallback */ }
+
         return {
-            id: provider.fallback,
-            name: this.cleanName(provider.fallback),
-            isFallback: true
+            id: modelId,
+            name: this.cleanName(modelId),
+            isFallback: false
         };
     }
 
@@ -392,6 +416,7 @@ async function activate(context) {
     globalContext = context;
     settingsManager = new SettingsManager(context);
     apiClient = new UnifiedAPIClient({ settings: settingsManager }); 
+    agenticClient = new AgenticClient({ settings: settingsManager });
 
     // Generate AI.duino folder and migrate files
     if (!fs.existsSync(AIDUINO_DIR)) {
@@ -434,28 +459,8 @@ async function activate(context) {
                 currentModel = savedModel;
             }
             
-            // NEW: Detect models for cloud providers on startup (if not already detected)
-            for (const [providerId, apiKey] of Object.entries(apiKeys)) {
-                const provider = minimalModelManager.providers[providerId];
-                // Skip if already has model selection or is local provider
-                if (!apiKey || apiKey.includes('|') || provider.type === 'local') {
-                    continue;
-                }
-                
-                // Run detection in background (don't block startup)
-                apiManager.detectBestCloudModel(providerId, apiKey, minimalModelManager.providers)
-                    .then(detectedModel => {
-                        if (detectedModel) {
-                            const updatedKey = `${apiKey}|${detectedModel}`;
-                            apiKeys[providerId] = updatedKey;
-                            fileManager.saveApiKey(providerId, updatedKey, minimalModelManager.providers);
-                            console.log(`✓ Updated ${provider.name} to use: ${detectedModel}`);
-                        }
-                    })
-                    .catch(err => {
-                        console.log(`✗ Startup model detection failed for ${provider.name}:`, err.message);
-                    });
-            }
+            // Note: Model selection is now handled interactively when user switches providers
+            // No automatic model detection on startup - users choose their preferred model
         })(),
         // Load locale configuration
         loadLocaleAsync()
@@ -503,6 +508,19 @@ async function activate(context) {
     // Register all commands
     registerCommands(context);
 
+    // Check for NOTES.ino when extension activates with a .ino file open
+    const activeEditor = vscode.window.activeTextEditor;
+
+    if (activeEditor && activeEditor.document.fileName.endsWith('.ino')) {
+        const sketchDir = path.dirname(activeEditor.document.uri.fsPath);
+    
+        setTimeout(() => {
+            fileManager.checkAndPromptForNotes(sketchDir, t, settingsManager);  // <- settingsManager übergeben!
+        }, 3000);
+    }
+
+    // Initialize inline completion (only activates if enabled in settings)
+
     // Initialize inline completion (only activates if enabled in settings)
     inlineCompletion.registerInlineCompletion(getDependencies())
         .then(() => {
@@ -535,6 +553,7 @@ function registerCommands(context) {
         showQuickMenu,
         switchModel: () => apiManager.switchModel(getDependencies()),
         setApiKey: () => apiManager.setApiKey(getDependencies()),
+        setNodePath: () => apiManager.setNodePath(getDependencies()),
         switchLanguage,
         clearAIContext,
         showSettings: (context, openCategory) => showSettings(context || getDependencies(), openCategory),
@@ -592,6 +611,7 @@ function getDependencies() {
         
         // Core clients/services
         apiClient,
+        agenticClient,
         fileManager,
         validation,
         

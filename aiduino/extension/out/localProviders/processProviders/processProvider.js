@@ -1,6 +1,6 @@
 /*
  * AI.duino - Process Provider Handler
- * Copyright 2025 Monster Maker
+ * Copyright 2026 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
  * 
@@ -65,20 +65,17 @@ async function executeCommand(toolPath, prompt, context, provider, sessionId = n
  */
 async function executeProcessProvider(toolPath, args, providerName, t, timeout = 300000, options = {}) {
     const path = require('path');
-    
-    // Remove any quotes from path (Windows issue)
-    const cleanPath = toolPath.replace(/['"]/g, '');
-    const normalizedPath = path.normalize(cleanPath);
+    const normalizedToolPath = path.normalize(toolPath);
     
     return new Promise((resolve, reject) => {
-        const spawnOptions = {
-            cwd: options.cwd || process.cwd(),  // Use process.cwd() instead of /tmp on Windows
+        const childProcess = spawn(normalizedToolPath, args, {
+            cwd: options.cwd || '/tmp',
             stdio: ['ignore', 'pipe', 'pipe'],
-            shell: process.platform === 'win32',  // CRITICAL for Windows!
+            detached: true,
             windowsHide: true
-        };
+        });
         
-        const childProcess = spawn(normalizedPath, args, spawnOptions);
+        childProcess.unref();
         
         let stdout = '';
         let stderr = '';

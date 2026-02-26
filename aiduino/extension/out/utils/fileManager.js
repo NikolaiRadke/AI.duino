@@ -1,6 +1,6 @@
 /*
  * AI.duino - File Management Utilities Module
- * Copyright 2026 Monster Maker
+ * Copyright 2025 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
  */
@@ -78,7 +78,7 @@ function atomicWrite(filePath, content, options = { mode: SECURE_FILE_MODE }) {
             if (fileExists(filePath)) {
                 fs.copyFileSync(filePath, backupFile);
             }
-            fs.writeFileSync(filePath, content, { ...options, encoding: 'utf8' });
+            fs.writeFileSync(filePath, content, { ...options, encoding: 'utf8' }); 
             if (fileExists(backupFile)) {
                 fs.unlinkSync(backupFile);
             }
@@ -398,6 +398,172 @@ async function readAdditionalFiles(filePaths) {
     return results;
 }
 
+/**
+ * Check if NOTES.ino should be created and prompt user
+ * @param {string} sketchDir - Sketch directory path
+ * @param {Function} t - Translation function
+ */
+async function checkAndPromptForNotes(sketchDir, t, settings) {
+    const vscode = require('vscode');
+    
+    // Check if feature is enabled
+    if (!settings.get('projectNotesEnabled')) {
+        return;
+    }
+    
+    const notesFile = path.join(sketchDir, 'NOTES.ino');
+    
+    // Only check if NOTES.ino exists
+    if (fs.existsSync(notesFile)) {
+        return;
+    }
+    
+    setTimeout(async () => {
+        const choice = await vscode.window.showInformationMessage(
+            t('messages.promptCreateNotes'),
+            t('buttons.yes'),
+            t('buttons.later')
+        );
+        
+        if (choice === t('buttons.yes')) {
+            await createNotesTemplate(sketchDir, t);
+        }
+        // No flag file needed - if user clicks "Later", they'll be asked again next time
+    }, 2000);
+}
+
+async function createNotesTemplate(sketchDir, t) {
+    const vscode = require('vscode');
+    const notesFile = path.join(sketchDir, 'NOTES.ino');
+    const template = `#if 0
+// ${t('projectNotes.commentPlaceholder')}
+
+#endif
+`;
+    
+    try {
+        fs.writeFileSync(notesFile, template, 'utf8');
+        const doc = await vscode.workspace.openTextDocument(notesFile);
+        await vscode.window.showTextDocument(doc);
+        vscode.window.showInformationMessage(t('messages.notesCreated'));
+    } catch (error) {
+        vscode.window.showErrorMessage(`Error creating NOTES.ino: ${error.message}`);
+    }
+}
+
+// ===== BACKUP FILE OPERATIONS (for Agentic Coding) =====
+
+/**
+ * Write file with backup (backup remains until manually cleaned)
+ * @param {string} filePath - File to write
+ * @param {string} content - Content to write
+ * @returns {boolean} Success status
+ */
+function writeFileWithBackup(filePath, content) {
+    try {
+        // Create backup of existing file
+        if (fileExists(filePath)) {
+            const backupPath = filePath + '.bak';
+            fs.copyFileSync(filePath, backupPath);
+        }
+        fs.writeFileSync(filePath, content, 'utf8');
+        return true;
+    } catch (error) {
+        console.log(`Failed to write ${filePath}:`, error.message);
+        return false;
+    }
+}
+
+/**
+ * Restore file from backup
+ * @param {string} filePath - Original file path
+ * @returns {boolean} Success status
+ */
+function restoreFromBackup(filePath) {
+    const backupPath = filePath + '.bak';
+    if (!fileExists(backupPath)) return false;
+    
+    try {
+        fs.copyFileSync(backupPath, filePath);
+        fs.unlinkSync(backupPath);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+/**
+ * Remove backup file
+ * @param {string} filePath - Original file path
+ */
+function removeBackup(filePath) {
+    const backupPath = filePath + '.bak';
+    try {
+        if (fileExists(backupPath)) {
+            fs.unlinkSync(backupPath);
+        }
+    } catch {
+        // Ignore
+    }
+}
+
+/**
+ * Restore all backups in a directory
+ * @param {string} dirPath - Directory path
+ * @returns {number} Number of restored files
+ */
+function restoreAllBackups(dirPath) {
+    let count = 0;
+    try {
+        const files = fs.readdirSync(dirPath);
+        for (const file of files) {
+            if (file.endsWith('.bak')) {
+                const originalPath = path.join(dirPath, file.slice(0, -4));
+                if (restoreFromBackup(originalPath)) count++;
+            }
+        }
+    } catch {
+        // Ignore
+    }
+    return count;
+}
+
+/**
+ * Remove all backups in a directory
+ * @param {string} dirPath - Directory path
+ */
+function removeAllBackups(dirPath) {
+    try {
+        const files = fs.readdirSync(dirPath);
+        for (const file of files) {
+            if (file.endsWith('.bak')) {
+                fs.unlinkSync(path.join(dirPath, file));
+            }
+        }
+    } catch {
+        // Ignore
+    }
+}
+
+/**
+ * Save Node.js v20+ path for Gemini CLI
+ * @param {string} nodePath - Path to Node.js executable
+ * @returns {boolean} Success status
+ */
+function saveNodePath(nodePath) {
+    const nodeFile = path.join(AIDUINO_DIR, '.aiduino-node-path');
+    return atomicWrite(nodeFile, nodePath);
+}
+
+/**
+ * Load Node.js v20+ path
+ * @returns {string|null} Node.js path or null
+ */
+function loadNodePath() {
+    const nodeFile = path.join(AIDUINO_DIR, '.aiduino-node-path');
+    return safeReadFile(nodeFile);
+}
+
 // ===== EXPORTS =====
 
 module.exports = {
@@ -418,6 +584,8 @@ module.exports = {
     saveSelectedModel,
     loadSelectedModel,      // sync - for runtime
     loadSelectedModelAsync, // async - for startup
+    saveNodePath,
+    loadNodePath,
     
     // Utilities
     getVersionFromPackage,       // sync
@@ -427,5 +595,14 @@ module.exports = {
 
     // File picker & additional files
     pickAdditionalFiles,
-    readAdditionalFiles
+    readAdditionalFiles,
+    checkAndPromptForNotes,  
+    createNotesTemplate, 
+
+    // Backup operations (for Agentic Coding)
+    writeFileWithBackup,
+    restoreFromBackup,
+    removeBackup,
+    restoreAllBackups,
+    removeAllBackups,
 };

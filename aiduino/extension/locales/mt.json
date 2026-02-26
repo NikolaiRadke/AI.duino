@@ -65,10 +65,15 @@
     "inlineCompletionEnabled": "✓ Kompletament inline attivat",
     "inlineCompletionDisabled": "Kompletament inline diżattivat",
     "contextAttachedInfo": "🔎 Il-kuntest miżjud - japplika biss għall-messaġġ li jmiss. Uża '🔄 L-aħħar kuntest' biex terġa' tuża.",
-    "noErrorInClipboard": "Ma nstabx informazzjoni dwar żball fil-clipboard. Jekk jogħġbok ikklikkja l-ewwel fuq 'Ikkopja messaġġ ta' żball' fl-Arduino IDE.",
+    "noErrorInClipboard": "L-ebda informazzjoni dwar żball ma nstabet fil-clipboard. Jekk jogħġbok ikklikkja l-ewwel 'Ikkopja messaġġ ta' żball' fl-Arduino IDE.",
     "settingsSaved": "Is-settings ġew salvati",
     "settingsReset": "Is-settings ġew irristjati",
-    "detectingModels": "Kxif ta' mudelli disponibbli għal {0}..."
+    "detectingModels": "Kxif ta' mudelli disponibbli għal {0}...",
+    "promptCreateNotes": "💡 Oħloq NOTES.ino biex tispjega l-proġett tiegħek lill-AI?",
+    "notesCreated": "✅ NOTES.ino maħluq!",
+    "highCostWarning": "Spiża stmata (mingħajr risposta): ${0} b'{1}. Kompli?",
+    "codeApplied": "Il-kodiċi ġie applikat",
+    "nodePathSaved": "Il-mogħdija Node.js ġiet salvata"
   },
   "buttons": {
     "chooseModel": "Agħżel mudell AI",
@@ -106,7 +111,11 @@
     "newInput": "Input ġdid",
     "delete": "Ħassar",
     "resetAll": "Irristja kollox",
-    "remove": "Neħħi"
+    "remove": "Neħħi",
+    "continue": "Kompli",
+    "apply": "Applika",
+    "configureNodePath": "Ikkonfigura mogħdija Node.js",
+    "enterNodePath": "Daħħal mogħdija Node.js v20+"
   },
   "descriptions": {
     "improveCodeSelected": "Ħassan il-kodiċi magħżul",
@@ -373,12 +382,12 @@
     "features": "Karatteristiċi",
     "integration": "Integrazzjoni",
     "feature1": "Titjib u ottimizzazzjoni tal-kodiċi",
-    "feature2": "Spjegazzjoni ta' żbalji bil-Malti",
+    "feature2": "Spjegazzjoni ta' żbalji f'lingwa sempliċi",
     "feature3": "Kummenti awtomatiċi tal-kodiċi",
-    "feature4": "Għajnuna tad-debug u dijanjosi tal-hardware",
-    "feature5": "Traċċar tal-użu tat-tokens",
+    "feature4": "Għajnuna għad-debug u dijanjosi tal-ħardwer",
+    "feature5": "Monitoraġġ tal-użu tat-tokens",
     "feature6": "Għajnuna offline għal problemi ta' konnessjoni",
-    "feature7": "Arkitettura modulari għal estensjoni faċli",
+    "feature7": "Arkitettura modulari għal estenżjoni faċli",
     "feature8": "Appoġġ multilingwi",
     "quickstart": "Bidu malajr",
     "step1": "Agħżel kodiċi Arduino",
@@ -441,7 +450,11 @@
       "cardStyle": "Stil tal-kard",
       "arduino-green": "Sfond aħdar Arduino",
       "white-border": "Sfond abjad b'limitu aħdar",
-      "codeTemperature": "Temperatura tal-kodiċi"
+      "codeTemperature": "Temperatura tal-kodiċi",
+      "projectNotesEnabled": "Ippermetti noti tal-proġett",
+      "autoOpenInChat": "Iftaħ awtomatikament fil-chat",
+      "showCostWarning": "Uri twissija dwar il-prezz",
+      "costWarningThreshold": "Limitu tal-prezz (USD)"
     },
     "descriptions": {
       "temperature": "Kreattività tal-AI (0 = deterministiku, 1 = kreattiv)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Numru ta' messaġġi fl-istorja taċ-chat (pari utent/AI)",
       "promptHistoryLength": "Numru ta' prompts fl-istorja",
       "cardStyle": "Stil viżwali għall-karti taċ-chat u għażla tal-aġent",
-      "codeTemperature": "Temperatura għall-ġenerazzjoni tal-kodiċi (0 = preċiż, 1 = kreattiv). Jintuża għall-karatteristiċi tal-kodiċi u fil-modalità tal-chat tal-kodiċi."
+      "codeTemperature": "Temperatura għall-ġenerazzjoni tal-kodiċi (0 = preċiż, 1 = kreattiv). Jintuża għall-karatteristiċi tal-kodiċi u fil-modalità tal-chat tal-kodiċi.",
+      "projectNotesEnabled": "Ippermetti noti tal-proġett (NOTES.ino għal istruzzjonijiet AI speċifiċi għall-proġett)",
+      "autoOpenInChat": "Iftaħ awtomatikament ir-riżultati AI fil-chat minflok fil-panel tal-output",
+      "showCostWarning": "Uri twissija qabel talbiet API għaljin",
+      "costWarningThreshold": "Limitu f'USD għal twissija tal-prezz (eż. 0.10 = 10 ċenteżmi)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "Spjegazzjoni AI"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Istruzzjonijiet speċifiċi għall-proġett"
   }
 }

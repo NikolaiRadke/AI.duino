@@ -68,7 +68,12 @@
     "noErrorInClipboard": "Panoda hata bilgisi bulunamadı. Lütfen önce Arduino IDE'de 'Hata mesajını kopyala'ya tıklayın.",
     "settingsSaved": "Ayarlar kaydedildi",
     "settingsReset": "Ayarlar sıfırlandı",
-    "detectingModels": "{0} için mevcut modeller algılanıyor..."
+    "detectingModels": "{0} için mevcut modeller algılanıyor...",
+    "promptCreateNotes": "💡 Projenizi AI'ya açıklamak için NOTES.ino oluşturulsun mu?",
+    "notesCreated": "✅ NOTES.ino oluşturuldu!",
+    "highCostWarning": "Tahmini maliyet (yanıt hariç): ${0} ({1} ile). Devam edilsin mi?",
+    "codeApplied": "Kod uygulandı",
+    "nodePathSaved": "Node.js yolu kaydedildi"
   },
   "buttons": {
     "chooseModel": "YZ Modeli Seç",
@@ -106,7 +111,11 @@
     "newInput": "Yeni giriş",
     "delete": "Sil",
     "resetAll": "Tümünü sıfırla",
-    "remove": "Kaldır"
+    "remove": "Kaldır",
+    "continue": "Devam et",
+    "apply": "Uygula",
+    "configureNodePath": "Node.js yolunu yapılandır",
+    "enterNodePath": "Node.js v20+ yolunu girin"
   },
   "descriptions": {
     "improveCodeSelected": "Seçili kodu optimize et",
@@ -288,7 +297,7 @@
     "newChat": "Yeni sohbet",
     "chats": "Sohbetler",
     "maxChatsReached": "Maksimum sohbet sayısına ulaşıldı. Lütfen eski sohbetleri silin.",
-    "cannotDeleteLastChat": "Son sohbet silinemiyor",
+    "cannotDeleteLastChat": "Son sohbet silinemez",
     "confirmDelete": "Sohbet silinsin mi?",
     "noChatsYet": "Henüz sohbet yok",
     "createFirstChat": "İlk sohbetini oluştur!",
@@ -373,10 +382,10 @@
     "features": "Özellikler",
     "integration": "Entegrasyon",
     "feature1": "Kod iyileştirme ve optimizasyon",
-    "feature2": "Hataları sade dille açıklama",
+    "feature2": "Hataların basit dille açıklanması",
     "feature3": "Otomatik kod yorumlama",
     "feature4": "Hata ayıklama yardımı ve donanım teşhisi",
-    "feature5": "Token kullanımı takibi",
+    "feature5": "Token kullanım takibi",
     "feature6": "Bağlantı sorunları için çevrimdışı yardım",
     "feature7": "Kolay genişletme için modüler mimari",
     "feature8": "Çok dilli destek",
@@ -441,7 +450,11 @@
       "cardStyle": "Kart stili",
       "arduino-green": "Arduino yeşil arka plan",
       "white-border": "Yeşil kenarlıklı beyaz arka plan",
-      "codeTemperature": "Kod sıcaklığı"
+      "codeTemperature": "Kod sıcaklığı",
+      "projectNotesEnabled": "Proje notlarını etkinleştir",
+      "autoOpenInChat": "Sohbette otomatik aç",
+      "showCostWarning": "Maliyet uyarısını göster",
+      "costWarningThreshold": "Maliyet eşiği (USD)"
     },
     "descriptions": {
       "temperature": "AI yaratıcılığı (0 = deterministik, 1 = yaratıcı)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Sohbet geçmişindeki mesaj sayısı (kullanıcı/AI çiftleri)",
       "promptHistoryLength": "Geçmişteki komut sayısı",
       "cardStyle": "Sohbet ve ajan seçim kartları için görsel stil",
-      "codeTemperature": "Kod üretimi için sıcaklık (0 = hassas, 1 = yaratıcı). Kod özellikleri ve sohbet kod modunda kullanılır."
+      "codeTemperature": "Kod üretimi için sıcaklık (0 = hassas, 1 = yaratıcı). Kod özellikleri ve sohbet kod modunda kullanılır.",
+      "projectNotesEnabled": "Proje notlarını etkinleştir (projeye özgü AI talimatları için NOTES.ino)",
+      "autoOpenInChat": "AI sonuçlarını çıktı paneli yerine sohbette otomatik olarak aç",
+      "showCostWarning": "Pahalı API isteklerinden önce uyarı göster",
+      "costWarningThreshold": "Maliyet uyarısı için USD eşiği (örn. 0.10 = 10 sent)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI açıklaması"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Projeye özgü talimatlar"
   }
 }

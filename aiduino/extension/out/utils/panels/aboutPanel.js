@@ -68,19 +68,6 @@ function generateAboutHTML(logoDataUrl, modelBadges, modelFeatures, apiKeysList,
     <p><strong>${t('about.tagline')}</strong></p>
     <div>${modelBadges}</div>
     
-    <div class="info-box">
-        <h3>${t('about.features')}:</h3>
-        ${modelFeatures}
-        <div class="feature">${t('about.feature1')}</div>
-        <div class="feature">${t('about.feature2')}</div>
-        <div class="feature">${t('about.feature3')}</div>
-        <div class="feature">${t('about.feature4')}</div>
-        <div class="feature">${t('about.feature5')}</div>
-        <div class="feature">${t('about.feature6')}</div>
-        <div class="feature">${t('about.feature7')}</div>
-        <div class="feature">${t('about.feature8')}</div>
-    </div>
-    
     <div class="tutorial">
         <h3>${t('about.quickstart')}:</h3>
         <p>1. ${t('about.step1')}</p>

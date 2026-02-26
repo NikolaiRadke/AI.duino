@@ -1,20 +1,30 @@
 /*
  * AI.duino - API Manager Module
- * Copyright 2025 Monster Maker
+ * Copyright 2026 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
  */
 
 const vscode = require('vscode');
+const modelDiscovery = require('./modelDiscovery');
 
 /**
- * Main API call function - delegates to UnifiedAPIClient
+ * Main AI call function - routes to appropriate client
+ * Delegates to agenticClient for CLI-based providers (Claude Code, Codex)
+ * or apiClient for HTTP-based providers (Claude API, ChatGPT, etc.)
  * @param {string} prompt - The prompt to send to AI
  * @param {Object} context - Extension context with dependencies
  * @returns {Promise} AI response promise
  */
 function callAI(prompt, context) {
-    const { apiClient, currentModel } = context;
+    const { apiClient, agenticClient, currentModel, minimalModelManager } = context;
+    const provider = minimalModelManager.providers[currentModel];
+    
+    // Route to agentic or API client
+    if (provider.agentModule && agenticClient) {
+        return agenticClient.callAgent(currentModel, prompt, context);
+    }
+    
     return apiClient.callAPI(currentModel, prompt, context);
 }
 
@@ -45,7 +55,8 @@ async function switchModel(context) {
         const items = [];
         const cloudItems = [];
         const aggregatorItems = [];
-        const localItems = [];
+        const localAgenticItems = [];
+        const localHttpItems = [];
 
         Object.keys(minimalModelManager.providers).forEach(modelId => {
             const provider = minimalModelManager.providers[modelId];
@@ -53,12 +64,17 @@ async function switchModel(context) {
     
             const item = {
                 label: `${provider.icon} ${provider.name}`,
-                description: modelId === currentModel ? '✓ ' + t('labels.active') : currentModelInfo.name,
+                description: modelId === currentModel ? '✔ ' + t('labels.active') : currentModelInfo.name,
                 value: modelId
             };
     
             if (provider.type === 'local') {
-                localItems.push(item);
+                // Separate agentic local providers (processConfig) from HTTP providers (httpConfig)
+                if (provider.agentModule || provider.processConfig) {
+                    localAgenticItems.push(item);
+                } else {
+                    localHttpItems.push(item);
+                }
             } else if (provider.requiresModelSelection) {
                 aggregatorItems.push(item);
             } else {
@@ -71,9 +87,13 @@ async function switchModel(context) {
             allItems.push({ label: '', kind: vscode.QuickPickItemKind.Separator });
             allItems.push(...aggregatorItems);
         }
-        if (localItems.length > 0) {
+        if (localAgenticItems.length > 0) {
             allItems.push({ label: '', kind: vscode.QuickPickItemKind.Separator });
-            allItems.push(...localItems);
+            allItems.push(...localAgenticItems);
+        }
+        if (localHttpItems.length > 0) {
+            allItems.push({ label: '', kind: vscode.QuickPickItemKind.Separator });
+            allItems.push(...localHttpItems);
         }
 
         const selected = await vscode.window.showQuickPick(allItems, {
@@ -98,48 +118,66 @@ async function switchModel(context) {
             
             const provider = minimalModelManager.providers[selected.value];
             
-            // Check if model selection is required (OpenRouter)
-            if (provider.requiresModelSelection && provider.availableModels) {
-                const modelChoice = await showModelSelectionPicker(provider, t);
+            // Check if model selection is enabled
+            // Only for: API providers with modelDiscovery OR marketplace providers with requiresModelSelection
+            // NOT for: Local CLI providers (claudecode, mistralvibe, etc.)
+            const needsModelSelection = (
+                (provider.modelDiscovery?.enabled === true) || 
+                (provider.requiresModelSelection === true)
+            );
+            
+            if (needsModelSelection) {
+                let apiKey = updatedContext.apiKeys[selected.value];
+                
+                // Get API key first if not available
+                if (!apiKey) {
+                    // For local providers with autoDetectUrls, try auto-detection first
+                    if (provider.autoDetectUrls) {
+                        apiKey = await autoDetectLocalProvider(selected.value, minimalModelManager.providers);
+                        if (apiKey) {
+                            updatedContext.apiKeys[selected.value] = apiKey;
+                            fileManager.saveApiKey(selected.value, apiKey, minimalModelManager.providers);
+                        }
+                    }
+
+                    if (!apiKey) {
+                        const choice = await vscode.window.showWarningMessage(
+                            t('messages.apiKeyRequired', provider.name),
+                            t('buttons.enterNow'),
+                            t('buttons.later')
+                        );
+                        if (choice === t('buttons.enterNow')) {
+                            await setApiKey(updatedContext);
+                            apiKey = updatedContext.apiKeys[selected.value];
+                        }
+                        
+                        if (!apiKey) {
+                            updateStatusBar();
+                            return; // User cancelled or no API key
+                        }
+                    }
+                }
+                
+                // Strip old model selection if exists (format: key|model)
+                const keyOnly = apiKey.split('|')[0];
+                
+                // Show model picker with discovered models
+                const modelChoice = await showModelSelectionPicker(provider, t, keyOnly, selected.value);
+                
                 if (!modelChoice) {
                     updateStatusBar();
                     return; // User cancelled
                 }
                 
-                // Save selection in format: sk-or-xxx|model-id
-                let apiKey = updatedContext.apiKeys[selected.value];
-                if (apiKey) {
-                    // Strip old model if exists (format: key|model)
-                    const keyOnly = apiKey.split('|')[0];
-                    const savedConfig = `${keyOnly}|${modelChoice.id}`;
-                    updatedContext.apiKeys[selected.value] = savedConfig;
-                    fileManager.saveApiKey(selected.value, savedConfig, minimalModelManager.providers);
-                    updateStatusBar();
-                    vscode.window.showInformationMessage(
-                        t('messages.modelSwitched', `${provider.name}: ${modelChoice.name}`)
-                    );
-                    return;
-                } else {
-                    // No API key yet - ask for it first
-                    const choice = await vscode.window.showWarningMessage(
-                        t('messages.apiKeyRequired', provider.name),
-                        t('buttons.enterNow'),
-                        t('buttons.later')
-                    );
-                    if (choice === t('buttons.enterNow')) {
-                        await setApiKey(updatedContext);
-                        // After entering API key, ask for model again
-                        const modelChoice2 = await showModelSelectionPicker(provider, t);
-                        if (modelChoice2) {
-                            const newApiKey = updatedContext.apiKeys[selected.value];
-                            const savedConfig = `${newApiKey}|${modelChoice2.id}`;
-                            updatedContext.apiKeys[selected.value] = savedConfig;
-                            fileManager.saveApiKey(selected.value, savedConfig, minimalModelManager.providers);
-                        }
-                    }
-                    updateStatusBar();
-                    return;
-                }
+                // Save selection in format: key|model-id
+                const savedConfig = `${keyOnly}|${modelChoice.id}`;
+                updatedContext.apiKeys[selected.value] = savedConfig;
+                fileManager.saveApiKey(selected.value, savedConfig, minimalModelManager.providers);
+                updateStatusBar();
+                vscode.window.showInformationMessage(
+                    t('messages.modelSwitched', `${provider.name}: ${modelChoice.displayName || modelChoice.name}`)
+                );
+                return;
             }
             
             // Auto-detection for local HTTP providers (only if not configured)
@@ -261,7 +299,7 @@ async function autoDetectLocalProvider(modelId, providers, manualUrl = null) {
     }
     
     const localProviders = require('../localProviders');
-    const providerHandler = localProviders.getHttpProvider(provider.name);
+    const providerHandler = localProviders.getHttpProvider(provider.httpHandler || provider.name);
     
     // If manual URL provided, test only that one
     const urlsToTest = manualUrl ? [manualUrl] : provider.autoDetectUrls;
@@ -295,97 +333,126 @@ async function testHttpProvider(url, provider) {
 
 /**
  * Show model selection picker for providers with multiple models
- * @param {Object} provider - Provider config with availableModels
+ * @param {Object} provider - Provider config with availableModels or discovered models
  * @param {Function} t - Translation function
+ * @param {string} apiKey - Optional API key for dynamic model discovery
  * @returns {Promise<Object|null>} Selected model or null
  */
-async function showModelSelectionPicker(provider, t) {
-    const items = provider.availableModels.map(model => ({
-        label: `${model.name}`,
-        detail: model.pricing.input === 0 ? 
-            '💰 Free' : 
-            `💰 $${(model.pricing.input * 1000000).toFixed(2)}/$${(model.pricing.output * 1000000).toFixed(2)} per 1M tokens`,
+async function showModelSelectionPicker(provider, t, apiKey = null, modelId = null) {
+    let models = provider.availableModels || [];
+    
+    // For local providers with staticModels, use them directly (no API discovery possible)
+    if (provider.type === 'local' && provider.modelDiscovery?.staticModels && !provider.httpConfig) {
+        models = provider.modelDiscovery.staticModels;
+    }
+    // For API providers, try dynamic model discovery
+    else if (apiKey && provider.modelDiscovery?.enabled) {
+        try {
+            const discoveredModels = await modelDiscovery.discoverModels(
+                modelId || provider.name.toLowerCase().replace(/\s/g, ''),
+                provider,
+                apiKey
+            );
+            if (discoveredModels && discoveredModels.length > 0) {
+                models = discoveredModels;
+            }
+        } catch (error) {
+            console.log(`[ModelDiscovery] Failed to discover models for ${provider.name}, using static list`);
+        }
+    }
+    
+    // Fallback to static models if no models available
+    if (models.length === 0 && provider.modelDiscovery?.staticModels) {
+        models = provider.modelDiscovery.staticModels;
+    }
+    
+    // Safety check
+    if (models.length === 0) {
+        console.error(`[ModelPicker] No models available for ${provider.name}`);
+        return null;
+    }
+    
+    // Determine recommended model using selectDefault or selectBest
+    let recommendedModel = null;
+    if (provider.modelDiscovery?.selectDefault) {
+        try {
+            const selected = provider.modelDiscovery.selectDefault(models);
+            recommendedModel = models.find(m => 
+                (m.id || m.name) === (selected?.id || selected?.name || selected)
+            );
+        } catch (e) {
+            console.log(`[ModelPicker] selectDefault failed:`, e.message);
+        }
+    } else if (provider.selectBest) {
+        try {
+            const selected = provider.selectBest(models);
+            recommendedModel = models.find(m => 
+                (m.id || m.name) === (selected?.id || selected?.name || selected)
+            );
+        } catch (e) {
+            console.log(`[ModelPicker] selectBest failed:`, e.message);
+        }
+    }
+    
+    // If no recommendation found, use first model
+    if (!recommendedModel && models.length > 0) {
+        recommendedModel = models[0];
+    }
+    
+    // Map models to QuickPick items with recommendation indicator
+    const items = models.map(model => ({
+        label: model === recommendedModel ? 
+            `⭐ ${model.displayName || model.name || model.id}` : 
+            `${model.displayName || model.name || model.id}`,
+        description: model === recommendedModel ? '(Recommended)' : '',
+        detail: model.pricing ? 
+            (model.pricing.input === 0 ? 
+                '💰 Free' : 
+                `💰 $${(model.pricing.input * 1000000).toFixed(2)}/$${(model.pricing.output * 1000000).toFixed(2)} per 1M tokens`
+            ) : '',
         value: model
     }));
+    
+    // Sort items: recommended model first, then others
+    items.sort((a, b) => {
+        if (a.value === recommendedModel) return -1;
+        if (b.value === recommendedModel) return 1;
+        return 0;
+    });
+    
+    // The first item is now the recommended one
+    const activeItem = items[0];
 
     const selected = await vscode.window.showQuickPick(items, {
-        placeHolder: t('messages.selectModel') || 'Select a model'
+        placeHolder: t('messages.selectModel') || 'Select a model',
+        title: `${provider.icon} ${provider.name} - ${t('messages.selectModel') || 'Select Model'}`,
+        matchOnDetail: true,
+        activeItem: activeItem
     });
 
     return selected ? selected.value : null;
 }
 
 /**
- * Detect best model for cloud provider from API
+ * Get available models for a provider
  * @param {string} modelId - Model identifier (e.g., 'claude', 'chatgpt')
  * @param {string} apiKey - API key for authentication
  * @param {Object} providers - Provider configurations
- * @returns {Promise<string|null>} Best model ID or null
+ * @returns {Promise<Array>} Array of available models
  */
-async function detectBestCloudModel(modelId, apiKey, providers) {
+async function getAvailableModels(modelId, apiKey, providers) {
     const provider = providers[modelId];
-    if (!provider || provider.type === 'local') {
-        return null;
+    if (!provider) {
+        return [];
     }
 
     try {
-        const https = require('https');
-        
-        return new Promise((resolve, reject) => {
-            const options = {
-                hostname: provider.hostname,
-                path: provider.path,
-                method: 'GET',
-                headers: provider.headers(apiKey),
-                timeout: 5000
-            };
-
-            const req = https.request(options, (res) => {
-                let data = '';
-                res.on('data', chunk => data += chunk);
-                res.on('end', () => {
-                    try {
-                        if (res.statusCode !== 200) {
-                            console.log(`✗ API returned status ${res.statusCode} for ${provider.name}`);
-                            resolve(null);
-                            return;
-                        }
-
-                        const parsed = JSON.parse(data);
-                        const models = provider.extractModels(parsed);
-                        
-                        if (models && models.length > 0) {
-                            const best = provider.selectBest(models);
-                            const modelId = best?.id || best?.name || best;
-                            console.log(`✓ Detected best model for ${provider.name}: ${modelId}`);
-                            resolve(modelId);
-                        } else {
-                            console.log(`✗ No models found for ${provider.name}, using fallback`);
-                            resolve(null);
-                        }
-                    } catch (e) {
-                        console.log(`✗ Failed to parse models for ${provider.name}:`, e.message);
-                        resolve(null);
-                    }
-                });
-            });
-
-            req.on('error', (e) => {
-                console.log(`✗ Model detection failed for ${provider.name}:`, e.message);
-                resolve(null);
-            });
-
-            req.on('timeout', () => {
-                req.destroy();
-                console.log(`✗ Model detection timeout for ${provider.name}`);
-                resolve(null);
-            });
-
-            req.end();
-        });
+        // Use modelDiscovery service
+        const models = await modelDiscovery.discoverModels(modelId, provider, apiKey);
+        return models || [];
     } catch (error) {
-        console.log(`✗ Model detection error for ${provider.name}:`, error.message);
-        return null;
+        console.log(`✗ Model discovery error for ${provider.name}:`, error.message);
+        return [];
     }
 }
 
@@ -395,5 +462,5 @@ module.exports = {
     setApiKey,
     validateApiConnection,
     autoDetectLocalProvider,
-    detectBestCloudModel
+    getAvailableModels
 };

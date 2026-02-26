@@ -65,7 +65,12 @@
     "noErrorInClipboard": "クリップボードにエラー情報が見つかりません。Arduino IDEで最初に「エラーメッセージをコピー」をクリックしてください。",
     "settingsSaved": "設定を保存しました",
     "settingsReset": "設定をリセットしました",
-    "detectingModels": "{0}の利用可能なモデルを検出中..."
+    "detectingModels": "{0}の利用可能なモデルを検出中...",
+    "promptCreateNotes": "💡 AIにプロジェクトを説明するためにNOTES.inoを作成しますか？",
+    "notesCreated": "✅ NOTES.inoが作成されました！",
+    "highCostWarning": "推定コスト（応答なし）：${0}（{1}使用）。続行しますか？",
+    "codeApplied": "コードが適用されました",
+    "nodePathSaved": "Node.jsパスが保存されました"
   },
   "buttons": {
     "chooseModel": "AIモデルを選択",
@@ -103,7 +108,11 @@
     "newInput": "新しい入力",
     "delete": "削除",
     "resetAll": "すべてリセット",
-    "remove": "削除"
+    "remove": "削除",
+    "continue": "続行",
+    "apply": "適用",
+    "configureNodePath": "Node.jsパスを設定",
+    "enterNodePath": "Node.js v20+パスを入力"
   },
   "descriptions": {
     "improveCodeSelected": "選択したコードを最適化",
@@ -369,12 +378,12 @@
     "features": "機能",
     "integration": "統合",
     "feature1": "コードの改善と最適化",
-    "feature2": "エラーを平易な言葉で説明",
-    "feature3": "自動コードコメント",
-    "feature4": "デバッグヘルプとハードウェア診断",
-    "feature5": "トークン使用量の追跡",
-    "feature6": "接続問題のためのオフラインヘルプ",
-    "feature7": "簡単な拡張のためのモジュラーアーキテクチャ",
+    "feature2": "平易な言葉でのエラー説明",
+    "feature3": "自動コメント追加",
+    "feature4": "デバッグ支援とハードウェア診断",
+    "feature5": "トークン使用量追跡",
+    "feature6": "接続問題のオフラインヘルプ",
+    "feature7": "簡単に拡張できるモジュラーアーキテクチャ",
     "feature8": "多言語サポート",
     "quickstart": "クイックスタート",
     "step1": "Arduinoコードを選択",
@@ -437,7 +446,11 @@
       "cardStyle": "カードスタイル",
       "arduino-green": "Arduino緑背景",
       "white-border": "白背景と緑枠",
-      "codeTemperature": "コード温度"
+      "codeTemperature": "コード温度",
+      "projectNotesEnabled": "プロジェクトノートを有効化",
+      "autoOpenInChat": "チャットで自動的に開く",
+      "showCostWarning": "コスト警告を表示",
+      "costWarningThreshold": "コストしきい値（USD）"
     },
     "descriptions": {
       "temperature": "AIの創造性 (0 = 決定論的, 1 = 創造的)",
@@ -460,7 +473,11 @@
       "chatHistoryLength": "チャット履歴のメッセージ数（ユーザー/AIペア）",
       "promptHistoryLength": "履歴内のプロンプト数",
       "cardStyle": "チャットとエージェント選択カードの視覚スタイル",
-      "codeTemperature": "コード生成の温度（0 = 正確、1 = 創造的）。コード機能とチャットコードモードで使用されます。"
+      "codeTemperature": "コード生成の温度（0 = 正確、1 = 創造的）。コード機能とチャットコードモードで使用されます。",
+      "projectNotesEnabled": "プロジェクトノートを有効化（プロジェクト固有のAI指示用NOTES.ino）",
+      "autoOpenInChat": "出力パネルの代わりにチャットでAI結果を自動的に開く",
+      "showCostWarning": "高額なAPIリクエストの前に警告を表示",
+      "costWarningThreshold": "コスト警告のしきい値（USD）（例：0.10 = 10セント）"
     }
   },
   "extensionUpdate": {
@@ -673,5 +690,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI解説"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "プロジェクト固有の指示"
   }
 }

@@ -65,10 +65,15 @@
     "inlineCompletionDisabled": "Uzupełnianie inline wyłączone",
     "operationAlreadyRunning": "Operacja już w toku! Proszę czekać...",
     "contextAttachedInfo": "🔎 Kontekst dołączony - ważny tylko dla następnej wiadomości. Użyj '🔄 Ostatni kontekst' aby użyć ponownie.",
-    "noErrorInClipboard": "Nie znaleziono informacji o błędzie w schowku. Najpierw kliknij 'Kopiuj komunikat o błędzie' w Arduino IDE.",
+    "noErrorInClipboard": "Nie znaleziono informacji o błędzie w schowku. Najpierw kliknij 'Kopiuj komunikat błędu' w Arduino IDE.",
     "settingsSaved": "Ustawienia zapisane",
     "settingsReset": "Ustawienia zresetowane",
-    "detectingModels": "Wykrywanie dostępnych modeli dla {0}..."
+    "detectingModels": "Wykrywanie dostępnych modeli dla {0}...",
+    "promptCreateNotes": "💡 Utworzyć NOTES.ino, aby wyjaśnić projekt AI?",
+    "notesCreated": "✅ NOTES.ino utworzony!",
+    "highCostWarning": "Szacowany koszt (bez odpowiedzi): ${0} przy użyciu {1}. Kontynuować?",
+    "codeApplied": "Kod został zastosowany",
+    "nodePathSaved": "Ścieżka Node.js została zapisana"
   },
   "buttons": {
     "chooseModel": "Wybierz model AI",
@@ -106,7 +111,11 @@
     "newInput": "Nowe wprowadzenie",
     "delete": "Usuń",
     "resetAll": "Zresetuj wszystko",
-    "remove": "Usuń"
+    "remove": "Usuń",
+    "continue": "Kontynuuj",
+    "apply": "Zastosuj",
+    "configureNodePath": "Konfiguruj ścieżkę Node.js",
+    "enterNodePath": "Wprowadź ścieżkę Node.js v20+"
   },
   "descriptions": {
     "improveCodeSelected": "Optymalizuj zaznaczony kod",
@@ -288,7 +297,7 @@
     "newChat": "Nowy czat",
     "chats": "Czaty",
     "maxChatsReached": "Osiągnięto maksymalną liczbę czatów. Usuń stare czaty.",
-    "cannotDeleteLastChat": "Ostatni czat nie może zostać usunięty",
+    "cannotDeleteLastChat": "Ostatniego czatu nie można usunąć",
     "confirmDelete": "Usunąć czat?",
     "noChatsYet": "Brak czatów",
     "createFirstChat": "Utwórz swój pierwszy czat!",
@@ -372,14 +381,14 @@
     "tagline": "Rozwój Arduino wspierany przez AI",
     "features": "Funkcje",
     "integration": "Integracja",
-    "feature1": "Ulepszanie i optymalizacja kodu",
-    "feature2": "Wyjaśnianie błędów prostym językiem",
+    "feature1": "Usprawnienie i optymalizacja kodu",
+    "feature2": "Wyjaśnienie błędów prostym językiem",
     "feature3": "Automatyczne komentowanie kodu",
     "feature4": "Pomoc w debugowaniu i diagnostyka sprzętu",
     "feature5": "Śledzenie użycia tokenów",
-    "feature6": "Pomoc offline przy problemach z połączeniem",
-    "feature7": "Modularna architektura ułatwiająca rozszerzanie",
-    "feature8": "Obsługa wielu języków",
+    "feature6": "Pomoc offline dla problemów z połączeniem",
+    "feature7": "Modularna architektura do łatwego rozszerzenia",
+    "feature8": "Wsparcie wielojęzyczne",
     "quickstart": "Szybki start",
     "step1": "Zaznacz kod Arduino",
     "step2": "Naciśnij",
@@ -441,7 +450,11 @@
       "cardStyle": "Styl karty",
       "arduino-green": "Arduino zielone tło",
       "white-border": "Białe tło z zieloną ramką",
-      "codeTemperature": "Temperatura kodu"
+      "codeTemperature": "Temperatura kodu",
+      "projectNotesEnabled": "Włącz notatki projektu",
+      "autoOpenInChat": "Automatycznie otwórz na czacie",
+      "showCostWarning": "Pokaż ostrzeżenie o kosztach",
+      "costWarningThreshold": "Próg kosztów (USD)"
     },
     "descriptions": {
       "temperature": "Kreatywność AI (0 = deterministyczna, 1 = kreatywna)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Liczba wiadomości w historii czatu (pary użytkownik/AI)",
       "promptHistoryLength": "Liczba promptów w historii",
       "cardStyle": "Styl wizualny dla kart czatu i wyboru agenta",
-      "codeTemperature": "Temperatura generowania kodu (0 = precyzyjny, 1 = kreatywny). Używana dla funkcji kodu i w trybie czatu kodu."
+      "codeTemperature": "Temperatura generowania kodu (0 = precyzyjny, 1 = kreatywny). Używana dla funkcji kodu i w trybie czatu kodu.",
+      "projectNotesEnabled": "Włącz notatki projektu (NOTES.ino dla instrukcji AI specyficznych dla projektu)",
+      "autoOpenInChat": "Automatycznie otwieraj wyniki AI na czacie zamiast w panelu wyjściowym",
+      "showCostWarning": "Pokaż ostrzeżenie przed drogimi żądaniami API",
+      "costWarningThreshold": "Próg w USD dla ostrzeżenia o kosztach (np. 0.10 = 10 centów)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "Wyjaśnienie AI"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Instrukcje specyficzne dla projektu"
   }
 }

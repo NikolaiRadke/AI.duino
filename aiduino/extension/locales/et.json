@@ -65,10 +65,15 @@
     "inlineCompletionEnabled": "✓ Reasisene lõpetamine aktiveeritud",
     "inlineCompletionDisabled": "Reasisene lõpetamine deaktiveeritud",
     "contextAttachedInfo": "🔎 Kontekst lisatud - kehtib ainult järgmise sõnumi jaoks. Kasuta '🔄 Viimane kontekst' uuesti kasutamiseks.",
-    "noErrorInClipboard": "Lõikelaual ei leitud veateadet. Palun klõpsa esmalt Arduino IDE-s 'Kopeeri veateade'.",
+    "noErrorInClipboard": "Lõikelaual ei leitud veateavet. Palun klõpsake kõigepealt Arduino IDE-s nuppu 'Kopeeri veateade'.",
     "settingsSaved": "Seaded salvestatud",
     "settingsReset": "Seaded lähtestatud",
-    "detectingModels": "Saadaolevate mudelite tuvastamine {0} jaoks..."
+    "detectingModels": "Saadaolevate mudelite tuvastamine {0} jaoks...",
+    "promptCreateNotes": "💡 Luua NOTES.ino, et selgitada oma projekti AI-le?",
+    "notesCreated": "✅ NOTES.ino loodud!",
+    "highCostWarning": "Hinnanguline kulu (ilma vastuseta): ${0} kasutades {1}. Jätkata?",
+    "codeApplied": "Kood on rakendatud",
+    "nodePathSaved": "Node.js tee on salvestatud"
   },
   "buttons": {
     "chooseModel": "Vali AI mudel",
@@ -106,7 +111,11 @@
     "newInput": "Uus sisend",
     "delete": "Kustuta",
     "resetAll": "Lähtesta kõik",
-    "remove": "Eemalda"
+    "remove": "Eemalda",
+    "continue": "Jätka",
+    "apply": "Rakenda",
+    "configureNodePath": "Konfigureeri Node.js tee",
+    "enterNodePath": "Sisesta Node.js v20+ tee"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiseeri märgitud kood",
@@ -372,13 +381,13 @@
     "tagline": "AI toetatud Arduino arendus",
     "features": "Funktsioonid",
     "integration": "Integratsioon",
-    "feature1": "Koodi parandamine ja optimeerimine",
-    "feature2": "Vigade selgitused eesti keeles",
+    "feature1": "Koodi parendamine ja optimeerimine",
+    "feature2": "Veateadete selgitamine lihtsas keeles",
     "feature3": "Automaatne koodi kommenteerimine",
-    "feature4": "Silumisabi ja riistvara diagnostika",
-    "feature5": "Tokenite kasutamise jälgimine",
-    "feature6": "Võrguväline abi ühenduse probleemide korral",
-    "feature7": "Modulaarne arhitektuur kerge laiendamise jaoks",
+    "feature4": "Silumise abi ja riistvara diagnostika",
+    "feature5": "Tokeni kasutuse jälgimine",
+    "feature6": "Ühendusprobleemide võrguühenduseta abi",
+    "feature7": "Modulaarne arhitektuur lihtsa laiendamise jaoks",
     "feature8": "Mitmekeelne tugi",
     "quickstart": "Kiire algus",
     "step1": "Märkige Arduino kood",
@@ -441,7 +450,11 @@
       "cardStyle": "Kaardi stiil",
       "arduino-green": "Arduino roheline taust",
       "white-border": "Valge taust rohelise äärega",
-      "codeTemperature": "Koodi temperatuur"
+      "codeTemperature": "Koodi temperatuur",
+      "projectNotesEnabled": "Luba projekti märkmed",
+      "autoOpenInChat": "Ava automaatselt vestluses",
+      "showCostWarning": "Kuva kuluhoiatus",
+      "costWarningThreshold": "Kululävi (USD)"
     },
     "descriptions": {
       "temperature": "AI loovus (0 = deterministlik, 1 = loov)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Sõnumite arv vestluse ajaloos (kasutaja/AI paarid)",
       "promptHistoryLength": "Promptide arv ajaloos",
       "cardStyle": "Visuaalne stiil vestluse ja agendi valiku kaartidele",
-      "codeTemperature": "Temperatuur koodi genereerimiseks (0 = täpne, 1 = loov). Kasutatakse koodi funktsioonide ja vestluse koodi režiimis."
+      "codeTemperature": "Temperatuur koodi genereerimiseks (0 = täpne, 1 = loov). Kasutatakse koodi funktsioonide ja vestluse koodi režiimis.",
+      "projectNotesEnabled": "Luba projekti märkmed (NOTES.ino projektipõhiste AI juhiste jaoks)",
+      "autoOpenInChat": "Ava AI tulemused automaatselt vestluses väljundpaneeli asemel",
+      "showCostWarning": "Kuva hoiatus enne kalleid API päringuid",
+      "costWarningThreshold": "Lävi USD-s kuluhoiatuse jaoks (nt 0.10 = 10 senti)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI selgitus"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Projektipõhised juhised"
   }
 }

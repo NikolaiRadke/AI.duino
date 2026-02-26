@@ -136,7 +136,8 @@ function generateSettingsHTML(currentSettings, t, context, openCategory = null) 
             settings: [
                 { key: 'temperature', type: 'number', min: 0, max: 1, step: 0.1 },
                 { key: 'codeTemperature', type: 'number', min: 0, max: 1, step: 0.1 },
-                { key: 'maxTokensPerRequest', type: 'range', options: [2000, 4000, 6000, 8000] }
+                { key: 'maxTokensPerRequest', type: 'range', options: [2000, 4000, 6000, 8000] },
+                { key: 'projectNotesEnabled', type: 'boolean' }
             ]
         },
         {
@@ -144,6 +145,9 @@ function generateSettingsHTML(currentSettings, t, context, openCategory = null) 
             icon: '🎨',
             settings: [
                 { key: 'promptHistoryLength', type: 'number', min: 0, max: 10, step: 1 },
+                { key: 'autoOpenInChat', type: 'boolean' },
+                { key: 'showCostWarning', type: 'boolean' },
+                { key: 'costWarningThreshold', type: 'number', min: 0.01, max: 10.0, step: 0.01 },             
                 { key: 'cardStyle', type: 'radio', options: [
                     { value: 'arduino-green', label: 'Arduino Green' },
                     { value: 'white-border', label: 'White with Green Border' }
@@ -698,7 +702,7 @@ function generateSettingsForCategory(category, categoryData, t, context) {
                        min="${setting.min}"
                        max="${setting.max}"
                        step="${setting.step}"
-                       onchange="updateSetting('${key}', Math.min(Math.max(parseInt(this.value), ${setting.min}), ${setting.max}), 'number')">
+                       onchange="updateSetting('${key}', Math.min(Math.max(parseFloat(this.value), ${setting.min}), ${setting.max}), 'number')">
             `;
         }
         

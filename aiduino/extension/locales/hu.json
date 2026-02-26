@@ -65,10 +65,15 @@
     "inlineCompletionDisabled": "Inline kiegészítés kikapcsolva",
     "operationAlreadyRunning": "A művelet már fut! Kérlek várj...",
     "contextAttachedInfo": "🔎 Kontextus hozzáadva - csak a következő üzenetre vonatkozik. Használd a '🔄 Utolsó kontextus' lehetőséget az újrafelhasználáshoz.",
-    "noErrorInClipboard": "Nem található hibaüzenet a vágólapon. Kérlek, először kattints az Arduino IDE-ben a 'Hibaüzenet másolása' gombra.",
+    "noErrorInClipboard": "Nem található hibaüzenet a vágólapon. Kérjük, először kattintson a 'Hibaüzenet másolása' gombra az Arduino IDE-ben.",
     "settingsSaved": "Beállítások mentve",
     "settingsReset": "Beállítások visszaállítva",
-    "detectingModels": "Elérhető modellek észlelése a következőhöz: {0}..."
+    "detectingModels": "Elérhető modellek észlelése a következőhöz: {0}...",
+    "promptCreateNotes": "💡 NOTES.ino létrehozása a projekt AI-nak való elmagyarázásához?",
+    "notesCreated": "✅ NOTES.ino létrehozva!",
+    "highCostWarning": "Becsült költség (válasz nélkül): ${0} használatával: {1}. Folytatod?",
+    "codeApplied": "Kód alkalmazva",
+    "nodePathSaved": "Node.js útvonal mentve"
   },
   "buttons": {
     "chooseModel": "AI modell választása",
@@ -106,7 +111,11 @@
     "newInput": "Új bevitel",
     "delete": "Törlés",
     "resetAll": "Összes visszaállítása",
-    "remove": "Eltávolítás"
+    "remove": "Eltávolítás",
+    "continue": "Folytatás",
+    "apply": "Alkalmaz",
+    "configureNodePath": "Node.js útvonal konfigurálása",
+    "enterNodePath": "Node.js v20+ útvonal megadása"
   },
   "descriptions": {
     "improveCodeSelected": "Kijelölt kód optimalizálása",
@@ -288,7 +297,7 @@
     "newChat": "Új beszélgetés",
     "chats": "Beszélgetések",
     "maxChatsReached": "Elérte a maximális chat-számot. Kérjük, töröljön régi chateket.",
-    "cannotDeleteLastChat": "Az utolsó beszélgetést nem lehet törölni",
+    "cannotDeleteLastChat": "Az utolsó chat nem törölhető",
     "confirmDelete": "Beszélgetés törlése?",
     "noChatsYet": "Még nincsenek beszélgetések",
     "createFirstChat": "Hozd létre az első beszélgetésedet!",
@@ -372,13 +381,13 @@
     "tagline": "AI-támogatott Arduino fejlesztés",
     "features": "Funkciók",
     "integration": "Integráció",
-    "feature1": "Kód javítás és optimalizálás",
-    "feature2": "Hiba magyarázat magyarul",
+    "feature1": "Kód javítása és optimalizálása",
+    "feature2": "Hibák magyarázata egyszerű nyelven",
     "feature3": "Automatikus kód kommentezés",
-    "feature4": "Debug segítség és hardver diagnosztika",
-    "feature5": "Token felhasználás követése",
-    "feature6": "Offline segítség kapcsolati problémáknál",
-    "feature7": "Moduláris architektúra könnyű bővítéshez",
+    "feature4": "Hibakeresési segítség és hardver diagnosztika",
+    "feature5": "Token használat követése",
+    "feature6": "Offline segítség kapcsolati problémákhoz",
+    "feature7": "Moduláris architektúra a könnyű bővítéshez",
     "feature8": "Többnyelvű támogatás",
     "quickstart": "Gyors kezdés",
     "step1": "Jelölj ki Arduino kódot",
@@ -441,7 +450,11 @@
       "cardStyle": "Kártya stílus",
       "arduino-green": "Arduino zöld háttér",
       "white-border": "Fehér háttér zöld szegéllyel",
-      "codeTemperature": "Kód hőmérséklet"
+      "codeTemperature": "Kód hőmérséklet",
+      "projectNotesEnabled": "Projekt jegyzetek engedélyezése",
+      "autoOpenInChat": "Automatikus megnyitás chatben",
+      "showCostWarning": "Költségfigyelmeztetés megjelenítése",
+      "costWarningThreshold": "Költségküszöb (USD)"
     },
     "descriptions": {
       "temperature": "AI kreativitás (0 = determinisztikus, 1 = kreatív)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Üzenetek száma a chat előzményekben (felhasználó/AI párok)",
       "promptHistoryLength": "Promptok száma az előzményekben",
       "cardStyle": "Vizuális stílus a chat és ügynök kiválasztási kártyákhoz",
-      "codeTemperature": "Hőmérséklet kódgeneráláshoz (0 = pontos, 1 = kreatív). Kódfunkciókhoz és chat kód módban használatos."
+      "codeTemperature": "Hőmérséklet kódgeneráláshoz (0 = pontos, 1 = kreatív). Kódfunkciókhoz és chat kód módban használatos.",
+      "projectNotesEnabled": "Projekt jegyzetek engedélyezése (NOTES.ino projektspecifikus AI utasításokhoz)",
+      "autoOpenInChat": "AI eredmények automatikus megnyitása chatben a kimeneti panel helyett",
+      "showCostWarning": "Figyelmeztetés megjelenítése drága API kérések előtt",
+      "costWarningThreshold": "Küszöbérték USD-ben költségfigyelmeztetéshez (pl. 0.10 = 10 cent)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI magyarázat"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Projektspecifikus utasítások"
   }
 }

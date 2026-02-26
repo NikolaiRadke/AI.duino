@@ -65,10 +65,15 @@
     "inlineCompletionEnabled": "✓ Inline klárun virk",
     "inlineCompletionDisabled": "Inline klárun óvirk",
     "contextAttachedInfo": "🔎 Samhengi bætt við - gildir aðeins fyrir næsta skilaboð. Notaðu '🔄 Síðasta samhengi' til að endurnota.",
-    "noErrorInClipboard": "Engar villuupplýsingar fundust í klemmuspjaldi. Vinsamlegast smelltu fyrst á 'Afrita villuskilaboð' í Arduino IDE.",
+    "noErrorInClipboard": "Engar villuupplýsingar fundust á klemmuspjaldi. Vinsamlegast smelltu fyrst á 'Afrita villuskilaboð' í Arduino IDE.",
     "settingsSaved": "Stillingar vistaðar",
     "settingsReset": "Stillingar endurstilltar",
-    "detectingModels": "Greining tiltækra líkana fyrir {0}..."
+    "detectingModels": "Greining tiltækra líkana fyrir {0}...",
+    "promptCreateNotes": "💡 Búa til NOTES.ino til að útskýra verkefnið fyrir gervigreind?",
+    "notesCreated": "✅ NOTES.ino búið til!",
+    "highCostWarning": "Áætlaður kostnaður (án svars): ${0} með {1}. Halda áfram?",
+    "codeApplied": "Kóði hefur verið notaður",
+    "nodePathSaved": "Node.js slóð hefur verið vistuð"
   },
   "buttons": {
     "chooseModel": "Veldu gervigreindarlíkan",
@@ -106,7 +111,11 @@
     "newInput": "Ný innsláttur",
     "delete": "Eyða",
     "resetAll": "Endurstilla allt",
-    "remove": "Fjarlægja"
+    "remove": "Fjarlægja",
+    "continue": "Halda áfram",
+    "apply": "Nota",
+    "configureNodePath": "Stilla Node.js slóð",
+    "enterNodePath": "Slá inn Node.js v20+ slóð"
   },
   "descriptions": {
     "improveCodeSelected": "Bæta valinn kóða",
@@ -288,7 +297,7 @@
     "newChat": "Nýtt spjall",
     "chats": "Spjöll",
     "maxChatsReached": "Hámarksfjöldi spjalla náð. Vinsamlegast eyddu gömlum spjöllum.",
-    "cannotDeleteLastChat": "Ekki hægt að eyða síðasta spjalli",
+    "cannotDeleteLastChat": "Síðasta spjallið er ekki hægt að eyða",
     "confirmDelete": "Eyða spjalli?",
     "noChatsYet": "Engin spjöll ennþá",
     "createFirstChat": "Búðu til þitt fyrsta spjall!",
@@ -372,14 +381,14 @@
     "tagline": "Gervigreindarstudda Arduino þróun",
     "features": "Eiginleikar",
     "integration": "Samþætting",
-    "feature1": "Kóðabót og hagræðing",
-    "feature2": "Villuútskýring á íslensku",
-    "feature3": "Sjálfvirk kóðaathugasemdabinding",
-    "feature4": "Aflúsunarhjálp og vélbúnaðargreining",
-    "feature5": "Token notkunarrakning",
-    "feature6": "Ótengd hjálp við tengingarvandamál",
-    "feature7": "Einingarbygging fyrir auðvelda útvíkkun",
-    "feature8": "Fjöltungumálastuðningur",
+    "feature1": "Kóðabætur og fínstilling",
+    "feature2": "Villuskýring á einfaldu máli",
+    "feature3": "Sjálfvirk kóðaathugasemd",
+    "feature4": "Villuleitarhjálp og vélbúnaðargreining",
+    "feature5": "Rekja notkun merkja",
+    "feature6": "Hjálp án nettengingar við tengingarvandamál",
+    "feature7": "Einingauppbygging fyrir auðvelda útvíkkun",
+    "feature8": "Margmála stuðningur",
     "quickstart": "Flýtibyrjun",
     "step1": "Veldu Arduino kóða",
     "step2": "Ýttu á",
@@ -441,7 +450,11 @@
       "cardStyle": "Kortastíll",
       "arduino-green": "Arduino grænn bakgrunnur",
       "white-border": "Hvítur bakgrunnur með grænum ramma",
-      "codeTemperature": "Kóðahitastig"
+      "codeTemperature": "Kóðahitastig",
+      "projectNotesEnabled": "Virkja verkefnisglósur",
+      "autoOpenInChat": "Opna sjálfkrafa í spjalli",
+      "showCostWarning": "Sýna kostnaðarviðvörun",
+      "costWarningThreshold": "Kostnaðarþröskuldur (USD)"
     },
     "descriptions": {
       "temperature": "AI sköpunargáfa (0 = ákveðið, 1 = skapandi)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Fjöldi skilaboða í spjallferli (notandi/gervigreind pör)",
       "promptHistoryLength": "Fjöldi skipana í ferli",
       "cardStyle": "Sjónrænn stíll fyrir spjall- og umboðsvalskort",
-      "codeTemperature": "Hitastig fyrir kóðagerð (0 = nákvæmt, 1 = skapandi). Notað fyrir kóðaaðgerðir og í spjallkóðaham."
+      "codeTemperature": "Hitastig fyrir kóðagerð (0 = nákvæmt, 1 = skapandi). Notað fyrir kóðaaðgerðir og í spjallkóðaham.",
+      "projectNotesEnabled": "Virkja verkefnisglósur (NOTES.ino fyrir verkefnasérstaka gervigreindaleiðbeiningar)",
+      "autoOpenInChat": "Opna sjálfkrafa AI niðurstöður í spjalli í stað úttaksborðs",
+      "showCostWarning": "Sýna viðvörun fyrir dýrar API beiðnir",
+      "costWarningThreshold": "Þröskuldur í USD fyrir kostnaðarviðvörun (t.d. 0.10 = 10 sent)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI skýring"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Verkefnasérstakir leiðbeiningar"
   }
 }

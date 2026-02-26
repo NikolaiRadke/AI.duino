@@ -65,7 +65,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '180226'; 
+const CONFIG_VERSION = '260226'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -954,11 +954,12 @@ const PROVIDER_CONFIGS = {
         modelDiscovery: {
             enabled: true,
             staticModels: [
+                { id: 'o4-mini', name: 'O4 Mini', displayName: 'O4 Mini' },
+                { id: 'o3', name: 'O3', displayName: 'O3' },
                 { id: 'gpt-4o', name: 'GPT-4o', displayName: 'GPT-4o' },
-                { id: 'gpt-4o-mini', name: 'GPT-4o Mini', displayName: 'GPT-4o Mini' },
-                { id: 'gpt-4-turbo', name: 'GPT-4 Turbo', displayName: 'GPT-4 Turbo' }
+                { id: 'gpt-4o-mini', name: 'GPT-4o Mini', displayName: 'GPT-4o Mini' }
             ],
-            selectDefault: (models) => models.find(m => m.id === 'gpt-4o') || models[0]
+            selectDefault: (models) => models.find(m => m.id === 'o4-mini') || models[0]
         },
         processConfig: {
             command: 'codex',
@@ -1088,11 +1089,12 @@ const PROVIDER_CONFIGS = {
         modelDiscovery: {
             enabled: true,
             staticModels: [
-                { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', displayName: 'Gemini 2.5 Flash' },
                 { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', displayName: 'Gemini 2.5 Pro' },
-                { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash', displayName: 'Gemini 2.0 Flash' }
+                { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', displayName: 'Gemini 2.5 Flash' },
+                { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash', displayName: 'Gemini 2.0 Flash' },
+                { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro', displayName: 'Gemini 1.5 Pro' }
             ],
-            selectDefault: (models) => models.find(m => m.id.includes('2.5-flash')) || models[0]
+            selectDefault: (models) => models.find(m => m.id === 'gemini-2.5-flash') || models[0]
         },
         processConfig: {
             command: 'gemini',
@@ -1163,7 +1165,7 @@ const PROVIDER_CONFIGS = {
         type: 'local',
         agentModule: 'ollamaAgentic',
         persistent: true,
-        keyFile: '.aiduino-ollama-url',
+        keyFile: '.aiduino-ollama-agentic-url',
         keyPrefix: 'http',
         keyMinLength: 7,
         apiKeyUrl: 'https://ollama.com',
@@ -1180,17 +1182,10 @@ const PROVIDER_CONFIGS = {
                 { id: 'llama3.2-3b-8k', name: 'Llama 3.2 3B', displayName: 'Llama 3.2 3B' }
             ]
         },
-        processConfig: {
-            command: 'ollama',
-            
-            buildPrompt: (prompt, context) => {
-                return prompt;
-            },
-            
-            buildArgs: (prompt, context) => {
-                return [];
-            }
+        httpConfig: {
+            endpoint: '/api/chat'
         },
+        httpHandler: 'Ollama',
         prices: {
             input: 0.0,
             output: 0.0

@@ -22,6 +22,10 @@ async function askAI(context, isFollowUp = false) {
         context.executionStates.OPERATIONS.ASK,
         async () => {
             const { aiConversationContext, setAiConversationContext } = context;
+
+            // Check if using agentic provider
+            const provider = context.minimalModelManager?.providers[context.currentModel];
+            const isAgentic = provider?.agentModule;
             
             // Check if follow-up is possible
             if (isFollowUp && !shared.hasValidContext(aiConversationContext)) {
@@ -62,19 +66,24 @@ async function askAI(context, isFollowUp = false) {
                     const hasSelection = !selection.start.isEqual(selection.end);
                     selectedText = hasSelection ? editor.document.getText(selection) : '';
             
-                    // Standard Context Selection
-                    contextData = await contextManager.selectContextLevel(
-                        editor, 
-                        selectedText, 
-                        context.t,
-                        { 
-                            showSelectionOption: hasSelection,
-                            showNoContextOption: true
+                    // Skip context selection for agentic providers (they have project access)
+                    if (isAgentic) {
+                        contextData = { level: 'none' };
+                    } else {
+                        // Standard Context Selection
+                        contextData = await contextManager.selectContextLevel(
+                            editor, 
+                            selectedText, 
+                            context.t,
+                            { 
+                                showSelectionOption: hasSelection,
+                                showNoContextOption: true
+                            }
+                        );
+                        if (!contextData) return;
+                        if (contextData.level === 'none') {
+                            selectedText = '';
                         }
-                    );
-                    if (!contextData) return;
-                    if (contextData.level === 'none') {
-                        selectedText = '';
                     }
                 } else {
                     contextData = { level: 'none' };
@@ -96,19 +105,24 @@ async function askAI(context, isFollowUp = false) {
                     const hasSelection = !selection.start.isEqual(selection.end);
                     selectedText = hasSelection ? editor.document.getText(selection) : '';
             
-                    // Standard Context Selection
-                    contextData = await contextManager.selectContextLevel(
-                        editor, 
-                        selectedText, 
-                        context.t,
-                        { 
-                            showSelectionOption: hasSelection,
-                            showNoContextOption: true
+                    // Skip context selection for agentic providers (they have project access)
+                    if (isAgentic) {
+                        contextData = { level: 'none' };
+                    } else {
+                        // Standard Context Selection
+                        contextData = await contextManager.selectContextLevel(
+                            editor, 
+                            selectedText, 
+                            context.t,
+                            { 
+                                showSelectionOption: hasSelection,
+                                showNoContextOption: true
+                            }
+                        );
+                        if (!contextData) return;
+                        if (contextData.level === 'none') {
+                            selectedText = '';
                         }
-                    );
-                    if (!contextData) return;
-                    if (contextData.level === 'none') {
-                        selectedText = '';
                     }
                 } else {
                     contextData = { level: 'none' };
@@ -124,6 +138,16 @@ async function askAI(context, isFollowUp = false) {
                 progressKey,
                 context
             );
+
+            // Check if user cancelled due to high cost
+            if (!response) {
+                return null;
+            }
+
+            // Check if auto-open in chat is enabled
+            if (await featureUtils.handleAutoOpenInChat(finalPrompt, response, context)) {
+                return null; // Skip panel creation
+            }
 
             // Store context for potential follow-ups
             const newContext = {
@@ -166,6 +190,13 @@ async function askAI(context, isFollowUp = false) {
             // Store data for "Continue in Chat" feature
             panel.userPrompt = finalPrompt;
             panel.aiResponse = response;
+
+            // Store original editor and selection for "apply" button
+            const editor = vscode.window.activeTextEditor;
+            if (editor) {
+                panel.originalEditor = editor;
+                panel.originalSelection = editor.selection;
+            }
 
             return panel;
         },
@@ -258,10 +289,15 @@ function createAskAIHtml(question, response, isFollowUp, conversationContext, cu
     const modelBadge = `<span style="background: ${model.color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${model.icon} ${model.name}</span>`;
     
     // Process response with code blocks
+    // Only show "apply" button for agentic providers
+    const provider = minimalModelManager?.providers[modelId];
+    const isAgentic = provider?.agentModule;
+    const buttonActions = isAgentic ? ['copy', 'apply'] : ['copy'];
+    
     const { processedHtml: processedResponse, codeBlocks } = featureUtils.processAiCodeBlocksWithEventDelegation(
         response,
         `💡 ${t('askAI.codeSuggestionTitle')}`,
-        ['copy'],
+        buttonActions,
         t
     );
 

@@ -68,7 +68,12 @@
     "noErrorInClipboard": "Keine Fehlerinformation in der Zwischenablage gefunden.",
     "settingsSaved": "Einstellungen gespeichert",
     "settingsReset": "Einstellungen zurückgesetzt",
-    "detectingModels": "Erkenne verfügbare Modelle für {0}..."
+    "detectingModels": "Erkenne verfügbare Modelle für {0}...",
+    "promptCreateNotes": "💡 NOTES.ino erstellen, um der KI Ihr Projekt zu erklären?",
+    "notesCreated": "✅ NOTES.ino erstellt!",
+    "highCostWarning": "Geschätzte Kosten (ohne Antwort): ${0} mit {1}. Fortfahren?",
+    "codeApplied": "Code wurde übernommen",
+    "nodePathSaved": "Node.js-Pfad wurde gespeichert"
   },
   "buttons": {
     "chooseModel": "KI-Modell wählen",
@@ -106,7 +111,11 @@
     "newInput": "Neue Eingabe",
     "delete": "Löschen",
     "resetAll": "Alle zurücksetzen",
-    "remove": "Entfernen"
+    "remove": "Entfernen",
+    "continue": "Fortfahren",
+    "apply": "Übernehmen",
+    "configureNodePath": "Node.js-Pfad konfigurieren",
+    "enterNodePath": "Node.js v20+ Pfad eingeben"
   },
   "descriptions": {
     "improveCodeSelected": "Ausgewählten Code optimieren",
@@ -287,7 +296,6 @@
     "sentCode": "Gesendeter Code",
     "newChat": "Neuer Chat",
     "chats": "Chats",
-    "cannotDeleteLastChat": "Letzter Chat kann nicht gelöscht werden",
     "confirmDelete": "Chat wirklich löschen?",
     "noChatsYet": "Noch keine Chats",
     "createFirstChat": "Erstelle deinen ersten Chat!",
@@ -304,17 +312,11 @@
     "arduinoMode": "Arduino",
     "generalMode": "Allgemein",
     "toggleMode": "Boardinformationen übermitteln",
-    "backToOverview": "Zurück zur Übersicht",
-    "removeFilePrompt": "{0} (ESC zum Abbrechen)",
-    "externalFileAttached": "1 externe Datei angehängt",
-    "externalFilesAttached": "{0} externe Dateien angehängt",
-    "manageAttachments": "Angehängte Dateien verwalten",
-    "newSessionStarted": "🔄 Neue persistente Session gestartet",
     "continueInChat": "In Chat fortsetzen",
     "historyNotAvailable": "Chat-Historie nicht verfügbar",
     "maxChatsReached": "Maximale Chat-Anzahl erreicht. Bitte lösche alte Chats.",
-    "voiceInput": "Spracheingabe",
-    "toggleCodeMode": "Code-Modus umschalten (niedrigere Temperatur für präziseren Code)"
+    "toggleCodeMode": "Code-Modus umschalten (niedrigere Temperatur für präziseren Code)",
+    "cannotDeleteLastChat": "Letzter Chat kann nicht gelöscht werden"
   },
   "shortcuts": {
     "askFollowUp": "Rückfrage",
@@ -377,16 +379,6 @@
   },
   "about": {
     "tagline": "KI-gestützte Arduino-Entwicklung",
-    "features": "Funktionen",
-    "integration": "Integration",
-    "feature1": "Code-Verbesserung und Optimierung",
-    "feature2": "Fehler-Erklärung auf Deutsch",
-    "feature3": "Automatische Code-Kommentierung",
-    "feature4": "Debug-Hilfe und Hardware-Diagnose",
-    "feature5": "Token-Verbrauch-Tracking",
-    "feature6": "Offline-Hilfe bei Verbindungsproblemen",
-    "feature7": "Modulare Architektur für einfache Erweiterung",
-    "feature8": "Mehrsprachige Unterstützung",
     "quickstart": "Schnellstart",
     "step1": "Markiere Arduino-Code",
     "step2": "Drücke",
@@ -398,7 +390,17 @@
     "publisher": "Publisher",
     "repository": "Repository",
     "reportBugs": "Fehler melden",
-    "madeWith": "Entwickelt mit 💙 für die Arduino-Community"
+    "madeWith": "Entwickelt mit 💙 für die Arduino-Community",
+    "feature1": "Code-Verbesserung und Optimierung",
+    "feature2": "Fehlererklärung in einfacher Sprache",
+    "feature3": "Automatische Code-Kommentierung",
+    "feature4": "Debug-Hilfe und Hardware-Diagnose",
+    "feature5": "Token-Nutzungs-Tracking",
+    "feature6": "Offline-Hilfe bei Verbindungsproblemen",
+    "feature7": "Modulare Architektur für einfache Erweiterung",
+    "feature8": "Mehrsprachige Unterstützung",
+    "features": "Features",
+    "integration": "Integration"
   },
   "config": {
     "updateAvailable": "Provider-Config Update verfügbar: {0} → {1}",
@@ -538,7 +540,11 @@
       "cardStyle": "Karten-Design",
       "arduino-green": "Arduino Grün Hintergrund",
       "white-border": "Weißer Hintergrund mit grünem Rand",
-      "codeTemperature": "Code-Temperatur"
+      "codeTemperature": "Code-Temperatur",
+      "projectNotesEnabled": "Projekt-Notes aktivieren",
+      "autoOpenInChat": "Automatisch im Chat öffnen",
+      "showCostWarning": "Kostenwarnung anzeigen",
+      "costWarningThreshold": "Kostenschwelle (USD)"
     },
     "descriptions": {
       "temperature": "Kreativität der KI (0 = deterministisch, 1 = kreativ)",
@@ -561,7 +567,11 @@
       "chatHistoryLength": "Anzahl der Nachrichten im Chat-Verlauf (Paare aus User/KI)",
       "promptHistoryLength": "Anzahl der Prompts im Verlauf",
       "cardStyle": "Visueller Stil für Chat- und Agenten-Auswahlkarten",
-      "codeTemperature": "Temperatur für Code-Generierung (0 = präzise, 1 = kreativ). Wird für Code-Features und im Chat-Code-Modus verwendet."
+      "codeTemperature": "Temperatur für Code-Generierung (0 = präzise, 1 = kreativ). Wird für Code-Features und im Chat-Code-Modus verwendet.",
+      "projectNotesEnabled": "Projekt-Notes aktivieren (NOTES.ino für projektspezifische KI-Anweisungen)",
+      "autoOpenInChat": "AI-Ergebnisse automatisch im Chat öffnen statt im Ausgabefenster",
+      "showCostWarning": "Warnung vor teuren API-Anfragen anzeigen",
+      "costWarningThreshold": "Schwellenwert in USD für Kostenwarnung (z.B. 0.10 = 10 Cent)"
     }
   },
   "uninstall": {
@@ -656,6 +666,9 @@
     "skipped": "{0} übersprungen",
     "errors": "{0} Fehler",
     "importError": "Import-Fehler: {0}"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Projektspezifische Anweisungen"
   },
   "analyzeCode": {
     "analyzedFile": "Analysierte Datei",

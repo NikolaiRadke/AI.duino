@@ -65,10 +65,15 @@
     "inlineCompletionDisabled": "Inline dopĺňanie deaktivované",
     "operationAlreadyRunning": "Operácia už beží! Prosím počkaj...",
     "contextAttachedInfo": "🔎 Kontext pridaný - platí len pre ďalšiu správu. Použi '🔄 Posledný kontext' na opätovné použitie.",
-    "noErrorInClipboard": "V schránke neboli nájdené žiadne informácie o chybe. Prosím najprv klikni v Arduino IDE na 'Kopírovať chybovú správu'.",
+    "noErrorInClipboard": "V schránke sa nenašli žiadne informácie o chybe. Najskôr kliknite na 'Kopírovať chybovú správu' v Arduino IDE.",
     "settingsSaved": "Nastavenia uložené",
     "settingsReset": "Nastavenia resetované",
-    "detectingModels": "Zisťovanie dostupných modelov pre {0}..."
+    "detectingModels": "Zisťovanie dostupných modelov pre {0}...",
+    "promptCreateNotes": "💡 Vytvoriť NOTES.ino na vysvetlenie projektu AI?",
+    "notesCreated": "✅ NOTES.ino vytvorený!",
+    "highCostWarning": "Odhadované náklady (bez odpovede): ${0} s {1}. Pokračovať?",
+    "codeApplied": "Kód bol použitý",
+    "nodePathSaved": "Cesta k Node.js bola uložená"
   },
   "buttons": {
     "chooseModel": "Výber AI modelu",
@@ -106,7 +111,11 @@
     "newInput": "Nový vstup",
     "delete": "Odstrániť",
     "resetAll": "Resetovať všetko",
-    "remove": "Odstrániť"
+    "remove": "Odstrániť",
+    "continue": "Pokračovať",
+    "apply": "Použiť",
+    "configureNodePath": "Konfigurovať cestu k Node.js",
+    "enterNodePath": "Zadať cestu k Node.js v20+"
   },
   "descriptions": {
     "improveCodeSelected": "Optimalizácia označeného kódu",
@@ -372,12 +381,12 @@
     "tagline": "AI-podporovaný Arduino vývoj",
     "features": "Funkcie",
     "integration": "Integrácia",
-    "feature1": "Zlepšovanie a optimalizácia kódu",
-    "feature2": "Vysvetlenie chýb po slovensky",
+    "feature1": "Vylepšenie a optimalizácia kódu",
+    "feature2": "Vysvetlenie chýb jednoduchým jazykom",
     "feature3": "Automatické komentovanie kódu",
-    "feature4": "Debug pomoc a hardvérová diagnostika",
-    "feature5": "Sledovanie spotreby tokenov",
-    "feature6": "Offline pomoc pri problémoch s pripojením",
+    "feature4": "Pomoc s ladením a diagnostika hardvéru",
+    "feature5": "Sledovanie využitia tokenov",
+    "feature6": "Offline pomoc pre problémy s pripojením",
     "feature7": "Modulárna architektúra pre jednoduché rozšírenie",
     "feature8": "Viacjazyčná podpora",
     "quickstart": "Rýchly štart",
@@ -441,7 +450,11 @@
       "cardStyle": "Štýl karty",
       "arduino-green": "Arduino zelené pozadie",
       "white-border": "Biele pozadie so zeleným okrajom",
-      "codeTemperature": "Teplota kódu"
+      "codeTemperature": "Teplota kódu",
+      "projectNotesEnabled": "Povoliť poznámky k projektu",
+      "autoOpenInChat": "Automaticky otvoriť v chate",
+      "showCostWarning": "Zobraziť varovanie nákladov",
+      "costWarningThreshold": "Prah nákladov (USD)"
     },
     "descriptions": {
       "temperature": "Kreativita AI (0 = deterministické, 1 = kreatívne)",
@@ -464,7 +477,11 @@
       "chatHistoryLength": "Počet správ v histórii chatu (páry používateľ/AI)",
       "promptHistoryLength": "Počet promptov v histórii",
       "cardStyle": "Vizuálny štýl pre karty chatu a výberu agenta",
-      "codeTemperature": "Teplota pre generovanie kódu (0 = presné, 1 = kreatívne). Používa sa pre funkcie kódu a v režime chatu s kódom."
+      "codeTemperature": "Teplota pre generovanie kódu (0 = presné, 1 = kreatívne). Používa sa pre funkcie kódu a v režime chatu s kódom.",
+      "projectNotesEnabled": "Povoliť poznámky k projektu (NOTES.ino pre AI inštrukcie špecifické pre projekt)",
+      "autoOpenInChat": "Automaticky otvoriť AI výsledky v chate namiesto výstupného panelu",
+      "showCostWarning": "Zobraziť varovanie pred nákladnými API požiadavkami",
+      "costWarningThreshold": "Prah v USD pre varovanie nákladov (napr. 0.10 = 10 centov)"
     }
   },
   "extensionUpdate": {
@@ -677,5 +694,8 @@
   },
   "explainCode": {
     "aiAnalysis": "AI vysvetlenie"
+  },
+  "projectNotes": {
+    "commentPlaceholder": "Inštrukcie špecifické pre projekt"
   }
 }

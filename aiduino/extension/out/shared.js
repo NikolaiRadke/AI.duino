@@ -1,6 +1,6 @@
 /*
  * AI.duino - Shared Functions Module
- * Copyright 2025 Monster Maker
+ * Copyright 2026 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
  */
@@ -505,6 +505,178 @@ function calculateTotalCost(tokenUsage, providers) {
     return total;
 }
 
+// ===== PROJECT NOTES =====
+
+/**
+ * Get project notes from NOTES.ino if it exists
+ * @param {string} sketchPath - Path to the sketch directory
+ * @returns {string} Project notes content or empty string
+ */
+function getProjectNotes(sketchPath) {
+    if (!sketchPath) {
+        return '';
+    }
+    
+    const notesFile = path.join(sketchPath, 'NOTES.ino');
+    
+    // Read from open editor (file is always open if it exists in Arduino IDE)
+    const vscode = require('vscode');
+    const openDocs = vscode.workspace.textDocuments;
+    const openNotesDoc = openDocs.find(doc => doc.uri.fsPath === notesFile);
+    
+    if (openNotesDoc) {
+        // File is open - use current editor content (includes unsaved changes)
+        const content = openNotesDoc.getText();
+        const match = content.trim().match(/#if\s+0\s*\n([\s\S]*?)\n#endif/);
+        if (match && match[1]) {
+            // Filter out lines starting with // (comments)
+            const lines = match[1].split('\n');
+            const filteredLines = lines.filter(line => {
+                const trimmed = line.trim();
+                return trimmed.length > 0 && !trimmed.startsWith('//');
+            });
+            
+            const notes = filteredLines.join('\n').trim();
+            if (notes) {
+                return '\n\n=== PROJECT NOTES ===\n' + notes + '\n=== END PROJECT NOTES ===\n';
+            }
+        }
+    }
+    
+    return '';
+}
+
+/**
+ * Find arduino-cli binary bundled with Arduino IDE 2.x
+ * @returns {string|null} Path to arduino-cli or null if not found
+ */
+function findArduinoCli() {
+    const fs = require('fs');
+    const path = require('path');
+    const os = require('os');
+    
+    const platform = os.platform();
+    const possiblePaths = [];
+    
+    if (platform === 'linux') {
+        possiblePaths.push(
+            '/usr/share/arduino/resources/app/lib/backend/resources/arduino-cli',
+            '/usr/share/arduino-ide/resources/app/lib/backend/resources/arduino-cli',
+            '/opt/arduino-ide/resources/app/lib/backend/resources/arduino-cli'
+        );
+    } else if (platform === 'darwin') {
+        possiblePaths.push(
+            '/Applications/Arduino IDE.app/Contents/Resources/app/lib/backend/resources/arduino-cli'
+        );
+    } else if (platform === 'win32') {
+        const programFiles = process.env['ProgramFiles'] || 'C:\\Program Files';
+        const localAppData = process.env['LOCALAPPDATA'] || path.join(os.homedir(), 'AppData', 'Local');
+        
+        possiblePaths.push(
+            path.join(programFiles, 'Arduino IDE', 'resources', 'app', 'lib', 'backend', 'resources', 'arduino-cli.exe'),
+            path.join(localAppData, 'Programs', 'Arduino IDE', 'resources', 'app', 'lib', 'backend', 'resources', 'arduino-cli.exe')
+        );
+    }
+    
+    // Check each path
+    for (const cliPath of possiblePaths) {
+        if (fs.existsSync(cliPath)) {
+            return cliPath;
+        }
+    }
+    
+    // Fallback: check if arduino-cli is in PATH
+    const { execSync } = require('child_process');
+    try {
+        const which = platform === 'win32' ? 'where arduino-cli' : 'which arduino-cli';
+        const result = execSync(which, { encoding: 'utf8' }).trim();
+        if (result) {
+            return result.split('\n')[0]; // First result
+        }
+    } catch (e) {
+        // Not in PATH
+    }
+    
+    return null;
+}
+
+/**
+ * Compile Arduino sketch using arduino-cli
+ * @param {string} sketchPath - Path to sketch directory or .ino file
+ * @param {string} fqbn - Fully Qualified Board Name (optional, auto-detect if null)
+ * @returns {Promise<{success: boolean, output: string, errors: string[]}>}
+ */
+async function compileSketch(sketchPath, fqbn = null) {
+    const { execSync } = require('child_process');
+    const path = require('path');
+    
+    const cliPath = findArduinoCli();
+    if (!cliPath) {
+        return {
+            success: false,
+            output: '',
+            errors: ['arduino-cli not found']
+        };
+    }
+    
+    // Auto-detect board if not provided
+    const board = fqbn || detectArduinoBoard();
+    if (!board) {
+        return {
+            success: false,
+            output: '',
+            errors: ['No board selected. Please select a board in Arduino IDE.']
+        };
+    }
+    
+    // Ensure we have sketch directory
+    const sketchDir = sketchPath.endsWith('.ino') 
+        ? path.dirname(sketchPath) 
+        : sketchPath;
+    
+    try {
+        const cmd = `"${cliPath}" compile --fqbn "${board}" "${sketchDir}" 2>&1`;
+        const output = execSync(cmd, { 
+            encoding: 'utf8',
+            timeout: 120000  // 2 minutes timeout
+        });
+        
+        return {
+            success: true,
+            output: output,
+            errors: []
+        };
+    } catch (error) {
+        // Compile failed - parse errors
+        const output = error.stdout || error.message || '';
+        const errors = parseCompileErrors(output);
+        
+        return {
+            success: false,
+            output: output,
+            errors: errors
+        };
+    }
+}
+
+/**
+ * Parse compile errors from arduino-cli output
+ * @param {string} output - Compiler output
+ * @returns {string[]} Array of error messages
+ */
+function parseCompileErrors(output) {
+    const errors = [];
+    const lines = output.split('\n');
+    
+    for (const line of lines) {
+        if (line.includes(': error:') || line.includes(': fatal error:')) {
+            errors.push(line.trim());
+        }
+    }
+    
+    return errors.length > 0 ? errors : [output.trim()];
+}
+
 // ===== MODULE EXPORTS =====
 
 module.exports = {
@@ -525,5 +697,10 @@ module.exports = {
     
     // Provider utilities
     forEachProvider,
-    calculateTotalCost
+    calculateTotalCost,
+    getProjectNotes,
+
+    // CLI utilities
+    findArduinoCli,
+    compileSketch
 };
