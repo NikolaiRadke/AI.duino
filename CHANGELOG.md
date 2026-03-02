@@ -1,4 +1,12 @@
 # Changelog
+
+## V2.6.1
+An urgend bugfix release.
+
+## Bugfixes
+* API keys are now stored correctly (V2.6.0 error)
+* Added missing locale keys
+
 ## V2.6.0
 This release focuses on new user-asked features but mainly on agentic coding. 
 
