@@ -64,11 +64,11 @@ The provider settings will be updated when availabe. They will be generated auto
 and will inform the user for new version updates.  
 
 
-## Screenshots (V2.5.0)
+## Screenshots (V2.6.1)
 
-![Screenshot 1](http://www.nikolairadke.de/aiduino/screenshot_1_1.png)
-![Screenshot 2](http://www.nikolairadke.de/aiduino/screenshot_2_1.png)
-![Screenshot 3](http://www.nikolairadke.de/aiduino/screenshot_3_1.png)
+![Screenshot 1](http://www.nikolairadke.de/aiduino/screenshot_1_2.png)
+![Screenshot 2](http://www.nikolairadke.de/aiduino/screenshot_2_2.png)
+![Screenshot 3](http://www.nikolairadke.de/aiduino/screenshot_3_2.png)
 
 ## Usage
 
