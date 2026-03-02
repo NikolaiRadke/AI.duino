@@ -2,6 +2,7 @@
 
 ## 2026
 
+* **02.03.2026** Release **V2.6.1** with an urgent API key bugfix.    
 * **26.02.2026** Release **V2.6.0** with Agentic Coding support.  
 * **18.02.2026** V2.6.0 will be released next week!  
 * **14.02.2026** Still working on an annoying bug with process provider (Claude Code and Codex CLI) with Windows 10.
