@@ -65,7 +65,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '260226'; 
+const CONFIG_VERSION = '270326'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -151,7 +151,7 @@ const PROVIDER_CONFIGS = {
             staticModels: [
                 { id: 'gpt-4o', name: 'GPT-4o', displayName: 'GPT-4o' },
                 { id: 'gpt-4o-mini', name: 'GPT-4o Mini', displayName: 'GPT-4o Mini' },
-                { id: 'gpt-4-turbo', name: 'GPT-4 Turbo', displayName: 'GPT-4 Turbo' }
+                { id: 'gpt-4.1', name: 'GPT-4.1', displayName: 'GPT-4.1' }
             ]
         },
         prices: {
@@ -200,7 +200,7 @@ const PROVIDER_CONFIGS = {
             staticModels: [
                 { id: 'models/gemini-2.5-flash', name: 'Gemini 2.5 Flash', displayName: 'Gemini 2.5 Flash' },
                 { id: 'models/gemini-2.5-pro', name: 'Gemini 2.5 Pro', displayName: 'Gemini 2.5 Pro' },
-                { id: 'models/gemini-2.0-flash', name: 'Gemini 2.0 Flash', displayName: 'Gemini 2.0 Flash' }
+                //{ id: 'models/gemini-2.0-flash', name: 'Gemini 2.0 Flash', displayName: 'Gemini 2.0 Flash' }
             ]
         },
         prices: {
@@ -243,16 +243,16 @@ const PROVIDER_CONFIGS = {
         path: '/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => data.data?.filter(m => !m.id.includes('embed')) || [],
-        selectBest: (models) => models.find(m => m.id.includes('medium-3') || m.id.includes('large')) || models[0],
-        fallback: 'mistral-medium-3',
+        selectBest: (models) => models.find(m => m.id.includes('medium-latest') || m.id.includes('large')) || models[0],
+        fallback: 'mistral-medium-latest',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,
             extractModels: (data) => data.data?.filter(m => !m.id.includes('embed')) || [],
-            selectDefault: (models) => models.find(m => m.id.includes('medium-3') || m.id.includes('large')) || models[0],
+            selectDefault: (models) => models.find(m => m.id.includes('medium-latest') || m.id.includes('large')) || models[0],
             staticModels: [
                 { id: 'mistral-large-latest', name: 'Mistral Large', displayName: 'Mistral Large' },
-                { id: 'mistral-medium-3', name: 'Mistral Medium 3', displayName: 'Mistral Medium 3' },
+                { id: 'mistral-medium-latest', name: 'Mistral Medium 3', displayName: 'Mistral Medium 3' },
                 { id: 'mistral-small-latest', name: 'Mistral Small', displayName: 'Mistral Small' }
             ]
         },
@@ -414,7 +414,7 @@ const PROVIDER_CONFIGS = {
                 if (excludePatterns.some(pattern => id.includes(pattern))) return false;
                 
                 // Only include main chat model families
-                const chatFamilies = ['llama', 'mixtral', 'gemma'];
+                const chatFamilies = ['llama', 'gemma'];
                 return chatFamilies.some(family => id.includes(family));
             }) || [],
             selectDefault: (models) => {
@@ -428,10 +428,7 @@ const PROVIDER_CONFIGS = {
             },
             staticModels: [
                 { id: 'llama-3.3-70b-versatile', name: 'Llama 3.3 70B Versatile', displayName: 'Llama 3.3 70B Versatile' },
-                { id: 'llama-3.1-70b-versatile', name: 'Llama 3.1 70B Versatile', displayName: 'Llama 3.1 70B Versatile' },
-                { id: 'llama-3.1-8b-instant', name: 'Llama 3.1 8B Instant', displayName: 'Llama 3.1 8B Instant' },
-                { id: 'mixtral-8x7b-32768', name: 'Mixtral 8x7B', displayName: 'Mixtral 8x7B' },
-                { id: 'gemma2-9b-it', name: 'Gemma 2 9B', displayName: 'Gemma 2 9B' }
+                { id: 'llama-3.1-8b-instant',    name: 'Llama 3.1 8B Instant',    displayName: 'Llama 3.1 8B Instant' }
             ]
         },
         prices: {
@@ -470,9 +467,9 @@ const PROVIDER_CONFIGS = {
         keyFile: '.aiduino-hf-api-key',
         keyPrefix: 'hf_',
         keyMinLength: 15,
-        hostname: 'api-inference.huggingface.co',
+        hostname: 'router.huggingface.co',
         apiKeyUrl: 'https://huggingface.co/settings/tokens',
-        path: '/models',
+        path: '/v1/models',
         requiresModelSelection: true,
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         // Popular open-source models available on HF
@@ -545,27 +542,24 @@ const PROVIDER_CONFIGS = {
             output: 0
         },
         apiConfig: {
-            apiPath: (modelId) => `/models/${modelId}`,
+            apiPath: '/v1/chat/completions',
             method: 'POST',
             headers: (key) => ({
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${key}`
             }),
             buildRequest: (modelId, prompt, systemPrompt) => ({
-                inputs: systemPrompt ? `${systemPrompt}\n\n${prompt}` : prompt,
-                parameters: {
-                    max_new_tokens: 2000,
-                    temperature: 0.7,
-                    return_full_text: false,
-                    do_sample: true
-                }
+                model: modelId,
+                messages: [
+                    ...(systemPrompt ? [{ role: "system", content: systemPrompt }] : []),
+                    { role: "user", content: prompt }
+                ],
+                max_tokens: 2000,
+                temperature: 0.7
             }),
             extractResponse: (data) => {
-                if (Array.isArray(data) && data[0] && data[0].generated_text) {
-                    return data[0].generated_text;
-                }
-                if (data.generated_text) {
-                    return data.generated_text;
+                if (data.choices && data.choices[0] && data.choices[0].message) {
+                    return data.choices[0].message.content;
                 }
                 throw new Error('Unexpected Hugging Face response format');
             }

@@ -1,7 +1,7 @@
 # Changelog
 
 ## V2.6.1
-An urgend bugfix release.
+An urgent bugfix release.
 
 ## Bugfixes
 * API keys are now stored correctly (V2.6.0 error)
