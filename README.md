@@ -11,7 +11,7 @@ Since **V2.6.0**, AI.duino supports full Agentic Coding: Unlike traditional AI c
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **02.03.2026** Release **V2.6.1** with an urgent API key bugfix.    
+* **12.04.2026** Release **V2.6.2** with a Claude Code for Windows bugfix.      
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
