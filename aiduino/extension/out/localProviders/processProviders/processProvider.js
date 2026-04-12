@@ -69,12 +69,11 @@ async function executeProcessProvider(toolPath, args, providerName, t, timeout =
     
     return new Promise((resolve, reject) => {
         const childProcess = spawn(normalizedToolPath, args, {
-            cwd: options.cwd || '/tmp',
+            cwd: options.cwd || process.cwd(),  
             stdio: ['ignore', 'pipe', 'pipe'],
             detached: true,
             windowsHide: true
         });
-        
         childProcess.unref();
         
         let stdout = '';
