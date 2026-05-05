@@ -32,9 +32,26 @@ function buildArgs(prompt, sessionId = null, agenticMode = false, modelId = null
     if (agenticMode) {
         args.push('--full-auto');
     }
-    
+
     args.push('--json');
-    args.push(prompt);
+
+    /*
+     * IMPORTANT:
+     *
+     * Do not push the full prompt as a command-line argument.
+     *
+     * The old version did:
+     *     args.push(prompt);
+     *
+     * AI.duino can build very large prompts/context blocks, and Windows/Node can throw:
+     *     spawn ENAMETOOLONG
+     *
+     * Codex CLI supports reading the prompt from stdin when '-' is used:
+     *     codex exec -
+     *
+     * The actual prompt is passed via options.input in executeCommand().
+     */
+    args.push('-');
 
     return args;
 }
@@ -44,42 +61,52 @@ function buildArgs(prompt, sessionId = null, agenticMode = false, modelId = null
  * Signature must stay identical to claudeCode.js
  *
  * @param {string} rawOutput
- * @returns {string}
+ * @returns {{response: string, sessionId: string|null}}
  */
 function extractResponse(rawOutput) {
     if (!rawOutput) {
         return { response: '', sessionId: null };
     }
-    
+
     try {
         // Codex CLI outputs NDJSON (Newline Delimited JSON)
         const lines = rawOutput.trim().split('\n');
-        
+
         let text = '';
         for (const line of lines) {
             if (!line.trim()) continue;
-            
+
             try {
                 const event = JSON.parse(line);
-                
+
                 // Look for item.completed events with agent_message type
-                if (event.type === 'item.completed' && 
-                    event.item?.type === 'agent_message' && 
+                if (event.type === 'item.completed' &&
+                    event.item?.type === 'agent_message' &&
                     event.item?.text) {
                     text += event.item.text + '\n';
+                }
+
+                // Some Codex versions may emit slightly different final message shapes.
+                if (event.type === 'response.completed' &&
+                    event.response?.output_text) {
+                    text += event.response.output_text + '\n';
+                }
+
+                if (event.type === 'message' && event.message?.content) {
+                    text += event.message.content + '\n';
                 }
             } catch (e) {
                 // Skip invalid JSON lines
             }
         }
-        
+
         if (text) {
             return { response: text.trim(), sessionId: null };
         }
     } catch (e) {
         // Fallback to raw output
     }
-    
+
     return { response: rawOutput.trim(), sessionId: null };
 }
 
@@ -108,7 +135,9 @@ async function executeCommand(
     const { t } = context;
     const args = buildArgs(prompt, sessionId, agenticMode, modelId);
 
-    const options = workspacePath ? { cwd: workspacePath } : {};
+    const options = workspacePath
+        ? { cwd: workspacePath, input: prompt }
+        : { input: prompt };
 
     return executeProcessProvider(
         toolPath,

@@ -77,7 +77,7 @@ function generateAboutHTML(logoDataUrl, modelBadges, modelFeatures, apiKeysList,
     
     <div class="license">
         <strong>${t('about.license')}:</strong> Apache License 2.0<br>
-        Copyright © 2025 Monster Maker
+        Copyright © 2026 Monster Maker
     </div>
     
     <div class="info-box">
