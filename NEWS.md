@@ -2,6 +2,7 @@
 
 ## 2026
 
+* **05.05.2026** Release **V2.6.3** with a Codex CLI ENAMETOOLONG bug fix (thanks to user Casket Pizza)
 * **02.03.2026** Release **V2.6.1** with an urgent API key bugfix.    
 * **26.02.2026** Release **V2.6.0** with Agentic Coding support.  
 * **18.02.2026** V2.6.0 will be released next week!  
