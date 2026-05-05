@@ -1,7 +1,7 @@
 # Changelog
 
 ## V2.6.3
-* Fixed Codex CLI ENAMETOOLONG bug (Fix by Pizza Casket)
+* Fixed Codex CLI ENAMETOOLONG bug (fix by Casket Pizza)
 
 ## V2.6.2
 * Fixed Claude Code for Windows bug
