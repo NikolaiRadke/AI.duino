@@ -115,7 +115,8 @@
     "continue": "Continuar",
     "apply": "Aplicar",
     "configureNodePath": "Configurar caminho do Node.js",
-    "enterNodePath": "Inserir caminho do Node.js v20+"
+    "enterNodePath": "Inserir caminho do Node.js v20+",
+    "testProviders": "Testar fornecedores"
   },
   "descriptions": {
     "improveCodeSelected": "Otimizar código selecionado",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Instruções específicas do projeto"
+  },
+  "providerTest": {
+    "title": "Teste de fornecedores",
+    "description": "Verifica a configuração e acessibilidade de todos os fornecedores",
+    "running": "Testes em execução...",
+    "cloudProviders": "Fornecedores de nuvem",
+    "cliProviders": "Fornecedores CLI / Agênticos",
+    "httpProviders": "Fornecedores HTTP / locais",
+    "summary": "Resultado",
+    "passed": "{0} de {1} testes aprovados",
+    "skipped": "{0} ignorados",
+    "allPassed": "Todos os testes aprovados",
+    "someFailed": "{0} teste(s) falharam",
+    "configLoaded": "providerConfigs.js carregado com sucesso"
   }
 }

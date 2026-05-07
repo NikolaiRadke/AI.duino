@@ -115,7 +115,8 @@
     "continue": "Vazhdo",
     "apply": "Zbato",
     "configureNodePath": "Konfiguro rrugën e Node.js",
-    "enterNodePath": "Fut rrugën e Node.js v20+"
+    "enterNodePath": "Fut rrugën e Node.js v20+",
+    "testProviders": "Testo ofruesit"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizo kodin e zgjedhur",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Udhëzime specifike për projektin"
+  },
+  "providerTest": {
+    "title": "Testi i ofruesve",
+    "description": "Kontrollon konfigurimin dhe aksesueshmërinë e të gjithë ofruesve",
+    "running": "Testet po ekzekutohen...",
+    "cloudProviders": "Ofruesit e cloud",
+    "cliProviders": "Ofruesit CLI / Agjentic",
+    "httpProviders": "Ofruesit HTTP / lokalë",
+    "summary": "Rezultat",
+    "passed": "{0} nga {1} teste kaluan",
+    "skipped": "{0} të anashkaluara",
+    "allPassed": "Të gjitha testet kaluan",
+    "someFailed": "{0} test(e) dështuan",
+    "configLoaded": "providerConfigs.js u ngarkua me sukses"
   }
 }

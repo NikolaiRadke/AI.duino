@@ -115,7 +115,8 @@
     "continue": "Kontynuuj",
     "apply": "Zastosuj",
     "configureNodePath": "Konfiguruj ścieżkę Node.js",
-    "enterNodePath": "Wprowadź ścieżkę Node.js v20+"
+    "enterNodePath": "Wprowadź ścieżkę Node.js v20+",
+    "testProviders": "Testuj dostawców"
   },
   "descriptions": {
     "improveCodeSelected": "Optymalizuj zaznaczony kod",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Instrukcje specyficzne dla projektu"
+  },
+  "providerTest": {
+    "title": "Test dostawców",
+    "description": "Sprawdza konfigurację i dostępność wszystkich dostawców",
+    "running": "Testy w toku...",
+    "cloudProviders": "Dostawcy chmurowi",
+    "cliProviders": "Dostawcy CLI / agentyczni",
+    "httpProviders": "Dostawcy HTTP / lokalni",
+    "summary": "Wynik",
+    "passed": "{0} z {1} testów zaliczonych",
+    "skipped": "{0} pominięto",
+    "allPassed": "Wszystkie testy zaliczone",
+    "someFailed": "{0} test(y) nieudany(-e)",
+    "configLoaded": "providerConfigs.js załadowany pomyślnie"
   }
 }

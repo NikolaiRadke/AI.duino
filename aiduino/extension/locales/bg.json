@@ -115,7 +115,8 @@
     "continue": "Продължи",
     "apply": "Приложи",
     "configureNodePath": "Конфигуриране на Node.js път",
-    "enterNodePath": "Въведете Node.js v20+ път"
+    "enterNodePath": "Въведете Node.js v20+ път",
+    "testProviders": "Тестване на доставчици"
   },
   "descriptions": {
     "improveCodeSelected": "Оптимизиране на маркирания код",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Специфични за проекта инструкции"
+  },
+  "providerTest": {
+    "title": "Тест на доставчици",
+    "description": "Проверява конфигурацията и достъпността на всички доставчици",
+    "running": "Тестовете се изпълняват...",
+    "cloudProviders": "Облачни доставчици",
+    "cliProviders": "CLI / Агентни доставчици",
+    "httpProviders": "HTTP / Локални доставчици",
+    "summary": "Резултат",
+    "passed": "{0} от {1} теста преминати",
+    "skipped": "{0} пропуснати",
+    "allPassed": "Всички тестове преминати",
+    "someFailed": "{0} тест(а) неуспешни",
+    "configLoaded": "providerConfigs.js успешно зареден"
   }
 }

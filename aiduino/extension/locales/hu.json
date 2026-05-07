@@ -115,7 +115,8 @@
     "continue": "Folytatás",
     "apply": "Alkalmaz",
     "configureNodePath": "Node.js útvonal konfigurálása",
-    "enterNodePath": "Node.js v20+ útvonal megadása"
+    "enterNodePath": "Node.js v20+ útvonal megadása",
+    "testProviders": "Szolgáltatók tesztelése"
   },
   "descriptions": {
     "improveCodeSelected": "Kijelölt kód optimalizálása",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Projektspecifikus utasítások"
+  },
+  "providerTest": {
+    "title": "Szolgáltató teszt",
+    "description": "Ellenőrzi az összes szolgáltató konfigurációját és elérhetőségét",
+    "running": "Tesztek futnak...",
+    "cloudProviders": "Felhőszolgáltatók",
+    "cliProviders": "CLI / Ügynök szolgáltatók",
+    "httpProviders": "HTTP / Helyi szolgáltatók",
+    "summary": "Eredmény",
+    "passed": "{0} / {1} teszt sikeres",
+    "skipped": "{0} kihagyva",
+    "allPassed": "Minden teszt sikeres",
+    "someFailed": "{0} teszt sikertelen",
+    "configLoaded": "providerConfigs.js sikeresen betöltve"
   }
 }

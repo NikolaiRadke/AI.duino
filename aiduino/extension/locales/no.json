@@ -115,7 +115,8 @@
     "continue": "Fortsett",
     "apply": "Bruk",
     "configureNodePath": "Konfigurer Node.js-bane",
-    "enterNodePath": "Angi Node.js v20+ bane"
+    "enterNodePath": "Angi Node.js v20+ bane",
+    "testProviders": "Test leverandører"
   },
   "descriptions": {
     "improveCodeSelected": "Optimaliser valgt kode",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Prosjektspesifikke instruksjoner"
+  },
+  "providerTest": {
+    "title": "Leverandørtest",
+    "description": "Kontrollerer konfigurasjon og tilgjengelighet for alle leverandører",
+    "running": "Tester kjører...",
+    "cloudProviders": "Skyleverandører",
+    "cliProviders": "CLI / Agentiske leverandører",
+    "httpProviders": "HTTP / Lokale leverandører",
+    "summary": "Resultat",
+    "passed": "{0} av {1} tester bestått",
+    "skipped": "{0} hoppet over",
+    "allPassed": "Alle tester bestått",
+    "someFailed": "{0} test(er) mislyktes",
+    "configLoaded": "providerConfigs.js lastet inn"
   }
 }

@@ -115,7 +115,8 @@
     "continue": "Nastavi",
     "apply": "Primijeni",
     "configureNodePath": "Konfiguriraj Node.js putanju",
-    "enterNodePath": "Unesi Node.js v20+ putanju"
+    "enterNodePath": "Unesi Node.js v20+ putanju",
+    "testProviders": "Testiraj pružatelje"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiziraj označeni kod",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Upute specifične za projekt"
+  },
+  "providerTest": {
+    "title": "Test pružatelja",
+    "description": "Provjerava konfiguraciju i dostupnost svih pružatelja",
+    "running": "Testovi se izvode...",
+    "cloudProviders": "Cloud pružatelji",
+    "cliProviders": "CLI / Agentni pružatelji",
+    "httpProviders": "HTTP / Lokalni pružatelji",
+    "summary": "Rezultat",
+    "passed": "{0} od {1} testova prošlo",
+    "skipped": "{0} preskočeno",
+    "allPassed": "Svi testovi prošli",
+    "someFailed": "{0} test(ova) nije prošao",
+    "configLoaded": "providerConfigs.js uspješno učitan"
   }
 }

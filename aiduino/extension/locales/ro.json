@@ -115,7 +115,8 @@
     "continue": "Continuă",
     "apply": "Aplică",
     "configureNodePath": "Configurează calea Node.js",
-    "enterNodePath": "Introduceți calea Node.js v20+"
+    "enterNodePath": "Introduceți calea Node.js v20+",
+    "testProviders": "Testează furnizorii"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizează codul selectat",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Instrucțiuni specifice proiectului"
+  },
+  "providerTest": {
+    "title": "Test furnizori",
+    "description": "Verifică configurația și accesibilitatea tuturor furnizorilor",
+    "running": "Testele rulează...",
+    "cloudProviders": "Furnizori cloud",
+    "cliProviders": "Furnizori CLI / Agentici",
+    "httpProviders": "Furnizori HTTP / locali",
+    "summary": "Rezultat",
+    "passed": "{0} din {1} teste trecute",
+    "skipped": "{0} omise",
+    "allPassed": "Toate testele trecute",
+    "someFailed": "{0} test(e) eșuate",
+    "configLoaded": "providerConfigs.js încărcat cu succes"
   }
 }

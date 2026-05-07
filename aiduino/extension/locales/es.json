@@ -115,7 +115,8 @@
     "continue": "Continuar",
     "apply": "Aplicar",
     "configureNodePath": "Configurar ruta de Node.js",
-    "enterNodePath": "Introducir ruta de Node.js v20+"
+    "enterNodePath": "Introducir ruta de Node.js v20+",
+    "testProviders": "Probar proveedores"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizar código seleccionado",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Instrucciones específicas del proyecto"
+  },
+  "providerTest": {
+    "title": "Prueba de proveedores",
+    "description": "Comprueba la configuración y disponibilidad de todos los proveedores",
+    "running": "Pruebas en curso...",
+    "cloudProviders": "Proveedores en la nube",
+    "cliProviders": "Proveedores CLI / Agénticos",
+    "httpProviders": "Proveedores HTTP / locales",
+    "summary": "Resultado",
+    "passed": "{0} de {1} pruebas superadas",
+    "skipped": "{0} omitidas",
+    "allPassed": "Todas las pruebas superadas",
+    "someFailed": "{0} prueba(s) fallida(s)",
+    "configLoaded": "providerConfigs.js cargado correctamente"
   }
 }

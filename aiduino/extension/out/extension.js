@@ -60,6 +60,7 @@ const { PromptHistoryManager } = require('./utils/promptHistory');
 const { buildMenuItems } = require('./utils/menuBuilder');
 const { disposeCache } = require('./features/inlineCompletion/completionCache');
 const { showSettings } = require('./utils/panels/settingsPanel');
+const providerTestPanel = require('./utils/panels/providerTestPanel');
 
 // Configuration modules
 const { LANGUAGE_METADATA, getLanguageInfo } = require('./config/languageMetadata');
@@ -557,6 +558,7 @@ function registerCommands(context) {
         switchLanguage,
         clearAIContext,
         showSettings: (context, openCategory) => showSettings(context || getDependencies(), openCategory),
+        showProviderTestPanel: (context) => providerTestPanel.showProviderTestPanel(context || getDependencies()),
     
         // Feature loader for lazy loading
         loadFeature,

@@ -115,7 +115,8 @@
     "continue": "Fortsæt",
     "apply": "Anvend",
     "configureNodePath": "Konfigurer Node.js-sti",
-    "enterNodePath": "Indtast Node.js v20+ sti"
+    "enterNodePath": "Indtast Node.js v20+ sti",
+    "testProviders": "Test udbydere"
   },
   "descriptions": {
     "improveCodeSelected": "Optimere valgte kode",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Projektspecifikke instruktioner"
+  },
+  "providerTest": {
+    "title": "Udbydertest",
+    "description": "Kontrollerer konfiguration og tilgængelighed for alle udbydere",
+    "running": "Tests kører...",
+    "cloudProviders": "Cloud-udbydere",
+    "cliProviders": "CLI / Agentiske udbydere",
+    "httpProviders": "HTTP / Lokale udbydere",
+    "summary": "Resultat",
+    "passed": "{0} af {1} tests bestået",
+    "skipped": "{0} sprunget over",
+    "allPassed": "Alle tests bestået",
+    "someFailed": "{0} test(s) mislykkedes",
+    "configLoaded": "providerConfigs.js indlæst"
   }
 }

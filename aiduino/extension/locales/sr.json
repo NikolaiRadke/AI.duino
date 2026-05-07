@@ -115,7 +115,8 @@
     "continue": "Настави",
     "apply": "Примени",
     "configureNodePath": "Конфигуриши Node.js путању",
-    "enterNodePath": "Унеси Node.js v20+ путању"
+    "enterNodePath": "Унеси Node.js v20+ путању",
+    "testProviders": "Тестирај провајдере"
   },
   "descriptions": {
     "improveCodeSelected": "Оптимизуј означени код",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Инструкције специфичне за пројекат"
+  },
+  "providerTest": {
+    "title": "Тест провајдера",
+    "description": "Проверава конфигурацију и доступност свих провајдера",
+    "running": "Тестови се извршавају...",
+    "cloudProviders": "Облак провајдери",
+    "cliProviders": "CLI / Агентни провајдери",
+    "httpProviders": "HTTP / Локални провајдери",
+    "summary": "Резултат",
+    "passed": "{0} од {1} тестова прошло",
+    "skipped": "{0} прескочено",
+    "allPassed": "Сви тестови прошли",
+    "someFailed": "{0} тест(ова) није прошао",
+    "configLoaded": "providerConfigs.js успешно учитан"
   }
 }

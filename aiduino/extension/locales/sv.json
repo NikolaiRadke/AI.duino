@@ -115,7 +115,8 @@
     "continue": "Fortsätt",
     "apply": "Tillämpa",
     "configureNodePath": "Konfigurera Node.js-sökväg",
-    "enterNodePath": "Ange Node.js v20+ sökväg"
+    "enterNodePath": "Ange Node.js v20+ sökväg",
+    "testProviders": "Testa leverantörer"
   },
   "descriptions": {
     "improveCodeSelected": "Optimera vald kod",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Projektspecifika instruktioner"
+  },
+  "providerTest": {
+    "title": "Leverantörstest",
+    "description": "Kontrollerar konfiguration och tillgänglighet för alla leverantörer",
+    "running": "Tester körs...",
+    "cloudProviders": "Molnleverantörer",
+    "cliProviders": "CLI / Agentiska leverantörer",
+    "httpProviders": "HTTP / Lokala leverantörer",
+    "summary": "Resultat",
+    "passed": "{0} av {1} tester godkända",
+    "skipped": "{0} överhoppade",
+    "allPassed": "Alla tester godkända",
+    "someFailed": "{0} test misslyckades",
+    "configLoaded": "providerConfigs.js laddades in"
   }
 }

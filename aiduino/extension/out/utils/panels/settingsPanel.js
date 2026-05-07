@@ -118,6 +118,10 @@ function showSettings(context, openCategory = null) {
                 case 'uninstall':
                     await uninstallAiduino(context);
                     break;
+
+                case 'testProviders':
+                    vscode.commands.executeCommand('aiduino.testProviders');
+                    break;
             }
         },
         undefined,
@@ -451,6 +455,10 @@ function generateSettingsHTML(currentSettings, t, context, openCategory = null) 
         <button class="reset-all-button" onclick="resetAll()">
             ${t('buttons.resetAll')}
         </button>
+
+        <button class="reset-all-button" onclick="testProviders()" style="margin-left:10px">
+            🔌 ${t('buttons.testProviders')}
+        </button>
     
         <div class="uninstall-section">
             <button class="uninstall-button" onclick="uninstall()">
@@ -510,6 +518,10 @@ function generateSettingsHTML(currentSettings, t, context, openCategory = null) 
             vscode.postMessage({
                 command: 'uninstall'
             });
+        }
+
+        function testProviders() {
+            vscode.postMessage({ command: 'testProviders' });
         }
         
         // Listen for reset responses

@@ -115,7 +115,8 @@
     "continue": "Tęsti",
     "apply": "Pritaikyti",
     "configureNodePath": "Konfigūruoti Node.js kelią",
-    "enterNodePath": "Įvesti Node.js v20+ kelią"
+    "enterNodePath": "Įvesti Node.js v20+ kelią",
+    "testProviders": "Testuoti tiekėjus"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizuoti pažymėtą kodą",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Projektui specifinės instrukcijos"
+  },
+  "providerTest": {
+    "title": "Tiekėjų testas",
+    "description": "Tikrina visų tiekėjų konfigūraciją ir pasiekiamumą",
+    "running": "Testai vykdomi...",
+    "cloudProviders": "Debesų tiekėjai",
+    "cliProviders": "CLI / Agentiniai tiekėjai",
+    "httpProviders": "HTTP / Vietiniai tiekėjai",
+    "summary": "Rezultatas",
+    "passed": "{0} iš {1} testų sėkmingi",
+    "skipped": "{0} praleista",
+    "allPassed": "Visi testai sėkmingi",
+    "someFailed": "{0} testas(-ai) nepavyko",
+    "configLoaded": "providerConfigs.js sėkmingai įkeltas"
   }
 }

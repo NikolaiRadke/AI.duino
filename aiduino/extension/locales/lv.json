@@ -115,7 +115,8 @@
     "continue": "Turpināt",
     "apply": "Piemērot",
     "configureNodePath": "Konfigurēt Node.js ceļu",
-    "enterNodePath": "Ievadīt Node.js v20+ ceļu"
+    "enterNodePath": "Ievadīt Node.js v20+ ceļu",
+    "testProviders": "Testēt nodrošinātājus"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizēt iezīmēto kodu",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Projektam specifiskas instrukcijas"
+  },
+  "providerTest": {
+    "title": "Nodrošinātāju tests",
+    "description": "Pārbauda visu nodrošinātāju konfigurāciju un sasniedzamību",
+    "running": "Testi darbojas...",
+    "cloudProviders": "Mākoņu nodrošinātāji",
+    "cliProviders": "CLI / Aģentu nodrošinātāji",
+    "httpProviders": "HTTP / Vietējie nodrošinātāji",
+    "summary": "Rezultāts",
+    "passed": "{0} no {1} testiem veiksmīgi",
+    "skipped": "{0} izlaists",
+    "allPassed": "Visi testi veiksmīgi",
+    "someFailed": "{0} tests(-i) neizdevās",
+    "configLoaded": "providerConfigs.js veiksmīgi ielādēts"
   }
 }

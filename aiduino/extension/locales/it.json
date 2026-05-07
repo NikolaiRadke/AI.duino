@@ -115,7 +115,8 @@
     "continue": "Continua",
     "apply": "Applica",
     "configureNodePath": "Configura percorso Node.js",
-    "enterNodePath": "Inserisci percorso Node.js v20+"
+    "enterNodePath": "Inserisci percorso Node.js v20+",
+    "testProviders": "Testa i provider"
   },
   "descriptions": {
     "improveCodeSelected": "Ottimizza codice selezionato",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Istruzioni specifiche del progetto"
+  },
+  "providerTest": {
+    "title": "Test provider",
+    "description": "Verifica la configurazione e la raggiungibilità di tutti i provider",
+    "running": "Test in corso...",
+    "cloudProviders": "Provider cloud",
+    "cliProviders": "Provider CLI / Agentici",
+    "httpProviders": "Provider HTTP / locali",
+    "summary": "Risultato",
+    "passed": "{0} su {1} test superati",
+    "skipped": "{0} ignorati",
+    "allPassed": "Tutti i test superati",
+    "someFailed": "{0} test falliti",
+    "configLoaded": "providerConfigs.js caricato con successo"
   }
 }

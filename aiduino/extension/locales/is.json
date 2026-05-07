@@ -115,7 +115,8 @@
     "continue": "Halda áfram",
     "apply": "Nota",
     "configureNodePath": "Stilla Node.js slóð",
-    "enterNodePath": "Slá inn Node.js v20+ slóð"
+    "enterNodePath": "Slá inn Node.js v20+ slóð",
+    "testProviders": "Prófa veitendur"
   },
   "descriptions": {
     "improveCodeSelected": "Bæta valinn kóða",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Verkefnasérstakir leiðbeiningar"
+  },
+  "providerTest": {
+    "title": "Veitandapróf",
+    "description": "Athugar stillingar og aðgengi allra veitenda",
+    "running": "Próf í gangi...",
+    "cloudProviders": "Skýjaveitendur",
+    "cliProviders": "CLI / Umboðsveitendur",
+    "httpProviders": "HTTP / Staðbundnir veitendur",
+    "summary": "Niðurstaða",
+    "passed": "{0} af {1} prófum lokið",
+    "skipped": "{0} sleppt",
+    "allPassed": "Öll próf lokið",
+    "someFailed": "{0} próf mistókst",
+    "configLoaded": "providerConfigs.js hlaðið inn"
   }
 }

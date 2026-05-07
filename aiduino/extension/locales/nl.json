@@ -115,7 +115,8 @@
     "continue": "Doorgaan",
     "apply": "Toepassen",
     "configureNodePath": "Node.js-pad configureren",
-    "enterNodePath": "Node.js v20+ pad invoeren"
+    "enterNodePath": "Node.js v20+ pad invoeren",
+    "testProviders": "Providers testen"
   },
   "descriptions": {
     "improveCodeSelected": "Geselecteerde code optimaliseren",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Projectspecifieke instructies"
+  },
+  "providerTest": {
+    "title": "Providertest",
+    "description": "Controleert de configuratie en bereikbaarheid van alle providers",
+    "running": "Tests worden uitgevoerd...",
+    "cloudProviders": "Cloudproviders",
+    "cliProviders": "CLI / Agentische providers",
+    "httpProviders": "HTTP / Lokale providers",
+    "summary": "Resultaat",
+    "passed": "{0} van {1} tests geslaagd",
+    "skipped": "{0} overgeslagen",
+    "allPassed": "Alle tests geslaagd",
+    "someFailed": "{0} test(s) mislukt",
+    "configLoaded": "providerConfigs.js succesvol geladen"
   }
 }

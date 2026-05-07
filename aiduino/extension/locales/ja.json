@@ -112,7 +112,8 @@
     "continue": "続行",
     "apply": "適用",
     "configureNodePath": "Node.jsパスを設定",
-    "enterNodePath": "Node.js v20+パスを入力"
+    "enterNodePath": "Node.js v20+パスを入力",
+    "testProviders": "プロバイダーをテスト"
   },
   "descriptions": {
     "improveCodeSelected": "選択したコードを最適化",
@@ -700,5 +701,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "プロジェクト固有の指示"
+  },
+  "providerTest": {
+    "title": "プロバイダーテスト",
+    "description": "すべてのプロバイダーの設定と到達可能性を確認します",
+    "running": "テスト実行中...",
+    "cloudProviders": "クラウドプロバイダー",
+    "cliProviders": "CLI / エージェントプロバイダー",
+    "httpProviders": "HTTP / ローカルプロバイダー",
+    "summary": "結果",
+    "passed": "{1} 件中 {0} 件のテストに合格",
+    "skipped": "{0} 件スキップ",
+    "allPassed": "すべてのテストに合格",
+    "someFailed": "{0} 件のテストが失敗",
+    "configLoaded": "providerConfigs.js の読み込みに成功"
   }
 }

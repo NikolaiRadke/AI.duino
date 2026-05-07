@@ -115,7 +115,8 @@
     "continue": "Nadaljuj",
     "apply": "Uporabi",
     "configureNodePath": "Konfiguriraj pot Node.js",
-    "enterNodePath": "Vnesi pot Node.js v20+"
+    "enterNodePath": "Vnesi pot Node.js v20+",
+    "testProviders": "Testiraj ponudnike"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizacija označene kode",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Projektno specifična navodila"
+  },
+  "providerTest": {
+    "title": "Test ponudnikov",
+    "description": "Preverja konfiguracijo in dosegljivost vseh ponudnikov",
+    "running": "Testi potekajo...",
+    "cloudProviders": "Ponudniki v oblaku",
+    "cliProviders": "CLI / Agentni ponudniki",
+    "httpProviders": "HTTP / Lokalni ponudniki",
+    "summary": "Rezultat",
+    "passed": "{0} od {1} testov uspešnih",
+    "skipped": "{0} preskočenih",
+    "allPassed": "Vsi testi uspešni",
+    "someFailed": "{0} test(ov) neuspešnih",
+    "configLoaded": "providerConfigs.js uspešno naložen"
   }
 }

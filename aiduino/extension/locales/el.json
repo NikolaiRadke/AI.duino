@@ -115,7 +115,8 @@
     "continue": "Συνέχεια",
     "apply": "Εφαρμογή",
     "configureNodePath": "Διαμόρφωση διαδρομής Node.js",
-    "enterNodePath": "Εισαγάγετε διαδρομή Node.js v20+"
+    "enterNodePath": "Εισαγάγετε διαδρομή Node.js v20+",
+    "testProviders": "Δοκιμή παρόχων"
   },
   "descriptions": {
     "improveCodeSelected": "Βελτιστοποίηση επιλεγμένου κώδικα",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Οδηγίες ειδικές για το έργο"
+  },
+  "providerTest": {
+    "title": "Δοκιμή παρόχου",
+    "description": "Ελέγχει τη διαμόρφωση και την προσβασιμότητα όλων των παρόχων",
+    "running": "Οι δοκιμές εκτελούνται...",
+    "cloudProviders": "Πάροχοι cloud",
+    "cliProviders": "CLI / Αυτόνομοι πάροχοι",
+    "httpProviders": "HTTP / Τοπικοί πάροχοι",
+    "summary": "Αποτέλεσμα",
+    "passed": "{0} από {1} δοκιμές πέρασαν",
+    "skipped": "{0} παραλείφθηκαν",
+    "allPassed": "Όλες οι δοκιμές πέρασαν",
+    "someFailed": "{0} δοκιμή(-ές) απέτυχε(-αν)",
+    "configLoaded": "providerConfigs.js φορτώθηκε επιτυχώς"
   }
 }

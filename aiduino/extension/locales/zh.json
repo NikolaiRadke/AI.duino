@@ -115,7 +115,8 @@
     "continue": "继续",
     "apply": "应用",
     "configureNodePath": "配置Node.js路径",
-    "enterNodePath": "输入Node.js v20+路径"
+    "enterNodePath": "输入Node.js v20+路径",
+    "testProviders": "测试提供商"
   },
   "descriptions": {
     "improveCodeSelected": "优化选定的代码",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "项目特定指令"
+  },
+  "providerTest": {
+    "title": "提供商测试",
+    "description": "检查所有提供商的配置和可达性",
+    "running": "测试运行中...",
+    "cloudProviders": "云提供商",
+    "cliProviders": "CLI / 代理提供商",
+    "httpProviders": "HTTP / 本地提供商",
+    "summary": "结果",
+    "passed": "{1} 个测试中通过 {0} 个",
+    "skipped": "跳过 {0} 个",
+    "allPassed": "所有测试通过",
+    "someFailed": "{0} 个测试失败",
+    "configLoaded": "providerConfigs.js 加载成功"
   }
 }

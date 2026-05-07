@@ -115,7 +115,8 @@
     "continue": "Kompli",
     "apply": "Applika",
     "configureNodePath": "Ikkonfigura mogħdija Node.js",
-    "enterNodePath": "Daħħal mogħdija Node.js v20+"
+    "enterNodePath": "Daħħal mogħdija Node.js v20+",
+    "testProviders": "Ttestja l-fornituri"
   },
   "descriptions": {
     "improveCodeSelected": "Ħassan il-kodiċi magħżul",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Istruzzjonijiet speċifiċi għall-proġett"
+  },
+  "providerTest": {
+    "title": "Test tal-fornituri",
+    "description": "Jiċċekkja l-konfigurazzjoni u l-aċċessibbiltà tal-fornituri kollha",
+    "running": "It-testijiet qed jgħaddu...",
+    "cloudProviders": "Fornituri tal-cloud",
+    "cliProviders": "Fornituri CLI / Agentiċi",
+    "httpProviders": "Fornituri HTTP / lokali",
+    "summary": "Riżultat",
+    "passed": "{0} minn {1} testijiet għaddew",
+    "skipped": "{0} mqabżin",
+    "allPassed": "It-testijiet kollha għaddew",
+    "someFailed": "{0} test(ijiet) fallew",
+    "configLoaded": "providerConfigs.js lest b'suċċess"
   }
 }

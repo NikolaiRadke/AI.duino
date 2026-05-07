@@ -115,7 +115,8 @@
     "continue": "Pokračovať",
     "apply": "Použiť",
     "configureNodePath": "Konfigurovať cestu k Node.js",
-    "enterNodePath": "Zadať cestu k Node.js v20+"
+    "enterNodePath": "Zadať cestu k Node.js v20+",
+    "testProviders": "Testovať poskytovateľov"
   },
   "descriptions": {
     "improveCodeSelected": "Optimalizácia označeného kódu",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Inštrukcie špecifické pre projekt"
+  },
+  "providerTest": {
+    "title": "Test poskytovateľov",
+    "description": "Kontroluje konfiguráciu a dostupnosť všetkých poskytovateľov",
+    "running": "Testy prebíhajú...",
+    "cloudProviders": "Cloudoví poskytovatelia",
+    "cliProviders": "CLI / Agentní poskytovatelia",
+    "httpProviders": "HTTP / Lokálni poskytovatelia",
+    "summary": "Výsledok",
+    "passed": "{0} z {1} testov prešlo",
+    "skipped": "{0} preskočených",
+    "allPassed": "Všetky testy prešli",
+    "someFailed": "{0} test(ov) zlyhalo",
+    "configLoaded": "providerConfigs.js úspešne načítaný"
   }
 }

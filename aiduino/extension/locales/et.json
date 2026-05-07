@@ -115,7 +115,8 @@
     "continue": "Jätka",
     "apply": "Rakenda",
     "configureNodePath": "Konfigureeri Node.js tee",
-    "enterNodePath": "Sisesta Node.js v20+ tee"
+    "enterNodePath": "Sisesta Node.js v20+ tee",
+    "testProviders": "Testi pakkujaid"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiseeri märgitud kood",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Projektipõhised juhised"
+  },
+  "providerTest": {
+    "title": "Pakkuja test",
+    "description": "Kontrollib kõigi pakkujate konfiguratsiooni ja kättesaadavust",
+    "running": "Testid käivad...",
+    "cloudProviders": "Pilve pakkujad",
+    "cliProviders": "CLI / Agentsed pakkujad",
+    "httpProviders": "HTTP / Kohalikud pakkujad",
+    "summary": "Tulemus",
+    "passed": "{0} / {1} testist läbitud",
+    "skipped": "{0} vahele jäetud",
+    "allPassed": "Kõik testid läbitud",
+    "someFailed": "{0} test(i) ebaõnnestus",
+    "configLoaded": "providerConfigs.js edukalt laaditud"
   }
 }

@@ -115,7 +115,8 @@
     "continue": "Devam et",
     "apply": "Uygula",
     "configureNodePath": "Node.js yolunu yapılandır",
-    "enterNodePath": "Node.js v20+ yolunu girin"
+    "enterNodePath": "Node.js v20+ yolunu girin",
+    "testProviders": "Sağlayıcıları test et"
   },
   "descriptions": {
     "improveCodeSelected": "Seçili kodu optimize et",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Projeye özgü talimatlar"
+  },
+  "providerTest": {
+    "title": "Sağlayıcı testi",
+    "description": "Tüm sağlayıcıların yapılandırmasını ve erişilebilirliğini kontrol eder",
+    "running": "Testler çalışıyor...",
+    "cloudProviders": "Bulut sağlayıcıları",
+    "cliProviders": "CLI / Ajanlık sağlayıcıları",
+    "httpProviders": "HTTP / Yerel sağlayıcılar",
+    "summary": "Sonuç",
+    "passed": "{1} testten {0} tanesi geçti",
+    "skipped": "{0} atlandı",
+    "allPassed": "Tüm testler geçti",
+    "someFailed": "{0} test başarısız oldu",
+    "configLoaded": "providerConfigs.js başarıyla yüklendi"
   }
 }

@@ -115,7 +115,8 @@
     "continue": "Продовжити",
     "apply": "Застосувати",
     "configureNodePath": "Налаштувати шлях Node.js",
-    "enterNodePath": "Введіть шлях Node.js v20+"
+    "enterNodePath": "Введіть шлях Node.js v20+",
+    "testProviders": "Тестувати постачальників"
   },
   "descriptions": {
     "improveCodeSelected": "Оптимізувати виділений код",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Специфічні для проекту інструкції"
+  },
+  "providerTest": {
+    "title": "Тест постачальників",
+    "description": "Перевіряє конфігурацію та доступність усіх постачальників",
+    "running": "Тести виконуються...",
+    "cloudProviders": "Хмарні постачальники",
+    "cliProviders": "CLI / Агентні постачальники",
+    "httpProviders": "HTTP / Локальні постачальники",
+    "summary": "Результат",
+    "passed": "{0} з {1} тестів пройдено",
+    "skipped": "{0} пропущено",
+    "allPassed": "Усі тести пройдено",
+    "someFailed": "{0} тест(ів) не пройдено",
+    "configLoaded": "providerConfigs.js успішно завантажено"
   }
 }

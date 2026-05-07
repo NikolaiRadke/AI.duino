@@ -115,7 +115,8 @@
     "continue": "Fortfahren",
     "apply": "Übernehmen",
     "configureNodePath": "Node.js-Pfad konfigurieren",
-    "enterNodePath": "Node.js v20+ Pfad eingeben"
+    "enterNodePath": "Node.js v20+ Pfad eingeben",
+    "testProviders": "Provider testen"
   },
   "descriptions": {
     "improveCodeSelected": "Ausgewählten Code optimieren",
@@ -703,5 +704,19 @@
     "portRead": "liest",
     "globalVars": "Globale Variablen",
     "globalVarsList": "Globale Variablen"
+  },
+  "providerTest": {
+    "title": "Provider-Test",
+    "description": "Prüft Konfiguration und Erreichbarkeit aller Provider",
+    "running": "Tests laufen...",
+    "cloudProviders": "Cloud-Provider",
+    "cliProviders": "CLI / Agentic-Provider",
+    "httpProviders": "HTTP / Lokale Provider",
+    "summary": "Ergebnis",
+    "passed": "{0} von {1} Tests bestanden",
+    "skipped": "{0} übersprungen",
+    "allPassed": "Alle Tests bestanden",
+    "someFailed": "{0} Test(s) fehlgeschlagen",
+    "configLoaded": "providerConfigs.js erfolgreich geladen"
   }
 }

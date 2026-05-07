@@ -115,7 +115,8 @@
     "continue": "Jatka",
     "apply": "Ota käyttöön",
     "configureNodePath": "Määritä Node.js-polku",
-    "enterNodePath": "Syötä Node.js v20+ polku"
+    "enterNodePath": "Syötä Node.js v20+ polku",
+    "testProviders": "Testaa palveluntarjoajat"
   },
   "descriptions": {
     "improveCodeSelected": "Optimoi valittu koodi",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "Projektikohtaiset ohjeet"
+  },
+  "providerTest": {
+    "title": "Palveluntarjoajatesti",
+    "description": "Tarkistaa kaikkien palveluntarjoajien asetukset ja saavutettavuuden",
+    "running": "Testit käynnissä...",
+    "cloudProviders": "Pilvipalveluntarjoajat",
+    "cliProviders": "CLI / Agenttipalveluntarjoajat",
+    "httpProviders": "HTTP / Paikalliset palveluntarjoajat",
+    "summary": "Tulos",
+    "passed": "{0} / {1} testiä läpäisty",
+    "skipped": "{0} ohitettu",
+    "allPassed": "Kaikki testit läpäisty",
+    "someFailed": "{0} testi epäonnistui",
+    "configLoaded": "providerConfigs.js ladattu onnistuneesti"
   }
 }

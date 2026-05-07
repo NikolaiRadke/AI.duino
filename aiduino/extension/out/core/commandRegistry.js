@@ -144,6 +144,11 @@ class CommandRegistry {
                 description: 'Open Settings'
             },
             {
+                name: 'aiduino.testProviders',
+                handler: () => deps.showProviderTestPanel(deps.getDependencies()),
+                description: 'Test Provider Configuration'
+            },
+            {
                 name: 'aiduino.openMaxTokensSetting',
                 handler: () => deps.showSettings(deps.getDependencies(), 'aiBehavior'),
                 description: 'Open Max Tokens Setting'

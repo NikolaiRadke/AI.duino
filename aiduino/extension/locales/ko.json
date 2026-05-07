@@ -115,7 +115,8 @@
     "continue": "계속",
     "apply": "적용",
     "configureNodePath": "Node.js 경로 구성",
-    "enterNodePath": "Node.js v20+ 경로 입력"
+    "enterNodePath": "Node.js v20+ 경로 입력",
+    "testProviders": "공급자 테스트"
   },
   "descriptions": {
     "improveCodeSelected": "선택한 코드 최적화",
@@ -704,5 +705,19 @@
   },
   "projectNotes": {
     "commentPlaceholder": "프로젝트별 지시사항"
+  },
+  "providerTest": {
+    "title": "공급자 테스트",
+    "description": "모든 공급자의 구성 및 연결 가능성을 확인합니다",
+    "running": "테스트 실행 중...",
+    "cloudProviders": "클라우드 공급자",
+    "cliProviders": "CLI / 에이전트 공급자",
+    "httpProviders": "HTTP / 로컬 공급자",
+    "summary": "결과",
+    "passed": "{1}개 중 {0}개 테스트 통과",
+    "skipped": "{0}개 건너뜀",
+    "allPassed": "모든 테스트 통과",
+    "someFailed": "{0}개 테스트 실패",
+    "configLoaded": "providerConfigs.js 로드 성공"
   }
 }
