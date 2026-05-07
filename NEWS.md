@@ -9,7 +9,7 @@
 * **18.02.2026** V2.6.0 will be released next week!  
 * **14.02.2026** Still working on an annoying bug with process provider (Claude Code and Codex CLI) with Windows 10.
 * **12.02.2026** Release **V2.5.1** with fixes for user detected bugs.  
-* **04.02.2026** German Make Magazin 1/2026 is out. With a big article about AI.duino!  
+* **04.02.2026** German **Make Magazin 1/2026** is out. With a big article about AI.duino!  
 * **27.01.2026** Fixed installer bug to remove previously deployed extensions.       
 * **23.01.2026** New logo and banner for AI.duino to avoid copyright issues.      
 * **20.01.2026** Working heavy on agentic coding integration.    
