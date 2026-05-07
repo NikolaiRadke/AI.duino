@@ -1,5 +1,8 @@
 # Changelog
 
+## V2.6.4
+* Added provider test button in settings
+
 ## V2.6.3
 * Fixed Codex CLI ENAMETOOLONG bug (fix by Casket Pizza)
 
