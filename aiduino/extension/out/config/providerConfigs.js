@@ -34,7 +34,7 @@ your_provider: {
     fallback: 'default-model-id',         // Fallback when API unreachable
     prices: {
         input: 0.001 / 1000,              // Cost per input token
-        output: 0.002 / 1000              // Cost per output token
+        output: 0.002 / 1000             // Cost per output token
     },
     modelDiscovery: {
         enabled: true,                    // Enable automatic model discovery
@@ -65,7 +65,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '270326'; 
+const CONFIG_VERSION = '070526'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -82,14 +82,15 @@ const PROVIDER_CONFIGS = {
         path: '/v1/models',
         headers: (key) => ({ 'x-api-key': key, 'anthropic-version': '2023-06-01' }),
         extractModels: (data) => data.data?.filter(m => m.type === 'model' && !m.id.includes('deprecated')) || [],
-        selectBest: (models) => models.find(m => m.id.includes('opus-4-6')) || models.find(m => m.id.includes('sonnet-4-6')) || models.find(m => m.id.includes('opus-4-5')) || models.find(m => m.id.includes('sonnet-4-5')) || models.find(m => m.id.includes('haiku')) || models[0],
+        selectBest: (models) => models.find(m => m.id.includes('opus-4-7')) || models.find(m => m.id.includes('opus-4-6')) || models.find(m => m.id.includes('sonnet-4-6')) || models.find(m => m.id.includes('opus-4-5')) || models.find(m => m.id.includes('sonnet-4-5')) || models.find(m => m.id.includes('haiku')) || models[0],
         fallback: 'claude-sonnet-4-6',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,  // Cache longer for stable APIs
             extractModels: (data) => data.data?.filter(m => m.type === 'model' && !m.id.includes('deprecated')) || [],
-            selectDefault: (models) => models.find(m => m.id.includes('opus-4-6')) || models.find(m => m.id.includes('sonnet-4-6')) || models.find(m => m.id.includes('opus-4-5')) || models.find(m => m.id.includes('sonnet-4-5')) || models.find(m => m.id.includes('haiku')) || models[0],
+            selectDefault: (models) => models.find(m => m.id.includes('opus-4-7')) || models.find(m => m.id.includes('opus-4-6')) || models.find(m => m.id.includes('sonnet-4-6')) || models.find(m => m.id.includes('opus-4-5')) || models.find(m => m.id.includes('sonnet-4-5')) || models.find(m => m.id.includes('haiku')) || models[0],
             staticModels: [
+                { id: 'claude-opus-4-7', name: 'Claude Opus 4.7', displayName: 'Opus 4.7' },
                 { id: 'claude-opus-4-6', name: 'Claude Opus 4.6', displayName: 'Opus 4.6' },
                 { id: 'claude-sonnet-4-6', name: 'Claude Sonnet 4.6', displayName: 'Sonnet 4.6' },
                 { id: 'claude-opus-4-5-20251101', name: 'Claude Opus 4.5', displayName: 'Opus 4.5' },
@@ -98,8 +99,8 @@ const PROVIDER_CONFIGS = {
             ]
         },
         prices: {
-            input: 3.0 / 1000000,     // $3.00 per 1M tokens (Sonnet 4.6)
-            output: 15.0 / 1000000    // $15.00 per 1M tokens (Opus 4.6: $5/$25)
+            input: 3.0 / 1000000,     // $3.00 per 1M tokens (Sonnet 4.6); Opus 4.7: $5.00/$25.00
+            output: 15.0 / 1000000    // $15.00 per 1M tokens
         },
         apiConfig: {
             apiPath: '/v1/messages',
@@ -137,8 +138,8 @@ const PROVIDER_CONFIGS = {
             const excludePatterns = ['tts', 'whisper', 'dall-e', 'instruct', 'davinci', 'curie', 'babbage', 'ada'];
             return !excludePatterns.some(pattern => m.id.includes(pattern));
         }) || [],
-        selectBest: (models) => models.find(m => m.id.includes('gpt-4o')) || models.find(m => m.id.includes('gpt-4')) || models[0],
-        fallback: 'gpt-4o',
+        selectBest: (models) => models.find(m => m.id === 'gpt-4.1') || models.find(m => m.id.includes('gpt-4o')) || models.find(m => m.id.includes('gpt-4')) || models[0],
+        fallback: 'gpt-4.1',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,  // Cache longer for stable APIs
@@ -147,16 +148,17 @@ const PROVIDER_CONFIGS = {
                 const excludePatterns = ['tts', 'whisper', 'dall-e', 'instruct', 'davinci', 'curie', 'babbage', 'ada'];
                 return !excludePatterns.some(pattern => m.id.includes(pattern));
             }) || [],
-            selectDefault: (models) => models.find(m => m.id.includes('gpt-4o')) || models.find(m => m.id.includes('gpt-4')) || models[0],
+            selectDefault: (models) => models.find(m => m.id === 'gpt-4.1') || models.find(m => m.id.includes('gpt-4o')) || models.find(m => m.id.includes('gpt-4')) || models[0],
             staticModels: [
+                { id: 'gpt-4.1', name: 'GPT-4.1', displayName: 'GPT-4.1' },
+                { id: 'gpt-4.1-mini', name: 'GPT-4.1 Mini', displayName: 'GPT-4.1 Mini' },
                 { id: 'gpt-4o', name: 'GPT-4o', displayName: 'GPT-4o' },
-                { id: 'gpt-4o-mini', name: 'GPT-4o Mini', displayName: 'GPT-4o Mini' },
-                { id: 'gpt-4.1', name: 'GPT-4.1', displayName: 'GPT-4.1' }
+                { id: 'gpt-4o-mini', name: 'GPT-4o Mini', displayName: 'GPT-4o Mini' }
             ]
         },
         prices: {
-            input: 2.50 / 1000000,    // $2.50 per 1M tokens (GPT-4o pricing, reduced from $5)
-            output: 10.0 / 1000000    // $10.00 per 1M tokens
+            input: 2.00 / 1000000,    // $2.00 per 1M tokens (GPT-4.1; GPT-4o: $2.50/$10.00)
+            output: 8.00 / 1000000    // $8.00 per 1M tokens
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -390,7 +392,7 @@ const PROVIDER_CONFIGS = {
         extractModels: (data) => data.data || [],
         selectBest: (models) => {
             // Prefer fast models for Arduino development
-            const preferred = ['llama-3.3-70b-versatile', 'llama-3.1-70b-versatile', 'mixtral-8x7b-32768'];
+            const preferred = ['llama-3.3-70b-versatile', 'openai/gpt-oss-120b', 'llama-3.1-8b-instant'];
             for (const model of preferred) {
                 const found = models.find(m => m.id === model);
                 if (found) return found.id;
@@ -410,30 +412,27 @@ const PROVIDER_CONFIGS = {
                     'vision',       // Image models
                     'guard',        // Safety/moderation models
                     'distil',       // Distilled (lower quality) models
+                    'safeguard',    // Safety models
+                    'orpheus',      // TTS models
+                    'scout',        // Preview only
                 ];
                 if (excludePatterns.some(pattern => id.includes(pattern))) return false;
                 
                 // Only include main chat model families
-                const chatFamilies = ['llama', 'gemma'];
+                const chatFamilies = ['llama', 'gemma', 'openai/gpt-oss', 'qwen'];
                 return chatFamilies.some(family => id.includes(family));
             }) || [],
-            selectDefault: (models) => {
-                // Prefer fast models for Arduino development
-                const preferred = ['llama-3.3-70b-versatile', 'llama-3.1-70b-versatile', 'mixtral-8x7b-32768'];
-                for (const model of preferred) {
-                    const found = models.find(m => m.id === model);
-                    if (found) return found;
-                }
-                return models[0];
-            },
+            selectDefault: (models) => models.find(m => m.id === 'llama-3.3-70b-versatile') || models.find(m => m.id?.includes('openai/gpt-oss-120b')) || models[0],
             staticModels: [
-                { id: 'llama-3.3-70b-versatile', name: 'Llama 3.3 70B Versatile', displayName: 'Llama 3.3 70B Versatile' },
-                { id: 'llama-3.1-8b-instant',    name: 'Llama 3.1 8B Instant',    displayName: 'Llama 3.1 8B Instant' }
+                { id: 'llama-3.3-70b-versatile', name: 'Llama 3.3 70B Versatile', displayName: 'Llama 3.3 70B' },
+                { id: 'openai/gpt-oss-120b', name: 'GPT OSS 120B', displayName: 'GPT OSS 120B' },
+                { id: 'openai/gpt-oss-20b', name: 'GPT OSS 20B', displayName: 'GPT OSS 20B' },
+                { id: 'llama-3.1-8b-instant', name: 'Llama 3.1 8B Instant', displayName: 'Llama 3.1 8B' }
             ]
         },
         prices: {
-            input: 0.59 / 1000000,   // $0.59 per 1M tokens
-            output: 0.79 / 1000000   // $0.79 per 1M tokens
+            input: 0.59 / 1000000,    // $0.59 per 1M tokens (Llama 3.3 70B)
+            output: 0.79 / 1000000    // $0.79 per 1M tokens
         },
         apiConfig: {
             apiPath: '/openai/v1/chat/completions',
@@ -448,23 +447,18 @@ const PROVIDER_CONFIGS = {
                     { role: "system", content: systemPrompt },
                     { role: "user", content: prompt }
                 ],
-                temperature: 0.7,
-                max_tokens: 2000
+                max_tokens: 2000,
+                temperature: 0.7
             }),
-            extractResponse: (data) => {
-                if (data.choices && data.choices[0] && data.choices[0].message) {
-                    return data.choices[0].message.content;
-                }
-                throw new Error('Unexpected Groq API response format');
-            }
+            extractResponse: (data) => data.choices[0].message.content
         }
     },
-      
+
     huggingface: {
-        name: 'Hugging Face (≥ v2.5.0)',
+        name: 'HuggingFace (≥ v2.5.0)',
         icon: '🤗',
-        color: '#FF9500',
-        keyFile: '.aiduino-hf-api-key',
+        color: '#FF9D00',
+        keyFile: '.aiduino-huggingface-api-key',
         keyPrefix: 'hf_',
         keyMinLength: 15,
         hostname: 'router.huggingface.co',
@@ -500,11 +494,6 @@ const PROVIDER_CONFIGS = {
                 pricing: { input: 0.0002 / 1000000, output: 0.0006 / 1000000 }
             },
             { 
-                id: 'deepseek-ai/deepseek-coder-33b-instruct', 
-                name: 'DeepSeek Coder 33B',
-                pricing: { input: 0, output: 0 }
-            },
-            { 
                 id: 'microsoft/Phi-3-medium-4k-instruct', 
                 name: 'Phi-3 Medium',
                 pricing: { input: 0, output: 0 }
@@ -531,7 +520,6 @@ const PROVIDER_CONFIGS = {
                 { id: 'codellama/CodeLlama-34b-Instruct-hf', name: 'CodeLlama 34B Instruct', displayName: 'CodeLlama 34B' },
                 { id: 'mistralai/Mistral-7B-Instruct-v0.3', name: 'Mistral 7B Instruct', displayName: 'Mistral 7B' },
                 { id: 'mistralai/Mixtral-8x7B-Instruct-v0.1', name: 'Mixtral 8x7B Instruct', displayName: 'Mixtral 8x7B' },
-                { id: 'deepseek-ai/deepseek-coder-33b-instruct', name: 'DeepSeek Coder 33B', displayName: 'DeepSeek Coder' },
                 { id: 'microsoft/Phi-3-medium-4k-instruct', name: 'Phi-3 Medium', displayName: 'Phi-3 Medium' },
                 { id: 'Qwen/Qwen2.5-Coder-32B-Instruct', name: 'Qwen 2.5 Coder 32B', displayName: 'Qwen 2.5 Coder' },
                 { id: 'google/gemma-2-9b-it', name: 'Gemma 2 9B', displayName: 'Gemma 2 9B' }
@@ -779,14 +767,19 @@ const PROVIDER_CONFIGS = {
                 pricing: { input: 0, output: 0 }
             },
             { 
+                id: 'anthropic/claude-opus-4-7', 
+                name: 'Claude Opus 4.7', 
+                pricing: { input: 5.0 / 1000000, output: 25.0 / 1000000 }
+            },
+            { 
                 id: 'anthropic/claude-sonnet-4-6', 
                 name: 'Claude Sonnet 4.6', 
                 pricing: { input: 3.0 / 1000000, output: 15.0 / 1000000 }
             },
             { 
-                id: 'anthropic/claude-sonnet-4-5-20250929', 
-                name: 'Claude Sonnet 4.5', 
-                pricing: { input: 3.0 / 1000000, output: 15.0 / 1000000 }
+                id: 'openai/gpt-4.1', 
+                name: 'GPT-4.1', 
+                pricing: { input: 2.0 / 1000000, output: 8.0 / 1000000 }
             },
             { 
                 id: 'openai/gpt-4o', 
@@ -799,19 +792,14 @@ const PROVIDER_CONFIGS = {
                 pricing: { input: 0.15 / 1000000, output: 0.6 / 1000000 }
             },
             { 
-                id: 'google/gemini-pro-1.5', 
-                name: 'Gemini 1.5 Pro', 
-                pricing: { input: 1.25 / 1000000, output: 5.0 / 1000000 }
+                id: 'google/gemini-2.5-pro', 
+                name: 'Gemini 2.5 Pro', 
+                pricing: { input: 1.25 / 1000000, output: 10.0 / 1000000 }
             },
             { 
-                id: 'google/gemini-flash-1.5', 
-                name: 'Gemini 1.5 Flash', 
-                pricing: { input: 0.075 / 1000000, output: 0.3 / 1000000 }
-            },
-            { 
-                id: 'meta-llama/llama-3.3-70b-instruct:free', 
-                name: 'Llama 3.3 70B (Free)', 
-                pricing: { input: 0, output: 0 }
+                id: 'google/gemini-2.5-flash', 
+                name: 'Gemini 2.5 Flash', 
+                pricing: { input: 0.15 / 1000000, output: 0.60 / 1000000 }
             },
             { 
                 id: 'meta-llama/llama-3.3-70b-instruct', 
@@ -839,7 +827,9 @@ const PROVIDER_CONFIGS = {
             selectDefault: (models) => models.find(m => m.id?.includes('llama-3.3') && m.id?.includes('free')) || models[0],
             staticModels: [
                 { id: 'meta-llama/llama-3.3-70b-instruct:free', name: 'Llama 3.3 70B (Free)', displayName: 'Llama 3.3 70B Free', pricing: { input: 0, output: 0 } },
+                { id: 'anthropic/claude-opus-4-7', name: 'Claude Opus 4.7', displayName: 'Claude Opus 4.7', pricing: { input: 5.0 / 1000000, output: 25.0 / 1000000 } },
                 { id: 'anthropic/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', displayName: 'Claude Sonnet 4.6', pricing: { input: 3.0 / 1000000, output: 15.0 / 1000000 } },
+                { id: 'openai/gpt-4.1', name: 'GPT-4.1', displayName: 'GPT-4.1', pricing: { input: 2.0 / 1000000, output: 8.0 / 1000000 } },
                 { id: 'openai/gpt-4o', name: 'GPT-4o', displayName: 'GPT-4o', pricing: { input: 2.5 / 1000000, output: 10.0 / 1000000 } }
             ]
         },
@@ -897,13 +887,14 @@ const PROVIDER_CONFIGS = {
         modelDiscovery: {
             enabled: true,
             staticModels: [
+                { id: 'claude-opus-4-7', name: 'Claude Opus 4.7', displayName: 'Opus 4.7' },
                 { id: 'claude-opus-4-6', name: 'Claude Opus 4.6', displayName: 'Opus 4.6' },
                 { id: 'claude-sonnet-4-6', name: 'Claude Sonnet 4.6', displayName: 'Sonnet 4.6' },
                 { id: 'claude-opus-4-5', name: 'Claude Opus 4.5', displayName: 'Opus 4.5' },
                 { id: 'claude-sonnet-4-5', name: 'Claude Sonnet 4.5', displayName: 'Sonnet 4.5' },
                 { id: 'claude-haiku-4-5', name: 'Claude Haiku 4.5', displayName: 'Haiku 4.5' }
             ],
-            selectDefault: (models) => models.find(m => m.id.includes('sonnet')) || models[0]
+            selectDefault: (models) => models.find(m => m.id.includes('opus-4-7')) || models.find(m => m.id.includes('sonnet')) || models[0]
         },
         processConfig: {
             command: 'claude',
@@ -950,6 +941,7 @@ const PROVIDER_CONFIGS = {
             staticModels: [
                 { id: 'o4-mini', name: 'O4 Mini', displayName: 'O4 Mini' },
                 { id: 'o3', name: 'O3', displayName: 'O3' },
+                { id: 'gpt-4.1', name: 'GPT-4.1', displayName: 'GPT-4.1' },
                 { id: 'gpt-4o', name: 'GPT-4o', displayName: 'GPT-4o' },
                 { id: 'gpt-4o-mini', name: 'GPT-4o Mini', displayName: 'GPT-4o Mini' }
             ],
@@ -1129,9 +1121,8 @@ const PROVIDER_CONFIGS = {
             enabled: false,  // Groq Code CLI doesn't support model selection via flags
             staticModels: [
                 { id: 'llama-3.3-70b-versatile', name: 'Llama 3.3 70B Versatile', displayName: 'Llama 3.3 70B' },
-                { id: 'llama-3.1-70b-versatile', name: 'Llama 3.1 70B Versatile', displayName: 'Llama 3.1 70B' },
-                { id: 'llama-3.1-8b-instant', name: 'Llama 3.1 8B Instant', displayName: 'Llama 3.1 8B' },
-                { id: 'mixtral-8x7b-32768', name: 'Mixtral 8x7B', displayName: 'Mixtral 8x7B' }
+                { id: 'openai/gpt-oss-120b', name: 'GPT OSS 120B', displayName: 'GPT OSS 120B' },
+                { id: 'llama-3.1-8b-instant', name: 'Llama 3.1 8B Instant', displayName: 'Llama 3.1 8B' }
             ],
             selectDefault: (models) => models.find(m => m.id.includes('llama-3.3')) || models[0]
         },
@@ -1179,7 +1170,6 @@ const PROVIDER_CONFIGS = {
         httpConfig: {
             endpoint: '/api/chat'
         },
-        httpHandler: 'Ollama',
         prices: {
             input: 0.0,
             output: 0.0
