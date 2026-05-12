@@ -19,7 +19,7 @@ class SettingsManager {
             codeTemperature: 0.3,
             maxTokensPerRequest: 4000,
             customInstructionsEnabled: true,
-            projectNotesEnabled: true,
+            projectNotesEnabled: false,
             
             // ===== PERFORMANCE =====
             apiTimeout: 60000,                      // 60 seconds

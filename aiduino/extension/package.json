@@ -1,8 +1,8 @@
 {
   "name": "aiduino",
   "displayName": "AI.duino",
-  "description": "AI-powered assistance for Arduino with Claude, ChatGPT, and other AIs: improve code, explain errors, debug help",
-  "version": "2.6.4",
+  "description": "AI-powered assistance for Arduino for API-, local- and process providers.",
+  "version": "2.6.5",
   "publisher": "MonsterMaker",
   "engines": {
     "vscode": "^1.60.0"
@@ -263,7 +263,7 @@
         },
         "aiduino.projectNotesEnabled": {
           "type": "boolean",
-          "default": true,
+          "default": false,
           "description": "Enable project notes feature (NOTES.ino)"
         },
         "aiduino.autoOpenInChat": {

@@ -59,6 +59,25 @@ function resolvePath(pathStr) {
 }
 
 /**
+ * Get all paths in a directory that start with a given prefix
+ * @param {string} dir - Directory to scan (may contain placeholders)
+ * @param {string} match - Filename prefix to match
+ * @returns {Array} Array of {path, type, exists} objects
+ */
+function getMatchingPaths(dir, match) {
+    const resolved = resolvePath(dir);
+    if (!fs.existsSync(resolved)) return [];
+
+    return fs.readdirSync(resolved)
+        .filter(entry => entry.toLowerCase().startsWith(match.toLowerCase()))
+        .map(entry => {
+            const full = path.join(resolved, entry);
+            const isDir = fs.statSync(full).isDirectory();
+            return { path: full, type: isDir ? 'directory' : 'file', exists: true };
+        });
+}
+
+/**
  * Get all paths that will be deleted from uninstall.json
  * @returns {Array} Array of {path, type, exists} objects
  */
@@ -87,6 +106,13 @@ function getPathsToDelete() {
                 type: 'file',
                 exists: fs.existsSync(resolved)
             });
+        }
+    }
+
+    // Add pattern-matched paths (prefix-based, catches versioned filenames)
+    if (config.patterns) {
+        for (const pattern of config.patterns) {
+            paths.push(...getMatchingPaths(pattern.dir, pattern.match));
         }
     }
     

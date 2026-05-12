@@ -4,9 +4,9 @@
   "directories": [
     "~/.aiduino"
   ],
-  "files": [
-    "{arduinoIDE}/extensions/aiduino.vsix",
-    "{arduinoIDE}/deployedPlugins/aiduino"
+  "patterns": [
+    { "dir": "{arduinoIDE}/extensions",    "match": "aiduino" },
+    { "dir": "{arduinoIDE}/deployedPlugins", "match": "aiduino" }
   ],
   "globalState": [
     "monstermaker.aiduino"

@@ -502,7 +502,7 @@ async function activate(context) {
     // Check for extension updates
     if (settingsManager.get('autoCheckExtensionUpdates')) {
         setTimeout(() => {
-            checkExtensionUpdate(EXTENSION_VERSION, t);
+            checkExtensionUpdate(EXTENSION_VERSION, t, globalContext);
         }, 5000);
     }
 
