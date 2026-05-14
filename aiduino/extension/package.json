@@ -2,7 +2,7 @@
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "AI-powered assistance for Arduino for API-, local- and process providers.",
-  "version": "2.6.5",
+  "version": "2.6.6",
   "publisher": "MonsterMaker",
   "engines": {
     "vscode": "^1.60.0"

@@ -1,9 +1,13 @@
 # Changelog
 
+## 2.6.6
+* Fixed stale session error for agentic providers
+* AI.duino runs now in VS Code
+
 ## V2.6.5
 * Fixed uninstaller bug. Extension now uninstalls from the button in the setting
 * Project notes are now disabled by default (Too anoying)
-* Extension updates notifications can now be ignored forever
+* Extension updates notifications can now be ignored for this version
 
 ## V2.6.4
 * Added provider test button in settings
