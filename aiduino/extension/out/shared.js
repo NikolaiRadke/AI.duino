@@ -677,6 +677,18 @@ function parseCompileErrors(output) {
     return errors.length > 0 ? errors : [output.trim()];
 }
 
+/**
+ * Check if the extension is running inside Arduino IDE
+ * Uses the VS Code app name to distinguish Arduino IDE (Eclipse Theia-based)
+ * from standard VS Code or other compatible editors.
+ * Arduino IDE reports its app name as "Arduino IDE".
+ * @returns {boolean} True if running in Arduino IDE, false in VS Code or other hosts
+ */
+function isArduinoIDE() {
+    return vscode.env.appName.includes('Arduino');
+}
+
+
 // ===== MODULE EXPORTS =====
 
 module.exports = {
@@ -702,5 +714,8 @@ module.exports = {
 
     // CLI utilities
     findArduinoCli,
-    compileSketch
+    compileSketch,
+
+    // Other
+    isArduinoIDE
 };

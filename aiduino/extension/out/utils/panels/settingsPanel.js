@@ -9,6 +9,7 @@ const vscode = require('vscode');
 const { getSharedCSS } = require('./sharedStyles');
 const { uninstallAiduino } = require('../uninstaller');
 const panelManager = require('../panelManager');
+const shared = require('../../shared');
 /**
  * Show settings panel with all configurable options
  * @param {Object} context - Extension context with dependencies
@@ -461,10 +462,10 @@ function generateSettingsHTML(currentSettings, t, context, openCategory = null) 
         </button>
     
         <div class="uninstall-section">
-            <button class="uninstall-button" onclick="uninstall()">
+            <button class="uninstall-button"
+                    ${shared.isArduinoIDE() ? 'onclick="uninstall()"' : 'disabled title="Only available in Arduino IDE"'}>
                 ⚠️ ${t('uninstall.button')}
-            </button>
-        </div>
+            </butto>
     </div>
     
     <script>
