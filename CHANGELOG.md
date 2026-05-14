@@ -2,6 +2,7 @@
 
 ## 2.6.6
 * Fixed stale session error for agentic providers
+* Fixed process provider flickering in Windows
 * AI.duino runs now in VS Code
 
 ## V2.6.5
