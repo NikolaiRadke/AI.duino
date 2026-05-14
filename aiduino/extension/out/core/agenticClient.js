@@ -113,15 +113,35 @@ class AgenticClient {
             ? this.sessions.get(sessionKey) 
             : null;
 
-        const result = await agent.executeCommand(
-            toolPath, 
-            prompt, 
-            context, 
-            sessionId, 
-            workspacePath, 
-            options.agenticMode || false,
-            selectedModel  // Pass selected model to agent
-        );
+        let result;
+        try {
+            result = await agent.executeCommand(
+                toolPath, 
+                prompt, 
+                context, 
+                sessionId, 
+                workspacePath, 
+                options.agenticMode || false,
+                selectedModel
+            );
+        } catch (error) {
+            // Stale session: clear it and retry without session ID
+            if (sessionId && error.message && error.message.includes('session ID')) {
+                this.sessions.delete(sessionKey);
+                this.saveSessions();
+                result = await agent.executeCommand(
+                    toolPath, 
+                    prompt, 
+                    context, 
+                    null,           // no session ID on retry
+                    workspacePath, 
+                    options.agenticMode || false,
+                    selectedModel
+                );
+            } else {
+                throw error;
+            }
+        }
         const { response, sessionId: newSessionId } = this.parseResult(result, agent);
 
         if (provider.persistent && newSessionId) {
