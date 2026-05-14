@@ -648,8 +648,11 @@ class UnifiedAPIClient {
     _triggerSupportHint(context) {
         if (context.globalContext && !context.skipSupportHint) {
             const uiTools = require('../utils/ui');
-            const contextWithT = { ...context.globalContext, t: context.t };
-            uiTools.showSupportHint(contextWithT).catch(() => {}); 
+            const supportContext = {
+                globalState: context.globalContext.globalState,
+                t: context.t
+            };
+            uiTools.showSupportHint(supportContext).catch(() => {});
         }
     }
 }
