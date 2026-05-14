@@ -3,7 +3,7 @@
   "displayName": "AI.duino",
   "description": "AI-powered assistance for Arduino for API-, local- and process providers.",
   "version": "2.6.6",
-  "publisher": "MonsterMaker",
+  "publisher": "NikolaiRadke",
   "icon": "icons/aiduino.png",
   "repository": {
       "type": "git",
