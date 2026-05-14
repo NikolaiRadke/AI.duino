@@ -4,6 +4,16 @@
   "description": "AI-powered assistance for Arduino for API-, local- and process providers.",
   "version": "2.6.6",
   "publisher": "MonsterMaker",
+  "icon": "icons/aiduino.png",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/NikolaiRadke/AI.duino"
+  },
+  "homepage": "https://github.com/NikolaiRadke/AI.duino",
+  "license": "Apache-2.0",
+  "bugs": {
+      "url": "https://github.com/NikolaiRadke/AI.duino/issues"
+  },
   "engines": {
     "vscode": "^1.60.0"
   },
@@ -29,7 +39,7 @@
     "assistant"
   ],
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -181,13 +191,13 @@
         "command": "aiduino.quickMenu",
         "key": "ctrl+shift+c",
         "mac": "cmd+shift+c",
-        "when": "editorTextFocus && resourceExtname == .ino"
+        "when": "editorTextFocus && (resourceExtname == .ino || resourceExtname == .cpp || resourceExtname == .h || resourceExtname == .c)"
       },
       {
         "command": "aiduino.explainCode",
         "key": "ctrl+shift+e",
         "mac": "cmd+shift+e",
-        "when": "editorTextFocus && resourceExtname == .ino"
+        "when": "editorTextFocus && (resourceExtname == .ino || resourceExtname == .cpp || resourceExtname == .h || resourceExtname == .c)"
       },
       {
         "command": "aiduino.askAI",
@@ -205,7 +215,7 @@
         "command": "aiduino.explainCopiedError",
         "key": "ctrl+shift+e",
         "mac": "cmd+shift+e",
-        "when": "editorTextFocus && resourceExtname == .ino"
+        "when": "editorTextFocus && (resourceExtname == .ino || resourceExtname == .cpp || resourceExtname == .h || resourceExtname == .c)"
       },
       {
         "command": "aiduino.openSettings",
