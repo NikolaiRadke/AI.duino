@@ -68,13 +68,14 @@ async function executeProcessProvider(toolPath, args, providerName, t, timeout =
     const normalizedToolPath = path.normalize(toolPath);
     
     return new Promise((resolve, reject) => {
+        const isWindows = process.platform === 'win32';
         const childProcess = spawn(normalizedToolPath, args, {
             cwd: options.cwd || process.cwd(),  
             stdio: ['ignore', 'pipe', 'pipe'],
             detached: true,
             windowsHide: true
         });
-        childProcess.unref();
+        if (!isWindows) childProcess.unref();
         
         let stdout = '';
         let stderr = '';
