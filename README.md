@@ -11,7 +11,7 @@ Since **V2.6.0**, AI.duino supports full Agentic Coding: Unlike traditional AI c
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **14.05.2026** AI.duino is now available at VS Code Marketplace.    
+* **16.05.2026** Release **V2.6.7** the only changes are VS Code meta data.     
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
