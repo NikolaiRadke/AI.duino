@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.7
+* Added necessary VS Code meta data
+* Fixed extension update notifyer button
+
 ## 2.6.6
 * Fixed stale session error for agentic providers
 * Fixed process provider flickering in Windows
