@@ -14,8 +14,9 @@ async function checkExtensionUpdate(currentVersion, t, globalContext) {
 
     if (!latestVersion || !isNewerVersion(latestVersion, currentVersion)) return;
 
-    // Check if user chose to skip this version
-    const skipVersion = globalContext.globalState.get('aiduino.skipUpdateVersion');
+    // Read skip version from persistent config
+    const config = vscode.workspace.getConfiguration('aiduino');
+    const skipVersion = config.get('_skipUpdateVersion');
     if (skipVersion === latestVersion) return;
 
     const choice = await vscode.window.showInformationMessage(
@@ -28,7 +29,7 @@ async function checkExtensionUpdate(currentVersion, t, globalContext) {
     if (choice === t('extensionUpdate.download')) {
         vscode.env.openExternal(vscode.Uri.parse('https://github.com/NikolaiRadke/AI.duino/releases/latest'));
     } else if (choice === t('support.noThanks')) {
-        await globalContext.globalState.update('aiduino.skipUpdateVersion', latestVersion);
+        await vscode.workspace.getConfiguration('aiduino').update('_skipUpdateVersion', latestVersion, vscode.ConfigurationTarget.Global);
     }
 }
 
