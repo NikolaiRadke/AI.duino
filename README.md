@@ -63,7 +63,6 @@ You can select a different provider, **Groq** is fast, free and recommended for 
 The provider settings will be updated when availabe. They will be generated automatically every week. The extension is checking itself 
 and will inform the user for new version updates.  
 
-
 ## Screenshots (V2.6.1)
 
 ![Screenshot 1](http://www.nikolairadke.de/aiduino/screenshot_1_2.png)
@@ -169,6 +168,7 @@ For **Agentic Coding** required: a process provider from either:
 Some of these **Local providers** don't need an API key. If you have an account, for example *Pro Plan* with Claude, you can use Claude for no extra costs. 
 HTTP based providers like **Ollama** get auto detected, process based providers like **Claude Code** only needs the path to the binary, which should be
 detected too. if not, try *which claude* (Linux/macOS) or *where claude* (Windows) and copy the path for the AI.duino input field when selecting Claude Code.  
+
 ## Content
   
 ```
