@@ -65,7 +65,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '070526'; 
+const CONFIG_VERSION = '170526'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -935,17 +935,17 @@ const PROVIDER_CONFIGS = {
         keyPrefix: '',
         keyMinLength: 5,
         apiKeyUrl: 'https://github.com/openai/codex',
-        fallback: 'gpt-4o',
+        fallback: 'gpt-5.5',
         modelDiscovery: {
             enabled: true,
             staticModels: [
-                { id: 'o4-mini', name: 'O4 Mini', displayName: 'O4 Mini' },
-                { id: 'o3', name: 'O3', displayName: 'O3' },
-                { id: 'gpt-4.1', name: 'GPT-4.1', displayName: 'GPT-4.1' },
-                { id: 'gpt-4o', name: 'GPT-4o', displayName: 'GPT-4o' },
-                { id: 'gpt-4o-mini', name: 'GPT-4o Mini', displayName: 'GPT-4o Mini' }
+                { id: 'gpt-5.5',       name: 'GPT-5.5',       displayName: 'GPT-5.5' },
+                { id: 'gpt-5.4',       name: 'GPT-5.4',       displayName: 'GPT-5.4' },
+                { id: 'gpt-5.4-mini',  name: 'GPT-5.4 Mini',  displayName: 'GPT-5.4 Mini' },
+                { id: 'gpt-5.3-codex', name: 'GPT-5.3 Codex', displayName: 'GPT-5.3 Codex' },
+                { id: 'gpt-5.2',       name: 'GPT-5.2',       displayName: 'GPT-5.2' }
             ],
-            selectDefault: (models) => models.find(m => m.id === 'o4-mini') || models[0]
+            selectDefault: (models) => models.find(m => m.id === 'gpt-5.5') || models[0]
         },
         processConfig: {
             command: 'codex',
