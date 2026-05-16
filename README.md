@@ -131,6 +131,9 @@ Are you really REALLY sure?
 If you installed AI.duino manually into the plugin folder, you need to remove it by yourself. AI.duino has no permissions
 to do that.  
 
+## VS Code
+You can download AI.duino directly from the marketplace inside VS Code extension manager.
+
 ## API Keys and Local Providers
 
 AI.duino communicates through the API with the AIs. It's impossible to  connect through the web interface, so an 
