@@ -2,6 +2,7 @@
 
 ## 2026
 
+* **14.05.2026** AI.duino is now available at VS Code Marketplace-  
 * **14.05.2026** Release **V2.6.6** with a bugfix for agentic providers and VS Code 
 * **12.05.2026** Release **V2.6.5** with fixed uninstaller and less notifiations.  
 * **07.05.2026** Release **V2.6.4** with a povider tester in the settings.  
