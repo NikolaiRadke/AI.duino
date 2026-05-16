@@ -3,6 +3,7 @@
   "displayName": "AI.duino",
   "description": "AI-powered assistance for Arduino for API-, local- and process providers.",
   "version": "2.6.6",
+  "license": "Apache-2.0",
   "publisher": "NikolaiRadke",
   "icon": "icons/aiduino.png",
   "repository": {
@@ -23,20 +24,26 @@
     "Education"
   ],
   "keywords": [
-    "arduino",
-    "arduinoIDE",
-    "ai",
-    "claude",
-    "chatgpt",
-    "gemini",
-    "mistral",
-    "perplexity",
-    "groq",
-    "cohere",
-    "debug",
-    "error",
-    "help",
-    "assistant"
+      "arduino",
+      "arduinoIDE",
+      "ai",
+      "claude",
+      "chatgpt",
+      "gemini",
+      "mistral",
+      "perplexity",
+      "groq",
+      "cohere",
+      "debug",
+      "error",
+      "help",
+      "assistant",     
+      "ollama",      
+      "embedded",       
+      "platformio",    
+      "iot",         
+      "microcontroller", 
+      "local llm"     
   ],
   "activationEvents": [
     "onStartupFinished"
