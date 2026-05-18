@@ -2,6 +2,7 @@
 
 ## 2026
 
+* **18.05.2026** **Release V2.6.8**, a release focused on process providers.  
 * **16.05.2026** **Release V2.6.7** with VS Code meta data and a small bugfix.
 * **14.05.2026** AI.duino is now available at VS Code Marketplace.   
 * **14.05.2026** Release **V2.6.6** with a bugfix for agentic providers and VS Code 
