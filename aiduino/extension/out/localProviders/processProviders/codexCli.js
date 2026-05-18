@@ -21,7 +21,7 @@ function buildArgs(prompt, sessionId = null, agenticMode = false, modelId = null
     const args = ['exec', '--skip-git-repo-check'];
 
     // Add model selection if specified
-    if (modelId) {
+    if (modelId && modelId !== 'default') {
         args.push('--model', modelId);
     }
 

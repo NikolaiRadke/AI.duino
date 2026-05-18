@@ -65,7 +65,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '170526'; 
+const CONFIG_VERSION = '180526'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -885,6 +885,7 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://docs.claude.com/en/docs/claude-code',
         fallback: 'claude-sonnet-4-6',
         modelDiscovery: {
+            cliDefault: true,  // Omit --model flag when 'default' is selected
             enabled: true,
             staticModels: [
                 { id: 'claude-opus-4-7', name: 'Claude Opus 4.7', displayName: 'Opus 4.7' },
@@ -937,6 +938,7 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://github.com/openai/codex',
         fallback: 'gpt-5.5',
         modelDiscovery: {
+            cliDefault: true,  // Omit --model flag when 'default' is selected
             enabled: true,
             staticModels: [
                 { id: 'gpt-5.5',       name: 'GPT-5.5',       displayName: 'GPT-5.5' },
@@ -985,13 +987,11 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://docs.mistral.ai/mistral-vibe/introduction',
         fallback: 'mistral-large-latest',
         modelDiscovery: {
-            enabled: false,  // Mistral Vibe doesn't support --model flag
-            staticModels: [
-                { id: 'mistral-large-latest', name: 'Mistral Large', displayName: 'Mistral Large' },
-                { id: 'mistral-medium-latest', name: 'Mistral Medium', displayName: 'Mistral Medium' },
-                { id: 'mistral-small-latest', name: 'Mistral Small', displayName: 'Mistral Small' }
-            ],
-            selectDefault: (models) => models.find(m => m.id.includes('large')) || models[0]
+            // Model selection via CLI parameters is not supported by Mistral Vibe.
+            // The model must be configured within Vibe itself using the /model command.
+            cliDefault: true,
+            enabled: false,
+            staticModels: []
         },
         processConfig: {
             command: 'vibe',
@@ -1033,7 +1033,10 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://opencode.ai/docs/',
         fallback: 'opencode-local',
         modelDiscovery: {
-            enabled: false,  // OpenCode uses its own model configuration
+            // Model selection via CLI parameters is not supported by OpenCode.
+            // The model must be configured within OpenCode itself.
+            cliDefault: true,
+            enabled: false,
             staticModels: []
         },
         processConfig: {
@@ -1073,6 +1076,7 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://geminicli.com/docs/get-started/authentication/',
         fallback: 'gemini-2.5-flash',
         modelDiscovery: {
+            cliDefault: true,  // Omit --model flag when 'default' is selected
             enabled: true,
             staticModels: [
                 { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', displayName: 'Gemini 2.5 Pro' },
@@ -1118,13 +1122,11 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://github.com/NikolaiRadke/groq-code-cli',
         fallback: 'llama-3.3-70b-versatile',
         modelDiscovery: {
-            enabled: false,  // Groq Code CLI doesn't support model selection via flags
-            staticModels: [
-                { id: 'llama-3.3-70b-versatile', name: 'Llama 3.3 70B Versatile', displayName: 'Llama 3.3 70B' },
-                { id: 'openai/gpt-oss-120b', name: 'GPT OSS 120B', displayName: 'GPT OSS 120B' },
-                { id: 'llama-3.1-8b-instant', name: 'Llama 3.1 8B Instant', displayName: 'Llama 3.1 8B' }
-            ],
-            selectDefault: (models) => models.find(m => m.id.includes('llama-3.3')) || models[0]
+            // Model selection via CLI parameters is not supported by Groq Code CLI.
+            // The model must be configured within the CLI itself.
+            cliDefault: true,
+            enabled: false,
+            staticModels: []
         },
         processConfig: {
             command: 'groq',

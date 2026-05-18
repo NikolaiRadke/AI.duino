@@ -719,5 +719,8 @@
     "allPassed": "Toate testele trecute",
     "someFailed": "{0} test(e) eșuate",
     "configLoaded": "providerConfigs.js încărcat cu succes"
+  },
+  "provider": {
+    "cliDefault": "Implicit CLI"
   }
 }

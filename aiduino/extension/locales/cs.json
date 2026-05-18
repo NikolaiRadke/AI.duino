@@ -719,5 +719,8 @@
     "allPassed": "Všechny testy prošly",
     "someFailed": "{0} test(ů) selhalo",
     "configLoaded": "providerConfigs.js úspěšně načten"
+  },
+  "provider": {
+    "cliDefault": "Výchozí CLI"
   }
 }

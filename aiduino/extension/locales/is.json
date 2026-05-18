@@ -719,5 +719,8 @@
     "allPassed": "Öll próf lokið",
     "someFailed": "{0} próf mistókst",
     "configLoaded": "providerConfigs.js hlaðið inn"
+  },
+  "provider": {
+    "cliDefault": "CLI sjálfgefið"
   }
 }

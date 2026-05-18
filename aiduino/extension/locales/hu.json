@@ -719,5 +719,8 @@
     "allPassed": "Minden teszt sikeres",
     "someFailed": "{0} teszt sikertelen",
     "configLoaded": "providerConfigs.js sikeresen betöltve"
+  },
+  "provider": {
+    "cliDefault": "CLI alapértelmezett"
   }
 }

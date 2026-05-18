@@ -17,7 +17,7 @@ function buildArgs(prompt, sessionId = null, agenticMode = false, modelId = null
     const args = ['run', prompt];  // Prompt MUST come directly after 'run'
     
     // Add model selection if specified (after prompt)
-    if (modelId) {
+    if (modelId && modelId !== 'default') {
         args.push('--model', modelId);
     }
     

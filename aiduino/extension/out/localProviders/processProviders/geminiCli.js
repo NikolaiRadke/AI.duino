@@ -20,7 +20,7 @@ function buildArgs(prompt, sessionId = null, agenticMode = false, modelId = null
     const args = [];
     
     // Add model selection if specified (must come before -p)
-    if (modelId) {
+    if (modelId && modelId !== 'default') {
         args.push('--model', modelId);
     }
     

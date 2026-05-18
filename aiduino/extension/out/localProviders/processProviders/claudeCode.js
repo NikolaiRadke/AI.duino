@@ -25,7 +25,7 @@ function buildArgs(prompt, sessionId = null, agenticMode = false, modelId = null
     }
     
     // Add model selection if specified
-    if (modelId) {
+    if (modelId && modelId !== 'default') {
         args.push('--model', modelId);
     }
     

@@ -719,5 +719,8 @@
     "allPassed": "Kaikki testit läpäisty",
     "someFailed": "{0} testi epäonnistui",
     "configLoaded": "providerConfigs.js ladattu onnistuneesti"
+  },
+  "provider": {
+    "cliDefault": "CLI oletus"
   }
 }

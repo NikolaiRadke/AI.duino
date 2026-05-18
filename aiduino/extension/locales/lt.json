@@ -719,5 +719,8 @@
     "allPassed": "Visi testai sėkmingi",
     "someFailed": "{0} testas(-ai) nepavyko",
     "configLoaded": "providerConfigs.js sėkmingai įkeltas"
+  },
+  "provider": {
+    "cliDefault": "CLI numatytasis"
   }
 }

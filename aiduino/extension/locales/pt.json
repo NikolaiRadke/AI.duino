@@ -719,5 +719,8 @@
     "allPassed": "Todos os testes aprovados",
     "someFailed": "{0} teste(s) falharam",
     "configLoaded": "providerConfigs.js carregado com sucesso"
+  },
+  "provider": {
+    "cliDefault": "Padrão CLI"
   }
 }

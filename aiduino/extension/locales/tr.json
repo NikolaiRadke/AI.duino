@@ -719,5 +719,8 @@
     "allPassed": "Tüm testler geçti",
     "someFailed": "{0} test başarısız oldu",
     "configLoaded": "providerConfigs.js başarıyla yüklendi"
+  },
+  "provider": {
+    "cliDefault": "CLI varsayılan"
   }
 }

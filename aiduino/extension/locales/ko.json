@@ -719,5 +719,8 @@
     "allPassed": "모든 테스트 통과",
     "someFailed": "{0}개 테스트 실패",
     "configLoaded": "providerConfigs.js 로드 성공"
+  },
+  "provider": {
+    "cliDefault": "CLI 기본값"
   }
 }

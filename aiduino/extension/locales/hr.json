@@ -719,5 +719,8 @@
     "allPassed": "Svi testovi prošli",
     "someFailed": "{0} test(ova) nije prošao",
     "configLoaded": "providerConfigs.js uspješno učitan"
+  },
+  "provider": {
+    "cliDefault": "CLI zadano"
   }
 }

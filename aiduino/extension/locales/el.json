@@ -719,5 +719,8 @@
     "allPassed": "Όλες οι δοκιμές πέρασαν",
     "someFailed": "{0} δοκιμή(-ές) απέτυχε(-αν)",
     "configLoaded": "providerConfigs.js φορτώθηκε επιτυχώς"
+  },
+  "provider": {
+    "cliDefault": "Προεπιλογή CLI"
   }
 }

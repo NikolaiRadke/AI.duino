@@ -71,14 +71,20 @@ async function executeProcessProvider(toolPath, args, providerName, t, timeout =
         const isWindows = process.platform === 'win32';
         const childProcess = spawn(normalizedToolPath, args, {
             cwd: options.cwd || process.cwd(),
-            stdio: ['ignore', 'pipe', 'pipe'],
+            stdio: options.input ? ['pipe', 'pipe', 'pipe'] : ['ignore', 'pipe', 'pipe'],
             ...(isWindows ? { windowsHide: true } : { detached: true })
         });
         if (!isWindows) childProcess.unref();
         
         let stdout = '';
         let stderr = '';
-        
+
+        // Write prompt to stdin if provided
+        if (options.input) {
+            childProcess.stdin.write(options.input);
+            childProcess.stdin.end();
+        }
+                
         // Collect output
         childProcess.stdout.on('data', (data) => stdout += data.toString());
         childProcess.stderr.on('data', (data) => stderr += data.toString());
@@ -120,13 +126,13 @@ async function executeProcessProvider(toolPath, args, providerName, t, timeout =
  * @returns {Object} {success: boolean, data?: string, error?: Error}
  */
 function handleProcessClose(code, stdout, stderr, providerName, t) {
-    if (code === 0 && stdout.trim()) {
-        return { success: true, data: stdout.trim() };
-    }
-    
-    const errorMessage = stderr.trim();
-    
-    if (errorMessage) {
+        if (stdout.trim()) {
+            return { success: true, data: stdout.trim() };
+        }
+
+        const errorMessage = stderr.trim();
+
+        if (errorMessage) {
         // Check for rate limit errors
         if (errorMessage.toLowerCase().includes('rate limit') || 
             errorMessage.toLowerCase().includes('too many requests') ||

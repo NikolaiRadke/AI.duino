@@ -365,6 +365,14 @@ async function showModelSelectionPicker(provider, t, apiKey = null, modelId = nu
     if (models.length === 0 && provider.modelDiscovery?.staticModels) {
         models = provider.modelDiscovery.staticModels;
     }
+
+    // Prepend CLI default option for providers that handle model selection internally
+    if (provider.modelDiscovery?.cliDefault) {
+        models = [
+            { id: 'default', name: t('provider.cliDefault'), displayName: t('provider.cliDefault') },
+            ...models
+        ];
+    }
     
     // Safety check
     if (models.length === 0) {
@@ -399,6 +407,11 @@ async function showModelSelectionPicker(provider, t, apiKey = null, modelId = nu
         recommendedModel = models[0];
     }
     
+    // For cliDefault providers, always pre-select the CLI default option
+    if (provider.modelDiscovery?.cliDefault) {
+        recommendedModel = models.find(m => m.id === 'default');
+    }
+
     // Map models to QuickPick items with recommendation indicator
     const items = models.map(model => ({
         label: model === recommendedModel ? 

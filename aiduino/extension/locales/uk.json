@@ -719,5 +719,8 @@
     "allPassed": "Усі тести пройдено",
     "someFailed": "{0} тест(ів) не пройдено",
     "configLoaded": "providerConfigs.js успішно завантажено"
+  },
+  "provider": {
+    "cliDefault": "CLI за замовчуванням"
   }
 }

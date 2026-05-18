@@ -719,5 +719,8 @@
     "allPassed": "Kõik testid läbitud",
     "someFailed": "{0} test(i) ebaõnnestus",
     "configLoaded": "providerConfigs.js edukalt laaditud"
+  },
+  "provider": {
+    "cliDefault": "CLI vaikimisi"
   }
 }

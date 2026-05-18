@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.6.8
+* Added "CLI Default" model option for Claude Code, Codex CLI and Gemini CLI — omits --model flag so the CLI uses its own default
+* Removed misleading model lists for Mistral Vibe, Groq Code CLI and OpenCode; these providers do not support model selection via CLI parameters
+* Fixed Codex CLI stdin handling in processProvider.js (options.input was never written to stdin)
+* Fixed handleProcessClose to prioritize stdout over stderr warnings (e.g. Node.js deprecation notices)
+ls
+
 ## 2.6.7
 * Added necessary VS Code meta data
 * Fixed extension update notifyer button

@@ -719,5 +719,8 @@
     "allPassed": "Vsi testi uspešni",
     "someFailed": "{0} test(ov) neuspešnih",
     "configLoaded": "providerConfigs.js uspešno naložen"
+  },
+  "provider": {
+    "cliDefault": "CLI privzeto"
   }
 }

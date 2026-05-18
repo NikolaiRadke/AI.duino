@@ -719,5 +719,8 @@
     "allPassed": "Të gjitha testet kaluan",
     "someFailed": "{0} test(e) dështuan",
     "configLoaded": "providerConfigs.js u ngarkua me sukses"
+  },
+  "provider": {
+    "cliDefault": "CLI parazgjedhja"
   }
 }

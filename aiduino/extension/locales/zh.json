@@ -719,5 +719,8 @@
     "allPassed": "所有测试通过",
     "someFailed": "{0} 个测试失败",
     "configLoaded": "providerConfigs.js 加载成功"
+  },
+  "provider": {
+    "cliDefault": "CLI 默认"
   }
 }

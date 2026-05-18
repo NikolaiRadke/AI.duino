@@ -719,5 +719,8 @@
     "allPassed": "Сите тестови поминати",
     "someFailed": "{0} тест(ови) неуспешни",
     "configLoaded": "providerConfigs.js успешно вчитан"
+  },
+  "provider": {
+    "cliDefault": "CLI стандардно"
   }
 }

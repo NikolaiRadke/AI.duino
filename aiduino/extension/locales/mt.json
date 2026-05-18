@@ -719,5 +719,8 @@
     "allPassed": "It-testijiet kollha għaddew",
     "someFailed": "{0} test(ijiet) fallew",
     "configLoaded": "providerConfigs.js lest b'suċċess"
+  },
+  "provider": {
+    "cliDefault": "CLI awtomatiku"
   }
 }

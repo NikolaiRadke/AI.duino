@@ -719,5 +719,8 @@
     "allPassed": "Visi testi veiksmīgi",
     "someFailed": "{0} tests(-i) neizdevās",
     "configLoaded": "providerConfigs.js veiksmīgi ielādēts"
+  },
+  "provider": {
+    "cliDefault": "CLI noklusējums"
   }
 }

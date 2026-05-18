@@ -715,5 +715,8 @@
     "allPassed": "すべてのテストに合格",
     "someFailed": "{0} 件のテストが失敗",
     "configLoaded": "providerConfigs.js の読み込みに成功"
+  },
+  "provider": {
+    "cliDefault": "CLI デフォルト"
   }
 }

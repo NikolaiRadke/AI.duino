@@ -20,6 +20,9 @@ There are several options that need further explanation. The default values are 
 ### The Provider isn't working! 
 ➡️ That can happen. Providers tend to change the parameters of their models or APIs, and then it no longer works. However, all providers are checked weekly, which is a terrible job.  
 
+### Why can I not select a model for Mistral Vibe, Groq Code CLI, and OpenCode?
+➡️ These providers do not support model selection via command-line parameters. AI.duino cannot pass a --model flag to them, so no model list is offered. AI.duino uses the CLI default model instead. The model must be configured directly within the CLI tool itself, for example, using the /model command inside an active Mistral Vibe session. 
+
 ### "What does 'Invalid JSON response' mean?
 ➡️ This is an error message from the provider, not AI.duino, usually in html. AI.duino can only parse JSON Messages. This will be fixed soon.  But what is the reason? Your rate is exhausted, there is no more credit on your account.  
   
