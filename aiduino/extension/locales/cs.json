@@ -160,7 +160,7 @@
     "pasteSerial": "Vložte výstup vašeho Sériového monitoru",
     "systemPrompt": "Jsi užitečný asistent pro programování Arduino. Vždy odpovídej jasně a vysvětluj Arduino kód srozumitelně.",
     "explainCode": "Vysvětli tento Arduino kód jednoduchým, srozumitelným jazykem:\n\n```cpp\n{0}\n```\n\nVysvětli:\n- Co kód dělá\n- Jak funguje\n- Jaký hardware ovládá\n- Důležité koncepty pro začátečníky\n\nBuď přátelský a důkladný.",
-    "improveCode": "Vylepši tento Arduino kód:\n\n```cpp\n{0}\n```\n\nOptimalizuj pro:\n- Neblokující kód (millis místo delay)\n- Efektivitu paměti\n- Lepší čitelnost\n- Arduino best practices\n- Robustnost",
+    "improveCode": "Vylepši tento Arduino kód:\n\n```cpp\n{0}\n```\n\nZaměř se na lepší čitelnost a osvědčené postupy pro Arduino.\n\n{anchors}",
     "improveCodeSuffix": "Vrať pouze vylepšený kód s krátkými komentáři o změnách.",
     "addCommentsSelected": "Přidej užitečné komentáře k tomuto Arduino kódu:\n\n```cpp\n{0}\n```\n\nPravidla:\n- Vysvětli, co každý důležitý řádek dělá\n- Okomentuj funkce a jejich parametry\n- Vysvětli interakce s hardwarem\n- Použij // pro jednořádkové a /* */ pro víceřádkové komentáře\n- Komentáře by měly pomáhat začátečníkům",
     "addComments": "Přidej užitečné komentáře k tomuto Arduino kódu:\n\n```cpp\n{0}\n```\n\nPravidla:\n- Vysvětli, co každý důležitý řádek dělá\n- Okomentuj funkce a jejich parametry\n- Vysvětli interakce s hardwarem\n- Použij // pro jednořádkové a /* */ pro víceřádkové komentáře\n- Komentáře by měly pomáhat začátečníkům",
@@ -177,8 +177,8 @@
     "askFollowUp": "Navazující otázka:",
     "followUpContext": "Kontext předchozí konverzace:",
     "followUpInstruction": "Odpověz v češtině s ohledem na předchozí konverzaci.",
-    "improveCodeFile": "Vylepši tento kompletní Arduino soubor ({0}):\n\n```cpp\n{1}\n```\n\nOptimalizuj pro:\n- Neblokující kód (millis místo delay)\n- Efektivitu paměti\n- Lepší čitelnost\n- Arduino best practices\n- Robustnost",
-    "improveCodeSketch": "Vylepši všechny soubory v tomto Arduino sketchi:\n\n{0}\n\nOptimalizuj celý sketch pro:\n- Neblokující kód (millis místo delay)\n- Efektivitu paměti\n- Lepší čitelnost\n- Arduino best practices\n- Robustnost\n- Čisté oddělení mezi soubory",
+    "improveCodeFile": "Vylepši tento kompletní Arduino soubor ({0}):\n\n```cpp\n{1}\n```\n\nZaměř se na lepší čitelnost a osvědčené postupy pro Arduino.\n\n{anchors}",
+    "improveCodeSketch": "Vylepši všechny soubory v tomto Arduino sketchi:\n\n{0}\n\nZaměř se na lepší čitelnost, osvědčené postupy pro Arduino a čisté oddělení mezi soubory.\n\n{anchors}",
     "addCommentsFile": "Přidej užitečné české komentáře k tomuto kompletnímu Arduino souboru ({0}):\n\n```cpp\n{1}\n```\n\nPravidla:\n- Vysvětli, co dělá každý důležitý řádek\n- Okomentuj funkce a jejich parametry\n- Vysvětli interakce s hardwarem\n- Používej // pro jednořádkové a /* */ pro víceřádkové komentáře\n- Komentáře by měly pomáhat začátečníkům",
     "addCommentsSketch": "Přidej užitečné české komentáře ke všem souborům v tomto Arduino sketchi:\n\n{0}\n\nPravidla:\n- Vysvětli, co dělá každý důležitý řádek\n- Okomentuj funkce a jejich parametry\n- Vysvětli interakce s hardwarem a vztahy mezi soubory\n- Používej // pro jednořádkové a /* */ pro víceřádkové komentáře\n- Komentáře by měly pomáhat začátečníkům",
     "explainCodeFile": "Vysvětli tento kompletní Arduino soubor ({0}) česky:\n\n```cpp\n{1}\n```\n\nVysvětli:\n- Co soubor dělá (hlavní účel)\n- Důležité funkce a jejich úkoly\n- Interakce s hardwarem (piny, senzory, atd.)\n- Algoritmy a logiku\n- Zvláštnosti nebo důležité detaily",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "Výchozí CLI"
+  },
+  "anchors": {
+    "sectionTitle": "Sémantické kotvy",
+    "tooltip": "Sémantické kotvy: krátké kódovací direktivy předávané AI. Kombinuj libovolný počet.",
+    "advancedTitle": "Pokročilé / Agentní",
+    "noMagicNumbers": "Žádná magická čísla",
+    "beginnerComments": "Komentáře pro začátečníky",
+    "nonBlocking": "Neblokující",
+    "lowRam": "Nízká RAM",
+    "defensive": "Kontrola vstupů",
+    "minimalDiff": "Minimální změny",
+    "preserveStyle": "Zachovat styl",
+    "explainChanges": "Vysvětlit změny",
+    "noNewDeps": "Žádné nové závislosti",
+    "isrSafe": "Bezpečné pro ISR",
+    "noDynamicMemory": "Žádná dynamická paměť",
+    "faultTolerant": "Odolné vůči chybám",
+    "stateMachine": "Stavový automat",
+    "fixedWidthTypes": "Typy s pevnou šířkou",
+    "lowPower": "Nízká spotřeba",
+    "integerMath": "Celočíselná aritmetika",
+    "askFirst": "Nejdříve se zeptej"
   }
 }

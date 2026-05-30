@@ -160,7 +160,7 @@
     "pasteSerial": "Plak je Seriële Monitor uitvoer",
     "systemPrompt": "Je bent een behulpzame Arduino-programmeerassistent. Antwoord altijd duidelijk en leg Arduino-code begrijpelijk uit.",
     "explainCode": "Leg deze Arduino-code uit in eenvoudige, begrijpelijke taal:\n\n```cpp\n{0}\n```\n\nLeg uit:\n- Wat de code doet\n- Hoe het werkt\n- Welke hardware het aanstuurt\n- Belangrijke concepten voor beginners\n\nWees vriendelijk en grondig.",
-    "improveCode": "Verbeter deze Arduino-code:\n\n```cpp\n{0}\n```\n\nOptimaliseer voor:\n- Niet-blokkerende code (millis in plaats van delay)\n- Geheugenefficiëntie\n- Betere leesbaarheid\n- Arduino best practices\n- Robuustheid",
+    "improveCode": "Verbeter deze Arduino-code:\n\n```cpp\n{0}\n```\n\nFocus op betere leesbaarheid en Arduino-best practices.\n\n{anchors}",
     "improveCodeSuffix": "Geef alleen de verbeterde code terug met korte opmerkingen over wijzigingen.",
     "addCommentsSelected": "Voeg nuttig commentaar toe aan deze Arduino-code:\n\n```cpp\n{0}\n```\n\nRegels:\n- Leg uit wat elke belangrijke regel doet\n- Geef commentaar bij functies en hun parameters\n- Leg hardware-interacties uit\n- Gebruik // voor enkele regels en /* */ voor meerdere regels commentaar\n- Commentaar moet beginners helpen",
     "addComments": "Voeg nuttig commentaar toe aan deze Arduino-code:\n\n```cpp\n{0}\n```\n\nRegels:\n- Leg uit wat elke belangrijke regel doet\n- Geef commentaar bij functies en hun parameters\n- Leg hardware-interacties uit\n- Gebruik // voor enkele regels en /* */ voor meerdere regels commentaar\n- Commentaar moet beginners helpen",
@@ -177,8 +177,8 @@
     "askFollowUp": "Vervolgvraag:",
     "followUpContext": "Context van vorig gesprek:",
     "followUpInstruction": "Antwoord in het Nederlands rekening houdend met het vorige gesprek.",
-    "improveCodeFile": "Verbeter dit complete Arduino-bestand ({0}):\n\n```cpp\n{1}\n```\n\nOptimaliseer voor:\n- Niet-blokkerende code (millis in plaats van delay)\n- Geheugenefficiëntie\n- Betere leesbaarheid\n- Arduino best practices\n- Robuustheid",
-    "improveCodeSketch": "Verbeter alle bestanden in deze Arduino-sketch:\n\n{0}\n\nOptimaliseer de hele sketch voor:\n- Niet-blokkerende code (millis in plaats van delay)\n- Geheugenefficiëntie\n- Betere leesbaarheid\n- Arduino best practices\n- Robuustheid\n- Duidelijke scheiding tussen bestanden",
+    "improveCodeFile": "Verbeter dit volledige Arduino-bestand ({0}):\n\n```cpp\n{1}\n```\n\nFocus op betere leesbaarheid en Arduino-best practices.\n\n{anchors}",
+    "improveCodeSketch": "Verbeter alle bestanden in deze Arduino-sketch:\n\n{0}\n\nFocus op betere leesbaarheid, Arduino-best practices en een nette scheiding tussen bestanden.\n\n{anchors}",
     "addCommentsFile": "Voeg nuttige Nederlandse commentaren toe aan dit complete Arduino-bestand ({0}):\n\n```cpp\n{1}\n```\n\nRegels:\n- Leg uit wat elke belangrijke regel doet\n- Commentaar bij functies en hun parameters\n- Leg hardware-interacties uit\n- Gebruik // voor enkele regels en /* */ voor meerdere regels\n- Commentaren moeten beginners helpen",
     "addCommentsSketch": "Voeg nuttige Nederlandse commentaren toe aan alle bestanden in deze Arduino-sketch:\n\n{0}\n\nRegels:\n- Leg uit wat elke belangrijke regel doet\n- Commentaar bij functies en hun parameters\n- Leg hardware-interacties en relaties tussen bestanden uit\n- Gebruik // voor enkele regels en /* */ voor meerdere regels\n- Commentaren moeten beginners helpen",
     "explainCodeFile": "Leg dit complete Arduino-bestand uit in het Nederlands ({0}):\n\n```cpp\n{1}\n```\n\nLeg uit:\n- Wat het bestand doet (hoofddoel)\n- Belangrijke functies en hun taken\n- Hardware-interacties (pins, sensoren, etc.)\n- Algoritmen en logica\n- Speciale functies of belangrijke details",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI standaard"
+  },
+  "anchors": {
+    "sectionTitle": "Semantische ankers",
+    "tooltip": "Semantische ankers: korte codeerinstructies die aan de AI worden doorgegeven. Combineer zoveel als je wilt.",
+    "advancedTitle": "Geavanceerd / Agentisch",
+    "noMagicNumbers": "Geen magische getallen",
+    "beginnerComments": "Beginnersvriendelijke opmerkingen",
+    "nonBlocking": "Niet-blokkerend",
+    "lowRam": "Laag RAM-gebruik",
+    "defensive": "Invoer valideren",
+    "minimalDiff": "Minimale wijzigingen",
+    "preserveStyle": "Stijl behouden",
+    "explainChanges": "Wijzigingen uitleggen",
+    "noNewDeps": "Geen nieuwe afhankelijkheden",
+    "isrSafe": "ISR-veilig",
+    "noDynamicMemory": "Geen dynamisch geheugen",
+    "faultTolerant": "Foutbestendig",
+    "stateMachine": "Toestandsmachine",
+    "fixedWidthTypes": "Typen met vaste breedte",
+    "lowPower": "Laag stroomverbruik",
+    "integerMath": "Gehele getallen rekenen",
+    "askFirst": "Eerst vragen"
   }
 }

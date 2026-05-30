@@ -160,7 +160,7 @@
     "pasteSerial": "Seri Monitör çıktınızı yapıştırın",
     "systemPrompt": "Sen yardımsever bir Arduino programlama asistanısın. Her zaman açık bir şekilde yanıt ver ve Arduino kodunu anlaşılır bir şekilde açıkla.",
     "explainCode": "Bu Arduino kodunu basit, anlaşılır bir dille açıkla:\n\n```cpp\n{0}\n```\n\nAçıkla:\n- Kod ne yapıyor\n- Nasıl çalışıyor\n- Hangi donanımı kontrol ediyor\n- Yeni başlayanlar için önemli kavramlar\n\nSamimi ve ayrıntılı ol.",
-    "improveCode": "Bu Arduino kodunu iyileştir:\n\n```cpp\n{0}\n```\n\nŞunlar için optimize et:\n- Bloklamayan kod (delay yerine millis)\n- Bellek verimliliği\n- Daha iyi okunabilirlik\n- Arduino en iyi uygulamaları\n- Sağlamlık",
+    "improveCode": "Bu Arduino kodunu geliştir:\n\n```cpp\n{0}\n```\n\nDaha iyi okunabilirlik ve Arduino en iyi uygulamalarına odaklan.\n\n{anchors}",
     "improveCodeSuffix": "Sadece iyileştirilmiş kodu, değişiklikler hakkında kısa yorumlarla birlikte döndür.",
     "addCommentsSelected": "Bu Arduino koduna faydalı yorumlar ekle:\n\n```cpp\n{0}\n```\n\nKurallar:\n- Her önemli satırın ne yaptığını açıkla\n- Fonksiyonları ve parametrelerini yorumla\n- Donanım etkileşimlerini açıkla\n- Tek satırlık için // ve çok satırlı yorumlar için /* */ kullan\n- Yorumlar yeni başlayanlara yardımcı olmalı",
     "addComments": "Bu Arduino koduna faydalı yorumlar ekle:\n\n```cpp\n{0}\n```\n\nKurallar:\n- Her önemli satırın ne yaptığını açıkla\n- Fonksiyonları ve parametrelerini yorumla\n- Donanım etkileşimlerini açıkla\n- Tek satırlık için // ve çok satırlı yorumlar için /* */ kullan\n- Yorumlar yeni başlayanlara yardımcı olmalı",
@@ -177,8 +177,8 @@
     "askFollowUp": "Takip sorusu:",
     "followUpContext": "Önceki konuşma bağlamı:",
     "followUpInstruction": "Önceki konuşmayı dikkate alarak Türkçe yanıtla.",
-    "improveCodeFile": "Bu Arduino dosyasını iyileştir ({0}):\n\n```cpp\n{1}\n```\n\nŞunlar için optimize et:\n- Bloklamayan kod (delay yerine millis)\n- Bellek verimliliği\n- Daha iyi okunabilirlik\n- Arduino en iyi uygulamaları\n- Sağlamlık",
-    "improveCodeSketch": "Bu Arduino sketch'indeki tüm dosyaları iyileştir:\n\n{0}\n\nTüm sketch'i şunlar için optimize et:\n- Bloklamayan kod (delay yerine millis)\n- Bellek verimliliği\n- Daha iyi okunabilirlik\n- Arduino en iyi uygulamaları\n- Sağlamlık\n- Dosyalar arasında temiz ayrım",
+    "improveCodeFile": "Bu tam Arduino dosyasını ({0}) geliştir:\n\n```cpp\n{1}\n```\n\nDaha iyi okunabilirlik ve Arduino en iyi uygulamalarına odaklan.\n\n{anchors}",
+    "improveCodeSketch": "Bu Arduino taslağındaki tüm dosyaları geliştir:\n\n{0}\n\nDaha iyi okunabilirlik, Arduino en iyi uygulamaları ve dosyalar arasında temiz ayrıma odaklan.\n\n{anchors}",
     "addCommentsFile": "Bu Arduino dosyasına yardımcı Türkçe yorumlar ekle ({0}):\n\n```cpp\n{1}\n```\n\nKurallar:\n- Her önemli satırın ne yaptığını açıkla\n- Fonksiyonları ve parametrelerini yorumla\n- Donanım etkileşimlerini açıkla\n- Tek satır için // ve çok satır için /* */ kullan\n- Yorumlar yeni başlayanlar için yardımcı olmalı",
     "addCommentsSketch": "Bu Arduino sketch'indeki tüm dosyalara yardımcı Türkçe yorumlar ekle:\n\n{0}\n\nKurallar:\n- Her önemli satırın ne yaptığını açıkla\n- Fonksiyonları ve parametrelerini yorumla\n- Donanım etkileşimlerini ve dosya ilişkilerini açıkla\n- Tek satır için // ve çok satır için /* */ kullan\n- Yorumlar yeni başlayanlar için yardımcı olmalı",
     "explainCodeFile": "Bu Arduino dosyasını Türkçe açıkla ({0}):\n\n```cpp\n{1}\n```\n\nŞunları açıkla:\n- Dosyanın ne yaptığı (ana amaç)\n- Önemli fonksiyonlar ve görevleri\n- Donanım etkileşimleri (pinler, sensörler vb.)\n- Algoritmalar ve mantık\n- Özellikler veya önemli detaylar",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI varsayılan"
+  },
+  "anchors": {
+    "sectionTitle": "Anlamsal çapalar",
+    "tooltip": "Anlamsal çapalar: AI'ya iletilen kısa kodlama yönergeleri. İstediğin kadar kombine et.",
+    "advancedTitle": "Gelişmiş / Ajanlı",
+    "noMagicNumbers": "Sihirli sayı yok",
+    "beginnerComments": "Başlangıç dostu yorumlar",
+    "nonBlocking": "Engelleyici olmayan",
+    "lowRam": "Düşük RAM kullanımı",
+    "defensive": "Girişleri doğrula",
+    "minimalDiff": "Minimum değişiklikler",
+    "preserveStyle": "Stili koru",
+    "explainChanges": "Değişiklikleri açıkla",
+    "noNewDeps": "Yeni bağımlılık yok",
+    "isrSafe": "ISR-güvenli",
+    "noDynamicMemory": "Dinamik bellek yok",
+    "faultTolerant": "Hata toleranslı",
+    "stateMachine": "Durum makinesi",
+    "fixedWidthTypes": "Sabit genişlikli tipler",
+    "lowPower": "Düşük güç tüketimi",
+    "integerMath": "Tamsayı aritmetiği",
+    "askFirst": "Önce sor"
   }
 }

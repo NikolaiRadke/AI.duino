@@ -160,7 +160,7 @@
     "pasteSerial": "Poġġi l-output tas-Serial Monitor tiegħek",
     "systemPrompt": "Int għajnuna tal-programmazzjoni tal-Arduino. Wieġeb dejjem bil-Malti u spjega l-kodiċi tal-Arduino b'mod li jinftiehem.",
     "explainCode": "Spjega dan il-kodiċi tal-Arduino bil-Malti b'mod sempliċi u li jinftiehem:\n\n```cpp\n{0}\n```\n\nSpjega:\n- X'jagħmel il-kodiċi\n- Kif jaħdem\n- Liema hardware jikkontrolla\n- Kunċetti importanti għall-beginners\n\nKun ta' għajnuna u dettaljat.",
-    "improveCode": "Ħassan dan il-kodiċi tal-Arduino:\n\n```cpp\n{0}\n```\n\nOttimizza għal:\n- Kodiċi li ma jblokkaxi (millis minflok delay)\n- Effiċjenza tal-memorja\n- Leġġibilità aħjar\n- Arduino best practices\n- Robustezza",
+    "improveCode": "Tejjeb dan il-kodiċi Arduino:\n\n```cpp\n{0}\n```\n\nIffoka fuq leġġibilità aħjar u l-aħjar prattiċi ta' Arduino.\n\n{anchors}",
     "improveCodeSuffix": "Agħti biss il-kodiċi mtejjeb lura b'kummenti qosra bil-Malti dwar il-bidliet.",
     "addCommentsSelected": "Żid kummenti utli bil-Malti ma' dan il-kodiċi tal-Arduino:\n\n```cpp\n{0}\n```\n\nRegoli:\n- Spjega x'tagħmel kull linja importanti\n- Ikkummenta l-funzjonijiet u l-parametri tagħhom\n- Spjega l-interazzjonijiet mal-hardware\n- Uża // għal kummenti ta' linja waħda u /* */ għal kummenti ta' diversi linji\n- Il-kummenti għandhom jgħinu lill-beginners",
     "addComments": "Żid kummenti utli bil-Malti ma' dan il-kodiċi tal-Arduino:\n\n```cpp\n{0}\n```\n\nRegoli:\n- Spjega x'tagħmel kull linja importanti\n- Ikkummenta l-funzjonijiet u l-parametri tagħhom\n- Spjega l-interazzjonijiet mal-hardware\n- Uża // għal kummenti ta' linja waħda u /* */ għal kummenti ta' diversi linji\n- Il-kummenti għandhom jgħinu lill-beginners",
@@ -177,8 +177,8 @@
     "askFollowUp": "Mistoqsija follow-up:",
     "followUpContext": "Kuntest tal-konversazzjoni ta' qabel:",
     "followUpInstruction": "Wieġeb bil-Malti b'kunsiderazzjoni tal-konversazzjoni ta' qabel.",
-    "improveCodeFile": "Ittejjeb dan il-fajl Arduino sħiħ ({0}):\n\n```cpp\n{1}\n```\n\nOttimizza għal:\n- Kodiċi mhux imblukkat (millis minflok delay)\n- Effiċjenza tal-memorja\n- Leġġibbiltà aħjar\n- L-aħjar prattiki Arduino\n- Robustezza",
-    "improveCodeSketch": "Ittejjeb il-fajls kollha f'dan l-Arduino sketch:\n\n{0}\n\nOttimizza l-sketch kollu għal:\n- Kodiċi mhux imblukkat (millis minflok delay)\n- Effiċjenza tal-memorja\n- Leġġibbiltà aħjar\n- L-aħjar prattiki Arduino\n- Robustezza\n- Separazzjoni ċara bejn il-fajls",
+    "improveCodeFile": "Tejjeb dan il-fajl Arduino sħiħ ({0}):\n\n```cpp\n{1}\n```\n\nIffoka fuq leġġibilità aħjar u l-aħjar prattiċi ta' Arduino.\n\n{anchors}",
+    "improveCodeSketch": "Tejjeb il-fajls kollha f'dan l-iskeċċ Arduino:\n\n{0}\n\nIffoka fuq leġġibilità aħjar, l-aħjar prattiċi ta' Arduino u separazzjoni nadifa bejn il-fajls.\n\n{anchors}",
     "addCommentsFile": "Żid kummenti Maltin utli għal dan il-fajl Arduino sħiħ ({0}):\n\n```cpp\n{1}\n```\n\nRegoli:\n- Spjega x'jagħmel kull linja importanti\n- Ikkummenta l-funzjonijiet u l-parametri tagħhom\n- Spjega l-interazzjonijiet mal-hardware\n- Uża // għal linja waħda u /* */ għal linji multipli\n- Il-kummenti għandhom jgħinu lill-prinċipjanti",
     "addCommentsSketch": "Żid kummenti Maltin utli għall-fajls kollha f'dan l-Arduino sketch:\n\n{0}\n\nRegoli:\n- Spjega x'jagħmel kull linja importanti\n- Ikkummenta l-funzjonijiet u l-parametri tagħhom\n- Spjega l-interazzjonijiet mal-hardware u r-relazzjonijiet bejn il-fajls\n- Uża // għal linja waħda u /* */ għal linji multipli\n- Il-kummenti għandhom jgħinu lill-prinċipjanti",
     "explainCodeFile": "Spjega dan il-fajl Arduino sħiħ ({0}) bil-Malti:\n\n```cpp\n{1}\n```\n\nSpjega:\n- X'jagħmel il-fajl (skop prinċipali)\n- Funzjonijiet importanti u l-kompiti tagħhom\n- Interazzjonijiet mal-hardware (pins, sensors, eċċ.)\n- Algoritmi u loġika\n- Speċjalitajiet jew dettalji importanti",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI awtomatiku"
+  },
+  "anchors": {
+    "sectionTitle": "Ankri Semantiċi",
+    "tooltip": "Ankri semantiċi: direttivi qosra ta' kodifikar mgħoddija lill-AI. Kombina kemm trid.",
+    "advancedTitle": "Avvanzat / Agentiku",
+    "noMagicNumbers": "L-ebda numri maġiċi",
+    "beginnerComments": "Kummenti għall-prinċipianti",
+    "nonBlocking": "Mhux blokking",
+    "lowRam": "RAM baxxa",
+    "defensive": "Ivvalidar l-input",
+    "minimalDiff": "Bidliet minimali",
+    "preserveStyle": "Ippreżerva l-istil",
+    "explainChanges": "Spjega l-bidliet",
+    "noNewDeps": "L-ebda dipendenzi ġodda",
+    "isrSafe": "Sigur għal ISR",
+    "noDynamicMemory": "Ebda memorja dinamika",
+    "faultTolerant": "Tolleranti għal ħsarat",
+    "stateMachine": "Magna tal-istati",
+    "fixedWidthTypes": "Tipi ta' wisa' fissa",
+    "lowPower": "Enerġija baxxa",
+    "integerMath": "Aritmetika sħiħa",
+    "askFirst": "Staqsi l-ewwel"
   }
 }

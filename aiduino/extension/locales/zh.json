@@ -160,7 +160,7 @@
     "pasteSerial": "粘贴您的串口监视器输出",
     "systemPrompt": "您是一个有用的Arduino编程助手。始终清晰地回答并以易懂的方式解释Arduino代码。",
     "explainCode": "用简单易懂的语言解释这个Arduino代码：\n\n```cpp\n{0}\n```\n\n解释：\n- 代码做什么\n- 如何工作\n- 控制什么硬件\n- 对初学者重要的概念\n\n请友好且详细。",
-    "improveCode": "改进这个Arduino代码：\n\n```cpp\n{0}\n```\n\n优化：\n- 非阻塞代码（使用millis代替delay）\n- 内存效率\n- 更好的可读性\n- Arduino最佳实践\n- 稳健性",
+    "improveCode": "改进这段 Arduino 代码：\n\n```cpp\n{0}\n```\n\n专注于提高可读性和 Arduino 最佳实践。\n\n{anchors}",
     "improveCodeSuffix": "只返回改进的代码，并简要说明更改。",
     "addCommentsSelected": "为这个Arduino代码添加有用的注释：\n\n```cpp\n{0}\n```\n\n规则：\n- 解释每个重要行的作用\n- 注释函数及其参数\n- 解释硬件交互\n- 单行使用//，多行使用/* */\n- 注释应该帮助初学者",
     "addComments": "为这个Arduino代码添加有用的注释：\n\n```cpp\n{0}\n```\n\n规则：\n- 解释每个重要行的作用\n- 注释函数及其参数\n- 解释硬件交互\n- 单行使用//，多行使用/* */\n- 注释应该帮助初学者",
@@ -177,8 +177,8 @@
     "askFollowUp": "追问:",
     "followUpContext": "之前对话的上下文:",
     "followUpInstruction": "请用中文回答，并考虑之前的对话。",
-    "improveCodeFile": "改进这个完整的Arduino文件 ({0}):\n\n```cpp\n{1}\n```\n\n优化:\n- 非阻塞代码(使用millis而不是delay)\n- 内存效率\n- 更好的可读性\n- Arduino最佳实践\n- 健壮性",
-    "improveCodeSketch": "改进此Arduino草图中的所有文件:\n\n{0}\n\n优化整个草图:\n- 非阻塞代码(使用millis而不是delay)\n- 内存效率\n- 更好的可读性\n- Arduino最佳实践\n- 健壮性\n- 文件之间的清晰分离",
+    "improveCodeFile": "改进这个完整的 Arduino 文件（{0}）：\n\n```cpp\n{1}\n```\n\n专注于提高可读性和 Arduino 最佳实践。\n\n{anchors}",
+    "improveCodeSketch": "改进此 Arduino 草图中的所有文件：\n\n{0}\n\n专注于提高可读性、Arduino 最佳实践以及文件之间的清晰分离。\n\n{anchors}",
     "addCommentsFile": "为这个完整的Arduino文件添加有用的中文注释 ({0}):\n\n```cpp\n{1}\n```\n\n规则:\n- 解释每个重要行的作用\n- 注释函数及其参数\n- 解释硬件交互\n- 单行使用//，多行使用/* */\n- 注释应帮助初学者",
     "addCommentsSketch": "为此Arduino草图中的所有文件添加有用的中文注释:\n\n{0}\n\n规则:\n- 解释每个重要行的作用\n- 注释函数及其参数\n- 解释硬件交互和文件之间的关系\n- 单行使用//，多行使用/* */\n- 注释应帮助初学者",
     "explainCodeFile": "用中文解释这个完整的Arduino文件 ({0}):\n\n```cpp\n{1}\n```\n\n解释:\n- 文件的作用(主要目的)\n- 重要函数及其任务\n- 硬件交互(引脚、传感器等)\n- 算法和逻辑\n- 特殊功能或重要细节",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI 默认"
+  },
+  "anchors": {
+    "sectionTitle": "语义锚点",
+    "tooltip": "语义锚点：传递给 AI 的简短编码指令。可以随意组合多个。",
+    "advancedTitle": "高级 / 智能体",
+    "noMagicNumbers": "无魔法数字",
+    "beginnerComments": "适合初学者的注释",
+    "nonBlocking": "非阻塞",
+    "lowRam": "低 RAM 占用",
+    "defensive": "验证输入",
+    "minimalDiff": "最小改动",
+    "preserveStyle": "保持风格",
+    "explainChanges": "解释改动",
+    "noNewDeps": "无新依赖",
+    "isrSafe": "ISR 安全",
+    "noDynamicMemory": "无动态内存",
+    "faultTolerant": "容错",
+    "stateMachine": "状态机",
+    "fixedWidthTypes": "固定宽度类型",
+    "lowPower": "低功耗",
+    "integerMath": "整数运算",
+    "askFirst": "先询问"
   }
 }

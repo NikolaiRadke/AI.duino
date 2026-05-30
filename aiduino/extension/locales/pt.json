@@ -160,7 +160,7 @@
     "pasteSerial": "Cole a saída do seu Monitor Serial",
     "systemPrompt": "Você é um assistente útil de programação Arduino. Sempre responda claramente e explique código Arduino de forma compreensível.",
     "explainCode": "Explique este código Arduino em linguagem simples e compreensível:\n\n```cpp\n{0}\n```\n\nExplique:\n- O que o código faz\n- Como funciona\n- Qual hardware controla\n- Conceitos importantes para iniciantes\n\nSeja amigável e detalhado.",
-    "improveCode": "Melhore este código Arduino:\n\n```cpp\n{0}\n```\n\nOtimize para:\n- Código não-bloqueante (millis em vez de delay)\n- Eficiência de memória\n- Melhor legibilidade\n- Melhores práticas Arduino\n- Robustez",
+    "improveCode": "Melhore este código Arduino:\n\n```cpp\n{0}\n```\n\nFoque em melhor legibilidade e boas práticas do Arduino.\n\n{anchors}",
     "improveCodeSuffix": "Retorne apenas o código melhorado com breves comentários sobre as mudanças.",
     "addCommentsSelected": "Adicione comentários úteis a este código Arduino:\n\n```cpp\n{0}\n```\n\nRegras:\n- Explique o que cada linha importante faz\n- Comente funções e seus parâmetros\n- Explique interações com hardware\n- Use // para comentários de linha única e /* */ para múltiplas linhas\n- Comentários devem ajudar iniciantes",
     "addComments": "Adicione comentários úteis a este código Arduino:\n\n```cpp\n{0}\n```\n\nRegras:\n- Explique o que cada linha importante faz\n- Comente funções e seus parâmetros\n- Explique interações com hardware\n- Use // para comentários de linha única e /* */ para múltiplas linhas\n- Comentários devem ajudar iniciantes",
@@ -177,8 +177,8 @@
     "askFollowUp": "Pergunta de acompanhamento:",
     "followUpContext": "Contexto da conversa anterior:",
     "followUpInstruction": "Responda em português considerando a conversa anterior.",
-    "improveCodeFile": "Melhore este arquivo Arduino completo ({0}):\n\n```cpp\n{1}\n```\n\nOtimize para:\n- Código não bloqueante (millis em vez de delay)\n- Eficiência de memória\n- Melhor legibilidade\n- Melhores práticas do Arduino\n- Robustez",
-    "improveCodeSketch": "Melhore todos os arquivos neste sketch Arduino:\n\n{0}\n\nOtimize o sketch completo para:\n- Código não bloqueante (millis em vez de delay)\n- Eficiência de memória\n- Melhor legibilidade\n- Melhores práticas do Arduino\n- Robustez\n- Separação limpa entre arquivos",
+    "improveCodeFile": "Melhore este arquivo Arduino completo ({0}):\n\n```cpp\n{1}\n```\n\nFoque em melhor legibilidade e boas práticas do Arduino.\n\n{anchors}",
+    "improveCodeSketch": "Melhore todos os arquivos neste sketch Arduino:\n\n{0}\n\nFoque em melhor legibilidade, boas práticas do Arduino e separação limpa entre arquivos.\n\n{anchors}",
     "addCommentsFile": "Adicione comentários úteis em português a este arquivo Arduino completo ({0}):\n\n```cpp\n{1}\n```\n\nRegras:\n- Explique o que cada linha importante faz\n- Comente funções e seus parâmetros\n- Explique interações de hardware\n- Use // para comentários de linha única e /* */ para múltiplas linhas\n- Comentários devem ajudar iniciantes",
     "addCommentsSketch": "Adicione comentários úteis em português a todos os arquivos neste sketch Arduino:\n\n{0}\n\nRegras:\n- Explique o que cada linha importante faz\n- Comente funções e seus parâmetros\n- Explique interações de hardware e relações entre arquivos\n- Use // para comentários de linha única e /* */ para múltiplas linhas\n- Comentários devem ajudar iniciantes",
     "explainCodeFile": "Explique este arquivo Arduino completo ({0}) em português:\n\n```cpp\n{1}\n```\n\nExplique:\n- O que o arquivo faz (objetivo principal)\n- Funções importantes e suas tarefas\n- Interações de hardware (pinos, sensores, etc.)\n- Algoritmos e lógica\n- Recursos especiais ou detalhes importantes",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "Padrão CLI"
+  },
+  "anchors": {
+    "sectionTitle": "Âncoras semânticas",
+    "tooltip": "Âncoras semânticas: breves diretivas de codificação passadas à IA. Combine quantas quiser.",
+    "advancedTitle": "Avançado / Agêntico",
+    "noMagicNumbers": "Sem números mágicos",
+    "beginnerComments": "Comentários para iniciantes",
+    "nonBlocking": "Não bloqueante",
+    "lowRam": "Baixo uso de RAM",
+    "defensive": "Validar entradas",
+    "minimalDiff": "Mudanças mínimas",
+    "preserveStyle": "Preservar estilo",
+    "explainChanges": "Explicar mudanças",
+    "noNewDeps": "Sem novas dependências",
+    "isrSafe": "Seguro para ISR",
+    "noDynamicMemory": "Sem memória dinâmica",
+    "faultTolerant": "Tolerante a falhas",
+    "stateMachine": "Máquina de estados",
+    "fixedWidthTypes": "Tipos de largura fixa",
+    "lowPower": "Baixo consumo",
+    "integerMath": "Aritmética inteira",
+    "askFirst": "Pergunte primeiro"
   }
 }

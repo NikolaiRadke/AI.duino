@@ -160,7 +160,7 @@
     "pasteSerial": "Wklej wyjście z Monitora szeregowego",
     "systemPrompt": "Jesteś pomocnym asystentem programowania Arduino. Zawsze odpowiadaj jasno i wyjaśniaj kod Arduino w zrozumiały sposób.",
     "explainCode": "Wyjaśnij ten kod Arduino prostym, zrozumiałym językiem:\n\n```cpp\n{0}\n```\n\nWyjaśnij:\n- Co robi kod\n- Jak działa\n- Jaki sprzęt kontroluje\n- Ważne koncepcje dla początkujących\n\nBądź przyjazny i dokładny.",
-    "improveCode": "Ulepsz ten kod Arduino:\n\n```cpp\n{0}\n```\n\nOptymalizuj pod kątem:\n- Kodu nieblokującego (millis zamiast delay)\n- Efektywności pamięci\n- Lepszej czytelności\n- Najlepszych praktyk Arduino\n- Niezawodności",
+    "improveCode": "Ulepsz ten kod Arduino:\n\n```cpp\n{0}\n```\n\nSkup się na lepszej czytelności i najlepszych praktykach Arduino.\n\n{anchors}",
     "improveCodeSuffix": "Zwróć tylko ulepszony kod z krótkimi komentarzami o zmianach.",
     "addCommentsSelected": "Dodaj pomocne komentarze do tego kodu Arduino:\n\n```cpp\n{0}\n```\n\nZasady:\n- Wyjaśnij co robi każda ważna linia\n- Komentuj funkcje i ich parametry\n- Wyjaśnij interakcje ze sprzętem\n- Używaj // dla jednoliniowych i /* */ dla wieloliniowych komentarzy\n- Komentarze powinny pomagać początkującym",
     "addComments": "Dodaj pomocne komentarze do tego kodu Arduino:\n\n```cpp\n{0}\n```\n\nZasady:\n- Wyjaśnij co robi każda ważna linia\n- Komentuj funkcje i ich parametry\n- Wyjaśnij interakcje ze sprzętem\n- Używaj // dla jednoliniowych i /* */ dla wieloliniowych komentarzy\n- Komentarze powinny pomagać początkującym",
@@ -177,8 +177,8 @@
     "askFollowUp": "Pytanie uzupełniające:",
     "followUpContext": "Kontekst poprzedniej rozmowy:",
     "followUpInstruction": "Odpowiedz po polsku biorąc pod uwagę poprzednią rozmowę.",
-    "improveCodeFile": "Popraw ten kompletny plik Arduino ({0}):\n\n```cpp\n{1}\n```\n\nOptymalizuj dla:\n- Kodu nieblokującego (millis zamiast delay)\n- Wydajności pamięci\n- Lepszej czytelności\n- Najlepszych praktyk Arduino\n- Niezawodności",
-    "improveCodeSketch": "Popraw wszystkie pliki w tym szkicu Arduino:\n\n{0}\n\nOptymalizuj cały szkic dla:\n- Kodu nieblokującego (millis zamiast delay)\n- Wydajności pamięci\n- Lepszej czytelności\n- Najlepszych praktyk Arduino\n- Niezawodności\n- Czystego podziału między plikami",
+    "improveCodeFile": "Ulepsz ten kompletny plik Arduino ({0}):\n\n```cpp\n{1}\n```\n\nSkup się na lepszej czytelności i najlepszych praktykach Arduino.\n\n{anchors}",
+    "improveCodeSketch": "Ulepsz wszystkie pliki w tym szkicu Arduino:\n\n{0}\n\nSkup się na lepszej czytelności, najlepszych praktykach Arduino i czystym podziale między plikami.\n\n{anchors}",
     "addCommentsFile": "Dodaj pomocne komentarze po polsku do tego kompletnego pliku Arduino ({0}):\n\n```cpp\n{1}\n```\n\nZasady:\n- Wyjaśnij co robi każda ważna linia\n- Komentuj funkcje i ich parametry\n- Wyjaśnij interakcje sprzętowe\n- Używaj // dla jednoliniowych i /* */ dla wieloliniowych komentarzy\n- Komentarze powinny pomagać początkującym",
     "addCommentsSketch": "Dodaj pomocne komentarze po polsku do wszystkich plików w tym szkicu Arduino:\n\n{0}\n\nZasady:\n- Wyjaśnij co robi każda ważna linia\n- Komentuj funkcje i ich parametry\n- Wyjaśnij interakcje sprzętowe i relacje między plikami\n- Używaj // dla jednoliniowych i /* */ dla wieloliniowych komentarzy\n- Komentarze powinny pomagać początkującym",
     "explainCodeFile": "Wyjaśnij ten kompletny plik Arduino ({0}) po polsku:\n\n```cpp\n{1}\n```\n\nWyjaśnij:\n- Co robi plik (główny cel)\n- Ważne funkcje i ich zadania\n- Interakcje sprzętowe (piny, czujniki, itp.)\n- Algorytmy i logikę\n- Szczególne cechy lub ważne szczegóły",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "Domyślny CLI"
+  },
+  "anchors": {
+    "sectionTitle": "Kotwice semantyczne",
+    "tooltip": "Kotwice semantyczne: krótkie dyrektywy kodowania przekazywane do AI. Łącz tyle, ile chcesz.",
+    "advancedTitle": "Zaawansowane / Agentowe",
+    "noMagicNumbers": "Bez magicznych liczb",
+    "beginnerComments": "Komentarze dla początkujących",
+    "nonBlocking": "Nieblokujące",
+    "lowRam": "Niskie zużycie RAM",
+    "defensive": "Walidacja wejść",
+    "minimalDiff": "Minimalne zmiany",
+    "preserveStyle": "Zachowaj styl",
+    "explainChanges": "Wyjaśnij zmiany",
+    "noNewDeps": "Brak nowych zależności",
+    "isrSafe": "Bezpieczne dla ISR",
+    "noDynamicMemory": "Brak dynamicznej pamięci",
+    "faultTolerant": "Odporne na błędy",
+    "stateMachine": "Automat stanów",
+    "fixedWidthTypes": "Typy o stałej szerokości",
+    "lowPower": "Niskie zużycie energii",
+    "integerMath": "Arytmetyka całkowita",
+    "askFirst": "Najpierw zapytaj"
   }
 }

@@ -1,5 +1,7 @@
 # Changelog
 
+## 2.7.0
+* Added Semantic Anchor feature
 
 ## 2.6.9
 * Fixed npm-based providers (Codex CLI, Gemini CLI, OpenCode, Groq Code CLI) not working on Windows — .cmd files can now be launched correctly

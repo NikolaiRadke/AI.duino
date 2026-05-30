@@ -160,7 +160,7 @@
     "pasteSerial": "Illeszd be a Serial Monitor kimenetét",
     "systemPrompt": "Te egy hasznos Arduino programozási asszisztens vagy. Mindig magyarul válaszolj és magyarázd el az Arduino kódot érthetően.",
     "explainCode": "Magyarázd el ezt az Arduino kódot magyarul egyszerű, érthető nyelven:\n\n```cpp\n{0}\n```\n\nMagyarázd el:\n- Mit csinál a kód\n- Hogyan működik\n- Milyen hardvert vezérel\n- Fontos fogalmak kezdőknek\n\nLegyél barátságos és részletes.",
-    "improveCode": "Javítsd ezt az Arduino kódot:\n\n```cpp\n{0}\n```\n\nOptimalizáld:\n- Nem-blokkoló kódra (millis delay helyett)\n- Memória hatékonyságra\n- Jobb olvashatóságra\n- Arduino legjobb gyakorlatokra\n- Robusztusságra",
+    "improveCode": "Fejleszd ezt az Arduino kódot:\n\n```cpp\n{0}\n```\n\nFókuszálj a jobb olvashatóságra és az Arduino bevált módszereire.\n\n{anchors}",
     "improveCodeSuffix": "Csak a javított kódot add vissza rövid magyar kommentekkel a változtatásokhoz.",
     "addCommentsSelected": "Adj hasznos magyar kommenteket ehhez az Arduino kódhoz:\n\n```cpp\n{0}\n```\n\nSzabályok:\n- Magyarázd el, mit csinál minden fontos sor\n- Kommentezd a függvényeket és paramétereiket\n- Magyarázd el a hardver interakciókat\n- Használj // egysoros és /* */ többsoros kommentekhez\n- A kommentek segítsenek a kezdőknek",
     "addComments": "Adj hasznos magyar kommenteket ehhez az Arduino kódhoz:\n\n```cpp\n{0}\n```\n\nSzabályok:\n- Magyarázd el, mit csinál minden fontos sor\n- Kommentezd a függvényeket és paramétereiket\n- Magyarázd el a hardver interakciókat\n- Használj // egysoros és /* */ többsoros kommentekhez\n- A kommentek segítsenek a kezdőknek",
@@ -177,8 +177,8 @@
     "askFollowUp": "Követő kérdés:",
     "followUpContext": "Előző beszélgetés kontextusa:",
     "followUpInstruction": "Válaszolj magyarul az előző beszélgetés figyelembevételével.",
-    "improveCodeFile": "Javítsd ezt a teljes Arduino fájlt ({0}):\n\n```cpp\n{1}\n```\n\nOptimalizáld:\n- Nem blokkoló kód (millis delay helyett)\n- Memória hatékonyság\n- Jobb olvashatóság\n- Arduino legjobb gyakorlatok\n- Robusztusság",
-    "improveCodeSketch": "Javítsd az összes fájlt ebben az Arduino sketchben:\n\n{0}\n\nOptimalizáld a teljes sketcht:\n- Nem blokkoló kód (millis delay helyett)\n- Memória hatékonyság\n- Jobb olvashatóság\n- Arduino legjobb gyakorlatok\n- Robusztusság\n- Tiszta elválasztás a fájlok között",
+    "improveCodeFile": "Fejleszd ezt a teljes Arduino fájlt ({0}):\n\n```cpp\n{1}\n```\n\nFókuszálj a jobb olvashatóságra és az Arduino bevált módszereire.\n\n{anchors}",
+    "improveCodeSketch": "Fejleszd az összes fájlt ebben az Arduino vázlatban:\n\n{0}\n\nFókuszálj a jobb olvashatóságra, az Arduino bevált módszereire és a fájlok közötti tiszta elválasztásra.\n\n{anchors}",
     "addCommentsFile": "Adj hasznos magyar megjegyzéseket ehhez a teljes Arduino fájlhoz ({0}):\n\n```cpp\n{1}\n```\n\nSzabályok:\n- Magyarázd el, mit csinál minden fontos sor\n- Kommenteld a függvényeket és paramétereiket\n- Magyarázd el a hardver interakciókat\n- Használj // egysoros és /* */ többsoros megjegyzésekhez\n- A megjegyzések segítsék a kezdőket",
     "addCommentsSketch": "Adj hasznos magyar megjegyzéseket az összes fájlhoz ebben az Arduino sketchben:\n\n{0}\n\nSzabályok:\n- Magyarázd el, mit csinál minden fontos sor\n- Kommenteld a függvényeket és paramétereiket\n- Magyarázd el a hardver interakciókat és a fájlok közötti kapcsolatokat\n- Használj // egysoros és /* */ többsoros megjegyzésekhez\n- A megjegyzések segítsék a kezdőket",
     "explainCodeFile": "Magyarázd el ezt a teljes Arduino fájlt ({0}) magyarul:\n\n```cpp\n{1}\n```\n\nMagyarázd el:\n- Mit csinál a fájl (fő cél)\n- Fontos függvények és feladataik\n- Hardver interakciók (pinok, érzékelők, stb.)\n- Algoritmusok és logika\n- Különlegességek vagy fontos részletek",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI alapértelmezett"
+  },
+  "anchors": {
+    "sectionTitle": "Szemantikai horgonyok",
+    "tooltip": "Szemantikai horgonyok: rövid kódolási irányelvek, amelyek átadódnak az AI-nak. Kombinálj annyit, amennyit szeretnél.",
+    "advancedTitle": "Haladó / Ügynöki",
+    "noMagicNumbers": "Nincs mágikus szám",
+    "beginnerComments": "Kezdőbarát megjegyzések",
+    "nonBlocking": "Nem blokkoló",
+    "lowRam": "Alacsony RAM-használat",
+    "defensive": "Bemenetek ellenőrzése",
+    "minimalDiff": "Minimális változtatások",
+    "preserveStyle": "Stílus megőrzése",
+    "explainChanges": "Változtatások magyarázata",
+    "noNewDeps": "Nincs új függőség",
+    "isrSafe": "ISR-biztonságos",
+    "noDynamicMemory": "Nincs dinamikus memória",
+    "faultTolerant": "Hibatűrő",
+    "stateMachine": "Állapotgép",
+    "fixedWidthTypes": "Rögzített szélességű típusok",
+    "lowPower": "Alacsony energiafogyasztás",
+    "integerMath": "Egészaritmetika",
+    "askFirst": "Először kérdezz"
   }
 }

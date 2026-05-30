@@ -1,6 +1,6 @@
 /*
  * AI.duino - Prompt Editor Feature Module
- * Copyright 2025 Monster Maker
+ * Copyright 2026 Monster Maker
  * 
  * Licensed under the Apache License, Version 2.0
  */
@@ -102,7 +102,19 @@ async function showPromptEditor(context) {
             }
         });
 
-panel.webview.html = `
+        const anchors = promptManager.getAnchors(t);
+        const renderAnchorCard = (a) => `
+                <label class="anchor-card">
+                    <input type="checkbox" ${a.enabled ? 'checked' : ''} onchange="toggleAnchor('${a.key}', this.checked)">
+                    <span class="anchor-text">
+                        <span class="anchor-name">${escapeHtml(a.label)}</span>
+                        <span class="anchor-desc">${escapeHtml(a.expansion)}</span>
+                    </span>
+                </label>`;
+        const basicAnchorsHtml = anchors.filter(a => a.group === 'basic').map(renderAnchorCard).join('');
+        const advancedAnchorsHtml = anchors.filter(a => a.group !== 'basic').map(renderAnchorCard).join('');
+
+        panel.webview.html = `
             <!DOCTYPE html>
             <html>
             <head>
@@ -305,6 +317,92 @@ panel.webview.html = `
                     .save-status.error {
                         color: var(--vscode-errorForeground);
                     }
+
+                    .anchor-section {
+                        margin-bottom: 30px;
+                        padding-bottom: 24px;
+                        border-bottom: 1px solid var(--vscode-panel-border);
+                    }
+                    .anchor-section h2 {
+                        color: var(--vscode-textLink-foreground);
+                        font-size: 18px;
+                        margin-bottom: 6px;
+                    }
+                    .anchor-intro {
+                        color: var(--vscode-descriptionForeground);
+                        font-size: 13px;
+                        margin-bottom: 16px;
+                    }
+                    .anchor-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                        gap: 12px;
+                    }
+                    .anchor-card {
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 10px;
+                        background: var(--vscode-editor-selectionBackground);
+                        border: 1px solid var(--vscode-panel-border);
+                        border-radius: 8px;
+                        padding: 12px 14px;
+                        cursor: pointer;
+                        transition: border-color 0.2s, background 0.2s;
+                    }
+                    .anchor-card:hover {
+                        border-color: var(--vscode-focusBorder);
+                    }
+                    .anchor-card:has(input:checked) {
+                        border-color: var(--vscode-focusBorder);
+                        background: var(--vscode-list-hoverBackground);
+                    }
+                    .anchor-card input {
+                        margin: 2px 0 0 0;
+                        cursor: pointer;
+                        flex-shrink: 0;
+                    }
+                    .anchor-text {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 2px;
+                    }
+                    .anchor-name {
+                        font-weight: bold;
+                        font-size: 14px;
+                        color: var(--vscode-foreground);
+                    }
+                    .anchor-desc {
+                        font-size: 12px;
+                        color: var(--vscode-descriptionForeground);
+                    }
+                    .anchor-advanced {
+                        margin-top: 16px;
+                    }
+                    .anchor-advanced > summary {
+                        cursor: pointer;
+                        color: var(--vscode-textLink-foreground);
+                        font-size: 13px;
+                        font-weight: bold;
+                        padding: 6px 0;
+                        user-select: none;
+                        list-style: none;
+                    }
+                    .anchor-advanced > summary::-webkit-details-marker {
+                        display: none;
+                    }
+                    .anchor-advanced > summary::before {
+                        content: '▸';
+                        display: inline-block;
+                        margin-right: 6px;
+                        transition: transform 0.15s;
+                    }
+                    .anchor-advanced[open] > summary::before {
+                        transform: rotate(90deg);
+                    }
+                    .anchor-advanced .anchor-grid {
+                        margin-top: 12px;
+                    }
+                
                     
                     @media (max-width: 768px) {
                         .prompt-header {
@@ -337,10 +435,26 @@ panel.webview.html = `
                 
                 <div class="header">
                     <h1>${strings.title}</h1>
-                    ${t('promptEditor.placeholderWarning')}
+                </div>
+
+                <div class="anchor-section">
+                    <h2>⚓ ${t('anchors.sectionTitle')}</h2>
+                    <p class="anchor-intro">${escapeHtml(t('anchors.tooltip'))}</p>
+                    <div class="anchor-grid">
+                        ${basicAnchorsHtml}
+                    </div>
+                    ${advancedAnchorsHtml ? `
+                    <details class="anchor-advanced">
+                        <summary>${escapeHtml(t('anchors.advancedTitle'))}</summary>
+                        <div class="anchor-grid">
+                            ${advancedAnchorsHtml}
+                        </div>
+                    </details>` : ''}
                 </div>
                 
                 <div class="prompts-container">
+                    ${t('promptEditor.placeholderWarning')}<br>
+                    <br>
                     ${promptsHtml}
                 </div>
                 
@@ -374,6 +488,11 @@ panel.webview.html = `
                             });
                         });
                     });
+
+                    function toggleAnchor(key, enabled) {
+                        vscode.postMessage({ command: 'toggleAnchor', key: key, enabled: enabled });
+                    }
+    
     
                     function doSave(key) {
                         const textarea = document.getElementById('prompt-' + key);
@@ -392,7 +511,7 @@ panel.webview.html = `
                                 return;
                             }
                         }
-    
+
                         status.textContent = strings.saving + '...';
                         status.className = 'save-status';
     
@@ -538,6 +657,9 @@ panel.webview.html = `
                         text: error.message
                     });
                 }
+            },
+            toggleAnchor: async (message) => {
+                promptManager.toggleAnchor(message.key, message.enabled);
             },
             resetPrompt: async (message) => {
                 // Remove from pending changes when reset

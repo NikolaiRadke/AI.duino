@@ -160,7 +160,7 @@
     "pasteSerial": "Unesite svoj Serial Monitor output",
     "systemPrompt": "Vi ste korisni Arduino programski asistent. Uvijek odgovarajte na hrvatskom jeziku i objasnite Arduino kod razumljivo.",
     "explainCode": "Objasnite ovaj Arduino kod na hrvatskom jeziku jednostavnim, razumljivim načinom:\n\n```cpp\n{0}\n```\n\nObjasnite:\n- Što kod radi\n- Kako funkcionira\n- Koji hardware kontrolira\n- Važne koncepte za početnike\n\nBudite prijateljski i detaljni.",
-    "improveCode": "Poboljšajte ovaj Arduino kod:\n\n```cpp\n{0}\n```\n\nOptimizirajte za:\n- Ne-blokirajući kod (millis umjesto delay)\n- Memorijsku efikasnost\n- Bolju čitljivost\n- Arduino najbolje prakse\n- Robusnost",
+    "improveCode": "Poboljšaj ovaj Arduino kod:\n\n```cpp\n{0}\n```\n\nUsredotoči se na bolju čitljivost i dobre prakse za Arduino.\n\n{anchors}",
     "improveCodeSuffix": "Vratite samo poboljšani kod s kratkim hrvatskim komentarima o promjenama.",
     "addCommentsSelected": "Dodajte korisne hrvatske komentare ovom Arduino kodu:\n\n```cpp\n{0}\n```\n\nPravila:\n- Objasnite što svaki važan red radi\n- Komentirajte funkcije i njihove parametre\n- Objasnite hardware interakcije\n- Koristite // za jednolinijske i /* */ za višelinijske komentare\n- Komentari trebaju pomoći početnicima",
     "addComments": "Dodajte korisne hrvatske komentare ovom Arduino kodu:\n\n```cpp\n{0}\n```\n\nPravila:\n- Objasnite što svaki važan red radi\n- Komentirajte funkcije i njihove parametre\n- Objasnite hardware interakcije\n- Koristite // za jednolinijske i /* */ za višelinijske komentare\n- Komentari trebaju pomoći početnicima",
@@ -177,8 +177,8 @@
     "askFollowUp": "Dodatno pitanje:",
     "followUpContext": "Kontekst prethodnog razgovora:",
     "followUpInstruction": "Odgovorite na hrvatskom jeziku uzimajući u obzir prethodni razgovor.",
-    "improveCodeFile": "Poboljšaj ovu potpunu Arduino datoteku ({0}):\n\n```cpp\n{1}\n```\n\nOptimiziraj za:\n- Neblokiranje koda (millis umjesto delay)\n- Efikasnost memorije\n- Bolju čitljivost\n- Arduino najbolje prakse\n- Robusnost",
-    "improveCodeSketch": "Poboljšaj sve datoteke u ovom Arduino sketchu:\n\n{0}\n\nOptimiziraj cijeli sketch za:\n- Neblokiranje koda (millis umjesto delay)\n- Efikasnost memorije\n- Bolju čitljivost\n- Arduino najbolje prakse\n- Robusnost\n- Jasno razdvajanje između datoteka",
+    "improveCodeFile": "Poboljšaj ovu kompletnu Arduino datoteku ({0}):\n\n```cpp\n{1}\n```\n\nUsredotoči se na bolju čitljivost i dobre prakse za Arduino.\n\n{anchors}",
+    "improveCodeSketch": "Poboljšaj sve datoteke u ovom Arduino sketchu:\n\n{0}\n\nUsredotoči se na bolju čitljivost, dobre prakse za Arduino i čisto odvajanje između datoteka.\n\n{anchors}",
     "addCommentsFile": "Dodaj korisne hrvatske komentare ovoj potpunoj Arduino datoteci ({0}):\n\n```cpp\n{1}\n```\n\nPravila:\n- Objasni što svaki važan redak radi\n- Komentiraj funkcije i njihove parametre\n- Objasni interakcije s hardverom\n- Koristi // za jednostruke i /* */ za višestruke retke\n- Komentari trebaju pomoći početnicima",
     "addCommentsSketch": "Dodaj korisne hrvatske komentare svim datotekama u ovom Arduino sketchu:\n\n{0}\n\nPravila:\n- Objasni što svaki važan redak radi\n- Komentiraj funkcije i njihove parametre\n- Objasni interakcije s hardverom i odnose između datoteka\n- Koristi // za jednostruke i /* */ za višestruke retke\n- Komentari trebaju pomoći početnicima",
     "explainCodeFile": "Objasni ovu potpunu Arduino datoteku ({0}) na hrvatskom:\n\n```cpp\n{1}\n```\n\nObjasni:\n- Što datoteka radi (glavna svrha)\n- Važne funkcije i njihove zadatke\n- Interakcije s hardverom (pinovi, senzori, itd.)\n- Algoritme i logiku\n- Posebnosti ili važne detalje",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI zadano"
+  },
+  "anchors": {
+    "sectionTitle": "Semantičke sidre",
+    "tooltip": "Semantičke sidre: kratke kodne direktive koje se prosljeđuju AI-u. Kombiniraj koliko god želiš.",
+    "advancedTitle": "Napredno / Agentno",
+    "noMagicNumbers": "Bez magičnih brojeva",
+    "beginnerComments": "Komentari za početnike",
+    "nonBlocking": "Neblokirajuće",
+    "lowRam": "Malo RAM-a",
+    "defensive": "Provjera unosa",
+    "minimalDiff": "Minimalne promjene",
+    "preserveStyle": "Sačuvaj stil",
+    "explainChanges": "Objasni promjene",
+    "noNewDeps": "Bez novih ovisnosti",
+    "isrSafe": "ISR-sigurno",
+    "noDynamicMemory": "Bez dinamičke memorije",
+    "faultTolerant": "Otporno na greške",
+    "stateMachine": "Stroj stanja",
+    "fixedWidthTypes": "Tipovi fiksne širine",
+    "lowPower": "Niska potrošnja energije",
+    "integerMath": "Cjelobrojna aritmetika",
+    "askFirst": "Prvo pitaj"
   }
 }

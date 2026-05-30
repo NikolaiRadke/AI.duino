@@ -160,7 +160,7 @@
     "pasteSerial": "Límdu Serial Monitor úttakið þitt",
     "systemPrompt": "Þú ert gagnlegur Arduino forritunargjúi. Svaraðu alltaf á íslensku og útskýrðu Arduino kóða skiljanlega.",
     "explainCode": "Útskýrðu þennan Arduino kóða á íslensku á einfaldan, skiljanlegan hátt:\n\n```cpp\n{0}\n```\n\nÚtskýrðu:\n- Hvað kóðinn gerir\n- Hvernig hann virkar\n- Hvaða vélbúnað hann stjórnar\n- Mikilvæg hugtök fyrir byrjendur\n\nVertu vingjarnlegur og ítarlegur.",
-    "improveCode": "Bættu þennan Arduino kóða:\n\n```cpp\n{0}\n```\n\nBættu fyrir:\n- Óblokkunarkóða (millis í stað delay)\n- Minnisskilvirkni\n- Betri læsileika\n- Arduino bestu venjur\n- Traustleika",
+    "improveCode": "Bættu þennan Arduino kóða:\n\n```cpp\n{0}\n```\n\nFókuseraðu á betri læsileika og bestu starfsvenjur Arduino.\n\n{anchors}",
     "improveCodeSuffix": "Gefðu aðeins bætta kóðann til baka með stuttum íslenskum athugasemdum um breytingarnar.",
     "addCommentsSelected": "Bættu gagnlegum íslenskum athugasemdum við þennan Arduino kóða:\n\n```cpp\n{0}\n```\n\nReglur:\n- Útskýrðu hvað hver mikilvæg lína gerir\n- Athugasemdabinddu föll og breytur þeirra\n- Útskýrðu vélbúnaðarsamskipti\n- Notaðu // fyrir einlínugar og /* */ fyrir marglínugar athugasemdir\n- Athugasemdir eiga að hjálpa byrjendum",
     "addComments": "Bættu gagnlegum íslenskum athugasemdum við þennan Arduino kóða:\n\n```cpp\n{0}\n```\n\nReglur:\n- Útskýrðu hvað hver mikilvæg lína gerir\n- Athugasemdabinddu föll og breytur þeirra\n- Útskýrðu vélbúnaðarsamskipti\n- Notaðu // fyrir einlínugar og /* */ fyrir marglínugar athugasemdir\n- Athugasemdir eiga að hjálpa byrjendum",
@@ -177,8 +177,8 @@
     "askFollowUp": "Framhaldsspurning:",
     "followUpContext": "Samhengi fyrri samtalsins:",
     "followUpInstruction": "Svaraðu á íslensku með tilliti til fyrri samtalsins.",
-    "improveCodeFile": "Bættu þessa heildar Arduino skrá ({0}):\n\n```cpp\n{1}\n```\n\nBættu fyrir:\n- Óblokkerandi kóða (millis í stað delay)\n- Minniseffektiviteti\n- Betri læsileika\n- Arduino bestu starfsvenjur\n- Stöðugleika",
-    "improveCodeSketch": "Bættu allar skrár í þessum Arduino sketch:\n\n{0}\n\nBættu allan sketchinn fyrir:\n- Óblokkerandi kóða (millis í stað delay)\n- Minniseffektiviteti\n- Betri læsileika\n- Arduino bestu starfsvenjur\n- Stöðugleika\n- Skýra aðgreiningu milli skráa",
+    "improveCodeFile": "Bættu þessa heilu Arduino skrá ({0}):\n\n```cpp\n{1}\n```\n\nFókuseraðu á betri læsileika og bestu starfsvenjur Arduino.\n\n{anchors}",
+    "improveCodeSketch": "Bættu allar skrár í þessum Arduino teikningu:\n\n{0}\n\nFókuseraðu á betri læsileika, bestu starfsvenjur Arduino og hreina aðskilnað milli skráa.\n\n{anchors}",
     "addCommentsFile": "Bættu hjálplegum íslenskum athugasemdum við þessa heildar Arduino skrá ({0}):\n\n```cpp\n{1}\n```\n\nReglur:\n- Útskýrðu hvað hver mikilvæg lína gerir\n- Athugaðu föll og færibreytur þeirra\n- Útskýrðu vélbúnaðarsamskipti\n- Notaðu // fyrir einnar línu og /* */ fyrir margra lína athugasemdir\n- Athugasemdir ættu að hjálpa byrjendum",
     "addCommentsSketch": "Bættu hjálplegum íslenskum athugasemdum við allar skrár í þessum Arduino sketch:\n\n{0}\n\nReglur:\n- Útskýrðu hvað hver mikilvæg lína gerir\n- Athugaðu föll og færibreytur þeirra\n- Útskýrðu vélbúnaðarsamskipti og tengsl milli skráa\n- Notaðu // fyrir einnar línu og /* */ fyrir margra lína athugasemdir\n- Athugasemdir ættu að hjálpa byrjendum",
     "explainCodeFile": "Útskýrðu þessa heildar Arduino skrá ({0}) á íslensku:\n\n```cpp\n{1}\n```\n\nÚtskýrðu:\n- Hvað skráin gerir (aðal tilgangur)\n- Mikilvæg föll og verkefni þeirra\n- Vélbúnaðarsamskipti (pinnar, skynjarar, o.s.frv.)\n- Reiknirit og rökfræði\n- Sérkennileikar eða mikilvægar upplýsingar",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI sjálfgefið"
+  },
+  "anchors": {
+    "sectionTitle": "Merkingarfræðilegar akkerar",
+    "tooltip": "Merkingarfræðilegar akkerar: stuttar kóðunarreglur sendar til gervigreindar. Sameina eins margar og þú vilt.",
+    "advancedTitle": "Ítarlegt / Umboðslægt",
+    "noMagicNumbers": "Engar töfratölur",
+    "beginnerComments": "Athugasemdir fyrir byrjendur",
+    "nonBlocking": "Ekki hlemmandi",
+    "lowRam": "Lítið RAM-notkun",
+    "defensive": "Staðfesta inntak",
+    "minimalDiff": "Lágmarksbreytingar",
+    "preserveStyle": "Varðveita stíl",
+    "explainChanges": "Útskýra breytingar",
+    "noNewDeps": "Engar nýjar ósjálfstæðar",
+    "isrSafe": "ISR-öruggt",
+    "noDynamicMemory": "Ekkert kvikt minni",
+    "faultTolerant": "Villulíðandi",
+    "stateMachine": "Stöðuvél",
+    "fixedWidthTypes": "Gerðir með fastri breidd",
+    "lowPower": "Lág orkunotkun",
+    "integerMath": "Heiltöluútreikningur",
+    "askFirst": "Spurðu fyrst"
   }
 }

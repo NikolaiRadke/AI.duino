@@ -160,7 +160,7 @@
     "pasteSerial": "Klistra in din Seriemonitor-utdata",
     "systemPrompt": "Du är en hjälpsam Arduino-programmeringsassistent. Svara alltid tydligt och förklara Arduino-kod på ett förståeligt sätt.",
     "explainCode": "Förklara denna Arduino-kod på ett enkelt, förståeligt språk:\n\n```cpp\n{0}\n```\n\nFörklara:\n- Vad koden gör\n- Hur den fungerar\n- Vilken hårdvara den styr\n- Viktiga koncept för nybörjare\n\nVar vänlig och grundlig.",
-    "improveCode": "Förbättra denna Arduino-kod:\n\n```cpp\n{0}\n```\n\nOptimera för:\n- Icke-blockerande kod (millis istället för delay)\n- Minneseffektivitet\n- Bättre läsbarhet\n- Arduino best practices\n- Robusthet",
+    "improveCode": "Förbättra den här Arduino-koden:\n\n```cpp\n{0}\n```\n\nFokusera på bättre läsbarhet och Arduinos bästa praxis.\n\n{anchors}",
     "improveCodeSuffix": "Returnera endast den förbättrade koden med korta kommentarer om ändringarna.",
     "addCommentsSelected": "Lägg till hjälpsamma kommentarer till denna Arduino-kod:\n\n```cpp\n{0}\n```\n\nRegler:\n- Förklara vad varje viktig rad gör\n- Kommentera funktioner och deras parametrar\n- Förklara hårdvaruinteraktioner\n- Använd // för enradskommentarer och /* */ för flerradskommentarer\n- Kommentarer ska hjälpa nybörjare",
     "addComments": "Lägg till hjälpsamma kommentarer till denna Arduino-kod:\n\n```cpp\n{0}\n```\n\nRegler:\n- Förklara vad varje viktig rad gör\n- Kommentera funktioner och deras parametrar\n- Förklara hårdvaruinteraktioner\n- Använd // för enradskommentarer och /* */ för flerradskommentarer\n- Kommentarer ska hjälpa nybörjare",
@@ -177,8 +177,8 @@
     "askFollowUp": "Följdfråga:",
     "followUpContext": "Kontext från föregående konversation:",
     "followUpInstruction": "Svara på svenska med hänsyn till föregående konversation.",
-    "improveCodeFile": "Förbättra denna kompletta Arduino-fil ({0}):\n\n```cpp\n{1}\n```\n\nOptimera för:\n- Icke-blockerande kod (millis istället för delay)\n- Minneseffektivitet\n- Bättre läsbarhet\n- Arduino bästa praxis\n- Robusthet",
-    "improveCodeSketch": "Förbättra alla filer i denna Arduino-sketch:\n\n{0}\n\nOptimera hela sketchen för:\n- Icke-blockerande kod (millis istället för delay)\n- Minneseffektivitet\n- Bättre läsbarhet\n- Arduino bästa praxis\n- Robusthet\n- Ren separation mellan filer",
+    "improveCodeFile": "Förbättra den här kompletta Arduino-filen ({0}):\n\n```cpp\n{1}\n```\n\nFokusera på bättre läsbarhet och Arduinos bästa praxis.\n\n{anchors}",
+    "improveCodeSketch": "Förbättra alla filer i det här Arduino-sketchet:\n\n{0}\n\nFokusera på bättre läsbarhet, Arduinos bästa praxis och ren separation mellan filer.\n\n{anchors}",
     "addCommentsFile": "Lägg till hjälpsamma kommentarer på svenska till denna kompletta Arduino-fil ({0}):\n\n```cpp\n{1}\n```\n\nRegler:\n- Förklara vad varje viktig rad gör\n- Kommentera funktioner och deras parametrar\n- Förklara hårdvaruinteraktioner\n- Använd // för enradskommentarer och /* */ för flerradskommentarer\n- Kommentarer ska hjälpa nybörjare",
     "addCommentsSketch": "Lägg till hjälpsamma kommentarer på svenska till alla filer i denna Arduino-sketch:\n\n{0}\n\nRegler:\n- Förklara vad varje viktig rad gör\n- Kommentera funktioner och deras parametrar\n- Förklara hårdvaruinteraktioner och relationer mellan filer\n- Använd // för enradskommentarer och /* */ för flerradskommentarer\n- Kommentarer ska hjälpa nybörjare",
     "explainCodeFile": "Förklara denna kompletta Arduino-fil ({0}) på svenska:\n\n```cpp\n{1}\n```\n\nFörklara:\n- Vad filen gör (huvudsyfte)\n- Viktiga funktioner och deras uppgifter\n- Hårdvaruinteraktioner (pins, sensorer, etc.)\n- Algoritmer och logik\n- Speciella funktioner eller viktiga detaljer",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI standard"
+  },
+  "anchors": {
+    "sectionTitle": "Semantiska ankare",
+    "tooltip": "Semantiska ankare: korta kodningsdirektiv som skickas till AI:n. Kombinera så många du vill.",
+    "advancedTitle": "Avancerat / Agentbaserat",
+    "noMagicNumbers": "Inga magiska tal",
+    "beginnerComments": "Nybörjarvänliga kommentarer",
+    "nonBlocking": "Icke-blockerande",
+    "lowRam": "Låg RAM-användning",
+    "defensive": "Validera indata",
+    "minimalDiff": "Minimala ändringar",
+    "preserveStyle": "Bevara stil",
+    "explainChanges": "Förklara ändringar",
+    "noNewDeps": "Inga nya beroenden",
+    "isrSafe": "ISR-säkert",
+    "noDynamicMemory": "Inget dynamiskt minne",
+    "faultTolerant": "Feltolerant",
+    "stateMachine": "Tillståndsmaskin",
+    "fixedWidthTypes": "Typer med fast bredd",
+    "lowPower": "Låg strömförbrukning",
+    "integerMath": "Heltalsaritmetik",
+    "askFirst": "Fråga först"
   }
 }

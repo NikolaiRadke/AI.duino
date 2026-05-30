@@ -160,7 +160,7 @@
     "pasteSerial": "Lim inn din Serial Monitor-output",
     "systemPrompt": "Du er en hjelpsom Arduino-programmeringsassistent. Svar alltid tydelig og forklar Arduino-kode forståelig.",
     "explainCode": "Forklar denne Arduino-koden på et enkelt, forståelig språk:\n\n```cpp\n{0}\n```\n\nForklar:\n- Hva koden gjør\n- Hvordan den fungerer\n- Hvilken maskinvare den styrer\n- Viktige konsepter for nybegynnere\n\nVær vennlig og grundig.",
-    "improveCode": "Forbedre denne Arduino-koden:\n\n```cpp\n{0}\n```\n\nOptimaliser for:\n- Ikke-blokkerende kode (millis i stedet for delay)\n- Minneeffektivitet\n- Bedre lesbarhet\n- Arduino beste praksis\n- Robusthet",
+    "improveCode": "Forbedre denne Arduino-koden:\n\n```cpp\n{0}\n```\n\nFokuser på bedre lesbarhet og Arduinos beste praksis.\n\n{anchors}",
     "improveCodeSuffix": "Returner kun den forbedrede koden med korte kommentarer om endringer.",
     "addCommentsSelected": "Legg til nyttige kommentarer til denne Arduino-koden:\n\n```cpp\n{0}\n```\n\nRegler:\n- Forklar hva hver viktige linje gjør\n- Kommenter funksjoner og deres parametere\n- Forklar maskinvareinteraksjoner\n- Bruk // for enkeltlinje og /* */ for flerlinjekommentarer\n- Kommentarer skal hjelpe nybegynnere",
     "addComments": "Legg til nyttige kommentarer til denne Arduino-koden:\n\n```cpp\n{0}\n```\n\nRegler:\n- Forklar hva hver viktige linje gjør\n- Kommenter funksjoner og deres parametere\n- Forklar maskinvareinteraksjoner\n- Bruk // for enkeltlinje og /* */ for flerlinjekommentarer\n- Kommentarer skal hjelpe nybegynnere",
@@ -177,8 +177,8 @@
     "askFollowUp": "Oppfølgingsspørsmål:",
     "followUpContext": "Forrige samtale-kontekst:",
     "followUpInstruction": "Svar med hensyn til den forrige samtalen.",
-    "improveCodeFile": "Forbedre denne komplette Arduino-filen ({0}):\n\n```cpp\n{1}\n```\n\nOptimaliser for:\n- Ikke-blokkerende kode (millis i stedet for delay)\n- Minneeffektivitet\n- Bedre lesbarhet\n- Arduino beste praksis\n- Robusthet",
-    "improveCodeSketch": "Forbedre alle filer i denne Arduino-sketchen:\n\n{0}\n\nOptimaliser hele sketchen for:\n- Ikke-blokkerende kode (millis i stedet for delay)\n- Minneeffektivitet\n- Bedre lesbarhet\n- Arduino beste praksis\n- Robusthet\n- Tydelig separasjon mellom filer",
+    "improveCodeFile": "Forbedre denne komplette Arduino-filen ({0}):\n\n```cpp\n{1}\n```\n\nFokuser på bedre lesbarhet og Arduinos beste praksis.\n\n{anchors}",
+    "improveCodeSketch": "Forbedre alle filer i dette Arduino-sketchet:\n\n{0}\n\nFokuser på bedre lesbarhet, Arduinos beste praksis og ren atskillelse mellom filer.\n\n{anchors}",
     "addCommentsFile": "Legg til nyttige norske kommentarer til denne komplette Arduino-filen ({0}):\n\n```cpp\n{1}\n```\n\nRegler:\n- Forklar hva hver viktige linje gjør\n- Kommenter funksjoner og parametrene deres\n- Forklar maskinvareinteraksjoner\n- Bruk // for enkeltlinjer og /* */ for flere linjer\n- Kommentarer skal hjelpe nybegynnere",
     "addCommentsSketch": "Legg til nyttige norske kommentarer til alle filer i denne Arduino-sketchen:\n\n{0}\n\nRegler:\n- Forklar hva hver viktige linje gjør\n- Kommenter funksjoner og parametrene deres\n- Forklar maskinvareinteraksjoner og relasjoner mellom filer\n- Bruk // for enkeltlinjer og /* */ for flere linjer\n- Kommentarer skal hjelpe nybegynnere",
     "explainCodeFile": "Forklar denne komplette Arduino-filen ({0}) på norsk:\n\n```cpp\n{1}\n```\n\nForklar:\n- Hva filen gjør (hovedformål)\n- Viktige funksjoner og deres oppgaver\n- Maskinvareinteraksjoner (pins, sensorer, osv.)\n- Algoritmer og logikk\n- Særegenheter eller viktige detaljer",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI standard"
+  },
+  "anchors": {
+    "sectionTitle": "Semantiske ankre",
+    "tooltip": "Semantiske ankre: korte kodingsdirektiver sendt til AI. Kombiner så mange du vil.",
+    "advancedTitle": "Avansert / Agentisk",
+    "noMagicNumbers": "Ingen magiske tall",
+    "beginnerComments": "Nybegynnervennlige kommentarer",
+    "nonBlocking": "Ikke-blokkerende",
+    "lowRam": "Lavt RAM-forbruk",
+    "defensive": "Valider inndata",
+    "minimalDiff": "Minimale endringer",
+    "preserveStyle": "Bevar stil",
+    "explainChanges": "Forklar endringer",
+    "noNewDeps": "Ingen nye avhengigheter",
+    "isrSafe": "ISR-sikkert",
+    "noDynamicMemory": "Ingen dynamisk minne",
+    "faultTolerant": "Feiltolerant",
+    "stateMachine": "Tilstandsmaskin",
+    "fixedWidthTypes": "Typer med fast bredde",
+    "lowPower": "Lavt strømforbruk",
+    "integerMath": "Heltallsregning",
+    "askFirst": "Spør først"
   }
 }

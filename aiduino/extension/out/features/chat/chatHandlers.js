@@ -228,113 +228,21 @@ async function handleUserMessage(userText, panel, context, state) {
 }
 
 /**
- * Build chat prompt with history context
- * @param {string} newMessage - New user message
- * @param {Array} history - Chat history
- * @param {string} currentModel - Current model ID
- * @param {Object} minimalModelManager - Model manager
- * @param {string} chatId - Chat ID
- * @param {Object} context - Extension context
- * @param {Object} state - Chat state object
- * @returns {string} Complete prompt
+ * Append active semantic anchor directives to a prompt.
+ * Returns the prompt unchanged when no anchors are active.
+ * Works for both agentic and non-agentic providers.
+ * @param {string} prompt - The fully built prompt
+ * @param {Object} context - Extension context (provides t and promptManager)
+ * @returns {string}
  */
-function buildChatPrompt(newMessage, history, currentModel, minimalModelManager, chatId, context, state, selectionContext = null) {
-    const { t } = context;
-    const provider = minimalModelManager.providers[currentModel];
-    const isAgentic = !!provider?.agentModule;
-    
-    // For agentic providers, check session via agenticClient
-    // For API providers, use local activeSessions
-    let hasActiveSession = false;
-    if (isAgentic && context.agenticClient) {
-        // Use chat's stored workspace, not current workspace
-        const chatWorkspace = state.historyManager.getWorkspacePath(chatId);
-        hasActiveSession = context.agenticClient.hasSession(currentModel, chatWorkspace);
-    } else {
-        const sessionKey = `${chatId}-${currentModel}`;
-        hasActiveSession = provider?.persistent && state.activeSessions[sessionKey];
-    }
-    
-    if (hasActiveSession) {
-        let prompt = state.arduinoMode ? 
-            t('prompts.systemPrompt') + "\n\n" :
-            "You are a helpful AI assistant.\n\n";
-        if (selectionContext) {
-            prompt += `Selected code:\n\`\`\`cpp\n${selectionContext}\n\`\`\`\n\n`;
-        }
-        prompt += `User: ${newMessage}\n\n`;
-        if (state.arduinoMode) {
-            prompt += shared.getBoardContext();
-        }
-        if (!isAgentic) {
-            prompt += "\n\nWhen writing code, always show the complete code in markdown code blocks (```cpp, ```python, etc.) in your response, not just file references.";
-        }
-        if (isAgentic && state.arduinoMode) {
-            if (selectionContext) {
-                prompt += `\n\nThe user has selected the following code:\n\`\`\`cpp\n${selectionContext}\n\`\`\`\nFocus your response on this selected code.`;
-            }
-            prompt += "\n\nYou are working in agentic mode with access to the sketch folder. When asked about code, proactively search for and read .ino files in the current directory. IMPORTANT: Only edit the existing .ino file. Do not create new files or rename the sketch.";
-        }
-        return prompt;
-    }
-    
-    if (history.length === 0) {
-        let prompt = state.arduinoMode ? 
-            t('prompts.systemPrompt') + "\n\n" :
-            "You are a helpful AI assistant.\n\n";
-        if (selectionContext) {
-            prompt += `Selected code:\n\`\`\`cpp\n${selectionContext}\n\`\`\`\n\n`;
-        }
-        if (selectionContext) {
-            prompt += `Selected code:\n\`\`\`cpp\n${selectionContext}\n\`\`\`\n\n`;
-        }
-        prompt += `User: ${newMessage}\n\n`;
-        if (state.arduinoMode) {
-            prompt += shared.getBoardContext();
-        }
-        if (!isAgentic) {
-            prompt += "\n\nWhen writing code, always show the complete code in markdown code blocks (```cpp, ```python, etc.) in your response, not just file references.";
-        }
-        if (isAgentic && state.arduinoMode) {
-            if (selectionContext) {
-                prompt += `\n\nThe user has selected the following code:\n\`\`\`cpp\n${selectionContext}\n\`\`\`\nFocus your response on this selected code.`;
-            }
-            prompt += "\n\nYou are working in agentic mode with access to the sketch folder. When asked about code, proactively search for and read .ino files in the current directory. IMPORTANT: Only edit the existing .ino file. Do not create new files or rename the sketch.";
-        }
-        return prompt;
-    }
-    
-    let prompt = state.arduinoMode ?
-        t('prompts.systemPrompt') + " Previous conversation:\n\n" :
-        "You are a helpful AI assistant. Previous conversation:\n\n";
-    
-    const maxHistory = context.settings.get('chatHistoryLength') || 20;
-    const recentHistory = history.slice(-maxHistory, -1);  // Exclude last (current) message
-    recentHistory.forEach(msg => {
-        const role = msg.sender === 'user' ? 'User' : 'Assistant';
-        prompt += `${role}: ${msg.text}\n\n`;
-    });
-    
-    prompt += `User: ${newMessage}\n\n`;
-    if (state.arduinoMode) {
-        prompt += shared.getBoardContext();
-    }
-    if (!isAgentic) {
-        prompt += "\n\nWhen writing code, always show the complete code in markdown code blocks (```cpp, ```python, etc.) in your response, not just file references.";
-    }
-    if (isAgentic && state.arduinoMode) {
-        if (selectionContext) {
-            prompt += `\n\nThe user has selected the following code:\n\`\`\`cpp\n${selectionContext}\n\`\`\`\nFocus your response on this selected code.`;
-        }
-        prompt += "\n\nYou are working in agentic mode with access to the sketch folder. When asked about code, proactively search for and read .ino files in the current directory. IMPORTANT: Only edit the existing .ino file. Do not create new files or rename the sketch.";
-        }
-    prompt += "\n\nPlease respond as the AI assistant:";
-    
-    return prompt;
+function appendAnchors(prompt, context, includeAgentic = false) {
+    if (!context.promptManager) return prompt;
+    const groups = includeAgentic ? ['basic', 'pro', 'agentic'] : ['basic', 'pro'];
+    return context.promptManager.applyAnchors(prompt, context.t, true, groups);
 }
 
 /**
- * Build chat prompt with attachments (Arduino files and/or external files)
+ * Build chat prompt with history context
  * @param {string} messageText - User message
  * @param {Object} attachedContext - Context with contextData and externalFiles
  * @param {Object} context - Extension context
@@ -345,6 +253,7 @@ function buildChatPrompt(newMessage, history, currentModel, minimalModelManager,
     const { t } = context;
     const provider = minimalModelManager.providers[currentModel];
     const isAgentic = !!provider?.agentModule;
+    const includeAgentic = state.agenticMode && isAgentic;
     
     let hasActiveSession = false;
     if (isAgentic && context.agenticClient) {
@@ -399,7 +308,7 @@ function buildChatPrompt(newMessage, history, currentModel, minimalModelManager,
         prompt += "\n\nPlease respond as the AI assistant:";
     }
     
-    return prompt;
+    return appendAnchors(prompt, context, includeAgentic);
 }
 
 /**
@@ -630,7 +539,7 @@ function buildChatPromptWithAttachments(messageText, attachedContext, context, s
         prompt += '\n\n' + shared.getBoardContext();
     }
     prompt += "\n\nWhen writing code, always show the complete code in markdown code blocks (```cpp, ```python, etc.) in your response, not just file references.";
-    return prompt;
+    return appendAnchors(prompt, context);
 }
 
 module.exports = {

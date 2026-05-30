@@ -160,7 +160,7 @@
     "pasteSerial": "Įklijuokite savo Serial Monitor išvestį",
     "systemPrompt": "Jūs esate naudingas Arduino programavimo asistentas. Visada atsakykite lietuvių kalba ir aiškiai paaiškinkite Arduino kodą.",
     "explainCode": "Paaiškinkite šį Arduino kodą lietuvių kalba paprastai ir suprantamai:\n\n```cpp\n{0}\n```\n\nPaaiškinkite:\n- Ką daro kodas\n- Kaip jis veikia\n- Kokią aparatūrą jis valdo\n- Svarbius sąvokas pradedantiesiems\n\nBūkite mandagūs ir detalūs.",
-    "improveCode": "Patobulinkite šį Arduino kodą:\n\n```cpp\n{0}\n```\n\nOptimizuokite:\n- Neblokuojantį kodą (millis vietoj delay)\n- Atminties efektyvumą\n- Geresnį skaitomumą\n- Arduino geriausias praktikas\n- Patikimumą",
+    "improveCode": "Patobulink šį Arduino kodą:\n\n```cpp\n{0}\n```\n\nSutelk dėmesį į geresnį skaitomumą ir Arduino geriausias praktikas.\n\n{anchors}",
     "improveCodeSuffix": "Grąžinkite tik patobulintą kodą su trumpais lietuviškais komentarais apie pakeitimus.",
     "addCommentsSelected": "Pridėkite naudingus lietuviškus komentarus šiam Arduino kodui:\n\n```cpp\n{0}\n```\n\nTaisyklės:\n- Paaiškinkite, ką daro kiekviena svarbi eilutė\n- Komentuokite funkcijas ir jų parametrus\n- Paaiškinkite sąveiką su aparatūra\n- Naudokite // vienos eilutės ir /* */ kelių eilučių komentarams\n- Komentarai turėtų padėti pradedantiesiems",
     "addComments": "Pridėkite naudingus lietuviškus komentarus šiam Arduino kodui:\n\n```cpp\n{0}\n```\n\nTaisyklės:\n- Paaiškinkite, ką daro kiekviena svarbi eilutė\n- Komentuokite funkcijas ir jų parametrus\n- Paaiškinkite sąveiką su aparatūra\n- Naudokite // vienos eilutės ir /* */ kelių eilučių komentarams\n- Komentarai turėtų padėti pradedantiesiems",
@@ -177,8 +177,8 @@
     "askFollowUp": "Papildomas klausimas:",
     "followUpContext": "Ankstesnio pokalbio kontekstas:",
     "followUpInstruction": "Atsakykite lietuvių kalba, atsižvelgdami į ankstesnį pokalbį.",
-    "improveCodeFile": "Patobulink šį visą Arduino failą ({0}):\n\n```cpp\n{1}\n```\n\nOptimizuok:\n- Neblokuojantį kodą (millis vietoj delay)\n- Atminties efektyvumą\n- Geresnį skaitomumą\n- Arduino geriausias praktikas\n- Patvarumą",
-    "improveCodeSketch": "Patobulink visus failus šiame Arduino sketch'e:\n\n{0}\n\nOptimizuok visą sketch'ą:\n- Neblokuojantį kodą (millis vietoj delay)\n- Atminties efektyvumą\n- Geresnį skaitomumą\n- Arduino geriausias praktikas\n- Patvarumą\n- Aiškų atskyrimą tarp failų",
+    "improveCodeFile": "Patobulink šį pilną Arduino failą ({0}):\n\n```cpp\n{1}\n```\n\nSutelk dėmesį į geresnį skaitomumą ir Arduino geriausias praktikas.\n\n{anchors}",
+    "improveCodeSketch": "Patobulink visus failus šiame Arduino eskize:\n\n{0}\n\nSutelk dėmesį į geresnį skaitomumą, Arduino geriausias praktikas ir švarų failų atskyrymą.\n\n{anchors}",
     "addCommentsFile": "Pridėk naudingus lietuviškus komentarus prie šio viso Arduino failo ({0}):\n\n```cpp\n{1}\n```\n\nTaisyklės:\n- Paaiškink, ką daro kiekviena svarbi eilutė\n- Komentuok funkcijas ir jų parametrus\n- Paaiškink aparatinės įrangos sąveiką\n- Naudok // vienos eilutės ir /* */ kelių eilučių komentarams\n- Komentarai turėtų padėti pradedantiesiems",
     "addCommentsSketch": "Pridėk naudingus lietuviškus komentarus visiems failams šiame Arduino sketch'e:\n\n{0}\n\nTaisyklės:\n- Paaiškink, ką daro kiekviena svarbi eilutė\n- Komentuok funkcijas ir jų parametrus\n- Paaiškink aparatinės įrangos sąveiką ir ryšius tarp failų\n- Naudok // vienos eilutės ir /* */ kelių eilučių komentarams\n- Komentarai turėtų padėti pradedantiesiems",
     "explainCodeFile": "Paaiškink šį visą Arduino failą ({0}) lietuviškai:\n\n```cpp\n{1}\n```\n\nPaaiškink:\n- Ką failas daro (pagrindinis tikslas)\n- Svarbias funkcijas ir jų užduotis\n- Aparatinės įrangos sąveiką (kontaktai, jutikliai ir kt.)\n- Algoritmus ir logiką\n- Ypatumus ar svarbias detales",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI numatytasis"
+  },
+  "anchors": {
+    "sectionTitle": "Semantiniai inkarai",
+    "tooltip": "Semantiniai inkarai: trumpos kodavimo direktyvos, perduodamos dirbtiniam intelektui. Derink tiek, kiek nori.",
+    "advancedTitle": "Išplėstinis / Agentinis",
+    "noMagicNumbers": "Jokių magiškų skaičių",
+    "beginnerComments": "Pradedantiesiems draugiški komentarai",
+    "nonBlocking": "Neblokuojantis",
+    "lowRam": "Mažas RAM naudojimas",
+    "defensive": "Įvesties tikrinimas",
+    "minimalDiff": "Minimalūs pakeitimai",
+    "preserveStyle": "Išlaikyti stilių",
+    "explainChanges": "Paaiškinti pakeitimus",
+    "noNewDeps": "Jokių naujų priklausomybių",
+    "isrSafe": "Saugu ISR",
+    "noDynamicMemory": "Be dinaminės atminties",
+    "faultTolerant": "Tolerantiška gedimams",
+    "stateMachine": "Būsenų mašina",
+    "fixedWidthTypes": "Fiksuoto pločio tipai",
+    "lowPower": "Maža energijos sąnaudos",
+    "integerMath": "Sveikųjų skaičių aritmetika",
+    "askFirst": "Pirmiau paklausk"
   }
 }

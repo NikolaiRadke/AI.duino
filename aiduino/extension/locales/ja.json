@@ -157,7 +157,7 @@
     "pasteSerial": "シリアルモニタの出力を貼り付けてください",
     "systemPrompt": "あなたは親切なArduinoプログラミングアシスタントです。常に明確に応答し、Arduinoコードを分かりやすく説明してください。",
     "explainCode": "このArduinoコードをシンプルで分かりやすい言葉で説明してください：\n\n```cpp\n{0}\n```\n\n説明内容：\n- コードが何をするか\n- どのように動作するか\n- どのハードウェアを制御するか\n- 初心者向けの重要な概念\n\nフレンドリーで詳細に説明してください。",
-    "improveCode": "このArduinoコードを改善してください：\n\n```cpp\n{0}\n```\n\n最適化項目：\n- ノンブロッキングコード（delayの代わりにmillis）\n- メモリ効率\n- 可読性の向上\n- Arduinoベストプラクティス\n- 堅牢性",
+    "improveCode": "このArduinoコードを改善してください：\n\n```cpp\n{0}\n```\n\n可読性の向上とArduinoのベストプラクティスに焦点を当ててください。\n\n{anchors}",
     "improveCodeSuffix": "改善されたコードのみを、変更点の簡単なコメントと共に返してください。",
     "addCommentsSelected": "このArduinoコードに役立つコメントを追加してください：\n\n```cpp\n{0}\n```\n\nルール：\n- 各重要な行が何をするか説明\n- 関数とそのパラメータにコメント\n- ハードウェアの相互作用を説明\n- 単一行には//、複数行には/* */を使用\n- コメントは初心者を助けるべき",
     "addComments": "このArduinoコードに役立つコメントを追加してください：\n\n```cpp\n{0}\n```\n\nルール：\n- 各重要な行が何をするか説明\n- 関数とそのパラメータにコメント\n- ハードウェアの相互作用を説明\n- 単一行には//、複数行には/* */を使用\n- コメントは初心者を助けるべき",
@@ -174,8 +174,8 @@
     "askFollowUp": "追加質問:",
     "followUpContext": "前の会話のコンテキスト:",
     "followUpInstruction": "前の会話を考慮して日本語で回答してください。",
-    "improveCodeFile": "このArduinoファイル全体を改善してください ({0}):\n\n```cpp\n{1}\n```\n\n最適化:\n- ノンブロッキングコード(delayの代わりにmillis)\n- メモリ効率\n- 読みやすさの向上\n- Arduinoのベストプラクティス\n- 堅牢性",
-    "improveCodeSketch": "このArduinoスケッチのすべてのファイルを改善してください:\n\n{0}\n\nスケッチ全体を最適化:\n- ノンブロッキングコード(delayの代わりにmillis)\n- メモリ効率\n- 読みやすさの向上\n- Arduinoのベストプラクティス\n- 堅牢性\n- ファイル間のクリーンな分離",
+    "improveCodeFile": "この完全なArduinoファイル（{0}）を改善してください：\n\n```cpp\n{1}\n```\n\n可読性の向上とArduinoのベストプラクティスに焦点を当ててください。\n\n{anchors}",
+    "improveCodeSketch": "このArduinoスケッチ内のすべてのファイルを改善してください：\n\n{0}\n\n可読性の向上、Arduinoのベストプラクティス、ファイル間のクリーンな分離に焦点を当ててください。\n\n{anchors}",
     "addCommentsFile": "このArduinoファイル全体に役立つ日本語のコメントを追加してください ({0}):\n\n```cpp\n{1}\n```\n\nルール:\n- 各重要な行が何をするかを説明\n- 関数とそのパラメータにコメント\n- ハードウェアの相互作用を説明\n- 単一行には//、複数行には/* */を使用\n- コメントは初心者の助けになるように",
     "addCommentsSketch": "このArduinoスケッチのすべてのファイルに役立つ日本語のコメントを追加してください:\n\n{0}\n\nルール:\n- 各重要な行が何をするかを説明\n- 関数とそのパラメータにコメント\n- ハードウェアの相互作用とファイル間の関係を説明\n- 単一行には//、複数行には/* */を使用\n- コメントは初心者の助けになるように",
     "explainCodeFile": "このArduinoファイル全体を日本語で説明してください ({0}):\n\n```cpp\n{1}\n```\n\n説明:\n- ファイルが何をするか(主な目的)\n- 重要な関数とそのタスク\n- ハードウェアの相互作用(ピン、センサーなど)\n- アルゴリズムとロジック\n- 特殊機能や重要な詳細",
@@ -718,5 +718,27 @@
   },
   "provider": {
     "cliDefault": "CLI デフォルト"
+  },
+  "anchors": {
+    "sectionTitle": "セマンティックアンカー",
+    "tooltip": "セマンティックアンカー：AIに渡す短いコーディング指示。好きなだけ組み合わせてください。",
+    "advancedTitle": "上級 / エージェント型",
+    "noMagicNumbers": "マジックナンバーなし",
+    "beginnerComments": "初心者向けコメント",
+    "nonBlocking": "ノンブロッキング",
+    "lowRam": "低RAM使用",
+    "defensive": "入力の検証",
+    "minimalDiff": "最小限の変更",
+    "preserveStyle": "スタイルを保持",
+    "explainChanges": "変更を説明",
+    "noNewDeps": "新しい依存関係なし",
+    "isrSafe": "ISR安全",
+    "noDynamicMemory": "動的メモリなし",
+    "faultTolerant": "フォールトトレラント",
+    "stateMachine": "ステートマシン",
+    "fixedWidthTypes": "固定幅型",
+    "lowPower": "低消費電力",
+    "integerMath": "整数演算",
+    "askFirst": "まず確認"
   }
 }

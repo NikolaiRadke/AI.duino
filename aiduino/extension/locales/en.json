@@ -160,7 +160,7 @@
     "pasteSerial": "Paste your Serial Monitor output",
     "systemPrompt": "You are a helpful Arduino programming assistant. Always respond clearly and explain Arduino code understandably.",
     "explainCode": "Explain this Arduino code in simple, understandable language:\n\n```cpp\n{0}\n```\n\nExplain:\n- What the code does\n- How it works\n- Which hardware it controls\n- Important concepts for beginners\n\nBe friendly and thorough.",
-    "improveCode": "Improve this Arduino code:\n\n```cpp\n{0}\n```\n\nOptimize for:\n- Non-blocking code (millis instead of delay)\n- Memory efficiency\n- Better readability\n- Arduino best practices\n- Robustness",
+    "improveCode": "Improve this Arduino code:\n\n```cpp\n{0}\n```\n\nFocus on better readability and Arduino best practices.\n\n{anchors}",
     "improveCodeSuffix": "Return only the improved code with brief comments on changes.",
     "addCommentsSelected": "Add helpful comments to this Arduino code:\n\n```cpp\n{0}\n```\n\nRules:\n- Explain what each important line does\n- Comment functions and their parameters\n- Explain hardware interactions\n- Use // for single-line and /* */ for multi-line comments\n- Comments should help beginners",
     "addComments": "Add helpful comments to this Arduino code:\n\n```cpp\n{0}\n```\n\nRules:\n- Explain what each important line does\n- Comment functions and their parameters\n- Explain hardware interactions\n- Use // for single-line and /* */ for multi-line comments\n- Comments should help beginners",
@@ -177,8 +177,8 @@
     "askFollowUp": "Follow-up question:",
     "followUpContext": "Previous conversation context:",
     "followUpInstruction": "Respond considering the previous conversation.",
-    "improveCodeFile": "Improve this complete Arduino file ({0}):\n\n```cpp\n{1}\n```\n\nOptimize for:\n- Non-blocking code (millis instead of delay)\n- Memory efficiency\n- Better readability\n- Arduino best practices\n- Robustness",
-    "improveCodeSketch": "Improve all files in this Arduino sketch:\n\n{0}\n\nOptimize the entire sketch for:\n- Non-blocking code (millis instead of delay)\n- Memory efficiency\n- Better readability\n- Arduino best practices\n- Robustness\n- Clean separation between files",
+    "improveCodeFile": "Improve this complete Arduino file ({0}):\n\n```cpp\n{1}\n```\n\nFocus on better readability and Arduino best practices.\n\n{anchors}",
+    "improveCodeSketch": "Improve all files in this Arduino sketch:\n\n{0}\n\nFocus on better readability, Arduino best practices and clean separation between files.\n\n{anchors}",
     "addCommentsFile": "Add helpful comments to this complete Arduino file ({0}):\n\n```cpp\n{1}\n```\n\nRules:\n- Explain what each important line does\n- Comment functions and their parameters\n- Explain hardware interactions\n- Use // for single-line and /* */ for multi-line comments\n- Comments should help beginners",
     "addCommentsSketch": "Add helpful comments to all files in this Arduino sketch:\n\n{0}\n\nRules:\n- Explain what each important line does\n- Comment functions and their parameters\n- Explain hardware interactions and file relationships\n- Use // for single-line and /* */ for multi-line comments\n- Comments should help beginners",
     "explainCodeFile": "Explain this complete Arduino file ({0}):\n\n```cpp\n{1}\n```\n\nExplain:\n- What the file does (main purpose)\n- Important functions and their tasks\n- Hardware interactions (pins, sensors, etc.)\n- Algorithms and logic\n- Special features or important details",
@@ -721,5 +721,20 @@
   },
   "provider": {
     "cliDefault": "CLI Default"
+  },
+  "anchors": {
+    "sectionTitle": "Semantic Anchors",
+    "tooltip": "Semantic anchors: short coding directives passed to the AI. Combine as many as you like.",
+    "advancedTitle": "Advanced / Agentic",
+    "noMagicNumbers": "No magic numbers",
+    "beginnerComments": "Beginner-friendly comments",
+    "nonBlocking": "Non-blocking",
+    "lowRam": "Low RAM",
+    "defensive": "Guard inputs",
+    "minimalDiff": "Minimal changes",
+    "preserveStyle": "Preserve style",
+    "explainChanges": "Explain changes",
+    "noNewDeps": "No new dependencies"
   }
 }
+

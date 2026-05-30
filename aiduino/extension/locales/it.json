@@ -160,7 +160,7 @@
     "pasteSerial": "Incolla l'output del Monitor Seriale",
     "systemPrompt": "Sei un assistente utile per la programmazione Arduino. Rispondi sempre in italiano e spiega il codice Arduino in modo comprensibile.",
     "explainCode": "Spiega questo codice Arduino in italiano con linguaggio semplice e comprensibile:\n\n```cpp\n{0}\n```\n\nSpiega:\n- Cosa fa il codice\n- Come funziona\n- Quale hardware controlla\n- Concetti importanti per principianti\n\nSii amichevole e dettagliato.",
-    "improveCode": "Migliora questo codice Arduino:\n\n```cpp\n{0}\n```\n\nOttimizza per:\n- Codice non bloccante (millis invece di delay)\n- Efficienza memoria\n- Migliore leggibilità\n- Best practice Arduino\n- Robustezza",
+    "improveCode": "Migliora questo codice Arduino:\n\n```cpp\n{0}\n```\n\nConcentrati su una migliore leggibilità e le buone pratiche Arduino.\n\n{anchors}",
     "improveCodeSuffix": "Restituisci solo il codice migliorato con brevi commenti in italiano sui cambiamenti.",
     "addCommentsSelected": "Aggiungi commenti utili in italiano a questo codice Arduino:\n\n```cpp\n{0}\n```\n\nRegole:\n- Spiega cosa fa ogni riga importante\n- Commenta funzioni e loro parametri\n- Spiega interazioni hardware\n- Usa // per commenti su una riga e /* */ per multiriga\n- I commenti devono aiutare i principianti",
     "addComments": "Aggiungi commenti utili in italiano a questo codice Arduino:\n\n```cpp\n{0}\n```\n\nRegole:\n- Spiega cosa fa ogni riga importante\n- Commenta funzioni e loro parametri\n- Spiega interazioni hardware\n- Usa // per commenti su una riga e /* */ per multiriga\n- I commenti devono aiutare i principianti",
@@ -177,8 +177,8 @@
     "askFollowUp": "Domanda di seguito:",
     "followUpContext": "Contesto conversazione precedente:",
     "followUpInstruction": "Rispondi in italiano considerando la conversazione precedente.",
-    "improveCodeFile": "Migliora questo file Arduino completo ({0}):\n\n```cpp\n{1}\n```\n\nOttimizza per:\n- Codice non bloccante (millis invece di delay)\n- Efficienza memoria\n- Migliore leggibilità\n- Best practice Arduino\n- Robustezza",
-    "improveCodeSketch": "Migliora tutti i file in questo sketch Arduino:\n\n{0}\n\nOttimizza l'intero sketch per:\n- Codice non bloccante (millis invece di delay)\n- Efficienza memoria\n- Migliore leggibilità\n- Best practice Arduino\n- Robustezza\n- Separazione pulita tra i file",
+    "improveCodeFile": "Migliora questo file Arduino completo ({0}):\n\n```cpp\n{1}\n```\n\nConcentrati su una migliore leggibilità e le buone pratiche Arduino.\n\n{anchors}",
+    "improveCodeSketch": "Migliora tutti i file in questo sketch Arduino:\n\n{0}\n\nConcentrati su una migliore leggibilità, le buone pratiche Arduino e una separazione pulita tra i file.\n\n{anchors}",
     "addCommentsFile": "Aggiungi commenti utili in italiano a questo file Arduino completo ({0}):\n\n```cpp\n{1}\n```\n\nRegole:\n- Spiega cosa fa ogni riga importante\n- Commenta funzioni e loro parametri\n- Spiega interazioni hardware\n- Usa // per commenti su una riga e /* */ per multiriga\n- I commenti devono aiutare i principianti",
     "addCommentsSketch": "Aggiungi commenti utili in italiano a tutti i file in questo sketch Arduino:\n\n{0}\n\nRegole:\n- Spiega cosa fa ogni riga importante\n- Commenta funzioni e loro parametri\n- Spiega interazioni hardware e relazioni tra file\n- Usa // per commenti su una riga e /* */ per multiriga\n- I commenti devono aiutare i principianti",
     "explainCodeFile": "Spiega questo file Arduino completo ({0}) in italiano:\n\n```cpp\n{1}\n```\n\nSpiega:\n- Cosa fa il file (scopo principale)\n- Funzioni importanti e loro compiti\n- Interazioni hardware (pin, sensori, ecc.)\n- Algoritmi e logica\n- Caratteristiche speciali o dettagli importanti",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "Predefinito CLI"
+  },
+  "anchors": {
+    "sectionTitle": "Ancore semantiche",
+    "tooltip": "Ancore semantiche: brevi direttive di codifica passate all'IA. Combinane quante ne vuoi.",
+    "advancedTitle": "Avanzato / Agentivo",
+    "noMagicNumbers": "Nessun numero magico",
+    "beginnerComments": "Commenti per principianti",
+    "nonBlocking": "Non bloccante",
+    "lowRam": "RAM ridotta",
+    "defensive": "Validare gli input",
+    "minimalDiff": "Modifiche minime",
+    "preserveStyle": "Preservare lo stile",
+    "explainChanges": "Spiegare le modifiche",
+    "noNewDeps": "Nessuna nuova dipendenza",
+    "isrSafe": "Sicuro per ISR",
+    "noDynamicMemory": "Nessuna memoria dinamica",
+    "faultTolerant": "Tollerante ai guasti",
+    "stateMachine": "Macchina a stati",
+    "fixedWidthTypes": "Tipi a larghezza fissa",
+    "lowPower": "Basso consumo",
+    "integerMath": "Aritmetica intera",
+    "askFirst": "Chiedi prima"
   }
 }

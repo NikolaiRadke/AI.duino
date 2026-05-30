@@ -160,7 +160,7 @@
     "pasteSerial": "Vstavite vaš Serial Monitor izhod",
     "systemPrompt": "Ste uporaben Arduino programski asistent. Vedno odgovarjajte v slovenščini in razlagajte Arduino kodo razumljivo.",
     "explainCode": "Razložite to Arduino kodo v slovenščini z enostavnim, razumljivim jezikom:\n\n```cpp\n{0}\n```\n\nRazložite:\n- Kaj koda dela\n- Kako deluje\n- Kakšno strojno opremo nadzoruje\n- Pomembne koncepte za začetnike\n\nBodite prijazni in podrobni.",
-    "improveCode": "Izboljšajte to Arduino kodo:\n\n```cpp\n{0}\n```\n\nOptimizirajte za:\n- Neblokirajoča koda (millis namesto delay)\n- Učinkovitost pomnilnika\n- Boljšo berljivost\n- Arduino najboljše prakse\n- Robustnost",
+    "improveCode": "Izboljšaj to kodo Arduino:\n\n```cpp\n{0}\n```\n\nOsredotoči se na boljšo berljivost in dobre prakse Arduino.\n\n{anchors}",
     "improveCodeSuffix": "Vrnite samo izboljšano kodo s kratkimi slovenskimi komentarji k spremembam.",
     "addCommentsSelected": "Dodajte uporabne slovenske komentarje k tej Arduino kodi:\n\n```cpp\n{0}\n```\n\nPravila:\n- Razložite, kaj dela vsaka pomembna vrstica\n- Komentirajte funkcije in njihove parametre\n- Razložite interakcije s strojno opremo\n- Uporabljajte // za enolinijske in /* */ za večlinijske komentarje\n- Komentarji naj pomagajo začetnikom",
     "addComments": "Dodajte uporabne slovenske komentarje k tej Arduino kodi:\n\n```cpp\n{0}\n```\n\nPravila:\n- Razložite, kaj dela vsaka pomembna vrstica\n- Komentirajte funkcije in njihove parametre\n- Razložite interakcije s strojno opremo\n- Uporabljajte // za enolinijske in /* */ za večlinijske komentarje\n- Komentarji naj pomagajo začetnikom",
@@ -177,8 +177,8 @@
     "askFollowUp": "Nadaljnje vprašanje:",
     "followUpContext": "Kontekst prejšnjega pogovora:",
     "followUpInstruction": "Odgovorite v slovenščini ob upoštevanju prejšnjega pogovora.",
-    "improveCodeFile": "Izboljšaj to celotno Arduino datoteko ({0}):\n\n```cpp\n{1}\n```\n\nOptimiziraj za:\n- Neblokirajoče kodo (millis namesto delay)\n- Učinkovitost pomnilnika\n- Boljšo berljivost\n- Arduino najboljše prakse\n- Robustnost",
-    "improveCodeSketch": "Izboljšaj vse datoteke v tem Arduino sketchu:\n\n{0}\n\nOptimiziraj celoten sketch za:\n- Neblokirajoče kodo (millis namesto delay)\n- Učinkovitost pomnilnika\n- Boljšo berljivost\n- Arduino najboljše prakse\n- Robustnost\n- Jasno ločevanje med datotekami",
+    "improveCodeFile": "Izboljšaj to celotno datoteko Arduino ({0}):\n\n```cpp\n{1}\n```\n\nOsredotoči se na boljšo berljivost in dobre prakse Arduino.\n\n{anchors}",
+    "improveCodeSketch": "Izboljšaj vse datoteke v tej Arduino skici:\n\n{0}\n\nOsredotoči se na boljšo berljivost, dobre prakse Arduino in čisto ločitev med datotekami.\n\n{anchors}",
     "addCommentsFile": "Dodaj koristne slovenske komentarje tej celotni Arduino datoteki ({0}):\n\n```cpp\n{1}\n```\n\nPravila:\n- Razloži, kaj počne vsaka pomembna vrstica\n- Komentiraj funkcije in njihove parametre\n- Razloži interakcije s strojno opremo\n- Uporabi // za enojne in /* */ za večvrstične komentarje\n- Komentarji naj pomagajo začetnikom",
     "addCommentsSketch": "Dodaj koristne slovenske komentarje vsem datotekam v tem Arduino sketchu:\n\n{0}\n\nPravila:\n- Razloži, kaj počne vsaka pomembna vrstica\n- Komentiraj funkcije in njihove parametre\n- Razloži interakcije s strojno opremo in odnose med datotekami\n- Uporabi // za enojne in /* */ za večvrstične komentarje\n- Komentarji naj pomagajo začetnikom",
     "explainCodeFile": "Razloži to celotno Arduino datoteko ({0}) v slovenščini:\n\n```cpp\n{1}\n```\n\nRazloži:\n- Kaj datoteka počne (glavni namen)\n- Pomembne funkcije in njihove naloge\n- Interakcije s strojno opremo (pini, senzorji itd.)\n- Algoritme in logiko\n- Posebnosti ali pomembne podrobnosti",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI privzeto"
+  },
+  "anchors": {
+    "sectionTitle": "Semantična sidra",
+    "tooltip": "Semantična sidra: kratke kodirne direktive, posredovane AI. Kombiniraj, kolikor želiš.",
+    "advancedTitle": "Napredno / Agentno",
+    "noMagicNumbers": "Brez čarobnih številk",
+    "beginnerComments": "Komentarji za začetnike",
+    "nonBlocking": "Neblokirajuče",
+    "lowRam": "Malo RAM-a",
+    "defensive": "Preverjanje vhodov",
+    "minimalDiff": "Minimalne spremembe",
+    "preserveStyle": "Ohrani slog",
+    "explainChanges": "Razloži spremembe",
+    "noNewDeps": "Brez novih odvisnosti",
+    "isrSafe": "Varno za ISR",
+    "noDynamicMemory": "Brez dinamičnega pomnilnika",
+    "faultTolerant": "Odporno na napake",
+    "stateMachine": "Avtomat stanj",
+    "fixedWidthTypes": "Tipi s fiksno širino",
+    "lowPower": "Nizka poraba energije",
+    "integerMath": "Celoštevilska aritmetika",
+    "askFirst": "Najprej vprašaj"
   }
 }

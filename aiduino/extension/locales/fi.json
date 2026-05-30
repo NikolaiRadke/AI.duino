@@ -160,7 +160,7 @@
     "pasteSerial": "Liitä Serial Monitor -tuloste",
     "systemPrompt": "Olet hyödyllinen Arduino-ohjelmointiavustaja. Vastaa aina selkeästi ja selitä Arduino-koodi ymmärrettävästi.",
     "explainCode": "Selitä tämä Arduino-koodi yksinkertaisella, ymmärrettävällä kielellä:\n\n```cpp\n{0}\n```\n\nSelitä:\n- Mitä koodi tekee\n- Miten se toimii\n- Mitä laitteistoa se ohjaa\n- Tärkeät käsitteet aloittelijoille\n\nOle ystävällinen ja perusteellinen.",
-    "improveCode": "Paranna tätä Arduino-koodia:\n\n```cpp\n{0}\n```\n\nOptimoi:\n- Ei-blokkaava koodi (millis delay:n sijaan)\n- Muistitehokkautta\n- Parempaa luettavuutta\n- Arduino parhaita käytäntöjä\n- Kestävyyttä",
+    "improveCode": "Paranna tätä Arduino-koodia:\n\n```cpp\n{0}\n```\n\nKeskity parempaan luettavuuteen ja Arduinon parhaisiin käytäntöihin.\n\n{anchors}",
     "improveCodeSuffix": "Palauta vain parannettu koodi lyhyillä kommenteilla muutoksista.",
     "addCommentsSelected": "Lisää hyödyllisiä kommentteja tähän Arduino-koodiin:\n\n```cpp\n{0}\n```\n\nSäännöt:\n- Selitä mitä jokainen tärkeä rivi tekee\n- Kommentoi funktiot ja niiden parametrit\n- Selitä laitteisto-vuorovaikutukset\n- Käytä // yksirivisille ja /* */ monirivisille kommenteille\n- Kommenttien tulee auttaa aloittelijoita",
     "addComments": "Lisää hyödyllisiä kommentteja tähän Arduino-koodiin:\n\n```cpp\n{0}\n```\n\nSäännöt:\n- Selitä mitä jokainen tärkeä rivi tekee\n- Kommentoi funktiot ja niiden parametrit\n- Selitä laitteisto-vuorovaikutukset\n- Käytä // yksirivisille ja /* */ monirivisille kommenteille\n- Kommenttien tulee auttaa aloittelijoita",
@@ -177,8 +177,8 @@
     "askFollowUp": "Jatkokysymys:",
     "followUpContext": "Edellisen keskustelun konteksti:",
     "followUpInstruction": "Vastaa ottaen huomioon edellinen keskustelu.",
-    "improveCodeFile": "Paranna tämä kokonainen Arduino-tiedosto ({0}):\n\n```cpp\n{1}\n```\n\nOptimoi:\n- Ei-estävä koodi (millis delayn sijaan)\n- Muistin tehokkuus\n- Parempi luettavuus\n- Arduino parhaat käytännöt\n- Kestävyys",
-    "improveCodeSketch": "Paranna kaikki tiedostot tässä Arduino sketchissä:\n\n{0}\n\nOptimoi koko sketchi:\n- Ei-estävä koodi (millis delayn sijaan)\n- Muistin tehokkuus\n- Parempi luettavuus\n- Arduino parhaat käytännöt\n- Kestävyys\n- Selkeä erottelu tiedostojen välillä",
+    "improveCodeFile": "Paranna tätä täydellistä Arduino-tiedostoa ({0}):\n\n```cpp\n{1}\n```\n\nKeskity parempaan luettavuuteen ja Arduinon parhaisiin käytäntöihin.\n\n{anchors}",
+    "improveCodeSketch": "Paranna kaikkia tiedostoja tässä Arduino-sketchissä:\n\n{0}\n\nKeskity parempaan luettavuuteen, Arduinon parhaisiin käytäntöihin ja tiedostojen puhtaaseen erottamiseen.\n\n{anchors}",
     "addCommentsFile": "Lisää hyödyllisiä suomenkielisiä kommentteja tähän kokonaiseen Arduino-tiedostoon ({0}):\n\n```cpp\n{1}\n```\n\nSäännöt:\n- Selitä, mitä jokainen tärkeä rivi tekee\n- Kommentoi funktiot ja niiden parametrit\n- Selitä laitteistovuorovaikutukset\n- Käytä // yksirivisille ja /* */ monirivisille kommenteille\n- Kommenttien tulee auttaa aloittelijoita",
     "addCommentsSketch": "Lisää hyödyllisiä suomenkielisiä kommentteja kaikkiin tiedostoihin tässä Arduino sketchissä:\n\n{0}\n\nSäännöt:\n- Selitä, mitä jokainen tärkeä rivi tekee\n- Kommentoi funktiot ja niiden parametrit\n- Selitä laitteistovuorovaikutukset ja tiedostojen väliset suhteet\n- Käytä // yksirivisille ja /* */ monirivisille kommenteille\n- Kommenttien tulee auttaa aloittelijoita",
     "explainCodeFile": "Selitä tämä kokonainen Arduino-tiedosto ({0}) suomeksi:\n\n```cpp\n{1}\n```\n\nSelitä:\n- Mitä tiedosto tekee (päätarkoitus)\n- Tärkeät funktiot ja niiden tehtävät\n- Laitteistovuorovaikutukset (pinnit, anturit jne.)\n- Algoritmit ja logiikka\n- Erikoisuudet tai tärkeät yksityiskohdat",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI oletus"
+  },
+  "anchors": {
+    "sectionTitle": "Semanttiset ankkurit",
+    "tooltip": "Semanttiset ankkurit: lyhyitä koodausohjeita, jotka välitetään tekoälylle. Yhdistä niin monta kuin haluat.",
+    "advancedTitle": "Edistynyt / Agenttinen",
+    "noMagicNumbers": "Ei maagisia lukuja",
+    "beginnerComments": "Aloittelijaystävälliset kommentit",
+    "nonBlocking": "Ei-estävä",
+    "lowRam": "Vähän RAM-muistia",
+    "defensive": "Syötteiden validointi",
+    "minimalDiff": "Minimaaliset muutokset",
+    "preserveStyle": "Säilytä tyyli",
+    "explainChanges": "Selitä muutokset",
+    "noNewDeps": "Ei uusia riippuvuuksia",
+    "isrSafe": "ISR-turvallinen",
+    "noDynamicMemory": "Ei dynaamista muistia",
+    "faultTolerant": "Vikasietoinen",
+    "stateMachine": "Tilakonejärjestelmä",
+    "fixedWidthTypes": "Kiinteäleveyksiset tyypit",
+    "lowPower": "Alhainen virrankulutus",
+    "integerMath": "Kokonaislukulaskenta",
+    "askFirst": "Kysy ensin"
   }
 }

@@ -154,7 +154,7 @@
     "pasteSerial": "Introduceți ieșirea Serial Monitor",
     "systemPrompt": "Ești un asistent util pentru programarea Arduino. Răspunde întotdeauna în română și explică codul Arduino într-o manieră simplă și înțeleasă.",
     "explainCode": "Explică acest cod Arduino în română într-un limbaj simplu și înțeles:\n\n```cpp\n{0}\n```\n\nExplică:\n- Ce face codul\n- Cum funcționează\n- Ce hardware controlează\n- Concepte importante pentru începători\n\nFii prietenos și detaliat.",
-    "improveCode": "Îmbunătățește acest cod Arduino:\n\n```cpp\n{0}\n```\n\nOptimizează pentru:\n- Cod non-blocking (millis în loc de delay)\n- Eficiență de memorie\n- Lizibilitate mai bună\n- Cele mai bune practici Arduino\n- Robustețe",
+    "improveCode": "Îmbunătățește acest cod Arduino:\n\n```cpp\n{0}\n```\n\nConcentrează-te pe o mai bună lizibilitate și bunele practici Arduino.\n\n{anchors}",
     "improveCodeSuffix": "Returnează doar codul îmbunătățit cu comentarii scurte în română la modificări.",
     "addCommentsSelected": "Adaugă comentarii utile în română la acest cod Arduino:\n\n```cpp\n{0}\n```\n\nReguli:\n- Explică ce face fiecare linie importantă\n- Comentează funcțiile și parametrii lor\n- Explică interacțiunile hardware\n- Folosește // pentru comentarii pe o linie și /* */ pentru comentarii pe mai multe linii\n- Comentariile să ajute începătorii",
     "addComments": "Adaugă comentarii utile în română la acest cod Arduino:\n\n```cpp\n{0}\n```\n\nReguli:\n- Explică ce face fiecare linie importantă\n- Comentează funcțiile și parametrii lor\n- Explică interacțiunile hardware\n- Folosește // pentru comentarii pe o linie și /* */ pentru comentarii pe mai multe linii\n- Comentariile să ajute începătorii",
@@ -171,8 +171,8 @@
     "askFollowUp": "Întrebare de urmărire:",
     "followUpContext": "Contextul conversației anterioare:",
     "followUpInstruction": "Răspunde în română ținând cont de conversația anterioară.",
-    "improveCodeFile": "Îmbunătățește acest fișier Arduino complet ({0}):\n\n```cpp\n{1}\n```\n\nOptimizează pentru:\n- Cod neblocant (millis în loc de delay)\n- Eficiența memoriei\n- Lizibilitate mai bună\n- Cele mai bune practici Arduino\n- Robustețe",
-    "improveCodeSketch": "Îmbunătățește toate fișierele din acest sketch Arduino:\n\n{0}\n\nOptimizează întregul sketch pentru:\n- Cod neblocant (millis în loc de delay)\n- Eficiența memoriei\n- Lizibilitate mai bună\n- Cele mai bune practici Arduino\n- Robustețe\n- Separare clară între fișiere",
+    "improveCodeFile": "Îmbunătățește acest fișier Arduino complet ({0}):\n\n```cpp\n{1}\n```\n\nConcentrează-te pe o mai bună lizibilitate și bunele practici Arduino.\n\n{anchors}",
+    "improveCodeSketch": "Îmbunătățește toate fișierele din acest sketch Arduino:\n\n{0}\n\nConcentrează-te pe o mai bună lizibilitate, bunele practici Arduino și separarea curată între fișiere.\n\n{anchors}",
     "addCommentsFile": "Adaugă comentarii utile în română la acest fișier Arduino complet ({0}):\n\n```cpp\n{1}\n```\n\nReguli:\n- Explică ce face fiecare linie importantă\n- Comentează funcțiile și parametrii lor\n- Explică interacțiunile cu hardware-ul\n- Folosește // pentru o singură linie și /* */ pentru mai multe linii\n- Comentariile trebuie să ajute începătorii",
     "addCommentsSketch": "Adaugă comentarii utile în română la toate fișierele din acest sketch Arduino:\n\n{0}\n\nReguli:\n- Explică ce face fiecare linie importantă\n- Comentează funcțiile și parametrii lor\n- Explică interacțiunile cu hardware-ul și relațiile dintre fișiere\n- Folosește // pentru o singură linie și /* */ pentru mai multe linii\n- Comentariile trebuie să ajute începătorii",
     "explainCodeFile": "Explică acest fișier Arduino complet ({0}) în română:\n\n```cpp\n{1}\n```\n\nExplică:\n- Ce face fișierul (scopul principal)\n- Funcții importante și sarcinile lor\n- Interacțiuni cu hardware-ul (pini, senzori, etc.)\n- Algoritmi și logică\n- Particularități sau detalii importante",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "Implicit CLI"
+  },
+  "anchors": {
+    "sectionTitle": "Ancore semantice",
+    "tooltip": "Ancore semantice: directive scurte de codare transmise AI-ului. Combină câte vrei.",
+    "advancedTitle": "Avansat / Agentiv",
+    "noMagicNumbers": "Fără numere magice",
+    "beginnerComments": "Comentarii pentru începători",
+    "nonBlocking": "Neblocant",
+    "lowRam": "RAM redus",
+    "defensive": "Validarea intrărilor",
+    "minimalDiff": "Modificări minime",
+    "preserveStyle": "Păstrează stilul",
+    "explainChanges": "Explică modificările",
+    "noNewDeps": "Fără dependențe noi",
+    "isrSafe": "Sigur pentru ISR",
+    "noDynamicMemory": "Fără memorie dinamică",
+    "faultTolerant": "Tolerant la defecțiuni",
+    "stateMachine": "Mașină de stări",
+    "fixedWidthTypes": "Tipuri cu lățime fixă",
+    "lowPower": "Consum redus",
+    "integerMath": "Aritmetică cu numere întregi",
+    "askFirst": "Întreabă mai întâi"
   }
 }

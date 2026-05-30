@@ -160,7 +160,7 @@
     "pasteSerial": "Pega tu salida del Monitor Serial",
     "systemPrompt": "Eres un asistente útil de programación Arduino. Siempre responde en español y explica el código Arduino de manera comprensible.",
     "explainCode": "Explica este código Arduino en español con lenguaje simple y comprensible:\n\n```cpp\n{0}\n```\n\nExplica:\n- Qué hace el código\n- Cómo funciona\n- Qué hardware controla\n- Conceptos importantes para principiantes\n\nSé amigable y detallado.",
-    "improveCode": "Mejora este código Arduino:\n\n```cpp\n{0}\n```\n\nOptimiza para:\n- Código no bloqueante (millis en lugar de delay)\n- Eficiencia de memoria\n- Mejor legibilidad\n- Mejores prácticas de Arduino\n- Robustez",
+    "improveCode": "Mejora este código de Arduino:\n\n```cpp\n{0}\n```\n\nCéntrate en una mejor legibilidad y las buenas prácticas de Arduino.\n\n{anchors}",
     "improveCodeSuffix": "Devuelve solo el código mejorado con breves comentarios en español sobre los cambios.",
     "addCommentsSelected": "Añade comentarios útiles en español a este código Arduino:\n\n```cpp\n{0}\n```\n\nReglas:\n- Explica qué hace cada línea importante\n- Comenta funciones y sus parámetros\n- Explica interacciones de hardware\n- Usa // para comentarios de una línea y /* */ para multilínea\n- Los comentarios deben ayudar a principiantes",
     "addComments": "Añade comentarios útiles en español a este código Arduino:\n\n```cpp\n{0}\n```\n\nReglas:\n- Explica qué hace cada línea importante\n- Comenta funciones y sus parámetros\n- Explica interacciones de hardware\n- Usa // para comentarios de una línea y /* */ para multilínea\n- Los comentarios deben ayudar a principiantes",
@@ -177,8 +177,8 @@
     "askFollowUp": "Pregunta de seguimiento:",
     "followUpContext": "Contexto de conversación anterior:",
     "followUpInstruction": "Responde en español considerando la conversación anterior.",
-    "improveCodeFile": "Mejora este archivo Arduino completo ({0}):\n\n```cpp\n{1}\n```\n\nOptimiza para:\n- Código no bloqueante (millis en lugar de delay)\n- Eficiencia de memoria\n- Mejor legibilidad\n- Mejores prácticas de Arduino\n- Robustez",
-    "improveCodeSketch": "Mejora todos los archivos en este sketch de Arduino:\n\n{0}\n\nOptimiza el sketch completo para:\n- Código no bloqueante (millis en lugar de delay)\n- Eficiencia de memoria\n- Mejor legibilidad\n- Mejores prácticas de Arduino\n- Robustez\n- Separación limpia entre archivos",
+    "improveCodeFile": "Mejora este archivo completo de Arduino ({0}):\n\n```cpp\n{1}\n```\n\nCéntrate en una mejor legibilidad y las buenas prácticas de Arduino.\n\n{anchors}",
+    "improveCodeSketch": "Mejora todos los archivos de este sketch de Arduino:\n\n{0}\n\nCéntrate en una mejor legibilidad, las buenas prácticas de Arduino y una separación limpia entre archivos.\n\n{anchors}",
     "addCommentsFile": "Añade comentarios útiles en español a este archivo Arduino completo ({0}):\n\n```cpp\n{1}\n```\n\nReglas:\n- Explica qué hace cada línea importante\n- Comenta funciones y sus parámetros\n- Explica interacciones de hardware\n- Usa // para comentarios de una línea y /* */ para multilínea\n- Los comentarios deben ayudar a los principiantes",
     "addCommentsSketch": "Añade comentarios útiles en español a todos los archivos en este sketch de Arduino:\n\n{0}\n\nReglas:\n- Explica qué hace cada línea importante\n- Comenta funciones y sus parámetros\n- Explica interacciones de hardware y relaciones entre archivos\n- Usa // para comentarios de una línea y /* */ para multilínea\n- Los comentarios deben ayudar a los principiantes",
     "explainCodeFile": "Explica este archivo Arduino completo ({0}) en español:\n\n```cpp\n{1}\n```\n\nExplica:\n- Qué hace el archivo (propósito principal)\n- Funciones importantes y sus tareas\n- Interacciones de hardware (pines, sensores, etc.)\n- Algoritmos y lógica\n- Particularidades o detalles importantes",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "Predeterminado CLI"
+  },
+  "anchors": {
+    "sectionTitle": "Anclas semánticas",
+    "tooltip": "Anclas semánticas: directivas de codificación breves que se pasan a la IA. Combina tantas como quieras.",
+    "advancedTitle": "Avanzado / Agéntico",
+    "noMagicNumbers": "Sin números mágicos",
+    "beginnerComments": "Comentarios para principiantes",
+    "nonBlocking": "No bloqueante",
+    "lowRam": "RAM reducida",
+    "defensive": "Validar entradas",
+    "minimalDiff": "Cambios mínimos",
+    "preserveStyle": "Preservar estilo",
+    "explainChanges": "Explicar cambios",
+    "noNewDeps": "Sin nuevas dependencias",
+    "isrSafe": "Seguro para ISR",
+    "noDynamicMemory": "Sin memoria dinámica",
+    "faultTolerant": "Tolerante a fallos",
+    "stateMachine": "Máquina de estados",
+    "fixedWidthTypes": "Tipos de ancho fijo",
+    "lowPower": "Bajo consumo",
+    "integerMath": "Aritmética entera",
+    "askFirst": "Pregunta primero"
   }
 }

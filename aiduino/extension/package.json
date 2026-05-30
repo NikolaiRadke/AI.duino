@@ -2,7 +2,7 @@
   "name": "aiduino",
   "displayName": "AI.duino",
   "description": "AI-powered assistance for Arduino for API-, local- and process providers.",
-  "version": "2.6.9",
+  "version": "2.7.0",
   "license": "Apache-2.0",
   "publisher": "NikolaiRadke",
   "icon": "icons/aiduino.png",

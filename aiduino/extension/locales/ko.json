@@ -160,7 +160,7 @@
     "pasteSerial": "시리얼 모니터 출력을 붙여넣으세요",
     "systemPrompt": "당신은 유용한 Arduino 프로그래밍 도우미입니다. 항상 명확하게 대답하고 Arduino 코드를 이해하기 쉽게 설명하세요.",
     "explainCode": "이 Arduino 코드를 간단하고 이해하기 쉬운 언어로 설명하세요:\n\n```cpp\n{0}\n```\n\n설명:\n- 코드가 하는 일\n- 작동 방식\n- 제어하는 하드웨어\n- 초보자를 위한 중요한 개념\n\n친절하고 자세하게 설명하세요.",
-    "improveCode": "이 Arduino 코드를 개선하세요:\n\n```cpp\n{0}\n```\n\n최적화 항목:\n- 논블로킹 코드 (delay 대신 millis)\n- 메모리 효율성\n- 더 나은 가독성\n- Arduino 모범 사례\n- 견고성",
+    "improveCode": "이 Arduino 코드를 개선해 주세요:\n\n```cpp\n{0}\n```\n\n더 나은 가독성과 Arduino 모범 사례에 집중하세요.\n\n{anchors}",
     "improveCodeSuffix": "개선된 코드만 변경 사항에 대한 간단한 설명과 함께 반환하세요.",
     "addCommentsSelected": "이 Arduino 코드에 유용한 주석을 추가하세요:\n\n```cpp\n{0}\n```\n\n규칙:\n- 각 중요한 줄이 하는 일 설명\n- 함수와 매개변수에 주석 달기\n- 하드웨어 상호작용 설명\n- 한 줄은 //, 여러 줄은 /* */ 사용\n- 주석은 초보자를 도와야 함",
     "addComments": "이 Arduino 코드에 유용한 주석을 추가하세요:\n\n```cpp\n{0}\n```\n\n규칙:\n- 각 중요한 줄이 하는 일 설명\n- 함수와 매개변수에 주석 달기\n- 하드웨어 상호작용 설명\n- 한 줄은 //, 여러 줄은 /* */ 사용\n- 주석은 초보자를 도와야 함",
@@ -177,8 +177,8 @@
     "askFollowUp": "추가 질문:",
     "followUpContext": "이전 대화 컨텍스트:",
     "followUpInstruction": "이전 대화를 고려하여 한국어로 답변해주세요.",
-    "improveCodeFile": "이 Arduino 파일을 개선해주세요 ({0}):\n\n```cpp\n{1}\n```\n\n다음을 최적화:\n- 논블로킹 코드 (delay 대신 millis)\n- 메모리 효율성\n- 가독성 향상\n- Arduino 모범 사례\n- 안정성",
-    "improveCodeSketch": "이 Arduino 스케치의 모든 파일을 개선해주세요:\n\n{0}\n\n전체 스케치를 다음과 같이 최적화:\n- 논블로킹 코드 (delay 대신 millis)\n- 메모리 효율성\n- 가독성 향상\n- Arduino 모범 사례\n- 안정성\n- 파일 간 명확한 분리",
+    "improveCodeFile": "이 완전한 Arduino 파일({0})을 개선해 주세요:\n\n```cpp\n{1}\n```\n\n더 나은 가독성과 Arduino 모범 사례에 집중하세요.\n\n{anchors}",
+    "improveCodeSketch": "이 Arduino 스케치의 모든 파일을 개선해 주세요:\n\n{0}\n\n더 나은 가독성, Arduino 모범 사례 및 파일 간의 깔끔한 분리에 집중하세요.\n\n{anchors}",
     "addCommentsFile": "이 Arduino 파일에 유용한 한국어 주석을 추가해주세요 ({0}):\n\n```cpp\n{1}\n```\n\n규칙:\n- 각 중요한 줄이 무엇을 하는지 설명\n- 함수와 매개변수에 주석 추가\n- 하드웨어 상호작용 설명\n- 한 줄은 //, 여러 줄은 /* */ 사용\n- 초보자에게 도움이 되는 주석",
     "addCommentsSketch": "이 Arduino 스케치의 모든 파일에 유용한 한국어 주석을 추가해주세요:\n\n{0}\n\n규칙:\n- 각 중요한 줄이 무엇을 하는지 설명\n- 함수와 매개변수에 주석 추가\n- 하드웨어 상호작용과 파일 관계 설명\n- 한 줄은 //, 여러 줄은 /* */ 사용\n- 초보자에게 도움이 되는 주석",
     "explainCodeFile": "이 Arduino 파일을 한국어로 설명해주세요 ({0}):\n\n```cpp\n{1}\n```\n\n설명 내용:\n- 파일이 하는 일 (주요 목적)\n- 중요한 함수와 역할\n- 하드웨어 상호작용 (핀, 센서 등)\n- 알고리즘과 로직\n- 특이사항 또는 중요한 세부사항",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI 기본값"
+  },
+  "anchors": {
+    "sectionTitle": "의미론적 앵커",
+    "tooltip": "의미론적 앵커: AI에 전달되는 짧은 코딩 지시문. 원하는 만큼 조합하세요.",
+    "advancedTitle": "고급 / 에이전트",
+    "noMagicNumbers": "매직 넘버 없음",
+    "beginnerComments": "초보자 친화적 주석",
+    "nonBlocking": "비차단",
+    "lowRam": "낮은 RAM 사용",
+    "defensive": "입력 검증",
+    "minimalDiff": "최소한의 변경",
+    "preserveStyle": "스타일 유지",
+    "explainChanges": "변경 사항 설명",
+    "noNewDeps": "새 의존성 없음",
+    "isrSafe": "ISR 안전",
+    "noDynamicMemory": "동적 메모리 없음",
+    "faultTolerant": "내결함성",
+    "stateMachine": "상태 머신",
+    "fixedWidthTypes": "고정 폭 타입",
+    "lowPower": "저전력",
+    "integerMath": "정수 연산",
+    "askFirst": "먼저 확인"
   }
 }

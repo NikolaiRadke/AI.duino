@@ -160,7 +160,7 @@
     "pasteSerial": "Ngjitni output-in tuaj të Serial Monitor",
     "systemPrompt": "Ju jeni një asistent i dobishëm për programimin Arduino. Përgjigjuni gjithmonë në gjuhën shqipe dhe shpjegoni kodin Arduino në mënyrë të kuptueshme.",
     "explainCode": "Shpjegoni këtë kod Arduino në gjuhën shqipe thjesht dhe kuptueshëm:\n\n```cpp\n{0}\n```\n\nShpjegoni:\n- Çfarë bën kodi\n- Si funksionon\n- Cilin hardware kontrollon\n- Koncepte të rëndësishme për fillestarët\n\nJini të sjellshëm dhe të detajuar.",
-    "improveCode": "Përmirësoni këtë kod Arduino:\n\n```cpp\n{0}\n```\n\nOptimizoni për:\n- Kod jo-bllokues (millis në vend të delay)\n- Efikasitet të memories\n- Lexueshmëri më të mirë\n- Praktikat më të mira të Arduino\n- Beueshmëri",
+    "improveCode": "Përmirëso këtë kod Arduino:\n\n```cpp\n{0}\n```\n\nFokusohu në lexueshmëri më të mirë dhe praktikat më të mira të Arduino.\n\n{anchors}",
     "improveCodeSuffix": "Ktheni vetëm kodin e përmirësuar me komente të shkurtra shqipe për ndryshimet.",
     "addCommentsSelected": "Shtoni komente të dobishme shqipe në këtë kod Arduino:\n\n```cpp\n{0}\n```\n\nRregulla:\n- Shpjegoni çfarë bën çdo rresht i rëndësishëm\n- Komentoni funksionet dhe parametrat e tyre\n- Shpjegoni ndërveprimet me hardware-in\n- Përdorni // për komente një-rreshtore dhe /* */ për shumë-rreshtore\n- Komentet duhet të ndihmojnë fillestarët",
     "addComments": "Shtoni komente të dobishme shqipe në këtë kod Arduino:\n\n```cpp\n{0}\n```\n\nRregulla:\n- Shpjegoni çfarë bën çdo rresht i rëndësishëm\n- Komentoni funksionet dhe parametrat e tyre\n- Shpjegoni ndërveprimet me hardware-in\n- Përdorni // për komente një-rreshtore dhe /* */ për shumë-rreshtore\n- Komentet duhet të ndihmojnë fillestarët",
@@ -177,8 +177,8 @@
     "askFollowUp": "Pyetje shtesë:",
     "followUpContext": "Konteksti i bisedës së mëparshme:",
     "followUpInstruction": "Përgjigjuni në gjuhën shqipe duke marrë parasysh bisedën e mëparshme.",
-    "improveCodeFile": "Përmirëso këtë skedar të plotë Arduino ({0}):\n\n```cpp\n{1}\n```\n\nOptimizo për:\n- Kod jobllokues (millis në vend të delay)\n- Efikasitet të memories\n- Lexueshmëri më të mirë\n- Praktikat më të mira Arduino\n- Robustësi",
-    "improveCodeSketch": "Përmirëso të gjithë skedarët në këtë sketch Arduino:\n\n{0}\n\nOptimizo të gjithë sketch-in për:\n- Kod jobllokues (millis në vend të delay)\n- Efikasitet të memories\n- Lexueshmëri më të mirë\n- Praktikat më të mira Arduino\n- Robustësi\n- Ndarje të qartë midis skedarëve",
+    "improveCodeFile": "Përmirëso këtë skedar të plotë Arduino ({0}):\n\n```cpp\n{1}\n```\n\nFokusohu në lexueshmëri më të mirë dhe praktikat më të mira të Arduino.\n\n{anchors}",
+    "improveCodeSketch": "Përmirëso të gjitha skedarët në këtë skicë Arduino:\n\n{0}\n\nFokusohu në lexueshmëri më të mirë, praktikat më të mira të Arduino dhe ndarje të pastër midis skedarëve.\n\n{anchors}",
     "addCommentsFile": "Shto komente të dobishme në shqip në këtë skedar të plotë Arduino ({0}):\n\n```cpp\n{1}\n```\n\nRregullat:\n- Shpjego çfarë bën çdo rresht i rëndësishëm\n- Komento funksionet dhe parametrat e tyre\n- Shpjego ndërveprimet me hardware\n- Përdor // për një rresht dhe /* */ për shumë rreshta\n- Komentet duhet të ndihmojnë fillestarët",
     "addCommentsSketch": "Shto komente të dobishme në shqip në të gjithë skedarët në këtë sketch Arduino:\n\n{0}\n\nRregullat:\n- Shpjego çfarë bën çdo rresht i rëndësishëm\n- Komento funksionet dhe parametrat e tyre\n- Shpjego ndërveprimet me hardware dhe lidhjet midis skedarëve\n- Përdor // për një rresht dhe /* */ për shumë rreshta\n- Komentet duhet të ndihmojnë fillestarët",
     "explainCodeFile": "Shpjego këtë skedar të plotë Arduino ({0}) në shqip:\n\n```cpp\n{1}\n```\n\nShpjego:\n- Çfarë bën skedari (qëllimi kryesor)\n- Funksione të rëndësishme dhe detyrat e tyre\n- Ndërveprimet me hardware (pine, sensorë, etj.)\n- Algoritme dhe logjikë\n- Veçori ose detaje të rëndësishme",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI parazgjedhja"
+  },
+  "anchors": {
+    "sectionTitle": "Spiranca semantike",
+    "tooltip": "Spiranca semantike: direktiva të shkurtra kodimi të kaluara tek AI-ja. Kombino sa të duash.",
+    "advancedTitle": "I avancuar / Agjentor",
+    "noMagicNumbers": "Asnjë numër magjik",
+    "beginnerComments": "Komente miqësore për fillestarët",
+    "nonBlocking": "Jo bllokues",
+    "lowRam": "RAM e ulët",
+    "defensive": "Validimi i hyrjeve",
+    "minimalDiff": "Ndryshime minimale",
+    "preserveStyle": "Ruaj stilin",
+    "explainChanges": "Shpjego ndryshimet",
+    "noNewDeps": "Asnjë varësi e re",
+    "isrSafe": "I sigurt për ISR",
+    "noDynamicMemory": "Pa memorie dinamike",
+    "faultTolerant": "Tolerant ndaj defekteve",
+    "stateMachine": "Makinë gjendjesh",
+    "fixedWidthTypes": "Tipe me gjerësi fikse",
+    "lowPower": "Konsum i ulët energjie",
+    "integerMath": "Aritmetikë e plotë",
+    "askFirst": "Pyet fillimisht"
   }
 }

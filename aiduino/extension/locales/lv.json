@@ -160,7 +160,7 @@
     "pasteSerial": "Ielīmējiet savu Serial Monitor izvadi",
     "systemPrompt": "Jūs esat noderīgs Arduino programmēšanas asistents. Vienmēr atbildiet latviešu valodā un skaidrojiet Arduino kodu saprotami.",
     "explainCode": "Izskaidrojiet šo Arduino kodu latviešu valodā vienkārši un saprotami:\n\n```cpp\n{0}\n```\n\nIzskaidrojiet:\n- Ko dara kods\n- Kā tas darbojas\n- Kādu aparatūru tas vada\n- Svarīgus jēdzienus iesācējiem\n\nEsiet laipni un detalizēti.",
-    "improveCode": "Uzlabojiet šo Arduino kodu:\n\n```cpp\n{0}\n```\n\nOptimizējiet:\n- Nebloķējošu kodu (millis nevis delay)\n- Atmiņas efektivitāti\n- Labāku lasāmību\n- Arduino labākās prakses\n- Noturību",
+    "improveCode": "Uzlabo šo Arduino kodu:\n\n```cpp\n{0}\n```\n\nKoncentrējies uz labāku lasāmību un Arduino labāko praksi.\n\n{anchors}",
     "improveCodeSuffix": "Atgrieziet tikai uzlaboto kodu ar īsiem latviešu komentāriem par izmaiņām.",
     "addCommentsSelected": "Pievienojiet noderīgus latviešu komentārus šim Arduino kodam:\n\n```cpp\n{0}\n```\n\nNoteikumi:\n- Izskaidrojiet, ko dara katra svarīgā rinda\n- Komentējiet funkcijas un to parametrus\n- Izskaidrojiet mijiedarbību ar aparatūru\n- Izmantojiet // vienrindas un /* */ daudzrindas komentāriem\n- Komentāriem jāpalīdz iesācējiem",
     "addComments": "Pievienojiet noderīgus latviešu komentārus šim Arduino kodam:\n\n```cpp\n{0}\n```\n\nNoteikumi:\n- Izskaidrojiet, ko dara katra svarīgā rinda\n- Komentējiet funkcijas un to parametrus\n- Izskaidrojiet mijiedarbību ar aparatūru\n- Izmantojiet // vienrindas un /* */ daudzrindas komentāriem\n- Komentāriem jāpalīdz iesācējiem",
@@ -177,8 +177,8 @@
     "askFollowUp": "Papildu jautājums:",
     "followUpContext": "Iepriekšējās sarunas konteksts:",
     "followUpInstruction": "Atbildiet latviešu valodā, ņemot vērā iepriekšējo sarunu.",
-    "improveCodeFile": "Uzlabo šo pilnu Arduino failu ({0}):\n\n```cpp\n{1}\n```\n\nOptimizē:\n- Nebloķējošu kodu (millis delay vietā)\n- Atmiņas efektivitāti\n- Labāku lasāmību\n- Arduino labākās prakses\n- Izturību",
-    "improveCodeSketch": "Uzlabo visus failus šajā Arduino skečā:\n\n{0}\n\nOptimizē visu skeču:\n- Nebloķējošu kodu (millis delay vietā)\n- Atmiņas efektivitāti\n- Labāku lasāmību\n- Arduino labākās prakses\n- Izturību\n- Skaidru nodalījumu starp failiem",
+    "improveCodeFile": "Uzlabo šo pilno Arduino failu ({0}):\n\n```cpp\n{1}\n```\n\nKoncentrējies uz labāku lasāmību un Arduino labāko praksi.\n\n{anchors}",
+    "improveCodeSketch": "Uzlabo visus failus šajā Arduino skicē:\n\n{0}\n\nKoncentrējies uz labāku lasāmību, Arduino labāko praksi un tīru failu nodalīšanu.\n\n{anchors}",
     "addCommentsFile": "Pievieno noderīgus latviešu komentārus šim pilnajam Arduino failam ({0}):\n\n```cpp\n{1}\n```\n\nNoteikumi:\n- Izskaidro, ko dara katra svarīgā rinda\n- Komentē funkcijas un to parametrus\n- Izskaidro aparatūras mijiedarbību\n- Izmanto // vienai rindai un /* */ vairākām rindām\n- Komentāriem jāpalīdz iesācējiem",
     "addCommentsSketch": "Pievieno noderīgus latviešu komentārus visiem failiem šajā Arduino skečā:\n\n{0}\n\nNoteikumi:\n- Izskaidro, ko dara katra svarīgā rinda\n- Komentē funkcijas un to parametrus\n- Izskaidro aparatūras mijiedarbību un attiecības starp failiem\n- Izmanto // vienai rindai un /* */ vairākām rindām\n- Komentāriem jāpalīdz iesācējiem",
     "explainCodeFile": "Izskaidro šo pilno Arduino failu ({0}) latviski:\n\n```cpp\n{1}\n```\n\nIzskaidro:\n- Ko fails dara (galvenais mērķis)\n- Svarīgas funkcijas un to uzdevumus\n- Aparatūras mijiedarbību (tapi, sensori utt.)\n- Algoritmus un loģiku\n- Īpatnības vai svarīgas detaļas",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI noklusējums"
+  },
+  "anchors": {
+    "sectionTitle": "Semantiskie enkuri",
+    "tooltip": "Semantiskie enkuri: īsas kodēšanas direktīvas, kas tiek nodotas MI. Kombinē tik daudz, cik vēlies.",
+    "advancedTitle": "Uzlabots / Aģentisks",
+    "noMagicNumbers": "Nav burvju skaitļu",
+    "beginnerComments": "Iesācējiem draudzīgi komentāri",
+    "nonBlocking": "Nebloķējošs",
+    "lowRam": "Zems RAM patēriņš",
+    "defensive": "Ievades validācija",
+    "minimalDiff": "Minimālas izmaiņas",
+    "preserveStyle": "Saglabāt stilu",
+    "explainChanges": "Paskaidrot izmaiņas",
+    "noNewDeps": "Nav jaunu atkarību",
+    "isrSafe": "ISR-drošs",
+    "noDynamicMemory": "Bez dinamiskās atmiņas",
+    "faultTolerant": "Tolerants pret kļūdām",
+    "stateMachine": "Stāvokļu mašīna",
+    "fixedWidthTypes": "Fiksēta platuma tipi",
+    "lowPower": "Zems enerģijas patēriņš",
+    "integerMath": "Veselo skaitļu aritmētika",
+    "askFirst": "Vispirms jautā"
   }
 }

@@ -160,7 +160,7 @@
     "pasteSerial": "Kleepige oma Serial Monitor väljund",
     "systemPrompt": "Te olete kasulik Arduino programmeerimise abiline. Vastake alati eesti keeles ja selgitage Arduino koodi arusaadavalt.",
     "explainCode": "Selgitage seda Arduino koodi eesti keeles lihtsalt ja arusaadavalt:\n\n```cpp\n{0}\n```\n\nSelgitage:\n- Mida kood teeb\n- Kuidas see toimib\n- Millist riistvara see juhib\n- Olulised mõisted algajatele\n\nOlge sõbralik ja üksikasjalik.",
-    "improveCode": "Parandage seda Arduino koodi:\n\n```cpp\n{0}\n```\n\nOptimeerige:\n- Mitteblokeerivat koodi (millis delay asemel)\n- Mälu tõhusust\n- Paremat loetavust\n- Arduino parimaid praktikaid\n- Vastupidavust",
+    "improveCode": "Parenda seda Arduino koodi:\n\n```cpp\n{0}\n```\n\nCentreeri paremale loetavusele ja Arduino headele tavadele.\n\n{anchors}",
     "improveCodeSuffix": "Tagastage ainult parandatud kood koos lühikeste eestikeelsete kommentaaridega muudatuste kohta.",
     "addCommentsSelected": "Lisage kasulikud eestikeelsed kommentaarid sellele Arduino koodile:\n\n```cpp\n{0}\n```\n\nReeglid:\n- Selgitage, mida iga oluline rida teeb\n- Kommenteerige funktsioone ja nende parameetreid\n- Selgitage riistvara suhtlust\n- Kasutage // üherealiste ja /* */ mitmerealine kommentaaride jaoks\n- Kommentaarid peaksid aitama algajaid",
     "addComments": "Lisage kasulikud eestikeelsed kommentaarid sellele Arduino koodile:\n\n```cpp\n{0}\n```\n\nReeglid:\n- Selgitage, mida iga oluline rida teeb\n- Kommenteerige funktsioone ja nende parameetreid\n- Selgitage riistvara suhtlust\n- Kasutage // üherealine ja /* */ mitmerealine kommentaaride jaoks\n- Kommentaarid peaksid aitama algajaid",
@@ -177,8 +177,8 @@
     "askFollowUp": "Täiendav küsimus:",
     "followUpContext": "Eelmise vestluse kontekst:",
     "followUpInstruction": "Vastake eesti keeles, arvestades eelmist vestlust.",
-    "improveCodeFile": "Paranda seda täielikku Arduino faili ({0}):\n\n```cpp\n{1}\n```\n\nOptimeeri:\n- Mitteblokeerivaaks koodiks (millis delay asemel)\n- Mälu efektiivsuseks\n- Parema loetavuse jaoks\n- Arduino parimad tavad\n- Tugevus",
-    "improveCodeSketch": "Paranda kõiki faile selles Arduino sketches:\n\n{0}\n\nOptimeeri kogu sketch:\n- Mitteblokeerivaaks koodiks (millis delay asemel)\n- Mälu efektiivsuseks\n- Parema loetavuse jaoks\n- Arduino parimad tavad\n- Tugevus\n- Selge eraldus failide vahel",
+    "improveCodeFile": "Parenda seda täielikku Arduino faili ({0}):\n\n```cpp\n{1}\n```\n\nCentreeri paremale loetavusele ja Arduino headele tavadele.\n\n{anchors}",
+    "improveCodeSketch": "Parenda kõiki faile selles Arduino visandis:\n\n{0}\n\nCentreeri paremale loetavusele, Arduino headele tavadele ja failide puhtale eraldamisele.\n\n{anchors}",
     "addCommentsFile": "Lisa kasulikud eestikeelsed kommentaarid sellele täielikule Arduino failile ({0}):\n\n```cpp\n{1}\n```\n\nReeglid:\n- Selgita, mida iga oluline rida teeb\n- Kommenteeri funktsioone ja nende parameetreid\n- Selgita riistvara interaktsioone\n- Kasuta // üheridalistele ja /* */ mitmerealistele kommentaaridele\n- Kommentaarid peavad aitama algajaid",
     "addCommentsSketch": "Lisa kasulikud eestikeelsed kommentaarid kõigile failidele selles Arduino sketches:\n\n{0}\n\nReeglid:\n- Selgita, mida iga oluline rida teeb\n- Kommenteeri funktsioone ja nende parameetreid\n- Selgita riistvara interaktsioone ja failide vahelisi suhteid\n- Kasuta // üheridalistele ja /* */ mitmerealistele kommentaaridele\n- Kommentaarid peavad aitama algajaid",
     "explainCodeFile": "Selgita seda täielikku Arduino faili ({0}) eesti keeles:\n\n```cpp\n{1}\n```\n\nSelgita:\n- Mida fail teeb (peamine eesmärk)\n- Olulised funktsioonid ja nende ülesanded\n- Riistvara interaktsioonid (pinnid, andurid jne)\n- Algoritmid ja loogika\n- Eripärad või olulised detailid",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "CLI vaikimisi"
+  },
+  "anchors": {
+    "sectionTitle": "Semantilised ankrud",
+    "tooltip": "Semantilised ankrud: lühikesed koodimisjuhised, mis edastatakse tehisintellektile. Kombineeri nii palju kui soovid.",
+    "advancedTitle": "Täpsem / Agentne",
+    "noMagicNumbers": "Ei maagilisi numbreid",
+    "beginnerComments": "Algajasõbralikud kommentaarid",
+    "nonBlocking": "Mitteblokeeriv",
+    "lowRam": "Väike RAM-kasutus",
+    "defensive": "Sisendi valideerimine",
+    "minimalDiff": "Minimaalsed muutused",
+    "preserveStyle": "Säilita stiil",
+    "explainChanges": "Selgita muutusi",
+    "noNewDeps": "Ei uusi sõltuvusi",
+    "isrSafe": "ISR-ohutu",
+    "noDynamicMemory": "Dünaamiline mälu puudub",
+    "faultTolerant": "Veataluvusega",
+    "stateMachine": "Olekumasin",
+    "fixedWidthTypes": "Fikseeritud laiusega tüübid",
+    "lowPower": "Madal energiatarve",
+    "integerMath": "Täisarvuaritmetika",
+    "askFirst": "Küsi esmalt"
   }
 }

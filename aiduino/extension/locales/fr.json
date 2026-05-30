@@ -160,7 +160,7 @@
     "pasteSerial": "Collez votre sortie du Moniteur Série",
     "systemPrompt": "Tu es un assistant de programmation Arduino utile. Réponds toujours en français et explique le code Arduino de manière compréhensible.",
     "explainCode": "Explique ce code Arduino en français avec un langage simple et compréhensible :\n\n```cpp\n{0}\n```\n\nExplique :\n- Ce que fait le code\n- Comment il fonctionne\n- Quel matériel il contrôle\n- Les concepts importants pour les débutants\n\nSois amical et détaillé.",
-    "improveCode": "Améliore ce code Arduino :\n\n```cpp\n{0}\n```\n\nOptimise pour :\n- Code non-bloquant (millis au lieu de delay)\n- Efficacité mémoire\n- Meilleure lisibilité\n- Meilleures pratiques Arduino\n- Robustesse",
+    "improveCode": "Améliore ce code Arduino :\n\n```cpp\n{0}\n```\n\nConcentre-toi sur une meilleure lisibilité et les bonnes pratiques Arduino.\n\n{anchors}",
     "improveCodeSuffix": "Retourne uniquement le code amélioré avec de brefs commentaires en français sur les changements.",
     "addCommentsSelected": "Ajoute des commentaires utiles en français à ce code Arduino :\n\n```cpp\n{0}\n```\n\nRègles :\n- Explique ce que fait chaque ligne importante\n- Commente les fonctions et leurs paramètres\n- Explique les interactions matérielles\n- Utilise // pour les commentaires sur une ligne et /* */ pour les multiligne\n- Les commentaires doivent aider les débutants",
     "addComments": "Ajoute des commentaires utiles en français à ce code Arduino :\n\n```cpp\n{0}\n```\n\nRègles :\n- Explique ce que fait chaque ligne importante\n- Commente les fonctions et leurs paramètres\n- Explique les interactions matérielles\n- Utilise // pour les commentaires sur une ligne et /* */ pour les multiligne\n- Les commentaires doivent aider les débutants",
@@ -177,8 +177,8 @@
     "askFollowUp": "Question de suivi :",
     "followUpContext": "Contexte de conversation précédente :",
     "followUpInstruction": "Réponds en français en tenant compte de la conversation précédente.",
-    "improveCodeFile": "Améliore ce fichier Arduino complet ({0}):\n\n```cpp\n{1}\n```\n\nOptimise pour:\n- Code non bloquant (millis au lieu de delay)\n- Efficacité mémoire\n- Meilleure lisibilité\n- Meilleures pratiques Arduino\n- Robustesse",
-    "improveCodeSketch": "Améliore tous les fichiers de ce sketch Arduino:\n\n{0}\n\nOptimise l'ensemble du sketch pour:\n- Code non bloquant (millis au lieu de delay)\n- Efficacité mémoire\n- Meilleure lisibilité\n- Meilleures pratiques Arduino\n- Robustesse\n- Séparation propre entre les fichiers",
+    "improveCodeFile": "Améliore ce fichier Arduino complet ({0}) :\n\n```cpp\n{1}\n```\n\nConcentre-toi sur une meilleure lisibilité et les bonnes pratiques Arduino.\n\n{anchors}",
+    "improveCodeSketch": "Améliore tous les fichiers de ce sketch Arduino :\n\n{0}\n\nConcentre-toi sur une meilleure lisibilité, les bonnes pratiques Arduino et une séparation nette entre les fichiers.\n\n{anchors}",
     "addCommentsFile": "Ajoute des commentaires utiles en français à ce fichier Arduino complet ({0}):\n\n```cpp\n{1}\n```\n\nRègles:\n- Explique ce que fait chaque ligne importante\n- Commente les fonctions et leurs paramètres\n- Explique les interactions matérielles\n- Utilise // pour les commentaires sur une ligne et /* */ pour plusieurs lignes\n- Les commentaires doivent aider les débutants",
     "addCommentsSketch": "Ajoute des commentaires utiles en français à tous les fichiers de ce sketch Arduino:\n\n{0}\n\nRègles:\n- Explique ce que fait chaque ligne importante\n- Commente les fonctions et leurs paramètres\n- Explique les interactions matérielles et les relations entre fichiers\n- Utilise // pour les commentaires sur une ligne et /* */ pour plusieurs lignes\n- Les commentaires doivent aider les débutants",
     "explainCodeFile": "Explique ce fichier Arduino complet ({0}) en français:\n\n```cpp\n{1}\n```\n\nExplique:\n- Ce que fait le fichier (objectif principal)\n- Les fonctions importantes et leurs tâches\n- Les interactions matérielles (broches, capteurs, etc.)\n- Les algorithmes et la logique\n- Les particularités ou détails importants",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "Défaut CLI"
+  },
+  "anchors": {
+    "sectionTitle": "Ancres sémantiques",
+    "tooltip": "Ancres sémantiques : courtes directives de codage transmises à l'IA. Combinez-en autant que vous le souhaitez.",
+    "advancedTitle": "Avancé / Agentique",
+    "noMagicNumbers": "Pas de nombres magiques",
+    "beginnerComments": "Commentaires pour débutants",
+    "nonBlocking": "Non bloquant",
+    "lowRam": "RAM réduite",
+    "defensive": "Valider les entrées",
+    "minimalDiff": "Changements minimaux",
+    "preserveStyle": "Préserver le style",
+    "explainChanges": "Expliquer les changements",
+    "noNewDeps": "Pas de nouvelles dépendances",
+    "isrSafe": "Sûr pour ISR",
+    "noDynamicMemory": "Pas de mémoire dynamique",
+    "faultTolerant": "Tolérant aux pannes",
+    "stateMachine": "Machine à états",
+    "fixedWidthTypes": "Types à largeur fixe",
+    "lowPower": "Faible consommation",
+    "integerMath": "Arithmétique entière",
+    "askFirst": "Demander d'abord"
   }
 }

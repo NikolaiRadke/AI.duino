@@ -160,7 +160,7 @@
     "pasteSerial": "Vložte váš Serial Monitor výstup",
     "systemPrompt": "Ste užitočný Arduino programovací asistent. Vždy odpovedajte po slovensky a vysvetľujte Arduino kód zrozumiteľne.",
     "explainCode": "Vysvetlite tento Arduino kód po slovensky jednoduchým, zrozumiteľným jazykom:\n\n```cpp\n{0}\n```\n\nVysvetlite:\n- Čo kód robí\n- Ako funguje\n- Aký hardvér ovláda\n- Dôležité pojmy pre začiatočníkov\n\nBuďte priateľskí a podrobní.",
-    "improveCode": "Zlepšite tento Arduino kód:\n\n```cpp\n{0}\n```\n\nOptimalizujte pre:\n- Neblokujúci kód (millis namiesto delay)\n- Efektívnosť pamäte\n- Lepšiu čitateľnosť\n- Arduino najlepšie praktiky\n- Robustnosť",
+    "improveCode": "Vylepši tento Arduino kód:\n\n```cpp\n{0}\n```\n\nZameraj sa na lepšiu čitateľnosť a osvedčené postupy pre Arduino.\n\n{anchors}",
     "improveCodeSuffix": "Vráťte len zlepšený kód s krátkymi slovenskými komentármi k zmenám.",
     "addCommentsSelected": "Pridajte užitočné slovenské komentáre k tomuto Arduino kódu:\n\n```cpp\n{0}\n```\n\nPravidlá:\n- Vysvetlite, čo robí každý dôležitý riadok\n- Komentujte funkcie a ich parametre\n- Vysvetlite interakcie s hardvérom\n- Používajte // pre jednoriadkové a /* */ pre viacriadkové komentáre\n- Komentáre majú pomôcť začiatočníkom",
     "addComments": "Pridajte užitočné slovenské komentáre k tomuto Arduino kódu:\n\n```cpp\n{0}\n```\n\nPravidlá:\n- Vysvetlite, čo robí každý dôležitý riadok\n- Komentujte funkcie a ich parametre\n- Vysvetlite interakcie s hardvérom\n- Používajte // pre jednoriadkové a /* */ pre viacriadkové komentáre\n- Komentáre majú pomôcť začiatočníkom",
@@ -177,8 +177,8 @@
     "askFollowUp": "Následná otázka:",
     "followUpContext": "Kontext z predchádzajúceho rozhovoru:",
     "followUpInstruction": "Odpovedzte po slovensky s ohľadom na predchádzajúci rozhovor.",
-    "improveCodeFile": "Vylepši tento kompletný Arduino súbor ({0}):\n\n```cpp\n{1}\n```\n\nOptimalizuj pre:\n- Neblokujúci kód (millis namiesto delay)\n- Efektivitu pamäte\n- Lepšiu čitateľnosť\n- Arduino najlepšie postupy\n- Robustnosť",
-    "improveCodeSketch": "Vylepši všetky súbory v tomto Arduino sketchi:\n\n{0}\n\nOptimalizuj celý sketch pre:\n- Neblokujúci kód (millis namiesto delay)\n- Efektivitu pamäte\n- Lepšiu čitateľnosť\n- Arduino najlepšie postupy\n- Robustnosť\n- Jasné oddelenie medzi súbormi",
+    "improveCodeFile": "Vylepši tento kompletný Arduino súbor ({0}):\n\n```cpp\n{1}\n```\n\nZameraj sa na lepšiu čitateľnosť a osvedčené postupy pre Arduino.\n\n{anchors}",
+    "improveCodeSketch": "Vylepši všetky súbory v tomto Arduino náčrte:\n\n{0}\n\nZameraj sa na lepšiu čitateľnosť, osvedčené postupy pre Arduino a čisté oddelenie medzi súbormi.\n\n{anchors}",
     "addCommentsFile": "Pridaj užitočné slovenské komentáre k tomuto kompletnému Arduino súboru ({0}):\n\n```cpp\n{1}\n```\n\nPravidlá:\n- Vysvetli, čo robí každý dôležitý riadok\n- Okomentuj funkcie a ich parametre\n- Vysvetli interakcie s hardvérom\n- Používaj // pre jednoriadkové a /* */ pre viacriadkové komentáre\n- Komentáre by mali pomáhať začiatočníkom",
     "addCommentsSketch": "Pridaj užitočné slovenské komentáre ku všetkým súborom v tomto Arduino sketchi:\n\n{0}\n\nPravidlá:\n- Vysvetli, čo robí každý dôležitý riadok\n- Okomentuj funkcie a ich parametre\n- Vysvetli interakcie s hardvérom a vzťahy medzi súbormi\n- Používaj // pre jednoriadkové a /* */ pre viacriadkové komentáre\n- Komentáre by mali pomáhať začiatočníkom",
     "explainCodeFile": "Vysvetli tento kompletný Arduino súbor ({0}) po slovensky:\n\n```cpp\n{1}\n```\n\nVysvetli:\n- Čo súbor robí (hlavný účel)\n- Dôležité funkcie a ich úlohy\n- Interakcie s hardvérom (piny, senzory atď.)\n- Algoritmy a logiku\n- Zvláštnosti alebo dôležité detaily",
@@ -722,5 +722,27 @@
   },
   "provider": {
     "cliDefault": "Predvolený CLI"
+  },
+  "anchors": {
+    "sectionTitle": "Sémantické kotvy",
+    "tooltip": "Sémantické kotvy: krátke kódovacie direktívy odovzdávané AI. Kombinuj ľubovoľný počet.",
+    "advancedTitle": "Pokročilé / Agentné",
+    "noMagicNumbers": "Žiadne magické čísla",
+    "beginnerComments": "Komentáre pre začiatočníkov",
+    "nonBlocking": "Neblokujúce",
+    "lowRam": "Nízka RAM",
+    "defensive": "Kontrola vstupov",
+    "minimalDiff": "Minimálne zmeny",
+    "preserveStyle": "Zachovať štýl",
+    "explainChanges": "Vysvetliť zmeny",
+    "noNewDeps": "Žiadne nové závislosti",
+    "isrSafe": "Bezpečné pre ISR",
+    "noDynamicMemory": "Žiadna dynamická pamäť",
+    "faultTolerant": "Odolné voči chybám",
+    "stateMachine": "Stavový automat",
+    "fixedWidthTypes": "Typy s pevnou šírkou",
+    "lowPower": "Nízka spotreba",
+    "integerMath": "Celočíselná aritmetika",
+    "askFirst": "Najskôr sa opýtaj"
   }
 }
