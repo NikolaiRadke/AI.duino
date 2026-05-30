@@ -261,9 +261,16 @@ function checkCliProvider(key, cfg) {
                 { stdio: 'ignore' });
             found = true;
         } catch { /* not installed */ }
-        found
-            ? results.push({ type: 'pass', label: `Binary '${pc.command}' found on PATH` })
-            : info(`Binary '${pc.command}' not found on PATH — not installed?`);
+        if (found) {
+            results.push({ type: 'pass', label: `Binary '${pc.command}' found on PATH` });
+        } else {
+            const storedPath = readKey(cfg.keyFile);
+            if (storedPath && fs.existsSync(storedPath)) {
+                results.push({ type: 'pass', label: `Binary '${pc.command}' found at configured path` });
+            } else {
+                info(`Binary '${pc.command}' not found on PATH — not installed?`);
+            }
+        }
     }
 
     if (typeof pc.buildArgs === 'function') {

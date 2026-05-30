@@ -1,5 +1,10 @@
 # Changelog
 
+
+## 2.6.9
+* Fixed npm-based providers (Codex CLI, Gemini CLI, OpenCode, Groq Code CLI) not working on Windows — .cmd files can now be launched correctly
+* Provider test now recognizes binaries installed at a custom path
+
 ## 2.6.8
 * Added "CLI Default" model option for Claude Code, Codex CLI and Gemini CLI — omits --model flag so the CLI uses its own default
 * Removed misleading model lists for Mistral Vibe, Groq Code CLI and OpenCode; these providers do not support model selection via CLI parameters
