@@ -36,34 +36,41 @@ async function checkExtensionUpdate(currentVersion, t, globalContext) {
 function fetchLatestVersion() {
     return new Promise((resolve) => {
         const options = {
-            hostname: 'raw.githubusercontent.com',
-            path: '/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/package.json',
+            hostname: 'api.github.com',
+            path: '/repos/NikolaiRadke/AI.duino/releases/latest',
             headers: {
-                'User-Agent': 'AI.duino-Extension'
+                'User-Agent': 'AI.duino-Extension',
+                'Accept': 'application/vnd.github+json'
             },
             timeout: 10000
         };
-        
+
         const req = https.request(options, (res) => {
             if (res.statusCode !== 200) {
                 resolve(null);
                 return;
             }
-            
+
             let data = '';
             res.on('data', chunk => data += chunk);
             res.on('end', () => {
-                const packageJson = JSON.parse(data);
-                resolve(packageJson.version);
+                try {
+                    const release = JSON.parse(data);
+                    // Tags look like "V2.6.8", "V2.6.0_1" or "V2.5.0-Make" - extract clean semver
+                    const match = (release.tag_name || '').match(/(\d+\.\d+\.\d+)/);
+                    resolve(match ? match[1] : null);
+                } catch {
+                    resolve(null);
+                }
             });
         });
-        
+
         req.on('error', () => resolve(null));
         req.on('timeout', () => {
             req.destroy();
             resolve(null);
         });
-        
+
         req.end();
     });
 }
