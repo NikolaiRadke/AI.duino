@@ -2,6 +2,7 @@
 
 ## 2026
 
+* **31.05.2026** **Release V2.7.0** brings new Semantic Anchors feature. See the prompt editor.    
 * **30.05.2026** **Release V2.6.9** with npm-based providers bugfix.
 * **18.05.2026** **Release V2.6.8**, a release focused on process providers.  
 * **16.05.2026** **Release V2.6.7** with VS Code meta data and a small bugfix.
