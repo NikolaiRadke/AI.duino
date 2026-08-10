@@ -65,7 +65,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '100826'; 
+const CONFIG_VERSION = '180526'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -82,32 +82,25 @@ const PROVIDER_CONFIGS = {
         path: '/v1/models',
         headers: (key) => ({ 'x-api-key': key, 'anthropic-version': '2023-06-01' }),
         extractModels: (data) => data.data?.filter(m => m.type === 'model' && !m.id.includes('deprecated')) || [],
-        // Prefer the newest Sonnet by release date, then the newest Haiku, then anything.
-        // Sorting by created_at avoids hardcoding model IDs that age out every few months.
-        selectBest: (models) => {
-            const newest = [...models].sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));
-            return newest.find(m => m.id?.includes('sonnet')) || newest.find(m => m.id?.includes('haiku')) || newest[0];
-        },
-        fallback: 'claude-sonnet-5',
+        selectBest: (models) => models.find(m => m.id.includes('opus-4-7')) || models.find(m => m.id.includes('opus-4-6')) || models.find(m => m.id.includes('sonnet-4-6')) || models.find(m => m.id.includes('opus-4-5')) || models.find(m => m.id.includes('sonnet-4-5')) || models.find(m => m.id.includes('haiku')) || models[0],
+        fallback: 'claude-sonnet-4-6',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,  // Cache longer for stable APIs
             extractModels: (data) => data.data?.filter(m => m.type === 'model' && !m.id.includes('deprecated')) || [],
-            selectDefault: (models) => {
-                const newest = [...models].sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));
-                return newest.find(m => m.id?.includes('sonnet')) || newest.find(m => m.id?.includes('haiku')) || newest[0];
-            },
+            selectDefault: (models) => models.find(m => m.id.includes('opus-4-7')) || models.find(m => m.id.includes('opus-4-6')) || models.find(m => m.id.includes('sonnet-4-6')) || models.find(m => m.id.includes('opus-4-5')) || models.find(m => m.id.includes('sonnet-4-5')) || models.find(m => m.id.includes('haiku')) || models[0],
             staticModels: [
-                { id: 'claude-opus-5', name: 'Claude Opus 5', displayName: 'Opus 5' },
-                { id: 'claude-sonnet-5', name: 'Claude Sonnet 5', displayName: 'Sonnet 5' },
-                { id: 'claude-haiku-4-5-20251001', name: 'Claude Haiku 4.5', displayName: 'Haiku 4.5' },
-                { id: 'claude-opus-4-8', name: 'Claude Opus 4.8', displayName: 'Opus 4.8' },
-                { id: 'claude-sonnet-4-6', name: 'Claude Sonnet 4.6', displayName: 'Sonnet 4.6' }
+                { id: 'claude-opus-4-7', name: 'Claude Opus 4.7', displayName: 'Opus 4.7' },
+                { id: 'claude-opus-4-6', name: 'Claude Opus 4.6', displayName: 'Opus 4.6' },
+                { id: 'claude-sonnet-4-6', name: 'Claude Sonnet 4.6', displayName: 'Sonnet 4.6' },
+                { id: 'claude-opus-4-5-20251101', name: 'Claude Opus 4.5', displayName: 'Opus 4.5' },
+                { id: 'claude-sonnet-4-5-20250929', name: 'Claude Sonnet 4.5', displayName: 'Sonnet 4.5' },
+                { id: 'claude-haiku-4-5-20251001', name: 'Claude Haiku 4.5', displayName: 'Haiku 4.5' }
             ]
         },
         prices: {
-            input: 3.0 / 1000000,     // $3.00 per 1M tokens (Sonnet 5 standard rate from Sep 1, 2026)
-            output: 15.0 / 1000000    // $15.00 per 1M tokens; Opus 5: $5.00/$25.00
+            input: 3.0 / 1000000,     // $3.00 per 1M tokens (Sonnet 4.6); Opus 4.7: $5.00/$25.00
+            output: 15.0 / 1000000    // $15.00 per 1M tokens
         },
         apiConfig: {
             apiPath: '/v1/messages',
@@ -141,42 +134,31 @@ const PROVIDER_CONFIGS = {
             // Only chat models
             if (!m.id.startsWith('gpt-')) return false;
             
-            // Exclude non-chat models (image, audio, realtime and legacy completion models)
-            const excludePatterns = ['tts', 'whisper', 'dall-e', 'instruct', 'davinci', 'curie', 'babbage', 'ada',
-                                     'image', 'realtime', 'transcribe', 'audio', 'search', 'embedding', 'moderation'];
+            // Exclude non-chat models
+            const excludePatterns = ['tts', 'whisper', 'dall-e', 'instruct', 'davinci', 'curie', 'babbage', 'ada'];
             return !excludePatterns.some(pattern => m.id.includes(pattern));
         }) || [],
-        // Prefer the balanced tier, then the newest model by creation date.
-        // OpenAI renames tiers between generations, so match on tier suffix, not exact IDs.
-        selectBest: (models) => {
-            const newest = [...models].sort((a, b) => (b.created || 0) - (a.created || 0));
-            return newest.find(m => m.id?.includes('terra')) || newest.find(m => m.id?.includes('mini')) || newest[0];
-        },
-        fallback: 'gpt-5.6-terra',
+        selectBest: (models) => models.find(m => m.id === 'gpt-4.1') || models.find(m => m.id.includes('gpt-4o')) || models.find(m => m.id.includes('gpt-4')) || models[0],
+        fallback: 'gpt-4.1',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,  // Cache longer for stable APIs
             extractModels: (data) => data.data?.filter(m => {
                 if (!m.id.startsWith('gpt-')) return false;
-                const excludePatterns = ['tts', 'whisper', 'dall-e', 'instruct', 'davinci', 'curie', 'babbage', 'ada',
-                                         'image', 'realtime', 'transcribe', 'audio', 'search', 'embedding', 'moderation'];
+                const excludePatterns = ['tts', 'whisper', 'dall-e', 'instruct', 'davinci', 'curie', 'babbage', 'ada'];
                 return !excludePatterns.some(pattern => m.id.includes(pattern));
             }) || [],
-            selectDefault: (models) => {
-                const newest = [...models].sort((a, b) => (b.created || 0) - (a.created || 0));
-                return newest.find(m => m.id?.includes('terra')) || newest.find(m => m.id?.includes('mini')) || newest[0];
-            },
+            selectDefault: (models) => models.find(m => m.id === 'gpt-4.1') || models.find(m => m.id.includes('gpt-4o')) || models.find(m => m.id.includes('gpt-4')) || models[0],
             staticModels: [
-                { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', displayName: 'GPT-5.6 Terra' },
-                { id: 'gpt-5.6-sol', name: 'GPT-5.6 Sol', displayName: 'GPT-5.6 Sol' },
-                { id: 'gpt-5.6-luna', name: 'GPT-5.6 Luna', displayName: 'GPT-5.6 Luna' },
-                { id: 'gpt-5.5', name: 'GPT-5.5', displayName: 'GPT-5.5' },
-                { id: 'gpt-5.4', name: 'GPT-5.4', displayName: 'GPT-5.4' }
+                { id: 'gpt-4.1', name: 'GPT-4.1', displayName: 'GPT-4.1' },
+                { id: 'gpt-4.1-mini', name: 'GPT-4.1 Mini', displayName: 'GPT-4.1 Mini' },
+                { id: 'gpt-4o', name: 'GPT-4o', displayName: 'GPT-4o' },
+                { id: 'gpt-4o-mini', name: 'GPT-4o Mini', displayName: 'GPT-4o Mini' }
             ]
         },
         prices: {
-            input: 2.00 / 1000000,    // $2.00 per 1M tokens (GPT-5.6 Terra)
-            output: 12.00 / 1000000   // $12.00 per 1M tokens; Sol: $5.00/$30.00, Luna: $0.20/$1.20
+            input: 2.00 / 1000000,    // $2.00 per 1M tokens (GPT-4.1; GPT-4o: $2.50/$10.00)
+            output: 8.00 / 1000000    // $8.00 per 1M tokens
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -209,47 +191,23 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://aistudio.google.com/apikey',
         path: '/v1/models?key=',
         headers: () => ({}),
-        // Keep only Gemini text models. Image, embedding, imagen and gemma entries
-        // also advertise generateContent, so filter them out explicitly.
-        extractModels: (data) => data.models?.filter(m => {
-            if (!m.supportedGenerationMethods?.includes('generateContent')) return false;
-            const id = String(m.name || '');
-            if (!id.startsWith('models/gemini-')) return false;
-            return !['-image', 'embedding', 'aqa', '-tts'].some(p => id.includes(p));
-        }) || [],
-        // Pick the highest Flash version number rather than a fixed model ID.
-        // Google ships new Flash generations every few months and retires the old ones.
-        selectBest: (models) => {
-            const version = (m) => parseFloat((String(m.name || m.id || '').match(/gemini-(\d+(?:\.\d+)?)-flash(?:-\d+)?$/) || [])[1] || -1);
-            const flash = models.filter(m => version(m) >= 0).sort((a, b) => version(b) - version(a));
-            return flash[0] || models.find(m => String(m.name || m.id || '').includes('flash')) || models[0];
-        },
-        fallback: 'models/gemini-3.6-flash',
+        extractModels: (data) => data.models?.filter(m => m.supportedGenerationMethods?.includes('generateContent')) || [],
+        selectBest: (models) => models.find(m => m.name.includes('2.5-flash')) || models.find(m => m.name.includes('2.5-pro')) || models.find(m => m.name.includes('2.0-flash')) || models[0],
+        fallback: 'models/gemini-2.5-flash',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,
-            extractModels: (data) => data.models?.filter(m => {
-                if (!m.supportedGenerationMethods?.includes('generateContent')) return false;
-                const id = String(m.name || '');
-                if (!id.startsWith('models/gemini-')) return false;
-                return !['-image', 'embedding', 'aqa', '-tts'].some(p => id.includes(p));
-            }) || [],
-            selectDefault: (models) => {
-                const version = (m) => parseFloat((String(m.name || m.id || '').match(/gemini-(\d+(?:\.\d+)?)-flash(?:-\d+)?$/) || [])[1] || -1);
-                const flash = models.filter(m => version(m) >= 0).sort((a, b) => version(b) - version(a));
-                return flash[0] || models.find(m => String(m.name || m.id || '').includes('flash')) || models[0];
-            },
+            extractModels: (data) => data.models?.filter(m => m.supportedGenerationMethods?.includes('generateContent')) || [],
+            selectDefault: (models) => models.find(m => m.name.includes('2.5-flash')) || models.find(m => m.name.includes('2.5-pro')) || models.find(m => m.name.includes('2.0-flash')) || models[0],
             staticModels: [
-                { id: 'models/gemini-3.6-flash', name: 'Gemini 3.6 Flash', displayName: 'Gemini 3.6 Flash' },
-                { id: 'models/gemini-3.5-flash', name: 'Gemini 3.5 Flash', displayName: 'Gemini 3.5 Flash' },
-                { id: 'models/gemini-3.5-flash-lite', name: 'Gemini 3.5 Flash-Lite', displayName: 'Gemini 3.5 Flash-Lite' },
-                { id: 'models/gemini-3.1-flash-lite', name: 'Gemini 3.1 Flash-Lite', displayName: 'Gemini 3.1 Flash-Lite' },
-                { id: 'models/gemini-2.5-pro', name: 'Gemini 2.5 Pro', displayName: 'Gemini 2.5 Pro' }
+                { id: 'models/gemini-2.5-flash', name: 'Gemini 2.5 Flash', displayName: 'Gemini 2.5 Flash' },
+                { id: 'models/gemini-2.5-pro', name: 'Gemini 2.5 Pro', displayName: 'Gemini 2.5 Pro' },
+                //{ id: 'models/gemini-2.0-flash', name: 'Gemini 2.0 Flash', displayName: 'Gemini 2.0 Flash' }
             ]
         },
         prices: {
-            input: 1.50 / 1000000,    // $1.50 per 1M tokens (Gemini 3.6 Flash)
-            output: 7.50 / 1000000    // $7.50 per 1M tokens; 3.1 Pro: $2.00/$12.00
+            input: 0.30 / 1000000,    // $0.30 per 1M tokens (Gemini 2.5 Flash)
+            output: 2.50 / 1000000    // $2.50 per 1M tokens (2.5 Pro: $1.25/$10.00)
         },
         apiConfig: {
             apiPath: (modelId, key) => {
@@ -258,12 +216,10 @@ const PROVIDER_CONFIGS = {
             },
             method: 'POST',
             headers: () => ({ 'Content-Type': 'application/json' }),
-            // Note: temperature/top_p/top_k are deprecated for Gemini 3.x and are
-            // intentionally omitted here. apiClient only overrides fields that exist,
-            // so leaving temperature out also keeps the user setting from being sent.
             buildRequest: (modelId, prompt, systemPrompt) => ({
                 contents: [{ parts: [{ text: prompt }] }],
                 generationConfig: {
+                    temperature: 0.7,
                     maxOutputTokens: 65536
                 }
             }),
@@ -289,24 +245,22 @@ const PROVIDER_CONFIGS = {
         path: '/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => data.data?.filter(m => !m.id.includes('embed')) || [],
-        // Mistral keeps stable '-latest' aliases, so prefer those over pinned snapshots.
-        selectBest: (models) => models.find(m => m.id === 'mistral-large-latest') || models.find(m => m.id?.includes('large')) || models.find(m => m.id?.includes('small-latest')) || models[0],
-        fallback: 'mistral-large-latest',
+        selectBest: (models) => models.find(m => m.id.includes('medium-latest') || m.id.includes('large')) || models[0],
+        fallback: 'mistral-medium-latest',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,
             extractModels: (data) => data.data?.filter(m => !m.id.includes('embed')) || [],
-            selectDefault: (models) => models.find(m => m.id === 'mistral-large-latest') || models.find(m => m.id?.includes('large')) || models.find(m => m.id?.includes('small-latest')) || models[0],
+            selectDefault: (models) => models.find(m => m.id.includes('medium-latest') || m.id.includes('large')) || models[0],
             staticModels: [
-                { id: 'mistral-large-latest', name: 'Mistral Large 3', displayName: 'Mistral Large 3' },
-                { id: 'mistral-small-latest', name: 'Mistral Small 4', displayName: 'Mistral Small 4' },
-                { id: 'codestral-latest', name: 'Codestral', displayName: 'Codestral' },
-                { id: 'magistral-medium-latest', name: 'Magistral Medium', displayName: 'Magistral Medium' }
+                { id: 'mistral-large-latest', name: 'Mistral Large', displayName: 'Mistral Large' },
+                { id: 'mistral-medium-latest', name: 'Mistral Medium 3', displayName: 'Mistral Medium 3' },
+                { id: 'mistral-small-latest', name: 'Mistral Small', displayName: 'Mistral Small' }
             ]
         },
         prices: {
-            input: 0.50 / 1000000,    // $0.50 per 1M tokens (Mistral Large 3)
-            output: 1.50 / 1000000    // $1.50 per 1M tokens; Small 4: $0.15/$0.60
+            input: 0.40 / 1000000,    // $0.40 per 1M tokens (Mistral Medium 3, May 2025)
+            output: 2.00 / 1000000    // $2.00 per 1M tokens (Large 3: $2/$5)
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -929,18 +883,19 @@ const PROVIDER_CONFIGS = {
         keyPrefix: '', 
         keyMinLength: 5, 
         apiKeyUrl: 'https://docs.claude.com/en/docs/claude-code',
-        fallback: 'claude-sonnet-5',
+        fallback: 'claude-sonnet-4-6',
         modelDiscovery: {
             cliDefault: true,  // Omit --model flag when 'default' is selected
             enabled: true,
             staticModels: [
-                { id: 'claude-opus-5', name: 'Claude Opus 5', displayName: 'Opus 5' },
-                { id: 'claude-sonnet-5', name: 'Claude Sonnet 5', displayName: 'Sonnet 5' },
-                { id: 'claude-haiku-4-5', name: 'Claude Haiku 4.5', displayName: 'Haiku 4.5' },
-                { id: 'claude-opus-4-8', name: 'Claude Opus 4.8', displayName: 'Opus 4.8' },
-                { id: 'claude-sonnet-4-6', name: 'Claude Sonnet 4.6', displayName: 'Sonnet 4.6' }
+                { id: 'claude-opus-4-7', name: 'Claude Opus 4.7', displayName: 'Opus 4.7' },
+                { id: 'claude-opus-4-6', name: 'Claude Opus 4.6', displayName: 'Opus 4.6' },
+                { id: 'claude-sonnet-4-6', name: 'Claude Sonnet 4.6', displayName: 'Sonnet 4.6' },
+                { id: 'claude-opus-4-5', name: 'Claude Opus 4.5', displayName: 'Opus 4.5' },
+                { id: 'claude-sonnet-4-5', name: 'Claude Sonnet 4.5', displayName: 'Sonnet 4.5' },
+                { id: 'claude-haiku-4-5', name: 'Claude Haiku 4.5', displayName: 'Haiku 4.5' }
             ],
-            selectDefault: (models) => models.find(m => m.id?.includes('sonnet-5')) || models.find(m => m.id?.includes('sonnet')) || models[0]
+            selectDefault: (models) => models.find(m => m.id.includes('opus-4-7')) || models.find(m => m.id.includes('sonnet')) || models[0]
         },
         processConfig: {
             command: 'claude',
@@ -981,18 +936,18 @@ const PROVIDER_CONFIGS = {
         keyPrefix: '',
         keyMinLength: 5,
         apiKeyUrl: 'https://github.com/openai/codex',
-        fallback: 'gpt-5.6-terra',
+        fallback: 'gpt-5.5',
         modelDiscovery: {
             cliDefault: true,  // Omit --model flag when 'default' is selected
             enabled: true,
             staticModels: [
-                { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', displayName: 'GPT-5.6 Terra' },
-                { id: 'gpt-5.6-sol',   name: 'GPT-5.6 Sol',   displayName: 'GPT-5.6 Sol' },
-                { id: 'gpt-5.6-luna',  name: 'GPT-5.6 Luna',  displayName: 'GPT-5.6 Luna' },
                 { id: 'gpt-5.5',       name: 'GPT-5.5',       displayName: 'GPT-5.5' },
-                { id: 'gpt-5.4',       name: 'GPT-5.4',       displayName: 'GPT-5.4' }
+                { id: 'gpt-5.4',       name: 'GPT-5.4',       displayName: 'GPT-5.4' },
+                { id: 'gpt-5.4-mini',  name: 'GPT-5.4 Mini',  displayName: 'GPT-5.4 Mini' },
+                { id: 'gpt-5.3-codex', name: 'GPT-5.3 Codex', displayName: 'GPT-5.3 Codex' },
+                { id: 'gpt-5.2',       name: 'GPT-5.2',       displayName: 'GPT-5.2' }
             ],
-            selectDefault: (models) => models.find(m => m.id?.includes('terra')) || models[0]
+            selectDefault: (models) => models.find(m => m.id === 'gpt-5.5') || models[0]
         },
         processConfig: {
             command: 'codex',
@@ -1119,17 +1074,17 @@ const PROVIDER_CONFIGS = {
         keyPrefix: '',
         keyMinLength: 5,
         apiKeyUrl: 'https://geminicli.com/docs/get-started/authentication/',
-        fallback: 'gemini-flash-latest',
+        fallback: 'gemini-2.5-flash',
         modelDiscovery: {
             cliDefault: true,  // Omit --model flag when 'default' is selected
             enabled: true,
             staticModels: [
-                { id: 'gemini-flash-latest', name: 'Gemini Flash (latest)', displayName: 'Gemini Flash (latest)' },
-                { id: 'gemini-3.6-flash', name: 'Gemini 3.6 Flash', displayName: 'Gemini 3.6 Flash' },
-                { id: 'gemini-3.5-flash', name: 'Gemini 3.5 Flash', displayName: 'Gemini 3.5 Flash' },
-                { id: 'gemini-3.1-pro', name: 'Gemini 3.1 Pro', displayName: 'Gemini 3.1 Pro' }
+                { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', displayName: 'Gemini 2.5 Pro' },
+                { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', displayName: 'Gemini 2.5 Flash' },
+                { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash', displayName: 'Gemini 2.0 Flash' },
+                { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro', displayName: 'Gemini 1.5 Pro' }
             ],
-            selectDefault: (models) => models.find(m => m.id === 'gemini-flash-latest') || models.find(m => m.id?.includes('flash')) || models[0]
+            selectDefault: (models) => models.find(m => m.id === 'gemini-2.5-flash') || models[0]
         },
         processConfig: {
             command: 'gemini',
