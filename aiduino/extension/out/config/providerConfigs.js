@@ -65,7 +65,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '100826'; 
+const CONFIG_VERSION = '170926'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -106,8 +106,8 @@ const PROVIDER_CONFIGS = {
             ]
         },
         prices: {
-            input: 3.0 / 1000000,     // $3.00 per 1M tokens (Sonnet 5 standard rate from Sep 1, 2026)
-            output: 15.0 / 1000000    // $15.00 per 1M tokens; Opus 5: $5.00/$25.00
+            input: 2.0 / 1000000,     // $2.00 per 1M tokens (Sonnet 5 standard rate, planned increase cancelled)
+            output: 10.0 / 1000000    // $10.00 per 1M tokens; Opus 5: $5.00/$25.00, Haiku 4.5: $1.00/$5.00
         },
         apiConfig: {
             apiPath: '/v1/messages',
@@ -122,7 +122,12 @@ const PROVIDER_CONFIGS = {
                 max_tokens: 2000,
                 messages: [{ role: "user", content: prompt }]
             }),
-            extractResponse: (data) => data.content[0].text
+            // Opus 5 and Sonnet 5 think by default, so content[0] may be a thinking block
+            extractResponse: (data) => {
+                const text = data.content?.filter(b => b.type === 'text').map(b => b.text).join('');
+                if (!text) throw new Error(`Claude: ${data.stop_reason || 'No text response'}`);
+                return text;
+            }
         }
     },
     
@@ -139,11 +144,11 @@ const PROVIDER_CONFIGS = {
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => data.data?.filter(m => {
             // Only chat models
-            if (!m.id.startsWith('gpt-')) return false;
+            if (!m.id?.startsWith('gpt-')) return false;
             
             // Exclude non-chat models (image, audio, realtime and legacy completion models)
             const excludePatterns = ['tts', 'whisper', 'dall-e', 'instruct', 'davinci', 'curie', 'babbage', 'ada',
-                                     'image', 'realtime', 'transcribe', 'audio', 'search', 'embedding', 'moderation'];
+                                     'image', 'realtime', 'transcribe', 'audio', 'search', 'embedding', 'moderation', 'cyber'];
             return !excludePatterns.some(pattern => m.id.includes(pattern));
         }) || [],
         // Prefer the balanced tier, then the newest model by creation date.
@@ -157,9 +162,9 @@ const PROVIDER_CONFIGS = {
             enabled: true,
             cacheMinutes: 120,  // Cache longer for stable APIs
             extractModels: (data) => data.data?.filter(m => {
-                if (!m.id.startsWith('gpt-')) return false;
+                if (!m.id?.startsWith('gpt-')) return false;
                 const excludePatterns = ['tts', 'whisper', 'dall-e', 'instruct', 'davinci', 'curie', 'babbage', 'ada',
-                                         'image', 'realtime', 'transcribe', 'audio', 'search', 'embedding', 'moderation'];
+                                         'image', 'realtime', 'transcribe', 'audio', 'search', 'embedding', 'moderation', 'cyber'];
                 return !excludePatterns.some(pattern => m.id.includes(pattern));
             }) || [],
             selectDefault: (models) => {
@@ -176,7 +181,7 @@ const PROVIDER_CONFIGS = {
         },
         prices: {
             input: 2.00 / 1000000,    // $2.00 per 1M tokens (GPT-5.6 Terra)
-            output: 12.00 / 1000000   // $12.00 per 1M tokens; Sol: $5.00/$30.00, Luna: $0.20/$1.20
+            output: 12.00 / 1000000   // $12.00 per 1M tokens; Sol: $4.00/$20.00 (promo until at least Nov 21, 2026), Luna: $0.20/$1.20
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -215,7 +220,7 @@ const PROVIDER_CONFIGS = {
             if (!m.supportedGenerationMethods?.includes('generateContent')) return false;
             const id = String(m.name || '');
             if (!id.startsWith('models/gemini-')) return false;
-            return !['-image', 'embedding', 'aqa', '-tts'].some(p => id.includes(p));
+            return !['-image', 'embedding', 'aqa', '-tts', '-live', 'transcribe', 'robotics', 'computer-use'].some(p => id.includes(p));
         }) || [],
         // Pick the highest Flash version number rather than a fixed model ID.
         // Google ships new Flash generations every few months and retires the old ones.
@@ -224,7 +229,7 @@ const PROVIDER_CONFIGS = {
             const flash = models.filter(m => version(m) >= 0).sort((a, b) => version(b) - version(a));
             return flash[0] || models.find(m => String(m.name || m.id || '').includes('flash')) || models[0];
         },
-        fallback: 'models/gemini-3.6-flash',
+        fallback: 'models/gemini-3.8-flash',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,
@@ -232,7 +237,7 @@ const PROVIDER_CONFIGS = {
                 if (!m.supportedGenerationMethods?.includes('generateContent')) return false;
                 const id = String(m.name || '');
                 if (!id.startsWith('models/gemini-')) return false;
-                return !['-image', 'embedding', 'aqa', '-tts'].some(p => id.includes(p));
+                return !['-image', 'embedding', 'aqa', '-tts', '-live', 'transcribe', 'robotics', 'computer-use'].some(p => id.includes(p));
             }) || [],
             selectDefault: (models) => {
                 const version = (m) => parseFloat((String(m.name || m.id || '').match(/gemini-(\d+(?:\.\d+)?)-flash(?:-\d+)?$/) || [])[1] || -1);
@@ -240,16 +245,16 @@ const PROVIDER_CONFIGS = {
                 return flash[0] || models.find(m => String(m.name || m.id || '').includes('flash')) || models[0];
             },
             staticModels: [
+                { id: 'models/gemini-3.8-flash', name: 'Gemini 3.8 Flash', displayName: 'Gemini 3.8 Flash' },
+                { id: 'models/gemini-3.7-flash', name: 'Gemini 3.7 Flash', displayName: 'Gemini 3.7 Flash' },
                 { id: 'models/gemini-3.6-flash', name: 'Gemini 3.6 Flash', displayName: 'Gemini 3.6 Flash' },
-                { id: 'models/gemini-3.5-flash', name: 'Gemini 3.5 Flash', displayName: 'Gemini 3.5 Flash' },
                 { id: 'models/gemini-3.5-flash-lite', name: 'Gemini 3.5 Flash-Lite', displayName: 'Gemini 3.5 Flash-Lite' },
-                { id: 'models/gemini-3.1-flash-lite', name: 'Gemini 3.1 Flash-Lite', displayName: 'Gemini 3.1 Flash-Lite' },
                 { id: 'models/gemini-2.5-pro', name: 'Gemini 2.5 Pro', displayName: 'Gemini 2.5 Pro' }
             ]
         },
         prices: {
-            input: 1.50 / 1000000,    // $1.50 per 1M tokens (Gemini 3.6 Flash)
-            output: 7.50 / 1000000    // $7.50 per 1M tokens; 3.1 Pro: $2.00/$12.00
+            input: 0.75 / 1000000,    // $0.75 per 1M tokens (Gemini 3.6-3.8 Flash until Dec 31, 2026; $1.50 from Jan 1, 2027)
+            output: 3.75 / 1000000    // $3.75 per 1M tokens ($7.50 from Jan 1, 2027); 3.1 Pro Preview: $2.00/$12.00
         },
         apiConfig: {
             apiPath: (modelId, key) => {
@@ -288,25 +293,25 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://console.mistral.ai/',
         path: '/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => data.data?.filter(m => !m.id.includes('embed')) || [],
+        extractModels: (data) => data.data?.filter(m => !m.id?.includes('embed')) || [],
         // Mistral keeps stable '-latest' aliases, so prefer those over pinned snapshots.
         selectBest: (models) => models.find(m => m.id === 'mistral-large-latest') || models.find(m => m.id?.includes('large')) || models.find(m => m.id?.includes('small-latest')) || models[0],
         fallback: 'mistral-large-latest',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,
-            extractModels: (data) => data.data?.filter(m => !m.id.includes('embed')) || [],
+            extractModels: (data) => data.data?.filter(m => !m.id?.includes('embed')) || [],
             selectDefault: (models) => models.find(m => m.id === 'mistral-large-latest') || models.find(m => m.id?.includes('large')) || models.find(m => m.id?.includes('small-latest')) || models[0],
             staticModels: [
                 { id: 'mistral-large-latest', name: 'Mistral Large 3', displayName: 'Mistral Large 3' },
                 { id: 'mistral-small-latest', name: 'Mistral Small 4', displayName: 'Mistral Small 4' },
                 { id: 'codestral-latest', name: 'Codestral', displayName: 'Codestral' },
-                { id: 'magistral-medium-latest', name: 'Magistral Medium', displayName: 'Magistral Medium' }
+                { id: 'mistral-medium-latest', name: 'Mistral Medium 3.5', displayName: 'Mistral Medium 3.5' }
             ]
         },
         prices: {
             input: 0.50 / 1000000,    // $0.50 per 1M tokens (Mistral Large 3)
-            output: 1.50 / 1000000    // $1.50 per 1M tokens; Small 4: $0.15/$0.60
+            output: 1.50 / 1000000    // $1.50 per 1M tokens; Small 4: $0.15/$0.60, Medium 3.5: $1.50/$7.50
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -337,38 +342,48 @@ const PROVIDER_CONFIGS = {
         keyMinLength: 15,
         hostname: 'api.perplexity.ai',
         apiKeyUrl: 'https://www.perplexity.ai/settings/api',
-        path: '/chat/completions',
+        path: '/v1/agent',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
-        extractModels: (data) => [{ id: 'sonar', name: 'Sonar' }],
+        extractModels: (data) => [{ id: 'perplexity/sonar', name: 'Sonar' }],
         selectBest: (models) => models[0],
-        fallback: 'sonar',
+        fallback: 'perplexity/sonar',
         modelDiscovery: {
             enabled: false,  // No model discovery API
             staticModels: [
-                { id: 'sonar', name: 'Sonar', displayName: 'Sonar' }
+                { id: 'perplexity/sonar', name: 'Sonar', displayName: 'Sonar' }
             ]
         },
         prices: {
-           input: 1.0 / 1000000,     // $1.00 per 1M tokens (Sonar, 2026)
-           output: 1.0 / 1000000     // $1.00 per 1M tokens
+           input: 0.25 / 1000000,    // $0.25 per 1M tokens (perplexity/sonar via Agent API)
+           output: 2.50 / 1000000    // $2.50 per 1M tokens; plus $5.00 per 1,000 web searches
         },
         apiConfig: {
-            apiPath: '/chat/completions',
+            // Sonar Chat Completions is supported only until Sep 27, 2026 - migrated to Agent API
+            apiPath: '/v1/agent',
             method: 'POST',
             headers: (key) => ({
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${key}`
             }),
+            // temperature is omitted on purpose; web search must be enabled explicitly as a tool
             buildRequest: (modelId, prompt, systemPrompt) => ({
-                model: modelId,
-                messages: [
-                    { role: "system", content: systemPrompt },
-                    { role: "user", content: prompt }
-                ],
-                max_tokens: 2000,
-                temperature: 0.7
+                // Map legacy stored IDs like 'sonar' to 'perplexity/sonar'
+                model: String(modelId || '').includes('/') ? modelId : `perplexity/${modelId || 'sonar'}`,
+                ...(systemPrompt ? { instructions: systemPrompt } : {}),
+                input: prompt,
+                tools: [{ type: 'web_search' }],
+                max_output_tokens: 2000
             }),
-            extractResponse: (data) => data.choices[0].message.content
+            extractResponse: (data) => {
+                if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+                if (typeof data.output_text === 'string' && data.output_text) return data.output_text;
+                const text = (data.output || []).filter(item => item.type === 'message')
+                    .flatMap(item => item.content || [])
+                    .filter(part => part.type === 'output_text')
+                    .map(part => part.text).join('');
+                if (!text) throw new Error(`Perplexity: ${data.status || 'No response'}`);
+                return text;
+            }
         }
     },
     
@@ -384,17 +399,17 @@ const PROVIDER_CONFIGS = {
         path: '/v1/models',
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => (data.models || data.data)?.filter(m => (m.name || m.id)?.includes('command')) || [],
-        selectBest: (models) => models.find(m => m.name.includes('command-a')) || models.find(m => m.name.includes('command-r-plus')) || models[0],
+        selectBest: (models) => models.find(m => m.name === 'command-a-03-2025') || models.find(m => m.name?.includes('command-r-plus')) || models[0],
         fallback: 'command-a-03-2025',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,
             extractModels: (data) => (data.models || data.data)?.filter(m => (m.name || m.id)?.includes('command')) || [],
-            selectDefault: (models) => models.find(m => m.name?.includes('command-a')) || models.find(m => m.name?.includes('command-r-plus')) || models[0],
+            selectDefault: (models) => models.find(m => m.name === 'command-a-03-2025') || models.find(m => m.name?.includes('command-r-plus')) || models[0],
             staticModels: [
                 { id: 'command-a-03-2025', name: 'Command A', displayName: 'Command A' },
-                { id: 'command-r-plus', name: 'Command R+', displayName: 'Command R+' },
-                { id: 'command-r', name: 'Command R', displayName: 'Command R' }
+                { id: 'command-r-plus-08-2024', name: 'Command R+ 08-2024', displayName: 'Command R+' },
+                { id: 'command-r-08-2024', name: 'Command R 08-2024', displayName: 'Command R' }
             ]
         },
         prices: {
@@ -437,20 +452,20 @@ const PROVIDER_CONFIGS = {
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         extractModels: (data) => data.data || [],
         selectBest: (models) => {
-            // Prefer fast models for Arduino development
-            const preferred = ['llama-3.3-70b-versatile', 'openai/gpt-oss-120b', 'llama-3.1-8b-instant'];
+            // Llama 3.3/3.1 were shut down for free/developer tiers on Aug 16, 2026
+            const preferred = ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
             for (const model of preferred) {
                 const found = models.find(m => m.id === model);
                 if (found) return found.id;
             }
-            return models[0]?.id || 'llama-3.3-70b-versatile';
+            return models[0]?.id || 'openai/gpt-oss-120b';
         },
-        fallback: 'llama-3.3-70b-versatile',
+        fallback: 'openai/gpt-oss-120b',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,
             extractModels: (data) => data.data?.filter(m => {
-                const id = m.id.toLowerCase();
+                const id = String(m.id || '').toLowerCase();
                 
                 // Exclude non-chat models
                 const excludePatterns = [
@@ -465,20 +480,20 @@ const PROVIDER_CONFIGS = {
                 if (excludePatterns.some(pattern => id.includes(pattern))) return false;
                 
                 // Only include main chat model families
-                const chatFamilies = ['llama', 'gemma', 'openai/gpt-oss', 'qwen'];
+                // Llama models remain for enterprise contracts only and return 404 otherwise
+                const chatFamilies = ['openai/gpt-oss', 'qwen'];
                 return chatFamilies.some(family => id.includes(family));
             }) || [],
-            selectDefault: (models) => models.find(m => m.id === 'llama-3.3-70b-versatile') || models.find(m => m.id?.includes('openai/gpt-oss-120b')) || models[0],
+            selectDefault: (models) => models.find(m => m.id === 'openai/gpt-oss-120b') || models.find(m => m.id === 'qwen/qwen3.8-27b') || models[0],
             staticModels: [
-                { id: 'llama-3.3-70b-versatile', name: 'Llama 3.3 70B Versatile', displayName: 'Llama 3.3 70B' },
                 { id: 'openai/gpt-oss-120b', name: 'GPT OSS 120B', displayName: 'GPT OSS 120B' },
                 { id: 'openai/gpt-oss-20b', name: 'GPT OSS 20B', displayName: 'GPT OSS 20B' },
-                { id: 'llama-3.1-8b-instant', name: 'Llama 3.1 8B Instant', displayName: 'Llama 3.1 8B' }
+                { id: 'qwen/qwen3.8-27b', name: 'Qwen 3.8 27B (Preview)', displayName: 'Qwen 3.8 27B' }
             ]
         },
         prices: {
-            input: 0.59 / 1000000,    // $0.59 per 1M tokens (Llama 3.3 70B)
-            output: 0.79 / 1000000    // $0.79 per 1M tokens
+            input: 0.15 / 1000000,    // $0.15 per 1M tokens (GPT OSS 120B)
+            output: 0.60 / 1000000    // $0.60 per 1M tokens; GPT OSS 20B: $0.075/$0.30, Qwen 3.8 27B: $0.80/$4.00
         },
         apiConfig: {
             apiPath: '/openai/v1/chat/completions',
@@ -494,7 +509,11 @@ const PROVIDER_CONFIGS = {
                     { role: "user", content: prompt }
                 ],
                 max_tokens: 2000,
-                temperature: 0.7
+                temperature: 0.7,
+                // Reasoning tokens count against max_tokens: keep effort low for GPT OSS,
+                // and hide Qwen's <think> output, which is returned inline by default
+                ...(String(modelId).startsWith('openai/gpt-oss') ? { reasoning_effort: 'low' } : {}),
+                ...(String(modelId).startsWith('qwen/') ? { reasoning_format: 'hidden' } : {})
             }),
             extractResponse: (data) => data.choices[0].message.content
         }
@@ -517,42 +536,42 @@ const PROVIDER_CONFIGS = {
             { 
                 id: 'meta-llama/Llama-3.3-70B-Instruct', 
                 name: 'Llama 3.3 70B Instruct',
-                pricing: { input: 0.0005 / 1000000, output: 0.0015 / 1000000 }
-            },
-            { 
-                id: 'meta-llama/Llama-3.1-70B-Instruct', 
-                name: 'Llama 3.1 70B Instruct',
-                pricing: { input: 0.0005 / 1000000, output: 0.0015 / 1000000 }
-            },
-            { 
-                id: 'codellama/CodeLlama-34b-Instruct-hf', 
-                name: 'CodeLlama 34B Instruct',
-                pricing: { input: 0, output: 0 }
-            },
-            { 
-                id: 'mistralai/Mistral-7B-Instruct-v0.3', 
-                name: 'Mistral 7B Instruct',
-                pricing: { input: 0, output: 0 }
-            },
-            { 
-                id: 'mistralai/Mixtral-8x7B-Instruct-v0.1', 
-                name: 'Mixtral 8x7B Instruct',
-                pricing: { input: 0.0002 / 1000000, output: 0.0006 / 1000000 }
-            },
-            { 
-                id: 'microsoft/Phi-3-medium-4k-instruct', 
-                name: 'Phi-3 Medium',
-                pricing: { input: 0, output: 0 }
+                pricing: { input: 0.135 / 1000000, output: 0.40 / 1000000 }
             },
             { 
                 id: 'Qwen/Qwen2.5-Coder-32B-Instruct', 
                 name: 'Qwen 2.5 Coder 32B',
-                pricing: { input: 0, output: 0 }
+                pricing: { input: 0.06 / 1000000, output: 0.20 / 1000000 }
             },
             { 
-                id: 'google/gemma-2-9b-it', 
-                name: 'Gemma 2 9B',
-                pricing: { input: 0, output: 0 }
+                id: 'Qwen/Qwen3-Coder-480B-A35B-Instruct', 
+                name: 'Qwen3 Coder 480B',
+                pricing: { input: 0.38 / 1000000, output: 1.55 / 1000000 }
+            },
+            { 
+                id: 'Qwen/Qwen3-32B', 
+                name: 'Qwen3 32B',
+                pricing: { input: 0.08 / 1000000, output: 0.25 / 1000000 }
+            },
+            { 
+                id: 'meta-llama/Llama-3.1-8B-Instruct', 
+                name: 'Llama 3.1 8B Instruct',
+                pricing: { input: 0.02 / 1000000, output: 0.05 / 1000000 }
+            },
+            { 
+                id: 'meta-llama/Llama-4-Scout-17B-16E-Instruct', 
+                name: 'Llama 4 Scout 17B',
+                pricing: { input: 0.09 / 1000000, output: 0.29 / 1000000 }
+            },
+            { 
+                id: 'deepseek-ai/DeepSeek-V3.2', 
+                name: 'DeepSeek V3.2',
+                pricing: { input: 0.26 / 1000000, output: 0.38 / 1000000 }
+            },
+            { 
+                id: 'google/gemma-3-27b-it', 
+                name: 'Gemma 3 27B',
+                pricing: { input: 0.08 / 1000000, output: 0.16 / 1000000 }
             }
         ],
         extractModels: (data) => [{ id: 'meta-llama/Llama-3.3-70B-Instruct', name: 'Llama 3.3 70B Instruct' }],
@@ -562,13 +581,13 @@ const PROVIDER_CONFIGS = {
             enabled: false,  // Use static availableModels list instead
             staticModels: [
                 { id: 'meta-llama/Llama-3.3-70B-Instruct', name: 'Llama 3.3 70B Instruct', displayName: 'Llama 3.3 70B' },
-                { id: 'meta-llama/Llama-3.1-70B-Instruct', name: 'Llama 3.1 70B Instruct', displayName: 'Llama 3.1 70B' },
-                { id: 'codellama/CodeLlama-34b-Instruct-hf', name: 'CodeLlama 34B Instruct', displayName: 'CodeLlama 34B' },
-                { id: 'mistralai/Mistral-7B-Instruct-v0.3', name: 'Mistral 7B Instruct', displayName: 'Mistral 7B' },
-                { id: 'mistralai/Mixtral-8x7B-Instruct-v0.1', name: 'Mixtral 8x7B Instruct', displayName: 'Mixtral 8x7B' },
-                { id: 'microsoft/Phi-3-medium-4k-instruct', name: 'Phi-3 Medium', displayName: 'Phi-3 Medium' },
                 { id: 'Qwen/Qwen2.5-Coder-32B-Instruct', name: 'Qwen 2.5 Coder 32B', displayName: 'Qwen 2.5 Coder' },
-                { id: 'google/gemma-2-9b-it', name: 'Gemma 2 9B', displayName: 'Gemma 2 9B' }
+                { id: 'Qwen/Qwen3-Coder-480B-A35B-Instruct', name: 'Qwen3 Coder 480B', displayName: 'Qwen3 Coder 480B' },
+                { id: 'Qwen/Qwen3-32B', name: 'Qwen3 32B', displayName: 'Qwen3 32B' },
+                { id: 'meta-llama/Llama-3.1-8B-Instruct', name: 'Llama 3.1 8B Instruct', displayName: 'Llama 3.1 8B' },
+                { id: 'meta-llama/Llama-4-Scout-17B-16E-Instruct', name: 'Llama 4 Scout 17B', displayName: 'Llama 4 Scout' },
+                { id: 'deepseek-ai/DeepSeek-V3.2', name: 'DeepSeek V3.2', displayName: 'DeepSeek V3.2' },
+                { id: 'google/gemma-3-27b-it', name: 'Gemma 3 27B', displayName: 'Gemma 3 27B' }
             ]
         },
         prices: {
@@ -613,50 +632,41 @@ const PROVIDER_CONFIGS = {
         requiresModelSelection: true,
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         // Popular models on Fireworks
+        // Models from the Fireworks serverless pricing list (Sep 2026)
         availableModels: [
             { 
-                id: 'accounts/fireworks/models/llama-v3p3-70b-instruct', 
-                name: 'Llama 3.3 70B Instruct',
-                pricing: { input: 0.90 / 1000000, output: 0.90 / 1000000 }
+                id: 'accounts/fireworks/models/gpt-oss-120b', 
+                name: 'GPT OSS 120B',
+                pricing: { input: 0.15 / 1000000, output: 0.60 / 1000000 }
             },
             { 
-                id: 'accounts/fireworks/models/qwen2p5-72b-instruct', 
-                name: 'Qwen 2.5 72B Instruct',
-                pricing: { input: 0.90 / 1000000, output: 0.90 / 1000000 }
+                id: 'accounts/fireworks/models/deepseek-v4-flash-0731', 
+                name: 'DeepSeek V4 Flash (0731)',
+                pricing: { input: 0.22 / 1000000, output: 0.66 / 1000000 }
             },
             { 
-                id: 'accounts/fireworks/models/deepseek-v3', 
-                name: 'DeepSeek V3',
-                pricing: { input: 0.90 / 1000000, output: 0.90 / 1000000 }
+                id: 'accounts/fireworks/models/qwen3p8-max', 
+                name: 'Qwen 3.8 Max',
+                pricing: { input: 2.00 / 1000000, output: 6.00 / 1000000 }
             },
             { 
-                id: 'accounts/fireworks/models/mixtral-8x7b-instruct', 
-                name: 'Mixtral 8x7B Instruct',
-                pricing: { input: 0.50 / 1000000, output: 0.50 / 1000000 }
-            },
-            { 
-                id: 'accounts/fireworks/models/llama-v3p1-8b-instruct', 
-                name: 'Llama 3.1 8B Instruct',
-                pricing: { input: 0.20 / 1000000, output: 0.20 / 1000000 }
-            },
-            { 
-                id: 'accounts/fireworks/models/gemma-2-9b-it', 
-                name: 'Gemma 2 9B',
-                pricing: { input: 0.20 / 1000000, output: 0.20 / 1000000 }
+                id: 'accounts/fireworks/models/nemotron-lightning-3p5-30b-a3b', 
+                name: 'NVIDIA Nemotron 3.5 Lightning 30B',
+                pricing: { input: 0.05 / 1000000, output: 0.20 / 1000000 }
             }
         ],
         extractModels: (data) => data.data || [],
         selectBest: (models) => models[0],
-        fallback: 'accounts/fireworks/models/llama-v3p3-70b-instruct',
+        fallback: 'accounts/fireworks/models/gpt-oss-120b',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,
             extractModels: (data) => data.data || [],
-            selectDefault: (models) => models.find(m => m.id?.includes('llama-v3p3')) || models[0],
+            selectDefault: (models) => models.find(m => m.id?.endsWith('/gpt-oss-120b')) || models[0],
             staticModels: [
-                { id: 'accounts/fireworks/models/llama-v3p3-70b-instruct', name: 'Llama 3.3 70B Instruct', displayName: 'Llama 3.3 70B', pricing: { input: 0.90 / 1000000, output: 0.90 / 1000000 } },
-                { id: 'accounts/fireworks/models/qwen2p5-72b-instruct', name: 'Qwen 2.5 72B Instruct', displayName: 'Qwen 2.5 72B', pricing: { input: 0.90 / 1000000, output: 0.90 / 1000000 } },
-                { id: 'accounts/fireworks/models/mixtral-8x7b-instruct', name: 'Mixtral 8x7B Instruct', displayName: 'Mixtral 8x7B', pricing: { input: 0.50 / 1000000, output: 0.50 / 1000000 } }
+                { id: 'accounts/fireworks/models/gpt-oss-120b', name: 'GPT OSS 120B', displayName: 'GPT OSS 120B', pricing: { input: 0.15 / 1000000, output: 0.60 / 1000000 } },
+                { id: 'accounts/fireworks/models/deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash (0731)', displayName: 'DeepSeek V4 Flash', pricing: { input: 0.22 / 1000000, output: 0.66 / 1000000 } },
+                { id: 'accounts/fireworks/models/qwen3p8-max', name: 'Qwen 3.8 Max', displayName: 'Qwen 3.8 Max', pricing: { input: 2.00 / 1000000, output: 6.00 / 1000000 } }
             ]
         },
         prices: {
@@ -705,55 +715,41 @@ const PROVIDER_CONFIGS = {
         requiresModelSelection: true,
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         // Popular models on Together AI
+        // Models from the Together serverless list (Sep 2026)
         availableModels: [
+            { 
+                id: 'openai/gpt-oss-120b', 
+                name: 'GPT OSS 120B',
+                pricing: { input: 0.15 / 1000000, output: 0.60 / 1000000 }
+            },
             { 
                 id: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', 
                 name: 'Llama 3.3 70B Turbo',
-                pricing: { input: 0.88 / 1000000, output: 0.88 / 1000000 }
+                pricing: { input: 1.04 / 1000000, output: 1.04 / 1000000 }
             },
             { 
-                id: 'meta-llama/Llama-3.1-70B-Instruct-Turbo', 
-                name: 'Llama 3.1 70B Turbo',
-                pricing: { input: 0.88 / 1000000, output: 0.88 / 1000000 }
+                id: 'deepseek-ai/DeepSeek-V4-Flash-0731', 
+                name: 'DeepSeek V4 Flash (0731)',
+                pricing: { input: 0.14 / 1000000, output: 0.28 / 1000000 }
             },
             { 
-                id: 'Qwen/Qwen2.5-72B-Instruct-Turbo', 
-                name: 'Qwen 2.5 72B Turbo',
-                pricing: { input: 0.88 / 1000000, output: 0.88 / 1000000 }
-            },
-            { 
-                id: 'mistralai/Mixtral-8x7B-Instruct-v0.1', 
-                name: 'Mixtral 8x7B Instruct',
-                pricing: { input: 0.60 / 1000000, output: 0.60 / 1000000 }
-            },
-            { 
-                id: 'deepseek-ai/DeepSeek-V3', 
-                name: 'DeepSeek V3',
-                pricing: { input: 0.27 / 1000000, output: 1.10 / 1000000 }
-            },
-            { 
-                id: 'meta-llama/Llama-3.1-8B-Instruct-Turbo', 
-                name: 'Llama 3.1 8B Turbo',
-                pricing: { input: 0.18 / 1000000, output: 0.18 / 1000000 }
-            },
-            { 
-                id: 'google/gemma-2-9b-it', 
-                name: 'Gemma 2 9B',
-                pricing: { input: 0.20 / 1000000, output: 0.20 / 1000000 }
+                id: 'Qwen/Qwen3.8-Flash', 
+                name: 'Qwen 3.8 Flash',
+                pricing: { input: 0.15 / 1000000, output: 0.47 / 1000000 }
             }
         ],
         extractModels: (data) => data.data || [],
         selectBest: (models) => models[0],
-        fallback: 'meta-llama/Llama-3.3-70B-Instruct-Turbo',
+        fallback: 'openai/gpt-oss-120b',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,
             extractModels: (data) => data.data || [],
-            selectDefault: (models) => models.find(m => m.id?.includes('Llama-3.3')) || models[0],
+            selectDefault: (models) => models.find(m => m.id === 'openai/gpt-oss-120b') || models.find(m => m.id?.includes('Llama-3.3')) || models[0],
             staticModels: [
-                { id: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', name: 'Llama 3.3 70B Turbo', displayName: 'Llama 3.3 70B', pricing: { input: 0.88 / 1000000, output: 0.88 / 1000000 } },
-                { id: 'Qwen/Qwen2.5-72B-Instruct-Turbo', name: 'Qwen 2.5 72B Turbo', displayName: 'Qwen 2.5 72B', pricing: { input: 0.88 / 1000000, output: 0.88 / 1000000 } },
-                { id: 'mistralai/Mixtral-8x7B-Instruct-v0.1', name: 'Mixtral 8x7B Instruct', displayName: 'Mixtral 8x7B', pricing: { input: 0.60 / 1000000, output: 0.60 / 1000000 } }
+                { id: 'openai/gpt-oss-120b', name: 'GPT OSS 120B', displayName: 'GPT OSS 120B', pricing: { input: 0.15 / 1000000, output: 0.60 / 1000000 } },
+                { id: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', name: 'Llama 3.3 70B Turbo', displayName: 'Llama 3.3 70B', pricing: { input: 1.04 / 1000000, output: 1.04 / 1000000 } },
+                { id: 'deepseek-ai/DeepSeek-V4-Flash-0731', name: 'DeepSeek V4 Flash (0731)', displayName: 'DeepSeek V4 Flash', pricing: { input: 0.14 / 1000000, output: 0.28 / 1000000 } }
             ]
         },
         prices: {
@@ -808,75 +804,77 @@ const PROVIDER_CONFIGS = {
         // Popular models
         availableModels: [
             { 
-                id: 'meta-llama/llama-3.3-70b-instruct:free', 
-                name: 'Llama 3.3 70B (Free)', 
+                id: 'google/gemma-4-31b-it:free', 
+                name: 'Gemma 4 31B (Free)', 
                 pricing: { input: 0, output: 0 }
             },
             { 
-                id: 'anthropic/claude-opus-4-7', 
-                name: 'Claude Opus 4.7', 
-                pricing: { input: 5.0 / 1000000, output: 25.0 / 1000000 }
+                id: 'qwen/qwen3-coder', 
+                name: 'Qwen3 Coder', 
+                pricing: { input: 0.30 / 1000000, output: 1.00 / 1000000 }
             },
             { 
-                id: 'anthropic/claude-sonnet-4-6', 
-                name: 'Claude Sonnet 4.6', 
-                pricing: { input: 3.0 / 1000000, output: 15.0 / 1000000 }
+                id: 'openai/gpt-5.6-luna', 
+                name: 'GPT-5.6 Luna', 
+                pricing: { input: 0.20 / 1000000, output: 1.20 / 1000000 }
             },
             { 
-                id: 'openai/gpt-4.1', 
-                name: 'GPT-4.1', 
-                pricing: { input: 2.0 / 1000000, output: 8.0 / 1000000 }
+                id: 'openai/gpt-5.6-terra', 
+                name: 'GPT-5.6 Terra', 
+                pricing: { input: 2.00 / 1000000, output: 12.00 / 1000000 }
             },
             { 
-                id: 'openai/gpt-4o', 
-                name: 'GPT-4o', 
-                pricing: { input: 2.5 / 1000000, output: 10.0 / 1000000 }
+                id: 'anthropic/claude-haiku-4.5', 
+                name: 'Claude Haiku 4.5', 
+                pricing: { input: 1.00 / 1000000, output: 5.00 / 1000000 }
             },
             { 
-                id: 'openai/gpt-4o-mini', 
-                name: 'GPT-4o Mini', 
-                pricing: { input: 0.15 / 1000000, output: 0.6 / 1000000 }
+                id: 'anthropic/claude-sonnet-5', 
+                name: 'Claude Sonnet 5', 
+                pricing: { input: 2.00 / 1000000, output: 10.00 / 1000000 }
             },
             { 
-                id: 'google/gemini-2.5-pro', 
-                name: 'Gemini 2.5 Pro', 
-                pricing: { input: 1.25 / 1000000, output: 10.0 / 1000000 }
+                id: 'google/gemini-3.1-flash-lite', 
+                name: 'Gemini 3.1 Flash-Lite', 
+                pricing: { input: 0.25 / 1000000, output: 1.50 / 1000000 }
             },
             { 
-                id: 'google/gemini-2.5-flash', 
-                name: 'Gemini 2.5 Flash', 
-                pricing: { input: 0.15 / 1000000, output: 0.60 / 1000000 }
+                id: 'google/gemini-3.8-flash', 
+                name: 'Gemini 3.8 Flash', 
+                pricing: { input: 0.75 / 1000000, output: 3.75 / 1000000 }
             },
             { 
                 id: 'meta-llama/llama-3.3-70b-instruct', 
                 name: 'Llama 3.3 70B', 
-                pricing: { input: 0.59 / 1000000, output: 0.79 / 1000000 }
+                pricing: { input: 0.10 / 1000000, output: 0.32 / 1000000 }
             },
             { 
-                id: 'mistralai/mistral-large', 
-                name: 'Mistral Large', 
-                pricing: { input: 2.0 / 1000000, output: 6.0 / 1000000 }
+                id: 'mistralai/mistral-large-2512', 
+                name: 'Mistral Large 3', 
+                pricing: { input: 0.50 / 1000000, output: 1.50 / 1000000 }
             },
             { 
-                id: 'deepseek/deepseek-chat', 
-                name: 'DeepSeek Chat', 
-                pricing: { input: 0.14 / 1000000, output: 0.28 / 1000000 }
+                id: 'deepseek/deepseek-v3.2', 
+                name: 'DeepSeek V3.2', 
+                pricing: { input: 0.27 / 1000000, output: 0.40 / 1000000 }
             }
         ],
         extractModels: (data) => data.data || [],
         selectBest: (models) => models[0],
-        fallback: 'meta-llama/llama-3.3-70b-instruct:free',
+        fallback: 'google/gemma-4-31b-it:free',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 60,
             extractModels: (data) => data.data || [],
-            selectDefault: (models) => models.find(m => m.id?.includes('llama-3.3') && m.id?.includes('free')) || models[0],
+            // Prefer a free coding-capable model, then any free model.
+            // OpenRouter's free tier rotates, so match on the ':free' suffix, not a fixed ID.
+            selectDefault: (models) => models.find(m => m.id === 'google/gemma-4-31b-it:free') || models.find(m => m.id?.endsWith(':free')) || models[0],
             staticModels: [
-                { id: 'meta-llama/llama-3.3-70b-instruct:free', name: 'Llama 3.3 70B (Free)', displayName: 'Llama 3.3 70B Free', pricing: { input: 0, output: 0 } },
-                { id: 'anthropic/claude-opus-4-7', name: 'Claude Opus 4.7', displayName: 'Claude Opus 4.7', pricing: { input: 5.0 / 1000000, output: 25.0 / 1000000 } },
-                { id: 'anthropic/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', displayName: 'Claude Sonnet 4.6', pricing: { input: 3.0 / 1000000, output: 15.0 / 1000000 } },
-                { id: 'openai/gpt-4.1', name: 'GPT-4.1', displayName: 'GPT-4.1', pricing: { input: 2.0 / 1000000, output: 8.0 / 1000000 } },
-                { id: 'openai/gpt-4o', name: 'GPT-4o', displayName: 'GPT-4o', pricing: { input: 2.5 / 1000000, output: 10.0 / 1000000 } }
+                { id: 'google/gemma-4-31b-it:free', name: 'Gemma 4 31B (Free)', displayName: 'Gemma 4 31B Free', pricing: { input: 0, output: 0 } },
+                { id: 'qwen/qwen3-coder', name: 'Qwen3 Coder', displayName: 'Qwen3 Coder', pricing: { input: 0.30 / 1000000, output: 1.00 / 1000000 } },
+                { id: 'openai/gpt-5.6-terra', name: 'GPT-5.6 Terra', displayName: 'GPT-5.6 Terra', pricing: { input: 2.00 / 1000000, output: 12.00 / 1000000 } },
+                { id: 'anthropic/claude-sonnet-5', name: 'Claude Sonnet 5', displayName: 'Claude Sonnet 5', pricing: { input: 2.00 / 1000000, output: 10.00 / 1000000 } },
+                { id: 'google/gemini-3.8-flash', name: 'Gemini 3.8 Flash', displayName: 'Gemini 3.8 Flash', pricing: { input: 0.75 / 1000000, output: 3.75 / 1000000 } }
             ]
         },
         prices: {
@@ -989,7 +987,7 @@ const PROVIDER_CONFIGS = {
                 { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', displayName: 'GPT-5.6 Terra' },
                 { id: 'gpt-5.6-sol',   name: 'GPT-5.6 Sol',   displayName: 'GPT-5.6 Sol' },
                 { id: 'gpt-5.6-luna',  name: 'GPT-5.6 Luna',  displayName: 'GPT-5.6 Luna' },
-                { id: 'gpt-5.5',       name: 'GPT-5.5',       displayName: 'GPT-5.5' },
+                { id: 'gpt-6-astra',   name: 'GPT-6 Astra',   displayName: 'GPT-6 Astra' },  // GPT-5.5 retires from Codex on Oct 14, 2026
                 { id: 'gpt-5.4',       name: 'GPT-5.4',       displayName: 'GPT-5.4' }
             ],
             selectDefault: (models) => models.find(m => m.id?.includes('terra')) || models[0]
@@ -1125,9 +1123,10 @@ const PROVIDER_CONFIGS = {
             enabled: true,
             staticModels: [
                 { id: 'gemini-flash-latest', name: 'Gemini Flash (latest)', displayName: 'Gemini Flash (latest)' },
+                { id: 'gemini-3.8-flash', name: 'Gemini 3.8 Flash', displayName: 'Gemini 3.8 Flash' },
+                { id: 'gemini-3.7-flash', name: 'Gemini 3.7 Flash', displayName: 'Gemini 3.7 Flash' },
                 { id: 'gemini-3.6-flash', name: 'Gemini 3.6 Flash', displayName: 'Gemini 3.6 Flash' },
-                { id: 'gemini-3.5-flash', name: 'Gemini 3.5 Flash', displayName: 'Gemini 3.5 Flash' },
-                { id: 'gemini-3.1-pro', name: 'Gemini 3.1 Pro', displayName: 'Gemini 3.1 Pro' }
+                { id: 'gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro (Preview)', displayName: 'Gemini 3.1 Pro' }
             ],
             selectDefault: (models) => models.find(m => m.id === 'gemini-flash-latest') || models.find(m => m.id?.includes('flash')) || models[0]
         },
@@ -1165,7 +1164,7 @@ const PROVIDER_CONFIGS = {
         keyPrefix: '',  // Paths start with / (or 'groq' for command name)
         keyMinLength: 4,  // Min length for 'groq'
         apiKeyUrl: 'https://github.com/NikolaiRadke/groq-code-cli',
-        fallback: 'llama-3.3-70b-versatile',
+        fallback: 'openai/gpt-oss-120b',
         modelDiscovery: {
             // Model selection via CLI parameters is not supported by Groq Code CLI.
             // The model must be configured within the CLI itself.
@@ -1185,8 +1184,8 @@ const PROVIDER_CONFIGS = {
             }
         },
         prices: {
-            input: 0.59 / 1000000,
-            output: 0.79 / 1000000
+            input: 0.15 / 1000000,    // GPT OSS 120B on Groq
+            output: 0.60 / 1000000
         }
     },
 
