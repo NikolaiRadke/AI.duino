@@ -11,7 +11,7 @@ Since **V2.6.0**, AI.duino supports full Agentic Coding: Unlike traditional AI c
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
 🆕 What's new?  
-* **31.05.2026** **Release V2.7.0** brings new Semantic Anchors feature. See the prompt editor.    
+* **17.09.2026** German **Make Magazin 5/2026** is out with  another big article about agentic coding in AI.duino!  
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
