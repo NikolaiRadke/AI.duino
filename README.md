@@ -97,7 +97,9 @@ Run ``` install_arduino_windows.bat ``` as administrator
 chmod +x install_aiduino_linux.sh
 ./install_aiduino_linux.sh
 ```
-
+Bei manchen Distributionen fehlt die Emoji-Schrift für die Button-Darstellung und muss nachinstalliert werden:
+* Debian/Ubunut/Mint:```sudo apt install fonts-noto-color-emoji```
+  
 #### macOS
 ```
 chmod +x install_aiduino_macos.sh
