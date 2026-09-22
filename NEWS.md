@@ -2,11 +2,12 @@
 
 ## 2026
 
+* **22.09.2026** Collection article feedback für 2.7.1 bugfix release.
 * **17.09.2026** German **Make Magazin 5/2026** is out with another big article about agentic coding in AI.duino!  
-* **31.05.2026** **Release V2.7.0** brings new Semantic Anchors feature. See the prompt editor.    
-* **30.05.2026** **Release V2.6.9** with npm-based providers bugfix.
-* **18.05.2026** **Release V2.6.8**, a release focused on process providers.  
-* **16.05.2026** **Release V2.6.7** with VS Code meta data and a small bugfix.
+* **31.05.2026** Release **V2.7.0** brings new Semantic Anchors feature. See the prompt editor.    
+* **30.05.2026** Release **V2.6.9** with npm-based providers bugfix.
+* **18.05.2026** Release **V2.6.8**, a release focused on process providers.  
+* **16.05.2026** Release **V2.6.7** with VS Code meta data and a small bugfix.
 * **14.05.2026** AI.duino is now available at VS Code Marketplace.   
 * **14.05.2026** Release **V2.6.6** with a bugfix for agentic providers and VS Code 
 * **12.05.2026** Release **V2.6.5** with fixed uninstaller and less notifiations.  
