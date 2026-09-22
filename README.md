@@ -100,7 +100,7 @@ chmod +x install_aiduino_linux.sh
 Some Linux distributions don't ship an emoji font by default. If icons are missing, install one:
 * Debian/Ubuntu/Mint: `sudo apt install fonts-noto-color-emoji`
 * Fedora: `sudo dnf install google-noto-color-emoji-fonts`
-* Arch: `sudo pacman -S noto-fonts-emoji`
+* Arch: `sudo pacman -S noto-fonts-emoji`  
 Then restart the Arduino IDE.
   
 #### macOS
