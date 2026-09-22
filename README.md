@@ -97,8 +97,11 @@ Run ``` install_arduino_windows.bat ``` as administrator
 chmod +x install_aiduino_linux.sh
 ./install_aiduino_linux.sh
 ```
-Bei manchen Distributionen fehlt die Emoji-Schrift für die Button-Darstellung und muss nachinstalliert werden:
-* Debian/Ubunut/Mint:```sudo apt install fonts-noto-color-emoji```
+Some Linux distributions don't ship an emoji font by default. If icons are missing, install one:
+* Debian/Ubuntu/Mint: `sudo apt install fonts-noto-color-emoji`
+* Fedora: `sudo dnf install google-noto-color-emoji-fonts`
+* Arch: `sudo pacman -S noto-fonts-emoji`
+Then restart the Arduino IDE.
   
 #### macOS
 ```
