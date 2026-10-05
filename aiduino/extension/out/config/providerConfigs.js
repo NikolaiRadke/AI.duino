@@ -343,7 +343,7 @@ const PROVIDER_CONFIGS = {
         hostname: 'api.perplexity.ai',
         apiKeyUrl: 'https://www.perplexity.ai/settings/api',
         path: '/v1/agent',
-        headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
+        headers: (key) => ({ 'Authorization': `Bearer ${key}`, 'X-Pplx-Integration': 'ai-duino' }),
         extractModels: (data) => [{ id: 'perplexity/sonar', name: 'Sonar' }],
         selectBest: (models) => models[0],
         fallback: 'perplexity/sonar',
@@ -363,7 +363,8 @@ const PROVIDER_CONFIGS = {
             method: 'POST',
             headers: (key) => ({
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${key}`
+                'Authorization': `Bearer ${key}`,
+                'X-Pplx-Integration': 'ai-duino'
             }),
             // temperature is omitted on purpose; web search must be enabled explicitly as a tool
             buildRequest: (modelId, prompt, systemPrompt) => ({
