@@ -901,7 +901,10 @@ const PROVIDER_CONFIGS = {
                     model: modelId,
                     messages: messages,
                     max_tokens: 2000,
-                    temperature: 0.7
+                    temperature: 0.7,
+                    // Reasoning tokens count against max_tokens: keep effort low and hide thinking.
+                    // Ignored by models without reasoning support.
+                    reasoning: { effort: 'low', exclude: true }
                 };
             },
             extractResponse: (data) => {
@@ -909,8 +912,13 @@ const PROVIDER_CONFIGS = {
                     const msg = data.error.message || data.error.code || JSON.stringify(data.error);
                     throw new Error(msg);
                 }
-                if (data.choices && data.choices[0] && data.choices[0].message) {
-                    return data.choices[0].message.content;
+                const choice = data.choices && data.choices[0];
+                if (choice && choice.message) {
+                    if (choice.message.content) return choice.message.content;
+                    // Empty content usually means the token limit was used up by reasoning
+                    if (choice.finish_reason === 'length') {
+                        throw new Error('Token limit reached during reasoning - try a non-reasoning model');
+                    }
                 }
                 throw new Error('Unexpected OpenRouter API response format');
             }
