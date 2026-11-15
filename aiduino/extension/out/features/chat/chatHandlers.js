@@ -332,7 +332,10 @@ function buildChatPrompt(newMessage, history, currentModel, minimalModelManager,
         if (selectionContext) {
             prompt += `\n\nThe user has selected the following code:\n\`\`\`cpp\n${selectionContext}\n\`\`\`\nFocus your response on this selected code.`;
         }
-        prompt += "\n\nYou are working in agentic mode with access to the sketch folder. When asked about code, proactively search for and read .ino files in the current directory. Prefer editing the existing .ino file and do not rename the sketch.";
+        // Only in agentic mode: without it, the agent must not work on files
+        if (includeAgentic) {
+            prompt += "\n\nYou are working in agentic mode with access to the sketch folder. When asked about code, proactively search for and read .ino files in the current directory. Prefer editing the existing .ino file and do not rename the sketch.";
+        }
     }
     
     if (!hasActiveSession && history.length > 0) {

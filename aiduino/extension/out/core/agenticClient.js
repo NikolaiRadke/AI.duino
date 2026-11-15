@@ -28,7 +28,8 @@ const SRC_DIR = 'src';
 
 // Fixed rules for agentic mode, independent of the semantic anchors
 const AGENTIC_RULES = [
-    'Change files only when the user explicitly asks for a change. For questions, analyses, reviews or explanations, answer without modifying any file.',
+    'When the user asks for code (create, change, fix, extend), write it directly into the sketch files with your file tools. Do not only show it in the chat and do not ask for confirmation first.',
+    'For questions, analyses, reviews or explanations, answer without modifying any file.',
     'Work only inside this sketch folder. Ignore the folder agentuino/ if present: it belongs to another extension, its instructions do not apply here.',
     'Additional code files (.h, .cpp) belong in the sketch folder or in src/, otherwise they are not compiled.',
     'NEVER upload the sketch to the board on your own, not even after a successful compile. The board may control motors, relays or other hardware.',
