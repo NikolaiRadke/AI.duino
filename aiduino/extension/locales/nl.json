@@ -745,6 +745,17 @@
     "lowPower": "Laag stroomverbruik",
     "integerMath": "Gehele getallen rekenen",
     "flashStrings": "Teksten in flash (F())",
-    "askFirst": "Eerst vragen"
+    "askFirst": "Eerst vragen",
+    "addCustom": "Eigen anker",
+    "customName": "Naam",
+    "customText": "Instructie voor de AI, bij voorkeur in het Engels",
+    "groupBasic": "Basis",
+    "groupPro": "Geavanceerd",
+    "groupAgentic": "Agentisch (alleen in agentische modus)",
+    "add": "Toevoegen",
+    "edit": "Bewerken",
+    "customBadge": "eigen",
+    "deleteConfirm": "Anker \"{0}\" verwijderen?",
+    "emptyFields": "Naam en instructie mogen niet leeg zijn."
   }
 }

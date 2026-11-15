@@ -745,6 +745,17 @@
     "lowPower": "Alhainen virrankulutus",
     "integerMath": "Kokonaislukulaskenta",
     "flashStrings": "Tekstit flash-muistiin (F())",
-    "askFirst": "Kysy ensin"
+    "askFirst": "Kysy ensin",
+    "addCustom": "Oma ankkuri",
+    "customName": "Nimi",
+    "customText": "Ohje tekoälylle, mieluiten englanniksi",
+    "groupBasic": "Perus",
+    "groupPro": "Edistynyt",
+    "groupAgentic": "Agenttinen (vain agenttitilassa)",
+    "add": "Lisää",
+    "edit": "Muokkaa",
+    "customBadge": "oma",
+    "deleteConfirm": "Poistetaanko ankkuri ”{0}”?",
+    "emptyFields": "Nimi ja ohje eivät saa olla tyhjiä."
   }
 }

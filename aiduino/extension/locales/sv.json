@@ -745,6 +745,17 @@
     "lowPower": "Låg strömförbrukning",
     "integerMath": "Heltalsaritmetik",
     "flashStrings": "Texter i flash (F())",
-    "askFirst": "Fråga först"
+    "askFirst": "Fråga först",
+    "addCustom": "Eget ankare",
+    "customName": "Namn",
+    "customText": "Instruktion till AI:n, helst på engelska",
+    "groupBasic": "Grundläggande",
+    "groupPro": "Avancerat",
+    "groupAgentic": "Agentiskt (endast i agentiskt läge)",
+    "add": "Lägg till",
+    "edit": "Redigera",
+    "customBadge": "eget",
+    "deleteConfirm": "Ta bort ankaret ”{0}”?",
+    "emptyFields": "Namn och instruktion får inte vara tomma."
   }
 }

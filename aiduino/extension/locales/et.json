@@ -745,6 +745,17 @@
     "lowPower": "Madal energiatarve",
     "integerMath": "Täisarvuaritmetika",
     "flashStrings": "Tekstid flash-mälus (F())",
-    "askFirst": "Küsi esmalt"
+    "askFirst": "Küsi esmalt",
+    "addCustom": "Oma ankur",
+    "customName": "Nimi",
+    "customText": "Juhis tehisintellektile, soovitatavalt inglise keeles",
+    "groupBasic": "Põhilised",
+    "groupPro": "Täpsemad",
+    "groupAgentic": "Agentne (ainult agentses režiimis)",
+    "add": "Lisa",
+    "edit": "Muuda",
+    "customBadge": "oma",
+    "deleteConfirm": "Kas kustutada ankur „{0}“?",
+    "emptyFields": "Nimi ja juhis ei tohi olla tühjad."
   }
 }

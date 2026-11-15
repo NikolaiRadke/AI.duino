@@ -745,6 +745,17 @@
     "lowPower": "Nizka poraba energije",
     "integerMath": "Celoštevilska aritmetika",
     "flashStrings": "Besedila v flashu (F())",
-    "askFirst": "Najprej vprašaj"
+    "askFirst": "Najprej vprašaj",
+    "addCustom": "Lastno sidro",
+    "customName": "Ime",
+    "customText": "Navodilo za UI, najbolje v angleščini",
+    "groupBasic": "Osnovno",
+    "groupPro": "Napredno",
+    "groupAgentic": "Agentno (samo v agentnem načinu)",
+    "add": "Dodaj",
+    "edit": "Uredi",
+    "customBadge": "lastno",
+    "deleteConfirm": "Želite izbrisati sidro »{0}«?",
+    "emptyFields": "Ime in navodilo ne smeta biti prazna."
   }
 }

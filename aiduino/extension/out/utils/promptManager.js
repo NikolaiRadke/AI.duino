@@ -358,6 +358,20 @@ class PromptManager {
     }
 
     /**
+     * Update label, expansion and group of a custom anchor. Keeps the enabled state.
+     * @returns {boolean} false if the key is not a custom anchor
+     */
+    updateAnchor(key, label, expansion, group = 'basic') {
+        const state = this.anchorState[key];
+        if (!state || !state.custom) return false;
+        state.label = label;
+        state.expansion = expansion;
+        state.group = group;
+        this.saveAnchors();
+        return true;
+    }
+
+    /**
      * Override an expansion. For built-ins this stores a delta; for custom it edits in place.
      */
     overrideAnchorExpansion(key, expansion) {

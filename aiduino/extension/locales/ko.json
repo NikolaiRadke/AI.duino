@@ -745,6 +745,17 @@
     "lowPower": "저전력",
     "integerMath": "정수 연산",
     "flashStrings": "문자열을 플래시에 (F())",
-    "askFirst": "먼저 확인"
+    "askFirst": "먼저 확인",
+    "addCustom": "사용자 앵커",
+    "customName": "이름",
+    "customText": "AI에 대한 지시(영어 권장)",
+    "groupBasic": "기본",
+    "groupPro": "고급",
+    "groupAgentic": "에이전트(에이전트 모드 전용)",
+    "add": "추가",
+    "edit": "편집",
+    "customBadge": "사용자",
+    "deleteConfirm": "앵커 \"{0}\"을(를) 삭제할까요?",
+    "emptyFields": "이름과 지시는 비워 둘 수 없습니다."
   }
 }

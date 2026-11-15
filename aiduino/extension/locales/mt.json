@@ -745,6 +745,17 @@
     "lowPower": "Enerġija baxxa",
     "integerMath": "Aritmetika sħiħa",
     "flashStrings": "Testi fil-flash (F())",
-    "askFirst": "Staqsi l-ewwel"
+    "askFirst": "Staqsi l-ewwel",
+    "addCustom": "Ankra tiegħek",
+    "customName": "Isem",
+    "customText": "Struzzjoni għall-IA, preferibbilment bl-Ingliż",
+    "groupBasic": "Bażiku",
+    "groupPro": "Avvanzat",
+    "groupAgentic": "Aġentiku (fil-modalità aġentika biss)",
+    "add": "Żid",
+    "edit": "Editja",
+    "customBadge": "tiegħek",
+    "deleteConfirm": "Tħassar l-ankra \"{0}\"?",
+    "emptyFields": "L-isem u l-istruzzjoni ma jistgħux ikunu vojta."
   }
 }

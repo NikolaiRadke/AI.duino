@@ -745,6 +745,17 @@
     "lowPower": "Zems enerģijas patēriņš",
     "integerMath": "Veselo skaitļu aritmētika",
     "flashStrings": "Teksti flash atmiņā (F())",
-    "askFirst": "Vispirms jautā"
+    "askFirst": "Vispirms jautā",
+    "addCustom": "Savs enkurs",
+    "customName": "Nosaukums",
+    "customText": "Norādījums MI, vēlams angliski",
+    "groupBasic": "Pamata",
+    "groupPro": "Papildu",
+    "groupAgentic": "Aģentiskie (tikai aģentiskajā režīmā)",
+    "add": "Pievienot",
+    "edit": "Rediģēt",
+    "customBadge": "savs",
+    "deleteConfirm": "Dzēst enkuru “{0}”?",
+    "emptyFields": "Nosaukums un norādījums nedrīkst būt tukši."
   }
 }

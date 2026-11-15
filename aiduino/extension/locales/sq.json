@@ -745,6 +745,17 @@
     "lowPower": "Konsum i ulët energjie",
     "integerMath": "Aritmetikë e plotë",
     "flashStrings": "Tekstet në flash (F())",
-    "askFirst": "Pyet fillimisht"
+    "askFirst": "Pyet fillimisht",
+    "addCustom": "Spirancë e personalizuar",
+    "customName": "Emri",
+    "customText": "Udhëzim për IA-në, mundësisht në anglisht",
+    "groupBasic": "Bazë",
+    "groupPro": "Të avancuara",
+    "groupAgentic": "Agjentike (vetëm në modalitetin agjentik)",
+    "add": "Shto",
+    "edit": "Ndrysho",
+    "customBadge": "e personalizuar",
+    "deleteConfirm": "Të fshihet spiranca \"{0}\"?",
+    "emptyFields": "Emri dhe udhëzimi nuk mund të jenë bosh."
   }
 }

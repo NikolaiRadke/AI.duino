@@ -745,6 +745,17 @@
     "lowPower": "Lavt strømforbrug",
     "integerMath": "Heltalsregning",
     "flashStrings": "Tekster i flash (F())",
-    "askFirst": "Spørg først"
+    "askFirst": "Spørg først",
+    "addCustom": "Eget anker",
+    "customName": "Navn",
+    "customText": "Instruktion til AI, helst på engelsk",
+    "groupBasic": "Grundlæggende",
+    "groupPro": "Avanceret",
+    "groupAgentic": "Agentisk (kun i agentisk tilstand)",
+    "add": "Tilføj",
+    "edit": "Rediger",
+    "customBadge": "egen",
+    "deleteConfirm": "Slet ankeret \"{0}\"?",
+    "emptyFields": "Navn og instruktion må ikke være tomme."
   }
 }

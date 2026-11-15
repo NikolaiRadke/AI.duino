@@ -741,6 +741,17 @@
     "lowPower": "低消費電力",
     "integerMath": "整数演算",
     "flashStrings": "文字列をフラッシュに (F())",
-    "askFirst": "まず確認"
+    "askFirst": "まず確認",
+    "addCustom": "カスタムアンカー",
+    "customName": "名前",
+    "customText": "AIへの指示（英語推奨）",
+    "groupBasic": "基本",
+    "groupPro": "上級",
+    "groupAgentic": "エージェント（エージェントモードのみ）",
+    "add": "追加",
+    "edit": "編集",
+    "customBadge": "カスタム",
+    "deleteConfirm": "アンカー「{0}」を削除しますか？",
+    "emptyFields": "名前と指示は空にできません。"
   }
 }

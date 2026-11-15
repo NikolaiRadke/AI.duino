@@ -744,6 +744,17 @@
     "lowPower": "Stromsparend",
     "integerMath": "Ganzzahl-Arithmetik",
     "flashStrings": "Texte im Flash (F())",
-    "askFirst": "Vorher fragen"
+    "askFirst": "Vorher fragen",
+    "addCustom": "Eigener Anker",
+    "customName": "Name",
+    "customText": "Anweisung an die KI, am besten auf Englisch",
+    "groupBasic": "Basis",
+    "groupPro": "Fortgeschritten",
+    "groupAgentic": "Agentisch (nur im agentischen Modus)",
+    "add": "Hinzufügen",
+    "edit": "Bearbeiten",
+    "customBadge": "eigen",
+    "deleteConfirm": "Anker „{0}“ löschen?",
+    "emptyFields": "Name und Anweisung dürfen nicht leer sein."
   }
 }

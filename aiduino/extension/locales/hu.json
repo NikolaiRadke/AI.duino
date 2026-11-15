@@ -745,6 +745,17 @@
     "lowPower": "Alacsony energiafogyasztás",
     "integerMath": "Egészaritmetika",
     "flashStrings": "Szövegek a flashben (F())",
-    "askFirst": "Először kérdezz"
+    "askFirst": "Először kérdezz",
+    "addCustom": "Saját horgony",
+    "customName": "Név",
+    "customText": "Utasítás az MI-nek, lehetőleg angolul",
+    "groupBasic": "Alap",
+    "groupPro": "Haladó",
+    "groupAgentic": "Ágensalapú (csak ágens módban)",
+    "add": "Hozzáadás",
+    "edit": "Szerkesztés",
+    "customBadge": "saját",
+    "deleteConfirm": "Törli a(z) „{0}” horgonyt?",
+    "emptyFields": "A név és az utasítás nem lehet üres."
   }
 }

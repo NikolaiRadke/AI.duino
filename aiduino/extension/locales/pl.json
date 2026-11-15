@@ -745,6 +745,17 @@
     "lowPower": "Niskie zużycie energii",
     "integerMath": "Arytmetyka całkowita",
     "flashStrings": "Teksty we flash (F())",
-    "askFirst": "Najpierw zapytaj"
+    "askFirst": "Najpierw zapytaj",
+    "addCustom": "Własna kotwica",
+    "customName": "Nazwa",
+    "customText": "Polecenie dla AI, najlepiej po angielsku",
+    "groupBasic": "Podstawowe",
+    "groupPro": "Zaawansowane",
+    "groupAgentic": "Agentowe (tylko w trybie agentowym)",
+    "add": "Dodaj",
+    "edit": "Edytuj",
+    "customBadge": "własna",
+    "deleteConfirm": "Usunąć kotwicę „{0}”?",
+    "emptyFields": "Nazwa i polecenie nie mogą być puste."
   }
 }

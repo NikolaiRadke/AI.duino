@@ -745,6 +745,17 @@
     "lowPower": "Düşük güç tüketimi",
     "integerMath": "Tamsayı aritmetiği",
     "flashStrings": "Metinler flash'ta (F())",
-    "askFirst": "Önce sor"
+    "askFirst": "Önce sor",
+    "addCustom": "Özel çapa",
+    "customName": "Ad",
+    "customText": "Yapay zekâ için talimat, tercihen İngilizce",
+    "groupBasic": "Temel",
+    "groupPro": "Gelişmiş",
+    "groupAgentic": "Ajan (yalnızca ajan modunda)",
+    "add": "Ekle",
+    "edit": "Düzenle",
+    "customBadge": "özel",
+    "deleteConfirm": "\"{0}\" çapası silinsin mi?",
+    "emptyFields": "Ad ve talimat boş olamaz."
   }
 }

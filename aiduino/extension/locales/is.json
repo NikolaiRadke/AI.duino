@@ -745,6 +745,17 @@
     "lowPower": "Lág orkunotkun",
     "integerMath": "Heiltöluútreikningur",
     "flashStrings": "Textar í flash (F())",
-    "askFirst": "Spurðu fyrst"
+    "askFirst": "Spurðu fyrst",
+    "addCustom": "Eigið akkeri",
+    "customName": "Heiti",
+    "customText": "Fyrirmæli til gervigreindar, helst á ensku",
+    "groupBasic": "Grunn",
+    "groupPro": "Ítarlegt",
+    "groupAgentic": "Sjálfvirkt (aðeins í agentic-ham)",
+    "add": "Bæta við",
+    "edit": "Breyta",
+    "customBadge": "eigið",
+    "deleteConfirm": "Eyða akkerinu „{0}“?",
+    "emptyFields": "Heiti og fyrirmæli mega ekki vera tóm."
   }
 }

@@ -745,6 +745,17 @@
     "lowPower": "Niska potrošnja",
     "integerMath": "Cjelobrojna aritmetika",
     "flashStrings": "Tekstovi u flashu (F())",
-    "askFirst": "Prvo pitaj"
+    "askFirst": "Prvo pitaj",
+    "addCustom": "Vlastito sidro",
+    "customName": "Naziv",
+    "customText": "Uputa za AI, najbolje na engleskom",
+    "groupBasic": "Osnovno",
+    "groupPro": "Napredno",
+    "groupAgentic": "Agentno (samo u agentnom načinu)",
+    "add": "Dodaj",
+    "edit": "Uredi",
+    "customBadge": "vlastito",
+    "deleteConfirm": "Izbrisati sidro \"{0}\"?",
+    "emptyFields": "Naziv i uputa ne smiju biti prazni."
   }
 }

@@ -745,6 +745,17 @@
     "lowPower": "Basso consumo",
     "integerMath": "Aritmetica intera",
     "flashStrings": "Testi in flash (F())",
-    "askFirst": "Chiedi prima"
+    "askFirst": "Chiedi prima",
+    "addCustom": "Ancora personalizzata",
+    "customName": "Nome",
+    "customText": "Istruzione per l'IA, preferibilmente in inglese",
+    "groupBasic": "Base",
+    "groupPro": "Avanzate",
+    "groupAgentic": "Agentiche (solo in modalità agentica)",
+    "add": "Aggiungi",
+    "edit": "Modifica",
+    "customBadge": "propria",
+    "deleteConfirm": "Eliminare l'ancora «{0}»?",
+    "emptyFields": "Nome e istruzione non possono essere vuoti."
   }
 }

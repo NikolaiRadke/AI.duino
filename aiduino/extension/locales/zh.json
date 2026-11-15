@@ -745,6 +745,17 @@
     "lowPower": "低功耗",
     "integerMath": "整数运算",
     "flashStrings": "字符串存入闪存 (F())",
-    "askFirst": "先询问"
+    "askFirst": "先询问",
+    "addCustom": "自定义锚点",
+    "customName": "名称",
+    "customText": "给 AI 的指令（建议使用英文）",
+    "groupBasic": "基础",
+    "groupPro": "高级",
+    "groupAgentic": "智能体（仅限智能体模式）",
+    "add": "添加",
+    "edit": "编辑",
+    "customBadge": "自定义",
+    "deleteConfirm": "删除锚点“{0}”？",
+    "emptyFields": "名称和指令不能为空。"
   }
 }

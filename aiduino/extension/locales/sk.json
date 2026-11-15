@@ -745,6 +745,17 @@
     "lowPower": "Nízka spotreba",
     "integerMath": "Celočíselná aritmetika",
     "flashStrings": "Texty vo flash (F())",
-    "askFirst": "Najskôr sa opýtaj"
+    "askFirst": "Najskôr sa opýtaj",
+    "addCustom": "Vlastná kotva",
+    "customName": "Názov",
+    "customText": "Pokyn pre AI, najlepšie po anglicky",
+    "groupBasic": "Základné",
+    "groupPro": "Pokročilé",
+    "groupAgentic": "Agentové (len v agentovom režime)",
+    "add": "Pridať",
+    "edit": "Upraviť",
+    "customBadge": "vlastná",
+    "deleteConfirm": "Odstrániť kotvu „{0}“?",
+    "emptyFields": "Názov a pokyn nesmú byť prázdne."
   }
 }

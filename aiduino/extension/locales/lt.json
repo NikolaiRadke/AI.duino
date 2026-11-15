@@ -745,6 +745,17 @@
     "lowPower": "Maža energijos sąnaudos",
     "integerMath": "Sveikųjų skaičių aritmetika",
     "flashStrings": "Tekstai flash atmintyje (F())",
-    "askFirst": "Pirmiau paklausk"
+    "askFirst": "Pirmiau paklausk",
+    "addCustom": "Savas inkaras",
+    "customName": "Pavadinimas",
+    "customText": "Nurodymas DI, geriausia angliškai",
+    "groupBasic": "Pagrindiniai",
+    "groupPro": "Išplėstiniai",
+    "groupAgentic": "Agentiniai (tik agentiniame režime)",
+    "add": "Pridėti",
+    "edit": "Redaguoti",
+    "customBadge": "savas",
+    "deleteConfirm": "Ištrinti inkarą „{0}“?",
+    "emptyFields": "Pavadinimas ir nurodymas negali būti tušti."
   }
 }

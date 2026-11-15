@@ -744,7 +744,18 @@
     "lowPower": "Power-saving",
     "integerMath": "Integer math",
     "flashStrings": "Texts in flash (F())",
-    "askFirst": "Ask first"
+    "askFirst": "Ask first",
+    "addCustom": "Custom anchor",
+    "customName": "Name",
+    "customText": "Directive for the AI",
+    "groupBasic": "Basic",
+    "groupPro": "Advanced",
+    "groupAgentic": "Agentic (agentic mode only)",
+    "add": "Add",
+    "edit": "Edit",
+    "customBadge": "custom",
+    "deleteConfirm": "Delete anchor \"{0}\"?",
+    "emptyFields": "Name and directive must not be empty."
   }
 }
 

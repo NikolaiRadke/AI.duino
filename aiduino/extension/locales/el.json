@@ -745,6 +745,17 @@
     "lowPower": "Χαμηλή κατανάλωση",
     "integerMath": "Αριθμητική ακεραίων",
     "flashStrings": "Κείμενα στη flash (F())",
-    "askFirst": "Ρώτα πρώτα"
+    "askFirst": "Ρώτα πρώτα",
+    "addCustom": "Δική σας άγκυρα",
+    "customName": "Όνομα",
+    "customText": "Οδηγία για την ΤΝ, κατά προτίμηση στα αγγλικά",
+    "groupBasic": "Βασικές",
+    "groupPro": "Προχωρημένες",
+    "groupAgentic": "Agentic (μόνο σε λειτουργία agentic)",
+    "add": "Προσθήκη",
+    "edit": "Επεξεργασία",
+    "customBadge": "δική σας",
+    "deleteConfirm": "Διαγραφή της άγκυρας «{0}»;",
+    "emptyFields": "Το όνομα και η οδηγία δεν μπορούν να είναι κενά."
   }
 }

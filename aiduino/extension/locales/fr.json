@@ -745,6 +745,17 @@
     "lowPower": "Faible consommation",
     "integerMath": "Arithmétique entière",
     "flashStrings": "Textes en flash (F())",
-    "askFirst": "Demander d'abord"
+    "askFirst": "Demander d'abord",
+    "addCustom": "Ancre personnalisée",
+    "customName": "Nom",
+    "customText": "Consigne pour l'IA, de préférence en anglais",
+    "groupBasic": "Base",
+    "groupPro": "Avancé",
+    "groupAgentic": "Agentique (mode agentique uniquement)",
+    "add": "Ajouter",
+    "edit": "Modifier",
+    "customBadge": "perso",
+    "deleteConfirm": "Supprimer l'ancre « {0} » ?",
+    "emptyFields": "Le nom et la consigne ne doivent pas être vides."
   }
 }

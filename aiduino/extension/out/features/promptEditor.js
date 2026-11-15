@@ -40,7 +40,10 @@ async function showPromptEditor(context) {
             title: t('commands.editPrompts'),
             missingPlaceholder: t('promptEditor.missingPlaceholder'),
             missingPlaceholderMultiple: t('promptEditor.missingPlaceholderMultiple'),
-            resetConfirm: t('promptEditor.resetConfirm')
+            resetConfirm: t('promptEditor.resetConfirm'),
+            anchorAdd: t('anchors.add'),
+            anchorSave: t('buttons.save'),
+            anchorEmpty: t('anchors.emptyFields')
         };
         
         // Create or reveal panel using PanelManager
@@ -102,17 +105,8 @@ async function showPromptEditor(context) {
             }
         });
 
-        const anchors = promptManager.getAnchors(t);
-        const renderAnchorCard = (a) => `
-                <label class="anchor-card">
-                    <input type="checkbox" ${a.enabled ? 'checked' : ''} onchange="toggleAnchor('${a.key}', this.checked)">
-                    <span class="anchor-text">
-                        <span class="anchor-name">${escapeHtml(a.label)}</span>
-                        <span class="anchor-desc">${escapeHtml(a.expansion)}</span>
-                    </span>
-                </label>`;
-        const basicAnchorsHtml = anchors.filter(a => a.group === 'basic').map(renderAnchorCard).join('');
-        const advancedAnchorsHtml = anchors.filter(a => a.group !== 'basic').map(renderAnchorCard).join('');
+        const anchorListHtml = renderAnchorList(promptManager, t);
+        const customAnchorsJson = customAnchorData(promptManager, t);
 
         panel.webview.html = `
             <!DOCTYPE html>
@@ -402,6 +396,82 @@ async function showPromptEditor(context) {
                     .anchor-advanced .anchor-grid {
                         margin-top: 12px;
                     }
+                    .anchor-text {
+                        flex: 1;
+                        min-width: 0;
+                    }
+                    .anchor-badge {
+                        font-size: 10px;
+                        font-weight: normal;
+                        padding: 1px 6px;
+                        margin-left: 6px;
+                        border-radius: 8px;
+                        background: var(--vscode-badge-background);
+                        color: var(--vscode-badge-foreground);
+                    }
+                    .anchor-tools {
+                        display: flex;
+                        gap: 2px;
+                        flex-shrink: 0;
+                    }
+                    .anchor-tool {
+                        background: none;
+                        border: none;
+                        cursor: pointer;
+                        padding: 0 3px;
+                        font-size: 13px;
+                        opacity: 0.6;
+                        color: var(--vscode-foreground);
+                    }
+                    .anchor-tool:hover {
+                        opacity: 1;
+                    }
+                    .anchor-custom {
+                        margin-top: 16px;
+                    }
+                    .anchor-add {
+                        background: none;
+                        border: 1px dashed var(--vscode-panel-border);
+                        border-radius: 8px;
+                        padding: 8px 14px;
+                        cursor: pointer;
+                        color: var(--vscode-textLink-foreground);
+                        font-size: 13px;
+                    }
+                    .anchor-add:hover {
+                        border-color: var(--vscode-focusBorder);
+                    }
+                    .anchor-form {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+                        max-width: 600px;
+                        padding: 12px 14px;
+                        border: 1px solid var(--vscode-focusBorder);
+                        border-radius: 8px;
+                    }
+                    .anchor-form[hidden] {
+                        display: none;
+                    }
+                    .anchor-form input,
+                    .anchor-form textarea,
+                    .anchor-form select {
+                        font-family: inherit;
+                        font-size: 13px;
+                        padding: 6px 8px;
+                        color: var(--vscode-input-foreground);
+                        background: var(--vscode-input-background);
+                        border: 1px solid var(--vscode-input-border, var(--vscode-panel-border));
+                        border-radius: 4px;
+                    }
+                    .anchor-form textarea {
+                        resize: vertical;
+                    }
+                    .anchor-form-actions {
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
                 
                     
                     @media (max-width: 768px) {
@@ -440,16 +510,26 @@ async function showPromptEditor(context) {
                 <div class="anchor-section">
                     <h2>⚓ ${t('anchors.sectionTitle')}</h2>
                     <p class="anchor-intro">${escapeHtml(t('anchors.tooltip'))}</p>
-                    <div class="anchor-grid">
-                        ${basicAnchorsHtml}
+                    <div id="anchor-list">
+                        ${anchorListHtml}
                     </div>
-                    ${advancedAnchorsHtml ? `
-                    <details class="anchor-advanced">
-                        <summary>${escapeHtml(t('anchors.advancedTitle'))}</summary>
-                        <div class="anchor-grid">
-                            ${advancedAnchorsHtml}
+                    <div class="anchor-custom">
+                        <button id="anchor-add-btn" class="anchor-add" onclick="openAnchorForm(null)">+ ${escapeHtml(t('anchors.addCustom'))}</button>
+                        <div id="anchor-form" class="anchor-form" hidden>
+                            <input id="anchor-label" type="text" maxlength="${ANCHOR_LABEL_MAX}" placeholder="${escapeHtml(t('anchors.customName'))}">
+                            <textarea id="anchor-expansion" rows="3" maxlength="${ANCHOR_TEXT_MAX}" placeholder="${escapeHtml(t('anchors.customText'))}"></textarea>
+                            <select id="anchor-group">
+                                <option value="basic">${escapeHtml(t('anchors.groupBasic'))}</option>
+                                <option value="pro">${escapeHtml(t('anchors.groupPro'))}</option>
+                                <option value="agentic">${escapeHtml(t('anchors.groupAgentic'))}</option>
+                            </select>
+                            <div class="anchor-form-actions">
+                                <button id="anchor-submit" class="btn-save active" onclick="submitAnchor()">${escapeHtml(t('anchors.add'))}</button>
+                                <button class="btn-reset" onclick="closeAnchorForm()">${escapeHtml(t('buttons.cancel'))}</button>
+                                <span id="anchor-form-status" class="save-status"></span>
+                            </div>
                         </div>
-                    </details>` : ''}
+                    </div>
                 </div>
                 
                 <div class="prompts-container">
@@ -491,6 +571,56 @@ async function showPromptEditor(context) {
 
                     function toggleAnchor(key, enabled) {
                         vscode.postMessage({ command: 'toggleAnchor', key: key, enabled: enabled });
+                    }
+
+                    // === CUSTOM ANCHORS ===
+                    let customAnchors = ${customAnchorsJson};
+                    let editingAnchor = null;
+
+                    function openAnchorForm(key) {
+                        const data = key ? customAnchors[key] : null;
+                        editingAnchor = data ? key : null;
+                        document.getElementById('anchor-label').value = data ? data.label : '';
+                        document.getElementById('anchor-expansion').value = data ? data.expansion : '';
+                        document.getElementById('anchor-group').value = data ? data.group : 'basic';
+                        document.getElementById('anchor-submit').textContent = data ? strings.anchorSave : strings.anchorAdd;
+                        document.getElementById('anchor-form-status').textContent = '';
+                        document.getElementById('anchor-form').hidden = false;
+                        document.getElementById('anchor-add-btn').hidden = true;
+                        document.getElementById('anchor-label').focus();
+                    }
+
+                    function closeAnchorForm() {
+                        editingAnchor = null;
+                        document.getElementById('anchor-form').hidden = true;
+                        document.getElementById('anchor-add-btn').hidden = false;
+                    }
+
+                    function submitAnchor() {
+                        const label = document.getElementById('anchor-label').value.trim();
+                        const expansion = document.getElementById('anchor-expansion').value.trim();
+                        const group = document.getElementById('anchor-group').value;
+                        if (!label || !expansion) {
+                            const status = document.getElementById('anchor-form-status');
+                            status.textContent = strings.anchorEmpty;
+                            status.className = 'save-status error';
+                            return;
+                        }
+                        vscode.postMessage({ command: 'saveAnchor', key: editingAnchor, label: label, expansion: expansion, group: group });
+                        closeAnchorForm();
+                    }
+
+                    function editAnchor(event, key) {
+                        // Buttons sit inside the card label: do not toggle the checkbox
+                        event.preventDefault();
+                        event.stopPropagation();
+                        openAnchorForm(key);
+                    }
+
+                    function deleteAnchor(event, key) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        vscode.postMessage({ command: 'deleteAnchor', key: key });
                     }
     
     
@@ -597,6 +727,15 @@ async function showPromptEditor(context) {
                             }
                         }
                         
+                        if (message.command === 'anchorsUpdated') {
+                            // Keep the advanced section open if it was open
+                            const details = document.querySelector('#anchor-list .anchor-advanced');
+                            const wasOpen = details ? details.open : false;
+                            document.getElementById('anchor-list').innerHTML = message.html;
+                            const newDetails = document.querySelector('#anchor-list .anchor-advanced');
+                            if (newDetails && (wasOpen || message.openAdvanced)) newDetails.open = true;
+                            customAnchors = message.custom;
+                        }
                         if (message.command === 'promptReset') {
                             const textarea = document.getElementById('prompt-' + message.key);
                             const status = document.getElementById('status-' + message.key);
@@ -660,6 +799,34 @@ async function showPromptEditor(context) {
             },
             toggleAnchor: async (message) => {
                 promptManager.toggleAnchor(message.key, message.enabled);
+            },
+            saveAnchor: async (message) => {
+                const label = String(message.label || '').trim().slice(0, ANCHOR_LABEL_MAX);
+                const expansion = String(message.expansion || '').trim().slice(0, ANCHOR_TEXT_MAX);
+                const group = ANCHOR_GROUPS.includes(message.group) ? message.group : 'basic';
+                if (!label || !expansion) return;
+
+                if (message.key) {
+                    promptManager.updateAnchor(message.key, label, expansion, group);
+                } else {
+                    promptManager.addAnchor(label, expansion, group);
+                }
+                postAnchorUpdate(panel, promptManager, t, group !== 'basic');
+            },
+            deleteAnchor: async (message) => {
+                const anchor = promptManager.getAnchors(t).find(a => a.key === message.key && a.custom);
+                if (!anchor) return;
+
+                const deleteText = t('buttons.delete');
+                const choice = await vscode.window.showWarningMessage(
+                    t('anchors.deleteConfirm', anchor.label),
+                    { modal: true },
+                    deleteText
+                );
+                if (choice !== deleteText) return;
+
+                promptManager.removeAnchor(message.key);
+                postAnchorUpdate(panel, promptManager, t, false);
             },
             resetPrompt: async (message) => {
                 // Remove from pending changes when reset
@@ -733,6 +900,79 @@ async function showPromptEditor(context) {
         const { t } = context;
         vscode.window.showErrorMessage(`${t('errors.saveFailed', error.message) || 'Error'}: ${error.message}`);
     }
+}
+
+// ===== SEMANTIC ANCHORS =====
+
+const ANCHOR_GROUPS = ['basic', 'pro', 'agentic'];
+const ANCHOR_LABEL_MAX = 60;
+const ANCHOR_TEXT_MAX = 500;
+
+/**
+ * Render the anchor cards: basic grid plus collapsible advanced section
+ * @param {Object} promptManager - Prompt manager
+ * @param {Function} t - Translation function
+ * @returns {string} HTML
+ */
+function renderAnchorList(promptManager, t) {
+    const anchors = promptManager.getAnchors(t);
+    const renderAnchorCard = (a) => `
+                <label class="anchor-card">
+                    <input type="checkbox" ${a.enabled ? 'checked' : ''} onchange="toggleAnchor('${a.key}', this.checked)">
+                    <span class="anchor-text">
+                        <span class="anchor-name">${escapeHtml(a.label)}${a.custom ? `<span class="anchor-badge">${escapeHtml(t('anchors.customBadge'))}</span>` : ''}</span>
+                        <span class="anchor-desc">${escapeHtml(a.expansion)}</span>
+                    </span>
+                    ${a.custom ? `
+                    <span class="anchor-tools">
+                        <button class="anchor-tool" title="${escapeHtml(t('anchors.edit'))}" onclick="editAnchor(event, '${a.key}')">✎</button>
+                        <button class="anchor-tool" title="${escapeHtml(t('buttons.delete'))}" onclick="deleteAnchor(event, '${a.key}')">🗑</button>
+                    </span>` : ''}
+                </label>`;
+    const basicHtml = anchors.filter(a => a.group === 'basic').map(renderAnchorCard).join('');
+    const advancedHtml = anchors.filter(a => a.group !== 'basic').map(renderAnchorCard).join('');
+
+    return `
+                    <div class="anchor-grid">
+                        ${basicHtml}
+                    </div>
+                    ${advancedHtml ? `
+                    <details class="anchor-advanced">
+                        <summary>${escapeHtml(t('anchors.advancedTitle'))}</summary>
+                        <div class="anchor-grid">
+                            ${advancedHtml}
+                        </div>
+                    </details>` : ''}`;
+}
+
+/**
+ * Custom anchors as JSON for the webview script (safe inside a script tag)
+ * @param {Object} promptManager - Prompt manager
+ * @param {Function} t - Translation function
+ * @returns {string} JSON text
+ */
+function customAnchorData(promptManager, t) {
+    const data = {};
+    promptManager.getAnchors(t).filter(a => a.custom).forEach(a => {
+        data[a.key] = { label: a.label, expansion: a.expansion, group: a.group };
+    });
+    return JSON.stringify(data).replace(/</g, '\\u003c');
+}
+
+/**
+ * Send the re-rendered anchor list to the webview
+ * @param {Object} panel - Webview panel
+ * @param {Object} promptManager - Prompt manager
+ * @param {Function} t - Translation function
+ * @param {boolean} openAdvanced - Open the advanced section (anchor added there)
+ */
+function postAnchorUpdate(panel, promptManager, t, openAdvanced) {
+    panel.webview.postMessage({
+        command: 'anchorsUpdated',
+        html: renderAnchorList(promptManager, t),
+        custom: JSON.parse(customAnchorData(promptManager, t)),
+        openAdvanced: openAdvanced
+    });
 }
 
 /**

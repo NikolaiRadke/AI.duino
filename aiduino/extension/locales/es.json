@@ -745,6 +745,17 @@
     "lowPower": "Bajo consumo",
     "integerMath": "Aritmética entera",
     "flashStrings": "Textos en flash (F())",
-    "askFirst": "Pregunta primero"
+    "askFirst": "Pregunta primero",
+    "addCustom": "Ancla propia",
+    "customName": "Nombre",
+    "customText": "Instrucción para la IA, preferiblemente en inglés",
+    "groupBasic": "Básico",
+    "groupPro": "Avanzado",
+    "groupAgentic": "Agéntico (solo en modo agéntico)",
+    "add": "Añadir",
+    "edit": "Editar",
+    "customBadge": "propia",
+    "deleteConfirm": "¿Eliminar el ancla «{0}»?",
+    "emptyFields": "El nombre y la instrucción no pueden estar vacíos."
   }
 }

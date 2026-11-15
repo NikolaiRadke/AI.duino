@@ -745,6 +745,17 @@
     "lowPower": "Consum redus",
     "integerMath": "Aritmetică cu numere întregi",
     "flashStrings": "Texte în flash (F())",
-    "askFirst": "Întreabă mai întâi"
+    "askFirst": "Întreabă mai întâi",
+    "addCustom": "Ancoră proprie",
+    "customName": "Nume",
+    "customText": "Instrucțiune pentru AI, de preferat în engleză",
+    "groupBasic": "De bază",
+    "groupPro": "Avansat",
+    "groupAgentic": "Agentic (doar în modul agentic)",
+    "add": "Adaugă",
+    "edit": "Editează",
+    "customBadge": "proprie",
+    "deleteConfirm": "Ștergeți ancora „{0}”?",
+    "emptyFields": "Numele și instrucțiunea nu pot fi goale."
   }
 }
