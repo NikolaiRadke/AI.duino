@@ -10,7 +10,7 @@ Last feature release. From now on AI.duino only gets provider updates; agentic w
 * Added weekly provider config check (GitHub workflow) with a tracking issue
 * Changed compiling in agentic mode: runs asynchronously (the IDE no longer freezes), uses the IDE's arduino-cli config (libraries of a moved sketchbook are found) and stops on missing libraries
 * Added safety net for agentic mode: before every run the sketch's code files are saved (~/.aiduino/backups); if the agent changed them, "Restore previous state" brings back the old state and removes the agent's new files
-* Changed agentic mode: fixed rules (change files only when asked, never upload on its own, install libraries only after asking, stay in the sketch folder), retries keep the agent's session, changes in src/ are detected
+* Changed agentic mode: fixed rules (change files only when asked, never upload on its own, install libraries only after asking, stay in the sketch folder), retries keep the agent's session, changes in src/ are detected, other subfolders such as Agentuino's agentuino/ are ignored
 * Changed: errors about retired endpoints or models offer a provider config update instead of reporting an invalid API key
 * Fixed board detection after long IDE sessions (all IDE logs are scanned); sketch.yaml (default_fqbn) is used when present
 * Fixed agentic compile loop retrying when no board is selected or arduino-cli is missing; the chat now says what is missing
