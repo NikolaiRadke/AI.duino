@@ -1300,9 +1300,9 @@ const PROVIDER_CONFIGS = {
     },
 
     // Generic OpenAI-compatible local server (Lemonade, llama.cpp, vLLM, LocalAI, Jan, ...)
-    // Uses the LM Studio handler (needs AI.duino with httpHandler support, v2.7.1+)
+    // Uses the LM Studio handler (needs AI.duino with httpHandler support, v2.8.0+)
     openaicompat: {
-        name: 'OpenAI-compatible (local)',
+        name: 'OpenAI-compatible (≥ v2.8.0)',
         icon: '🔌',
         color: '#7B68EE',
         type: 'local',

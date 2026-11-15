@@ -185,7 +185,7 @@ detected too. if not, try *which claude* (Linux/macOS) or *where claude* (Window
 
 ### Other local servers
 Every server with an OpenAI-compatible API (`/v1/models` and `/v1/chat/completions`) works with the provider
-**OpenAI-compatible (local)**, for example Lemonade, llama.cpp, vLLM, LocalAI or Jan (>= V2.7.1). Common ports are detected automatically;
+**OpenAI-compatible**, for example Lemonade, llama.cpp, vLLM, LocalAI or Jan (>= V2.8.0). Common ports are detected automatically;
 otherwise enter the server URL, e.g. `http://localhost:13305`, and pick the model from the list.  
 
 ## Content
