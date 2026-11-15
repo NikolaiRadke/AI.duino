@@ -65,7 +65,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '131026'; 
+const CONFIG_VERSION = '151126'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -88,7 +88,7 @@ const PROVIDER_CONFIGS = {
             const newest = [...models].sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));
             return newest.find(m => m.id?.includes('sonnet')) || newest.find(m => m.id?.includes('haiku')) || newest[0];
         },
-        fallback: 'claude-sonnet-5',
+        fallback: 'claude-sonnet-5-5',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,  // Cache longer for stable APIs
@@ -98,16 +98,16 @@ const PROVIDER_CONFIGS = {
                 return newest.find(m => m.id?.includes('sonnet')) || newest.find(m => m.id?.includes('haiku')) || newest[0];
             },
             staticModels: [
-                { id: 'claude-opus-5', name: 'Claude Opus 5', displayName: 'Opus 5' },
-                { id: 'claude-sonnet-5', name: 'Claude Sonnet 5', displayName: 'Sonnet 5' },
-                { id: 'claude-haiku-4-5-20251001', name: 'Claude Haiku 4.5', displayName: 'Haiku 4.5' },
-                { id: 'claude-opus-4-8', name: 'Claude Opus 4.8', displayName: 'Opus 4.8' },
-                { id: 'claude-sonnet-4-6', name: 'Claude Sonnet 4.6', displayName: 'Sonnet 4.6' }
+                { id: 'claude-sonnet-5-5', name: 'Claude Sonnet 5.5', displayName: 'Sonnet 5.5' },
+                { id: 'claude-opus-5-5', name: 'Claude Opus 5.5', displayName: 'Opus 5.5' },
+                { id: 'claude-haiku-5-5', name: 'Claude Haiku 5.5', displayName: 'Haiku 5.5' },
+                { id: 'claude-fable-5-2', name: 'Claude Fable 5.2', displayName: 'Fable 5.2' },
+                { id: 'claude-sonnet-5', name: 'Claude Sonnet 5', displayName: 'Sonnet 5' }
             ]
         },
         prices: {
-            input: 2.0 / 1000000,     // $2.00 per 1M tokens (Sonnet 5 standard rate, planned increase cancelled)
-            output: 10.0 / 1000000    // $10.00 per 1M tokens; Opus 5: $5.00/$25.00, Haiku 4.5: $1.00/$5.00
+            input: 2.0 / 1000000,     // $2.00 per 1M tokens (Sonnet 5.5)
+            output: 10.0 / 1000000    // $10.00 per 1M tokens; Opus 5.5: $4/$20, Haiku 5.5: $0.10/$0.50 (<=100K prompt), Fable 5.2: $8/$40
         },
         apiConfig: {
             apiPath: '/v1/messages',
@@ -157,7 +157,7 @@ const PROVIDER_CONFIGS = {
             const newest = [...models].sort((a, b) => (b.created || 0) - (a.created || 0));
             return newest.find(m => m.id?.includes('terra')) || newest.find(m => m.id?.includes('mini')) || newest[0];
         },
-        fallback: 'gpt-5.6-terra',
+        fallback: 'gpt-6.1-terra',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,  // Cache longer for stable APIs
@@ -172,16 +172,16 @@ const PROVIDER_CONFIGS = {
                 return newest.find(m => m.id?.includes('terra')) || newest.find(m => m.id?.includes('mini')) || newest[0];
             },
             staticModels: [
-                { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', displayName: 'GPT-5.6 Terra' },
-                { id: 'gpt-5.6-sol', name: 'GPT-5.6 Sol', displayName: 'GPT-5.6 Sol' },
-                { id: 'gpt-5.6-luna', name: 'GPT-5.6 Luna', displayName: 'GPT-5.6 Luna' },
-                { id: 'gpt-5.5', name: 'GPT-5.5', displayName: 'GPT-5.5' },
-                { id: 'gpt-5.4', name: 'GPT-5.4', displayName: 'GPT-5.4' }
+                { id: 'gpt-6.1-terra', name: 'GPT-6.1 Terra', displayName: 'GPT-6.1 Terra' },
+                { id: 'gpt-6.1-sol', name: 'GPT-6.1 Sol', displayName: 'GPT-6.1 Sol' },
+                { id: 'gpt-6-luna', name: 'GPT-6 Luna', displayName: 'GPT-6 Luna' },
+                { id: 'gpt-6-astra', name: 'GPT-6 Astra', displayName: 'GPT-6 Astra' },
+                { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', displayName: 'GPT-5.6 Terra' }
             ]
         },
         prices: {
-            input: 2.00 / 1000000,    // $2.00 per 1M tokens (GPT-5.6 Terra)
-            output: 12.00 / 1000000   // $12.00 per 1M tokens; Sol: $4.00/$20.00 (promo until at least Nov 21, 2026), Luna: $0.20/$1.20
+            input: 1.00 / 1000000,    // $1.00 per 1M tokens (GPT-6.1 Terra)
+            output: 5.00 / 1000000    // $5.00 per 1M tokens; 6.1 Sol: $2/$10, 6 Luna: $0.10/$0.50, 6 Astra: $10/$50
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -246,15 +246,15 @@ const PROVIDER_CONFIGS = {
             },
             staticModels: [
                 { id: 'models/gemini-3.8-flash', name: 'Gemini 3.8 Flash', displayName: 'Gemini 3.8 Flash' },
-                { id: 'models/gemini-3.7-flash', name: 'Gemini 3.7 Flash', displayName: 'Gemini 3.7 Flash' },
+                { id: 'models/gemini-4-argon', name: 'Gemini 4 Argon', displayName: 'Gemini 4 Argon' },
                 { id: 'models/gemini-3.6-flash', name: 'Gemini 3.6 Flash', displayName: 'Gemini 3.6 Flash' },
                 { id: 'models/gemini-3.5-flash-lite', name: 'Gemini 3.5 Flash-Lite', displayName: 'Gemini 3.5 Flash-Lite' },
-                { id: 'models/gemini-2.5-pro', name: 'Gemini 2.5 Pro', displayName: 'Gemini 2.5 Pro' }
+                { id: 'models/gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro (Preview)', displayName: 'Gemini 3.1 Pro' }
             ]
         },
         prices: {
             input: 0.75 / 1000000,    // $0.75 per 1M tokens (Gemini 3.6-3.8 Flash until Dec 31, 2026; $1.50 from Jan 1, 2027)
-            output: 3.75 / 1000000    // $3.75 per 1M tokens ($7.50 from Jan 1, 2027); 3.1 Pro Preview: $2.00/$12.00
+            output: 3.75 / 1000000    // $3.75 per 1M tokens ($7.50 from Jan 1, 2027); 4 Argon: $2/$10 until Nov 30, 2026, then $4/$20; 3.1 Pro Preview: $2.00/$12.00
         },
         apiConfig: {
             apiPath: (modelId, key) => {
@@ -306,12 +306,13 @@ const PROVIDER_CONFIGS = {
                 { id: 'mistral-large-latest', name: 'Mistral Large 3', displayName: 'Mistral Large 3' },
                 { id: 'mistral-small-latest', name: 'Mistral Small 4', displayName: 'Mistral Small 4' },
                 { id: 'codestral-latest', name: 'Codestral', displayName: 'Codestral' },
-                { id: 'mistral-medium-latest', name: 'Mistral Medium 3.5', displayName: 'Mistral Medium 3.5' }
+                { id: 'mistral-medium-latest', name: 'Mistral Medium 3.5', displayName: 'Mistral Medium 3.5' },
+                { id: 'mistral-large-4', name: 'Mistral Large 4 (Preview)', displayName: 'Mistral Large 4' }
             ]
         },
         prices: {
             input: 0.50 / 1000000,    // $0.50 per 1M tokens (Mistral Large 3)
-            output: 1.50 / 1000000    // $1.50 per 1M tokens; Small 4: $0.15/$0.60, Medium 3.5: $1.50/$7.50
+            output: 1.50 / 1000000    // $1.50 per 1M tokens; Small 4: $0.15/$0.60, Medium 3.5: $1.50/$7.50, Large 4 (preview): $1.36/$4.18
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -409,6 +410,7 @@ const PROVIDER_CONFIGS = {
             selectDefault: (models) => models.find(m => m.name === 'command-a-03-2025') || models.find(m => m.name?.includes('command-r-plus')) || models[0],
             staticModels: [
                 { id: 'command-a-03-2025', name: 'Command A', displayName: 'Command A' },
+                { id: 'command-a-plus-05-2026', name: 'Command A+', displayName: 'Command A+' },
                 { id: 'command-r-plus-08-2024', name: 'Command R+ 08-2024', displayName: 'Command R+' },
                 { id: 'command-r-08-2024', name: 'Command R 08-2024', displayName: 'Command R' }
             ]
@@ -633,17 +635,17 @@ const PROVIDER_CONFIGS = {
         requiresModelSelection: true,
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         // Popular models on Fireworks
-        // Models from the Fireworks serverless pricing list (Sep 2026)
+        // Models from the Fireworks serverless list (Nov 2026; GPT OSS 120B left serverless on Nov 7, 2026)
         availableModels: [
             { 
-                id: 'accounts/fireworks/models/gpt-oss-120b', 
-                name: 'GPT OSS 120B',
-                pricing: { input: 0.15 / 1000000, output: 0.60 / 1000000 }
+                id: 'accounts/fireworks/models/deepseek-v4p1-flash-1017', 
+                name: 'DeepSeek V4.1 Flash (1017)',
+                pricing: { input: 0.30 / 1000000, output: 1.20 / 1000000 }
             },
             { 
-                id: 'accounts/fireworks/models/deepseek-v4-flash-0731', 
-                name: 'DeepSeek V4 Flash (0731)',
-                pricing: { input: 0.22 / 1000000, output: 0.66 / 1000000 }
+                id: 'accounts/fireworks/models/kimi-k3', 
+                name: 'Kimi K3',
+                pricing: { input: 3.00 / 1000000, output: 15.00 / 1000000 }
             },
             { 
                 id: 'accounts/fireworks/models/qwen3p8-max', 
@@ -658,15 +660,15 @@ const PROVIDER_CONFIGS = {
         ],
         extractModels: (data) => data.data || [],
         selectBest: (models) => models[0],
-        fallback: 'accounts/fireworks/models/gpt-oss-120b',
+        fallback: 'accounts/fireworks/models/deepseek-v4p1-flash-1017',
         modelDiscovery: {
             enabled: true,
             cacheMinutes: 120,
             extractModels: (data) => data.data || [],
-            selectDefault: (models) => models.find(m => m.id?.endsWith('/gpt-oss-120b')) || models[0],
+            selectDefault: (models) => models.find(m => m.id?.endsWith('/deepseek-v4p1-flash-1017')) || models.find(m => m.id?.includes('deepseek-v4p1-flash')) || models[0],
             staticModels: [
-                { id: 'accounts/fireworks/models/gpt-oss-120b', name: 'GPT OSS 120B', displayName: 'GPT OSS 120B', pricing: { input: 0.15 / 1000000, output: 0.60 / 1000000 } },
-                { id: 'accounts/fireworks/models/deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash (0731)', displayName: 'DeepSeek V4 Flash', pricing: { input: 0.22 / 1000000, output: 0.66 / 1000000 } },
+                { id: 'accounts/fireworks/models/deepseek-v4p1-flash-1017', name: 'DeepSeek V4.1 Flash (1017)', displayName: 'DeepSeek V4.1 Flash', pricing: { input: 0.30 / 1000000, output: 1.20 / 1000000 } },
+                { id: 'accounts/fireworks/models/kimi-k3', name: 'Kimi K3', displayName: 'Kimi K3', pricing: { input: 3.00 / 1000000, output: 15.00 / 1000000 } },
                 { id: 'accounts/fireworks/models/qwen3p8-max', name: 'Qwen 3.8 Max', displayName: 'Qwen 3.8 Max', pricing: { input: 2.00 / 1000000, output: 6.00 / 1000000 } }
             ]
         },
@@ -716,7 +718,7 @@ const PROVIDER_CONFIGS = {
         requiresModelSelection: true,
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         // Popular models on Together AI
-        // Models from the Together serverless list (Sep 2026)
+        // Models from the Together serverless list (Nov 2026; Llama 3.3 70B Turbo and DeepSeek V4 Flash 0731 left serverless)
         availableModels: [
             { 
                 id: 'openai/gpt-oss-120b', 
@@ -724,14 +726,9 @@ const PROVIDER_CONFIGS = {
                 pricing: { input: 0.15 / 1000000, output: 0.60 / 1000000 }
             },
             { 
-                id: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', 
-                name: 'Llama 3.3 70B Turbo',
-                pricing: { input: 1.04 / 1000000, output: 1.04 / 1000000 }
-            },
-            { 
-                id: 'deepseek-ai/DeepSeek-V4-Flash-0731', 
-                name: 'DeepSeek V4 Flash (0731)',
-                pricing: { input: 0.14 / 1000000, output: 0.28 / 1000000 }
+                id: 'deepseek-ai/DeepSeek-V4.1-Flash-1017', 
+                name: 'DeepSeek V4.1 Flash (1017)',
+                pricing: { input: 0.30 / 1000000, output: 1.20 / 1000000 }
             },
             { 
                 id: 'Qwen/Qwen3.8-Flash', 
@@ -746,11 +743,10 @@ const PROVIDER_CONFIGS = {
             enabled: true,
             cacheMinutes: 120,
             extractModels: (data) => data.data || [],
-            selectDefault: (models) => models.find(m => m.id === 'openai/gpt-oss-120b') || models.find(m => m.id?.includes('Llama-3.3')) || models[0],
+            selectDefault: (models) => models.find(m => m.id === 'openai/gpt-oss-120b') || models.find(m => m.id?.includes('DeepSeek-V4.1-Flash')) || models[0],
             staticModels: [
                 { id: 'openai/gpt-oss-120b', name: 'GPT OSS 120B', displayName: 'GPT OSS 120B', pricing: { input: 0.15 / 1000000, output: 0.60 / 1000000 } },
-                { id: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', name: 'Llama 3.3 70B Turbo', displayName: 'Llama 3.3 70B', pricing: { input: 1.04 / 1000000, output: 1.04 / 1000000 } },
-                { id: 'deepseek-ai/DeepSeek-V4-Flash-0731', name: 'DeepSeek V4 Flash (0731)', displayName: 'DeepSeek V4 Flash', pricing: { input: 0.14 / 1000000, output: 0.28 / 1000000 } }
+                { id: 'deepseek-ai/DeepSeek-V4.1-Flash-1017', name: 'DeepSeek V4.1 Flash (1017)', displayName: 'DeepSeek V4.1 Flash', pricing: { input: 0.30 / 1000000, output: 1.20 / 1000000 } }
             ]
         },
         prices: {
@@ -815,23 +811,23 @@ const PROVIDER_CONFIGS = {
                 pricing: { input: 0.30 / 1000000, output: 1.00 / 1000000 }
             },
             { 
-                id: 'openai/gpt-5.6-luna', 
-                name: 'GPT-5.6 Luna', 
-                pricing: { input: 0.20 / 1000000, output: 1.20 / 1000000 }
+                id: 'openai/gpt-6-luna', 
+                name: 'GPT-6 Luna', 
+                pricing: { input: 0.10 / 1000000, output: 0.50 / 1000000 }
             },
             { 
-                id: 'openai/gpt-5.6-terra', 
-                name: 'GPT-5.6 Terra', 
-                pricing: { input: 2.00 / 1000000, output: 12.00 / 1000000 }
-            },
-            { 
-                id: 'anthropic/claude-haiku-4.5', 
-                name: 'Claude Haiku 4.5', 
+                id: 'openai/gpt-6.1-terra', 
+                name: 'GPT-6.1 Terra', 
                 pricing: { input: 1.00 / 1000000, output: 5.00 / 1000000 }
             },
             { 
-                id: 'anthropic/claude-sonnet-5', 
-                name: 'Claude Sonnet 5', 
+                id: 'anthropic/claude-haiku-5.5', 
+                name: 'Claude Haiku 5.5', 
+                pricing: { input: 0.10 / 1000000, output: 0.50 / 1000000 }
+            },
+            { 
+                id: 'anthropic/claude-sonnet-5.5', 
+                name: 'Claude Sonnet 5.5', 
                 pricing: { input: 2.00 / 1000000, output: 10.00 / 1000000 }
             },
             { 
@@ -873,8 +869,8 @@ const PROVIDER_CONFIGS = {
             staticModels: [
                 { id: 'google/gemma-4-31b-it:free', name: 'Gemma 4 31B (Free)', displayName: 'Gemma 4 31B Free', pricing: { input: 0, output: 0 } },
                 { id: 'qwen/qwen3-coder', name: 'Qwen3 Coder', displayName: 'Qwen3 Coder', pricing: { input: 0.30 / 1000000, output: 1.00 / 1000000 } },
-                { id: 'openai/gpt-5.6-terra', name: 'GPT-5.6 Terra', displayName: 'GPT-5.6 Terra', pricing: { input: 2.00 / 1000000, output: 12.00 / 1000000 } },
-                { id: 'anthropic/claude-sonnet-5', name: 'Claude Sonnet 5', displayName: 'Claude Sonnet 5', pricing: { input: 2.00 / 1000000, output: 10.00 / 1000000 } },
+                { id: 'openai/gpt-6.1-terra', name: 'GPT-6.1 Terra', displayName: 'GPT-6.1 Terra', pricing: { input: 1.00 / 1000000, output: 5.00 / 1000000 } },
+                { id: 'anthropic/claude-sonnet-5.5', name: 'Claude Sonnet 5.5', displayName: 'Claude Sonnet 5.5', pricing: { input: 2.00 / 1000000, output: 10.00 / 1000000 } },
                 { id: 'google/gemini-3.8-flash', name: 'Gemini 3.8 Flash', displayName: 'Gemini 3.8 Flash', pricing: { input: 0.75 / 1000000, output: 3.75 / 1000000 } }
             ]
         },
@@ -936,18 +932,18 @@ const PROVIDER_CONFIGS = {
         keyPrefix: '', 
         keyMinLength: 5, 
         apiKeyUrl: 'https://docs.claude.com/en/docs/claude-code',
-        fallback: 'claude-sonnet-5',
+        fallback: 'claude-sonnet-5-5',
         modelDiscovery: {
             cliDefault: true,  // Omit --model flag when 'default' is selected
             enabled: true,
             staticModels: [
-                { id: 'claude-opus-5', name: 'Claude Opus 5', displayName: 'Opus 5' },
-                { id: 'claude-sonnet-5', name: 'Claude Sonnet 5', displayName: 'Sonnet 5' },
-                { id: 'claude-haiku-4-5', name: 'Claude Haiku 4.5', displayName: 'Haiku 4.5' },
-                { id: 'claude-opus-4-8', name: 'Claude Opus 4.8', displayName: 'Opus 4.8' },
-                { id: 'claude-sonnet-4-6', name: 'Claude Sonnet 4.6', displayName: 'Sonnet 4.6' }
+                { id: 'claude-sonnet-5-5', name: 'Claude Sonnet 5.5', displayName: 'Sonnet 5.5' },
+                { id: 'claude-opus-5-5', name: 'Claude Opus 5.5', displayName: 'Opus 5.5' },
+                { id: 'claude-haiku-5-5', name: 'Claude Haiku 5.5', displayName: 'Haiku 5.5' },
+                { id: 'claude-fable-5-2', name: 'Claude Fable 5.2', displayName: 'Fable 5.2' },
+                { id: 'claude-sonnet-5', name: 'Claude Sonnet 5', displayName: 'Sonnet 5' }
             ],
-            selectDefault: (models) => models.find(m => m.id?.includes('sonnet-5')) || models.find(m => m.id?.includes('sonnet')) || models[0]
+            selectDefault: (models) => models.find(m => m.id === 'claude-sonnet-5-5') || models.find(m => m.id?.includes('sonnet')) || models[0]
         },
         processConfig: {
             command: 'claude',
@@ -988,18 +984,17 @@ const PROVIDER_CONFIGS = {
         keyPrefix: '',
         keyMinLength: 5,
         apiKeyUrl: 'https://github.com/openai/codex',
-        fallback: 'gpt-5.6-terra',
+        fallback: 'gpt-6.1-sol',
         modelDiscovery: {
             cliDefault: true,  // Omit --model flag when 'default' is selected
             enabled: true,
             staticModels: [
-                { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', displayName: 'GPT-5.6 Terra' },
-                { id: 'gpt-5.6-sol',   name: 'GPT-5.6 Sol',   displayName: 'GPT-5.6 Sol' },
-                { id: 'gpt-5.6-luna',  name: 'GPT-5.6 Luna',  displayName: 'GPT-5.6 Luna' },
-                { id: 'gpt-6-astra',   name: 'GPT-6 Astra',   displayName: 'GPT-6 Astra' },  // GPT-5.5 retires from Codex on Oct 14, 2026
-                { id: 'gpt-5.4',       name: 'GPT-5.4',       displayName: 'GPT-5.4' }
+                { id: 'gpt-6.1-sol',   name: 'GPT-6.1 Sol',   displayName: 'GPT-6.1 Sol' },  // Codex CLI default since 0.161.0
+                { id: 'gpt-6.1-terra', name: 'GPT-6.1 Terra', displayName: 'GPT-6.1 Terra' },
+                { id: 'gpt-6-luna',    name: 'GPT-6 Luna',    displayName: 'GPT-6 Luna' },
+                { id: 'gpt-6-astra',   name: 'GPT-6 Astra',   displayName: 'GPT-6 Astra' }
             ],
-            selectDefault: (models) => models.find(m => m.id?.includes('terra')) || models[0]
+            selectDefault: (models) => models.find(m => m.id === 'gpt-6.1-sol') || models.find(m => m.id?.includes('sol')) || models[0]
         },
         processConfig: {
             command: 'codex',
@@ -1134,7 +1129,7 @@ const PROVIDER_CONFIGS = {
             staticModels: [
                 { id: 'gemini-flash-latest', name: 'Gemini Flash (latest)', displayName: 'Gemini Flash (latest)' },
                 { id: 'gemini-3.8-flash', name: 'Gemini 3.8 Flash', displayName: 'Gemini 3.8 Flash' },
-                { id: 'gemini-3.7-flash', name: 'Gemini 3.7 Flash', displayName: 'Gemini 3.7 Flash' },
+                { id: 'gemini-4-argon', name: 'Gemini 4 Argon', displayName: 'Gemini 4 Argon' },
                 { id: 'gemini-3.6-flash', name: 'Gemini 3.6 Flash', displayName: 'Gemini 3.6 Flash' },
                 { id: 'gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro (Preview)', displayName: 'Gemini 3.1 Pro' }
             ],
