@@ -4,7 +4,7 @@
 Last feature release. From now on AI.duino only gets provider updates; agentic work continues in [Agentuino](https://github.com/NikolaiRadke/Agentuino).
 * Added custom semantic anchors: create, edit and delete them in the prompt editor
 * Added semantic anchor "Texts in flash (F())"; built-in anchors tell the AI more precisely what is meant
-* Added provider "OpenAI-compatible (local)" for Lemonade, llama.cpp, vLLM, LocalAI, Jan and others
+* Added provider "OpenAI-compatible (≥ v2.8.0)" for Lemonade, llama.cpp, vLLM, LocalAI, Jan and others
 * Added flash and RAM usage after a successful compile in agentic mode, with a warning when RAM runs low
 * Added login detection for CLI agents: "Log in in a terminal" opens the agent's login in the system terminal
 * Added weekly provider config check (GitHub workflow) with a tracking issue
