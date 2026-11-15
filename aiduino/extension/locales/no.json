@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Ingen detaljer tilgjengelig",
     "processError": "Prosess feil: {0}",
     "processFailedWithCode": "Prosess avsluttet med feilkode {0}",
+    "cliTooOld": "{0} er for gammel. Versjon {1} eller nyere kreves. Oppdater med: {2}",
     "localProviderNotFound": "{0} ikke funnet på '{1}'. Vennligst konfigurer riktig bane via 'Angi API-nøkkel'.",
     "localProviderNotRunning": "Kjører ikke. Vennligst start.",
     "localProviderTimeout": "Økt utløpt"

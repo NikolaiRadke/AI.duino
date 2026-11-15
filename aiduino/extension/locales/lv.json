@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Nav pieejami dati",
     "processError": "Procesa kļūda: {0}",
     "processFailedWithCode": "Process beidzās ar kļūdas kodu {0}",
+    "cliTooOld": "{0} ir pārāk veca. Nepieciešama versija {1} vai jaunāka. Atjauniniet ar: {2}",
     "localProviderNotFound": "{0} nav atrasts '{1}'. Lūdzu konfigurējiet pareizo ceļu caur 'Ievadīt API atslēgu'.",
     "localProviderNotRunning": "Nedarbojas. Lūdzu palaidiet.",
     "localProviderTimeout": "Sesija beigusies"

@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Nėra išsamių duomenų",
     "processError": "Proceso klaida: {0}",
     "processFailedWithCode": "Procesas baigtas su klaidos kodu {0}",
+    "cliTooOld": "{0} per sena. Reikia {1} ar naujesnės versijos. Atnaujinkite: {2}",
     "localProviderNotFound": "{0} nerastas '{1}'. Prašome sukonfigūruoti teisingą kelią per 'Įvesti API raktą'.",
     "localProviderNotRunning": "Neveikia. Prašome paleisti.",
     "localProviderTimeout": "Sesija baigėsi"

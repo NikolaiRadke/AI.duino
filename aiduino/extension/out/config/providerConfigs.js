@@ -1039,8 +1039,8 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://docs.mistral.ai/mistral-vibe/introduction',
         fallback: 'mistral-large-latest',
         modelDiscovery: {
-            // Model selection via CLI parameters is not supported by Mistral Vibe.
-            // The model must be configured within Vibe itself using the /model command.
+            // Vibe 3.x accepts --model, but only for new sessions.
+            // The model is configured within Vibe itself using the /model command.
             cliDefault: true,
             enabled: false,
             staticModels: []
@@ -1085,8 +1085,9 @@ const PROVIDER_CONFIGS = {
         apiKeyUrl: 'https://opencode.ai/docs/',
         fallback: 'opencode-local',
         modelDiscovery: {
-            // Model selection via CLI parameters is not supported by OpenCode.
-            // The model must be configured within OpenCode itself.
+            // OpenCode supports --model provider/model (also ollama/<model> for local models),
+            // but model IDs depend on the user's OpenCode providers, so no static list here.
+            // Without a selection, OpenCode uses its own default model.
             cliDefault: true,
             enabled: false,
             staticModels: []

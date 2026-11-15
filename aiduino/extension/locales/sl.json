@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Ni podrobnosti na voljo",
     "processError": "Napaka procesa: {0}",
     "processFailedWithCode": "Proces končan s kodo napake {0}",
+    "cliTooOld": "{0} je prestar. Potrebna je različica {1} ali novejša. Posodobite z: {2}",
     "localProviderNotFound": "{0} ni najden na '{1}'. Prosim konfigurirajte pravilno pot preko 'Vnesite API ključ'.",
     "localProviderNotRunning": "Se ne izvaja. Prosim zaženite.",
     "localProviderTimeout": "Seja je potekla"

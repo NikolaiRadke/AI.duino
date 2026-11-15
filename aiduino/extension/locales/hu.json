@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Nincsenek részletek",
     "processError": "Folyamathiba: {0}",
     "processFailedWithCode": "A folyamat {0} hibakóddal záródott",
+    "cliTooOld": "A(z) {0} túl régi. {1} vagy újabb verzió szükséges. Frissítés: {2}",
     "localProviderNotFound": "{0} nem található itt: '{1}'. Kérjük konfigurálja a helyes útvonalat az 'API kulcs megadása' segítségével.",
     "localProviderNotRunning": "Nem fut. Kérjük indítsa el.",
     "localProviderTimeout": "Munkamenet lejárt"

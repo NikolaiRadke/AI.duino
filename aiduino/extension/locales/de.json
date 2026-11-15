@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Keine Details verfügbar",
     "processError": "Prozessfehler: {0}",
     "processFailedWithCode": "Prozess mit Fehlercode {0} beendet",
+    "cliTooOld": "{0} ist zu alt. Benötigt wird Version {1} oder neuer. Aktualisieren mit: {2}",
     "localProviderNotFound": "{0} nicht gefunden unter '{1}'. Bitte korrekten Pfad über 'API Key eingeben' konfigurieren.",
     "localProviderNotRunning": "läuft nicht. Bitte starten.",
     "localProviderTimeout": "Sitzung abgelaufen"

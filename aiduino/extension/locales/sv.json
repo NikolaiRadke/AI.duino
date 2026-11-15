@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Inga detaljer tillgängliga",
     "processError": "Processfel: {0}",
     "processFailedWithCode": "Process avslutad med felkod {0}",
+    "cliTooOld": "{0} är för gammal. Version {1} eller nyare krävs. Uppdatera med: {2}",
     "localProviderNotFound": "{0} hittades inte på '{1}'. Vänligen konfigurera rätt sökväg via 'Ange API-nyckel'.",
     "localProviderNotRunning": "Körs inte. Vänligen starta.",
     "localProviderTimeout": "Sessionen har upphört"

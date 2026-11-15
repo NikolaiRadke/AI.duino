@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Ingen detaljer tilgængelige",
     "processError": "Procesfejl: {0}",
     "processFailedWithCode": "Proces afsluttet med fejlkode {0}",
+    "cliTooOld": "{0} er for gammel. Version {1} eller nyere kræves. Opdatér med: {2}",
     "localProviderNotFound": "{0} ikke fundet på '{1}'. Venligst konfigurer korrekte sti via 'Indtast API-nøgle'.",
     "localProviderNotRunning": "Kører ikke. Venligst start.",
     "localProviderTimeout": "Session udløbet"

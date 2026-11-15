@@ -255,6 +255,7 @@
     "noDetailsAvailable": "No hay detalles disponibles",
     "processError": "Error de proceso: {0}",
     "processFailedWithCode": "Proceso terminado con código de error {0}",
+    "cliTooOld": "{0} es demasiado antiguo. Se requiere la versión {1} o superior. Actualiza con: {2}",
     "localProviderNotFound": "{0} no encontrado en '{1}'. Por favor configure la ruta correcta a través de 'Introducir clave API'.",
     "localProviderNotRunning": "No está ejecutándose. Por favor inicie.",
     "localProviderTimeout": "Sesión expirada"

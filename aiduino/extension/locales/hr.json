@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Nema dostupnih detalja",
     "processError": "Greška procesa: {0}",
     "processFailedWithCode": "Proces završen s kodom greške {0}",
+    "cliTooOld": "{0} je prestar. Potrebna je verzija {1} ili novija. Ažurirajte s: {2}",
     "localProviderNotFound": "{0} nije pronađen na '{1}'. Molimo konfiguriranje ispravnu putanju preko 'Unesite API ključ'.",
     "localProviderNotRunning": "Ne radi. Molimo pokrenite.",
     "localProviderTimeout": "Sesija je istekla"

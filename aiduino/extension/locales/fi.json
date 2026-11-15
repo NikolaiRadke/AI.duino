@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Ei yksityiskohtia saatavilla",
     "processError": "Prosessivirhe: {0}",
     "processFailedWithCode": "Prosessi päättyi virhekoodilla {0}",
+    "cliTooOld": "{0} on liian vanha. Vaaditaan versio {1} tai uudempi. Päivitä komennolla: {2}",
     "localProviderNotFound": "{0} ei löytynyt osoitteesta '{1}'. Määritä oikea polku 'Syötä API-avain' kautta.",
     "localProviderNotRunning": "Ei käynnissä. Käynnistä.",
     "localProviderTimeout": "Istunto vanhentunut"

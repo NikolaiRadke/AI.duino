@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Ebda dettalji disponibbli",
     "processError": "Żball fil-proċess: {0}",
     "processFailedWithCode": "Proċess temm b'kodiċi ta' żball {0}",
+    "cliTooOld": "{0} huwa qadim wisq. Hija meħtieġa l-verżjoni {1} jew aktar ġdida. Aġġorna b'dan: {2}",
     "localProviderNotFound": "{0} ma nstabx f'{1}'. Jekk jogħġbok ikkonfigura l-mogħdija t-tajba permezz ta' 'Daħħal iċ-ċavetta tal-API'.",
     "localProviderNotRunning": "Mhux qed jaħdem. Jekk jogħġbok ibda.",
     "localProviderTimeout": "Sessjoni skadiet"

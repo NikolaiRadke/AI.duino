@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Nuk ka detaje të disponueshme",
     "processError": "Gabim procesi: {0}",
     "processFailedWithCode": "Procesi përfundoi me kodin e gabimit {0}",
+    "cliTooOld": "{0} është shumë i vjetër. Kërkohet versioni {1} ose më i ri. Përditësoni me: {2}",
     "localProviderNotFound": "{0} nuk u gjet në '{1}'. Ju lutemi konfiguroni rrugën e duhur përmes 'Fut çelësin API'.",
     "localProviderNotRunning": "Nuk po ekzekutohet. Ju lutemi niseni.",
     "localProviderTimeout": "Sesioni skadoi"

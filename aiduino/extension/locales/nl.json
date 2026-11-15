@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Geen details beschikbaar",
     "processError": "Procesfout: {0}",
     "processFailedWithCode": "Proces beëindigd met foutcode {0}",
+    "cliTooOld": "{0} is te oud. Versie {1} of nieuwer is vereist. Bijwerken met: {2}",
     "localProviderNotFound": "{0} niet gevonden op '{1}'. Configureer het juiste pad via 'API-sleutel invoeren'.",
     "localProviderNotRunning": "Loopt niet. Start a.u.b.",
     "localProviderTimeout": "Sessie verlopen"

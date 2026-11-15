@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Engar upplýsingar í boði",
     "processError": "Ferli villa: {0}",
     "processFailedWithCode": "Ferli endaði með villukóða {0}",
+    "cliTooOld": "{0} er of gamalt. Útgáfa {1} eða nýrri er nauðsynleg. Uppfærðu með: {2}",
     "localProviderNotFound": "{0} fannst ekki á '{1}'. Vinsamlegast stilltu rétta slóð í gegnum 'Slá inn API lykil'.",
     "localProviderNotRunning": "Ekki í gangi. Vinsamlegast ræstu.",
     "localProviderTimeout": "Seta útrunnin"

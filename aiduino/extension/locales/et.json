@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Üksikasjad ei ole saadaval",
     "processError": "Protsessi viga: {0}",
     "processFailedWithCode": "Protsess lõppes veakoodiga {0}",
+    "cliTooOld": "{0} on liiga vana. Vaja on versiooni {1} või uuemat. Uuenda käsuga: {2}",
     "localProviderNotFound": "{0} ei leitud aadressilt '{1}'. Palun seadistage õige tee 'API võtme sisestamine' kaudu.",
     "localProviderNotRunning": "Ei tööta. Palun käivitage.",
     "localProviderTimeout": "Seanss aegus"

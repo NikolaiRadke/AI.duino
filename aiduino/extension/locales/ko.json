@@ -255,6 +255,7 @@
     "noDetailsAvailable": "세부 정보를 사용할 수 없습니다",
     "processError": "프로세스 오류: {0}",
     "processFailedWithCode": "프로세스가 오류 코드 {0}로 종료되었습니다",
+    "cliTooOld": "{0}이(가) 너무 오래되었습니다. 버전 {1} 이상이 필요합니다. 업데이트: {2}",
     "localProviderNotFound": "'{1}'에서 {0}을(를) 찾을 수 없습니다. 'API 키 입력'을 통해 올바른 경로를 구성하십시오.",
     "localProviderNotRunning": "실행 중이 아닙니다. 시작하십시오.",
     "localProviderTimeout": "세션이 만료되었습니다"

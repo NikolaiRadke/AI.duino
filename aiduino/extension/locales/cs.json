@@ -255,6 +255,7 @@
     "noDetailsAvailable": "Žádné podrobnosti nejsou k dispozici",
     "processError": "Chyba procesu: {0}",
     "processFailedWithCode": "Proces skončil s kódem chyby {0}",
+    "cliTooOld": "{0} je příliš starý. Je vyžadována verze {1} nebo novější. Aktualizujte pomocí: {2}",
     "localProviderNotFound": "{0} nenalezen v '{1}'. Prosím nakonfigurujte správnou cestu přes 'Zadat API klíč'.",
     "localProviderNotRunning": "Neběží. Prosím spusťte.",
     "localProviderTimeout": "Relace vypršela"

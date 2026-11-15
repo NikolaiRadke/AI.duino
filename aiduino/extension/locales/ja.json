@@ -251,6 +251,7 @@
     "noDetailsAvailable": "詳細情報はありません",
     "processError": "プロセス エラー: {0}",
     "processFailedWithCode": "プロセスがエラーコード {0} で終了しました",
+    "cliTooOld": "{0} が古すぎます。バージョン {1} 以降が必要です。更新コマンド: {2}",
     "localProviderNotFound": "'{1}'で{0}が見つかりません。'APIキーを入力'から正しいパスを設定してください。",
     "localProviderNotRunning": "実行されていません。開始してください。",
     "localProviderTimeout": "セッションが期限切れです"

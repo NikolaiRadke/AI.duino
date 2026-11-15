@@ -126,7 +126,10 @@ class AgenticClient {
             );
         } catch (error) {
             // Stale session: clear it and retry without session ID
-            if (sessionId && error.message && error.message.includes('session ID')) {
+            const staleSession = typeof agent.isStaleSession === 'function'
+                ? agent.isStaleSession(error.message)
+                : (error.message || '').includes('session ID');
+            if (sessionId && staleSession) {
                 this.sessions.delete(sessionKey);
                 this.saveSessions();
                 result = await agent.executeCommand(
