@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino skapad!",
     "highCostWarning": "Uppskattad kostnad (utan svar): ${0} med {1}. Fortsätt?",
     "codeApplied": "Kod har tillämpats",
-    "nodePathSaved": "Node.js-sökväg har sparats"
+    "nodePathSaved": "Node.js-sökväg har sparats",
+    "loginCommandCopied": "Ingen terminal hittades. Inloggningskommandot kopierades: {0}"
   },
   "buttons": {
     "chooseModel": "Välj AI-modell",
@@ -116,7 +117,8 @@
     "apply": "Tillämpa",
     "configureNodePath": "Konfigurera Node.js-sökväg",
     "enterNodePath": "Ange Node.js v20+ sökväg",
-    "testProviders": "Testa leverantörer"
+    "testProviders": "Testa leverantörer",
+    "loginTerminal": "Logga in i en terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Optimera vald kod",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} är för gammal. Version {1} eller nyare krävs. Uppdatera med: {2}",
     "localProviderNotFound": "{0} hittades inte på '{1}'. Vänligen konfigurera rätt sökväg via 'Ange API-nyckel'.",
     "localProviderNotRunning": "Körs inte. Vänligen starta.",
-    "localProviderTimeout": "Sessionen har upphört"
+    "localProviderTimeout": "Sessionen har upphört",
+    "agentLogin": "{0} behöver en ny inloggning."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nIdag: {1} Tokens{2}\nIndata: {3} | Utdata: {4}\nKlicka för meny • Ctrl+Shift+C • Högerklicka för att byta",
@@ -325,7 +328,13 @@
     "backToOverview": "Tillbaka till översikt",
     "manageAttachments": "Hantera bilagor",
     "newSessionStarted": "Ny session startad",
-    "removeFilePrompt": "Ta bort fil"
+    "removeFilePrompt": "Ta bort fil",
+    "compileSuccess": "Kompilering lyckades",
+    "compileFailed": "Kompilering misslyckades",
+    "compileAttempts": "({0} försök)",
+    "compileMemory": "Flash: {0} av {1} byte ({2} %), RAM: {3} av {4} byte ({5} %)",
+    "ramWarning": "Lite ledigt RAM, sketchen kan bli instabil.",
+    "missingLibraries": "Bibliotek saknas: {0}. Installera dem med bibliotekshanteraren."
   },
   "shortcuts": {
     "askFollowUp": "Följdfråga",

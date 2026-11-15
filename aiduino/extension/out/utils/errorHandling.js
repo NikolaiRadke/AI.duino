@@ -20,6 +20,11 @@ function handleApiError(error, context) {
     const { t, minimalModelManager, currentModel } = context;
     const model = minimalModelManager.providers[currentModel];
 
+    // Agent login problems were already offered as "log in in a terminal"
+    if (error.type === 'AGENT_AUTH') {
+        return;
+    }
+
     // Check by error.type
     if (error.type === 'NETWORK_ERROR' || 
         error.code === 'ENOTFOUND' || 

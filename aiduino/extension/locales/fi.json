@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino luotu!",
     "highCostWarning": "Arvioitu kustannus (ilman vastausta): ${0} käyttäen {1}. Jatketaanko?",
     "codeApplied": "Koodi on otettu käyttöön",
-    "nodePathSaved": "Node.js-polku on tallennettu"
+    "nodePathSaved": "Node.js-polku on tallennettu",
+    "loginCommandCopied": "Päätettä ei löytynyt. Kirjautumiskomento kopioitiin: {0}"
   },
   "buttons": {
     "chooseModel": "Valitse AI-malli",
@@ -116,7 +117,8 @@
     "apply": "Ota käyttöön",
     "configureNodePath": "Määritä Node.js-polku",
     "enterNodePath": "Syötä Node.js v20+ polku",
-    "testProviders": "Testaa palveluntarjoajat"
+    "testProviders": "Testaa palveluntarjoajat",
+    "loginTerminal": "Kirjaudu päätteessä"
   },
   "descriptions": {
     "improveCodeSelected": "Optimoi valittu koodi",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} on liian vanha. Vaaditaan versio {1} tai uudempi. Päivitä komennolla: {2}",
     "localProviderNotFound": "{0} ei löytynyt osoitteesta '{1}'. Määritä oikea polku 'Syötä API-avain' kautta.",
     "localProviderNotRunning": "Ei käynnissä. Käynnistä.",
-    "localProviderTimeout": "Istunto vanhentunut"
+    "localProviderTimeout": "Istunto vanhentunut",
+    "agentLogin": "{0} vaatii uuden kirjautumisen."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nTänään: {1} Tokenia{2}\nSyöte: {3} | Tuloste: {4}\nKlikkaa valikko • Ctrl+Shift+C • Oikeaklikkaa vaihtaaksesi",
@@ -325,7 +328,13 @@
     "backToOverview": "Takaisin yleiskatsaukseen",
     "manageAttachments": "Hallitse liitteitä",
     "newSessionStarted": "Uusi istunto aloitettu",
-    "removeFilePrompt": "Poista tiedosto"
+    "removeFilePrompt": "Poista tiedosto",
+    "compileSuccess": "Käännös onnistui",
+    "compileFailed": "Käännös epäonnistui",
+    "compileAttempts": "({0} yritystä)",
+    "compileMemory": "Flash: {0} / {1} tavua ({2} %), RAM: {3} / {4} tavua ({5} %)",
+    "ramWarning": "Vapaata RAM-muistia on vähän, sketsi voi toimia epävakaasti.",
+    "missingLibraries": "Puuttuvat kirjastot: {0}. Asenna ne kirjastonhallinnan kautta."
   },
   "shortcuts": {
     "askFollowUp": "Jatkokysymys",

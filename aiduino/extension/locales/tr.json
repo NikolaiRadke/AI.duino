@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino oluşturuldu!",
     "highCostWarning": "Tahmini maliyet (yanıt hariç): ${0} ({1} ile). Devam edilsin mi?",
     "codeApplied": "Kod uygulandı",
-    "nodePathSaved": "Node.js yolu kaydedildi"
+    "nodePathSaved": "Node.js yolu kaydedildi",
+    "loginCommandCopied": "Terminal bulunamadı. Oturum açma komutu kopyalandı: {0}"
   },
   "buttons": {
     "chooseModel": "YZ Modeli Seç",
@@ -116,7 +117,8 @@
     "apply": "Uygula",
     "configureNodePath": "Node.js yolunu yapılandır",
     "enterNodePath": "Node.js v20+ yolunu girin",
-    "testProviders": "Sağlayıcıları test et"
+    "testProviders": "Sağlayıcıları test et",
+    "loginTerminal": "Terminalde oturum aç"
   },
   "descriptions": {
     "improveCodeSelected": "Seçili kodu optimize et",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} çok eski. {1} veya daha yeni bir sürüm gerekli. Güncellemek için: {2}",
     "localProviderNotFound": "{0} '{1}' konumunda bulunamadı. Lütfen 'API Anahtarını Gir' yoluyla doğru yolu yapılandırın.",
     "localProviderNotRunning": "Çalışmıyor. Lütfen başlatın.",
-    "localProviderTimeout": "Oturum süresi doldu"
+    "localProviderTimeout": "Oturum süresi doldu",
+    "agentLogin": "{0} yeniden oturum açmayı gerektiriyor."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nBugün: {1} Token{2}\nGiriş: {3} | Çıkış: {4}\nMenü için tıkla • Ctrl+Shift+C • Değiştirmek için sağ tıkla",
@@ -325,7 +328,13 @@
     "backToOverview": "Genel bakışa dön",
     "manageAttachments": "Ekleri yönet",
     "newSessionStarted": "Yeni oturum başlatıldı",
-    "removeFilePrompt": "Dosyayı kaldır"
+    "removeFilePrompt": "Dosyayı kaldır",
+    "compileSuccess": "Derleme başarılı",
+    "compileFailed": "Derleme başarısız",
+    "compileAttempts": "({0} deneme)",
+    "compileMemory": "Flash: {1} bayttan {0} bayt ({2} %), RAM: {4} bayttan {3} bayt ({5} %)",
+    "ramWarning": "Boş RAM az, taslak kararsız çalışabilir.",
+    "missingLibraries": "Eksik kütüphaneler: {0}. Kütüphane yöneticisi ile yükleyin."
   },
   "shortcuts": {
     "askFollowUp": "Takip sorusu",

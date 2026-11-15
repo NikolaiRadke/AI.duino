@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino aangemaakt!",
     "highCostWarning": "Geschatte kosten (zonder antwoord): ${0} met {1}. Doorgaan?",
     "codeApplied": "Code toegepast",
-    "nodePathSaved": "Node.js-pad opgeslagen"
+    "nodePathSaved": "Node.js-pad opgeslagen",
+    "loginCommandCopied": "Geen terminal gevonden. Het inlogcommando is gekopieerd: {0}"
   },
   "buttons": {
     "chooseModel": "AI-model kiezen",
@@ -116,7 +117,8 @@
     "apply": "Toepassen",
     "configureNodePath": "Node.js-pad configureren",
     "enterNodePath": "Node.js v20+ pad invoeren",
-    "testProviders": "Providers testen"
+    "testProviders": "Providers testen",
+    "loginTerminal": "Inloggen in een terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Geselecteerde code optimaliseren",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} is te oud. Versie {1} of nieuwer is vereist. Bijwerken met: {2}",
     "localProviderNotFound": "{0} niet gevonden op '{1}'. Configureer het juiste pad via 'API-sleutel invoeren'.",
     "localProviderNotRunning": "Loopt niet. Start a.u.b.",
-    "localProviderTimeout": "Sessie verlopen"
+    "localProviderTimeout": "Sessie verlopen",
+    "agentLogin": "{0} moet opnieuw inloggen."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nVandaag: {1} Tokens{2}\nInvoer: {3} | Uitvoer: {4}\nKlik voor menu • Ctrl+Shift+C • Rechtsklik om te wisselen",
@@ -325,7 +328,13 @@
     "backToOverview": "Terug naar overzicht",
     "manageAttachments": "Bijlagen beheren",
     "newSessionStarted": "Nieuwe sessie gestart",
-    "removeFilePrompt": "Bestand verwijderen"
+    "removeFilePrompt": "Bestand verwijderen",
+    "compileSuccess": "Compileren geslaagd",
+    "compileFailed": "Compileren mislukt",
+    "compileAttempts": "({0} pogingen)",
+    "compileMemory": "Flash: {0} van {1} bytes ({2} %), RAM: {3} van {4} bytes ({5} %)",
+    "ramWarning": "Weinig vrij RAM, de sketch kan instabiel werken.",
+    "missingLibraries": "Ontbrekende bibliotheken: {0}. Installeer ze met de bibliotheekbeheerder."
   },
   "shortcuts": {
     "askFollowUp": "Vervolgvraag",

@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino sukurtas!",
     "highCostWarning": "Numatoma kaina (be atsakymo): ${0} naudojant {1}. Tęsti?",
     "codeApplied": "Kodas pritaikytas",
-    "nodePathSaved": "Node.js kelias išsaugotas"
+    "nodePathSaved": "Node.js kelias išsaugotas",
+    "loginCommandCopied": "Terminalas nerastas. Prisijungimo komanda nukopijuota: {0}"
   },
   "buttons": {
     "chooseModel": "Pasirinkti AI modelį",
@@ -116,7 +117,8 @@
     "apply": "Pritaikyti",
     "configureNodePath": "Konfigūruoti Node.js kelią",
     "enterNodePath": "Įvesti Node.js v20+ kelią",
-    "testProviders": "Testuoti tiekėjus"
+    "testProviders": "Testuoti tiekėjus",
+    "loginTerminal": "Prisijungti terminale"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizuoti pažymėtą kodą",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} per sena. Reikia {1} ar naujesnės versijos. Atnaujinkite: {2}",
     "localProviderNotFound": "{0} nerastas '{1}'. Prašome sukonfigūruoti teisingą kelią per 'Įvesti API raktą'.",
     "localProviderNotRunning": "Neveikia. Prašome paleisti.",
-    "localProviderTimeout": "Sesija baigėsi"
+    "localProviderTimeout": "Sesija baigėsi",
+    "agentLogin": "{0} reikia prisijungti iš naujo."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nŠiandien: {1} Žetonai{2}\nĮvestis: {3} | Išvestis: {4}\nPaspaudimas meniu • Ctrl+Shift+C • Dešinys paspaudimas perjungimui",
@@ -325,7 +328,13 @@
     "backToOverview": "Grįžti į apžvalgą",
     "manageAttachments": "Tvarkyti priedus",
     "newSessionStarted": "Nauja sesija pradėta",
-    "removeFilePrompt": "Pašalinti failą"
+    "removeFilePrompt": "Pašalinti failą",
+    "compileSuccess": "Kompiliavimas sėkmingas",
+    "compileFailed": "Kompiliavimas nepavyko",
+    "compileAttempts": "({0} bandymai)",
+    "compileMemory": "Flash: {0} iš {1} baitų ({2} %), RAM: {3} iš {4} baitų ({5} %)",
+    "ramWarning": "Mažai laisvos RAM, eskizas gali veikti nestabiliai.",
+    "missingLibraries": "Trūksta bibliotekų: {0}. Įdiekite jas per bibliotekų tvarkyklę."
   },
   "shortcuts": {
     "askFollowUp": "Papildomas klausimas",

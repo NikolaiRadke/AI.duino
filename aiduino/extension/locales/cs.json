@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino vytvořen!",
     "highCostWarning": "Odhadované náklady (bez odpovědi): ${0} s {1}. Pokračovat?",
     "codeApplied": "Kód byl použit",
-    "nodePathSaved": "Cesta k Node.js byla uložena"
+    "nodePathSaved": "Cesta k Node.js byla uložena",
+    "loginCommandCopied": "Terminál nenalezen. Přihlašovací příkaz byl zkopírován: {0}"
   },
   "buttons": {
     "chooseModel": "Vybrat model AI",
@@ -116,7 +117,8 @@
     "apply": "Použít",
     "configureNodePath": "Konfigurovat cestu k Node.js",
     "enterNodePath": "Zadat cestu k Node.js v20+",
-    "testProviders": "Testovat poskytovatele"
+    "testProviders": "Testovat poskytovatele",
+    "loginTerminal": "Přihlásit v terminálu"
   },
   "descriptions": {
     "improveCodeSelected": "Optimalizovat vybraný kód",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} je příliš starý. Je vyžadována verze {1} nebo novější. Aktualizujte pomocí: {2}",
     "localProviderNotFound": "{0} nenalezen v '{1}'. Prosím nakonfigurujte správnou cestu přes 'Zadat API klíč'.",
     "localProviderNotRunning": "Neběží. Prosím spusťte.",
-    "localProviderTimeout": "Relace vypršela"
+    "localProviderTimeout": "Relace vypršela",
+    "agentLogin": "{0} vyžaduje nové přihlášení."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDnes: {1} Tokenů{2}\nVstup: {3} | Výstup: {4}\nKlikněte pro menu • Ctrl+Shift+C • Pravé tlačítko pro přepnutí",
@@ -325,7 +328,13 @@
     "backToOverview": "Zpět na přehled",
     "manageAttachments": "Spravovat přílohy",
     "newSessionStarted": "Nová relace zahájena",
-    "removeFilePrompt": "Odebrat soubor"
+    "removeFilePrompt": "Odebrat soubor",
+    "compileSuccess": "Kompilace úspěšná",
+    "compileFailed": "Kompilace selhala",
+    "compileAttempts": "({0} pokusů)",
+    "compileMemory": "Flash: {0} z {1} bajtů ({2} %), RAM: {3} z {4} bajtů ({5} %)",
+    "ramWarning": "Málo volné RAM, sketch může běžet nestabilně.",
+    "missingLibraries": "Chybějící knihovny: {0}. Nainstalujte je pomocí správce knihoven."
   },
   "shortcuts": {
     "askFollowUp": "Navazující otázka",

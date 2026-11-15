@@ -73,7 +73,8 @@
     "notesCreated": "✅ ¡NOTES.ino creado!",
     "highCostWarning": "Costo estimado (sin respuesta): ${0} con {1}. ¿Continuar?",
     "codeApplied": "Código aplicado",
-    "nodePathSaved": "Ruta de Node.js guardada"
+    "nodePathSaved": "Ruta de Node.js guardada",
+    "loginCommandCopied": "No se encontró ningún terminal. Se copió el comando de inicio de sesión: {0}"
   },
   "buttons": {
     "chooseModel": "Elegir modelo de IA",
@@ -116,7 +117,8 @@
     "apply": "Aplicar",
     "configureNodePath": "Configurar ruta de Node.js",
     "enterNodePath": "Introducir ruta de Node.js v20+",
-    "testProviders": "Probar proveedores"
+    "testProviders": "Probar proveedores",
+    "loginTerminal": "Iniciar sesión en un terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizar código seleccionado",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} es demasiado antiguo. Se requiere la versión {1} o superior. Actualiza con: {2}",
     "localProviderNotFound": "{0} no encontrado en '{1}'. Por favor configure la ruta correcta a través de 'Introducir clave API'.",
     "localProviderNotRunning": "No está ejecutándose. Por favor inicie.",
-    "localProviderTimeout": "Sesión expirada"
+    "localProviderTimeout": "Sesión expirada",
+    "agentLogin": "{0} necesita iniciar sesión de nuevo."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nHoy: {1} Tokens{2}\nEntrada: {3} | Salida: {4}\nClic para menú • Ctrl+Shift+C • Clic derecho para cambiar",
@@ -325,7 +328,13 @@
     "backToOverview": "Volver al resumen",
     "manageAttachments": "Gestionar archivos adjuntos",
     "newSessionStarted": "Nueva sesión iniciada",
-    "removeFilePrompt": "Eliminar archivo"
+    "removeFilePrompt": "Eliminar archivo",
+    "compileSuccess": "Compilación correcta",
+    "compileFailed": "La compilación falló",
+    "compileAttempts": "({0} intentos)",
+    "compileMemory": "Flash: {0} de {1} bytes ({2} %), RAM: {3} de {4} bytes ({5} %)",
+    "ramWarning": "Queda poca RAM, el sketch puede funcionar de forma inestable.",
+    "missingLibraries": "Faltan bibliotecas: {0}. Instálalas con el gestor de bibliotecas."
   },
   "shortcuts": {
     "askFollowUp": "Pregunta de seguimiento",

@@ -43,8 +43,17 @@ function buildArgs(prompt, sessionId = null, agenticMode = false, modelId = null
  * @returns {Object} { response, sessionId }
  */
 function extractResponse(stdout) {
+    let jsonResponse;
     try {
-        const jsonResponse = JSON.parse(stdout);
+        jsonResponse = JSON.parse(stdout);
+    } catch (e) {
+        return { response: stdout, sessionId: null };
+    }
+    // Failed runs (e.g. "Not logged in · Please run /login") are errors, not answers
+    if (jsonResponse.is_error) {
+        throw new Error(jsonResponse.result || jsonResponse.subtype || 'Claude Code error');
+    }
+    try {
         const response = jsonResponse.result || jsonResponse.content || stdout;
         const sessionId = jsonResponse.session_id || null;
         return { response, sessionId };

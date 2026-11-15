@@ -53,6 +53,8 @@ Define your own AI workflows: error checking after compile, code review, documen
 ### 🚀 Agentic Coding
 The AI reads, modifies, and writes your project files directly — no copy-pasting required. It can even compile and fix errors autonomously in a loop.
 
+> **Version 2.8.0 is the last feature release.** AI.duino keeps getting provider and model updates. New agentic features — sketch projects, serial output for the agent, debugging with ArduDebug — go to [Agentuino](https://github.com/NikolaiRadke/Agentuino).
+
 ### 📊 Offline Code Analysis
 Get structural information about your current file without any API call.
 

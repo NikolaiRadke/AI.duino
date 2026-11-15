@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino maħluq!",
     "highCostWarning": "Spiża stmata (mingħajr risposta): ${0} b'{1}. Kompli?",
     "codeApplied": "Il-kodiċi ġie applikat",
-    "nodePathSaved": "Il-mogħdija Node.js ġiet salvata"
+    "nodePathSaved": "Il-mogħdija Node.js ġiet salvata",
+    "loginCommandCopied": "Ma nstab l-ebda terminal. Il-kmand tal-login ġie kkupjat: {0}"
   },
   "buttons": {
     "chooseModel": "Agħżel mudell AI",
@@ -116,7 +117,8 @@
     "apply": "Applika",
     "configureNodePath": "Ikkonfigura mogħdija Node.js",
     "enterNodePath": "Daħħal mogħdija Node.js v20+",
-    "testProviders": "Ttestja l-fornituri"
+    "testProviders": "Ttestja l-fornituri",
+    "loginTerminal": "Idħol f'terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Ħassan il-kodiċi magħżul",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} huwa qadim wisq. Hija meħtieġa l-verżjoni {1} jew aktar ġdida. Aġġorna b'dan: {2}",
     "localProviderNotFound": "{0} ma nstabx f'{1}'. Jekk jogħġbok ikkonfigura l-mogħdija t-tajba permezz ta' 'Daħħal iċ-ċavetta tal-API'.",
     "localProviderNotRunning": "Mhux qed jaħdem. Jekk jogħġbok ibda.",
-    "localProviderTimeout": "Sessjoni skadiet"
+    "localProviderTimeout": "Sessjoni skadiet",
+    "agentLogin": "{0} jeħtieġ login ġdid."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nIllum: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlikkja għal menu • Ctrl+Shift+C • Right click biex tibdel",
@@ -325,7 +328,13 @@
     "backToOverview": "Lura għall-ħarsa ġenerali",
     "manageAttachments": "Immaniġġja l-allegati",
     "newSessionStarted": "Sessjoni ġdida bdiet",
-    "removeFilePrompt": "Neħħi l-fajl"
+    "removeFilePrompt": "Neħħi l-fajl",
+    "compileSuccess": "Il-kompilazzjoni rnexxiet",
+    "compileFailed": "Il-kompilazzjoni falliet",
+    "compileAttempts": "({0} tentattivi)",
+    "compileMemory": "Flash: {0} minn {1} bytes ({2} %), RAM: {3} minn {4} bytes ({5} %)",
+    "ramWarning": "Ftit RAM liberu, l-isketch jista' jaħdem b'mod instabbli.",
+    "missingLibraries": "Libreriji neqsin: {0}. Installahom bil-Library Manager."
   },
   "shortcuts": {
     "askFollowUp": "Mistoqsija follow-up",

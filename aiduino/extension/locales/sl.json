@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino ustvarjen!",
     "highCostWarning": "Ocenjeni stroški (brez odgovora): ${0} z {1}. Nadaljuj?",
     "codeApplied": "Koda je bila uporabljena",
-    "nodePathSaved": "Pot Node.js je bila shranjena"
+    "nodePathSaved": "Pot Node.js je bila shranjena",
+    "loginCommandCopied": "Terminala ni bilo mogoče najti. Ukaz za prijavo je kopiran: {0}"
   },
   "buttons": {
     "chooseModel": "Izbira AI modela",
@@ -116,7 +117,8 @@
     "apply": "Uporabi",
     "configureNodePath": "Konfiguriraj pot Node.js",
     "enterNodePath": "Vnesi pot Node.js v20+",
-    "testProviders": "Testiraj ponudnike"
+    "testProviders": "Testiraj ponudnike",
+    "loginTerminal": "Prijava v terminalu"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizacija označene kode",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} je prestar. Potrebna je različica {1} ali novejša. Posodobite z: {2}",
     "localProviderNotFound": "{0} ni najden na '{1}'. Prosim konfigurirajte pravilno pot preko 'Vnesite API ključ'.",
     "localProviderNotRunning": "Se ne izvaja. Prosim zaženite.",
-    "localProviderTimeout": "Seja je potekla"
+    "localProviderTimeout": "Seja je potekla",
+    "agentLogin": "{0} zahteva ponovno prijavo."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDanes: {1} Žetonov{2}\nVhod: {3} | Izhod: {4}\nKlik za meni • Ctrl+Shift+C • Desni klik za preklop",
@@ -325,7 +328,13 @@
     "backToOverview": "Nazaj na pregled",
     "manageAttachments": "Upravljanje prilog",
     "newSessionStarted": "Nova seja se je začela",
-    "removeFilePrompt": "Odstrani datoteko"
+    "removeFilePrompt": "Odstrani datoteko",
+    "compileSuccess": "Prevajanje uspešno",
+    "compileFailed": "Prevajanje ni uspelo",
+    "compileAttempts": "({0} poskusov)",
+    "compileMemory": "Flash: {0} od {1} bajtov ({2} %), RAM: {3} od {4} bajtov ({5} %)",
+    "ramWarning": "Malo prostega RAM-a, skica lahko deluje nestabilno.",
+    "missingLibraries": "Manjkajoče knjižnice: {0}. Namestite jih z upraviteljem knjižnic."
   },
   "shortcuts": {
     "askFollowUp": "Nadaljnje vprašanje",

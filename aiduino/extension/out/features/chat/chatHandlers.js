@@ -177,10 +177,8 @@ async function handleUserMessage(userText, panel, context, state) {
             
             // Handle agentic result
             if (result.compileResult) {
-                const status = result.compileResult.success ? '✅' : '❌';
-                const iterations = result.iterations > 1 ? ` (${result.iterations} iterations)` : '';
-                state.historyManager.addMessage('system', 
-                    `${status} Compile ${result.compileResult.success ? 'successful' : 'failed'}${iterations}`,
+                state.historyManager.addMessage('system',
+                    describeCompileResult(result.compileResult, result.iterations, context.t),
                     null, actualCurrentModel
                 );
             }
@@ -225,6 +223,31 @@ async function handleUserMessage(userText, panel, context, state) {
     } catch (error) {
         throw error;
     }
+}
+
+/**
+ * Short chat line for a compile result: status, attempts, flash and RAM usage
+ * @param {Object} compileResult - Result of shared.compileSketch()
+ * @param {number} iterations - Agent runs in the compile loop
+ * @param {Function} t - Translation function
+ * @returns {string}
+ */
+function describeCompileResult(compileResult, iterations, t) {
+    const attempts = iterations > 1 ? ' ' + t('chat.compileAttempts', iterations) : '';
+    if (!compileResult.success) {
+        if (compileResult.missingLibraries) {
+            return `❌ ${t('chat.compileFailed')}${attempts}\n${t('chat.missingLibraries', compileResult.missingLibraries.join(', '))}`;
+        }
+        const errors = (compileResult.errors || []).slice(0, 3).join('\n');
+        return `❌ ${t('chat.compileFailed')}${attempts}${errors ? '\n' + errors : ''}`;
+    }
+    let text = `✅ ${t('chat.compileSuccess')}${attempts}`;
+    const { flash, ram } = compileResult;
+    if (flash && ram && flash.max && ram.max) {
+        text += '\n' + t('chat.compileMemory', flash.used, flash.max, flash.percent, ram.used, ram.max, ram.percent);
+    }
+    if (compileResult.ramWarning) text += '\n⚠️ ' + t('chat.ramWarning');
+    return text;
 }
 
 /**
@@ -301,7 +324,7 @@ function buildChatPrompt(newMessage, history, currentModel, minimalModelManager,
         if (selectionContext) {
             prompt += `\n\nThe user has selected the following code:\n\`\`\`cpp\n${selectionContext}\n\`\`\`\nFocus your response on this selected code.`;
         }
-        prompt += "\n\nYou are working in agentic mode with access to the sketch folder. When asked about code, proactively search for and read .ino files in the current directory. IMPORTANT: Only edit the existing .ino file. Do not create new files or rename the sketch.";
+        prompt += "\n\nYou are working in agentic mode with access to the sketch folder. When asked about code, proactively search for and read .ino files in the current directory. Prefer editing the existing .ino file and do not rename the sketch.";
     }
     
     if (!hasActiveSession && history.length > 0) {

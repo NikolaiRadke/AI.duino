@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino izveidots!",
     "highCostWarning": "Paredzamās izmaksas (bez atbildes): ${0} ar {1}. Turpināt?",
     "codeApplied": "Kods ir piemērots",
-    "nodePathSaved": "Node.js ceļš ir saglabāts"
+    "nodePathSaved": "Node.js ceļš ir saglabāts",
+    "loginCommandCopied": "Termināls netika atrasts. Pieteikšanās komanda nokopēta: {0}"
   },
   "buttons": {
     "chooseModel": "Izvēlēties AI modeli",
@@ -116,7 +117,8 @@
     "apply": "Piemērot",
     "configureNodePath": "Konfigurēt Node.js ceļu",
     "enterNodePath": "Ievadīt Node.js v20+ ceļu",
-    "testProviders": "Testēt nodrošinātājus"
+    "testProviders": "Testēt nodrošinātājus",
+    "loginTerminal": "Pieteikties terminālī"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizēt iezīmēto kodu",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} ir pārāk veca. Nepieciešama versija {1} vai jaunāka. Atjauniniet ar: {2}",
     "localProviderNotFound": "{0} nav atrasts '{1}'. Lūdzu konfigurējiet pareizo ceļu caur 'Ievadīt API atslēgu'.",
     "localProviderNotRunning": "Nedarbojas. Lūdzu palaidiet.",
-    "localProviderTimeout": "Sesija beigusies"
+    "localProviderTimeout": "Sesija beigusies",
+    "agentLogin": "{0} nepieciešama jauna pieteikšanās."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nŠodien: {1} Žetoni{2}\nIevade: {3} | Izvade: {4}\nKlikšķis izvēlnei • Ctrl+Shift+C • Labais klikšķis pārslēgšanai",
@@ -325,7 +328,13 @@
     "backToOverview": "Atpakaļ uz pārskatu",
     "manageAttachments": "Pārvaldīt pielikumus",
     "newSessionStarted": "Jauna sesija sākta",
-    "removeFilePrompt": "Noņemt failu"
+    "removeFilePrompt": "Noņemt failu",
+    "compileSuccess": "Kompilēšana veiksmīga",
+    "compileFailed": "Kompilēšana neizdevās",
+    "compileAttempts": "({0} mēģinājumi)",
+    "compileMemory": "Flash: {0} no {1} baitiem ({2} %), RAM: {3} no {4} baitiem ({5} %)",
+    "ramWarning": "Maz brīvas RAM, skice var darboties nestabili.",
+    "missingLibraries": "Trūkst bibliotēku: {0}. Instalējiet tās ar bibliotēku pārvaldnieku."
   },
   "shortcuts": {
     "askFollowUp": "Papildu jautājums",

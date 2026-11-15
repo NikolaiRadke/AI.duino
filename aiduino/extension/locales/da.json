@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino oprettet!",
     "highCostWarning": "Anslåede omkostninger (uden svar): ${0} med {1}. Fortsæt?",
     "codeApplied": "Kode er blevet anvendt",
-    "nodePathSaved": "Node.js-sti er blevet gemt"
+    "nodePathSaved": "Node.js-sti er blevet gemt",
+    "loginCommandCopied": "Ingen terminal fundet. Login-kommandoen blev kopieret: {0}"
   },
   "buttons": {
     "chooseModel": "Vælg AI Model",
@@ -116,7 +117,8 @@
     "apply": "Anvend",
     "configureNodePath": "Konfigurer Node.js-sti",
     "enterNodePath": "Indtast Node.js v20+ sti",
-    "testProviders": "Test udbydere"
+    "testProviders": "Test udbydere",
+    "loginTerminal": "Log ind i en terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Optimere valgte kode",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} er for gammel. Version {1} eller nyere kræves. Opdatér med: {2}",
     "localProviderNotFound": "{0} ikke fundet på '{1}'. Venligst konfigurer korrekte sti via 'Indtast API-nøgle'.",
     "localProviderNotRunning": "Kører ikke. Venligst start.",
-    "localProviderTimeout": "Session udløbet"
+    "localProviderTimeout": "Session udløbet",
+    "agentLogin": "{0} kræver et nyt login."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nI dag: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlik for menu • Ctrl+Shift+C • Højreklik for at skifte",
@@ -325,7 +328,13 @@
     "backToOverview": "Tilbage til oversigt",
     "manageAttachments": "Administrer vedhæftede filer",
     "newSessionStarted": "Ny session startet",
-    "removeFilePrompt": "Fjern fil"
+    "removeFilePrompt": "Fjern fil",
+    "compileSuccess": "Kompilering lykkedes",
+    "compileFailed": "Kompilering mislykkedes",
+    "compileAttempts": "({0} forsøg)",
+    "compileMemory": "Flash: {0} af {1} bytes ({2} %), RAM: {3} af {4} bytes ({5} %)",
+    "ramWarning": "Lidt ledig RAM, sketchen kan køre ustabilt.",
+    "missingLibraries": "Manglende biblioteker: {0}. Installér dem med bibliotekshåndteringen."
   },
   "shortcuts": {
     "askFollowUp": "Opfølgende spørgsmål",

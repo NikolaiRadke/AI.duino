@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.8.0
+Last feature release. From now on AI.duino only gets provider updates; agentic work continues in [Agentuino](https://github.com/NikolaiRadke/Agentuino).
+* Added custom semantic anchors: create, edit and delete them in the prompt editor
+* Added semantic anchor "Texts in flash (F())"; built-in anchors tell the AI more precisely what is meant
+* Added provider "OpenAI-compatible (local)" for Lemonade, llama.cpp, vLLM, LocalAI, Jan and others
+* Added flash and RAM usage after a successful compile in agentic mode, with a warning when RAM runs low
+* Added login detection for CLI agents: "Log in in a terminal" opens the agent's login in the system terminal
+* Added weekly provider config check (GitHub workflow) with a tracking issue
+* Changed compiling in agentic mode: runs asynchronously (the IDE no longer freezes), uses the IDE's arduino-cli config (libraries of a moved sketchbook are found) and stops on missing libraries
+* Changed agentic mode: fixed rules (never upload on its own, install libraries only after asking, stay in the sketch folder), retries keep the agent's session, changes in src/ are detected
+* Changed: errors about retired endpoints or models offer a provider config update instead of reporting an invalid API key
+* Fixed Codex CLI for current versions (sandbox option, sessions via resume)
+* Fixed Mistral Vibe for version 3.x (tool approval, sessions)
+* Fixed OpenCode: JSON output, sessions, prompt via stdin (long prompts on Windows)
+* Fixed missing English labels for advanced semantic anchors
+* Provider config 151126: Claude 5.5, GPT-6, Gemini 4 Argon and more
+
 ## 2.7.0
 * Added Semantic Anchor feature
 * Changed update check from package.json to releases for less (annoying) update notifications.

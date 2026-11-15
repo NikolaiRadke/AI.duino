@@ -10,8 +10,11 @@ Since **V2.6.0**, AI.duino supports full Agentic Coding: Unlike traditional AI c
 
 *Oje, Englisch? Kann ich nicht. Schnell [hier hin](https://github.com/NikolaiRadke/AI.duino/wiki)*.  
 
+> [!IMPORTANT]
+> **V2.8.0 is the last feature release.** AI.duino keeps getting provider and model updates, but new features go to its little brother **[Agentuino](https://github.com/NikolaiRadke/Agentuino)**: purely agentic, with sketch projects, serial output for the agent and debugging with [ArduDebug](https://github.com/NikolaiRadke/ArduDebug).
+
 🆕 What's new?  
-* **22.09.2026** Collecting article feedback für 2.7.1 bugfix release.  
+* **15.11.2026** Release **V2.8.0**, the last feature release. Agentic coding continues in [Agentuino](https://github.com/NikolaiRadke/Agentuino).  
     -- More news? Check the [newsblog](https://github.com/NikolaiRadke/AI.duino/blob/main/NEWS.md).
    
 ## Features
@@ -81,6 +84,7 @@ and will inform the user for new version updates.
 
 You can toggle the Chat to be agentic by pressing the second Button from the right. Now, the AI has access to the folder your file is located in.
 Remember that you need additional Software.  
+For serial output and debugging by the agent, use [Agentuino](https://github.com/NikolaiRadke/Agentuino).  
 
 ## Installation
 

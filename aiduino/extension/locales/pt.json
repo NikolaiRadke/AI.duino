@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino criado!",
     "highCostWarning": "Custo estimado (sem resposta): ${0} com {1}. Continuar?",
     "codeApplied": "Código aplicado",
-    "nodePathSaved": "Caminho do Node.js salvo"
+    "nodePathSaved": "Caminho do Node.js salvo",
+    "loginCommandCopied": "Nenhum terminal encontrado. O comando de início de sessão foi copiado: {0}"
   },
   "buttons": {
     "chooseModel": "Escolher Modelo de IA",
@@ -116,7 +117,8 @@
     "apply": "Aplicar",
     "configureNodePath": "Configurar caminho do Node.js",
     "enterNodePath": "Inserir caminho do Node.js v20+",
-    "testProviders": "Testar fornecedores"
+    "testProviders": "Testar fornecedores",
+    "loginTerminal": "Iniciar sessão num terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Otimizar código selecionado",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} é demasiado antigo. É necessária a versão {1} ou superior. Atualize com: {2}",
     "localProviderNotFound": "{0} não encontrado em '{1}'. Por favor configure o caminho correto através de 'Inserir chave API'.",
     "localProviderNotRunning": "Não está executando. Por favor inicie.",
-    "localProviderTimeout": "Sessão expirada"
+    "localProviderTimeout": "Sessão expirada",
+    "agentLogin": "{0} precisa de um novo início de sessão."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nHoje: {1} Tokens{2}\nEntrada: {3} | Saída: {4}\nClique para menu • Ctrl+Shift+C • Clique direito para trocar",
@@ -325,7 +328,13 @@
     "backToOverview": "Voltar à visão geral",
     "manageAttachments": "Gerir anexos",
     "newSessionStarted": "Nova sessão iniciada",
-    "removeFilePrompt": "Remover ficheiro"
+    "removeFilePrompt": "Remover ficheiro",
+    "compileSuccess": "Compilação bem-sucedida",
+    "compileFailed": "A compilação falhou",
+    "compileAttempts": "({0} tentativas)",
+    "compileMemory": "Flash: {0} de {1} bytes ({2} %), RAM: {3} de {4} bytes ({5} %)",
+    "ramWarning": "Pouca RAM livre, o sketch pode ficar instável.",
+    "missingLibraries": "Bibliotecas em falta: {0}. Instale-as com o gestor de bibliotecas."
   },
   "shortcuts": {
     "askFollowUp": "Pergunta de acompanhamento",

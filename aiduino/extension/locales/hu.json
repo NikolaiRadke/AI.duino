@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino létrehozva!",
     "highCostWarning": "Becsült költség (válasz nélkül): ${0} használatával: {1}. Folytatod?",
     "codeApplied": "Kód alkalmazva",
-    "nodePathSaved": "Node.js útvonal mentve"
+    "nodePathSaved": "Node.js útvonal mentve",
+    "loginCommandCopied": "Nem található terminál. A bejelentkezési parancs a vágólapra került: {0}"
   },
   "buttons": {
     "chooseModel": "AI modell választása",
@@ -116,7 +117,8 @@
     "apply": "Alkalmaz",
     "configureNodePath": "Node.js útvonal konfigurálása",
     "enterNodePath": "Node.js v20+ útvonal megadása",
-    "testProviders": "Szolgáltatók tesztelése"
+    "testProviders": "Szolgáltatók tesztelése",
+    "loginTerminal": "Bejelentkezés terminálban"
   },
   "descriptions": {
     "improveCodeSelected": "Kijelölt kód optimalizálása",
@@ -258,7 +260,8 @@
     "cliTooOld": "A(z) {0} túl régi. {1} vagy újabb verzió szükséges. Frissítés: {2}",
     "localProviderNotFound": "{0} nem található itt: '{1}'. Kérjük konfigurálja a helyes útvonalat az 'API kulcs megadása' segítségével.",
     "localProviderNotRunning": "Nem fut. Kérjük indítsa el.",
-    "localProviderTimeout": "Munkamenet lejárt"
+    "localProviderTimeout": "Munkamenet lejárt",
+    "agentLogin": "A(z) {0} új bejelentkezést igényel."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nMa: {1} Token{2}\nBemenet: {3} | Kimenet: {4}\nKattints a menühöz • Ctrl+Shift+C • Jobb katt a váltáshoz",
@@ -325,7 +328,13 @@
     "backToOverview": "Vissza az áttekintéshez",
     "manageAttachments": "Mellékletek kezelése",
     "newSessionStarted": "Új munkamenet indítva",
-    "removeFilePrompt": "Fájl eltávolítása"
+    "removeFilePrompt": "Fájl eltávolítása",
+    "compileSuccess": "Sikeres fordítás",
+    "compileFailed": "A fordítás sikertelen",
+    "compileAttempts": "({0} próbálkozás)",
+    "compileMemory": "Flash: {0} / {1} bájt ({2} %), RAM: {3} / {4} bájt ({5} %)",
+    "ramWarning": "Kevés a szabad RAM, a vázlat instabil lehet.",
+    "missingLibraries": "Hiányzó könyvtárak: {0}. Telepítsd őket a könyvtárkezelővel."
   },
   "shortcuts": {
     "askFollowUp": "Követő kérdés",

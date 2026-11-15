@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino vytvorený!",
     "highCostWarning": "Odhadované náklady (bez odpovede): ${0} s {1}. Pokračovať?",
     "codeApplied": "Kód bol použitý",
-    "nodePathSaved": "Cesta k Node.js bola uložená"
+    "nodePathSaved": "Cesta k Node.js bola uložená",
+    "loginCommandCopied": "Terminál sa nenašiel. Prihlasovací príkaz bol skopírovaný: {0}"
   },
   "buttons": {
     "chooseModel": "Výber AI modelu",
@@ -116,7 +117,8 @@
     "apply": "Použiť",
     "configureNodePath": "Konfigurovať cestu k Node.js",
     "enterNodePath": "Zadať cestu k Node.js v20+",
-    "testProviders": "Testovať poskytovateľov"
+    "testProviders": "Testovať poskytovateľov",
+    "loginTerminal": "Prihlásiť sa v termináli"
   },
   "descriptions": {
     "improveCodeSelected": "Optimalizácia označeného kódu",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} je príliš starý. Vyžaduje sa verzia {1} alebo novšia. Aktualizujte pomocou: {2}",
     "localProviderNotFound": "{0} nenájdený na '{1}'. Prosím nakonfigurujte správnu cestu cez 'Zadať API kľúč'.",
     "localProviderNotRunning": "Nebeží. Prosím spustite.",
-    "localProviderTimeout": "Relácia vypršala"
+    "localProviderTimeout": "Relácia vypršala",
+    "agentLogin": "{0} vyžaduje nové prihlásenie."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDnes: {1} Tokens{2}\nVstup: {3} | Výstup: {4}\nKlik pre menu • Ctrl+Shift+C • Pravý klik na prepnutie",
@@ -325,7 +328,13 @@
     "backToOverview": "Späť na prehľad",
     "manageAttachments": "Spravovať prílohy",
     "newSessionStarted": "Nová relácia spustená",
-    "removeFilePrompt": "Odstrániť súbor"
+    "removeFilePrompt": "Odstrániť súbor",
+    "compileSuccess": "Kompilácia úspešná",
+    "compileFailed": "Kompilácia zlyhala",
+    "compileAttempts": "({0} pokusov)",
+    "compileMemory": "Flash: {0} z {1} bajtov ({2} %), RAM: {3} z {4} bajtov ({5} %)",
+    "ramWarning": "Málo voľnej RAM, sketch môže bežať nestabilne.",
+    "missingLibraries": "Chýbajúce knižnice: {0}. Nainštalujte ich cez správcu knižníc."
   },
   "shortcuts": {
     "askFollowUp": "Následná otázka",

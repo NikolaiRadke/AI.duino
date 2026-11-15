@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino가 생성되었습니다!",
     "highCostWarning": "예상 비용(응답 제외): ${0} ({1} 사용). 계속하시겠습니까?",
     "codeApplied": "코드가 적용되었습니다",
-    "nodePathSaved": "Node.js 경로가 저장되었습니다"
+    "nodePathSaved": "Node.js 경로가 저장되었습니다",
+    "loginCommandCopied": "터미널을 찾을 수 없습니다. 로그인 명령을 복사했습니다: {0}"
   },
   "buttons": {
     "chooseModel": "AI 모델 선택",
@@ -116,7 +117,8 @@
     "apply": "적용",
     "configureNodePath": "Node.js 경로 구성",
     "enterNodePath": "Node.js v20+ 경로 입력",
-    "testProviders": "공급자 테스트"
+    "testProviders": "공급자 테스트",
+    "loginTerminal": "터미널에서 로그인"
   },
   "descriptions": {
     "improveCodeSelected": "선택한 코드 최적화",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0}이(가) 너무 오래되었습니다. 버전 {1} 이상이 필요합니다. 업데이트: {2}",
     "localProviderNotFound": "'{1}'에서 {0}을(를) 찾을 수 없습니다. 'API 키 입력'을 통해 올바른 경로를 구성하십시오.",
     "localProviderNotRunning": "실행 중이 아닙니다. 시작하십시오.",
-    "localProviderTimeout": "세션이 만료되었습니다"
+    "localProviderTimeout": "세션이 만료되었습니다",
+    "agentLogin": "{0}에 다시 로그인해야 합니다."
   },
   "statusBar": {
     "tooltip": "AI.duino: {0}\n오늘: {1} 토큰{2}\n입력: {3} | 출력: {4}\n메뉴는 클릭 • Ctrl+Shift+C • 전환은 우클릭",
@@ -325,7 +328,13 @@
     "backToOverview": "개요로 돌아가기",
     "manageAttachments": "첨부 파일 관리",
     "newSessionStarted": "새 세션이 시작되었습니다",
-    "removeFilePrompt": "파일 제거"
+    "removeFilePrompt": "파일 제거",
+    "compileSuccess": "컴파일 성공",
+    "compileFailed": "컴파일 실패",
+    "compileAttempts": "({0}회 시도)",
+    "compileMemory": "Flash: {1}바이트 중 {0}바이트 ({2} %), RAM: {4}바이트 중 {3}바이트 ({5} %)",
+    "ramWarning": "남은 RAM이 적어 스케치가 불안정할 수 있습니다.",
+    "missingLibraries": "라이브러리가 없습니다: {0}. 라이브러리 관리자로 설치하세요."
   },
   "shortcuts": {
     "askFollowUp": "추가 질문",

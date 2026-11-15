@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino створено!",
     "highCostWarning": "Орієнтовна вартість (без відповіді): ${0} з {1}. Продовжити?",
     "codeApplied": "Код застосовано",
-    "nodePathSaved": "Шлях Node.js збережено"
+    "nodePathSaved": "Шлях Node.js збережено",
+    "loginCommandCopied": "Термінал не знайдено. Команду входу скопійовано: {0}"
   },
   "buttons": {
     "chooseModel": "Вибрати модель ШІ",
@@ -116,7 +117,8 @@
     "apply": "Застосувати",
     "configureNodePath": "Налаштувати шлях Node.js",
     "enterNodePath": "Введіть шлях Node.js v20+",
-    "testProviders": "Тестувати постачальників"
+    "testProviders": "Тестувати постачальників",
+    "loginTerminal": "Увійти в терміналі"
   },
   "descriptions": {
     "improveCodeSelected": "Оптимізувати виділений код",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} застарілий. Потрібна версія {1} або новіша. Оновіть командою: {2}",
     "localProviderNotFound": "{0} не знайдено за адресою '{1}'. Будь ласка, налаштуйте правильний шлях через 'Ввести ключ API'.",
     "localProviderNotRunning": "Не запущено. Будь ласка, запустіть.",
-    "localProviderTimeout": "Сесія закінчилася"
+    "localProviderTimeout": "Сесія закінчилася",
+    "agentLogin": "{0} потребує повторного входу."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nСьогодні: {1} Токени{2}\nВхід: {3} | Вихід: {4}\nКлік для меню • Ctrl+Shift+C • Правий клік для переключення",
@@ -325,7 +328,13 @@
     "backToOverview": "Назад до огляду",
     "manageAttachments": "Керування вкладеннями",
     "newSessionStarted": "Нову сесію розпочато",
-    "removeFilePrompt": "Видалити файл"
+    "removeFilePrompt": "Видалити файл",
+    "compileSuccess": "Компіляція успішна",
+    "compileFailed": "Компіляція не вдалася",
+    "compileAttempts": "({0} спроби)",
+    "compileMemory": "Flash: {0} з {1} байтів ({2} %), RAM: {3} з {4} байтів ({5} %)",
+    "ramWarning": "Мало вільної RAM, скетч може працювати нестабільно.",
+    "missingLibraries": "Бракує бібліотек: {0}. Встановіть їх через менеджер бібліотек."
   },
   "shortcuts": {
     "askFollowUp": "Додаткове питання",

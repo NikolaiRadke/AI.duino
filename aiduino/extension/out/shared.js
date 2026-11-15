@@ -557,6 +557,16 @@ function findArduinoCli() {
     
     const platform = os.platform();
     const possiblePaths = [];
+
+    // First the copy bundled with the running Arduino IDE (works for any install location, AppImage included)
+    const exe = platform === 'win32' ? 'arduino-cli.exe' : 'arduino-cli';
+    const bundledRel = path.join('lib', 'backend', 'resources', exe);
+    const execDir = path.dirname(process.execPath);
+    if (vscode.env.appRoot) possiblePaths.push(path.join(vscode.env.appRoot, bundledRel));
+    possiblePaths.push(
+        path.join(execDir, 'resources', 'app', bundledRel),
+        path.join(execDir, '..', 'Resources', 'app', bundledRel)
+    );
     
     if (platform === 'linux') {
         possiblePaths.push(
@@ -581,7 +591,7 @@ function findArduinoCli() {
     // Check each path
     for (const cliPath of possiblePaths) {
         if (fs.existsSync(cliPath)) {
-            return cliPath;
+            return path.normalize(cliPath);
         }
     }
     
@@ -601,14 +611,30 @@ function findArduinoCli() {
 }
 
 /**
- * Compile Arduino sketch using arduino-cli
+ * Get the arduino-cli config of the Arduino IDE (sketchbook, libraries, cores).
+ * Without it, libraries in a moved sketchbook are missing when compiling.
+ * @returns {string|null} Path or null
+ */
+function findArduinoCliConfig() {
+    const fs = require('fs');
+    const path = require('path');
+    const os = require('os');
+    const configFile = path.join(os.homedir(), '.arduinoIDE', 'arduino-cli.yaml');
+    return fs.existsSync(configFile) ? configFile : null;
+}
+
+// One compile at a time; a new compile request waits for nothing and starts fresh
+let compileChecker = null;
+
+/**
+ * Compile Arduino sketch using arduino-cli (asynchronous, does not block the IDE)
  * @param {string} sketchPath - Path to sketch directory or .ino file
  * @param {string} fqbn - Fully Qualified Board Name (optional, auto-detect if null)
- * @returns {Promise<{success: boolean, output: string, errors: string[]}>}
+ * @returns {Promise<Object>} {success, output, errors, errorText, flash, ram, ramWarning, missingLibraries, moreErrors}
  */
 async function compileSketch(sketchPath, fqbn = null) {
-    const { execSync } = require('child_process');
     const path = require('path');
+    const { CompileChecker } = require('./utils/compileChecker');
     
     const cliPath = findArduinoCli();
     if (!cliPath) {
@@ -633,48 +659,43 @@ async function compileSketch(sketchPath, fqbn = null) {
     const sketchDir = sketchPath.endsWith('.ino') 
         ? path.dirname(sketchPath) 
         : sketchPath;
-    
+
+    if (!compileChecker) compileChecker = new CompileChecker();
     try {
-        const cmd = `"${cliPath}" compile --fqbn "${board}" "${sketchDir}" 2>&1`;
-        const output = execSync(cmd, { 
-            encoding: 'utf8',
-            timeout: 120000  // 2 minutes timeout
+        const result = await compileChecker.compile({
+            cliPath,
+            configFile: findArduinoCliConfig(),
+            fqbn: board,
+            sketchPath: sketchDir
         });
-        
+        if (result.stopped) {
+            return { success: false, output: '', errors: ['Compile stopped'] };
+        }
         return {
-            success: true,
-            output: output,
-            errors: []
+            success: result.ok,
+            output: result.output || '',
+            errors: result.errors || [],
+            errorText: result.errorText || '',
+            moreErrors: result.moreErrors || 0,
+            missingLibraries: result.missingLibraries || null,
+            flash: result.flash || null,
+            ram: result.ram || null,
+            ramWarning: Boolean(result.ramWarning)
         };
     } catch (error) {
-        // Compile failed - parse errors
-        const output = error.stdout || error.message || '';
-        const errors = parseCompileErrors(output);
-        
         return {
             success: false,
-            output: output,
-            errors: errors
+            output: '',
+            errors: [error.message]
         };
     }
 }
 
 /**
- * Parse compile errors from arduino-cli output
- * @param {string} output - Compiler output
- * @returns {string[]} Array of error messages
+ * Stop a running compile (e.g. when the user cancels)
  */
-function parseCompileErrors(output) {
-    const errors = [];
-    const lines = output.split('\n');
-    
-    for (const line of lines) {
-        if (line.includes(': error:') || line.includes(': fatal error:')) {
-            errors.push(line.trim());
-        }
-    }
-    
-    return errors.length > 0 ? errors : [output.trim()];
+function stopCompile() {
+    if (compileChecker) compileChecker.stop();
 }
 
 /**
@@ -714,7 +735,9 @@ module.exports = {
 
     // CLI utilities
     findArduinoCli,
+    findArduinoCliConfig,
     compileSketch,
+    stopCompile,
 
     // Other
     isArduinoIDE

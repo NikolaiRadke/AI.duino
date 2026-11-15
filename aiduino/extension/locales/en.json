@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino created!",
     "highCostWarning": "Estimated cost (without response): ${0} with {1}. Continue?",
     "codeApplied": "Code has been applied",
-    "nodePathSaved": "Node.js path has been saved"
+    "nodePathSaved": "Node.js path has been saved",
+    "loginCommandCopied": "No terminal found. The login command was copied: {0}"
   },
   "buttons": {
     "chooseModel": "Choose AI Model",
@@ -116,7 +117,8 @@
     "apply": "Apply",
     "configureNodePath": "Configure Node.js Path",
     "enterNodePath": "Enter Node.js v20+ Path",
-    "testProviders": "Test Providers"
+    "testProviders": "Test Providers",
+    "loginTerminal": "Log in in a terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Optimize selected code",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} is too old. Version {1} or newer is required. Update with: {2}",
     "localProviderNotFound": "{0} not found at '{1}'. Please configure correct path via 'Enter API Key'.",
     "localProviderNotRunning": "Not running. Please start.",
-    "localProviderTimeout": "Session expired"
+    "localProviderTimeout": "Session expired",
+    "agentLogin": "{0} needs a new login."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nToday: {1} Tokens{2}\nInput: {3} | Output: {4}\nClick for menu • Ctrl+Shift+C • Right-click to switch",
@@ -325,7 +328,13 @@
     "backToOverview": "Back to overview",
     "manageAttachments": "Manage attachments",
     "newSessionStarted": "New session started",
-    "removeFilePrompt": "Remove file"
+    "removeFilePrompt": "Remove file",
+    "compileSuccess": "Compile successful",
+    "compileFailed": "Compile failed",
+    "compileAttempts": "({0} attempts)",
+    "compileMemory": "Flash: {0} of {1} bytes ({2} %), RAM: {3} of {4} bytes ({5} %)",
+    "ramWarning": "Little RAM left, the sketch may run unstably.",
+    "missingLibraries": "Missing libraries: {0}. Please install them with the Library Manager."
   },
   "shortcuts": {
     "askFollowUp": "Follow-up question",

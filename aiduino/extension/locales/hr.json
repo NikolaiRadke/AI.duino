@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino kreiran!",
     "highCostWarning": "Procijenjena cijena (bez odgovora): ${0} sa {1}. Nastaviti?",
     "codeApplied": "Kod je primijenjen",
-    "nodePathSaved": "Node.js putanja je spremljena"
+    "nodePathSaved": "Node.js putanja je spremljena",
+    "loginCommandCopied": "Terminal nije pronađen. Naredba za prijavu je kopirana: {0}"
   },
   "buttons": {
     "chooseModel": "Odaberite AI model",
@@ -116,7 +117,8 @@
     "apply": "Primijeni",
     "configureNodePath": "Konfiguriraj Node.js putanju",
     "enterNodePath": "Unesi Node.js v20+ putanju",
-    "testProviders": "Testiraj pružatelje"
+    "testProviders": "Testiraj pružatelje",
+    "loginTerminal": "Prijava u terminalu"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiziraj označeni kod",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} je prestar. Potrebna je verzija {1} ili novija. Ažurirajte s: {2}",
     "localProviderNotFound": "{0} nije pronađen na '{1}'. Molimo konfiguriranje ispravnu putanju preko 'Unesite API ključ'.",
     "localProviderNotRunning": "Ne radi. Molimo pokrenite.",
-    "localProviderTimeout": "Sesija je istekla"
+    "localProviderTimeout": "Sesija je istekla",
+    "agentLogin": "{0} zahtijeva ponovnu prijavu."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDanas: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlik za izbornik • Ctrl+Shift+C • Desni klik za promjenu",
@@ -325,7 +328,13 @@
     "backToOverview": "Natrag na pregled",
     "manageAttachments": "Upravljanje prilozima",
     "newSessionStarted": "Nova sesija pokrenuta",
-    "removeFilePrompt": "Ukloni datoteku"
+    "removeFilePrompt": "Ukloni datoteku",
+    "compileSuccess": "Prevođenje uspješno",
+    "compileFailed": "Prevođenje nije uspjelo",
+    "compileAttempts": "({0} pokušaja)",
+    "compileMemory": "Flash: {0} od {1} bajtova ({2} %), RAM: {3} od {4} bajtova ({5} %)",
+    "ramWarning": "Malo slobodnog RAM-a, skica bi mogla raditi nestabilno.",
+    "missingLibraries": "Nedostaju biblioteke: {0}. Instalirajte ih putem upravitelja biblioteka."
   },
   "shortcuts": {
     "askFollowUp": "Dodatno pitanje",

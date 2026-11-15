@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino creat!",
     "highCostWarning": "Cost estimat (fără răspuns): ${0} cu {1}. Continuați?",
     "codeApplied": "Cod aplicat",
-    "nodePathSaved": "Calea Node.js a fost salvată"
+    "nodePathSaved": "Calea Node.js a fost salvată",
+    "loginCommandCopied": "Nu s-a găsit niciun terminal. Comanda de autentificare a fost copiată: {0}"
   },
   "buttons": {
     "chooseModel": "Alegeți modelul AI",
@@ -116,7 +117,8 @@
     "apply": "Aplică",
     "configureNodePath": "Configurează calea Node.js",
     "enterNodePath": "Introduceți calea Node.js v20+",
-    "testProviders": "Testează furnizorii"
+    "testProviders": "Testează furnizorii",
+    "loginTerminal": "Autentificare în terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizează codul selectat",
@@ -252,7 +254,8 @@
     "cliTooOld": "{0} este prea vechi. Este necesară versiunea {1} sau mai nouă. Actualizați cu: {2}",
     "localProviderNotFound": "{0} nu a fost găsit la '{1}'. Vă rugăm să configurați calea corectă prin 'Introduceți cheia API'.",
     "localProviderNotRunning": "Nu rulează. Vă rugăm să porniți.",
-    "localProviderTimeout": "Sesiunea a expirat"
+    "localProviderTimeout": "Sesiunea a expirat",
+    "agentLogin": "{0} necesită o nouă autentificare."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nAstăzi: {1} Tokeni{2}\nInput: {3} | Output: {4}\nClick pentru meniu • Ctrl+Shift+C • Click dreapta pentru a comuta",
@@ -319,7 +322,13 @@
     "backToOverview": "Înapoi la prezentare generală",
     "manageAttachments": "Gestionați atașamentele",
     "newSessionStarted": "Sesiune nouă pornită",
-    "removeFilePrompt": "Eliminați fișierul"
+    "removeFilePrompt": "Eliminați fișierul",
+    "compileSuccess": "Compilare reușită",
+    "compileFailed": "Compilarea a eșuat",
+    "compileAttempts": "({0} încercări)",
+    "compileMemory": "Flash: {0} din {1} octeți ({2} %), RAM: {3} din {4} octeți ({5} %)",
+    "ramWarning": "Puțină memorie RAM liberă, schița poate funcționa instabil.",
+    "missingLibraries": "Biblioteci lipsă: {0}. Instalați-le cu managerul de biblioteci."
   },
   "shortcuts": {
     "askFollowUp": "Întrebare de urmărire",

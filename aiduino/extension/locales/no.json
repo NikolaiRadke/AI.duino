@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino opprettet!",
     "highCostWarning": "Anslåtte kostnader (uten svar): ${0} med {1}. Fortsett?",
     "codeApplied": "Kode er anvendt",
-    "nodePathSaved": "Node.js-bane er lagret"
+    "nodePathSaved": "Node.js-bane er lagret",
+    "loginCommandCopied": "Fant ingen terminal. Innloggingskommandoen ble kopiert: {0}"
   },
   "buttons": {
     "chooseModel": "Velg AI-modell",
@@ -116,7 +117,8 @@
     "apply": "Bruk",
     "configureNodePath": "Konfigurer Node.js-bane",
     "enterNodePath": "Angi Node.js v20+ bane",
-    "testProviders": "Test leverandører"
+    "testProviders": "Test leverandører",
+    "loginTerminal": "Logg inn i en terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Optimaliser valgt kode",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} er for gammel. Versjon {1} eller nyere kreves. Oppdater med: {2}",
     "localProviderNotFound": "{0} ikke funnet på '{1}'. Vennligst konfigurer riktig bane via 'Angi API-nøkkel'.",
     "localProviderNotRunning": "Kjører ikke. Vennligst start.",
-    "localProviderTimeout": "Økt utløpt"
+    "localProviderTimeout": "Økt utløpt",
+    "agentLogin": "{0} trenger ny innlogging."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nI dag: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlikk for meny • Ctrl+Shift+C • Høyreklikk for å bytte",
@@ -325,7 +328,13 @@
     "backToOverview": "Tilbake til oversikt",
     "manageAttachments": "Administrer vedlegg",
     "newSessionStarted": "Ny økt startet",
-    "removeFilePrompt": "Fjern fil"
+    "removeFilePrompt": "Fjern fil",
+    "compileSuccess": "Kompilering vellykket",
+    "compileFailed": "Kompilering mislyktes",
+    "compileAttempts": "({0} forsøk)",
+    "compileMemory": "Flash: {0} av {1} byte ({2} %), RAM: {3} av {4} byte ({5} %)",
+    "ramWarning": "Lite ledig RAM, sketsjen kan kjøre ustabilt.",
+    "missingLibraries": "Manglende biblioteker: {0}. Installer dem med bibliotekbehandleren."
   },
   "shortcuts": {
     "askFollowUp": "Oppfølgingsspørsmål",

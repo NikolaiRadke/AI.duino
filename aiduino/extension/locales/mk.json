@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino креиран!",
     "highCostWarning": "Проценета цена (без одговор): ${0} со {1}. Продолжи?",
     "codeApplied": "Кодот е применет",
-    "nodePathSaved": "Node.js патеката е зачувана"
+    "nodePathSaved": "Node.js патеката е зачувана",
+    "loginCommandCopied": "Не е пронајден терминал. Командата за најава е копирана: {0}"
   },
   "buttons": {
     "chooseModel": "Избери KI модел",
@@ -116,7 +117,8 @@
     "apply": "Примени",
     "configureNodePath": "Конфигурирај Node.js патека",
     "enterNodePath": "Внеси Node.js v20+ патека",
-    "testProviders": "Тестирај провајдери"
+    "testProviders": "Тестирај провајдери",
+    "loginTerminal": "Најави се во терминал"
   },
   "descriptions": {
     "improveCodeSelected": "Оптимизирај избран код",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} е премногу стар. Потребна е верзија {1} или понова. Ажурирајте со: {2}",
     "localProviderNotFound": "{0} не е пронајден на '{1}'. Ве молиме конфигурирајте го точниот пат преку 'Внесете API клуч'.",
     "localProviderNotRunning": "Не работи. Ве молиме стартувајте.",
-    "localProviderTimeout": "Сесијата истече"
+    "localProviderTimeout": "Сесијата истече",
+    "agentLogin": "{0} бара ново најавување."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nДенес: {1} токени{2}\nInput: {3} | Output: {4}\nКликни за мени • Ctrl+Shift+C • Десен клик за промена",
@@ -325,7 +328,13 @@
     "backToOverview": "Назад кон преглед",
     "manageAttachments": "Управување со прилози",
     "newSessionStarted": "Нова сесија започната",
-    "removeFilePrompt": "Отстрани датотека"
+    "removeFilePrompt": "Отстрани датотека",
+    "compileSuccess": "Компајлирањето е успешно",
+    "compileFailed": "Компајлирањето не успеа",
+    "compileAttempts": "({0} обиди)",
+    "compileMemory": "Flash: {0} од {1} бајти ({2} %), RAM: {3} од {4} бајти ({5} %)",
+    "ramWarning": "Малку слободна RAM, скицата може да работи нестабилно.",
+    "missingLibraries": "Недостасуваат библиотеки: {0}. Инсталирајте ги преку менаџерот за библиотеки."
   },
   "shortcuts": {
     "askFollowUp": "Дополнително прашање",

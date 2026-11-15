@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino creato!",
     "highCostWarning": "Costo stimato (senza risposta): ${0} con {1}. Continuare?",
     "codeApplied": "Codice applicato",
-    "nodePathSaved": "Percorso Node.js salvato"
+    "nodePathSaved": "Percorso Node.js salvato",
+    "loginCommandCopied": "Nessun terminale trovato. Il comando di accesso è stato copiato: {0}"
   },
   "buttons": {
     "chooseModel": "Scegli modello IA",
@@ -116,7 +117,8 @@
     "apply": "Applica",
     "configureNodePath": "Configura percorso Node.js",
     "enterNodePath": "Inserisci percorso Node.js v20+",
-    "testProviders": "Testa i provider"
+    "testProviders": "Testa i provider",
+    "loginTerminal": "Accedi in un terminale"
   },
   "descriptions": {
     "improveCodeSelected": "Ottimizza codice selezionato",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} è troppo vecchio. È richiesta la versione {1} o successiva. Aggiorna con: {2}",
     "localProviderNotFound": "{0} non trovato a '{1}'. Si prega di configurare il percorso corretto tramite 'Inserisci chiave API'.",
     "localProviderNotRunning": "Non in esecuzione. Si prega di avviare.",
-    "localProviderTimeout": "Sessione scaduta"
+    "localProviderTimeout": "Sessione scaduta",
+    "agentLogin": "{0} richiede un nuovo accesso."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nOggi: {1} Token{2}\nInput: {3} | Output: {4}\nClick per menu • Ctrl+Shift+C • Click destro per cambiare",
@@ -325,7 +328,13 @@
     "backToOverview": "Torna alla panoramica",
     "manageAttachments": "Gestisci allegati",
     "newSessionStarted": "Nuova sessione avviata",
-    "removeFilePrompt": "Rimuovi file"
+    "removeFilePrompt": "Rimuovi file",
+    "compileSuccess": "Compilazione riuscita",
+    "compileFailed": "Compilazione non riuscita",
+    "compileAttempts": "({0} tentativi)",
+    "compileMemory": "Flash: {0} di {1} byte ({2} %), RAM: {3} di {4} byte ({5} %)",
+    "ramWarning": "Poca RAM libera, lo sketch potrebbe essere instabile.",
+    "missingLibraries": "Librerie mancanti: {0}. Installale con il gestore delle librerie."
   },
   "shortcuts": {
     "askFollowUp": "Domanda di seguito",

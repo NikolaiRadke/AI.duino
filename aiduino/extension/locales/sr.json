@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino креиран!",
     "highCostWarning": "Процењена цена (без одговора): ${0} са {1}. Наставити?",
     "codeApplied": "Код је примењен",
-    "nodePathSaved": "Node.js путања је сачувана"
+    "nodePathSaved": "Node.js путања је сачувана",
+    "loginCommandCopied": "Терминал није пронађен. Команда за пријаву је копирана: {0}"
   },
   "buttons": {
     "chooseModel": "Одабери АИ модел",
@@ -116,7 +117,8 @@
     "apply": "Примени",
     "configureNodePath": "Конфигуриши Node.js путању",
     "enterNodePath": "Унеси Node.js v20+ путању",
-    "testProviders": "Тестирај провајдере"
+    "testProviders": "Тестирај провајдере",
+    "loginTerminal": "Пријава у терминалу"
   },
   "descriptions": {
     "improveCodeSelected": "Оптимизуј означени код",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} је превише стар. Потребна је верзија {1} или новија. Ажурирајте са: {2}",
     "localProviderNotFound": "{0} није пронађен на '{1}'. Молимо конфигуришите исправну путању преко 'Унесите API кључ'.",
     "localProviderNotRunning": "Не ради. Молимо покрените.",
-    "localProviderTimeout": "Сесија је истекла"
+    "localProviderTimeout": "Сесија је истекла",
+    "agentLogin": "{0} захтева нову пријаву."
   },
   "statusBar": {
     "tooltip": "АИ.дуино : {0}\nДанас: {1} Токени{2}\nУлаз: {3} | Излаз: {4}\nКлик за мени • Ctrl+Shift+C • Десни клик за пребацивање",
@@ -325,7 +328,13 @@
     "backToOverview": "Назад на преглед",
     "manageAttachments": "Управљање прилозима",
     "newSessionStarted": "Нова сесија покренута",
-    "removeFilePrompt": "Уклони датотеку"
+    "removeFilePrompt": "Уклони датотеку",
+    "compileSuccess": "Компајлирање успешно",
+    "compileFailed": "Компајлирање није успело",
+    "compileAttempts": "({0} покушаја)",
+    "compileMemory": "Flash: {0} од {1} бајтова ({2} %), RAM: {3} од {4} бајтова ({5} %)",
+    "ramWarning": "Мало слободне RAM меморије, скица може радити нестабилно.",
+    "missingLibraries": "Недостају библиотеке: {0}. Инсталирајте их преко менаџера библиотека."
   },
   "shortcuts": {
     "askFollowUp": "Додатно питање",

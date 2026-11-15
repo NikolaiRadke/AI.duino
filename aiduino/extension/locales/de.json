@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino erstellt!",
     "highCostWarning": "Geschätzte Kosten (ohne Antwort): ${0} mit {1}. Fortfahren?",
     "codeApplied": "Code wurde übernommen",
-    "nodePathSaved": "Node.js-Pfad wurde gespeichert"
+    "nodePathSaved": "Node.js-Pfad wurde gespeichert",
+    "loginCommandCopied": "Kein Terminal gefunden. Der Anmeldebefehl wurde kopiert: {0}"
   },
   "buttons": {
     "chooseModel": "KI-Modell wählen",
@@ -116,7 +117,8 @@
     "apply": "Übernehmen",
     "configureNodePath": "Node.js-Pfad konfigurieren",
     "enterNodePath": "Node.js v20+ Pfad eingeben",
-    "testProviders": "Provider testen"
+    "testProviders": "Provider testen",
+    "loginTerminal": "Im Terminal anmelden"
   },
   "descriptions": {
     "improveCodeSelected": "Ausgewählten Code optimieren",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} ist zu alt. Benötigt wird Version {1} oder neuer. Aktualisieren mit: {2}",
     "localProviderNotFound": "{0} nicht gefunden unter '{1}'. Bitte korrekten Pfad über 'API Key eingeben' konfigurieren.",
     "localProviderNotRunning": "läuft nicht. Bitte starten.",
-    "localProviderTimeout": "Sitzung abgelaufen"
+    "localProviderTimeout": "Sitzung abgelaufen",
+    "agentLogin": "{0} braucht eine neue Anmeldung."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nHeute: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlick für Menü • Strg+Shift+C • Rechtsklick zum Wechseln",
@@ -325,7 +328,13 @@
     "backToOverview": "Zurück zur Übersicht",
     "manageAttachments": "Anhänge verwalten",
     "newSessionStarted": "Neue Sitzung gestartet",
-    "removeFilePrompt": "Datei entfernen"
+    "removeFilePrompt": "Datei entfernen",
+    "compileSuccess": "Kompilieren erfolgreich",
+    "compileFailed": "Kompilieren fehlgeschlagen",
+    "compileAttempts": "({0} Versuche)",
+    "compileMemory": "Flash: {0} von {1} Bytes ({2} %), RAM: {3} von {4} Bytes ({5} %)",
+    "ramWarning": "Wenig freier RAM, der Sketch läuft eventuell instabil.",
+    "missingLibraries": "Fehlende Bibliotheken: {0}. Bitte über den Bibliotheksverwalter installieren."
   },
   "shortcuts": {
     "askFollowUp": "Rückfrage",

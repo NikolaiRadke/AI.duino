@@ -2,6 +2,7 @@
 
 ## 2026
 
+* **15.11.2026** Release **V2.8.0**, the last feature release: custom semantic anchors, a provider for OpenAI-compatible local servers, a faster and safer agentic mode and current models. From now on AI.duino only gets provider updates. Agentic coding continues in **[Agentuino](https://github.com/NikolaiRadke/Agentuino)**, with serial monitor and [ArduDebug](https://github.com/NikolaiRadke/ArduDebug) debugging.
 * **22.09.2026** Collecting article feedback für 2.7.1 bugfix release.
 * **17.09.2026** German **Make Magazin 5/2026** is out with another big article about agentic coding in AI.duino!  
 * **31.05.2026** Release **V2.7.0** brings new Semantic Anchors feature. See the prompt editor.    

@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino loodud!",
     "highCostWarning": "Hinnanguline kulu (ilma vastuseta): ${0} kasutades {1}. Jätkata?",
     "codeApplied": "Kood on rakendatud",
-    "nodePathSaved": "Node.js tee on salvestatud"
+    "nodePathSaved": "Node.js tee on salvestatud",
+    "loginCommandCopied": "Terminali ei leitud. Sisselogimise käsk kopeeriti: {0}"
   },
   "buttons": {
     "chooseModel": "Vali AI mudel",
@@ -116,7 +117,8 @@
     "apply": "Rakenda",
     "configureNodePath": "Konfigureeri Node.js tee",
     "enterNodePath": "Sisesta Node.js v20+ tee",
-    "testProviders": "Testi pakkujaid"
+    "testProviders": "Testi pakkujaid",
+    "loginTerminal": "Logi sisse terminalis"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiseeri märgitud kood",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} on liiga vana. Vaja on versiooni {1} või uuemat. Uuenda käsuga: {2}",
     "localProviderNotFound": "{0} ei leitud aadressilt '{1}'. Palun seadistage õige tee 'API võtme sisestamine' kaudu.",
     "localProviderNotRunning": "Ei tööta. Palun käivitage.",
-    "localProviderTimeout": "Seanss aegus"
+    "localProviderTimeout": "Seanss aegus",
+    "agentLogin": "{0} vajab uut sisselogimist."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nTäna: {1} Tokenid{2}\nSisend: {3} | Väljund: {4}\nKlõps menüü jaoks • Ctrl+Shift+C • Parem klõps vahetamiseks",
@@ -325,7 +328,13 @@
     "backToOverview": "Tagasi ülevaatesse",
     "manageAttachments": "Halda manuseid",
     "newSessionStarted": "Uus seanss alustatud",
-    "removeFilePrompt": "Eemalda fail"
+    "removeFilePrompt": "Eemalda fail",
+    "compileSuccess": "Kompileerimine õnnestus",
+    "compileFailed": "Kompileerimine ebaõnnestus",
+    "compileAttempts": "({0} katset)",
+    "compileMemory": "Flash: {0} / {1} baiti ({2} %), RAM: {3} / {4} baiti ({5} %)",
+    "ramWarning": "Vaba RAM-i on vähe, sketš võib töötada ebastabiilselt.",
+    "missingLibraries": "Puuduvad teegid: {0}. Paigalda need teekide halduri kaudu."
   },
   "shortcuts": {
     "askFollowUp": "Täiendav küsimus",

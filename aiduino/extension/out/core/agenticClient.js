@@ -16,9 +16,24 @@ const fs = require('fs');
 const os = require('os');
 const TokenManager = require('./tokenManager');
 const shared = require('../shared');
+const agentLogin = require('../utils/agentLogin');
 
 const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
 const SESSIONS_FILE = path.join(AIDUINO_DIR, '.aiduino-sessions.json');
+
+// Sketch files the compile loop watches, and folders it does not descend into
+const SKETCH_EXTENSIONS = ['.ino', '.cpp', '.c', '.h', '.hpp', '.S'];
+const SKIPPED_DIRS = new Set(['build', 'node_modules']);
+const MAX_SCAN_DEPTH = 3;
+
+// Fixed rules for agentic mode, independent of the semantic anchors
+const AGENTIC_RULES = [
+    'Work only inside this sketch folder.',
+    'Additional code files (.h, .cpp) belong in the sketch folder or in src/, otherwise they are not compiled.',
+    'NEVER upload the sketch to the board on your own, not even after a successful compile. The board may control motors, relays or other hardware.',
+    'Install libraries or board packages (lib install, core install) only after asking the user. They apply to all sketches.',
+    'AI.duino compiles the sketch after your changes and reports errors back to you.'
+];
 
 /**
  * Agentic client for CLI-based AI providers
@@ -108,10 +123,14 @@ class AgenticClient {
             : null;
         const sessionKey = this.getSessionKey(modelId, workspacePath);
         
-        // Don't reuse sessions in agentic mode
-        const sessionId = (provider.persistent && !options.agenticMode) 
-            ? this.sessions.get(sessionKey) 
-            : null;
+        // Don't reuse stored sessions in agentic mode; the compile loop passes its own session
+        let sessionId = null;
+        if (provider.persistent) {
+            sessionId = options.agenticMode
+                ? (options.resumeSessionId || null)
+                : this.sessions.get(sessionKey);
+        }
+        this.lastSessionId = null;
 
         let result;
         try {
@@ -142,10 +161,18 @@ class AgenticClient {
                     selectedModel
                 );
             } else {
-                throw error;
+                throw this.markAuthError(error, provider, toolPath, workspacePath, context);
             }
         }
-        const { response, sessionId: newSessionId } = this.parseResult(result, agent);
+
+        let parsed;
+        try {
+            parsed = this.parseResult(result, agent);
+        } catch (error) {
+            throw this.markAuthError(error, provider, toolPath, workspacePath, context);
+        }
+        const { response, sessionId: newSessionId } = parsed;
+        this.lastSessionId = newSessionId || sessionId || null;
 
         if (provider.persistent && newSessionId) {
             this.sessions.set(sessionKey, newSessionId);
@@ -163,6 +190,27 @@ class AgenticClient {
         }
 
         return response;
+    }
+
+    /**
+     * If an error means a missing or expired login, offer the login in a terminal
+     * and mark the error so the generic error handler does not report it again
+     * @returns {Error} The error
+     */
+    markAuthError(error, provider, toolPath, workspacePath, context) {
+        if (agentLogin.isAuthError(provider.agentModule, error?.message)) {
+            error.type = 'AGENT_AUTH';
+            agentLogin.offerLogin(context, provider, toolPath, workspacePath);
+        }
+        return error;
+    }
+
+    /**
+     * Fixed rules for agentic mode as a prompt block
+     * @returns {string}
+     */
+    getAgenticRules() {
+        return 'Rules:\n' + AGENTIC_RULES.map(rule => '- ' + rule).join('\n');
     }
 
     /**
@@ -281,20 +329,31 @@ class AgenticClient {
     getFileTimestamps(sketchPath) {
         const timestamps = new Map();
         if (!sketchPath || !fs.existsSync(sketchPath)) return timestamps;
-        
-        const extensions = ['.ino', '.cpp', '.c', '.h', '.hpp'];
-        try {
-            const files = fs.readdirSync(sketchPath);
-            for (const file of files) {
-                if (extensions.some(ext => file.endsWith(ext))) {
-                    const filePath = path.join(sketchPath, file);
-                    const stat = fs.statSync(filePath);
-                    timestamps.set(filePath, stat.mtimeMs);
+
+        // Also look into src/ and other subfolders (agents may add files there)
+        const scan = (dir, depth) => {
+            let entries;
+            try {
+                entries = fs.readdirSync(dir, { withFileTypes: true });
+            } catch (error) {
+                return;  // Directory read failed
+            }
+            for (const entry of entries) {
+                const fullPath = path.join(dir, entry.name);
+                if (entry.isDirectory()) {
+                    if (depth < MAX_SCAN_DEPTH && !entry.name.startsWith('.') && !SKIPPED_DIRS.has(entry.name)) {
+                        scan(fullPath, depth + 1);
+                    }
+                } else if (SKETCH_EXTENSIONS.some(ext => entry.name.endsWith(ext))) {
+                    try {
+                        timestamps.set(fullPath, fs.statSync(fullPath).mtimeMs);
+                    } catch (error) {
+                        // File vanished between readdir and stat
+                    }
                 }
             }
-        } catch (error) {
-            // Directory read failed
-        }
+        };
+        scan(sketchPath, 0);
         return timestamps;
     }
 
@@ -323,12 +382,15 @@ class AgenticClient {
     /**
      * Build retry prompt with compile errors
      * @param {string} originalPrompt - Original user prompt
-     * @param {string[]} errors - Compile errors
+     * @param {Object} compileResult - Result of shared.compileSketch()
+     * @param {boolean} sameSession - The agent still knows the conversation
      * @returns {string} Prompt with error context
      */
-    buildRetryPrompt(originalPrompt, errors) {
-        const errorText = errors.slice(0, 10).join('\n');
-        return `The previous code change caused compile errors:\n\n\`\`\`\n${errorText}\n\`\`\`\n\nPlease fix these errors. Original request: ${originalPrompt}`;
+    buildRetryPrompt(originalPrompt, compileResult, sameSession) {
+        const errorText = compileResult.errorText || (compileResult.errors || []).slice(0, 10).join('\n');
+        const intro = `Your last change does not compile. Compiler output:\n\n\`\`\`\n${errorText}\n\`\`\`\n\nPlease fix these errors.`;
+        // A new session does not know the original request
+        return sameSession ? intro : `${intro} Original request: ${originalPrompt}\n\n${this.getAgenticRules()}`;
     }
 
     /**
@@ -379,19 +441,27 @@ class AgenticClient {
                 
                 token.onCancellationRequested(() => { 
                     cancelled = true; 
+                    shared.stopCompile();
                 });
+
+                // Session of this loop, so retries keep the context of the first run
+                let loopSessionId = null;
                 
                 for (let i = 0; i < maxRetries && !cancelled; i++) {
                     iterations = i + 1;
                     
                     const currentPrompt = i === 0 
-                        ? prompt 
-                        : this.buildRetryPrompt(prompt, compileResult.errors);
+                        ? `${prompt}\n\n${this.getAgenticRules()}`
+                        : this.buildRetryPrompt(prompt, compileResult, Boolean(loopSessionId));
                     
                     const filesBefore = this.getFileTimestamps(sketchPath);
                     
                     try {
-                        lastResponse = await this.callAgent(modelId, currentPrompt, context, { agenticMode: true });
+                        lastResponse = await this.callAgent(modelId, currentPrompt, context, {
+                            agenticMode: true,
+                            resumeSessionId: loopSessionId
+                        });
+                        loopSessionId = this.lastSessionId;
                     } catch (error) {
                         return { 
                             response: error.message, 
@@ -421,7 +491,8 @@ class AgenticClient {
                     
                     compileResult = await shared.compileSketch(sketchPath);
                     
-                    if (compileResult.success) {
+                    // Success, or missing libraries: the agent cannot fix those, the user installs them
+                    if (compileResult.success || compileResult.missingLibraries) {
                         return { 
                             response: lastResponse, 
                             compileResult, 

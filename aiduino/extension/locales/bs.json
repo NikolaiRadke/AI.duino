@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino kreiran!",
     "highCostWarning": "Procijenjena cijena (bez odgovora): ${0} sa {1}. Nastaviti?",
     "codeApplied": "Kod je primijenjen",
-    "nodePathSaved": "Node.js putanja je sačuvana"
+    "nodePathSaved": "Node.js putanja je sačuvana",
+    "loginCommandCopied": "Terminal nije pronađen. Naredba za prijavu je kopirana: {0}"
   },
   "buttons": {
     "chooseModel": "Odaberi AI model",
@@ -116,7 +117,8 @@
     "apply": "Primijeni",
     "configureNodePath": "Konfiguriraj Node.js putanju",
     "enterNodePath": "Unesi Node.js v20+ putanju",
-    "testProviders": "Testiraj provajdere"
+    "testProviders": "Testiraj provajdere",
+    "loginTerminal": "Prijava u terminalu"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiziraj označeni kod",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} je prestar. Potrebna je verzija {1} ili novija. Ažurirajte sa: {2}",
     "localProviderNotFound": "{0} nije pronađen na '{1}'. Molimo konfigurišite ispravnu putanju preko 'Unesite API ključ'.",
     "localProviderNotRunning": "Ne radi. Molimo pokrenite.",
-    "localProviderTimeout": "Sesija je istekla"
+    "localProviderTimeout": "Sesija je istekla",
+    "agentLogin": "{0} zahtijeva novu prijavu."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDanas: {1} Tokeni{2}\nUlaz: {3} | Izlaz: {4}\nKlik za meni • Ctrl+Shift+C • Desni klik za prebacivanje",
@@ -325,7 +328,13 @@
     "backToOverview": "Nazad na pregled",
     "manageAttachments": "Upravljanje prilozima",
     "newSessionStarted": "Nova sesija pokrenuta",
-    "removeFilePrompt": "Ukloni fajl"
+    "removeFilePrompt": "Ukloni fajl",
+    "compileSuccess": "Kompajliranje uspješno",
+    "compileFailed": "Kompajliranje neuspješno",
+    "compileAttempts": "({0} pokušaja)",
+    "compileMemory": "Flash: {0} od {1} bajtova ({2} %), RAM: {3} od {4} bajtova ({5} %)",
+    "ramWarning": "Malo slobodnog RAM-a, sketch bi mogao raditi nestabilno.",
+    "missingLibraries": "Nedostaju biblioteke: {0}. Instalirajte ih preko upravitelja biblioteka."
   },
   "shortcuts": {
     "askFollowUp": "Dodatno pitanje",

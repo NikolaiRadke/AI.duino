@@ -73,7 +73,8 @@
     "notesCreated": "✅ NOTES.ino búið til!",
     "highCostWarning": "Áætlaður kostnaður (án svars): ${0} með {1}. Halda áfram?",
     "codeApplied": "Kóði hefur verið notaður",
-    "nodePathSaved": "Node.js slóð hefur verið vistuð"
+    "nodePathSaved": "Node.js slóð hefur verið vistuð",
+    "loginCommandCopied": "Engin útstöð fannst. Innskráningarskipunin var afrituð: {0}"
   },
   "buttons": {
     "chooseModel": "Veldu gervigreindarlíkan",
@@ -116,7 +117,8 @@
     "apply": "Nota",
     "configureNodePath": "Stilla Node.js slóð",
     "enterNodePath": "Slá inn Node.js v20+ slóð",
-    "testProviders": "Prófa veitendur"
+    "testProviders": "Prófa veitendur",
+    "loginTerminal": "Skrá inn í útstöð"
   },
   "descriptions": {
     "improveCodeSelected": "Bæta valinn kóða",
@@ -258,7 +260,8 @@
     "cliTooOld": "{0} er of gamalt. Útgáfa {1} eða nýrri er nauðsynleg. Uppfærðu með: {2}",
     "localProviderNotFound": "{0} fannst ekki á '{1}'. Vinsamlegast stilltu rétta slóð í gegnum 'Slá inn API lykil'.",
     "localProviderNotRunning": "Ekki í gangi. Vinsamlegast ræstu.",
-    "localProviderTimeout": "Seta útrunnin"
+    "localProviderTimeout": "Seta útrunnin",
+    "agentLogin": "{0} þarf nýja innskráningu."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nÍ dag: {1} Tokens{2}\nInntak: {3} | Úttak: {4}\nSmelltu fyrir valmynd • Ctrl+Shift+C • Hægri smell til að skipta",
@@ -325,7 +328,13 @@
     "backToOverview": "Til baka í yfirlit",
     "manageAttachments": "Stjórna viðhengjum",
     "newSessionStarted": "Ný lota hafin",
-    "removeFilePrompt": "Fjarlægja skrá"
+    "removeFilePrompt": "Fjarlægja skrá",
+    "compileSuccess": "Þýðing tókst",
+    "compileFailed": "Þýðing mistókst",
+    "compileAttempts": "({0} tilraunir)",
+    "compileMemory": "Flash: {0} af {1} bætum ({2} %), RAM: {3} af {4} bætum ({5} %)",
+    "ramWarning": "Lítið laust RAM, forritið gæti keyrt óstöðugt.",
+    "missingLibraries": "Söfn vantar: {0}. Settu þau upp með safnastjóranum."
   },
   "shortcuts": {
     "askFollowUp": "Framhaldsspurning",
