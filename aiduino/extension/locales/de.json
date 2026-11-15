@@ -742,6 +742,7 @@
     "fixedWidthTypes": "Feste Integer-Typen",
     "lowPower": "Stromsparend",
     "integerMath": "Ganzzahl-Arithmetik",
+    "flashStrings": "Texte im Flash (F())",
     "askFirst": "Vorher fragen"
   }
 }

@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Fiksuoto pločio tipai",
     "lowPower": "Maža energijos sąnaudos",
     "integerMath": "Sveikųjų skaičių aritmetika",
+    "flashStrings": "Tekstai flash atmintyje (F())",
     "askFirst": "Pirmiau paklausk"
   }
 }

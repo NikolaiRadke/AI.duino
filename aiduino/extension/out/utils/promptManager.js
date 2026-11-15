@@ -16,11 +16,11 @@ const os = require('os');
 // - defaultEnabled: applies when the user has never toggled the anchor
 const BUILTIN_ANCHORS = {
     // Basic code-style anchors
-    'no-magic-numbers':  { group: 'basic', labelKey: 'anchors.noMagicNumbers',   expansion: 'No magic numbers',                      defaultEnabled: true },
-    'beginner-comments': { group: 'basic', labelKey: 'anchors.beginnerComments', expansion: 'Beginner-friendly comments',            defaultEnabled: false },
-    'non-blocking':      { group: 'basic', labelKey: 'anchors.nonBlocking',      expansion: 'Non-blocking code (avoid delay())',     defaultEnabled: true },
-    'low-ram':           { group: 'basic', labelKey: 'anchors.lowRam',           expansion: 'Low memory footprint (SRAM-efficient)', defaultEnabled: true },
-    'defensive':         { group: 'basic', labelKey: 'anchors.defensive',        expansion: 'Defensive programming',                 defaultEnabled: true },
+    'no-magic-numbers':  { group: 'basic', labelKey: 'anchors.noMagicNumbers',   expansion: 'No magic numbers: define pins, times and limits as named constants at the top of the sketch', defaultEnabled: true },
+    'beginner-comments': { group: 'basic', labelKey: 'anchors.beginnerComments', expansion: 'Comment the code for beginners: explain in short comments what each part does and why', defaultEnabled: false },
+    'non-blocking':      { group: 'basic', labelKey: 'anchors.nonBlocking',      expansion: 'Write non-blocking code: measure time with millis() instead of delay(), so the sketch stays responsive', defaultEnabled: true },
+    'low-ram':           { group: 'basic', labelKey: 'anchors.lowRam',           expansion: 'Use little RAM: small data types, no unnecessary buffers, global variables only where needed', defaultEnabled: true },
+    'defensive':         { group: 'basic', labelKey: 'anchors.defensive',        expansion: 'Program defensively: check return values, sensor readings and input for plausibility and handle errors', defaultEnabled: true },
 
     // Pro code-style anchors (advanced; default off, opt-in)
     'isr-safe':          { group: 'pro', labelKey: 'anchors.isrSafe',         expansion: 'Interrupt-safe: keep ISRs short, use volatile for shared variables, no Serial or delay inside interrupts', defaultEnabled: false },
@@ -30,6 +30,7 @@ const BUILTIN_ANCHORS = {
     'fixed-width-types': { group: 'pro', labelKey: 'anchors.fixedWidthTypes', expansion: 'Use fixed-width integer types (uint8_t, int16_t, ...) instead of int',               defaultEnabled: false },
     'low-power':         { group: 'pro', labelKey: 'anchors.lowPower',        expansion: 'Power-efficient: use sleep modes and disable unused peripherals',                    defaultEnabled: false },
     'integer-math':      { group: 'pro', labelKey: 'anchors.integerMath',     expansion: 'Prefer integer math; avoid floating point where possible',                           defaultEnabled: false },
+    'flash-strings':     { group: 'pro', labelKey: 'anchors.flashStrings',    expansion: 'Keep constant texts in flash with F() or PROGMEM instead of RAM',                    defaultEnabled: false },
 
     // Agentic workflow anchors (only injected in agentic mode)
     'minimal-diff':      { group: 'agentic', labelKey: 'anchors.minimalDiff',    expansion: 'Make minimal, surgical changes; do not touch unrelated code',            defaultEnabled: false },

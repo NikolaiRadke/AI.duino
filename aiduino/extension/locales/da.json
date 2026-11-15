@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Typer med fast bredde",
     "lowPower": "Lavt strømforbrug",
     "integerMath": "Heltalsregning",
+    "flashStrings": "Tekster i flash (F())",
     "askFirst": "Spørg først"
   }
 }

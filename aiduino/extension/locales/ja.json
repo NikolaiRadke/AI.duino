@@ -739,6 +739,7 @@
     "fixedWidthTypes": "固定幅型",
     "lowPower": "低消費電力",
     "integerMath": "整数演算",
+    "flashStrings": "文字列をフラッシュに (F())",
     "askFirst": "まず確認"
   }
 }

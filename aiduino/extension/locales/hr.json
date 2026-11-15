@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Tipovi fiksne širine",
     "lowPower": "Niska potrošnja energije",
     "integerMath": "Cjelobrojna aritmetika",
+    "flashStrings": "Tekstovi u flashu (F())",
     "askFirst": "Prvo pitaj"
   }
 }

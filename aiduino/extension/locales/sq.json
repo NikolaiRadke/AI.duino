@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Tipe me gjerësi fikse",
     "lowPower": "Konsum i ulët energjie",
     "integerMath": "Aritmetikë e plotë",
+    "flashStrings": "Tekstet në flash (F())",
     "askFirst": "Pyet fillimisht"
   }
 }

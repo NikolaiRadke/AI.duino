@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Typy s pevnou šírkou",
     "lowPower": "Nízka spotreba",
     "integerMath": "Celočíselná aritmetika",
+    "flashStrings": "Texty vo flash (F())",
     "askFirst": "Najskôr sa opýtaj"
   }
 }

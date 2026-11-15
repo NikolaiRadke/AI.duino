@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Kiinteäleveyksiset tyypit",
     "lowPower": "Alhainen virrankulutus",
     "integerMath": "Kokonaislukulaskenta",
+    "flashStrings": "Tekstit flash-muistiin (F())",
     "askFirst": "Kysy ensin"
   }
 }

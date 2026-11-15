@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Sabit genişlikli tipler",
     "lowPower": "Düşük güç tüketimi",
     "integerMath": "Tamsayı aritmetiği",
+    "flashStrings": "Metinler flash'ta (F())",
     "askFirst": "Önce sor"
   }
 }

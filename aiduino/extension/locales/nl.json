@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Typen met vaste breedte",
     "lowPower": "Laag stroomverbruik",
     "integerMath": "Gehele getallen rekenen",
+    "flashStrings": "Teksten in flash (F())",
     "askFirst": "Eerst vragen"
   }
 }

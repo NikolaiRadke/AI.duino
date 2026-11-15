@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Fiksēta platuma tipi",
     "lowPower": "Zems enerģijas patēriņš",
     "integerMath": "Veselo skaitļu aritmētika",
+    "flashStrings": "Teksti flash atmiņā (F())",
     "askFirst": "Vispirms jautā"
   }
 }

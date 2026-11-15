@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Gerðir með fastri breidd",
     "lowPower": "Lág orkunotkun",
     "integerMath": "Heiltöluútreikningur",
+    "flashStrings": "Textar í flash (F())",
     "askFirst": "Spurðu fyrst"
   }
 }

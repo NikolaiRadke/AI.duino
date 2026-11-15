@@ -734,7 +734,16 @@
     "minimalDiff": "Minimal changes",
     "preserveStyle": "Preserve style",
     "explainChanges": "Explain changes",
-    "noNewDeps": "No new dependencies"
+    "noNewDeps": "No new dependencies",
+    "isrSafe": "Interrupt-safe",
+    "noDynamicMemory": "No dynamic memory",
+    "faultTolerant": "Fault-tolerant",
+    "stateMachine": "State machine",
+    "fixedWidthTypes": "Fixed-width integer types",
+    "lowPower": "Power-saving",
+    "integerMath": "Integer math",
+    "flashStrings": "Texts in flash (F())",
+    "askFirst": "Ask first"
   }
 }
 

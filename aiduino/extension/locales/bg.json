@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Типове с фиксирана ширина",
     "lowPower": "Ниска мощност",
     "integerMath": "Целочислена аритметика",
+    "flashStrings": "Текстове във flash (F())",
     "askFirst": "Питай първо"
   }
 }

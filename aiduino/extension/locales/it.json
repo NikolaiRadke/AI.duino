@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Tipi a larghezza fissa",
     "lowPower": "Basso consumo",
     "integerMath": "Aritmetica intera",
+    "flashStrings": "Testi in flash (F())",
     "askFirst": "Chiedi prima"
   }
 }

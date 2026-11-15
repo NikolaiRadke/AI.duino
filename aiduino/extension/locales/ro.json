@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Tipuri cu lățime fixă",
     "lowPower": "Consum redus",
     "integerMath": "Aritmetică cu numere întregi",
+    "flashStrings": "Texte în flash (F())",
     "askFirst": "Întreabă mai întâi"
   }
 }

@@ -743,6 +743,7 @@
     "fixedWidthTypes": "固定宽度类型",
     "lowPower": "低功耗",
     "integerMath": "整数运算",
+    "flashStrings": "字符串存入闪存 (F())",
     "askFirst": "先询问"
   }
 }

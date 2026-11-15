@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Rögzített szélességű típusok",
     "lowPower": "Alacsony energiafogyasztás",
     "integerMath": "Egészaritmetika",
+    "flashStrings": "Szövegek a flashben (F())",
     "askFirst": "Először kérdezz"
   }
 }

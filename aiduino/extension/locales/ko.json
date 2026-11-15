@@ -743,6 +743,7 @@
     "fixedWidthTypes": "고정 폭 타입",
     "lowPower": "저전력",
     "integerMath": "정수 연산",
+    "flashStrings": "문자열을 플래시에 (F())",
     "askFirst": "먼저 확인"
   }
 }

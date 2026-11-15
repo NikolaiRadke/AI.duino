@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Fikseeritud laiusega tüübid",
     "lowPower": "Madal energiatarve",
     "integerMath": "Täisarvuaritmetika",
+    "flashStrings": "Tekstid flash-mälus (F())",
     "askFirst": "Küsi esmalt"
   }
 }

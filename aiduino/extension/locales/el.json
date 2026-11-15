@@ -743,6 +743,7 @@
     "fixedWidthTypes": "Τύποι σταθερού πλάτους",
     "lowPower": "Χαμηλή κατανάλωση",
     "integerMath": "Αριθμητική ακεραίων",
+    "flashStrings": "Κείμενα στη flash (F())",
     "askFirst": "Ρώτα πρώτα"
   }
 }
