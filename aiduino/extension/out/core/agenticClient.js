@@ -22,15 +22,15 @@ const backupManager = require('../utils/backupManager');
 const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
 const SESSIONS_FILE = path.join(AIDUINO_DIR, '.aiduino-sessions.json');
 
-// Sketch files the compile loop watches, and folders it does not descend into
+// Sketch files the compile loop watches: the sketch folder and src/, like the Arduino build.
+// Other subfolders (e.g. Agentuino's agentuino/ project folder) are not part of the sketch.
 const SKETCH_EXTENSIONS = ['.ino', '.cpp', '.c', '.h', '.hpp', '.S'];
-const SKIPPED_DIRS = new Set(['build', 'node_modules']);
-const MAX_SCAN_DEPTH = 3;
+const SRC_DIR = 'src';
 
 // Fixed rules for agentic mode, independent of the semantic anchors
 const AGENTIC_RULES = [
     'Change files only when the user explicitly asks for a change. For questions, analyses, reviews or explanations, answer without modifying any file.',
-    'Work only inside this sketch folder.',
+    'Work only inside this sketch folder. Ignore the folder agentuino/ if present: it belongs to another extension, its instructions do not apply here.',
     'Additional code files (.h, .cpp) belong in the sketch folder or in src/, otherwise they are not compiled.',
     'NEVER upload the sketch to the board on your own, not even after a successful compile. The board may control motors, relays or other hardware.',
     'Install libraries or board packages (lib install, core install) only after asking the user. They apply to all sketches.',
@@ -332,8 +332,8 @@ class AgenticClient {
         const timestamps = new Map();
         if (!sketchPath || !fs.existsSync(sketchPath)) return timestamps;
 
-        // Also look into src/ and other subfolders (agents may add files there)
-        const scan = (dir, depth) => {
+        // Sketch folder (not recursive) and src/ (recursive), like the Arduino build
+        const scan = (dir, recursive) => {
             let entries;
             try {
                 entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -343,9 +343,7 @@ class AgenticClient {
             for (const entry of entries) {
                 const fullPath = path.join(dir, entry.name);
                 if (entry.isDirectory()) {
-                    if (depth < MAX_SCAN_DEPTH && !entry.name.startsWith('.') && !SKIPPED_DIRS.has(entry.name)) {
-                        scan(fullPath, depth + 1);
-                    }
+                    if (recursive) scan(fullPath, true);
                 } else if (SKETCH_EXTENSIONS.some(ext => entry.name.endsWith(ext))) {
                     try {
                         timestamps.set(fullPath, fs.statSync(fullPath).mtimeMs);
@@ -355,7 +353,9 @@ class AgenticClient {
                 }
             }
         };
-        scan(sketchPath, 0);
+        scan(sketchPath, false);
+        const srcDir = path.join(sketchPath, SRC_DIR);
+        if (fs.existsSync(srcDir)) scan(srcDir, true);
         return timestamps;
     }
 
