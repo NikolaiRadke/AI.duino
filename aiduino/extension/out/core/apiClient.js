@@ -263,7 +263,7 @@ class UnifiedAPIClient {
             const localProviders = require('../localProviders');
         
             if (provider.httpConfig) {
-                const providerHandler = localProviders.getHttpProvider(provider.name);
+                const providerHandler = localProviders.getHttpProvider(provider.httpHandler || provider.name);
                 if (providerHandler && providerHandler.extractResponse) {
                     text = providerHandler.extractResponse(responseData);
                 }
@@ -494,7 +494,7 @@ class UnifiedAPIClient {
      */
     async makeLocalHttpRequest(baseUrl, modelName, prompt, provider, t) {
         const localProviders = require('../localProviders');
-        const providerHandler = localProviders.getHttpProvider(provider.name);
+        const providerHandler = localProviders.getHttpProvider(provider.httpHandler || provider.name);
     
         if (!providerHandler) {
             throw new Error(`No handler found for ${provider.name}`);

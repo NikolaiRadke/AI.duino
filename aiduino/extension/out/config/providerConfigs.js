@@ -1302,6 +1302,41 @@ const PROVIDER_CONFIGS = {
             input: 0.0,
             output: 0.0
         }
+    },
+
+    // Generic OpenAI-compatible local server (Lemonade, llama.cpp, vLLM, LocalAI, Jan, ...)
+    // Uses the LM Studio handler (needs AI.duino with httpHandler support, v2.7.1+)
+    openaicompat: {
+        name: 'OpenAI-compatible (local)',
+        icon: '🔌',
+        color: '#7B68EE',
+        type: 'local',
+        persistent: false,
+        httpHandler: 'LM Studio',
+        keyFile: '.aiduino-openaicompat-url',
+        keyPrefix: 'http',
+        keyMinLength: 7,
+        apiKeyUrl: 'https://github.com/NikolaiRadke/AI.duino#other-local-servers',
+        fallback: 'default',
+        // Common default ports: llama.cpp/LocalAI 8080, vLLM/Lemonade 8000, Lemonade 13305, Jan 1337
+        autoDetectUrls: ['http://localhost:8080', 'http://localhost:8000', 'http://localhost:13305', 'http://localhost:1337'],
+        defaultPort: 8080,
+        preferredModels: [],
+        modelDiscovery: {
+            enabled: true,
+            endpoint: '/v1/models',
+            cacheMinutes: 5,
+            extractModels: (data) => data.data || [],
+            selectDefault: (models) => models[0],
+            staticModels: []
+        },
+        httpConfig: {
+            endpoint: '/v1/chat/completions'
+        },
+        prices: {
+            input: 0.0,
+            output: 0.0
+        }
     }
 };  
     

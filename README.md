@@ -177,7 +177,12 @@ For **Agentic Coding** required: a process provider from either:
 
 Some of these **Local providers** don't need an API key. If you have an account, for example *Pro Plan* with Claude, you can use Claude for no extra costs. 
 HTTP based providers like **Ollama** get auto detected, process based providers like **Claude Code** only needs the path to the binary, which should be
-detected too. if not, try *which claude* (Linux/macOS) or *where claude* (Windows) and copy the path for the AI.duino input field when selecting Claude Code.  
+detected too. if not, try *which claude* (Linux/macOS) or *where claude* (Windows) and copy the path for the AI.duino input field when selecting Claude Code.
+
+### Other local servers
+Every server with an OpenAI-compatible API (`/v1/models` and `/v1/chat/completions`) works with the provider
+**OpenAI-compatible (local)**, for example Lemonade, llama.cpp, vLLM, LocalAI or Jan (>= V2.7.1). Common ports are detected automatically;
+otherwise enter the server URL, e.g. `http://localhost:13305`, and pick the model from the list.  
 
 ## Content
   

@@ -9,6 +9,7 @@
 const vscode = require('vscode');
 const networkUtils = require('./network');
 const { showOfflineHelp } = require('./panels/offlineHelpPanel');
+const configUpdater = require('./configUpdater');
 
 /**
  * Handle API errors with appropriate user feedback and recovery options
@@ -51,6 +52,21 @@ function handleApiError(error, context) {
         error.message = `${model.name}: ${error.message}`;
     }
     
+    // Retired endpoint or model (often sent as 403/404): offer a config update
+    // instead of reporting an invalid API key
+    if (configUpdater.isDeprecationError(error.message)) {
+        configUpdater.handleDeprecationError(error, context).then(offered => {
+            if (!offered) {
+                vscode.window.showErrorMessage(error.message, t('buttons.switchModel')).then(selection => {
+                    if (selection === t('buttons.switchModel')) {
+                        vscode.commands.executeCommand('aiduino.switchModel');
+                    }
+                });
+            }
+        }).catch(() => vscode.window.showErrorMessage(error.message));
+        return;
+    }
+
     // Use error types for enhanced errors (from enhanceError function)
     if (error.type === 'API_KEY_ERROR') {
         vscode.window.showErrorMessage(

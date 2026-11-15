@@ -294,38 +294,59 @@ function setupAutoUpdates(context) {
     }
 }
 
+// Phrases providers use when an endpoint or model is gone
+const DEPRECATION_KEYWORDS = [
+    'decommissioned',
+    'deprecated',
+    'no longer supported',
+    'no longer available',
+    'has been removed',
+    'discontinued',
+    'retired',
+    'sunset',
+    'end of life',
+    'migrate'
+];
+
 /**
- * Handle API errors that might indicate outdated configs
+ * Check whether an error message indicates a retired endpoint or model
+ * @param {string} message - Error message
+ * @returns {boolean}
+ */
+function isDeprecationError(message) {
+    const text = String(message || '').toLowerCase();
+    return DEPRECATION_KEYWORDS.some(keyword => text.includes(keyword));
+}
+
+/**
+ * Handle API errors that might indicate outdated configs.
+ * Offers an update only if a newer remote config exists.
  * @param {Error} error - API error
  * @param {Object} context - Extension context
+ * @returns {Promise<boolean>} true if the update was offered
  */
 async function handleDeprecationError(error, context) {
     const { t } = context;
-    const deprecationKeywords = [
-        'decommissioned',
-        'deprecated', 
-        'no longer supported',
-        'has been removed',
-        'discontinued'
-    ];
-    
-    const isDeprecationError = deprecationKeywords.some(keyword => 
-        error.message.toLowerCase().includes(keyword)
-    );
-    
-    if (isDeprecationError) {
-        const choice = await vscode.window.showWarningMessage(
-            t('config.modelOutdated'),
-            t('config.updateNow'),
-            t('config.notNow')
-        );
-        
-        if (choice === t('config.updateNow')) {
-            return await forceConfigUpdate(context);
-        }
+
+    if (!isDeprecationError(error?.message)) {
+        return false;
     }
-    
-    return false;
+
+    const remoteVersion = await getRemoteConfigVersion(context);
+    if (!remoteVersion || !isNewerVersion(remoteVersion, getCurrentConfigVersion())) {
+        return false;
+    }
+
+    const choice = await vscode.window.showWarningMessage(
+        `${error.message}\n${t('config.modelOutdated')}`,
+        t('config.updateNow'),
+        t('config.notNow')
+    );
+
+    if (choice === t('config.updateNow')) {
+        await forceConfigUpdate(context);
+    }
+    return true;
 }
 
 /**
@@ -359,6 +380,7 @@ module.exports = {
     checkConfigUpdates,
     setupAutoUpdates,
     handleDeprecationError,
+    isDeprecationError,
     getCurrentConfigVersion,
     isNewerVersion
 };

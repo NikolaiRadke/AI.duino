@@ -160,8 +160,8 @@ async function fetchModelsFromLocalProvider(providerId, providerConfig, baseUrl,
             name: m.name || m.model || m,
             displayName: m.name || m.model || m
         }));
-    } else if (providerId === 'lmstudio') {
-        // LM Studio uses OpenAI-compatible format
+    } else if (providerId === 'lmstudio' || Array.isArray(data.data)) {
+        // LM Studio and other OpenAI-compatible servers: { data: [{ id }] }
         models = data.data || [];
         return models.map(m => ({
             id: m.id,
