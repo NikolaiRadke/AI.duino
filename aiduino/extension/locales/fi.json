@@ -74,11 +74,7 @@
     "highCostWarning": "Arvioitu kustannus (ilman vastausta): ${0} käyttäen {1}. Jatketaanko?",
     "codeApplied": "Koodi on otettu käyttöön",
     "nodePathSaved": "Node.js-polku on tallennettu",
-    "loginCommandCopied": "Päätettä ei löytynyt. Kirjautumiskomento kopioitiin: {0}",
-    "sketchChanged": "Agentti muutti sketsiä. Edellinen tila tallennettiin ja sen voi palauttaa.",
-    "restoreConfirm": "Palautetaanko sketsi tilaan ennen agentin viimeisintä ajoa?\n\nPalautettu: {0}\nPoistettu (agentin uudet tiedostot): {1}",
-    "sketchRestored": "Sketsi palautettu.",
-    "nothingToRestore": "Tälle sketsille ei ole tallennettua tilaa."
+    "loginCommandCopied": "Päätettä ei löytynyt. Kirjautumiskomento kopioitiin: {0}"
   },
   "buttons": {
     "chooseModel": "Valitse AI-malli",
@@ -122,8 +118,7 @@
     "configureNodePath": "Määritä Node.js-polku",
     "enterNodePath": "Syötä Node.js v20+ polku",
     "testProviders": "Testaa palveluntarjoajat",
-    "loginTerminal": "Kirjaudu päätteessä",
-    "restoreSketch": "Palauta edellinen tila"
+    "loginTerminal": "Kirjaudu päätteessä"
   },
   "descriptions": {
     "improveCodeSelected": "Optimoi valittu koodi",
@@ -266,8 +261,7 @@
     "localProviderNotFound": "{0} ei löytynyt osoitteesta '{1}'. Määritä oikea polku 'Syötä API-avain' kautta.",
     "localProviderNotRunning": "Ei käynnissä. Käynnistä.",
     "localProviderTimeout": "Istunto vanhentunut",
-    "agentLogin": "{0} vaatii uuden kirjautumisen.",
-    "backupFailed": "Sketsistä ei voitu tallentaa kopiota ({0}). Agenttia ei käynnistetty."
+    "agentLogin": "{0} vaatii uuden kirjautumisen."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nTänään: {1} Tokenia{2}\nSyöte: {3} | Tuloste: {4}\nKlikkaa valikko • Ctrl+Shift+C • Oikeaklikkaa vaihtaaksesi",

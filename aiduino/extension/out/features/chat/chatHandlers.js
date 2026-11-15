@@ -176,12 +176,9 @@ async function handleUserMessage(userText, panel, context, state) {
             // Remove processing message first
             state.historyManager.removeLastMessageIfStartsWith('⏳');
             
-            // Compile result and restore hint follow the agent's answer
+            // The compile result follows the agent's answer
             if (result.compileResult) {
                 agenticNotes.push(describeCompileResult(result.compileResult, result.iterations, context.t));
-            }
-            if (context.agenticClient.lastRunChangedSketch) {
-                agenticNotes.push('↩️ ' + context.t('messages.sketchChanged'));
             }
             result = result.response;
         } else {

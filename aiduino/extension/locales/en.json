@@ -74,11 +74,7 @@
     "highCostWarning": "Estimated cost (without response): ${0} with {1}. Continue?",
     "codeApplied": "Code has been applied",
     "nodePathSaved": "Node.js path has been saved",
-    "loginCommandCopied": "No terminal found. The login command was copied: {0}",
-    "sketchChanged": "The agent changed the sketch. The previous state was saved and can be restored.",
-    "restoreConfirm": "Restore the sketch to the state before the last agent run?\n\nRestored: {0}\nRemoved (new files of the agent): {1}",
-    "sketchRestored": "Sketch restored.",
-    "nothingToRestore": "No saved state to restore for this sketch."
+    "loginCommandCopied": "No terminal found. The login command was copied: {0}"
   },
   "buttons": {
     "chooseModel": "Choose AI Model",
@@ -122,8 +118,7 @@
     "configureNodePath": "Configure Node.js Path",
     "enterNodePath": "Enter Node.js v20+ Path",
     "testProviders": "Test Providers",
-    "loginTerminal": "Log in in a terminal",
-    "restoreSketch": "Restore previous state"
+    "loginTerminal": "Log in in a terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Optimize selected code",
@@ -266,8 +261,7 @@
     "localProviderNotFound": "{0} not found at '{1}'. Please configure correct path via 'Enter API Key'.",
     "localProviderNotRunning": "Not running. Please start.",
     "localProviderTimeout": "Session expired",
-    "agentLogin": "{0} needs a new login.",
-    "backupFailed": "Could not save a copy of the sketch ({0}). The agent was not started."
+    "agentLogin": "{0} needs a new login."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nToday: {1} Tokens{2}\nInput: {3} | Output: {4}\nClick for menu • Ctrl+Shift+C • Right-click to switch",

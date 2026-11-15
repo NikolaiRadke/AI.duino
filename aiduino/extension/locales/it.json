@@ -74,11 +74,7 @@
     "highCostWarning": "Costo stimato (senza risposta): ${0} con {1}. Continuare?",
     "codeApplied": "Codice applicato",
     "nodePathSaved": "Percorso Node.js salvato",
-    "loginCommandCopied": "Nessun terminale trovato. Il comando di accesso è stato copiato: {0}",
-    "sketchChanged": "L'agente ha modificato lo sketch. Lo stato precedente è stato salvato e può essere ripristinato.",
-    "restoreConfirm": "Ripristinare lo sketch allo stato precedente all'ultima esecuzione dell'agente?\n\nRipristinati: {0}\nRimossi (nuovi file dell'agente): {1}",
-    "sketchRestored": "Sketch ripristinato.",
-    "nothingToRestore": "Nessuno stato salvato per questo sketch."
+    "loginCommandCopied": "Nessun terminale trovato. Il comando di accesso è stato copiato: {0}"
   },
   "buttons": {
     "chooseModel": "Scegli modello IA",
@@ -122,8 +118,7 @@
     "configureNodePath": "Configura percorso Node.js",
     "enterNodePath": "Inserisci percorso Node.js v20+",
     "testProviders": "Testa i provider",
-    "loginTerminal": "Accedi in un terminale",
-    "restoreSketch": "Ripristina stato precedente"
+    "loginTerminal": "Accedi in un terminale"
   },
   "descriptions": {
     "improveCodeSelected": "Ottimizza codice selezionato",
@@ -266,8 +261,7 @@
     "localProviderNotFound": "{0} non trovato a '{1}'. Si prega di configurare il percorso corretto tramite 'Inserisci chiave API'.",
     "localProviderNotRunning": "Non in esecuzione. Si prega di avviare.",
     "localProviderTimeout": "Sessione scaduta",
-    "agentLogin": "{0} richiede un nuovo accesso.",
-    "backupFailed": "Impossibile salvare una copia dello sketch ({0}). L'agente non è stato avviato."
+    "agentLogin": "{0} richiede un nuovo accesso."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nOggi: {1} Token{2}\nInput: {3} | Output: {4}\nClick per menu • Ctrl+Shift+C • Click destro per cambiare",

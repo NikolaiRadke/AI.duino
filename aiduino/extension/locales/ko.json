@@ -74,11 +74,7 @@
     "highCostWarning": "예상 비용(응답 제외): ${0} ({1} 사용). 계속하시겠습니까?",
     "codeApplied": "코드가 적용되었습니다",
     "nodePathSaved": "Node.js 경로가 저장되었습니다",
-    "loginCommandCopied": "터미널을 찾을 수 없습니다. 로그인 명령을 복사했습니다: {0}",
-    "sketchChanged": "에이전트가 스케치를 변경했습니다. 이전 상태가 저장되어 있어 복원할 수 있습니다.",
-    "restoreConfirm": "마지막 에이전트 실행 전 상태로 스케치를 복원할까요?\n\n복원됨: {0}\n제거됨(에이전트의 새 파일): {1}",
-    "sketchRestored": "스케치를 복원했습니다.",
-    "nothingToRestore": "이 스케치에 저장된 상태가 없습니다."
+    "loginCommandCopied": "터미널을 찾을 수 없습니다. 로그인 명령을 복사했습니다: {0}"
   },
   "buttons": {
     "chooseModel": "AI 모델 선택",
@@ -122,8 +118,7 @@
     "configureNodePath": "Node.js 경로 구성",
     "enterNodePath": "Node.js v20+ 경로 입력",
     "testProviders": "공급자 테스트",
-    "loginTerminal": "터미널에서 로그인",
-    "restoreSketch": "이전 상태 복원"
+    "loginTerminal": "터미널에서 로그인"
   },
   "descriptions": {
     "improveCodeSelected": "선택한 코드 최적화",
@@ -266,8 +261,7 @@
     "localProviderNotFound": "'{1}'에서 {0}을(를) 찾을 수 없습니다. 'API 키 입력'을 통해 올바른 경로를 구성하십시오.",
     "localProviderNotRunning": "실행 중이 아닙니다. 시작하십시오.",
     "localProviderTimeout": "세션이 만료되었습니다",
-    "agentLogin": "{0}에 다시 로그인해야 합니다.",
-    "backupFailed": "스케치 사본을 저장할 수 없습니다({0}). 에이전트를 시작하지 않았습니다."
+    "agentLogin": "{0}에 다시 로그인해야 합니다."
   },
   "statusBar": {
     "tooltip": "AI.duino: {0}\n오늘: {1} 토큰{2}\n입력: {3} | 출력: {4}\n메뉴는 클릭 • Ctrl+Shift+C • 전환은 우클릭",

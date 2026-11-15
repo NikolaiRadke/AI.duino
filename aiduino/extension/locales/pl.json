@@ -74,11 +74,7 @@
     "highCostWarning": "Szacowany koszt (bez odpowiedzi): ${0} przy użyciu {1}. Kontynuować?",
     "codeApplied": "Kod został zastosowany",
     "nodePathSaved": "Ścieżka Node.js została zapisana",
-    "loginCommandCopied": "Nie znaleziono terminala. Polecenie logowania zostało skopiowane: {0}",
-    "sketchChanged": "Agent zmienił szkic. Poprzedni stan został zapisany i można go przywrócić.",
-    "restoreConfirm": "Przywrócić szkic do stanu sprzed ostatniego uruchomienia agenta?\n\nPrzywrócone: {0}\nUsunięte (nowe pliki agenta): {1}",
-    "sketchRestored": "Szkic przywrócony.",
-    "nothingToRestore": "Brak zapisanego stanu dla tego szkicu."
+    "loginCommandCopied": "Nie znaleziono terminala. Polecenie logowania zostało skopiowane: {0}"
   },
   "buttons": {
     "chooseModel": "Wybierz model AI",
@@ -122,8 +118,7 @@
     "configureNodePath": "Konfiguruj ścieżkę Node.js",
     "enterNodePath": "Wprowadź ścieżkę Node.js v20+",
     "testProviders": "Testuj dostawców",
-    "loginTerminal": "Zaloguj się w terminalu",
-    "restoreSketch": "Przywróć poprzedni stan"
+    "loginTerminal": "Zaloguj się w terminalu"
   },
   "descriptions": {
     "improveCodeSelected": "Optymalizuj zaznaczony kod",
@@ -266,8 +261,7 @@
     "localProviderNotFound": "{0} nie znaleziono w '{1}'. Proszę skonfigurować poprawną ścieżkę przez 'Wprowadź klucz API'.",
     "localProviderNotRunning": "Nie działa. Proszę uruchomić.",
     "localProviderTimeout": "Sesja wygasła",
-    "agentLogin": "{0} wymaga ponownego zalogowania.",
-    "backupFailed": "Nie udało się zapisać kopii szkicu ({0}). Agent nie został uruchomiony."
+    "agentLogin": "{0} wymaga ponownego zalogowania."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDzisiaj: {1} tokenów{2}\nWejście: {3} | Wyjście: {4}\nKliknij dla menu • Ctrl+Shift+C • Prawy klik aby zmienić",

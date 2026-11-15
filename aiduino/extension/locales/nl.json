@@ -74,11 +74,7 @@
     "highCostWarning": "Geschatte kosten (zonder antwoord): ${0} met {1}. Doorgaan?",
     "codeApplied": "Code toegepast",
     "nodePathSaved": "Node.js-pad opgeslagen",
-    "loginCommandCopied": "Geen terminal gevonden. Het inlogcommando is gekopieerd: {0}",
-    "sketchChanged": "De agent heeft de sketch gewijzigd. De vorige toestand is opgeslagen en kan worden hersteld.",
-    "restoreConfirm": "De sketch herstellen naar de toestand vóór de laatste agentrun?\n\nHersteld: {0}\nVerwijderd (nieuwe bestanden van de agent): {1}",
-    "sketchRestored": "Sketch hersteld.",
-    "nothingToRestore": "Er is geen opgeslagen toestand voor deze sketch."
+    "loginCommandCopied": "Geen terminal gevonden. Het inlogcommando is gekopieerd: {0}"
   },
   "buttons": {
     "chooseModel": "AI-model kiezen",
@@ -122,8 +118,7 @@
     "configureNodePath": "Node.js-pad configureren",
     "enterNodePath": "Node.js v20+ pad invoeren",
     "testProviders": "Providers testen",
-    "loginTerminal": "Inloggen in een terminal",
-    "restoreSketch": "Vorige toestand herstellen"
+    "loginTerminal": "Inloggen in een terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Geselecteerde code optimaliseren",
@@ -266,8 +261,7 @@
     "localProviderNotFound": "{0} niet gevonden op '{1}'. Configureer het juiste pad via 'API-sleutel invoeren'.",
     "localProviderNotRunning": "Loopt niet. Start a.u.b.",
     "localProviderTimeout": "Sessie verlopen",
-    "agentLogin": "{0} moet opnieuw inloggen.",
-    "backupFailed": "Er kon geen kopie van de sketch worden opgeslagen ({0}). De agent is niet gestart."
+    "agentLogin": "{0} moet opnieuw inloggen."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nVandaag: {1} Tokens{2}\nInvoer: {3} | Uitvoer: {4}\nKlik voor menu • Ctrl+Shift+C • Rechtsklik om te wisselen",

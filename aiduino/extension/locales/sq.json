@@ -74,11 +74,7 @@
     "highCostWarning": "Kosto e vlerësuar (pa përgjigje): ${0} me {1}. Vazhdo?",
     "codeApplied": "Kodi është zbatuar",
     "nodePathSaved": "Rruga e Node.js është ruajtur",
-    "loginCommandCopied": "Nuk u gjet asnjë terminal. Komanda e hyrjes u kopjua: {0}",
-    "sketchChanged": "Agjenti ndryshoi skicën. Gjendja e mëparshme u ruajt dhe mund të rikthehet.",
-    "restoreConfirm": "Të rikthehet skica në gjendjen para ekzekutimit të fundit të agjentit?\n\nU rikthyen: {0}\nU hoqën (skedarë të rinj të agjentit): {1}",
-    "sketchRestored": "Skica u rikthye.",
-    "nothingToRestore": "Nuk ka gjendje të ruajtur për këtë skicë."
+    "loginCommandCopied": "Nuk u gjet asnjë terminal. Komanda e hyrjes u kopjua: {0}"
   },
   "buttons": {
     "chooseModel": "Zgjidh modelin AI",
@@ -122,8 +118,7 @@
     "configureNodePath": "Konfiguro rrugën e Node.js",
     "enterNodePath": "Fut rrugën e Node.js v20+",
     "testProviders": "Testo ofruesit",
-    "loginTerminal": "Hyr në terminal",
-    "restoreSketch": "Rikthe gjendjen e mëparshme"
+    "loginTerminal": "Hyr në terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizo kodin e zgjedhur",
@@ -266,8 +261,7 @@
     "localProviderNotFound": "{0} nuk u gjet në '{1}'. Ju lutemi konfiguroni rrugën e duhur përmes 'Fut çelësin API'.",
     "localProviderNotRunning": "Nuk po ekzekutohet. Ju lutemi niseni.",
     "localProviderTimeout": "Sesioni skadoi",
-    "agentLogin": "{0} kërkon hyrje të re.",
-    "backupFailed": "Nuk u ruajt dot një kopje e skicës ({0}). Agjenti nuk u nis."
+    "agentLogin": "{0} kërkon hyrje të re."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nSot: {1} Tokenë{2}\nHyrje: {3} | Dalje: {4}\nKliko për menu • Ctrl+Shift+C • Klik i djathtë për ndryshim",

@@ -74,11 +74,7 @@
     "highCostWarning": "Spiża stmata (mingħajr risposta): ${0} b'{1}. Kompli?",
     "codeApplied": "Il-kodiċi ġie applikat",
     "nodePathSaved": "Il-mogħdija Node.js ġiet salvata",
-    "loginCommandCopied": "Ma nstab l-ebda terminal. Il-kmand tal-login ġie kkupjat: {0}",
-    "sketchChanged": "L-aġent biddel l-isketch. L-istat preċedenti ġie salvat u jista' jiġi rrestawrat.",
-    "restoreConfirm": "Tirrestawra l-isketch għall-istat qabel l-aħħar tħaddim tal-aġent?\n\nIrrestawrati: {0}\nImneħħija (fajls ġodda tal-aġent): {1}",
-    "sketchRestored": "L-isketch ġie rrestawrat.",
-    "nothingToRestore": "M'hemm l-ebda stat salvat għal dan l-isketch."
+    "loginCommandCopied": "Ma nstab l-ebda terminal. Il-kmand tal-login ġie kkupjat: {0}"
   },
   "buttons": {
     "chooseModel": "Agħżel mudell AI",
@@ -122,8 +118,7 @@
     "configureNodePath": "Ikkonfigura mogħdija Node.js",
     "enterNodePath": "Daħħal mogħdija Node.js v20+",
     "testProviders": "Ttestja l-fornituri",
-    "loginTerminal": "Idħol f'terminal",
-    "restoreSketch": "Irrestawra l-istat preċedenti"
+    "loginTerminal": "Idħol f'terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Ħassan il-kodiċi magħżul",
@@ -266,8 +261,7 @@
     "localProviderNotFound": "{0} ma nstabx f'{1}'. Jekk jogħġbok ikkonfigura l-mogħdija t-tajba permezz ta' 'Daħħal iċ-ċavetta tal-API'.",
     "localProviderNotRunning": "Mhux qed jaħdem. Jekk jogħġbok ibda.",
     "localProviderTimeout": "Sessjoni skadiet",
-    "agentLogin": "{0} jeħtieġ login ġdid.",
-    "backupFailed": "Ma setgħetx tiġi salvata kopja tal-isketch ({0}). L-aġent ma nbediex."
+    "agentLogin": "{0} jeħtieġ login ġdid."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nIllum: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlikkja għal menu • Ctrl+Shift+C • Right click biex tibdel",

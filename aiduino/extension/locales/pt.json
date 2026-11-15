@@ -74,11 +74,7 @@
     "highCostWarning": "Custo estimado (sem resposta): ${0} com {1}. Continuar?",
     "codeApplied": "Código aplicado",
     "nodePathSaved": "Caminho do Node.js salvo",
-    "loginCommandCopied": "Nenhum terminal encontrado. O comando de início de sessão foi copiado: {0}",
-    "sketchChanged": "O agente alterou o sketch. O estado anterior foi guardado e pode ser restaurado.",
-    "restoreConfirm": "Restaurar o sketch para o estado anterior à última execução do agente?\n\nRestaurados: {0}\nRemovidos (ficheiros novos do agente): {1}",
-    "sketchRestored": "Sketch restaurado.",
-    "nothingToRestore": "Não existe nenhum estado guardado para este sketch."
+    "loginCommandCopied": "Nenhum terminal encontrado. O comando de início de sessão foi copiado: {0}"
   },
   "buttons": {
     "chooseModel": "Escolher Modelo de IA",
@@ -122,8 +118,7 @@
     "configureNodePath": "Configurar caminho do Node.js",
     "enterNodePath": "Inserir caminho do Node.js v20+",
     "testProviders": "Testar fornecedores",
-    "loginTerminal": "Iniciar sessão num terminal",
-    "restoreSketch": "Restaurar estado anterior"
+    "loginTerminal": "Iniciar sessão num terminal"
   },
   "descriptions": {
     "improveCodeSelected": "Otimizar código selecionado",
@@ -266,8 +261,7 @@
     "localProviderNotFound": "{0} não encontrado em '{1}'. Por favor configure o caminho correto através de 'Inserir chave API'.",
     "localProviderNotRunning": "Não está executando. Por favor inicie.",
     "localProviderTimeout": "Sessão expirada",
-    "agentLogin": "{0} precisa de um novo início de sessão.",
-    "backupFailed": "Não foi possível guardar uma cópia do sketch ({0}). O agente não foi iniciado."
+    "agentLogin": "{0} precisa de um novo início de sessão."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nHoje: {1} Tokens{2}\nEntrada: {3} | Saída: {4}\nClique para menu • Ctrl+Shift+C • Clique direito para trocar",

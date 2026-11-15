@@ -74,11 +74,7 @@
     "highCostWarning": "Paredzamās izmaksas (bez atbildes): ${0} ar {1}. Turpināt?",
     "codeApplied": "Kods ir piemērots",
     "nodePathSaved": "Node.js ceļš ir saglabāts",
-    "loginCommandCopied": "Termināls netika atrasts. Pieteikšanās komanda nokopēta: {0}",
-    "sketchChanged": "Aģents mainīja skici. Iepriekšējais stāvoklis ir saglabāts un to var atjaunot.",
-    "restoreConfirm": "Atjaunot skici stāvoklī pirms pēdējās aģenta palaišanas?\n\nAtjaunots: {0}\nNoņemts (aģenta jaunie faili): {1}",
-    "sketchRestored": "Skice atjaunota.",
-    "nothingToRestore": "Šai skicei nav saglabāta stāvokļa."
+    "loginCommandCopied": "Termināls netika atrasts. Pieteikšanās komanda nokopēta: {0}"
   },
   "buttons": {
     "chooseModel": "Izvēlēties AI modeli",
@@ -122,8 +118,7 @@
     "configureNodePath": "Konfigurēt Node.js ceļu",
     "enterNodePath": "Ievadīt Node.js v20+ ceļu",
     "testProviders": "Testēt nodrošinātājus",
-    "loginTerminal": "Pieteikties terminālī",
-    "restoreSketch": "Atjaunot iepriekšējo stāvokli"
+    "loginTerminal": "Pieteikties terminālī"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizēt iezīmēto kodu",
@@ -266,8 +261,7 @@
     "localProviderNotFound": "{0} nav atrasts '{1}'. Lūdzu konfigurējiet pareizo ceļu caur 'Ievadīt API atslēgu'.",
     "localProviderNotRunning": "Nedarbojas. Lūdzu palaidiet.",
     "localProviderTimeout": "Sesija beigusies",
-    "agentLogin": "{0} nepieciešama jauna pieteikšanās.",
-    "backupFailed": "Neizdevās saglabāt skices kopiju ({0}). Aģents netika palaists."
+    "agentLogin": "{0} nepieciešama jauna pieteikšanās."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nŠodien: {1} Žetoni{2}\nIevade: {3} | Izvade: {4}\nKlikšķis izvēlnei • Ctrl+Shift+C • Labais klikšķis pārslēgšanai",

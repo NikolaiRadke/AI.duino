@@ -17,7 +17,6 @@ const os = require('os');
 const TokenManager = require('./tokenManager');
 const shared = require('../shared');
 const agentLogin = require('../utils/agentLogin');
-const backupManager = require('../utils/backupManager');
 
 const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
 const SESSIONS_FILE = path.join(AIDUINO_DIR, '.aiduino-sessions.json');
@@ -212,8 +211,35 @@ class AgenticClient {
      * Fixed rules for agentic mode as a prompt block
      * @returns {string}
      */
-    getAgenticRules() {
-        return 'Rules:\n' + AGENTIC_RULES.map(rule => '- ' + rule).join('\n');
+    getAgenticRules(sketchPath = null) {
+        const rules = [...AGENTIC_RULES];
+        if (sketchPath) {
+            // Agents like to create a new sketch folder instead of using the open sketch
+            const mainFile = path.basename(sketchPath) + '.ino';
+            rules.unshift(`The sketch file is ${mainFile} in the current folder. Put the program there; never create a new sketch, sketch folder or second .ino file.`);
+        }
+        return 'Rules:\n' + rules.map(rule => '- ' + rule).join('\n');
+    }
+
+    /**
+     * Open code files the agent created, so they appear as tabs in the IDE
+     * @param {Map} before - Timestamps before the agent run
+     * @param {Map} after - Timestamps after the agent run
+     */
+    async openNewFiles(before, after) {
+        for (const file of after.keys()) {
+            if (before.has(file)) continue;
+            try {
+                const document = await vscode.workspace.openTextDocument(file);
+                await vscode.window.showTextDocument(document, {
+                    viewColumn: vscode.ViewColumn.One,
+                    preview: false,
+                    preserveFocus: true
+                });
+            } catch (error) {
+                // Opening is a convenience; the file exists either way
+            }
+        }
     }
 
     /**
@@ -434,15 +460,6 @@ class AgenticClient {
         if (editor && editor.document.isDirty) {
             await editor.document.save();
         }
-
-        // Safety net: copy the code files before the agent may touch them.
-        // Without a copy the agent does not run.
-        try {
-            backupManager.createSnapshot(sketchPath, { prompt: String(prompt).slice(0, 200) });
-        } catch (error) {
-            if (focusHandler) focusHandler.dispose();
-            return { response: t('errors.backupFailed', error.message), compileResult: null, iterations: 0, cancelled: false, error: true };
-        }
         
         try {
             const result = await vscode.window.withProgress({
@@ -463,7 +480,7 @@ class AgenticClient {
                     iterations = i + 1;
                     
                     const currentPrompt = i === 0 
-                        ? `${prompt}\n\n${this.getAgenticRules()}`
+                        ? `${prompt}\n\n${this.getAgenticRules(sketchPath)}`
                         : this.buildRetryPrompt(prompt, compileResult, Boolean(loopSessionId));
                     
                     const filesBefore = this.getFileTimestamps(sketchPath);
@@ -491,6 +508,9 @@ class AgenticClient {
                     const filesAfter = this.getFileTimestamps(sketchPath);
                     const hasChanges = this.detectFileChanges(filesBefore, filesAfter);
                     
+                    // The IDE does not always show files created outside of it
+                    await this.openNewFiles(filesBefore, filesAfter);
+
                     if (!hasChanges) {
                         return { 
                             response: lastResponse, 
@@ -528,16 +548,6 @@ class AgenticClient {
             
             return result;
         } finally {
-            // Keep the copy only if the run changed code, then offer to restore it
-            this.lastRunChangedSketch = false;
-            try {
-                if (backupManager.settleSnapshot(sketchPath)) {
-                    this.lastRunChangedSketch = true;
-                    this.offerRestore(sketchPath, context);
-                }
-            } catch (error) {
-                // Snapshot handling failed - the sketch itself is untouched by this
-            }
             // Clean up event handler
             if (focusHandler) {
                 focusHandler.dispose();
@@ -545,46 +555,6 @@ class AgenticClient {
         }
     }
 
-    /**
-     * Tell the user the agent changed the sketch and offer to restore the previous state.
-     * Does not wait for the user; the notification stays in the notification center.
-     * @param {string} sketchPath - Sketch folder
-     * @param {Object} context - Extension context (t)
-     */
-    offerRestore(sketchPath, context) {
-        const { t } = context;
-        const button = t('buttons.restoreSketch');
-        vscode.window.showInformationMessage(t('messages.sketchChanged'), button).then(async choice => {
-            if (choice !== button) return;
-            await this.restoreSketch(sketchPath, context);
-        });
-    }
-
-    /**
-     * Restore the sketch to the state before the last agent run that changed code
-     * @param {string} sketchPath - Sketch folder
-     * @param {Object} context - Extension context (t)
-     * @returns {Promise<boolean>} True if restored
-     */
-    async restoreSketch(sketchPath, context) {
-        const { t } = context;
-        const plan = backupManager.planRestore(sketchPath);
-        if (!plan || (plan.restore.length === 0 && plan.remove.length === 0)) {
-            vscode.window.showInformationMessage(t('messages.nothingToRestore'));
-            return false;
-        }
-        const button = t('buttons.restoreSketch');
-        const choice = await vscode.window.showWarningMessage(
-            t('messages.restoreConfirm', plan.restore.join(', ') || '-', plan.remove.join(', ') || '-'),
-            { modal: true },
-            button
-        );
-        if (choice !== button) return false;
-
-        backupManager.restoreSnapshot(sketchPath);
-        vscode.window.showInformationMessage(t('messages.sketchRestored'));
-        return true;
-    }
 }
 
 module.exports = {

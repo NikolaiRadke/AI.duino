@@ -74,11 +74,7 @@
     "highCostWarning": "Becsült költség (válasz nélkül): ${0} használatával: {1}. Folytatod?",
     "codeApplied": "Kód alkalmazva",
     "nodePathSaved": "Node.js útvonal mentve",
-    "loginCommandCopied": "Nem található terminál. A bejelentkezési parancs a vágólapra került: {0}",
-    "sketchChanged": "Az ágens módosította a vázlatot. Az előző állapot mentve lett, és visszaállítható.",
-    "restoreConfirm": "Visszaállítod a vázlatot az ágens utolsó futása előtti állapotra?\n\nVisszaállítva: {0}\nEltávolítva (az ágens új fájljai): {1}",
-    "sketchRestored": "Vázlat visszaállítva.",
-    "nothingToRestore": "Ehhez a vázlathoz nincs mentett állapot."
+    "loginCommandCopied": "Nem található terminál. A bejelentkezési parancs a vágólapra került: {0}"
   },
   "buttons": {
     "chooseModel": "AI modell választása",
@@ -122,8 +118,7 @@
     "configureNodePath": "Node.js útvonal konfigurálása",
     "enterNodePath": "Node.js v20+ útvonal megadása",
     "testProviders": "Szolgáltatók tesztelése",
-    "loginTerminal": "Bejelentkezés terminálban",
-    "restoreSketch": "Előző állapot visszaállítása"
+    "loginTerminal": "Bejelentkezés terminálban"
   },
   "descriptions": {
     "improveCodeSelected": "Kijelölt kód optimalizálása",
@@ -266,8 +261,7 @@
     "localProviderNotFound": "{0} nem található itt: '{1}'. Kérjük konfigurálja a helyes útvonalat az 'API kulcs megadása' segítségével.",
     "localProviderNotRunning": "Nem fut. Kérjük indítsa el.",
     "localProviderTimeout": "Munkamenet lejárt",
-    "agentLogin": "A(z) {0} új bejelentkezést igényel.",
-    "backupFailed": "Nem sikerült másolatot menteni a vázlatról ({0}). Az ágens nem indult el."
+    "agentLogin": "A(z) {0} új bejelentkezést igényel."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nMa: {1} Token{2}\nBemenet: {3} | Kimenet: {4}\nKattints a menühöz • Ctrl+Shift+C • Jobb katt a váltáshoz",

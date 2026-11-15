@@ -71,11 +71,7 @@
     "highCostWarning": "推定コスト（応答なし）：${0}（{1}使用）。続行しますか？",
     "codeApplied": "コードが適用されました",
     "nodePathSaved": "Node.jsパスが保存されました",
-    "loginCommandCopied": "ターミナルが見つかりません。ログインコマンドをコピーしました: {0}",
-    "sketchChanged": "エージェントがスケッチを変更しました。以前の状態は保存されており、復元できます。",
-    "restoreConfirm": "最後のエージェント実行前の状態にスケッチを戻しますか？\n\n復元: {0}\n削除（エージェントの新規ファイル）: {1}",
-    "sketchRestored": "スケッチを復元しました。",
-    "nothingToRestore": "このスケッチには保存された状態がありません。"
+    "loginCommandCopied": "ターミナルが見つかりません。ログインコマンドをコピーしました: {0}"
   },
   "buttons": {
     "chooseModel": "AIモデルを選択",
@@ -119,8 +115,7 @@
     "configureNodePath": "Node.jsパスを設定",
     "enterNodePath": "Node.js v20+パスを入力",
     "testProviders": "プロバイダーをテスト",
-    "loginTerminal": "ターミナルでログイン",
-    "restoreSketch": "以前の状態を復元"
+    "loginTerminal": "ターミナルでログイン"
   },
   "descriptions": {
     "improveCodeSelected": "選択したコードを最適化",
@@ -262,8 +257,7 @@
     "localProviderNotFound": "'{1}'で{0}が見つかりません。'APIキーを入力'から正しいパスを設定してください。",
     "localProviderNotRunning": "実行されていません。開始してください。",
     "localProviderTimeout": "セッションが期限切れです",
-    "agentLogin": "{0} は再ログインが必要です。",
-    "backupFailed": "スケッチのコピーを保存できませんでした（{0}）。エージェントは起動されませんでした。"
+    "agentLogin": "{0} は再ログインが必要です。"
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\n今日: {1}トークン{2}\n入力: {3} | 出力: {4}\nメニューはクリック • Ctrl+Shift+C • 切り替えは右クリック",
