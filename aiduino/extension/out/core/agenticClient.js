@@ -491,8 +491,8 @@ class AgenticClient {
                     
                     compileResult = await shared.compileSketch(sketchPath);
                     
-                    // Success, or missing libraries: the agent cannot fix those, the user installs them
-                    if (compileResult.success || compileResult.missingLibraries) {
+                    // Success, missing libraries or no board/compiler: the agent cannot fix those
+                    if (compileResult.success || compileResult.missingLibraries || compileResult.setupError) {
                         return { 
                             response: lastResponse, 
                             compileResult, 

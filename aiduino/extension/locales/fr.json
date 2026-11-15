@@ -334,7 +334,9 @@
     "compileAttempts": "({0} tentatives)",
     "compileMemory": "Flash : {0} sur {1} octets ({2} %), RAM : {3} sur {4} octets ({5} %)",
     "ramWarning": "Peu de RAM libre, le sketch peut être instable.",
-    "missingLibraries": "Bibliothèques manquantes : {0}. Installez-les avec le gestionnaire de bibliothèques."
+    "missingLibraries": "Bibliothèques manquantes : {0}. Installez-les avec le gestionnaire de bibliothèques.",
+    "compileNoBoard": "Non compilé : aucune carte sélectionnée. Choisissez une carte dans l'Arduino IDE (Outils > Carte).",
+    "compileNoCli": "Non compilé : arduino-cli introuvable."
   },
   "shortcuts": {
     "askFollowUp": "Question de suivi",

@@ -334,7 +334,9 @@
     "compileAttempts": "({0} tentattivi)",
     "compileMemory": "Flash: {0} minn {1} bytes ({2} %), RAM: {3} minn {4} bytes ({5} %)",
     "ramWarning": "Ftit RAM liberu, l-isketch jista' jaħdem b'mod instabbli.",
-    "missingLibraries": "Libreriji neqsin: {0}. Installahom bil-Library Manager."
+    "missingLibraries": "Libreriji neqsin: {0}. Installahom bil-Library Manager.",
+    "compileNoBoard": "Mhux ikkompilat: l-ebda board magħżul. Agħżel board fl-Arduino IDE (Tools > Board).",
+    "compileNoCli": "Mhux ikkompilat: arduino-cli ma nstabx."
   },
   "shortcuts": {
     "askFollowUp": "Mistoqsija follow-up",

@@ -334,7 +334,9 @@
     "compileAttempts": "({0} tentativas)",
     "compileMemory": "Flash: {0} de {1} bytes ({2} %), RAM: {3} de {4} bytes ({5} %)",
     "ramWarning": "Pouca RAM livre, o sketch pode ficar instável.",
-    "missingLibraries": "Bibliotecas em falta: {0}. Instale-as com o gestor de bibliotecas."
+    "missingLibraries": "Bibliotecas em falta: {0}. Instale-as com o gestor de bibliotecas.",
+    "compileNoBoard": "Não compilado: nenhuma placa selecionada. Escolha uma placa no Arduino IDE (Ferramentas > Placa).",
+    "compileNoCli": "Não compilado: arduino-cli não encontrado."
   },
   "shortcuts": {
     "askFollowUp": "Pergunta de acompanhamento",

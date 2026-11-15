@@ -235,6 +235,12 @@ async function handleUserMessage(userText, panel, context, state) {
 function describeCompileResult(compileResult, iterations, t) {
     const attempts = iterations > 1 ? ' ' + t('chat.compileAttempts', iterations) : '';
     if (!compileResult.success) {
+        if (compileResult.setupError === 'noBoard') {
+            return `⚠️ ${t('chat.compileNoBoard')}`;
+        }
+        if (compileResult.setupError === 'noCli') {
+            return `⚠️ ${t('chat.compileNoCli')}`;
+        }
         if (compileResult.missingLibraries) {
             return `❌ ${t('chat.compileFailed')}${attempts}\n${t('chat.missingLibraries', compileResult.missingLibraries.join(', '))}`;
         }

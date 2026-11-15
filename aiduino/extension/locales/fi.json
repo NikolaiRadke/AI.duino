@@ -334,7 +334,9 @@
     "compileAttempts": "({0} yritystä)",
     "compileMemory": "Flash: {0} / {1} tavua ({2} %), RAM: {3} / {4} tavua ({5} %)",
     "ramWarning": "Vapaata RAM-muistia on vähän, sketsi voi toimia epävakaasti.",
-    "missingLibraries": "Puuttuvat kirjastot: {0}. Asenna ne kirjastonhallinnan kautta."
+    "missingLibraries": "Puuttuvat kirjastot: {0}. Asenna ne kirjastonhallinnan kautta.",
+    "compileNoBoard": "Ei käännetty: korttia ei ole valittu. Valitse kortti Arduino IDE:ssä (Työkalut > Kortti).",
+    "compileNoCli": "Ei käännetty: arduino-cli:tä ei löytynyt."
   },
   "shortcuts": {
     "askFollowUp": "Jatkokysymys",

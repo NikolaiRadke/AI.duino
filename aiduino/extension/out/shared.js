@@ -14,6 +14,9 @@ const path = require('path');
 
 // ===== ARDUINO BOARD CONTEXT =====
 
+// First scan of an IDE log file reads this much from its end
+const LOG_INITIAL_SCAN_BYTES = 1024 * 1024;
+
 /**
  * Arduino Board Context Manager
  * Handles board detection, monitoring, and state management for Arduino IDE 2.x
@@ -26,7 +29,7 @@ class ArduinoBoardContext {
         this._onDidChangeBoardEmitter = new vscode.EventEmitter();
         
         this.logWatcher = null;
-        this.lastLogSize = 0;
+        this.logSizes = new Map();
         this.changeTimeout = null;
         
         this.cacheFile = path.join(AIDUINO_DIR, '.aiduino-board-context.json');
@@ -73,82 +76,79 @@ class ArduinoBoardContext {
     }
     
     /**
-     * Check for board changes in log files
+     * Check for board changes in all IDE log files.
+     * The first scan of a file reads up to 1 MB, later scans only what was appended,
+     * so a board selected long ago in a long IDE session is still found.
      */
     async checkForBoardChanges() {
-        const logPath = this.findNewestLogFile();
-        if (!logPath) return;
-        
-        const stats = fs.statSync(logPath);
-        if (stats.size === this.lastLogSize) return;
-        this.lastLogSize = stats.size;
-        
-        const content = this.readLogTail(logPath);
-        const boardInfo = this.extractBoardFromLog(content);
-        
-        if (boardInfo && boardInfo.fqbn !== this.currentBoard) {
-            await this.updateBoardState(boardInfo);
+        if (!this.logDir || !fs.existsSync(this.logDir)) return;
+        if (!this.logSizes) this.logSizes = new Map();
+
+        let newest = null;
+        try {
+            for (const name of fs.readdirSync(this.logDir).filter(f => f.endsWith('.log'))) {
+                const file = path.join(this.logDir, name);
+                const size = fs.statSync(file).size;
+                const previous = this.logSizes.get(file);
+                if (previous === size) continue;
+
+                const isNewOrTruncated = previous === undefined || previous > size;
+                const start = isNewOrTruncated ? Math.max(0, size - LOG_INITIAL_SCAN_BYTES) : previous;
+                this.logSizes.set(file, size);
+
+                const entry = this.extractBoardFromLog(this.readLogRange(file, start, size));
+                if (entry && (!newest || entry.time >= newest.time)) newest = entry;
+            }
+        } catch (error) {
+            return;  // Logs are optional, detection simply stays as it is
+        }
+
+        if (newest && newest.fqbn !== this.currentBoard) {
+            await this.updateBoardState({ fqbn: newest.fqbn, timestamp: Date.now() });
         }
     }
-    
+
     /**
-     * Find the newest log file in the Arduino IDE logs directory
-     * @returns {string|null} Path to newest log file
+     * Read a byte range of a file
+     * @param {string} file - File path
+     * @param {number} start - Start offset
+     * @param {number} end - End offset (exclusive)
+     * @returns {string} Content
      */
-    findNewestLogFile() {
-        const files = fs.readdirSync(this.logDir)
-            .filter(f => f.endsWith('.log'))
-            .map(f => ({ path: path.join(this.logDir, f), mtime: fs.statSync(path.join(this.logDir, f)).mtime }))
-            .sort((a, b) => b.mtime.getTime() - a.mtime.getTime());
-        
-        return files[0]?.path || null;
-    }
-    
-    /**
-     * Read the tail of a log file efficiently
-     * @param {string} logPath - Path to log file
-     * @param {number} maxBytes - Maximum bytes to read from end
-     * @returns {string} Log content
-     */
-    readLogTail(logPath, maxBytes = 2048) {
-        const stats = fs.statSync(logPath);
-        const bytesToRead = Math.min(maxBytes, stats.size);
-        
-        if (stats.size <= bytesToRead) {
-            return fs.readFileSync(logPath, 'utf8');
+    readLogRange(file, start, end) {
+        const length = end - start;
+        if (length <= 0) return '';
+        const buffer = Buffer.alloc(length);
+        const fd = fs.openSync(file, 'r');
+        try {
+            fs.readSync(fd, buffer, 0, length, start);
+        } finally {
+            fs.closeSync(fd);
         }
-        
-        const buffer = Buffer.alloc(bytesToRead);
-        const fd = fs.openSync(logPath, 'r');
-        fs.readSync(fd, buffer, 0, bytesToRead, stats.size - bytesToRead);
-        fs.closeSync(fd);
         return buffer.toString('utf8');
     }
     
     /**
-     * Extract board FQBN from log content using known patterns
+     * Extract the newest board FQBN from log content.
+     * The language server line carries the full FQBN incl. options, so it wins.
      * @param {string} content - Log file content
-     * @returns {Object|null} Board information with FQBN and timestamp
+     * @returns {Object|null} {fqbn, time} with the log timestamp of the line
      */
     extractBoardFromLog(content) {
         const patterns = [
             /Starting language server:\s*([^\s\n]+)/i,
             /Failed to get debug config:\s*([^,\s\n]+)/i
         ];
-        
-        const lines = content.split('\n').reverse();
-        for (const line of lines.slice(0, 50)) {
-            for (const pattern of patterns) {
-                const match = line.match(pattern);
-                if (match?.[1]?.includes(':') && match[1].split(':').length >= 3) {
-                    return {
-                        fqbn: match[1].trim(),
-                        timestamp: Date.now()
-                    };
+        const found = patterns.map(() => null);
+        for (const line of content.split('\n')) {
+            patterns.forEach((pattern, index) => {
+                const value = line.match(pattern)?.[1]?.trim();
+                if (value && value.split(':').length >= 3) {
+                    found[index] = { fqbn: value, time: line.match(/^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/)?.[1] || '' };
                 }
-            }
+            });
         }
-        return null;
+        return found.find(Boolean) || null;
     }
     
     /**
@@ -640,18 +640,9 @@ async function compileSketch(sketchPath, fqbn = null) {
     if (!cliPath) {
         return {
             success: false,
+            setupError: 'noCli',
             output: '',
             errors: ['arduino-cli not found']
-        };
-    }
-    
-    // Auto-detect board if not provided
-    const board = fqbn || detectArduinoBoard();
-    if (!board) {
-        return {
-            success: false,
-            output: '',
-            errors: ['No board selected. Please select a board in Arduino IDE.']
         };
     }
     
@@ -659,6 +650,17 @@ async function compileSketch(sketchPath, fqbn = null) {
     const sketchDir = sketchPath.endsWith('.ino') 
         ? path.dirname(sketchPath) 
         : sketchPath;
+
+    // Board: parameter, then sketch.yaml (default_fqbn), then the IDE selection
+    const board = fqbn || readSketchYamlFqbn(sketchDir) || detectArduinoBoard();
+    if (!board) {
+        return {
+            success: false,
+            setupError: 'noBoard',
+            output: '',
+            errors: ['No board selected. Please select a board in Arduino IDE.']
+        };
+    }
 
     if (!compileChecker) compileChecker = new CompileChecker();
     try {
@@ -669,7 +671,7 @@ async function compileSketch(sketchPath, fqbn = null) {
             sketchPath: sketchDir
         });
         if (result.stopped) {
-            return { success: false, output: '', errors: ['Compile stopped'] };
+            return { success: false, setupError: 'stopped', output: '', errors: ['Compile stopped'] };
         }
         return {
             success: result.ok,
@@ -685,9 +687,27 @@ async function compileSketch(sketchPath, fqbn = null) {
     } catch (error) {
         return {
             success: false,
+            setupError: 'cliFailed',
             output: '',
             errors: [error.message]
         };
+    }
+}
+
+/**
+ * Read default_fqbn from the sketch's sketch.yaml
+ * @param {string} sketchDir - Sketch folder
+ * @returns {string|null} FQBN or null
+ */
+function readSketchYamlFqbn(sketchDir) {
+    const fs = require('fs');
+    const path = require('path');
+    try {
+        const content = fs.readFileSync(path.join(sketchDir, 'sketch.yaml'), 'utf8');
+        const fqbn = content.match(/^default_fqbn:\s*(\S+)/m)?.[1];
+        return fqbn && fqbn.split(':').length >= 3 ? fqbn : null;
+    } catch (error) {
+        return null;
     }
 }
 

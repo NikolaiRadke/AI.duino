@@ -334,7 +334,9 @@
     "compileAttempts": "({0} pokusov)",
     "compileMemory": "Flash: {0} z {1} bajtov ({2} %), RAM: {3} z {4} bajtov ({5} %)",
     "ramWarning": "Málo voľnej RAM, sketch môže bežať nestabilne.",
-    "missingLibraries": "Chýbajúce knižnice: {0}. Nainštalujte ich cez správcu knižníc."
+    "missingLibraries": "Chýbajúce knižnice: {0}. Nainštalujte ich cez správcu knižníc.",
+    "compileNoBoard": "Neskompilované: nie je vybraná doska. Vyberte dosku v Arduino IDE (Nástroje > Doska).",
+    "compileNoCli": "Neskompilované: arduino-cli sa nenašiel."
   },
   "shortcuts": {
     "askFollowUp": "Následná otázka",

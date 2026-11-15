@@ -334,7 +334,9 @@
     "compileAttempts": "({0} tentativi)",
     "compileMemory": "Flash: {0} di {1} byte ({2} %), RAM: {3} di {4} byte ({5} %)",
     "ramWarning": "Poca RAM libera, lo sketch potrebbe essere instabile.",
-    "missingLibraries": "Librerie mancanti: {0}. Installale con il gestore delle librerie."
+    "missingLibraries": "Librerie mancanti: {0}. Installale con il gestore delle librerie.",
+    "compileNoBoard": "Non compilato: nessuna scheda selezionata. Scegli una scheda nell'Arduino IDE (Strumenti > Scheda).",
+    "compileNoCli": "Non compilato: arduino-cli non trovato."
   },
   "shortcuts": {
     "askFollowUp": "Domanda di seguito",

@@ -334,7 +334,9 @@
     "compileAttempts": "({0} forsøg)",
     "compileMemory": "Flash: {0} af {1} bytes ({2} %), RAM: {3} af {4} bytes ({5} %)",
     "ramWarning": "Lidt ledig RAM, sketchen kan køre ustabilt.",
-    "missingLibraries": "Manglende biblioteker: {0}. Installér dem med bibliotekshåndteringen."
+    "missingLibraries": "Manglende biblioteker: {0}. Installér dem med bibliotekshåndteringen.",
+    "compileNoBoard": "Ikke kompileret: intet board valgt. Vælg et board i Arduino IDE (Værktøjer > Board).",
+    "compileNoCli": "Ikke kompileret: arduino-cli blev ikke fundet."
   },
   "shortcuts": {
     "askFollowUp": "Opfølgende spørgsmål",

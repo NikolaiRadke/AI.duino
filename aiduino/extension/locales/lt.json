@@ -334,7 +334,9 @@
     "compileAttempts": "({0} bandymai)",
     "compileMemory": "Flash: {0} iš {1} baitų ({2} %), RAM: {3} iš {4} baitų ({5} %)",
     "ramWarning": "Mažai laisvos RAM, eskizas gali veikti nestabiliai.",
-    "missingLibraries": "Trūksta bibliotekų: {0}. Įdiekite jas per bibliotekų tvarkyklę."
+    "missingLibraries": "Trūksta bibliotekų: {0}. Įdiekite jas per bibliotekų tvarkyklę.",
+    "compileNoBoard": "Nesukompiliuota: nepasirinkta plokštė. Pasirinkite plokštę Arduino IDE (Įrankiai > Plokštė).",
+    "compileNoCli": "Nesukompiliuota: arduino-cli nerastas."
   },
   "shortcuts": {
     "askFollowUp": "Papildomas klausimas",

@@ -334,7 +334,9 @@
     "compileAttempts": "({0} pogingen)",
     "compileMemory": "Flash: {0} van {1} bytes ({2} %), RAM: {3} van {4} bytes ({5} %)",
     "ramWarning": "Weinig vrij RAM, de sketch kan instabiel werken.",
-    "missingLibraries": "Ontbrekende bibliotheken: {0}. Installeer ze met de bibliotheekbeheerder."
+    "missingLibraries": "Ontbrekende bibliotheken: {0}. Installeer ze met de bibliotheekbeheerder.",
+    "compileNoBoard": "Niet gecompileerd: geen board gekozen. Kies een board in de Arduino IDE (Hulpmiddelen > Board).",
+    "compileNoCli": "Niet gecompileerd: arduino-cli niet gevonden."
   },
   "shortcuts": {
     "askFollowUp": "Vervolgvraag",

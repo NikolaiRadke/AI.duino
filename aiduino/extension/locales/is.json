@@ -334,7 +334,9 @@
     "compileAttempts": "({0} tilraunir)",
     "compileMemory": "Flash: {0} af {1} bætum ({2} %), RAM: {3} af {4} bætum ({5} %)",
     "ramWarning": "Lítið laust RAM, forritið gæti keyrt óstöðugt.",
-    "missingLibraries": "Söfn vantar: {0}. Settu þau upp með safnastjóranum."
+    "missingLibraries": "Söfn vantar: {0}. Settu þau upp með safnastjóranum.",
+    "compileNoBoard": "Ekki þýtt: ekkert borð valið. Veldu borð í Arduino IDE (Verkfæri > Borð).",
+    "compileNoCli": "Ekki þýtt: arduino-cli fannst ekki."
   },
   "shortcuts": {
     "askFollowUp": "Framhaldsspurning",

@@ -334,7 +334,9 @@
     "compileAttempts": "({0} mēģinājumi)",
     "compileMemory": "Flash: {0} no {1} baitiem ({2} %), RAM: {3} no {4} baitiem ({5} %)",
     "ramWarning": "Maz brīvas RAM, skice var darboties nestabili.",
-    "missingLibraries": "Trūkst bibliotēku: {0}. Instalējiet tās ar bibliotēku pārvaldnieku."
+    "missingLibraries": "Trūkst bibliotēku: {0}. Instalējiet tās ar bibliotēku pārvaldnieku.",
+    "compileNoBoard": "Nav kompilēts: nav izvēlēta plate. Izvēlieties plati Arduino IDE (Rīki > Plate).",
+    "compileNoCli": "Nav kompilēts: arduino-cli netika atrasts."
   },
   "shortcuts": {
     "askFollowUp": "Papildu jautājums",

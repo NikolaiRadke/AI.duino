@@ -334,7 +334,9 @@
     "compileAttempts": "({0} pokušaja)",
     "compileMemory": "Flash: {0} od {1} bajtova ({2} %), RAM: {3} od {4} bajtova ({5} %)",
     "ramWarning": "Malo slobodnog RAM-a, sketch bi mogao raditi nestabilno.",
-    "missingLibraries": "Nedostaju biblioteke: {0}. Instalirajte ih preko upravitelja biblioteka."
+    "missingLibraries": "Nedostaju biblioteke: {0}. Instalirajte ih preko upravitelja biblioteka.",
+    "compileNoBoard": "Nije kompajlirano: nije odabrana ploča. Odaberite ploču u Arduino IDE (Alati > Ploča).",
+    "compileNoCli": "Nije kompajlirano: arduino-cli nije pronađen."
   },
   "shortcuts": {
     "askFollowUp": "Dodatno pitanje",

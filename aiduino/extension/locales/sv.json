@@ -334,7 +334,9 @@
     "compileAttempts": "({0} försök)",
     "compileMemory": "Flash: {0} av {1} byte ({2} %), RAM: {3} av {4} byte ({5} %)",
     "ramWarning": "Lite ledigt RAM, sketchen kan bli instabil.",
-    "missingLibraries": "Bibliotek saknas: {0}. Installera dem med bibliotekshanteraren."
+    "missingLibraries": "Bibliotek saknas: {0}. Installera dem med bibliotekshanteraren.",
+    "compileNoBoard": "Inte kompilerat: inget kort valt. Välj ett kort i Arduino IDE (Verktyg > Kort).",
+    "compileNoCli": "Inte kompilerat: arduino-cli hittades inte."
   },
   "shortcuts": {
     "askFollowUp": "Följdfråga",

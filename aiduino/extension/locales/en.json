@@ -334,7 +334,9 @@
     "compileAttempts": "({0} attempts)",
     "compileMemory": "Flash: {0} of {1} bytes ({2} %), RAM: {3} of {4} bytes ({5} %)",
     "ramWarning": "Little RAM left, the sketch may run unstably.",
-    "missingLibraries": "Missing libraries: {0}. Please install them with the Library Manager."
+    "missingLibraries": "Missing libraries: {0}. Please install them with the Library Manager.",
+    "compileNoBoard": "Not compiled: no board selected. Select a board in the Arduino IDE (Tools > Board).",
+    "compileNoCli": "Not compiled: arduino-cli was not found."
   },
   "shortcuts": {
     "askFollowUp": "Follow-up question",

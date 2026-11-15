@@ -334,7 +334,9 @@
     "compileAttempts": "({0} próbálkozás)",
     "compileMemory": "Flash: {0} / {1} bájt ({2} %), RAM: {3} / {4} bájt ({5} %)",
     "ramWarning": "Kevés a szabad RAM, a vázlat instabil lehet.",
-    "missingLibraries": "Hiányzó könyvtárak: {0}. Telepítsd őket a könyvtárkezelővel."
+    "missingLibraries": "Hiányzó könyvtárak: {0}. Telepítsd őket a könyvtárkezelővel.",
+    "compileNoBoard": "Nincs lefordítva: nincs kiválasztott alaplap. Válassz alaplapot az Arduino IDE-ben (Eszközök > Alaplap).",
+    "compileNoCli": "Nincs lefordítva: az arduino-cli nem található."
   },
   "shortcuts": {
     "askFollowUp": "Követő kérdés",

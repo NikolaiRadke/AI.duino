@@ -334,7 +334,9 @@
     "compileAttempts": "（{0} 次尝试）",
     "compileMemory": "Flash：{0} / {1} 字节（{2} %），RAM：{3} / {4} 字节（{5} %）",
     "ramWarning": "可用 RAM 不足，程序可能运行不稳定。",
-    "missingLibraries": "缺少库：{0}。请通过库管理器安装。"
+    "missingLibraries": "缺少库：{0}。请通过库管理器安装。",
+    "compileNoBoard": "未编译：未选择开发板。请在 Arduino IDE 中选择开发板（工具 > 开发板）。",
+    "compileNoCli": "未编译：未找到 arduino-cli。"
   },
   "shortcuts": {
     "askFollowUp": "追问",

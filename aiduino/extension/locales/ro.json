@@ -328,7 +328,9 @@
     "compileAttempts": "({0} încercări)",
     "compileMemory": "Flash: {0} din {1} octeți ({2} %), RAM: {3} din {4} octeți ({5} %)",
     "ramWarning": "Puțină memorie RAM liberă, schița poate funcționa instabil.",
-    "missingLibraries": "Biblioteci lipsă: {0}. Instalați-le cu managerul de biblioteci."
+    "missingLibraries": "Biblioteci lipsă: {0}. Instalați-le cu managerul de biblioteci.",
+    "compileNoBoard": "Necompilat: nicio placă selectată. Alegeți o placă în Arduino IDE (Instrumente > Placă).",
+    "compileNoCli": "Necompilat: arduino-cli nu a fost găsit."
   },
   "shortcuts": {
     "askFollowUp": "Întrebare de urmărire",

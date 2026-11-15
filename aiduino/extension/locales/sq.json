@@ -334,7 +334,9 @@
     "compileAttempts": "({0} përpjekje)",
     "compileMemory": "Flash: {0} nga {1} bajt ({2} %), RAM: {3} nga {4} bajt ({5} %)",
     "ramWarning": "Pak RAM e lirë, skica mund të punojë në mënyrë të paqëndrueshme.",
-    "missingLibraries": "Mungojnë bibliotekat: {0}. Instalojini me menaxherin e bibliotekave."
+    "missingLibraries": "Mungojnë bibliotekat: {0}. Instalojini me menaxherin e bibliotekave.",
+    "compileNoBoard": "Nuk u përpilua: nuk është zgjedhur pllakë. Zgjidhni një pllakë në Arduino IDE (Mjetet > Pllaka).",
+    "compileNoCli": "Nuk u përpilua: arduino-cli nuk u gjet."
   },
   "shortcuts": {
     "askFollowUp": "Pyetje shtesë",

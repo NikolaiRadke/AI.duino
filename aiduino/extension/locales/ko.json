@@ -334,7 +334,9 @@
     "compileAttempts": "({0}회 시도)",
     "compileMemory": "Flash: {1}바이트 중 {0}바이트 ({2} %), RAM: {4}바이트 중 {3}바이트 ({5} %)",
     "ramWarning": "남은 RAM이 적어 스케치가 불안정할 수 있습니다.",
-    "missingLibraries": "라이브러리가 없습니다: {0}. 라이브러리 관리자로 설치하세요."
+    "missingLibraries": "라이브러리가 없습니다: {0}. 라이브러리 관리자로 설치하세요.",
+    "compileNoBoard": "컴파일하지 않음: 보드가 선택되지 않았습니다. Arduino IDE에서 보드를 선택하세요(툴 > 보드).",
+    "compileNoCli": "컴파일하지 않음: arduino-cli를 찾을 수 없습니다."
   },
   "shortcuts": {
     "askFollowUp": "추가 질문",

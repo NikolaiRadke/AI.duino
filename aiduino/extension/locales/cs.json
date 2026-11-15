@@ -334,7 +334,9 @@
     "compileAttempts": "({0} pokusů)",
     "compileMemory": "Flash: {0} z {1} bajtů ({2} %), RAM: {3} z {4} bajtů ({5} %)",
     "ramWarning": "Málo volné RAM, sketch může běžet nestabilně.",
-    "missingLibraries": "Chybějící knihovny: {0}. Nainstalujte je pomocí správce knihoven."
+    "missingLibraries": "Chybějící knihovny: {0}. Nainstalujte je pomocí správce knihoven.",
+    "compileNoBoard": "Nezkompilováno: není vybrána deska. Vyberte desku v Arduino IDE (Nástroje > Deska).",
+    "compileNoCli": "Nezkompilováno: arduino-cli nebyl nalezen."
   },
   "shortcuts": {
     "askFollowUp": "Navazující otázka",

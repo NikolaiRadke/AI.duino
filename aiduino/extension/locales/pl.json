@@ -334,7 +334,9 @@
     "compileAttempts": "({0} prób)",
     "compileMemory": "Flash: {0} z {1} bajtów ({2} %), RAM: {3} z {4} bajtów ({5} %)",
     "ramWarning": "Mało wolnej pamięci RAM, szkic może działać niestabilnie.",
-    "missingLibraries": "Brakujące biblioteki: {0}. Zainstaluj je w menedżerze bibliotek."
+    "missingLibraries": "Brakujące biblioteki: {0}. Zainstaluj je w menedżerze bibliotek.",
+    "compileNoBoard": "Nie skompilowano: nie wybrano płytki. Wybierz płytkę w Arduino IDE (Narzędzia > Płytka).",
+    "compileNoCli": "Nie skompilowano: nie znaleziono arduino-cli."
   },
   "shortcuts": {
     "askFollowUp": "Pytanie uzupełniające",

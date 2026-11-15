@@ -334,7 +334,9 @@
     "compileAttempts": "({0} forsøk)",
     "compileMemory": "Flash: {0} av {1} byte ({2} %), RAM: {3} av {4} byte ({5} %)",
     "ramWarning": "Lite ledig RAM, sketsjen kan kjøre ustabilt.",
-    "missingLibraries": "Manglende biblioteker: {0}. Installer dem med bibliotekbehandleren."
+    "missingLibraries": "Manglende biblioteker: {0}. Installer dem med bibliotekbehandleren.",
+    "compileNoBoard": "Ikke kompilert: ingen kort valgt. Velg et kort i Arduino IDE (Verktøy > Kort).",
+    "compileNoCli": "Ikke kompilert: fant ikke arduino-cli."
   },
   "shortcuts": {
     "askFollowUp": "Oppfølgingsspørsmål",

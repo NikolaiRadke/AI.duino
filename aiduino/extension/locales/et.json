@@ -334,7 +334,9 @@
     "compileAttempts": "({0} katset)",
     "compileMemory": "Flash: {0} / {1} baiti ({2} %), RAM: {3} / {4} baiti ({5} %)",
     "ramWarning": "Vaba RAM-i on vähe, sketš võib töötada ebastabiilselt.",
-    "missingLibraries": "Puuduvad teegid: {0}. Paigalda need teekide halduri kaudu."
+    "missingLibraries": "Puuduvad teegid: {0}. Paigalda need teekide halduri kaudu.",
+    "compileNoBoard": "Kompileerimata: plaati pole valitud. Vali Arduino IDE-s plaat (Tööriistad > Plaat).",
+    "compileNoCli": "Kompileerimata: arduino-cli ei leitud."
   },
   "shortcuts": {
     "askFollowUp": "Täiendav küsimus",

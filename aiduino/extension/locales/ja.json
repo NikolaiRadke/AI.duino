@@ -330,7 +330,9 @@
     "compileAttempts": "（{0} 回試行）",
     "compileMemory": "Flash: {0} / {1} バイト（{2} %）、RAM: {3} / {4} バイト（{5} %）",
     "ramWarning": "空き RAM が少なく、スケッチが不安定になる可能性があります。",
-    "missingLibraries": "ライブラリが不足しています: {0}。ライブラリマネージャーでインストールしてください。"
+    "missingLibraries": "ライブラリが不足しています: {0}。ライブラリマネージャーでインストールしてください。",
+    "compileNoBoard": "コンパイルしていません: ボードが選択されていません。Arduino IDE でボードを選択してください（ツール > ボード）。",
+    "compileNoCli": "コンパイルしていません: arduino-cli が見つかりません。"
   },
   "shortcuts": {
     "askFollowUp": "追加質問",

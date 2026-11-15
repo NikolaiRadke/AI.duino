@@ -334,7 +334,9 @@
     "compileAttempts": "({0} deneme)",
     "compileMemory": "Flash: {1} bayttan {0} bayt ({2} %), RAM: {4} bayttan {3} bayt ({5} %)",
     "ramWarning": "Boş RAM az, taslak kararsız çalışabilir.",
-    "missingLibraries": "Eksik kütüphaneler: {0}. Kütüphane yöneticisi ile yükleyin."
+    "missingLibraries": "Eksik kütüphaneler: {0}. Kütüphane yöneticisi ile yükleyin.",
+    "compileNoBoard": "Derlenmedi: kart seçilmedi. Arduino IDE'de bir kart seçin (Araçlar > Kart).",
+    "compileNoCli": "Derlenmedi: arduino-cli bulunamadı."
   },
   "shortcuts": {
     "askFollowUp": "Takip sorusu",
