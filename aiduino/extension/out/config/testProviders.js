@@ -7,10 +7,16 @@
  *   3. Ping: unauthenticated HTTPS request → 4xx = server alive, 5xx/timeout = problem
  *   4. Live (key found in ~/.aiduino/): model list fetch + fallback model validation
  * 
+ *   5. Catalog (no key): OpenRouter's public model list — every OpenRouter model in the
+ *      config must still exist; new models of our vendors are listed as hints
+ * 
  * CLI providers:  binary existence check via which/where
  * HTTP providers: TCP port check on autoDetectUrls
  * 
- * Usage: node testProviders.js
+ * Usage: node testProviders.js [--ci] [--report <file.md>]
+ *   --ci      no colors, no local key lookup (used by the weekly GitHub workflow)
+ *   --report  write a Markdown summary of failures and new models
+ * In GitHub Actions, the outputs 'failures' and 'new_models' are set as well.
  */
 
 "use strict";
@@ -22,9 +28,18 @@ const os       = require('os');
 const path     = require('path');
 const { execSync } = require('child_process');
 
+// ===== OPTIONS =====
+
+const ARGS = process.argv.slice(2);
+const CI_MODE = ARGS.includes('--ci');
+const REPORT_FILE = ARGS.includes('--report') ? ARGS[ARGS.indexOf('--report') + 1] : null;
+
+// New models younger than this are listed in the report
+const NEW_MODEL_DAYS = 30;
+
 // ===== OUTPUT HELPERS =====
 
-const C = {
+const C = CI_MODE ? { reset: '', bold: '', red: '', green: '', yellow: '', cyan: '' } : {
     reset:  '\x1b[0m',
     bold:   '\x1b[1m',
     red:    '\x1b[31m',
@@ -42,6 +57,11 @@ let totalPass = 0;
 let totalFail = 0;
 let totalSkip = 0;
 
+// Collected for the Markdown report
+let currentSection = '';
+const failures = [];
+const newModels = [];
+
 function check(label, condition, hint = '') {
     if (condition) {
         console.log(`  ${PASS} ${label}`);
@@ -49,6 +69,7 @@ function check(label, condition, hint = '') {
     } else {
         console.log(`  ${FAIL} ${label}${hint ? '  (' + hint + ')' : ''}`);
         totalFail++;
+        failures.push({ section: currentSection, label, hint });
     }
 }
 
@@ -62,6 +83,7 @@ function skip(label) {
 }
 
 function section(title) {
+    currentSection = title;
     console.log(`\n${C.bold}[ ${title} ]${C.reset}`);
 }
 
@@ -140,6 +162,7 @@ const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
 
 /** Reads an API key from ~/.aiduino/<keyFile>. Returns null if missing or empty. */
 function readKey(keyFile) {
+    if (CI_MODE) return null;
     try {
         const filePath = path.join(AIDUINO_DIR, keyFile);
         if (!fs.existsSync(filePath)) return null;
@@ -239,7 +262,8 @@ async function checkCloudProvider(key, cfg) {
             // Try common response shapes: OpenAI, Anthropic, Gemini, Cohere, HuggingFace
             const dummies = [
                 { choices: [{ message: { content: 'ok' } }] },
-                { content: [{ text: 'ok' }] },
+                { content: [{ type: 'text', text: 'ok' }] },
+                { output_text: 'ok', output: [{ type: 'message', content: [{ type: 'output_text', text: 'ok' }] }] },
                 { candidates: [{ content: { parts: [{ text: 'ok' }] }, finishReason: 'STOP' }] },
                 { text: 'ok' },
                 [{ generated_text: 'ok' }]
@@ -438,6 +462,114 @@ async function checkHttpProvider(key, cfg) {
     }
 }
 
+// ===== CATALOG CHECK (OpenRouter, no key) =====
+
+// Config provider → OpenRouter vendor prefix, for the "new models" hints
+const CATALOG_VENDORS = {
+    claude: 'anthropic',
+    chatgpt: 'openai',
+    gemini: 'google',
+    mistral: 'mistralai',
+    cohere: 'cohere',
+    perplexity: 'perplexity'
+};
+
+/**
+ * All model IDs a provider config lists (static models, available models, fallback)
+ * @param {Object} cfg - Provider config
+ * @returns {string[]} Unique IDs
+ */
+function configuredModelIds(cfg) {
+    const ids = [
+        ...(cfg.modelDiscovery?.staticModels || []).map(m => m.id),
+        ...(cfg.availableModels || []).map(m => m.id),
+        cfg.fallback
+    ];
+    return [...new Set(ids.filter(Boolean))];
+}
+
+/**
+ * Check OpenRouter model IDs against the public catalog and collect new vendor models
+ * @param {Object} providers - PROVIDER_CONFIGS
+ */
+async function checkCatalog(providers) {
+    section('OpenRouter catalog');
+    let catalog = null;
+    try {
+        const result = await httpsGet('openrouter.ai', '/api/v1/models');
+        if (result.status === 200 && Array.isArray(result.data?.data)) catalog = result.data.data;
+        else info(`Catalog request returned HTTP ${result.status}`);
+    } catch (e) {
+        info(`Catalog request failed: ${e.message}`);
+    }
+    if (!catalog) {
+        skip('Catalog checks skipped — catalog not available');
+        return;
+    }
+    check(`Catalog returned ${catalog.length} models`, catalog.length > 0);
+
+    // Every OpenRouter model in the config must still exist
+    const known = new Set(catalog.map(m => m.id));
+    if (providers.openrouter) {
+        for (const id of configuredModelIds(providers.openrouter)) {
+            check(`OpenRouter model '${id}' exists`, known.has(id), 'removed or renamed on OpenRouter');
+        }
+    }
+
+    // New models of our vendors that the config does not list yet (hint only, never a failure).
+    // IDs are compared loosely: 'anthropic/claude-fable-5.2' matches 'claude-fable-5-2'.
+    const normalize = (id) => String(id).replace(/^.*\//, '').replace(/\./g, '-').toLowerCase();
+    const cutoff = Date.now() / 1000 - NEW_MODEL_DAYS * 86400;
+    for (const [key, vendor] of Object.entries(CATALOG_VENDORS)) {
+        if (!providers[key]) continue;
+        const listed = new Set(configuredModelIds(providers[key]).map(normalize));
+        const fresh = catalog.filter(m => m.id?.startsWith(vendor + '/') && (m.created || 0) >= cutoff &&
+                                          !m.id.includes(':') && !listed.has(normalize(m.id)));
+        for (const m of fresh) {
+            const price = m.pricing
+                ? `$${(Number(m.pricing.prompt) * 1e6).toFixed(2)} / $${(Number(m.pricing.completion) * 1e6).toFixed(2)}`
+                : '';
+            newModels.push({ provider: providers[key].name, id: m.id, name: m.name || m.id, price });
+            info(`New at ${vendor}: ${m.id}${price ? '  (' + price + ' per 1M)' : ''}`);
+        }
+    }
+}
+
+// ===== REPORT =====
+
+/**
+ * Write the Markdown report and GitHub Actions outputs
+ * @param {string} version - CONFIG_VERSION
+ */
+function writeReport(version) {
+    if (process.env.GITHUB_OUTPUT) {
+        fs.appendFileSync(process.env.GITHUB_OUTPUT, `failures=${totalFail}\nnew_models=${newModels.length}\n`);
+    }
+    if (!REPORT_FILE) return;
+
+    const lines = [
+        `## Provider config check (CONFIG_VERSION ${version || '?'})`,
+        '',
+        `${totalPass}/${totalPass + totalFail} checks passed, ${totalSkip} skipped.`,
+        ''
+    ];
+    if (failures.length) {
+        lines.push('### Failed checks', '');
+        for (const f of failures) {
+            lines.push(`- **${f.section}**: ${f.label}${f.hint ? ` _(${f.hint})_` : ''}`);
+        }
+        lines.push('');
+    }
+    if (newModels.length) {
+        lines.push(`### New models in the last ${NEW_MODEL_DAYS} days (OpenRouter catalog)`, '',
+                   '| Provider | Model | Price per 1M (in / out) |', '|---|---|---|');
+        for (const m of newModels) lines.push(`| ${m.provider} | \`${m.id}\` | ${m.price} |`);
+        lines.push('', '_IDs are OpenRouter slugs; the provider\'s own API ID may differ._', '');
+    }
+    if (!failures.length && !newModels.length) lines.push('Nothing to do.', '');
+    fs.writeFileSync(REPORT_FILE, lines.join('\n'));
+}
+
 // ===== MAIN =====
 
 async function runTests() {
@@ -446,14 +578,16 @@ async function runTests() {
 
     // --- Syntax check ---
     let PROVIDER_CONFIGS;
+    let CONFIG_VERSION;
     try {
-        ({ PROVIDER_CONFIGS } = require('./providerConfigs.js'));
+        ({ PROVIDER_CONFIGS, CONFIG_VERSION } = require('./providerConfigs.js'));
         console.log(`${PASS} providerConfigs.js loaded successfully`);
         totalPass++;
     } catch (e) {
         console.log(`${FAIL} providerConfigs.js failed to load: ${e.message}`);
         totalFail++;
         process.exitCode = 1;
+        writeReport(null);
         return;
     }
 
@@ -486,6 +620,9 @@ async function runTests() {
         await checkHttpProvider(k, cfg);
     }
 
+    banner('Model Catalog');
+    await checkCatalog(PROVIDER_CONFIGS);
+
     // --- Summary ---
     const total = totalPass + totalFail;
     console.log('\n════════════════════════════════════════');
@@ -499,6 +636,7 @@ async function runTests() {
         console.log(`${C.green}All checks passed.${C.reset}`);
     }
     console.log('');
+    writeReport(CONFIG_VERSION);
 }
 
 runTests().catch(err => {

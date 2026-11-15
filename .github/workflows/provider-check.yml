@@ -1,0 +1,72 @@
+# Weekly check of aiduino/extension/out/config/providerConfigs.js
+# - structure, ping and OpenRouter catalog checks (no API keys needed)
+# - scheduled/manual runs keep one open issue labelled 'provider-check' up to date
+name: Provider config check
+
+on:
+  schedule:
+    - cron: '17 4 * * 1'   # Mondays 04:17 UTC
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'aiduino/extension/out/config/providerConfigs.js'
+      - 'aiduino/extension/out/config/testProviders.js'
+  pull_request:
+    paths:
+      - 'aiduino/extension/out/config/providerConfigs.js'
+      - 'aiduino/extension/out/config/testProviders.js'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run provider tests
+        id: test
+        continue-on-error: true
+        working-directory: aiduino/extension/out/config
+        run: node testProviders.js --ci --report "$RUNNER_TEMP/provider-report.md"
+
+      - name: Job summary
+        if: always()
+        run: cat "$RUNNER_TEMP/provider-report.md" >> "$GITHUB_STEP_SUMMARY" || true
+
+      - name: Update tracking issue
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FAILURES: ${{ steps.test.outputs.failures }}
+          NEW_MODELS: ${{ steps.test.outputs.new_models }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          REPORT="$RUNNER_TEMP/provider-report.md"
+          [ -f "$REPORT" ] || echo "Test run crashed before writing a report." > "$REPORT"
+          printf '\n[Workflow run](%s)\n' "$RUN_URL" >> "$REPORT"
+
+          gh label create provider-check --color FBCA04 --description "Weekly provider config check" 2>/dev/null || true
+          ISSUE=$(gh issue list --label provider-check --state open --json number --jq '.[0].number')
+
+          if [ "${FAILURES:-1}" != "0" ] || [ "${NEW_MODELS:-0}" != "0" ]; then
+            if [ -n "$ISSUE" ]; then
+              gh issue comment "$ISSUE" --body-file "$REPORT"
+            else
+              gh issue create --title "Provider config check: action needed" --label provider-check --body-file "$REPORT"
+            fi
+          elif [ -n "$ISSUE" ]; then
+            gh issue comment "$ISSUE" --body "All checks passed, no new models. Closing. $RUN_URL"
+            gh issue close "$ISSUE"
+          fi
+
+      - name: Fail on failed checks
+        if: steps.test.outcome == 'failure'
+        run: exit 1
