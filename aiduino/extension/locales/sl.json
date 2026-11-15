@@ -74,7 +74,11 @@
     "highCostWarning": "Ocenjeni stroški (brez odgovora): ${0} z {1}. Nadaljuj?",
     "codeApplied": "Koda je bila uporabljena",
     "nodePathSaved": "Pot Node.js je bila shranjena",
-    "loginCommandCopied": "Terminala ni bilo mogoče najti. Ukaz za prijavo je kopiran: {0}"
+    "loginCommandCopied": "Terminala ni bilo mogoče najti. Ukaz za prijavo je kopiran: {0}",
+    "sketchChanged": "Agent je spremenil skico. Prejšnje stanje je shranjeno in ga je mogoče obnoviti.",
+    "restoreConfirm": "Obnovim skico na stanje pred zadnjim zagonom agenta?\n\nObnovljeno: {0}\nOdstranjeno (nove datoteke agenta): {1}",
+    "sketchRestored": "Skica obnovljena.",
+    "nothingToRestore": "Za to skico ni shranjenega stanja."
   },
   "buttons": {
     "chooseModel": "Izbira AI modela",
@@ -118,7 +122,8 @@
     "configureNodePath": "Konfiguriraj pot Node.js",
     "enterNodePath": "Vnesi pot Node.js v20+",
     "testProviders": "Testiraj ponudnike",
-    "loginTerminal": "Prijava v terminalu"
+    "loginTerminal": "Prijava v terminalu",
+    "restoreSketch": "Obnovi prejšnje stanje"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizacija označene kode",
@@ -261,7 +266,8 @@
     "localProviderNotFound": "{0} ni najden na '{1}'. Prosim konfigurirajte pravilno pot preko 'Vnesite API ključ'.",
     "localProviderNotRunning": "Se ne izvaja. Prosim zaženite.",
     "localProviderTimeout": "Seja je potekla",
-    "agentLogin": "{0} zahteva ponovno prijavo."
+    "agentLogin": "{0} zahteva ponovno prijavo.",
+    "backupFailed": "Kopije skice ni bilo mogoče shraniti ({0}). Agent ni bil zagnan."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDanes: {1} Žetonov{2}\nVhod: {3} | Izhod: {4}\nKlik za meni • Ctrl+Shift+C • Desni klik za preklop",

@@ -182,6 +182,9 @@ async function handleUserMessage(userText, panel, context, state) {
                     null, actualCurrentModel
                 );
             }
+            if (context.agenticClient.lastRunChangedSketch) {
+                state.historyManager.addMessage('system', '↩️ ' + context.t('messages.sketchChanged'), null, actualCurrentModel);
+            }
             result = result.response;
         } else {
             result = await featureUtils.callAIWithProgress(

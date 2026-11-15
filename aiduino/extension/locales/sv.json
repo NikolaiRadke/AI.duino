@@ -74,7 +74,11 @@
     "highCostWarning": "Uppskattad kostnad (utan svar): ${0} med {1}. Fortsätt?",
     "codeApplied": "Kod har tillämpats",
     "nodePathSaved": "Node.js-sökväg har sparats",
-    "loginCommandCopied": "Ingen terminal hittades. Inloggningskommandot kopierades: {0}"
+    "loginCommandCopied": "Ingen terminal hittades. Inloggningskommandot kopierades: {0}",
+    "sketchChanged": "Agenten ändrade sketchen. Det tidigare läget sparades och kan återställas.",
+    "restoreConfirm": "Återställa sketchen till läget före agentens senaste körning?\n\nÅterställda: {0}\nBorttagna (agentens nya filer): {1}",
+    "sketchRestored": "Sketch återställd.",
+    "nothingToRestore": "Det finns inget sparat läge för den här sketchen."
   },
   "buttons": {
     "chooseModel": "Välj AI-modell",
@@ -118,7 +122,8 @@
     "configureNodePath": "Konfigurera Node.js-sökväg",
     "enterNodePath": "Ange Node.js v20+ sökväg",
     "testProviders": "Testa leverantörer",
-    "loginTerminal": "Logga in i en terminal"
+    "loginTerminal": "Logga in i en terminal",
+    "restoreSketch": "Återställ tidigare läge"
   },
   "descriptions": {
     "improveCodeSelected": "Optimera vald kod",
@@ -261,7 +266,8 @@
     "localProviderNotFound": "{0} hittades inte på '{1}'. Vänligen konfigurera rätt sökväg via 'Ange API-nyckel'.",
     "localProviderNotRunning": "Körs inte. Vänligen starta.",
     "localProviderTimeout": "Sessionen har upphört",
-    "agentLogin": "{0} behöver en ny inloggning."
+    "agentLogin": "{0} behöver en ny inloggning.",
+    "backupFailed": "Kunde inte spara en kopia av sketchen ({0}). Agenten startades inte."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nIdag: {1} Tokens{2}\nIndata: {3} | Utdata: {4}\nKlicka för meny • Ctrl+Shift+C • Högerklicka för att byta",

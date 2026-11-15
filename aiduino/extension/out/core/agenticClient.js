@@ -17,6 +17,7 @@ const os = require('os');
 const TokenManager = require('./tokenManager');
 const shared = require('../shared');
 const agentLogin = require('../utils/agentLogin');
+const backupManager = require('../utils/backupManager');
 
 const AIDUINO_DIR = path.join(os.homedir(), '.aiduino');
 const SESSIONS_FILE = path.join(AIDUINO_DIR, '.aiduino-sessions.json');
@@ -28,6 +29,7 @@ const MAX_SCAN_DEPTH = 3;
 
 // Fixed rules for agentic mode, independent of the semantic anchors
 const AGENTIC_RULES = [
+    'Change files only when the user explicitly asks for a change. For questions, analyses, reviews or explanations, answer without modifying any file.',
     'Work only inside this sketch folder.',
     'Additional code files (.h, .cpp) belong in the sketch folder or in src/, otherwise they are not compiled.',
     'NEVER upload the sketch to the board on your own, not even after a successful compile. The board may control motors, relays or other hardware.',
@@ -431,6 +433,15 @@ class AgenticClient {
         if (editor && editor.document.isDirty) {
             await editor.document.save();
         }
+
+        // Safety net: copy the code files before the agent may touch them.
+        // Without a copy the agent does not run.
+        try {
+            backupManager.createSnapshot(sketchPath, { prompt: String(prompt).slice(0, 200) });
+        } catch (error) {
+            if (focusHandler) focusHandler.dispose();
+            return { response: t('errors.backupFailed', error.message), compileResult: null, iterations: 0, cancelled: false, error: true };
+        }
         
         try {
             const result = await vscode.window.withProgress({
@@ -514,11 +525,62 @@ class AgenticClient {
             
             return result;
         } finally {
+            // Keep the copy only if the run changed code, then offer to restore it
+            this.lastRunChangedSketch = false;
+            try {
+                if (backupManager.settleSnapshot(sketchPath)) {
+                    this.lastRunChangedSketch = true;
+                    this.offerRestore(sketchPath, context);
+                }
+            } catch (error) {
+                // Snapshot handling failed - the sketch itself is untouched by this
+            }
             // Clean up event handler
             if (focusHandler) {
                 focusHandler.dispose();
             }
         }
+    }
+
+    /**
+     * Tell the user the agent changed the sketch and offer to restore the previous state.
+     * Does not wait for the user; the notification stays in the notification center.
+     * @param {string} sketchPath - Sketch folder
+     * @param {Object} context - Extension context (t)
+     */
+    offerRestore(sketchPath, context) {
+        const { t } = context;
+        const button = t('buttons.restoreSketch');
+        vscode.window.showInformationMessage(t('messages.sketchChanged'), button).then(async choice => {
+            if (choice !== button) return;
+            await this.restoreSketch(sketchPath, context);
+        });
+    }
+
+    /**
+     * Restore the sketch to the state before the last agent run that changed code
+     * @param {string} sketchPath - Sketch folder
+     * @param {Object} context - Extension context (t)
+     * @returns {Promise<boolean>} True if restored
+     */
+    async restoreSketch(sketchPath, context) {
+        const { t } = context;
+        const plan = backupManager.planRestore(sketchPath);
+        if (!plan || (plan.restore.length === 0 && plan.remove.length === 0)) {
+            vscode.window.showInformationMessage(t('messages.nothingToRestore'));
+            return false;
+        }
+        const button = t('buttons.restoreSketch');
+        const choice = await vscode.window.showWarningMessage(
+            t('messages.restoreConfirm', plan.restore.join(', ') || '-', plan.remove.join(', ') || '-'),
+            { modal: true },
+            button
+        );
+        if (choice !== button) return false;
+
+        backupManager.restoreSnapshot(sketchPath);
+        vscode.window.showInformationMessage(t('messages.sketchRestored'));
+        return true;
     }
 }
 

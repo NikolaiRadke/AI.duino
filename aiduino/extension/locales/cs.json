@@ -74,7 +74,11 @@
     "highCostWarning": "Odhadované náklady (bez odpovědi): ${0} s {1}. Pokračovat?",
     "codeApplied": "Kód byl použit",
     "nodePathSaved": "Cesta k Node.js byla uložena",
-    "loginCommandCopied": "Terminál nenalezen. Přihlašovací příkaz byl zkopírován: {0}"
+    "loginCommandCopied": "Terminál nenalezen. Přihlašovací příkaz byl zkopírován: {0}",
+    "sketchChanged": "Agent změnil sketch. Předchozí stav byl uložen a lze jej obnovit.",
+    "restoreConfirm": "Vrátit sketch do stavu před posledním během agenta?\n\nObnoveno: {0}\nOdstraněno (nové soubory agenta): {1}",
+    "sketchRestored": "Sketch obnoven.",
+    "nothingToRestore": "Pro tento sketch neexistuje uložený stav."
   },
   "buttons": {
     "chooseModel": "Vybrat model AI",
@@ -118,7 +122,8 @@
     "configureNodePath": "Konfigurovat cestu k Node.js",
     "enterNodePath": "Zadat cestu k Node.js v20+",
     "testProviders": "Testovat poskytovatele",
-    "loginTerminal": "Přihlásit v terminálu"
+    "loginTerminal": "Přihlásit v terminálu",
+    "restoreSketch": "Obnovit předchozí stav"
   },
   "descriptions": {
     "improveCodeSelected": "Optimalizovat vybraný kód",
@@ -261,7 +266,8 @@
     "localProviderNotFound": "{0} nenalezen v '{1}'. Prosím nakonfigurujte správnou cestu přes 'Zadat API klíč'.",
     "localProviderNotRunning": "Neběží. Prosím spusťte.",
     "localProviderTimeout": "Relace vypršela",
-    "agentLogin": "{0} vyžaduje nové přihlášení."
+    "agentLogin": "{0} vyžaduje nové přihlášení.",
+    "backupFailed": "Kopii sketche nelze uložit ({0}). Agent nebyl spuštěn."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nDnes: {1} Tokenů{2}\nVstup: {3} | Výstup: {4}\nKlikněte pro menu • Ctrl+Shift+C • Pravé tlačítko pro přepnutí",

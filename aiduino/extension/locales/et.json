@@ -74,7 +74,11 @@
     "highCostWarning": "Hinnanguline kulu (ilma vastuseta): ${0} kasutades {1}. Jätkata?",
     "codeApplied": "Kood on rakendatud",
     "nodePathSaved": "Node.js tee on salvestatud",
-    "loginCommandCopied": "Terminali ei leitud. Sisselogimise käsk kopeeriti: {0}"
+    "loginCommandCopied": "Terminali ei leitud. Sisselogimise käsk kopeeriti: {0}",
+    "sketchChanged": "Agent muutis sketši. Eelmine olek salvestati ja selle saab taastada.",
+    "restoreConfirm": "Kas taastada sketš olekusse enne agendi viimast käivitust?\n\nTaastatud: {0}\nEemaldatud (agendi uued failid): {1}",
+    "sketchRestored": "Sketš taastatud.",
+    "nothingToRestore": "Selle sketši jaoks pole salvestatud olekut."
   },
   "buttons": {
     "chooseModel": "Vali AI mudel",
@@ -118,7 +122,8 @@
     "configureNodePath": "Konfigureeri Node.js tee",
     "enterNodePath": "Sisesta Node.js v20+ tee",
     "testProviders": "Testi pakkujaid",
-    "loginTerminal": "Logi sisse terminalis"
+    "loginTerminal": "Logi sisse terminalis",
+    "restoreSketch": "Taasta eelmine olek"
   },
   "descriptions": {
     "improveCodeSelected": "Optimiseeri märgitud kood",
@@ -261,7 +266,8 @@
     "localProviderNotFound": "{0} ei leitud aadressilt '{1}'. Palun seadistage õige tee 'API võtme sisestamine' kaudu.",
     "localProviderNotRunning": "Ei tööta. Palun käivitage.",
     "localProviderTimeout": "Seanss aegus",
-    "agentLogin": "{0} vajab uut sisselogimist."
+    "agentLogin": "{0} vajab uut sisselogimist.",
+    "backupFailed": "Sketšist ei õnnestunud koopiat salvestada ({0}). Agenti ei käivitatud."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nTäna: {1} Tokenid{2}\nSisend: {3} | Väljund: {4}\nKlõps menüü jaoks • Ctrl+Shift+C • Parem klõps vahetamiseks",

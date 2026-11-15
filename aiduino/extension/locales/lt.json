@@ -74,7 +74,11 @@
     "highCostWarning": "Numatoma kaina (be atsakymo): ${0} naudojant {1}. Tęsti?",
     "codeApplied": "Kodas pritaikytas",
     "nodePathSaved": "Node.js kelias išsaugotas",
-    "loginCommandCopied": "Terminalas nerastas. Prisijungimo komanda nukopijuota: {0}"
+    "loginCommandCopied": "Terminalas nerastas. Prisijungimo komanda nukopijuota: {0}",
+    "sketchChanged": "Agentas pakeitė eskizą. Ankstesnė būsena išsaugota ir ją galima atkurti.",
+    "restoreConfirm": "Atkurti eskizą į būseną prieš paskutinį agento paleidimą?\n\nAtkurta: {0}\nPašalinta (nauji agento failai): {1}",
+    "sketchRestored": "Eskizas atkurtas.",
+    "nothingToRestore": "Šiam eskizui nėra išsaugotos būsenos."
   },
   "buttons": {
     "chooseModel": "Pasirinkti AI modelį",
@@ -118,7 +122,8 @@
     "configureNodePath": "Konfigūruoti Node.js kelią",
     "enterNodePath": "Įvesti Node.js v20+ kelią",
     "testProviders": "Testuoti tiekėjus",
-    "loginTerminal": "Prisijungti terminale"
+    "loginTerminal": "Prisijungti terminale",
+    "restoreSketch": "Atkurti ankstesnę būseną"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizuoti pažymėtą kodą",
@@ -261,7 +266,8 @@
     "localProviderNotFound": "{0} nerastas '{1}'. Prašome sukonfigūruoti teisingą kelią per 'Įvesti API raktą'.",
     "localProviderNotRunning": "Neveikia. Prašome paleisti.",
     "localProviderTimeout": "Sesija baigėsi",
-    "agentLogin": "{0} reikia prisijungti iš naujo."
+    "agentLogin": "{0} reikia prisijungti iš naujo.",
+    "backupFailed": "Nepavyko išsaugoti eskizo kopijos ({0}). Agentas nebuvo paleistas."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nŠiandien: {1} Žetonai{2}\nĮvestis: {3} | Išvestis: {4}\nPaspaudimas meniu • Ctrl+Shift+C • Dešinys paspaudimas perjungimui",

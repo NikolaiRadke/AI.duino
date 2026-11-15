@@ -74,7 +74,11 @@
     "highCostWarning": "Anslåtte kostnader (uten svar): ${0} med {1}. Fortsett?",
     "codeApplied": "Kode er anvendt",
     "nodePathSaved": "Node.js-bane er lagret",
-    "loginCommandCopied": "Fant ingen terminal. Innloggingskommandoen ble kopiert: {0}"
+    "loginCommandCopied": "Fant ingen terminal. Innloggingskommandoen ble kopiert: {0}",
+    "sketchChanged": "Agenten endret sketsjen. Forrige tilstand ble lagret og kan gjenopprettes.",
+    "restoreConfirm": "Gjenopprette sketsjen til tilstanden før agentens siste kjøring?\n\nGjenopprettet: {0}\nFjernet (agentens nye filer): {1}",
+    "sketchRestored": "Sketsj gjenopprettet.",
+    "nothingToRestore": "Det finnes ingen lagret tilstand for denne sketsjen."
   },
   "buttons": {
     "chooseModel": "Velg AI-modell",
@@ -118,7 +122,8 @@
     "configureNodePath": "Konfigurer Node.js-bane",
     "enterNodePath": "Angi Node.js v20+ bane",
     "testProviders": "Test leverandører",
-    "loginTerminal": "Logg inn i en terminal"
+    "loginTerminal": "Logg inn i en terminal",
+    "restoreSketch": "Gjenopprett forrige tilstand"
   },
   "descriptions": {
     "improveCodeSelected": "Optimaliser valgt kode",
@@ -261,7 +266,8 @@
     "localProviderNotFound": "{0} ikke funnet på '{1}'. Vennligst konfigurer riktig bane via 'Angi API-nøkkel'.",
     "localProviderNotRunning": "Kjører ikke. Vennligst start.",
     "localProviderTimeout": "Økt utløpt",
-    "agentLogin": "{0} trenger ny innlogging."
+    "agentLogin": "{0} trenger ny innlogging.",
+    "backupFailed": "Kunne ikke lagre en kopi av sketsjen ({0}). Agenten ble ikke startet."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nI dag: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlikk for meny • Ctrl+Shift+C • Høyreklikk for å bytte",

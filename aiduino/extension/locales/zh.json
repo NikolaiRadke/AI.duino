@@ -74,7 +74,11 @@
     "highCostWarning": "预估成本（不含响应）：${0}（使用{1}）。继续？",
     "codeApplied": "代码已应用",
     "nodePathSaved": "Node.js路径已保存",
-    "loginCommandCopied": "未找到终端。登录命令已复制：{0}"
+    "loginCommandCopied": "未找到终端。登录命令已复制：{0}",
+    "sketchChanged": "代理修改了程序。之前的状态已保存，可以恢复。",
+    "restoreConfirm": "将程序恢复到代理上次运行之前的状态吗？\n\n已恢复：{0}\n已删除（代理新建的文件）：{1}",
+    "sketchRestored": "程序已恢复。",
+    "nothingToRestore": "此程序没有已保存的状态。"
   },
   "buttons": {
     "chooseModel": "选择AI模型",
@@ -118,7 +122,8 @@
     "configureNodePath": "配置Node.js路径",
     "enterNodePath": "输入Node.js v20+路径",
     "testProviders": "测试提供商",
-    "loginTerminal": "在终端中登录"
+    "loginTerminal": "在终端中登录",
+    "restoreSketch": "恢复之前的状态"
   },
   "descriptions": {
     "improveCodeSelected": "优化选定的代码",
@@ -261,7 +266,8 @@
     "localProviderNotFound": "在'{1}'未找到{0}。请通过'输入API密钥'配置正确路径。",
     "localProviderNotRunning": "未运行。请启动。",
     "localProviderTimeout": "会话已过期",
-    "agentLogin": "{0} 需要重新登录。"
+    "agentLogin": "{0} 需要重新登录。",
+    "backupFailed": "无法保存程序副本（{0}）。代理未启动。"
   },
   "statusBar": {
     "tooltip": "AI.duino：{0}\n今日：{1} Tokens{2}\n输入：{3} | 输出：{4}\n点击打开菜单 • Ctrl+Shift+C • 右键切换",

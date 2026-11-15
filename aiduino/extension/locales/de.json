@@ -74,7 +74,11 @@
     "highCostWarning": "Geschätzte Kosten (ohne Antwort): ${0} mit {1}. Fortfahren?",
     "codeApplied": "Code wurde übernommen",
     "nodePathSaved": "Node.js-Pfad wurde gespeichert",
-    "loginCommandCopied": "Kein Terminal gefunden. Der Anmeldebefehl wurde kopiert: {0}"
+    "loginCommandCopied": "Kein Terminal gefunden. Der Anmeldebefehl wurde kopiert: {0}",
+    "sketchChanged": "Der Agent hat den Sketch geändert. Der vorherige Stand wurde gesichert und kann wiederhergestellt werden.",
+    "restoreConfirm": "Sketch auf den Stand vor dem letzten Agentenlauf zurücksetzen?\n\nWiederhergestellt: {0}\nEntfernt (neue Dateien des Agenten): {1}",
+    "sketchRestored": "Sketch wiederhergestellt.",
+    "nothingToRestore": "Für diesen Sketch gibt es keinen gesicherten Stand."
   },
   "buttons": {
     "chooseModel": "KI-Modell wählen",
@@ -118,7 +122,8 @@
     "configureNodePath": "Node.js-Pfad konfigurieren",
     "enterNodePath": "Node.js v20+ Pfad eingeben",
     "testProviders": "Provider testen",
-    "loginTerminal": "Im Terminal anmelden"
+    "loginTerminal": "Im Terminal anmelden",
+    "restoreSketch": "Vorherigen Stand wiederherstellen"
   },
   "descriptions": {
     "improveCodeSelected": "Ausgewählten Code optimieren",
@@ -261,7 +266,8 @@
     "localProviderNotFound": "{0} nicht gefunden unter '{1}'. Bitte korrekten Pfad über 'API Key eingeben' konfigurieren.",
     "localProviderNotRunning": "läuft nicht. Bitte starten.",
     "localProviderTimeout": "Sitzung abgelaufen",
-    "agentLogin": "{0} braucht eine neue Anmeldung."
+    "agentLogin": "{0} braucht eine neue Anmeldung.",
+    "backupFailed": "Der Sketch konnte nicht gesichert werden ({0}). Der Agent wurde nicht gestartet."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nHeute: {1} Tokens{2}\nInput: {3} | Output: {4}\nKlick für Menü • Strg+Shift+C • Rechtsklick zum Wechseln",

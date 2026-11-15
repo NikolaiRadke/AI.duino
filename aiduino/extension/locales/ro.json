@@ -74,7 +74,11 @@
     "highCostWarning": "Cost estimat (fără răspuns): ${0} cu {1}. Continuați?",
     "codeApplied": "Cod aplicat",
     "nodePathSaved": "Calea Node.js a fost salvată",
-    "loginCommandCopied": "Nu s-a găsit niciun terminal. Comanda de autentificare a fost copiată: {0}"
+    "loginCommandCopied": "Nu s-a găsit niciun terminal. Comanda de autentificare a fost copiată: {0}",
+    "sketchChanged": "Agentul a modificat schița. Starea anterioară a fost salvată și poate fi restaurată.",
+    "restoreConfirm": "Restaurați schița la starea dinaintea ultimei rulări a agentului?\n\nRestaurate: {0}\nEliminate (fișiere noi ale agentului): {1}",
+    "sketchRestored": "Schiță restaurată.",
+    "nothingToRestore": "Nu există o stare salvată pentru această schiță."
   },
   "buttons": {
     "chooseModel": "Alegeți modelul AI",
@@ -118,7 +122,8 @@
     "configureNodePath": "Configurează calea Node.js",
     "enterNodePath": "Introduceți calea Node.js v20+",
     "testProviders": "Testează furnizorii",
-    "loginTerminal": "Autentificare în terminal"
+    "loginTerminal": "Autentificare în terminal",
+    "restoreSketch": "Restaurează starea anterioară"
   },
   "descriptions": {
     "improveCodeSelected": "Optimizează codul selectat",
@@ -255,7 +260,8 @@
     "localProviderNotFound": "{0} nu a fost găsit la '{1}'. Vă rugăm să configurați calea corectă prin 'Introduceți cheia API'.",
     "localProviderNotRunning": "Nu rulează. Vă rugăm să porniți.",
     "localProviderTimeout": "Sesiunea a expirat",
-    "agentLogin": "{0} necesită o nouă autentificare."
+    "agentLogin": "{0} necesită o nouă autentificare.",
+    "backupFailed": "Nu s-a putut salva o copie a schiței ({0}). Agentul nu a fost pornit."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nAstăzi: {1} Tokeni{2}\nInput: {3} | Output: {4}\nClick pentru meniu • Ctrl+Shift+C • Click dreapta pentru a comuta",

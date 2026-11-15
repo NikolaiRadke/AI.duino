@@ -74,7 +74,11 @@
     "highCostWarning": "Tahmini maliyet (yanıt hariç): ${0} ({1} ile). Devam edilsin mi?",
     "codeApplied": "Kod uygulandı",
     "nodePathSaved": "Node.js yolu kaydedildi",
-    "loginCommandCopied": "Terminal bulunamadı. Oturum açma komutu kopyalandı: {0}"
+    "loginCommandCopied": "Terminal bulunamadı. Oturum açma komutu kopyalandı: {0}",
+    "sketchChanged": "Ajan taslağı değiştirdi. Önceki durum kaydedildi ve geri yüklenebilir.",
+    "restoreConfirm": "Taslak, ajanın son çalışmasından önceki duruma geri yüklensin mi?\n\nGeri yüklenen: {0}\nKaldırılan (ajanın yeni dosyaları): {1}",
+    "sketchRestored": "Taslak geri yüklendi.",
+    "nothingToRestore": "Bu taslak için kaydedilmiş bir durum yok."
   },
   "buttons": {
     "chooseModel": "YZ Modeli Seç",
@@ -118,7 +122,8 @@
     "configureNodePath": "Node.js yolunu yapılandır",
     "enterNodePath": "Node.js v20+ yolunu girin",
     "testProviders": "Sağlayıcıları test et",
-    "loginTerminal": "Terminalde oturum aç"
+    "loginTerminal": "Terminalde oturum aç",
+    "restoreSketch": "Önceki durumu geri yükle"
   },
   "descriptions": {
     "improveCodeSelected": "Seçili kodu optimize et",
@@ -261,7 +266,8 @@
     "localProviderNotFound": "{0} '{1}' konumunda bulunamadı. Lütfen 'API Anahtarını Gir' yoluyla doğru yolu yapılandırın.",
     "localProviderNotRunning": "Çalışmıyor. Lütfen başlatın.",
     "localProviderTimeout": "Oturum süresi doldu",
-    "agentLogin": "{0} yeniden oturum açmayı gerektiriyor."
+    "agentLogin": "{0} yeniden oturum açmayı gerektiriyor.",
+    "backupFailed": "Taslağın bir kopyası kaydedilemedi ({0}). Ajan başlatılmadı."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nBugün: {1} Token{2}\nGiriş: {3} | Çıkış: {4}\nMenü için tıkla • Ctrl+Shift+C • Değiştirmek için sağ tıkla",

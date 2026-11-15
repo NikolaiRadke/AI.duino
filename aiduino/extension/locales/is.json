@@ -74,7 +74,11 @@
     "highCostWarning": "Áætlaður kostnaður (án svars): ${0} með {1}. Halda áfram?",
     "codeApplied": "Kóði hefur verið notaður",
     "nodePathSaved": "Node.js slóð hefur verið vistuð",
-    "loginCommandCopied": "Engin útstöð fannst. Innskráningarskipunin var afrituð: {0}"
+    "loginCommandCopied": "Engin útstöð fannst. Innskráningarskipunin var afrituð: {0}",
+    "sketchChanged": "Fulltrúinn breytti forritinu. Fyrri staða var vistuð og hægt er að endurheimta hana.",
+    "restoreConfirm": "Endurheimta forritið í stöðuna fyrir síðustu keyrslu fulltrúans?\n\nEndurheimt: {0}\nFjarlægt (nýjar skrár fulltrúans): {1}",
+    "sketchRestored": "Forrit endurheimt.",
+    "nothingToRestore": "Engin vistuð staða er til fyrir þetta forrit."
   },
   "buttons": {
     "chooseModel": "Veldu gervigreindarlíkan",
@@ -118,7 +122,8 @@
     "configureNodePath": "Stilla Node.js slóð",
     "enterNodePath": "Slá inn Node.js v20+ slóð",
     "testProviders": "Prófa veitendur",
-    "loginTerminal": "Skrá inn í útstöð"
+    "loginTerminal": "Skrá inn í útstöð",
+    "restoreSketch": "Endurheimta fyrri stöðu"
   },
   "descriptions": {
     "improveCodeSelected": "Bæta valinn kóða",
@@ -261,7 +266,8 @@
     "localProviderNotFound": "{0} fannst ekki á '{1}'. Vinsamlegast stilltu rétta slóð í gegnum 'Slá inn API lykil'.",
     "localProviderNotRunning": "Ekki í gangi. Vinsamlegast ræstu.",
     "localProviderTimeout": "Seta útrunnin",
-    "agentLogin": "{0} þarf nýja innskráningu."
+    "agentLogin": "{0} þarf nýja innskráningu.",
+    "backupFailed": "Ekki tókst að vista afrit af forritinu ({0}). Fulltrúinn var ekki ræstur."
   },
   "statusBar": {
     "tooltip": "AI.duino : {0}\nÍ dag: {1} Tokens{2}\nInntak: {3} | Úttak: {4}\nSmelltu fyrir valmynd • Ctrl+Shift+C • Hægri smell til að skipta",
