@@ -14,7 +14,8 @@ Last feature release. From now on AI.duino only gets provider updates; agentic w
 * Changed: errors about retired endpoints or models offer a provider config update instead of reporting an invalid API key
 * Fixed board detection after long IDE sessions (all IDE logs are scanned); sketch.yaml (default_fqbn) is used when present
 * Fixed agentic compile loop retrying when no board is selected or arduino-cli is missing; the chat now says what is missing
-* Fixed agentic chat losing the conversation: follow-up messages ("yes, please") now get the chat history
+* Fixed agentic chat losing the conversation: each chat now continues its own agent session (per chat and sketch), so follow-ups like "yes, please" keep their context
+* Fixed agentic runs: the agent works in the same sketch folder that AI.duino backs up and compiles
 * Fixed placeholders with the value 0 in messages (e.g. "0 %")
 * Fixed Codex CLI for current versions (sandbox option, sessions via resume)
 * Fixed Mistral Vibe for version 3.x (tool approval, sessions)

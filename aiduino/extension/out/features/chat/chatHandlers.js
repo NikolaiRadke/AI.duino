@@ -170,7 +170,7 @@ async function handleUserMessage(userText, panel, context, state) {
                 actualCurrentModel,
                 prompt,
                 context,
-                { sketchPath, maxRetries: 3, panel }
+                { sketchPath, chatId, maxRetries: 3, panel }
             );
 
             // Remove processing message first
@@ -289,12 +289,10 @@ function buildChatPrompt(newMessage, history, currentModel, minimalModelManager,
     const includeAgentic = state.agenticMode && isAgentic;
     
     let hasActiveSession = false;
-    if (includeAgentic) {
-        // Agentic runs start a new agent session per message, so the history is always needed
-        hasActiveSession = false;
-    } else if (isAgentic && context.agenticClient) {
-        const chatWorkspace = state.historyManager.getWorkspacePath(chatId);
-        hasActiveSession = context.agenticClient.hasSession(currentModel, chatWorkspace);
+    if (isAgentic && context.agenticClient) {
+        // Same folder and key as the agentic run (chat workspace, else the open sketch)
+        const chatWorkspace = state.historyManager.getWorkspacePath(chatId) || (includeAgentic ? getWorkspacePath() : null);
+        hasActiveSession = context.agenticClient.hasSession(currentModel, chatWorkspace, includeAgentic ? chatId : null);
     } else {
         const sessionKey = `${chatId}-${currentModel}`;
         hasActiveSession = provider?.persistent && state.activeSessions[sessionKey];

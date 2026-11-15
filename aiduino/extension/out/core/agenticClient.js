@@ -81,10 +81,12 @@ class AgenticClient {
     }
 
     /**
-     * Get session key for model and workspace combination
+     * Get session key for model and workspace combination.
+     * Agentic chats add the chat ID, so every chat continues its own agent session.
      */
-    getSessionKey(modelId, workspacePath) {
-        return `${modelId}:${workspacePath || 'global'}`;
+    getSessionKey(modelId, workspacePath, chatId = null) {
+        const key = `${modelId}:${workspacePath || 'global'}`;
+        return chatId ? `${key}#${chatId}` : key;
     }
 
     /**
@@ -120,17 +122,16 @@ class AgenticClient {
             selectedModel = parts[1];  // Selected model ID
         }
 
+        // Agentic runs work in the sketch folder the compile loop compiles and backs up
         const workspacePath = options.agenticMode 
-            ? (context.workspacePath || this.getWorkspacePath())
+            ? (options.workspacePath || context.workspacePath || this.getWorkspacePath())
             : null;
-        const sessionKey = this.getSessionKey(modelId, workspacePath);
+        const sessionKey = this.getSessionKey(modelId, workspacePath, options.agenticMode ? options.chatId : null);
         
-        // Don't reuse stored sessions in agentic mode; the compile loop passes its own session
+        // Continue the agent's own session (per chat in agentic mode), so it keeps the conversation
         let sessionId = null;
         if (provider.persistent) {
-            sessionId = options.agenticMode
-                ? (options.resumeSessionId || null)
-                : this.sessions.get(sessionKey);
+            sessionId = options.resumeSessionId || this.sessions.get(sessionKey) || null;
         }
         this.lastSessionId = null;
 
@@ -176,8 +177,7 @@ class AgenticClient {
         const { response, sessionId: newSessionId } = parsed;
         this.lastSessionId = newSessionId || sessionId || null;
 
-        // Agentic runs do not resume stored sessions, so they do not store them either
-        if (provider.persistent && newSessionId && !options.agenticMode) {
+        if (provider.persistent && newSessionId) {
             this.sessions.set(sessionKey, newSessionId);
             this.saveSessions();
         }
@@ -318,9 +318,9 @@ class AgenticClient {
     /**
      * Check if a provider has an active session
      */
-    hasSession(modelId, workspacePath = null) {
+    hasSession(modelId, workspacePath = null, chatId = null) {
         const wsPath = workspacePath || this.getWorkspacePath();
-        const sessionKey = this.getSessionKey(modelId, wsPath);
+        const sessionKey = this.getSessionKey(modelId, wsPath, chatId);
         return this.sessions.has(sessionKey);
     }
 
@@ -402,7 +402,7 @@ class AgenticClient {
      * @param {string} modelId - Model identifier
      * @param {string} prompt - User prompt
      * @param {Object} context - Extension context
-     * @param {Object} options - { maxRetries: 3, sketchPath: null, panel: null }
+     * @param {Object} options - { maxRetries: 3, sketchPath: null, chatId: null, panel: null }
      * @returns {Promise<Object>} { response, compileResult, iterations, cancelled }
      */
     async callAgentWithCompile(modelId, prompt, context, options = {}) {
@@ -471,6 +471,8 @@ class AgenticClient {
                     try {
                         lastResponse = await this.callAgent(modelId, currentPrompt, context, {
                             agenticMode: true,
+                            workspacePath: sketchPath,
+                            chatId: options.chatId || null,
                             resumeSessionId: loopSessionId
                         });
                         loopSessionId = this.lastSessionId;
