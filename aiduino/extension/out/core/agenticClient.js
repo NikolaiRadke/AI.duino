@@ -34,7 +34,7 @@ const AGENTIC_RULES = [
     'Additional code files (.h, .cpp) belong in the sketch folder or in src/, otherwise they are not compiled.',
     'NEVER upload the sketch to the board on your own, not even after a successful compile. The board may control motors, relays or other hardware.',
     'Install libraries or board packages (lib install, core install) only after asking the user. They apply to all sketches.',
-    'AI.duino compiles the sketch after your changes and reports errors back to you.'
+    'AI.duino compiles the sketch automatically after your changes and shows the result to the user. Do not offer to compile.'
 ];
 
 /**
@@ -176,7 +176,8 @@ class AgenticClient {
         const { response, sessionId: newSessionId } = parsed;
         this.lastSessionId = newSessionId || sessionId || null;
 
-        if (provider.persistent && newSessionId) {
+        // Agentic runs do not resume stored sessions, so they do not store them either
+        if (provider.persistent && newSessionId && !options.agenticMode) {
             this.sessions.set(sessionKey, newSessionId);
             this.saveSessions();
         }

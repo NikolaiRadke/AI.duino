@@ -293,7 +293,8 @@ function t(key, ...args) {
     
     if (typeof value === 'string' && args.length > 0) {
         return value.replace(/{(\d+)}/g, (match, index) => {
-            return args[parseInt(index)] || match;
+            const arg = args[parseInt(index)];
+            return arg !== undefined && arg !== null ? arg : match;
         });
     }
     

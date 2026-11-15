@@ -161,6 +161,7 @@ async function handleUserMessage(userText, panel, context, state) {
         }
     
         let result;
+        const agenticNotes = [];
         
         if (state.agenticMode && isAgentic && context.agenticClient) {
             // Agentic mode with compile loop
@@ -175,15 +176,12 @@ async function handleUserMessage(userText, panel, context, state) {
             // Remove processing message first
             state.historyManager.removeLastMessageIfStartsWith('⏳');
             
-            // Handle agentic result
+            // Compile result and restore hint follow the agent's answer
             if (result.compileResult) {
-                state.historyManager.addMessage('system',
-                    describeCompileResult(result.compileResult, result.iterations, context.t),
-                    null, actualCurrentModel
-                );
+                agenticNotes.push(describeCompileResult(result.compileResult, result.iterations, context.t));
             }
             if (context.agenticClient.lastRunChangedSketch) {
-                state.historyManager.addMessage('system', '↩️ ' + context.t('messages.sketchChanged'), null, actualCurrentModel);
+                agenticNotes.push('↩️ ' + context.t('messages.sketchChanged'));
             }
             result = result.response;
         } else {
@@ -221,6 +219,9 @@ async function handleUserMessage(userText, panel, context, state) {
         }
     
         state.historyManager.addMessage('ai', result, null, actualCurrentModel);
+        if (agenticNotes.length > 0) {
+            state.historyManager.addMessage('system', agenticNotes.join('\n\n'), null, actualCurrentModel);
+        }
 
         state.updatePanelContent(panel, context);
     } catch (error) {
@@ -288,7 +289,10 @@ function buildChatPrompt(newMessage, history, currentModel, minimalModelManager,
     const includeAgentic = state.agenticMode && isAgentic;
     
     let hasActiveSession = false;
-    if (isAgentic && context.agenticClient) {
+    if (includeAgentic) {
+        // Agentic runs start a new agent session per message, so the history is always needed
+        hasActiveSession = false;
+    } else if (isAgentic && context.agenticClient) {
         const chatWorkspace = state.historyManager.getWorkspacePath(chatId);
         hasActiveSession = context.agenticClient.hasSession(currentModel, chatWorkspace);
     } else {
