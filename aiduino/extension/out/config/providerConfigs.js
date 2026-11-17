@@ -65,7 +65,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '151126'; 
+const CONFIG_VERSION = '161126'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -307,12 +307,12 @@ const PROVIDER_CONFIGS = {
                 { id: 'mistral-small-latest', name: 'Mistral Small 4', displayName: 'Mistral Small 4' },
                 { id: 'codestral-latest', name: 'Codestral', displayName: 'Codestral' },
                 { id: 'mistral-medium-latest', name: 'Mistral Medium 3.5', displayName: 'Mistral Medium 3.5' },
-                { id: 'mistral-large-4', name: 'Mistral Large 4 (Preview)', displayName: 'Mistral Large 4' }
+                { id: 'mistral-large-4', name: 'Mistral Large 4', displayName: 'Mistral Large 4' }  // GA since Nov 5, 2026
             ]
         },
         prices: {
             input: 0.50 / 1000000,    // $0.50 per 1M tokens (Mistral Large 3)
-            output: 1.50 / 1000000    // $1.50 per 1M tokens; Small 4: $0.15/$0.60, Medium 3.5: $1.50/$7.50, Large 4 (preview): $1.36/$4.18
+            output: 1.50 / 1000000    // $1.50 per 1M tokens; Small 4: $0.15/$0.60, Medium 3.5: $1.50/$7.50, Large 4: $0.70/$2.10 (docs.mistral.ai, as of Nov 16, 2026)
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
