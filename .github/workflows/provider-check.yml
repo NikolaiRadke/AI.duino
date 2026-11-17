@@ -1,6 +1,7 @@
 # Weekly check of aiduino/extension/out/config/providerConfigs.js
 # - structure, ping and OpenRouter catalog checks (no API keys needed)
-# - scheduled/manual runs keep one open issue labelled 'provider-check' up to date
+# - scheduled/manual runs open one issue labelled 'provider-check' only when checks fail
+#   (new models are reported in the job summary, not as an issue)
 name: Provider config check
 
 on:
@@ -56,14 +57,15 @@ jobs:
           gh label create provider-check --color FBCA04 --description "Weekly provider config check" 2>/dev/null || true
           ISSUE=$(gh issue list --label provider-check --state open --json number --jq '.[0].number')
 
-          if [ "${FAILURES:-1}" != "0" ] || [ "${NEW_MODELS:-0}" != "0" ]; then
+          # Only failed checks open/update the issue; new models are listed in the job summary
+          if [ "${FAILURES:-1}" != "0" ]; then
             if [ -n "$ISSUE" ]; then
               gh issue comment "$ISSUE" --body-file "$REPORT"
             else
               gh issue create --title "Provider config check: action needed" --label provider-check --body-file "$REPORT"
             fi
           elif [ -n "$ISSUE" ]; then
-            gh issue comment "$ISSUE" --body "All checks passed, no new models. Closing. $RUN_URL"
+            gh issue comment "$ISSUE" --body "All checks passed. Closing. $RUN_URL"
             gh issue close "$ISSUE"
           fi
 
