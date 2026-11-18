@@ -1,3 +1,4 @@
+![AI.duino](http://www.nikolairadke.de/aiduino/aiduino_back_2.png)
 # 🤖 AI.duino — AI Assistant for Arduino & Embedded Development
 
 AI.duino brings powerful AI assistance directly into your IDE — no browser switching, no copy-pasting. Works in both **Arduino IDE 2.x** and **VS Code** (including PlatformIO).
