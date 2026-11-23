@@ -65,7 +65,7 @@ your_provider: {
 */
 
 // Version
-const CONFIG_VERSION = '161126'; 
+const CONFIG_VERSION = '231126'; 
 const REMOTE_CONFIG_URL = 'https://raw.githubusercontent.com/NikolaiRadke/AI.duino/refs/heads/main/aiduino/extension/out/config/providerConfigs.js';
 
 // All AI provider configurations
@@ -173,6 +173,8 @@ const PROVIDER_CONFIGS = {
             },
             staticModels: [
                 { id: 'gpt-6.1-terra', name: 'GPT-6.1 Terra', displayName: 'GPT-6.1 Terra' },
+                { id: 'gpt-6.2-sol', name: 'GPT-6.2 Sol', displayName: 'GPT-6.2 Sol' },  // Released Nov 17, 2026
+                { id: 'gpt-6.2-astra', name: 'GPT-6.2 Astra', displayName: 'GPT-6.2 Astra' },  // Released Nov 17, 2026
                 { id: 'gpt-6.1-sol', name: 'GPT-6.1 Sol', displayName: 'GPT-6.1 Sol' },
                 { id: 'gpt-6-luna', name: 'GPT-6 Luna', displayName: 'GPT-6 Luna' },
                 { id: 'gpt-6-astra', name: 'GPT-6 Astra', displayName: 'GPT-6 Astra' },
@@ -181,7 +183,7 @@ const PROVIDER_CONFIGS = {
         },
         prices: {
             input: 1.00 / 1000000,    // $1.00 per 1M tokens (GPT-6.1 Terra)
-            output: 5.00 / 1000000    // $5.00 per 1M tokens; 6.1 Sol: $2/$10, 6 Luna: $0.10/$0.50, 6 Astra: $10/$50
+            output: 5.00 / 1000000    // $5.00 per 1M tokens; 6.2 Sol / 6.1 Sol: $2/$10, 6.2 Astra: $8/$40, 6 Luna: $0.10/$0.50, 6 Astra: $10/$50 (OpenAI, as of Nov 23, 2026)
         },
         apiConfig: {
             apiPath: '/v1/chat/completions',
@@ -306,6 +308,7 @@ const PROVIDER_CONFIGS = {
                 { id: 'mistral-large-latest', name: 'Mistral Large 3', displayName: 'Mistral Large 3' },
                 { id: 'mistral-small-latest', name: 'Mistral Small 4', displayName: 'Mistral Small 4' },
                 { id: 'codestral-latest', name: 'Codestral', displayName: 'Codestral' },
+                // Mistral Large 3 and Medium 3.5 are deprecated since Oct 31, 2026 and retire on Apr 30, 2027 (replacement: Large 4)
                 { id: 'mistral-medium-latest', name: 'Mistral Medium 3.5', displayName: 'Mistral Medium 3.5' },
                 { id: 'mistral-large-4', name: 'Mistral Large 4', displayName: 'Mistral Large 4' }  // GA since Nov 5, 2026
             ]
@@ -356,7 +359,7 @@ const PROVIDER_CONFIGS = {
         },
         prices: {
            input: 0.25 / 1000000,    // $0.25 per 1M tokens (perplexity/sonar via Agent API)
-           output: 2.50 / 1000000    // $2.50 per 1M tokens; plus $5.00 per 1,000 web searches
+           output: 2.50 / 1000000    // $2.50 per 1M tokens; plus $2.50 per 1,000 standard web searches (docs.perplexity.ai, as of Nov 23, 2026)
         },
         apiConfig: {
             // Sonar Chat Completions is supported only until Sep 27, 2026 - migrated to Agent API
@@ -635,7 +638,7 @@ const PROVIDER_CONFIGS = {
         requiresModelSelection: true,
         headers: (key) => ({ 'Authorization': `Bearer ${key}` }),
         // Popular models on Fireworks
-        // Models from the Fireworks serverless list (Nov 2026; GPT OSS 120B left serverless on Nov 7, 2026)
+        // Models from the Fireworks serverless list (Nov 2026; GPT OSS 120B and Nemotron 3.5 Lightning 30B left serverless on Nov 7, 2026)
         availableModels: [
             { 
                 id: 'accounts/fireworks/models/deepseek-v4p1-flash-1017', 
@@ -651,11 +654,6 @@ const PROVIDER_CONFIGS = {
                 id: 'accounts/fireworks/models/qwen3p8-max', 
                 name: 'Qwen 3.8 Max',
                 pricing: { input: 2.00 / 1000000, output: 6.00 / 1000000 }
-            },
-            { 
-                id: 'accounts/fireworks/models/nemotron-lightning-3p5-30b-a3b', 
-                name: 'NVIDIA Nemotron 3.5 Lightning 30B',
-                pricing: { input: 0.05 / 1000000, output: 0.20 / 1000000 }
             }
         ],
         extractModels: (data) => data.data || [],
@@ -984,17 +982,19 @@ const PROVIDER_CONFIGS = {
         keyPrefix: '',
         keyMinLength: 5,
         apiKeyUrl: 'https://github.com/openai/codex',
-        fallback: 'gpt-6.1-sol',
+        fallback: 'gpt-6.2-sol',
         modelDiscovery: {
             cliDefault: true,  // Omit --model flag when 'default' is selected
             enabled: true,
             staticModels: [
-                { id: 'gpt-6.1-sol',   name: 'GPT-6.1 Sol',   displayName: 'GPT-6.1 Sol' },  // Codex CLI default since 0.161.0
+                { id: 'gpt-6.2-sol',   name: 'GPT-6.2 Sol',   displayName: 'GPT-6.2 Sol' },  // Codex CLI default since 0.171.0
+                { id: 'gpt-6.2-astra', name: 'GPT-6.2 Astra', displayName: 'GPT-6.2 Astra' },
+                { id: 'gpt-6.1-sol',   name: 'GPT-6.1 Sol',   displayName: 'GPT-6.1 Sol' },
                 { id: 'gpt-6.1-terra', name: 'GPT-6.1 Terra', displayName: 'GPT-6.1 Terra' },
                 { id: 'gpt-6-luna',    name: 'GPT-6 Luna',    displayName: 'GPT-6 Luna' },
                 { id: 'gpt-6-astra',   name: 'GPT-6 Astra',   displayName: 'GPT-6 Astra' }
             ],
-            selectDefault: (models) => models.find(m => m.id === 'gpt-6.1-sol') || models.find(m => m.id?.includes('sol')) || models[0]
+            selectDefault: (models) => models.find(m => m.id === 'gpt-6.2-sol') || models.find(m => m.id?.includes('sol')) || models[0]
         },
         processConfig: {
             command: 'codex',
