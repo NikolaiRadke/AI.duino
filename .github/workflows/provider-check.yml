@@ -1,26 +1,26 @@
-# Weekly check of aiduino/extension/out/config/providerConfigs.js
+# Check of aiduino/extension/out/config/providerConfigs.js
 # - structure, ping and OpenRouter catalog checks (no API keys needed)
-# - scheduled/manual runs open one issue labelled 'provider-check' only when checks fail
-#   (new models are reported in the job summary, not as an issue)
+# - runs on pull requests and pushes that touch the config, and on demand
+# - the weekly check and fixes are done by the scheduled task "AI.duino Provider-Config Wochencheck",
+#   which runs testProviders.js itself and opens a PR; this workflow is the CI gate on that PR
 name: Provider config check
 
 on:
-  schedule:
-    - cron: '17 4 * * 1'   # Mondays 04:17 UTC
   workflow_dispatch:
   push:
     branches: [main]
     paths:
       - 'aiduino/extension/out/config/providerConfigs.js'
       - 'aiduino/extension/out/config/testProviders.js'
+      - '.github/workflows/provider-check.yml'
   pull_request:
     paths:
       - 'aiduino/extension/out/config/providerConfigs.js'
       - 'aiduino/extension/out/config/testProviders.js'
+      - '.github/workflows/provider-check.yml'
 
 permissions:
   contents: read
-  issues: write
 
 jobs:
   check:
@@ -33,42 +33,9 @@ jobs:
           node-version: 20
 
       - name: Run provider tests
-        id: test
-        continue-on-error: true
         working-directory: aiduino/extension/out/config
         run: node testProviders.js --ci --report "$RUNNER_TEMP/provider-report.md"
 
       - name: Job summary
         if: always()
         run: cat "$RUNNER_TEMP/provider-report.md" >> "$GITHUB_STEP_SUMMARY" || true
-
-      - name: Update tracking issue
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          FAILURES: ${{ steps.test.outputs.failures }}
-          NEW_MODELS: ${{ steps.test.outputs.new_models }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          REPORT="$RUNNER_TEMP/provider-report.md"
-          [ -f "$REPORT" ] || echo "Test run crashed before writing a report." > "$REPORT"
-          printf '\n[Workflow run](%s)\n' "$RUN_URL" >> "$REPORT"
-
-          gh label create provider-check --color FBCA04 --description "Weekly provider config check" 2>/dev/null || true
-          ISSUE=$(gh issue list --label provider-check --state open --json number --jq '.[0].number')
-
-          # Only failed checks open/update the issue; new models are listed in the job summary
-          if [ "${FAILURES:-1}" != "0" ]; then
-            if [ -n "$ISSUE" ]; then
-              gh issue comment "$ISSUE" --body-file "$REPORT"
-            else
-              gh issue create --title "Provider config check: action needed" --label provider-check --body-file "$REPORT"
-            fi
-          elif [ -n "$ISSUE" ]; then
-            gh issue comment "$ISSUE" --body "All checks passed. Closing. $RUN_URL"
-            gh issue close "$ISSUE"
-          fi
-
-      - name: Fail on failed checks
-        if: steps.test.outcome == 'failure'
-        run: exit 1
